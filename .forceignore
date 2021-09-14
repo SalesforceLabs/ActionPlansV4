@@ -9,6 +9,7 @@ package.xml
 # LWC configuration files
 **lwc/jsconfig.json
 jsconfig.json
+**/jsconfig.json
 **/.eslintrc.json
 force-app/main/default/lwc/jsconfig.json
 
