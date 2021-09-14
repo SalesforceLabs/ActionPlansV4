@@ -65,14 +65,14 @@ private class ActionPlansSafelyTest {
     static void testMarketingProfileGeneratesInsertExceptionPositive() {
         User marketingUser = createMarketingUser(true);
         Boolean didCatchTheRightException = false;
-        Account account = (Account) new Account(
-            Name = 'TestAccount',
-            TradeStyle = 'invalid'
+        Contact contact = (Contact) new Contact(
+            LastName = 'TestContact',
+            DoNotCall = true
         );
         Test.startTest();
         System.runAs(marketingUser) {
             try {
-                new ActionPlansSafely().throwIfRemovedFields().doInsert(account);
+                new ActionPlansSafely().throwIfRemovedFields().doInsert(contact);
             } catch (ActionPlansSafely.RemovedFieldsException rfe) {
                 if (
                     rfe.getMessage()
@@ -169,13 +169,13 @@ private class ActionPlansSafelyTest {
     static void testMarketingProfileGeneratesUpdateExceptionPositive() {
         User marketingUser = createMarketingUser(true);
         Boolean didCatchTheRightException = false;
-        Account account = (Account) new Account(Name = 'TestAccount');
-        insert account;
-        account.TradeStyle = 'off limits field';
+        Contact contact = (Contact) new Contact(Lastname = 'TestContact');
+        insert contact;
+        contact.DoNotCall = true;
         Test.startTest();
         System.runAs(marketingUser) {
             try {
-                new ActionPlansSafely().throwIfRemovedFields().doUpdate(account);
+                new ActionPlansSafely().throwIfRemovedFields().doUpdate(contact);
             } catch (ActionPlansSafely.RemovedFieldsException rfe) {
                 if (
                     rfe.getMessage()
@@ -278,13 +278,13 @@ private class ActionPlansSafelyTest {
     static void testMarketingProfileGeneratesUpsertExceptionPositive() {
         User marketingUser = createMarketingUser(true);
         Boolean didCatchTheRightException = false;
-        Account account = (Account) new Account(Name = 'TestAccount');
-        insert account;
-        account.TradeStyle = 'off limits field';
+        Contact contact = (Contact) new Contact(Lastname = 'TestContact');
+        insert contact;
+        contact.DoNotCall = true;
         Test.startTest();
         System.runAs(marketingUser) {
             try {
-                new ActionPlansSafely().throwIfRemovedFields().doUpsert(account);
+                new ActionPlansSafely().throwIfRemovedFields().doUpsert(contact);
             } catch (ActionPlansSafely.RemovedFieldsException rfe) {
                 if (
                     rfe.getMessage()
@@ -351,7 +351,7 @@ private class ActionPlansSafelyTest {
         insert ps;
         ObjectPermissions op = new ObjectPermissions(
             ParentId = ps.Id,
-            SobjectType = 'Account'
+            SobjectType = 'Contact'
         );
         op.PermissionsRead = true;
         op.PermissionsViewAllRecords = true;
@@ -362,19 +362,19 @@ private class ActionPlansSafelyTest {
         );
 
         System.runAs(new User(Id = UserInfo.getUserId())) {
-            Account account = (Account) new Account(Name = 'TestAccount');
-            insert account;
+            Contact contact = (Contact) new Contact(LastName = 'TestContact');
+            insert contact;
         }
         System.runAs(minAccessUser) {
             Boolean didCatchTheRightException = false;
             Test.startTest();
             ActionPlansSafely saf = new ActionPlansSafely();
             try {
-                List<Account> accounts = (List<Account>) saf
+                List<Contact> contacts = (List<Contact>) saf
                     .throwIfRemovedFields()
-                    .doQuery('SELECT ID, Name, TradeStyle FROM Account');
+                    .doQuery('SELECT ID, Name, DoNotCall FROM Contact');
             } catch (ActionPlansSafely.RemovedFieldsException rfe) {
-                if (rfe.getMessage().containsIgnoreCase('TradeStyle')) {
+                if (rfe.getMessage().containsIgnoreCase('DoNotCall')) {
                     didCatchTheRightException = true;
                 }
             }
@@ -421,7 +421,7 @@ private class ActionPlansSafelyTest {
         Id profileId = [
             SELECT Id
             FROM Profile
-            WHERE Name = 'Custom: Marketing Profile'
+            WHERE Name = 'Marketing User'
         ]
         .Id;
         return createTestUser(profileId, doInsert);
