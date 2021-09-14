@@ -1,0 +1,18 @@
+{
+	"orgName": "Action Plans",
+	"edition": "Developer",
+	"hasSampleData": true,
+	"description": "Scratch org for Action Plans",
+	"features": ["EnableSetPasswordInApi"],
+	"settings": {
+		"lightningExperienceSettings": {
+			"enableS1DesktopEnabled": true
+		},
+		"mobileSettings": {
+			"enableS1EncryptedStoragePref2": false
+		},
+		"chatterSettings": {
+			"enableChatter": true
+		}
+	}
+}

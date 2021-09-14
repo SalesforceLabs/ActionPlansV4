@@ -1,0 +1,89 @@
+<!--
+Action Plans v4
+David Schach 2021
+
+BSD 3-Clause License
+
+Copyright (c) 2021, salesforce.com, inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<apex:component controller="ActionPlansSectionHeaderController" >
+
+	<apex:attribute name="sObjType" type="String" assignTo="{!objectName}" description="Object Name for the header object" required="true" />
+	<apex:attribute name="title" type="String" required="false" default="Record" description="Header title text" />
+	<apex:attribute name="subtitle" type="String" required="false" description="Header subtitle text" />
+	<apex:attribute name="printURL" type="String" required="false" default="" description="printURL URL for classic header" />
+
+	<apex:variable var="lex" value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" />
+	<apex:variable var="headersubtitle" value="{!IF(subtitle == null, $ObjectType[sObjType].label, subtitle)}" />
+
+	<apex:outputPanel rendered="{!!lex}" layout="none">
+		<apex:sectionHeader subtitle="{!title}" title="{!headersubtitle}" printUrl="{!printURL}" />
+	</apex:outputPanel>
+
+	<apex:outputPanel rendered="{!lex}" layout="none">
+		<apex:variable var="lexicon" value="{!ObjectIconInfo['iconURL']}" />
+		<apex:slds />
+		<div class="slds-scope">
+			<div class="slds-page-header">
+				<div class="slds-page-header__row">
+					<div class="slds-page-header__col-title">
+						<div class="slds-media">
+							<div class="slds-media__figure">
+								<span class="slds-icon_container {!ObjectIconInfo['iconStyle']}" title="{!$ObjectType[sObjType].label}">
+									<!-- <img src="{!lexicon}" class="slds-icon slds-page-header__icon" aria-hidden="true" /> -->
+									<apex:image url="{!lexicon}" styleClass="slds-icon slds-page-header__icon" html-aria-hidden="true" />
+									<span class="slds-assistive-text">{!$ObjectType[sObjType].label}</span>
+								</span>
+							</div>
+							<div class="slds-media__body">
+								<div class="slds-page-header__name">
+									<div class="slds-page-header__name-title">
+										<h1>
+											<span class="slds-page-header__title slds-truncate" title="{!title}">{!title}</span>
+										</h1>
+									</div>
+								</div>
+								<p class="slds-page-header__name-meta">{!headersubtitle}</p>
+							</div>
+						</div>
+					</div>
+					<div class="slds-page-header__col-actions">
+						<div class="slds-page-header__controls">
+							<div class="slds-page-header__control">
+								<apex:outputLink value="{!printURL}" rendered="{!printURL != null}">
+									<apex:outputText styleclass="no-print" value="{!$Label.ap_Print}" /></apex:outputLink>
+								<apex:componentBody/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</apex:outputPanel>
+</apex:component>

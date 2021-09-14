@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TaskAPTaskTemplate__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>ActionPlans - related Action Plan Task Template</description>
+    <externalId>false</externalId>
+    <label>Action Plan Task</label>
+    <referenceTo>APTaskTemplate__c</referenceTo>
+    <relationshipLabel>Template Tasks</relationshipLabel>
+    <relationshipName>Template_Tasks</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

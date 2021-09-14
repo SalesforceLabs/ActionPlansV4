@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_moved_must_be_less_than_7</fullName>
+    <active>true</active>
+    <description>How many days from this day to the nearest weekday in each direction? Must be less than 7.</description>
+    <errorConditionFormula>Days_from_end_of_previous_week__c &gt;=7 ||  Days_to_start_of_next_week__c &gt;= 7</errorConditionFormula>
+    <errorMessage>A task can only be moved away from a weekend a maximum of 6 days.</errorMessage>
+</ValidationRule>

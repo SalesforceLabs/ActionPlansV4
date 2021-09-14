@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Skip_Weekend_Due_Date_Dependency</fullName>
+    <active>true</active>
+    <description>If Skip Weekends is selected, must choose a skip day (activate if not using field dependency for checkbox and picklist fields)</description>
+    <errorConditionFormula>(SkipWeekends__c &amp;&amp; ISPICKVAL(SkipDay__c, &quot;&quot;))
+||
+(!SkipWeekends__c &amp;&amp; !ISPICKVAL(SkipDay__c, &quot;&quot;))</errorConditionFormula>
+    <errorDisplayField>SkipDay__c</errorDisplayField>
+    <errorMessage>If Skip Weekends is selected, must choose a skip day; if it is not selected, do not choose a skip day</errorMessage>
+</ValidationRule>

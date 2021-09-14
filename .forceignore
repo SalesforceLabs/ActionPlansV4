@@ -1,0 +1,48 @@
+# .forceignore v2
+
+# List files or directories below to ignore them when running force:source:push, force:source:pull, and force:source:status
+# More information: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_exclude_source.htm
+#
+
+package.xml
+
+# LWC configuration files
+**lwc/jsconfig.json
+jsconfig.json
+**/.eslintrc.json
+force-app/main/default/lwc/jsconfig.json
+
+# LWC Jest
+**/__tests__/**
+
+# Local Metadata
+**quickActions**
+**Custom_Object**
+**/profiles
+**/objects/Task/recordTypes
+**/standardValueSets
+**/Translations
+**/settings
+**/lwc
+**/objects/Account/Account.object-meta.xml
+**/objects/Account/fields/
+**/objects/Account/listViews/
+**/objects/Contact/listViews/
+**/objects/Contact/fields/
+**/layouts/Global*
+
+# Prevent org changes from being included in local project
+Admin.profile
+Activities.settings
+Security.settings
+TaskStatus.standardValueSet
+TaskPriority.standardValueSet
+TaskType.standardValueSet
+Lead-Lead Layout.layout
+Account-Account Layout.layout
+Global-Global Layout.layout
+Lead.workflow
+
+src
+metadata
+sfdx-out

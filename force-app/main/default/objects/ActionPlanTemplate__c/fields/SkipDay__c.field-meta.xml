@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SkipDay__c</fullName>
+    <description>If a Due Date lands on a weekend it should be pushed to this day.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If a Due Date lands on a weekend it should be pushed to this day.</inlineHelpText>
+    <label>Default Weekend Due Dates To</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>SkipWeekends__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>SkipDay</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>End of previous week</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Start of next week</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>
