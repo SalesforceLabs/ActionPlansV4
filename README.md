@@ -2,7 +2,7 @@
 
 ## Badges
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![codecov](https://codecov.io/gh/dschach/ActionPlans/branch/main/graph/badge.svg?token=CRGAI2J4E0)](https://codecov.io/gh/dschach/ActionPlans)
+<!-- [![codecov](https://codecov.io/gh/dschach/ActionPlans/branch/main/graph/badge.svg?token=CRGAI2J4E0)](https://codecov.io/gh/dschach/ActionPlans) -->
 [![twitter](https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social)](https://twitter.com/salesforce_labs)
 
 # Action Plans Installation and Setup
@@ -56,10 +56,6 @@ Navigate to Setup > Develop > Custom Settings. Click on 'Manage' next to `Action
 - `Unassigned Task Defaults to Record Owner` ensures that Action Plan Template tasks with a blank 'Assigned To' field go to the related record's owner. If unchecked, tasks with a blank 'Assigned To' field are assigned to the running user. Tasks can be assigned to specific people on Action Plan Templates, which overrides this setting.
 - `Default Object on Lead Conversion` specifies that if an Action Plan is related to a Lead, whether the Action Plan should be moved to the converted Account, Contact, or Opportunity when the Lead is converted. The default is Contact.
 - `Action Plans Business Hours ID` and `Use Business Hours` are reserved for future functionality.
-
-## Task Record Types
-
-If your org uses Task Record Types, you must specify which Record Type to use for all Tasks on each Action Plan Template record. This will affect the Status values available for each related Action Plan Task. This cannot be changed once an Action Plan or Template is created.
 
 ## Weekends: Custom Metadata
 
@@ -176,6 +172,9 @@ The template screen looks like this:
 1. Add New Task - Adds an additional row to the tasks grid.
 1. Save - Saves the template.
 
+## Task Record Types
+
+If your org uses Task Record Types, you must specify which Record Type to use for all Tasks from each Action Plan and Template record. This will affect the Status values available for each related Action Plan Task. This cannot be changed once an Action Plan or Template is created. Only one record type may be specified for all the Tasks on that Action Plan or Template.
 
 ## Create Action Plans for Several Accounts
 

@@ -43,6 +43,7 @@ Lead-Lead Layout.layout
 Account-Account Layout.layout
 Global-Global Layout.layout
 Lead.workflow
+*.profile
 
 src
 metadata

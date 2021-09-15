@@ -50,11 +50,15 @@ $RECYCLE.BIN/
 **/standardValueSets
 **/Translations
 **/listViews/**
+!**/ActionPlanTemplate__c/listViews/All.listView-meta.xml
+!**/ActionPlan__c/listViews/All.listView-meta.xml
 
 # temporary files
 **/layouts/Contact*
 **/layouts/Global*
 **/layouts/Lead*
+**/layouts/Account*
+**/layouts/Contact*
 **/objects/Account/Account.object-meta.xml
 **/objects/Account/fields/
 **/objects/Account/listViews/
