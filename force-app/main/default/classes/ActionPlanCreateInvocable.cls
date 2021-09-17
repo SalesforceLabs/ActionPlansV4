@@ -108,7 +108,11 @@ global without sharing class ActionPlanCreateInvocable {
 			String namespacePrefix = ActionPlansUtilities.namespacePrefix;
 			System.debug('NAMESPACE PREFIX: ' + namespacePrefix);
 
-			String relObjField = namespacePrefix + relObjName;
+			if(!relObjName.containsIgnoreCase(ActionPlansUtilities.namespacePrefix)){
+				relObjName = ActionPlansUtilities.namespacePrefix + relObjName;
+			}
+
+			String relObjField = relObjName;
 			if(!relObjName.endsWithIgnoreCase('__c')){
 				relObjField += '__c';
 			}
@@ -129,6 +133,8 @@ global without sharing class ActionPlanCreateInvocable {
 		Map<String, APTaskTemplate__c> planTaskIndexToTask = new Map<String, APTaskTemplate__c>();
 
 		for(CreateActionPlanRequest r : requests){
+
+			if(!actionPlansToInsert.containsKey(r.relatedRecordID)){ System.debug('PROBLEM: Did not create Action Plan.'); continue; }
 
 			ActionPlan__c ap = actionPlansToInsert.get(r.relatedRecordID);
 
@@ -169,7 +175,7 @@ global without sharing class ActionPlanCreateInvocable {
 				apTask.Minutes_Reminder__c   = aptTask.Minutes_Reminder__c; //ActionPlansUtilities.getDefaultReminderMinutes();
 				apTask.SendEmail__c          = aptTask.SendEmail__c;
 
-				System.debug('linking task to ' + ap.Id);
+
 				apTask.Action_Plan__c        = ap.Id;
 
 				apTask.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
