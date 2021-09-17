@@ -11,6 +11,7 @@ node_modules/
 coverage/
 docs/
 force-app/main/default/prompts/*.prompt-meta.xml
+data/
 # Exclude project config
 sfdx-project.json
 dependencies.json
