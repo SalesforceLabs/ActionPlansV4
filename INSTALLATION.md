@@ -2,15 +2,14 @@
 
 Follow these instructions to deploy Action Plans to your org.
 
-<!--
-The recommended installation method is via the AppExchange.
 
-[Action Plans](https://appexchange.salesforce.com): This is the best way to install the package, which you can easily upgrade as features are added -->
 
 ## Deployment Methods
 
-[Direct deployment to an org](#direct-deployment-to-an-org): Quickest option to install this unmanaged code into your org
+[AppExchange]
 
+[Direct deployment to an org](#direct-deployment-to-an-org): Quickest option to install this unmanaged code into your org
+<!--
 [Installing the app using a Scratch Org](#installing-the-app-using-a-scratch-org): This is the recommended installation option. Use this option if you are a developer who wants to experience the app and the code.
 
 -   [Installing the app using a Scratch Org (option 1)](#installing-the-app-using-a-scratch-org--option-1-): Use the CLI manually, following the instructions below
@@ -18,7 +17,7 @@ The recommended installation method is via the AppExchange.
 -   [Installing the app using a Scratch Org (option 2)](#installing-the-app-using-a-scratch-org--option-2-): Use the included setup script
 
 [Installing the App using a Sandbox with source tracking (Developer/Developer Pro Sanbox)](#installing-the-app-using-a-sandbox-with-source-tracking-developerdeveloper-pro-sanbox): For testing prior to installing/updating in your Production environment
-
+-->
 [Installing the app using a Developer Edition Org or a Trailhead Playground](#installing-the-app-using-a-developer-edition-org-or-a-trailhead-playground): Useful when tackling Trailhead Badges or if you want the app deployed to a more permanent environment than a scratch org.
 
 [Optional installation instructions](#optional-installation-instructions): Installing sample Action Plan Template
@@ -31,6 +30,12 @@ The recommended installation method is via the AppExchange.
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
 
+## AppExchange (Managed Package - recommended)
+
+
+[Action Plans](https://appexchange.salesforce.com): This is the best way to install the package, which you can easily upgrade as features are added
+
+<!-->
 ## Installing the app using a Scratch Org (option 1)
 
 1. Set up your environment. Follow the steps in the [Quick Start: Lightning Web Components](https://trailhead.salesforce.com/content/learn/projects/quick-start-lightning-web-components/) Trailhead project. The steps include:
@@ -162,18 +167,18 @@ The recommended installation method is via the AppExchange.
 
 1. In App Launcher, click **View All** then select the **Action Plans** app.
 
-
-## Installing the App using a Developer Edition Org or a Trailhead Playground
+-->
+## Installing the App using a Developer Edition Org or your own Sandbox/Production Org
 
 Follow this set of instructions if you want to deploy the app to a more permanent environment than a Scratch org.
-This includes non source-tracked orgs such as a [free Developer Edition Org](https://developer.salesforce.com/signup) or a [Trailhead Playground](https://trailhead.salesforce.com/).
+This includes non source-tracked orgs such as a [free Developer Edition Org](https://developer.salesforce.com/signup) or a [Trailhead Playground](https://trailhead.salesforce.com/), or your own Sandbox.
 
 Start from a brand-new environment to avoid conflicts with previous work you may have done.
 
-1. Authorize your Trailhead Playground or Developer org and provide it with an alias (**mydevorg** in the command below):
+1. Authorize your org and provide it with an alias (**myorg** in the command below):
 
     ```
-    sfdx auth:web:login -s -a mydevorg
+    sfdx auth:web:login -s -a myorg
     ```
 
 1. Clone this repository:
@@ -191,16 +196,17 @@ Start from a brand-new environment to avoid conflicts with previous work you may
     sfdx force:source:deploy -p force-app
     ```
 
-1. If your org isn't already open, open it now:
-
-    ```
-    sfdx force:org:open -u mydevorg
-    ```
-
 1. Assign the `Action_Plans_Admin` permission set to the admin user.
 
     ```
     sfdx force:user:permset:assign -n Action_Plans_Admin
+    ```
+1. (Optional) Load sample data (see below)
+
+1. If your org isn't already open, open it now:
+
+    ```
+    sfdx force:org:open -u myorg
     ```
 
 1. In App Launcher, select the **Action Plans** app.
