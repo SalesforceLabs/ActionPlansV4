@@ -173,7 +173,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 1. Authorize your Trailhead Playground or Developer org and provide it with an alias (**mydevorg** in the command below):
 
     ```
-    sfdx force:auth:web:login -d -a mydevorg
+    sfdx auth:web:login -s -a mydevorg
     ```
 
 1. Clone this repository:
@@ -188,7 +188,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 1. Run this command to deploy the app.
 
     ```
-    sfdx force:source:deploy -p action-plans
+    sfdx force:source:deploy -p force-app
     ```
 
 1. If your org isn't already open, open it now:
