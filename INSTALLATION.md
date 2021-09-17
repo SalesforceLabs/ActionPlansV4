@@ -183,7 +183,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
     cd ActionPlans
     ```
 
-1. If you are setting up a Developer Edition: go to **Setup**, under **My Domain**, [register a My Domain](https://help.salesforce.com/articleView?id=domain_name_setup.htm&type=5).
+1. If you are setting up a Developer Edition: go to **Setup**, and under **My Domain**, [register a My Domain](https://help.salesforce.com/articleView?id=domain_name_setup.htm&type=5).
 
 1. Run this command to deploy the app.
 
