@@ -1,5 +1,9 @@
 sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s
 
+# For use with developer edition or sandbox
+# sfdx force:source:deploy -p force-app
+
+# For use with namespaced scratch org in package development process
 sfdx force:source:push
 
 sfdx force:user:permset:assign -n Action_Plans_Admin
@@ -8,6 +12,6 @@ sfdx force:user:permset:assign -n Action_Plans_Admin
 # sfdx force:data:tree:import -p ./data/action-plan-data-plan.json
 
 # To install sample action plan template
-# sfdx force:apex:execute -f ./data/sample-data.apex
+sfdx force:apex:execute -f ./data/sample-data.apex
 
 sfdx force:org:open
