@@ -37,7 +37,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-global inherited sharing class ActionPlansBatchDelete implements Database.Batchable<SObject>, Database.Stateful{
+public inherited sharing class ActionPlansBatchDelete implements Database.Batchable<SObject>, Database.Stateful{
 
 	private Set<Id> relActionPlansIds;
 
@@ -53,7 +53,7 @@ global inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 	/**
 	* Use the start method to collect the records or objects to be passed to the interface method execute
 	*/
-	global Database.QueryLocator start( Database.BatchableContext bc ){
+	public Database.QueryLocator start( Database.BatchableContext bc ){
 
 		String soql = 'SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds';
 		return Database.getQueryLocator( soql );
@@ -65,7 +65,7 @@ global inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 	* @param bc
 	* @param data
 	*/
-	global void execute( Database.BatchableContext bc, List<SObject> data ){
+	public void execute( Database.BatchableContext bc, List<SObject> data ){
 		Set<Id> actionPlanIDs = new Set<Id>();
 		for( SObject s : data ){
 			actionPlanIDs.add((Id)s.get('Id'));
@@ -92,7 +92,7 @@ global inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 		}
 	}
 
-	global void deleteActionPlans(Set<Id> relActionPlansIds) {
+	public void deleteActionPlans(Set<Id> relActionPlansIds) {
 
 		List<ActionPlan__c> relActionPlans = [SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds LIMIT :ActionPlansUtilities.MAX_APTODELETE];
 		Map<Id, APTaskTemplate__c> relTaskTemplateMap = new Map<Id, APTaskTemplate__c>([SELECT Id FROM APTaskTemplate__c WHERE Action_Plan__c IN :relActionPlansIds]);
@@ -120,6 +120,6 @@ global inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 	/**
 	*
 	*/
-	global void finish( Database.BatchableContext bc ){}
+	public void finish( Database.BatchableContext bc ){}
 
 }

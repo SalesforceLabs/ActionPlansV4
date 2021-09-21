@@ -32,16 +32,16 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-global inherited sharing class ActionPlansSectionHeaderController {
+public inherited sharing class ActionPlansSectionHeaderController {
 
 	//public Map<String, String> iconAttributeMap {get; set; }
-	global String objectName { get; set; }
+	public String objectName { get; set; }
 
-	global Map<String,String> getObjectIconInfo(){
+	public Map<String,String> getObjectIconInfo(){
 		return retrieveIconForObject(objectName);
 	}
 
-	global Boolean getIsCustom(){
+	public Boolean getIsCustom(){
 		return isCustom(objectName);
 	}
 

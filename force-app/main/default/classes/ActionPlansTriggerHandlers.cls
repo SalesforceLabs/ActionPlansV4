@@ -39,13 +39,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 global without sharing class ActionPlansTriggerHandlers {
 
 	/**
-	 * Global so that if in managed package, these methods are the only ones available
+	 * Global so that if in managed package, this method is the only ones available
 	 */
 	global static void actionPlansSObjectTriggerHandler(String sObjectName){
 		actionPlansSObjectTriggerHandler(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap, Trigger.operationType, sObjectName);
 	}
 
-    global static void actionPlansSObjectTriggerHandler(List<SObject> newRecords, List<SObject> oldRecords, Map<Id,SObject> newRecordsMap, Map<Id,SObject> oldRecordsMap, System.TriggerOperation triggerEvent, String sObjectName){
+    public static void actionPlansSObjectTriggerHandler(List<SObject> newRecords, List<SObject> oldRecords, Map<Id,SObject> newRecordsMap, Map<Id,SObject> oldRecordsMap, System.TriggerOperation triggerEvent, String sObjectName){
 
 		//System.debug('In ' + sObjectName + ' ' + triggerEvent.name());
 
