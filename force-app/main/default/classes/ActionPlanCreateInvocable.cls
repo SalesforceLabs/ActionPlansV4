@@ -82,6 +82,8 @@ global without sharing class ActionPlanCreateInvocable {
 
 		Map<Id, Id> relatedObjectOwners = ActionPlansBatchBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs, relatedObjectName);
 
+		Set<String> actionPlanFields = Schema.SObjectType.ActionPlan__c.fields.getMap().keyset();
+
 		for(CreateActionPlanRequest r : requests){
 			if(!templateNameOrIdToTemplate.containsKey(r.templateNameOrID)){ continue; }
 
@@ -102,13 +104,35 @@ global without sharing class ActionPlanCreateInvocable {
 
 			Id relatedId = r.relatedRecordID;
 			Schema.SObjectType token = relatedId.getSObjectType();
-			String relObjName = token.getDescribe().getName().toLowerCase();
+			Schema.DescribeSObjectResult sor = token.getDescribe();
+			String relObjName = sor.getName().toLowerCase();
 			System.debug('TESTING RELOBJNAME FOR NAMESPACE: ' + relObjName);
 
-			String namespacePrefix = ActionPlansUtilities.namespacePrefix;
+			String namespacePrefix = ActionPlansUtilities.namespacePrefix.toLowerCase();
 			System.debug('NAMESPACE PREFIX: ' + namespacePrefix);
 
-			if(!relObjName.containsIgnoreCase(ActionPlansUtilities.namespacePrefix)){
+			String relObjField = relObjName;
+
+			if(!relObjName.endsWithIgnoreCase('__c')){
+				relObjField = relObjField + '__c';
+			}
+
+			System.debug('relObjField '  + relObjField);
+			System.debug('namespaceField ' + namespacePrefix + relObjField);
+			System.debug(actionPlanFields);
+
+			if( actionPlanFields.contains(namespacePrefix + relObjField) ){
+				relObjField = namespacePrefix + relObjField;
+			}
+			else if( actionPlanFields.contains(relObjField) ){
+				relObjField = relObjField;
+			}
+			else {
+				System.debug('Field not present. ' + relObjField);
+				continue;
+			}
+
+			/* if(!relObjName.containsIgnoreCase(ActionPlansUtilities.namespacePrefix)){
 				relObjName = ActionPlansUtilities.namespacePrefix + relObjName;
 			}
 
@@ -120,13 +144,15 @@ global without sharing class ActionPlanCreateInvocable {
 			if(!Schema.SObjectType.ActionPlan__c.fields.getMap().containsKey(relObjField)){
 				System.debug('Field not present. ' + relObjField);
 				continue;
-			}
+			} */
 
 			System.debug('writing ' + relatedId + ' to ' + relObjField);
 
 			ap.put(relObjField, relatedId);
 			actionPlansToInsert.put(r.relatedRecordID, ap);
 		}
+
+		if(actionPlansToInsert.isEmpty()){ return resultIDs; }
 
 		insert actionPlansToInsert.values();
 
