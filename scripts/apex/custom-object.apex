@@ -14,3 +14,4 @@ req.daysToActionPlanStart = 1;
 requests.add(req);
 
 List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
+System.debug('resultIDs ' + resultIDs);
