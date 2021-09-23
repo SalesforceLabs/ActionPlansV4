@@ -377,7 +377,7 @@ public with sharing class ActionPlanCreationController{
 
 		} else {
 			objName    = refType;
-			oIdsList= refId.split(',');
+			oIdsList = parseRelatedIDs(refId);
 		}
 
 		//check for pendingDeletes
@@ -430,9 +430,8 @@ public with sharing class ActionPlanCreationController{
 		if( ( oName != null || oName != '' ) && ( oIds != null || oIds != '' ) ){
 			try{
 
-				oIdsList = oIds.split(',');
-				Set<Id> parentIDs = new Set<Id>();
-				parentIDs.addAll(oIdsList);
+				oIdsList = parseRelatedIDs(oIds);
+				Set<Id> parentIDs = new Set<Id>(oIdsList);
 				//Now for each inserted AP we should run through tasks and create them
 				ActionPlansBatchBuilder taskBatch = new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, oName, parentIDs);
 				Database.ExecuteBatch( taskBatch );
@@ -460,10 +459,10 @@ public with sharing class ActionPlanCreationController{
 	public PageReference saveHandler(){
 
 		String oIds = ApexPages.currentPage().getParameters().get( 'refId' );
-		List<String> oIdsList = new List<String>();
+		List<Id> oIdsList = new List<Id>();
 
 		if( oIds != null ){
-			oIdsList = oIds.split(',');
+			oIdsList = parseRelatedIDs(oIds);// oIds.deleteWhitespace().split(',');
 			return  ( oIdsList.size() > 1 ) ? this.saveMultiple() : this.savePageRef();
 		}
 		else {
@@ -531,14 +530,15 @@ public with sharing class ActionPlanCreationController{
 			pageRef = '/' + this.templateId;
 		}
 		else if( objectType != null && objectIds != null ){
-			List<String> oIdsList = objectIds.split(',');
+			List<Id> oIdsList = parseRelatedIDs(objectIds);
 			// Reference object list page
 			if (oIdsList.size()>1){
-				pageRef = '/' + ActionPlansUtilities.namespacePrefix + ActionPlansUtilities.getObjectKeyPrefix( objectType );
+				pageRef = '/' + ActionPlansUtilities.getObjectKeyPrefix( objectType );
 			}
 			// Reference object detail page
 			else {
-				pageRef = '/' + oIdsList.get(0);
+				String cancelId = oIdsList.get(0) == null ? '' : oIdsList.get(0);
+				pageRef = '/' + cancelId;
 			}
 		}
 		// Reference previous page if defined
@@ -593,7 +593,7 @@ public with sharing class ActionPlanCreationController{
 			t.TaskIndex__c          = this.taskIndex;
 
 			// validate subject and days before adding another
-			Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
+
 			for( APTaskTemplate__c apt : apTasks ) {
 
 				hasNoErrors = ( apt.Subject__c != null );
@@ -706,7 +706,7 @@ public with sharing class ActionPlanCreationController{
 	*/
 	public List<APTaskTemplate__c> getAPTasks(){
 
-		Action_Plans_Settings__c mySettings = Action_Plans_Settings__c.getInstance();
+		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting(); //Action_Plans_Settings__c.getInstance();
 
 		if( this.apTasks == null || this.apTasks.size() == 0 ) {
 
@@ -863,12 +863,24 @@ public with sharing class ActionPlanCreationController{
 			idsParam         = String.escapeSingleQuotes( refId );
 
 			if( idsParam != null && idsParam != '' ){
-				List<Id> paramList = idsParam.split(',');
+				List<Id> paramList = parseRelatedIDs(idsParam);
 				this.relatedObjIds = new Set<Id>(paramList);
 			}
 		}
 
 		relatedObjNameList = retrieveNameRelatedRecord(relatedObjIds, nameParam);
+	}
+
+	private List<Id> parseRelatedIDs(String relatedIDs){
+		List<String> paramList = relatedIDs.deleteWhitespace().split(',');
+		List<Id> toReturn = new List<Id>();
+		for(String s : paramList){
+			try {
+				Id validId = s;
+				toReturn.add(s);
+				} catch (Exception ex) {}
+		}
+		return toReturn;
 	}
 
 	/**
