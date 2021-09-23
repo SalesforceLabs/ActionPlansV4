@@ -3,7 +3,9 @@
 	{
 	  "path": "sfdx-source/LabsActionPlans",
 	  "default": true
-	}
+	},
+	{ "path": "sfdx-source/unpackaged"},
+    { "path": "sfdx-source/untracked"}
   ],
   "name": "ActionPlans",
   "namespace": "LabsActionPlans",

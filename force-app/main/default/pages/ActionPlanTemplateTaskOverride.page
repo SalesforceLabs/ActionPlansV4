@@ -1,3 +1,0 @@
-<apex:page standardController="APTTaskTemplate__c" extensions="ActionPlansRedirect" action="{!redirect}">
-<apex:outputField value="{!APTTaskTemplate__c.Action_Plan_Template__c}"/>
-</apex:page>
