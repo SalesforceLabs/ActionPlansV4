@@ -1,9 +1,9 @@
 {
   "packageDirectories": [
-    {
-      "path": "force-app",
-      "default": true
-    }
+	{
+	  "path": "sfdx-source/LabsActionPlans",
+	  "default": true
+	}
   ],
   "name": "ActionPlans",
   "namespace": "LabsActionPlans",
