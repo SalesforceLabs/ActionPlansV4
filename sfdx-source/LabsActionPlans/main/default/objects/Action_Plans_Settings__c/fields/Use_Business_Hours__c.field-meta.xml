@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Use_Business_Hours__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Reserved for future functionality</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Should Task Due Dates be postponed to the next day that is in the specified Business Hours record?</inlineHelpText>
+    <label>Use Business Hours</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

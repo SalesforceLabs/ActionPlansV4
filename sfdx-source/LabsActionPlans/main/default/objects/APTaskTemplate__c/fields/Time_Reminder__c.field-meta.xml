@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Time_Reminder__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Reminder__c &amp;&amp; !ISBLANK(Minutes_Reminder__c),
+IF(MOD(FLOOR(VALUE(Minutes_Reminder__c) / 60),12) == 0,&apos;12&apos;,TEXT(MOD(FLOOR(VALUE(Minutes_Reminder__c) / 60),12))) &amp; &apos;:&apos; &amp; IF(MOD(VALUE(Minutes_Reminder__c) ,60)==0,&apos;00&apos;,TEXT(MOD(VALUE(Minutes_Reminder__c) ,60)))+&apos; &apos;+ IF( VALUE(Minutes_Reminder__c)&gt;=720, &apos;PM&apos;,&apos;AM&apos;),
+
+&apos;&apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Time Reminder</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

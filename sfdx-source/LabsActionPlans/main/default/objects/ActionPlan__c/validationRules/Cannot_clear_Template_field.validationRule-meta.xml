@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cannot_clear_Template_field</fullName>
+    <active>true</active>
+    <description>Once set, the Action Plan Template field cannot be changed. (It can be cleared by deleting the template.)</description>
+    <errorConditionFormula>!ISBLANK(  PRIORVALUE( Action_Plan_Template__c ) )
+&amp;&amp;
+(ISBLANK( Action_Plan_Template__c ) || ISCHANGED(  Action_Plan_Template__c ))</errorConditionFormula>
+    <errorMessage>Cannot change Template value once it is set</errorMessage>
+</ValidationRule>
