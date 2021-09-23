@@ -14,4 +14,7 @@ sfdx force:user:permset:assign -n Action_Plans_Admin
 # To install sample action plan template
 sfdx force:apex:execute -f ./data/sample-data.apex
 
+# To install sample Flow and other metadata
+sfdx force:source:deploy -p sfdx-source/unmanaged
+
 sfdx force:org:open

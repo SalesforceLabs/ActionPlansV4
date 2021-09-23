@@ -232,6 +232,10 @@ This repository contains several files that are relevant if you want to add samp
 	```
 	sfdx force:apex:execute -f ./data/sample-data.apex
 	```
+	To create a sample Flow that uses the sample template, run the following:
+	```
+	sfdx force:source:deploy -p sfdx-source/unmanaged
+	```
 
 ### Code formatting
 
