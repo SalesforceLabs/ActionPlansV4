@@ -2,7 +2,6 @@
 
 ## Badges
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-<!-- [![codecov](https://codecov.io/gh/dschach/ActionPlans/branch/main/graph/badge.svg?token=CRGAI2J4E0)](https://codecov.io/gh/dschach/ActionPlans) -->
 [![twitter](https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social)](https://twitter.com/salesforce_labs)
 
 # Action Plans Installation and Setup
