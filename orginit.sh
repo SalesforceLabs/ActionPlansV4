@@ -1,7 +1,7 @@
 sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s
 
 # For use with developer edition or sandbox
-# sfdx force:source:deploy -p force-app
+# sfdx force:source:deploy -p sfdx-source/LabsActionPlans
 
 # For use with namespaced scratch org in package development process
 sfdx force:source:push
