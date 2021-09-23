@@ -106,7 +106,7 @@ public with sharing class ActionPlanDetailController{
 							IsClosed__c, Minutes_Reminder__c, Name, Priority__c, Reminder__c, Time_Reminder__c, SendEmail__c, Status__c, Subject__c, Task_RecordTypeId__c,
 							TaskIndex__c, Type__c, User__c, User__r.Name
 							FROM APTaskTemplate__c
-							WHERE Action_Plan__c = :actionPlan.Id WITH SECURITY_ENFORCED ORDER BY TaskIndex__c ASC]);
+							WHERE Action_Plan__c = :actionPlan.Id ORDER BY TaskIndex__c ASC]);
 			Map<Id, Id> taskTaskMap = new Map<Id, Id>();
 			for(Task t : [SELECT Id, TaskAPTaskTemplate__c FROM Task WHERE TaskAPTaskTemplate__c IN :apTaskMap.keyset()]){
 				taskTaskMap.put(t.TaskAPTaskTemplate__c, t.Id);
