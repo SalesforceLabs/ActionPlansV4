@@ -194,35 +194,41 @@ private class ActionPlansUtilitiesTest {
 		ActionPlan__c ap = testutil.createNewActionPlan( 'account', 0 );
 		ApexPages.currentPage().getParameters().put( 'refType', 'Account' );
 		ApexPages.currentPage().getParameters().put( 'refId',  ap.Account__c + ',' + testutil.createNewAccount().id);
+		apcc = new ActionPlanCreationController(new ApexPages.StandardController( new ActionPlan__c() ) );
 		page = apcc.cancel();
 		System.assert( page!= null );
 
 		testutil.createNewActionPlan( 'contact', 0 );
 		ApexPages.currentPage().getParameters().put( 'refType', 'Contact' );
 		ApexPages.currentPage().getParameters().put( 'refId',  ap.Contact__c + ',' + testutil.createNewContact().id);
+		apcc = new ActionPlanCreationController(new ApexPages.StandardController( new ActionPlan__c() ) );
 		page = apcc.cancel();
 		System.assert( page!= null );
 
 		testutil.createNewActionPlan( 'lead', 0 );
 		ApexPages.currentPage().getParameters().put( 'refType', 'Lead' );
 		ApexPages.currentPage().getParameters().put( 'refId',  ap.Lead__c + ',' + testutil.createNewLead().id);
+		apcc = new ActionPlanCreationController(new ApexPages.StandardController( new ActionPlan__c() ) );
 		page = apcc.cancel();
 		System.assert( page!= null );
 
 		testutil.createNewActionPlan( 'opportunity', 0 );
 		ApexPages.currentPage().getParameters().put( 'refType', 'Opportunity' );
 		ApexPages.currentPage().getParameters().put( 'refId',  ap.Opportunity__c + ',' + testutil.createNewOpportunity().id);
+		apcc = new ActionPlanCreationController(new ApexPages.StandardController( new ActionPlan__c() ) );
 		page = apcc.cancel();
 		System.assert( page!= null );
 
 		testutil.createNewActionPlan( 'account', 0 );
 		ApexPages.currentPage().getParameters().put( 'refType', 'Account' );
 		ApexPages.currentPage().getParameters().put( 'refId',  ap.Account__c);
+		apcc = new ActionPlanCreationController(new ApexPages.StandardController( new ActionPlan__c() ) );
 		page = apcc.cancel();
 		System.assert( page!= null );
 
 		ActionPlanTemplate__c apt = testutil.createNewActionPlanTemplate( 0 );
 		ApexPages.currentPage().getParameters().put( 'templateId', apt.Id );
+		apcc = new ActionPlanCreationController(new ApexPages.StandardController( new ActionPlan__c() ) );
 		page = apcc.cancel();
 		System.assert( page!= null );
 		Test.stopTest();
