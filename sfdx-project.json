@@ -9,7 +9,9 @@
             "releaseNotesUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/README.md",
             "unpackagedMetadata": {
                 "path": "sfdx-source/unpackaged"
-            }
+            },
+			"versionDescription": "Welcome to the new Action Plans from Salesforce Labs",
+			"definitionFile": "config/scratch-org-def.json"
         },
 		{
 			"path": "sfdx-source/unmanaged"
