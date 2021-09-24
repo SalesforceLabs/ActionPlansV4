@@ -123,7 +123,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 		this.relAPTaskList          = new List<APTaskTemplate__c>();
 
 		Map<Id,Id> objectOwnersMap = retrieveOwnersDataRelatedObject( this.relatedRecordIDs, this.relatedObjectName );
-
+		System.debug('object owners map: ' + objectOwnersMap);
 		//insert Action Plans to DB
 		upsert relActionPlans;
 
@@ -314,29 +314,29 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			}
 
 		}
-		if(ActionPlansCanTheUser.ups('Task')){
-			Database.DMLOptions dmlo    = new Database.DMLOptions();
-			Database.DMLOptions dmlo2   = new Database.DMLOptions();
 
-			if( this.myNewTasksWithEmail.size() > 0 ){
-				dmlo.EmailHeader.triggerUserEmail = true;
-				Database.insert( this.myNewTasksWithEmail, dmlo );
-			}
+		Database.DMLOptions dmlo    = new Database.DMLOptions();
+		Database.DMLOptions dmlo2   = new Database.DMLOptions();
 
-			if( this.myOldTasksWithEmail.size() > 0 ){
-				dmlo.EmailHeader.triggerUserEmail = true;
-				Database.update( this.myOldTasksWithEmail, dmlo );
-			}
+		if( this.myNewTasksWithEmail.size() > 0 ){
+			dmlo.EmailHeader.triggerUserEmail = true;
+			Database.insert( this.myNewTasksWithEmail, dmlo );
+		}
 
-			if( this.myTasksWithOutEmail.size() > 0 ){
-				if (this.mode == ApEditMode.MODE_EDIT_SINGLE){
-					Database.upsert( this.myTasksWithOutEmail );
-				} else {
-					dmlo2.EmailHeader.triggerUserEmail = false;
-					Database.insert( this.myTasksWithOutEmail, dmlo2 );
-				}
+		if( this.myOldTasksWithEmail.size() > 0 ){
+			dmlo.EmailHeader.triggerUserEmail = true;
+			Database.update( this.myOldTasksWithEmail, dmlo );
+		}
+
+		if( this.myTasksWithOutEmail.size() > 0 ){
+			if (this.mode == ApEditMode.MODE_EDIT_SINGLE){
+				Database.upsert( this.myTasksWithOutEmail );
+			} else {
+				dmlo2.EmailHeader.triggerUserEmail = false;
+				Database.insert( this.myTasksWithOutEmail, dmlo2 );
 			}
 		}
+
 
 		//If we Only Create an Action Plan save the Id of the new object
 		/* if (relActionPlans.size() == 1 ){
@@ -370,11 +370,11 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 		if(String.isNotBlank(apTaskUser)){ return apTaskUser; }
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
 		if(!mySettings.Unassigned_Task_Default__c){
-
+			System.debug('Assigning task to current user');
 			return UserInfo.getUserId();
 		}
 		Id relatedOwnerId = getRelatedRecordOwnerId(ap, relObjOwners);
-
+		System.debug('assigning to related record owner ' + relatedOwnerId);
 		return relatedOwnerId;
 	}
 

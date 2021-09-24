@@ -123,8 +123,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 			<apex:pageBlockButtons id="buttons" >
 
-				<apex:commandButton id="save" value="{!$Label.ap_Save}" action="{!save}" reRender="pageMessages, error" status="taskStatus" rendered="{!$ObjectType.ActionPlan__c.updateable}" /> <!--  onclick="setTimeout('disableActions();', 50);" -->
-				<apex:commandButton id="saveandnew" value="{!$Label.ap_SaveAndNew}" action="{!saveAndNew}" reRender="pageMessages, error" rendered="{!$ObjectType.ActionPlan__c.updateable}" />
+				<apex:commandButton id="save" value="{!$Label.ap_Save}" action="{!save}" status="taskStatus" rendered="{!$ObjectType.ActionPlan__c.updateable}" /> <!--  onclick="setTimeout('disableActions();', 50);" -->
+				<apex:commandButton id="saveandnew" value="{!$Label.ap_SaveAndNew}" action="{!saveAndNew}" rendered="{!$ObjectType.ActionPlan__c.updateable}" />
 				<apex:commandButton id="cancel" value="{!$Label.ap_Cancel}" action="{!cancel}" immediate="true" /> <!-- reRender="pageMessages" onclick="setTimeout('disableActions();', 50);" oncomplete="enableActions();" -->
 
 			</apex:pageBlockButtons>
@@ -132,7 +132,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			<apex:pageBlockSection title="{!$ObjectType.ActionPlanTemplate__c.label}" columns="2" collapsible="false" rendered="{!DisplayTemplateLookup}">
 				<apex:pageBlockSectionItem rendered="{!!lex}">
 					<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" for="templateLookup" />
-					<apex:inputField id="templateLookup" required="false" styleClass="{!IF(throwError != null,'errorBorder','')}" value="{!ActionPlan__c.Action_Plan_Template__c}"
+					<apex:inputField id="templateLookup" required="false" value="{!ActionPlan__c.Action_Plan_Template__c}"
 					onchange="javascript:reloadActionPlan('{!JSINHTMLENCODE(ActionPlan__c.Action_Plan_Template__c)}', document.getElementById('{!$Component.templateLookup}' + '_lkid').value);">
 						<script>
 							var templateLKP_path = "{!$Component.templateLookup}";
@@ -294,13 +294,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 							<apex:outputPanel layout="block" rendered="{!!hasRelatedObject}" id="lookupSectionOutPanel">
 								<apex:outputPanel layout="none" rendered="{!lex}" >
-									<c:APLightningLookup sObj="{!ActionPlan__c}" field="{!relatedFieldName}" sObjType="{!relatedObjectName}" displayField="{!relatedObjDisplayField}" required="true" for="{!relatedFieldName}lookup" fieldClass="{!IF(throwError != null,'errorBorder','')}" />
+									<c:APLightningLookup sObj="{!ActionPlan__c}" field="{!relatedFieldName}" sObjType="{!relatedObjectName}" displayField="{!relatedObjDisplayField}" required="true" for="{!relatedFieldName}lookup" />
 								</apex:outputPanel>
 								<apex:outputPanel layout="none" rendered="{!!lex}">
-									<apex:inputField id="classicRelated" required="true" value="{!ActionPlan__c[relatedFieldName]}" styleClass="{!IF(throwError !=null,'errorBorder','')}" />
-								</apex:outputPanel>
-								<apex:outputPanel id="errorDivLookUp" layout="block" styleclass="errorMsg" rendered="{!throwError != null}" >
-									<apex:outputText ><b>{!$Label.ap_Error}:</b> {!throwError}</apex:outputText>
+									<apex:inputField id="classicRelated" required="true" value="{!ActionPlan__c[relatedFieldName]}" />
 								</apex:outputPanel>
 							</apex:outputPanel>
 						</apex:facet>
@@ -421,8 +418,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 						</apex:facet>
 						<apex:outputPanel id="userEditPanel" layout="block" rendered="{!!wrapTask.task.IsClosed__c}">
 							<apex:outputPanel rendered="{!$ObjectType.APTaskTemplate__c.fields.User__c.updateable && wrapTask.displayLookup}" id="userLookupPanel">
-								<apex:inputField required="{!wrapTask.userRequired}" value="{!wrapTask.task.User__c}" rendered="{!!lex}" />
-								<c:APLightningLookup field="User__c" sObj="{!wrapTask.task}" sObjType="User" for="{!wrapTask.position}rowuserlookup" where="AND IsActive = true AND ProfileId != null" fieldStyle="width:100%" required="{!wrapTask.userRequired}" rendered="{!lex}" />
+								<apex:inputField required="{!wrapTask.userRequired}" value="{!wrapTask.task.User__c}" rendered="{!!lex}" id="classicLookup" />
+								<c:APLightningLookup field="User__c" sObj="{!wrapTask.task}" sObjType="User" for="{!wrapTask.position}rowuserlookup" where="AND IsActive = true AND ProfileId != null"
+								fieldStyle="width:100%" required="false" rendered="{!lex}" id="lexLookup" recordname="{!IF(wrapTask.task.User__c != null, wrapTask.task.User__r.Name, '')}" />
+								<!-- <apex:inputField required="{!wrapTask.userRequired}" value="{!wrapTask.task.User__c}"  id="classicLookup" /> -->
 							</apex:outputPanel>
 
 							<apex:outputPanel rendered="{!!$ObjectType.APTaskTemplate__c.fields.User__c.updateable && wrapTask.task.User__c == null}" id="userDisplayPanel">
