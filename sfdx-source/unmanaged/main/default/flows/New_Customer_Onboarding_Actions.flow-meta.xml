@@ -32,7 +32,7 @@
     <description>Sample Flow - change Account Type so it contains &apos;Customer&apos; and if New Customer Onboarding Action Plan Template exists, it will be created as an Action Plan</description>
     <interviewLabel>New Customer Onboarding Actions {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
-    <label>New Customer Onboarding Actions</label>
+    <label>New Customer Onboarding Tasks</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
