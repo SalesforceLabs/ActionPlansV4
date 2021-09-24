@@ -168,7 +168,7 @@ Follow these instructions to deploy Action Plans to your org.
 1. In App Launcher, click **View All** then select the **Action Plans** app.
 
 -->
-## Installing the App using a Developer Edition Org or your own Sandbox/Production Org
+## Installing the App using a Developer Edition Org or your own Sandbox Org
 
 Follow this set of instructions if you want to deploy the app to a more permanent environment than a Scratch org.
 This includes non source-tracked orgs such as a [free Developer Edition Org](https://developer.salesforce.com/signup) or a [Trailhead Playground](https://trailhead.salesforce.com/), or your own Sandbox.
@@ -215,7 +215,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 
 This repository contains several files that are relevant if you want to add sample data, or integrate modern web development tooling to your Salesforce development processes or to your continuous integration/continuous deployment processes.
 
-### Data Import (Optional)
+### Data Import (Optional - not available if using the AppExchange managed package)
 
 - This repository creates sample data (Accounts, Contacts, Leads) in the scratch org. To prevent this, go to the [scratch org definition](https://github.com/dschach/ActionPlans/blob/main/config/project-scratch-def.json) and change `hasSampleData` to `false`.
     ```
