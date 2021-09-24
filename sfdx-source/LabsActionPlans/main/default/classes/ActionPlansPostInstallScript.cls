@@ -35,7 +35,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 global class ActionPlansPostInstallScript implements InstallHandler {
 	global void onInstall(InstallContext context) {
 		if(context.previousVersion() == null) {
-			ActionPlansUtilities.getCustomSetting();
+
+			Action_Plans_Settings__c instance = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
+			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = true][0].Id;
+			instance.Default_Object_on_Lead_Conversion__c = Schema.Contact.SObjectType.getDescribe().getName();
+			instance.Unassigned_Task_Default__c = true;
+			instance.Chatter_Object_Brag__c = false;
+			upsert instance;
 
 			ActionPlanTemplate__c apt = new ActionPlanTemplate__c();
 			apt.Name = 'New Customer Onboarding';
