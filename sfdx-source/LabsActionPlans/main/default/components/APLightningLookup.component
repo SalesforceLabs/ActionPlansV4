@@ -36,6 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	<apex:attribute name="sObj" type="sObject" description="The record the field belongs to." required="true" />
 	<apex:attribute name="field" type="String" description="The lookup field to put the Id into" required="true" />
 	<apex:attribute name="displayfield" type="String" description="The field to display as the record (Name for Account, CaseNumber for Case, etc.)" default="Name" />
+	<apex:attribute name="recordname" type="String" description="The value of the record name to display when editing a populated field" />
 	<apex:attribute name="sObjType" type="String" description="The sObject type." assignTo="{!objectName}" required="true" />
 	<apex:attribute name="for" type="String" description="Unique ID of the input field" required="false" default="" />
 	<apex:attribute name="where" type="String" description="WHERE clause for SOQL (if desired)" required="false" default="" />
@@ -64,10 +65,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<div class="{!IF(required==true,'requiredInput','')}">
 						<div class="{!IF(required==true,'requiredBlock','')}">
 
-							<apex:inputField id="searchInput" styleclass="slds-input slds-combobox__input {!fieldClass}" style="{!fieldStyle}" type="text" html-autocomplete="off" onkeyup="LightningLookupScripts{!for}.searchRecords(j$(this), '{!sObjType}', '{!customObject}');checkEscape(j$(this), event);" html-aria-autocomplete="list"
-							 html-role="combobox" html-aria-expanded="true" html-aria-controls="SrchDrpDwn{!for}" html-placeholder="{!$Label.ap_Search}" html-aria-activedescendant="SrchDrpDwn{!for}" required="{!IF(required == true, 'true', '')}" value="{!sObj[field]}">
-								<apex:componentBody />
-							</apex:inputField>
+							<!-- <apex:inputField id="searchInput" styleclass="slds-input slds-combobox__input {!fieldClass}" style="{!fieldStyle}" type="text" html-autocomplete="off" onkeyup="LightningLookupScripts{!for}.searchRecords(j$(this), '{!sObjType}', '{!customObject}');checkEscape(j$(this), event);" html-aria-autocomplete="list"
+							 html-role="combobox" html-aria-expanded="true" html-aria-controls="SrchDrpDwn{!for}" html-placeholder="{!$Label.ap_Search}" html-aria-activedescendant="SrchDrpDwn{!for}" required="{!IF(required == true, 'true', '')}" value="{!sObj[field]}" /> -->
+							<input id="searchInput" styleclass="slds-input slds-combobox__input {!fieldClass}" style="{!fieldStyle}" type="text" autocomplete="off" onkeyup="LightningLookupScripts{!for}.searchRecords(j$(this), '{!sObjType}', '{!customObject}');checkEscape(j$(this), event);" aria-autocomplete="list"
+							 role="combobox" aria-expanded="true" aria-controls="SrchDrpDwn{!for}" placeholder="{!$Label.ap_Search}" aria-activedescendant="SrchDrpDwn{!for}" required="{!IF(required == true, 'true', '')}" value="{!recordname}" />
 						</div>
 					</div>
 				</div>

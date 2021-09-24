@@ -52,7 +52,6 @@ public with sharing class ActionPlanCreationController{
 	public String                   relatedObjDisplayField  { get; set; }
 
 	private String                  errorMsg;
-	public String                   throwError              { get; set; }
 	public Boolean                  canDisplayReminder      { get; set; }
 	private Map<Id, ApTaskWrapper>  mapTasksListBkp;
 	public String                   subtitle                { get; set; }
@@ -220,6 +219,21 @@ public with sharing class ActionPlanCreationController{
 		}
 	}
 
+	private Action_Plans_Settings__c mySettings {
+		get {
+			System.debug('mySettings ' + mySettings);
+			if(mySettings == null){
+				try{
+					mySettings = ActionPlansUtilities.getCustomSetting();
+				} catch (Exception e){
+					mySettings = Action_Plans_Settings__c.getInstance();
+				}
+			}
+			System.debug('mysettings: ' + mySettings);
+			return mySettings;
+		} private set;
+	}
+
 	private String chooseDisplayField(String objectName){
 		switch on objectName {
 			when 'Case' {
@@ -332,7 +346,6 @@ public with sharing class ActionPlanCreationController{
 	* @return PageReference
 	*/
 	public PageReference save(){
-		this.throwError         = null;
 		PageReference pageRef   = null;
 		if(!this.actionPlan.SkipWeekends__c){
 			this.actionPlan.SkipDay__c = null;
@@ -394,6 +407,7 @@ public with sharing class ActionPlanCreationController{
 			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()){
 				Database.ExecuteBatch( new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, objName, parentIDs) );
 			} else {
+				System.debug('Running batch builder utilities');
 				ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(this.actionPlan, this.apTasks, objName, parentIDs);
 				actionPlanId = taskBatch.generateActionPlans();
 			}
@@ -463,6 +477,7 @@ public with sharing class ActionPlanCreationController{
 
 		if( oIds != null ){
 			oIdsList = parseRelatedIDs(oIds);// oIds.deleteWhitespace().split(',');
+			System.debug('oidslist: ' + oIdsList);
 			return  ( oIdsList.size() > 1 ) ? this.saveMultiple() : this.savePageRef();
 		}
 		else {
@@ -662,7 +677,7 @@ public with sharing class ActionPlanCreationController{
 
 		List<ApTaskWrapper> tasksList = new List<ApTaskWrapper>();
 
-		Action_Plans_Settings__c mySettings = Action_Plans_Settings__c.getInstance();
+		//Action_Plans_Settings__c mySettings = Action_Plans_Settings__c.getInstance();
 
 		Integer i = 0;
 		for( APTaskTemplate__c apTaskTemplate : this.getAPTasks() ){
@@ -680,11 +695,12 @@ public with sharing class ActionPlanCreationController{
 			// User is Required if the ap parent id is null and we don't give unassigned to record owner
 			// We always display the lookup (if editable) because we never FORCE the task to be assigned to the record owner
 
-			if (newTaskWrapper == null){
-				userRequired    = !mySettings.Unassigned_Task_Default__c || actionPlan.get(relatedFieldName) == null; // true if not auto-assigned to record owner. User may have been set via template, but is still required.
+			/* if (newTaskWrapper == null){
+				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default__c || actionPlan.get(relatedFieldName) == null; // true if not auto-assigned to record owner. User may have been set via template, but is still required.
 			} else { // editing existing task
-				userRequired    = newTaskWrapper.userRequired;
-			}
+				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default__c;
+			} */
+			userRequired = mySettings == null || !mySettings.Unassigned_Task_Default__c;
 
 			ApTaskWrapper apTWrapper = new ApTaskWrapper( apTaskTemplate, i, displayLookup, userRequired, actionPlan.TaskRecordTypeID__c );
 			tasksList.add( apTWrapper );
@@ -706,7 +722,7 @@ public with sharing class ActionPlanCreationController{
 	*/
 	public List<APTaskTemplate__c> getAPTasks(){
 
-		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting(); //Action_Plans_Settings__c.getInstance();
+		//Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting(); //Action_Plans_Settings__c.getInstance();
 
 		if( this.apTasks == null || this.apTasks.size() == 0 ) {
 
@@ -734,9 +750,12 @@ public with sharing class ActionPlanCreationController{
 					else if( aptTask.User__c == null && ( mySettings != null && !mySettings.Unassigned_Task_Default__c ) ) {
 						userId = UserInfo.getUserId();
 					}
-					else if( aptTask.User__c == null && ( mySettings != null &&  mySettings.Unassigned_Task_Default__c ) ) {
+					/* else if( aptTask.User__c == null && ( mySettings != null &&  mySettings.Unassigned_Task_Default__c ) ) {
 						userId = null;
 					}
+					else if( aptTask.User__c == null && mySettings == null ){
+						userId = UserInfo.getUserId();
+					} */
 
 					APTaskTemplate__c t     = new APTaskTemplate__c();
 					t.Type__c               = aptTask.Type__c;
@@ -815,11 +834,13 @@ public with sharing class ActionPlanCreationController{
 			FROM APTaskTemplate__c
 			WHERE Action_Plan__c = :actionPlanId ORDER BY TaskIndex__c ASC];
 
-			SObjectAccessDecision decision = Security.stripInaccessible(
+			return myList;
+
+			/* SObjectAccessDecision decision = Security.stripInaccessible(
 				AccessType.READABLE,
 				myList);
 
-			return decision.getRecords();
+			return decision.getRecords(); */
 	}
 
 	/**

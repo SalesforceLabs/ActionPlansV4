@@ -402,12 +402,14 @@ public without sharing class ActionPlansUtilities {
 		instance = Action_Plans_Settings__c.getOrgDefaults();
 		if(instance.Id == null){
 			instance = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
-			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = true].Id;
+			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = true][0].Id;
 			instance.Default_Object_on_Lead_Conversion__c = 'Contact';
-			upsert instance;
+			instance.Unassigned_Task_Default__c = true;
+			instance.Chatter_Object_Brag__c = false;
 		}
-
-		instance = Action_Plans_Settings__c.getInstance();
+		else {
+			instance = Action_Plans_Settings__c.getInstance();
+		}
 		return instance;
 
 	}
