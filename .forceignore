@@ -11,7 +11,7 @@ package.xml
 jsconfig.json
 **/jsconfig.json
 **/.eslintrc.json
-force-app/main/default/lwc/jsconfig.json
+sfdx-source/LabsActionPlans/main/default/lwc/jsconfig.json
 
 # LWC Jest
 **/__tests__/**

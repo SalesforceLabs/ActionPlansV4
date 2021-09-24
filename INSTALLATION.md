@@ -51,7 +51,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 1. Run this command to deploy the app.
 
     ```
-    sfdx force:source:deploy -p force-app
+    sfdx force:source:deploy -p sfdx-source
     ```
 
 1. Assign the `Action_Plans_Admin` permission set to the admin user.

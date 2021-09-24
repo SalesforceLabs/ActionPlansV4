@@ -64,7 +64,7 @@ $RECYCLE.BIN/
 **/standardValueSets
 **/Translations
 **/listViews/**
-!**/ActionPlanTemplate__c/listViews/All.listView-meta.xml
-!**/ActionPlan__c/listViews/All.listView-meta.xml
+!**/ActionPlanTemplate__c/listViews
+!**/ActionPlan__c/listViews
 !**/Account-Account %28Action Plans%29 Layout.layout-meta.xml
 dev-tools
