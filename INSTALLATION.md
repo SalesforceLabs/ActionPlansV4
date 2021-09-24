@@ -6,11 +6,11 @@ Follow these instructions to deploy Action Plans to your org.
 
 ## Deployment Methods
 
-[AppExchange]
+[AppExchange](#appexchange-managed-package---recommended): The managed package is the best way to go - it will let you upgrade seamlessly as features are added.
 
 [Direct deployment to an org](#direct-deployment-to-an-org): Quickest option to install this unmanaged code into your org
 
-[Installing the app using a Developer Edition Org or a Trailhead Playground](#installing-the-app-using-a-developer-edition-org-or-a-trailhead-playground): Useful when tackling Trailhead Badges or if you want the app deployed to a more permanent environment than a scratch org.
+[Installing the app using a Developer Edition Org or a Sandbox](#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org): Useful when tackling Trailhead Badges or if you want the app deployed to a more permanent environment than a scratch org.
 
 [Optional installation instructions](#optional-installation-instructions): Installing sample Action Plan Template
 <hr/>
@@ -51,7 +51,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 1. Run this command to deploy the app.
 
     ```
-    sfdx force:source:deploy -p force-app
+    sfdx force:source:deploy -p sfdx-source
     ```
 
 1. Assign the `Action_Plans_Admin` permission set to the admin user.

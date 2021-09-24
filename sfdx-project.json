@@ -4,14 +4,16 @@
             "path": "sfdx-source/LabsActionPlans",
             "default": true,
             "package": "Action Plans",
-            "versionName": "ver 0.1",
-            "versionNumber": "0.1.0.NEXT",
+            "versionName": "ver 4",
+            "versionNumber": "4.0.0.NEXT",
             "releaseNotesUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/README.md",
             "unpackagedMetadata": {
                 "path": "sfdx-source/unpackaged"
             },
             "versionDescription": "Welcome to the new Action Plans from Salesforce Labs",
-            "definitionFile": "config/scratch-org-def.json"
+            "definitionFile": "config/scratch-org-def.json",
+            "postInstallScript": "ActionPlansPostInstallScript",
+            "postInstallUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md"
         },
         {
             "path": "sfdx-source/unpackaged"
@@ -24,9 +26,6 @@
     "packageAliases": {
         "Action Plans": "0Ho5f000000oLlrCAE",
         "ActionPlans": "0Ho5f000000oLlrCAE",
-        "Action Plans@0.1.0-1": "04t5f000000pREqAAM",
-        "Action Plans@0.1.0-2": "04t5f000000pREvAAM",
-        "Action Plans@0.1.0-3": "04t5f000000pRJ8AAM",
-        "Action Plans@0.1.0-4": "04t5f000000pRqPAAU"
+        "Action Plans@4.0.0-1": "04t5f000000pRqUAAU"
     }
 }
