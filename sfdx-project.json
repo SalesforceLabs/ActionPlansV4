@@ -1,14 +1,27 @@
 {
-  "packageDirectories": [
-	{
-	  "path": "sfdx-source/LabsActionPlans",
-	  "default": true
-	},
-	{ "path": "sfdx-source/unpackaged"},
-    { "path": "sfdx-source/untracked"}
-  ],
-  "name": "ActionPlans",
-  "namespace": "LabsActionPlans",
-  "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "52.0"
+    "packageDirectories": [
+        {
+            "path": "sfdx-source/LabsActionPlans",
+            "default": true,
+            "package": "Action Plans",
+            "versionName": "ver 0.1",
+            "versionNumber": "0.1.0.NEXT",
+            "releaseNotesUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/README.md",
+            "unpackagedMetadata": {
+                "path": "sfdx-source/unpackaged"
+            }
+        },
+        {
+            "path": "sfdx-source/unpackaged"
+        }
+    ],
+    "name": "ActionPlans",
+    "namespace": "LabsActionPlans",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "52.0",
+    "packageAliases": {
+        "Action Plans": "0Ho5f000000oLlrCAE",
+        "ActionPlans": "0Ho5f000000oLlrCAE",
+        "Action Plans@0.1.0-1": "04t5f000000pREqAAM"
+    }
 }
