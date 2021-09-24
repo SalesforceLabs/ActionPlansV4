@@ -9,15 +9,7 @@ Follow these instructions to deploy Action Plans to your org.
 [AppExchange]
 
 [Direct deployment to an org](#direct-deployment-to-an-org): Quickest option to install this unmanaged code into your org
-<!--
-[Installing the app using a Scratch Org](#installing-the-app-using-a-scratch-org): This is the recommended installation option. Use this option if you are a developer who wants to experience the app and the code.
 
--   [Installing the app using a Scratch Org (option 1)](#installing-the-app-using-a-scratch-org--option-1-): Use the CLI manually, following the instructions below
-
--   [Installing the app using a Scratch Org (option 2)](#installing-the-app-using-a-scratch-org--option-2-): Use the included setup script
-
-[Installing the App using a Sandbox with source tracking (Developer/Developer Pro Sanbox)](#installing-the-app-using-a-sandbox-with-source-tracking-developerdeveloper-pro-sanbox): For testing prior to installing/updating in your Production environment
--->
 [Installing the app using a Developer Edition Org or a Trailhead Playground](#installing-the-app-using-a-developer-edition-org-or-a-trailhead-playground): Useful when tackling Trailhead Badges or if you want the app deployed to a more permanent environment than a scratch org.
 
 [Optional installation instructions](#optional-installation-instructions): Installing sample Action Plan Template
@@ -32,142 +24,8 @@ Follow these instructions to deploy Action Plans to your org.
 
 ## AppExchange (Managed Package - recommended)
 
+[Action Plans](https://appexchange.salesforce.com): This is the best way to install the product, which you can easily upgrade as features are added.
 
-[Action Plans](https://appexchange.salesforce.com): This is the best way to install the package, which you can easily upgrade as features are added
-
-<!-->
-## Installing the app using a Scratch Org (option 1)
-
-1. Set up your environment. Follow the steps in the [Quick Start: Lightning Web Components](https://trailhead.salesforce.com/content/learn/projects/quick-start-lightning-web-components/) Trailhead project. The steps include:
-
-    - Enable Dev Hub in your Trailhead Playground or Production org
-    - Install Salesforce CLI
-    - Install Visual Studio Code
-    - Install the Visual Studio Code Salesforce extensions
-
-1. If you haven't already done so, authorize your hub org and provide it with an alias (**myhuborg** in the command below):
-
-    ```
-    sfdx force:auth:web:login -d -a myhuborg
-    ```
-
-1. Clone the ActionPlans repository:
-
-    ```
-    git clone https://github.com/salesforcelabs/ActionPlans
-    cd ActionPlans
-    ```
-
-1. Create a scratch org and provide it with an alias (**ActionPlans** in the command below):
-
-    ```
-    sfdx force:org:create -s -f config/project-scratch-def.json -a ActionPlans
-    ```
-
-1. Push the app to your scratch org:
-
-    ```
-    sfdx force:source:push
-    ```
-
-1. Assign the `Action_Plans_Admin` permission set to the admin user.
-
-    ```
-    sfdx force:user:permset:assign -n Action_Plans_Admin
-    ```
-
-1. Open the scratch org:
-
-    ```
-    sfdx force:org:open
-    ```
-
-1. In App Launcher, click **View All** then select the **Action Plans** app.
-
-## Installing the app using a Scratch Org (option 2)
-
-1. Set up your environment. Follow the steps in the [Quick Start: Lightning Web Components](https://trailhead.salesforce.com/content/learn/projects/quick-start-lightning-web-components/) Trailhead project. The steps include:
-
-    - Enable Dev Hub in your Trailhead Playground or Production org
-    - Install Salesforce CLI
-    - Install Visual Studio Code
-    - Install the Visual Studio Code Salesforce extensions
-
-1. If you haven't already done so, authorize your hub org and provide it with an alias (**myhuborg** in the command below):
-    ```
-    sfdx force:auth:web:login -d -a myhuborg
-    ```
-1. Clone the ActionPlans repository:
-    ```
-    git clone https://github.com/salesforcelabs/ActionPlans
-    cd ActionPlans
-    ```
-1. At the terminal command prompt, run
-	```
-	. orginit.sh
-	```
-
-## Installing the App using a Sandbox with source tracking (Developer/Developer Pro Sanbox)
-
-1. Set up your environment. Follow the steps in the [Quick Start: Lightning Web Components](https://trailhead.salesforce.com/content/learn/projects/quick-start-lightning-web-components/) Trailhead project. The steps include:
-
-    - Enable Dev Hub in your Production org
-    - Install Salesforce CLI
-    - Install Visual Studio Code
-    - Install the Visual Studio Code Salesforce extensions
-
-1. In your Dev Hub org, in Setup > Dev Hub, enable "Enable Source Tracking in Developer and Developer Pro Sandboxes"
-
-1. If you haven't already done so, authorize your hub org and provide it with an alias (**myhuborg** in the command below):
-
-    ```
-    sfdx force:auth:web:login -d -a myhuborg
-    ```
-
-1. Clone the ActionPlans repository:
-
-    ```
-    git clone https://github.com/salesforcelabs/ActionPlans
-    cd ActionPlans
-    ```
-
-1. Update the project configuration file `sfdx-project.json` by adding to the My Domain login URL
-
-	```
-	"sfdcLoginUrl" : "https://test.salesforce.com"
-	```
-
-1. Authenticate to your sandbox
-	```
-	sfdx force:auth:web:login -a ActionPlans
-	```
-
-	or if you did not update `sfdx-project.json`
-	```
-	sfdx force:auth:web:login -r https://test.salesforce.com -a ActionPlans
-	```
-
-1. Push the app to your sandbox:
-
-    ```
-    sfdx force:source:push
-    ```
-
-1. Assign the `Action_Plans_Admin` permission set to the admin user.
-
-    ```
-    sfdx force:user:permset:assign -n Action_Plans_Admin
-    ```
-
-1. Open the sandbox:
-
-    ```
-    sfdx force:org:open
-    ```
-
-1. In App Launcher, click **View All** then select the **Action Plans** app.
-
--->
 ## Installing the App using a Developer Edition Org or your own Sandbox Org
 
 Follow this set of instructions if you want to deploy the app to a more permanent environment than a Scratch org.
@@ -201,7 +59,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
     ```
     sfdx force:user:permset:assign -n Action_Plans_Admin
     ```
-1. (Optional) Load sample data (see below)
+1. (Optional) [Load sample data](#optional-installation-instructions) (see below)
 
 1. If your org isn't already open, open it now:
 
@@ -217,7 +75,7 @@ This repository contains several files that are relevant if you want to add samp
 
 ### Data Import (Optional - not available if using the AppExchange managed package)
 
-- This repository creates sample data (Accounts, Contacts, Leads) in the scratch org. To prevent this, go to the [scratch org definition](https://github.com/dschach/ActionPlans/blob/main/config/project-scratch-def.json) and change `hasSampleData` to `false`.
+- This repository creates sample data (Accounts, Contacts, Leads) in the scratch org. To prevent this, go to the [scratch org definition](./config/project-scratch-def.json) and change `hasSampleData` to `false`.
     ```
 	"hasSampleData": false,
 	```
@@ -234,7 +92,29 @@ This repository contains several files that are relevant if you want to add samp
 - You can also create other sample Account and Contact records by running the following command:
 
     ```
-    sfdx force:data:tree:import -p ./data/action-plan-data-plan.json
+    sfdx force:data:tree:import -p ./data/data-plan.json
+    ```
+
+### Data Import (Optional - ONLY if using AppExchange managed package)
+
+- This repository creates sample data (Accounts, Contacts, Leads) in the scratch org. To prevent this, go to the [scratch org definition](./config/project-scratch-def.json) and change `hasSampleData` to `false`.
+    ```
+	"hasSampleData": false,
+	```
+
+- To create a sample Action Plan Template for Account onboarding, run the following:
+	```
+	sfdx force:apex:execute -f ./data/sample-data-managed.apex
+	```
+	To create a sample Flow that uses the sample template, run the following:
+	```
+	sfdx force:source:deploy -p sfdx-source/unmanagedExtension
+	```
+
+- You can also create other sample Account and Contact records by running the following command:
+
+    ```
+    sfdx force:data:tree:import -p ./data/data-plan.json
     ```
 
 ### Code formatting
