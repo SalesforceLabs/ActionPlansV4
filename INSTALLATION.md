@@ -222,20 +222,20 @@ This repository contains several files that are relevant if you want to add samp
 	"hasSampleData": false,
 	```
 
+- To create a sample Action Plan Template for Account onboarding, run the following:
+	```
+	sfdx force:apex:execute -f ./data/sample-data.apex
+	```
+	To create a sample Flow that uses the sample template and some other metadata that you may want to install (reports, etc), run the following:
+	```
+	sfdx force:source:deploy -p sfdx-source/unmanaged
+	```
+
 - You can also create other sample Account and Contact records by running the following command:
 
     ```
     sfdx force:data:tree:import -p ./data/action-plan-data-plan.json
     ```
-
-- To create a sample Action Plan Template for Account onboarding, run the following:
-	```
-	sfdx force:apex:execute -f ./data/sample-data.apex
-	```
-	To create a sample Flow that uses the sample template, run the following:
-	```
-	sfdx force:source:deploy -p sfdx-source/unmanaged
-	```
 
 ### Code formatting
 

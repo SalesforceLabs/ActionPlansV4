@@ -42,17 +42,6 @@ ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
 
-# Salesforce Metadata
-**Custom_Object***
-**/quickActions
-**/profiles/**
-**/objects/Task/recordTypes
-**/standardValueSets
-**/Translations
-**/listViews/**
-!**/ActionPlanTemplate__c/listViews/All.listView-meta.xml
-!**/ActionPlan__c/listViews/All.listView-meta.xml
-
 # temporary files
 **/layouts/Contact*
 **/layouts/Global*
@@ -66,3 +55,16 @@ $RECYCLE.BIN/
 **/objects/Contact/Contact.object-meta.xml
 **/objects/Contact/fields/
 **/objects/Contact/listViews/
+
+# Salesforce Metadata
+**Custom_Object***
+**/quickActions
+**/profiles/**
+**/objects/Task/recordTypes
+**/standardValueSets
+**/Translations
+**/listViews/**
+!**/ActionPlanTemplate__c/listViews/All.listView-meta.xml
+!**/ActionPlan__c/listViews/All.listView-meta.xml
+!**/Account-Account %28Action Plans%29 Layout.layout-meta.xml
+dev-tools

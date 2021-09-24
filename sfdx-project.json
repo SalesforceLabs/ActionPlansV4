@@ -11,9 +11,9 @@
                 "path": "sfdx-source/unpackaged"
             }
         },
-        {
-            "path": "sfdx-source/unpackaged"
-        }
+		{
+			"path": "sfdx-source/unpackaged"
+		}
     ],
     "name": "ActionPlans",
     "namespace": "LabsActionPlans",
