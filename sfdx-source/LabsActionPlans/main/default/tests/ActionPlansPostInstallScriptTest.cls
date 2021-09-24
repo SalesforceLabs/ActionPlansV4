@@ -40,9 +40,10 @@ private class ActionPlansPostInstallScriptTest {
 	static void testInstallScript() {
 		ActionPlansPostInstallScript postinstall = new ActionPlansPostInstallScript();
 		Test.testInstall(postinstall, null);
+		System.assertNotEquals(0,[SELECT Count() FROM ActionPlanTemplate__c]);
+		System.assertEquals(true, Action_Plans_Settings__c.getInstance().Unassigned_Task_Default__c);
 		Test.testInstall(postinstall, new Version(4,0), false);
 		Test.testInstall(postinstall, new Version(4,0), true);
-		System.assertNotEquals(0,[SELECT Count() FROM ActionPlanTemplate__c]);
 	}
 
 }
