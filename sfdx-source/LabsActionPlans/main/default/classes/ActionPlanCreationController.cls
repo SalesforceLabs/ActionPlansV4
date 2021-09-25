@@ -1108,6 +1108,7 @@ public with sharing class ActionPlanCreationController{
 
 			// Describe the fieldSet so we can make sure that we only add SelectOptions for desired records
 			Schema.FieldSet fs = Schema.SObjectType.ActionPlan__c.fieldSets.Related_Objects;
+			System.assert(fs.getFields().size() > 0);
 
 			Set<String> activityEnabledObjects = findActivityEnabledObjects();
 
@@ -1132,8 +1133,10 @@ public with sharing class ActionPlanCreationController{
 					relatedObjectOptions.add( new SelectOption( value, label ));
 				}
 			}
-
 			relatedObjectOptions.sort();
+		}
+		if(relatedObjectOptions.isEmpty()){
+			relatedObjectOptions.add( new SelectOption( ActionPlansUtilities.namespacePrefix + 'Account__c', 'Account' ));
 		}
 		return relatedObjectOptions;
 	}
@@ -1258,22 +1261,4 @@ public with sharing class ActionPlanCreationController{
 			}
 		}
 	}
-
-	/* public class FieldCustomValidationException extends Exception{
-
-		private DmlException dmlException;
-
-		public FieldCustomValidationException( DmlException e ){
-
-			this.dmlException = e;
-		}
-
-		public String getCustomMessage(){
-
-			String message = this.dmlException.getDmlMessage( 0 );
-
-			return message;
-		}
-	} */
-
 }
