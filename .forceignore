@@ -44,6 +44,7 @@ Account-Account Layout.layout
 Global-Global Layout.layout
 Lead.workflow
 *.profile
+*.recordType
 
 src
 metadata

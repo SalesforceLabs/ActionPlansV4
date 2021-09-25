@@ -136,7 +136,7 @@ Note: The Apex used in Flows or via triggers does not require special permission
 If you want, for example, not to allow relating Action Plans to Contracts, remove the Contract field from the Action Plan Related Objects fieldset.
 There is no need to delete the field from the Action Plan object.
 
-![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanFieldSet.png)</fieldset>
+![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanFieldSet.png)</fieldset>
 
 # Create a Template
 
@@ -144,7 +144,7 @@ Now you're ready to create your first template. Navigate to the Action Plans Tem
 
 The template screen looks like this:
 
-![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/Template-Creation.png)
+![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Template-Creation.png)
 
 1.  Name - Template Name.
 1.  Description - An explanation of how the template should be used.
@@ -179,25 +179,25 @@ If your org uses Task Record Types, you must specify which Record Type to use fo
 
 1. Navigate to an Accounts list view. Select the Accounts for which you want to create Action Plans. Click on the "Create Account Action Plans" button.
 
-    <img style="max-width:100%" src="sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/Select-Accounts.png" />
+    <img style="max-width:100%" src="sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Select-Accounts.png" />
 
 1. Select the template you want to use by typing the name on the lookup and clicking on it.
-	![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/Choose-template-step1.png)
+	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Choose-template-step1.png)
 
 1. Enter the information specific to this plan. Note that the Accounts you selected earlier are visible.
-	![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/Choose-template-step2.png)
+	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Choose-template-step2.png)
 
 1. Save the Action Plan.
     Note: Action Plan creation is handled by a batch process. It can take a couple of minutes to be able to view all created records.
 
-    ![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlan-Detail.png)
+    ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlan-Detail.png)
 
 1. Verify the Action Plan and the tasks.
 
 1. Complete the first task on the Action Plan.
     Note that the Action Plan is now in the correct related list and that this Account has one open activity and one closed activity. The third activity in the template is dependent and will be created only when its controlling task is complete.
 
-	![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/AccountActionPlan-Detail.png)
+	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/AccountActionPlan-Detail.png)
 
 # Automate Action Plan Creation
 
@@ -206,7 +206,7 @@ If your org uses Task Record Types, you must specify which Record Type to use fo
 Action Plans includes an Invocable Apex class that can be included in a Flow. The Record ID of the triggering record is required, as is the Id OR the Name of the desired template.
 Days from trigger to start Action Plan is optional (and defaults to 0). The first task will be due the number of days (specified on the template) from the start date. This date may fall on a weekend, though task due dates can be moved to avoid weekends if set on the template.
 
-![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/FlowAction.png)
+![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/FlowAction.png)
 ### (Optional) Sample Action Plan Template for Account onboarding, run the following
 	```
 	sfdx force:apex:execute -f ./data/sample-data.apex
@@ -214,7 +214,7 @@ Days from trigger to start Action Plan is optional (and defaults to 0). The firs
 
 To use this Template with the included Flow, see the `Create Action Plan From Template` Apex Action in the `New Customer Onboarding Activities` Flow
 
- ![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/FlowActionVariables.png)
+ ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/FlowActionVariables.png)
 
 Create an Account and set `Type` to any value that starts with 'Customer'
 
@@ -222,7 +222,7 @@ Create an Account and set `Type` to any value that starts with 'Customer'
 
 It is recommended NOT to check the Recursion box when creating a Process Builder to work with Action Plans.
 
-![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png)
+![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png)
 
 ## Apex
 
@@ -260,7 +260,7 @@ Action Plans supports the sharing and discovery of best practices using Template
 
 Export is simple. Navigate to the Template you wish to export. Click on the "Export" button.
 
-![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanTemplate-import-1.png)
+![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanTemplate-import-1.png)
 
 Export creates a simple XML file containing template header and task information. It also includes information about who created the template.
 Note: It does not include user information or sensitive data about what objects you might use this template with.
@@ -271,7 +271,7 @@ Sharing the file is easy. Email the file to whomever you want to share it with. 
 
 ## Best Practices: How to Import
 
-Import is also simple. Navigate to the "Import Template" tab. Select the file you want to import using "Browse" and once you’ve found it click on "Import Template."![](sfdx-source/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanTemplate-import-2.png)
+Import is also simple. Navigate to the "Import Template" tab. Select the file you want to import using "Browse" and once you’ve found it click on "Import Template."![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanTemplate-import-2.png)
 
 ## (Optional) Sample Action Plan Template Import
 
