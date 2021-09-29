@@ -1,13 +1,18 @@
 {
-  "trailingComma": "none",
-  "overrides": [
-    {
-      "files": "**/lwc/**/*.html",
-      "options": { "parser": "lwc" }
-    },
-    {
-      "files": "*.{cmp,page,component}",
-      "options": { "parser": "html" }
-    }
-  ]
+	"trailingComma": "none",
+	"singleQuote": true,
+	"tabWidth": 4,
+	"overrides": [
+		{
+			"files": "**/lwc/**/*.html",
+			"options": { "parser": "lwc" }
+		},
+		{
+			"files": "*.{cmp,page,component}",
+			"options": { "parser": "html" }
+		},
+		{
+			"files": ["force-app/**/**/classes/*.cls"]
+		}
+	]
 }
