@@ -42,6 +42,9 @@ ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
 
+# metadata format files
+src
+
 # temporary files
 **/layouts/Contact*
 **/layouts/Global*
