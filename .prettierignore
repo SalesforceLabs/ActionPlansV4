@@ -7,11 +7,16 @@
 .sfdx
 .vscode
 
+data/
+scripts/
 node_modules/
+*.md
 coverage/
 docs/
-force-app/main/default/prompts/*.prompt-meta.xml
+**/main/default/prompts/*.prompt-meta.xml
+**meta.xml
 data/
 # Exclude project config
 sfdx-project.json
+sfdx-project-unmanaged.json
 dependencies.json
