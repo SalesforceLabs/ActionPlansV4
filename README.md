@@ -121,7 +121,18 @@ Note: The Apex used in Flows or via triggers does not require special permission
 
 # Using Action Plans with Custom Objects
 
-## Add a New Custom Object Action Plan button to the Action Plan object
+## To Start Using an Object with Action Plans
+
+1.  Create the object and be sure to check "Track Activities" for the object attrributes
+1.  Create a lookup field from Action Plan to the object. **Name the field the same as the object name.** The field label can be anything.
+1.  Add the field to the `Related Objects` fieldset on Action Plan.
+1.  The related object will now be available for selection when creating a new Action Plan and relating it to an object.
+1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts:
+
+    <pre>ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );</pre>
+
+![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanFieldSet.png)
+## Adding a New Custom Object Action Plan button to the Action Plan object
 
 While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this will be in a future release... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page layout:
 
@@ -132,24 +143,10 @@ While Action Plans already overrides the New Action Plan action, the New button 
     ```
     {!URLFOR( $Action.ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id])}
     ```
-
-## To Show the Custom Object Option on Action Plans Edit Pages
-
-1.  Create the object and be sure to check "Track Activities" for the object attrributes
-1.  Create a lookup field from Action Plan to the object. **Name the field the same as the object name.** The field label can be anything.
-1.  Add the field to the `Related Objects` fieldset on Action Plan.
-1.  The related object will now be available for selection when creating a new Action Plan and relating it to an object.
-1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts:
-
-    <pre>ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );</pre>
-
 ## To Stop Using an Object with Action Plans
 
 If you want, for example, not to allow relating Action Plans to Contracts, remove the Contract field from the Action Plan Related Objects fieldset.
 There is no need to delete the field from the Action Plan object.
-
-![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanFieldSet.png)</fieldset>
-
 # Create a Template
 
 Now you're ready to create your first template. Navigate to the Action Plans Templates tab. Click on the "New Action Plan Template" button.
@@ -191,7 +188,7 @@ If your org uses Task Record Types, you must specify which Record Type to use fo
 
 1. Navigate to an Accounts list view. Select the Accounts for which you want to create Action Plans. Click on the "Create Account Action Plans" button.
 
-    <img style="max-width:100%" src="sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Select-Accounts.png" />
+    ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Select-Accounts.png)
 
 1. Select the template you want to use by typing the name on the lookup and clicking on it.
 	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Choose-template-step1.png)
