@@ -121,11 +121,23 @@ Note: The Apex used in Flows or via triggers does not require special permission
 
 # Using Action Plans with Custom Objects
 
-## To Use a Custom Object with Action Plans
+## Add a New Custom Object Action Plan button to the Action Plan object
+
+While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this will be in a future release... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page layout:
+
+1.  Navigate to Setup > Object Manager > Action Plan > Buttons, Links, and Actions > New Button or Link
+1.  Give it a label and name, such as "New MyObject Action Plan"
+1.  Display Type is List Button. Uncheck the list checkbox.
+1.  Use the following format for the button:
+    ```
+    {!URLFOR( $Action.ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id])}
+    ```
+
+## To Show the Custom Object Option on Action Plans Edit Pages
 
 1.  Create the object and be sure to check "Track Activities" for the object attrributes
 1.  Create a lookup field from Action Plan to the object. **Name the field the same as the object name.** The field label can be anything.
-1.  Add the field to the Related Objects fieldset on Action Plan.
+1.  Add the field to the `Related Objects` fieldset on Action Plan.
 1.  The related object will now be available for selection when creating a new Action Plan and relating it to an object.
 1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts:
 
