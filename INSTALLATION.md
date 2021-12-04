@@ -2,8 +2,6 @@
 
 Follow these instructions to deploy Action Plans to your org.
 
-
-
 ## Deployment Methods
 
 [AppExchange](#appexchange-managed-package---recommended): The managed package is the best way to go - it will let you upgrade seamlessly as features are added.
@@ -59,6 +57,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
     ```
     sfdx force:user:permset:assign -n Action_Plans_Admin
     ```
+
 1. (Optional) [Load sample data](#optional-installation-instructions) (see below)
 
 1. If your org isn't already open, open it now:
@@ -75,7 +74,7 @@ This repository contains several files that are relevant if you want to add samp
 
 ### Data Import (Optional - not available if using the AppExchange managed package)
 
-- This repository creates sample data (Accounts, Contacts, Leads) in the scratch org. To prevent this, go to the [scratch org definition](./config/project-scratch-def.json) and change `hasSampleData` to `false`.
+- This repository creates sample data (Accounts, Contacts, Leads) if you choose to create a scratch org. To prevent this, go to the [scratch org definition](./config/project-scratch-def.json) and change `hasSampleData` to `false`.
     ```
 	"hasSampleData": false,
 	```
@@ -96,11 +95,6 @@ This repository contains several files that are relevant if you want to add samp
     ```
 
 ### Data Import (Optional - ONLY if using AppExchange managed package)
-
-- This repository creates sample data (Accounts, Contacts, Leads) in the scratch org. To prevent this, go to the [scratch org definition](./config/project-scratch-def.json) and change `hasSampleData` to `false`.
-    ```
-	"hasSampleData": false,
-	```
 
 - To create a sample Action Plan Template for Account onboarding, run the following:
 	```
