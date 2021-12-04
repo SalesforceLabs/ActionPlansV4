@@ -38,10 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 global without sharing class ActionPlansTriggerHandlers {
 	/**
-	 *
-	 */
-	/**
-	 * @description Global so that if in managed package, this method is the only one available
+	 * Global so that if in managed package, this method is the only one available
 	 * @author David Schach
 	 * @param  sObjectName the name of the sObject
 	 */
@@ -336,7 +333,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				Schema.DescribeSObjectResult apttDescribe = aptttype.getDescribe();
 				String apttObjectName = apttDescribe.getName();
 				String apttPrefix = ActionPlansUtilities.getObjectKeyPrefix(apttObjectName);
-				System.debug('prefix for ' + apttObjectName + ' is ' + apttPrefix);
+				//System.debug('prefix for ' + apttObjectName + ' is ' + apttPrefix);
 				for (APTTaskTemplate__c aptt : newRecords) {
 					if (
 						aptt.Name == null ||
@@ -489,7 +486,6 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 				//only delete Action Plan Template Tasks that are not deleted
-
 				for (APTaskTemplate__c ta : [SELECT Id, Action_Plan__c FROM APTaskTemplate__c WHERE Id IN :taskTempIds AND isDeleted = FALSE ALL ROWS]) {
 					finalIds.add(ta.Id);
 				}
@@ -550,7 +546,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
-				System.debug('mySettings ' + mySettings);
+				//System.debug('mySettings ' + mySettings);
 				String destinationObject = mysettings.Default_Object_on_Lead_Conversion__c;
 				if (destinationObject != null) {
 					destinationObject = destinationObject.toLowerCase();
@@ -575,7 +571,7 @@ global without sharing class ActionPlansTriggerHandlers {
 						toUpdate.add(ap);
 					}
 				}
-				System.debug('APs to Update pre-update: ' + toUpdate);
+				//System.debug('APs to Update pre-update: ' + toUpdate);
 				update toUpdate;
 			}
 		}

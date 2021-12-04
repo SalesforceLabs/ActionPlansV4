@@ -36,6 +36,11 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+/**
+ * @group Invocable
+ * @author David Schach
+ * @since v4
+ */
 global without sharing class ActionPlanCreateInvocable {
 	@InvocableMethod(label='Create Action Plan From Template' description='Takes a Template Name/Id and Record Id and makes an Action Plan for that record.' category='ActionPlans')
 	global static List<Id> makeActionPlanFromTemplate(List<CreateActionPlanRequest> requests) {

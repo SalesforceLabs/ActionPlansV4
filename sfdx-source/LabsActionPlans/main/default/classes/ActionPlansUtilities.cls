@@ -34,10 +34,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 public without sharing class ActionPlansUtilities {
-
 	/*************
 	 * CONSTANTS *
-	*************/
+	 *************/
 
 	// Max number of APTasks per Action Plan
 	public static final Integer MAX_APTASKS = 400;
@@ -51,11 +50,11 @@ public without sharing class ActionPlansUtilities {
 	public static final Boolean HAS_RECORD_TYPE = setHasRecordType();
 
 	/**
-	 * @description Actions to perform whenever loading a Visualforce page
+	 * Actions to perform whenever loading a Visualforce page
 	 * Ensures that Custom Setting is created for the org
 	 * @return   null PageReference
 	 */
-	public static PageReference onPageLoad(){
+	public static PageReference onPageLoad() {
 		getCustomSetting();
 		return null;
 	}
@@ -63,8 +62,8 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Allows us to force the environment variable checking if Task has a Record Type for testing. Increases code coverage.
 	 */
-	private static Boolean setHasRecordType(){
-		if(ActionPlansTestUtilities.forceHasRecordType != null){
+	private static Boolean setHasRecordType() {
+		if (ActionPlansTestUtilities.forceHasRecordType != null) {
 			return ActionPlansTestUtilities.forceHasRecordType;
 		} else {
 			ActionPlansTestUtilities.forceHasRecordType = Task.sObjectType.getDescribe().fields.getMap().containsKey('recordtypeid');
@@ -72,30 +71,29 @@ public without sharing class ActionPlansUtilities {
 		return ActionPlansTestUtilities.forceHasRecordType;
 	}
 
-
 	/**
 	 * Section to describe ActionPlan object to make custom relationship fields dynamic
 	 */
 
 	private static List<String> apCustomRelationshipFields;
 
-	public static List<String> getCustomRelationshipFields(){
-		if(apCustomRelationshipFields == null){
+	public static List<String> getCustomRelationshipFields() {
+		if (apCustomRelationshipFields == null) {
 			List<String> referenceFieldNames = new List<String>();
 
 			Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.ActionPlan__c.fields.getMap();
 
-			for(String s : fieldMap.keyset()){
-
-				if(s.containsIgnoreCase('.')){ continue; }
+			for (String s : fieldMap.keyset()) {
+				if (s.containsIgnoreCase('.')) {
+					continue;
+				}
 				Schema.DescribeFieldResult dfr = fieldMap.get(s).getDescribe();
 				Schema.DisplayType dt = dfr.getType();
-				if(dt.name().equalsIgnoreCase('Reference') && s.endsWithIgnoreCase('__c')){
+				if (dt.name().equalsIgnoreCase('Reference') && s.endsWithIgnoreCase('__c')) {
 					String relatedObjectName = dfr.getReferenceTo()[0].getDescribe().getName();
 
-					if( !relatedObjectName.startsWithIgnoreCase(ActionPlansUtilities.namespacePrefix + 'ActionPlan') )
-					{
-						System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
+					if (!relatedObjectName.startsWithIgnoreCase(ActionPlansUtilities.namespacePrefix + 'ActionPlan')) {
+						//System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
 						referenceFieldNames.add(s);
 					}
 				}
@@ -107,21 +105,21 @@ public without sharing class ActionPlansUtilities {
 	}
 
 	/**
-	* Get prefix of sObject
-	* @param objName
-	* @return obj.getKeyPrefix()
-	*/
-	public static String getObjectKeyPrefix( String objName ){
-		Schema.DescribeSObjectResult obj = Schema.getGlobalDescribe().get( objName ).getDescribe();
+	 * Get prefix of sObject
+	 * @param objName
+	 * @return obj.getKeyPrefix()
+	 */
+	public static String getObjectKeyPrefix(String objName) {
+		Schema.DescribeSObjectResult obj = Schema.getGlobalDescribe().get(objName).getDescribe();
 		return obj.getKeyPrefix();
 	}
 
 	/**
 	 * Lazy load task record types to reduce queries
-	 * @since 4
+	 * @since v4
 	 */
-	private static List<SObject> getTaskRecordTypes(){
-		if(taskRecordTypes == null){
+	private static List<SObject> getTaskRecordTypes() {
+		if (taskRecordTypes == null) {
 			String taskRTQuery = 'SELECT Id, IsActive, Name FROM RecordType WHERE SObjectType = \'Task\' AND IsActive = true ORDER BY Name ASC';
 			taskRecordTypes = Database.query(taskRTQuery);
 		}
@@ -131,20 +129,19 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Status
-	 * @since 4
+	 * @since v4
 	 */
-	public static Map<Id, String> getTaskRecordTypeStatusDefaultValues(){
-		if(taskRecordTypeStatusDefaultValues == null){
+	public static Map<Id, String> getTaskRecordTypeStatusDefaultValues() {
+		if (taskRecordTypeStatusDefaultValues == null) {
 			taskRecordTypeStatusDefaultValues = new Map<Id, String>();
-			if(ActionPlansUtilities.HAS_RECORD_TYPE){
-				for( SObject rt : getTaskRecordTypes() ){
-					Task t = (Task)Task.sObjectType.newSObject((Id)rt.get('Id'), true);
-					taskRecordTypeStatusDefaultValues.put((Id)rt.get('Id'), t.Status);
+			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+				for (SObject rt : getTaskRecordTypes()) {
+					Task t = (Task) Task.sObjectType.newSObject((Id) rt.get('Id'), true);
+					taskRecordTypeStatusDefaultValues.put((Id) rt.get('Id'), t.Status);
 				}
 			} else {
-				taskRecordTypeStatusDefaultValues.put(null, (String)Task.Status.getDescribe().getDefaultValue());
+				taskRecordTypeStatusDefaultValues.put(null, (String) Task.Status.getDescribe().getDefaultValue());
 			}
-
 		}
 		return taskRecordTypeStatusDefaultValues;
 	}
@@ -152,18 +149,18 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Type
-	 * @since 4
+	 * @since v4
 	 */
-	public static Map<Id, String> getTaskRecordTypeTypeDefaultValues(){
-		if(taskRecordTypeTypeDefaultValues == null){
+	public static Map<Id, String> getTaskRecordTypeTypeDefaultValues() {
+		if (taskRecordTypeTypeDefaultValues == null) {
 			taskRecordTypeTypeDefaultValues = new Map<Id, String>();
-			if(ActionPlansUtilities.HAS_RECORD_TYPE){
-				for( SObject rt : getTaskRecordTypes() ){
-					Task t = (Task)Task.sObjectType.newSObject((Id)rt.get('Id'), true);
-					taskRecordTypeTypeDefaultValues.put((Id)rt.get('Id'), t.Type);
+			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+				for (SObject rt : getTaskRecordTypes()) {
+					Task t = (Task) Task.sObjectType.newSObject((Id) rt.get('Id'), true);
+					taskRecordTypeTypeDefaultValues.put((Id) rt.get('Id'), t.Type);
 				}
 			} else {
-				Task t = (Task)Task.sObjectType.newSObject(null, true);
+				Task t = (Task) Task.sObjectType.newSObject(null, true);
 				taskRecordTypeTypeDefaultValues.put(null, t.Type);
 			}
 		}
@@ -171,22 +168,20 @@ public without sharing class ActionPlansUtilities {
 	}
 	private static Map<Id, String> taskRecordTypeTypeDefaultValues;
 
-
 	/**
 	 * Generate Map of Record Type Id to default Task Priority
-	 * @since 4
+	 * @since v4
 	 */
-	public static Map<Id, String> getTaskRecordTypePriorityDefaultValues(){
-		if(taskRecordTypePriorityDefaultValues == null){
+	public static Map<Id, String> getTaskRecordTypePriorityDefaultValues() {
+		if (taskRecordTypePriorityDefaultValues == null) {
 			taskRecordTypePriorityDefaultValues = new Map<Id, String>();
-			if(ActionPlansUtilities.HAS_RECORD_TYPE){
-				for( SObject rt : getTaskRecordTypes() ){
-					Task t = (Task)Task.sObjectType.newSObject((Id)rt.get('Id'), true);
-					taskRecordTypePriorityDefaultValues.put((Id)rt.get('Id'), t.Priority);
-
+			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+				for (SObject rt : getTaskRecordTypes()) {
+					Task t = (Task) Task.sObjectType.newSObject((Id) rt.get('Id'), true);
+					taskRecordTypePriorityDefaultValues.put((Id) rt.get('Id'), t.Priority);
 				}
 			} else {
-				taskRecordTypePriorityDefaultValues.put(null, (String)Task.Priority.getDescribe().getDefaultValue());
+				taskRecordTypePriorityDefaultValues.put(null, (String) Task.Priority.getDescribe().getDefaultValue());
 			}
 		}
 		return taskRecordTypePriorityDefaultValues;
@@ -195,15 +190,15 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Find user default recordtype
-	 * @since 4
+	 * @since v4
 	 */
-	public static String getDefaultTaskRecordTypeId(){
+	public static String getDefaultTaskRecordTypeId() {
 		String toReturn = null;
-		if(ActionPlansUtilities.HAS_RECORD_TYPE){
+		if (ActionPlansUtilities.HAS_RECORD_TYPE) {
 			List<Schema.RecordTypeInfo> recordTypeInfoList = Task.SObjectType.getDescribe().getRecordTypeInfos();
-			for(RecordTypeInfo info : recordTypeInfoList) {
+			for (RecordTypeInfo info : recordTypeInfoList) {
 				//Check default record type
-				if(info.isDefaultRecordTypeMapping()){
+				if (info.isDefaultRecordTypeMapping()) {
 					toReturn = info.getRecordTypeId();
 					break;
 				}
@@ -214,13 +209,13 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate picklist of Task Record Types
-	 * @since 4
+	 * @since v4
 	 */
-	public static List<SelectOption> getTaskRTPicklistValues(){
-		if(taskRTs == null){
+	public static List<SelectOption> getTaskRTPicklistValues() {
+		if (taskRTs == null) {
 			taskRTs = new List<SelectOption>();
-			for( SObject rt : getTaskRecordTypes()){
-				SelectOption so = new SelectOption((String)rt.get('Id'), (String)rt.get('Name'), !(Boolean)rt.get('IsActive'));
+			for (SObject rt : getTaskRecordTypes()) {
+				SelectOption so = new SelectOption((String) rt.get('Id'), (String) rt.get('Name'), !(Boolean) rt.get('IsActive'));
 				taskRTs.add(so);
 			}
 		}
@@ -230,12 +225,12 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Lazy load open task statuses
-	 * @since 4
+	 * @since v4
 	 */
-	public static Set<String> getOpenTaskStatuses(){
-		if(openTaskStatuses == null){
+	public static Set<String> getOpenTaskStatuses() {
+		if (openTaskStatuses == null) {
 			openTaskStatuses = new Set<String>();
-			for(TaskStatus ts : [SELECT IsClosed, MasterLabel FROM TaskStatus WHERE IsClosed = false]){
+			for (TaskStatus ts : [SELECT IsClosed, MasterLabel FROM TaskStatus WHERE IsClosed = FALSE]) {
 				openTaskStatuses.add(ts.MasterLabel);
 			}
 		}
@@ -248,10 +243,10 @@ public without sharing class ActionPlansUtilities {
 	 * @return List of completed statuses
 	 */
 	private static Set<String> closedTaskStatuses;
-	public static Set<String> getClosedTaskStatuses(){
-		if(closedTaskStatuses == null){
+	public static Set<String> getClosedTaskStatuses() {
+		if (closedTaskStatuses == null) {
 			closedTaskStatuses = new Set<String>();
-			for(TaskStatus ts : [SELECT IsClosed, MasterLabel FROM TaskStatus WHERE IsClosed = true]){
+			for (TaskStatus ts : [SELECT IsClosed, MasterLabel FROM TaskStatus WHERE IsClosed = TRUE]) {
 				closedTaskStatuses.add(ts.MasterLabel);
 			}
 		}
@@ -264,91 +259,90 @@ public without sharing class ActionPlansUtilities {
 	 * @param fieldname     the field name
 	 * @return              List<SelectOption>
 	 */
-	public static List<SelectOption> getFieldOptions(String objectname, String fieldname, Boolean hasDefaultValue){
+	public static List<SelectOption> getFieldOptions(String objectname, String fieldname, Boolean hasDefaultValue) {
 		List<SelectOption> toReturn = new List<SelectOption>();
-		Schema.DescribeSObjectResult obj = Schema.getGlobalDescribe().get( objectname ).getDescribe();
+		Schema.DescribeSObjectResult obj = Schema.getGlobalDescribe().get(objectname).getDescribe();
 		Schema.SObjectField sof = obj.fields.getMap().get(fieldname);
 
-		for(Schema.PicklistEntry spe : sof.getDescribe().getPicklistValues()){
-			if(spe.isDefaultValue()){
+		for (Schema.PicklistEntry spe : sof.getDescribe().getPicklistValues()) {
+			if (spe.isDefaultValue()) {
 				hasDefaultValue = true;
 			}
 			toReturn.add(new Selectoption(spe.getValue(), spe.getLabel()));
 		}
-		if(hasDefaultValue == null || !hasDefaultValue){
-			toReturn.add( 0, new SelectOption( '', '--' + System.Label.ap_None +'--' ) );
+		if (hasDefaultValue == null || !hasDefaultValue) {
+			toReturn.add(0, new SelectOption('', '--' + System.Label.ap_None + '--'));
 		}
 		return toReturn;
 	}
 
 	/**
-	* Set the Hours for select box of Reminder Time
-	* @return options
-	*/
+	 * Set the Hours for select box of Reminder Time
+	 * @return options
+	 */
 	public static List<SelectOption> getHoursOption() {
+		List<SelectOption> options = new List<SelectOption>();
+		options.add(new SelectOption('0', '12:00 AM'));
+		options.add(new SelectOption('30', '12:30 AM'));
+		options.add(new SelectOption('60', '1:00 AM'));
+		options.add(new SelectOption('90', '1:30 AM'));
+		options.add(new SelectOption('120', '2:00 AM'));
+		options.add(new SelectOption('150', '2:30 AM'));
+		options.add(new SelectOption('180', '3:00 AM'));
+		options.add(new SelectOption('210', '3:30 AM'));
+		options.add(new SelectOption('240', '4:00 AM'));
+		options.add(new SelectOption('270', '4:30 AM'));
+		options.add(new SelectOption('300', '5:00 AM'));
+		options.add(new SelectOption('330', '5:30 AM'));
+		options.add(new SelectOption('360', '6:00 AM'));
+		options.add(new SelectOption('390', '6:30 AM'));
+		options.add(new SelectOption('420', '7:00 AM'));
+		options.add(new SelectOption('450', '7:30 AM'));
+		options.add(new SelectOption('480', '8:00 AM'));
+		options.add(new SelectOption('510', '8:30 AM'));
+		options.add(new SelectOption('540', '9:00 AM'));
+		options.add(new SelectOption('570', '9:30 AM'));
+		options.add(new SelectOption('600', '10:00 AM'));
+		options.add(new SelectOption('630', '10:30 AM'));
+		options.add(new SelectOption('660', '11:00 AM'));
+		options.add(new SelectOption('690', '11:30 AM'));
+		options.add(new SelectOption('720', '12:00 PM'));
+		options.add(new SelectOption('750', '12:30 PM'));
+		options.add(new SelectOption('780', '1:00 PM'));
+		options.add(new SelectOption('810', '1:30 PM'));
+		options.add(new SelectOption('840', '2:00 PM'));
+		options.add(new SelectOption('870', '2:30 PM'));
+		options.add(new SelectOption('900', '3:00 PM'));
+		options.add(new SelectOption('930', '3:30 PM'));
+		options.add(new SelectOption('960', '4:00 PM'));
+		options.add(new SelectOption('990', '4:30 PM'));
+		options.add(new SelectOption('1020', '5:00 PM'));
+		options.add(new SelectOption('1050', '5:30 PM'));
+		options.add(new SelectOption('1080', '6:00 PM'));
+		options.add(new SelectOption('1110', '6:30 PM'));
+		options.add(new SelectOption('1140', '7:00 PM'));
+		options.add(new SelectOption('1170', '7:30 PM'));
+		options.add(new SelectOption('1200', '8:00 PM'));
+		options.add(new SelectOption('1230', '8:30 PM'));
+		options.add(new SelectOption('1260', '9:00 PM'));
+		options.add(new SelectOption('1290', '9:30 PM'));
+		options.add(new SelectOption('1320', '10:00 PM'));
+		options.add(new SelectOption('1350', '10:30 PM'));
+		options.add(new SelectOption('1380', '11:00 PM'));
+		options.add(new SelectOption('1410', '11:30 PM'));
 
- 	 	List<SelectOption> options = new List<SelectOption>();
- 	 	options.add( new SelectOption( '0',  '12:00 AM'  ) );
- 	 	options.add( new SelectOption( '30', '12:30 AM'  ) );
-		options.add( new SelectOption( '60', '1:00 AM'   ) );
-		options.add( new SelectOption( '90', '1:30 AM'   ) );
-		options.add( new SelectOption( '120', '2:00 AM'  ) );
-		options.add( new SelectOption( '150', '2:30 AM'  ) );
-		options.add( new SelectOption( '180', '3:00 AM'  ) );
-		options.add( new SelectOption( '210', '3:30 AM'  ) );
-		options.add( new SelectOption( '240', '4:00 AM'  ) );
-		options.add( new SelectOption( '270', '4:30 AM'  ) );
-		options.add( new SelectOption( '300', '5:00 AM'  ) );
-		options.add( new SelectOption( '330', '5:30 AM'  ) );
-		options.add( new SelectOption( '360', '6:00 AM'  ) );
-		options.add( new SelectOption( '390', '6:30 AM'  ) );
-		options.add( new SelectOption( '420', '7:00 AM'  ) );
-		options.add( new SelectOption( '450', '7:30 AM'  ) );
-		options.add( new SelectOption( '480', '8:00 AM'  ) );
-		options.add( new SelectOption( '510', '8:30 AM'  ) );
-		options.add( new SelectOption( '540', '9:00 AM'  ) );
-		options.add( new SelectOption( '570', '9:30 AM'  ) );
-		options.add( new SelectOption( '600', '10:00 AM' ) );
-		options.add( new SelectOption( '630', '10:30 AM' ) );
-		options.add( new SelectOption( '660', '11:00 AM' ) );
-		options.add( new SelectOption( '690', '11:30 AM' ) );
-		options.add( new SelectOption( '720', '12:00 PM' ) );
-		options.add( new SelectOption( '750', '12:30 PM' ) );
-		options.add( new SelectOption( '780', '1:00 PM'  ) );
-		options.add( new SelectOption( '810', '1:30 PM'  ) );
-		options.add( new SelectOption( '840', '2:00 PM'  ) );
-		options.add( new SelectOption( '870', '2:30 PM'  ) );
-		options.add( new SelectOption( '900', '3:00 PM'  ) );
-		options.add( new SelectOption( '930', '3:30 PM'  ) );
-		options.add( new SelectOption( '960', '4:00 PM'  ) );
-		options.add( new SelectOption( '990', '4:30 PM'  ) );
-		options.add( new SelectOption( '1020', '5:00 PM' ) );
-		options.add( new SelectOption( '1050', '5:30 PM' ) );
-		options.add( new SelectOption( '1080', '6:00 PM' ) );
-		options.add( new SelectOption( '1110', '6:30 PM' ) );
-		options.add( new SelectOption( '1140', '7:00 PM' ) );
-		options.add( new SelectOption( '1170', '7:30 PM' ) );
-		options.add( new SelectOption( '1200', '8:00 PM' ) );
-		options.add( new SelectOption( '1230', '8:30 PM' ) );
-		options.add( new SelectOption( '1260', '9:00 PM' ) );
-		options.add( new SelectOption( '1290', '9:30 PM' ) );
-		options.add( new SelectOption( '1320', '10:00 PM' ) );
-		options.add( new SelectOption( '1350', '10:30 PM' ) );
-		options.add( new SelectOption( '1380', '11:00 PM' ) );
-		options.add( new SelectOption( '1410', '11:30 PM' ) );
-
- 	 	return options;
-  	}
+		return options;
+	}
 
 	/**
-	* Verifies that the user is able to add reminders.
-	* Checks the existence of a reminder setting field of the user object.
-	* Mathod can be improved by asking for Reminder Options at Activity settings.
-	* Does not query if the user wants reminders by default
-	* @return if the user has access to reminders
-	*/
-	public static Boolean getCanDisplayReminder(){
-		if(canDisplayReminder == null){
+	 * Verifies that the user is able to add reminders.
+	 * Checks the existence of a reminder setting field of the user object.
+	 * Mathod can be improved by asking for Reminder Options at Activity settings.
+	 * Does not query if the user wants reminders by default
+	 * @return if the user has access to reminders
+	 */
+	public static Boolean getCanDisplayReminder() {
+		if (canDisplayReminder == null) {
 			canDisplayReminder = Schema.sObjectType.User.fields.getMap().containsKey('UserPreferencesTaskRemindersCheckboxDefault');
 		}
 		return canDisplayReminder;
@@ -358,15 +352,15 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Check user preferences for whether to show task reminders by default
 	 * @return Boolean if Task reminder checkbox should be checked by default (this will override default value)
-	 * @since 4
+	 * @since v4
 	 */
-	public static Boolean getCheckReminderByDefault(){
-		if(checkReminderByDefault == null){
+	public static Boolean getCheckReminderByDefault() {
+		if (checkReminderByDefault == null) {
 			checkReminderByDefault = false;
-			if(getCanDisplayReminder()){
+			if (getCanDisplayReminder()) {
 				String reminderQuery = 'SELECT Name, UserPreferencesTaskRemindersCheckboxDefault FROM User WHERE Id = \'' + UserInfo.getUserId() + '\'';
 				List<SObject> sList = Database.query(reminderQuery);
-				checkReminderByDefault = (Boolean)sList[0].get('UserPreferencesTaskRemindersCheckboxDefault');
+				checkReminderByDefault = (Boolean) sList[0].get('UserPreferencesTaskRemindersCheckboxDefault');
 			}
 		}
 		return checkReminderByDefault;
@@ -374,18 +368,16 @@ public without sharing class ActionPlansUtilities {
 	private static Boolean checkReminderByDefault;
 
 	/**
-	* Gets task reminder default time for current user
-	* @return String picklist value
-	*/
-	public static String getDefaultReminderMinutes(){
-		if(defaultMinutesForReminderTime == null){
+	 * Gets task reminder default time for current user
+	 * @return String picklist value
+	 */
+	public static String getDefaultReminderMinutes() {
+		if (defaultMinutesForReminderTime == null) {
 			Map<String, Schema.SObjectField> fieldsMap = Schema.sObjectType.User.fields.getMap();
 			defaultMinutesForReminderTime = '480';
 
-			List<UserPreference> uP = [SELECT Value
-										FROM UserPreference
-										WHERE UserId = :Userinfo.getUserId() AND Preference = '58'];
-			if ( !uP.isEmpty() ){
+			List<UserPreference> uP = [SELECT Value FROM UserPreference WHERE UserId = :Userinfo.getUserId() AND Preference = '58'];
+			if (!uP.isEmpty()) {
 				defaultMinutesForReminderTime = uP[0].Value;
 			}
 		}
@@ -394,24 +386,22 @@ public without sharing class ActionPlansUtilities {
 	private static String defaultMinutesForReminderTime;
 
 	/**
-	* Get the "Default" Custom Setting and return it.
-	* @return cSetting
-	*/
-	public static Action_Plans_Settings__c getCustomSetting(){
+	 * Get the "Default" Custom Setting and return it.
+	 * @return cSetting
+	 */
+	public static Action_Plans_Settings__c getCustomSetting() {
 		Action_Plans_Settings__c instance;
 		instance = Action_Plans_Settings__c.getOrgDefaults();
-		if(instance.Id == null){
+		if (instance.Id == null) {
 			instance = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
-			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = true][0].Id;
+			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
 			instance.Default_Object_on_Lead_Conversion__c = 'Contact';
 			instance.Unassigned_Task_Default__c = true;
 			instance.Chatter_Object_Brag__c = false;
-		}
-		else {
+		} else {
 			instance = Action_Plans_Settings__c.getInstance();
 		}
 		return instance;
-
 	}
 
 	/**
@@ -419,7 +409,7 @@ public without sharing class ActionPlansUtilities {
 	 * @param the long string
 	 * @return the full string or shortened if longer than 80 characters
 	 */
-	public static String actionPlanSubjectToName(String subject){
+	public static String actionPlanSubjectToName(String subject) {
 		return actionPlanSubjectToName(subject, 80);
 	}
 
@@ -428,19 +418,21 @@ public without sharing class ActionPlansUtilities {
 	 * @param the long string
 	 * @return the full string or shortened if longer than max characters
 	 */
-	public static String actionPlanSubjectToName(String subject, Integer maxChars){
-		if(subject == null){System.debug('NULL SUBJECT'); return null;}
-		if( subject.trim().length() > maxChars ){
+	public static String actionPlanSubjectToName(String subject, Integer maxChars) {
+		if (subject == null) {
+			System.debug('NULL SUBJECT');
+			return null;
+		}
+		if (subject.trim().length() > maxChars) {
 			return subject.left(maxChars - 3).trim() + '...';
 		}
 		return subject;
 	}
 
-
 	//private static Boolean orgCanSendEmails;
 	public static Boolean canSendEmails() {
 		Boolean orgCanSendEmails;
-		if (orgCanSendEmails == null){
+		if (orgCanSendEmails == null) {
 			// An attempt to reserve some email capacity is the only means available for determining permissions
 			// or limits issues. In the case of a lack of permissions, System.NoAccessException is thrown. If
 			// limits are exhausted then System.HandledException is thrown
@@ -456,19 +448,15 @@ public without sharing class ActionPlansUtilities {
 		return orgCanSendEmails;
 	}
 
-	public static String getDayOfWeek(Date d){
-
+	public static String getDayOfWeek(Date d) {
 		Date monday = Date.newInstance(1900, 1, 1);
 		Integer dayOfWeek = Math.mod(monday.daysBetween(d), 7);
 		return dayOfWeekEnglish.get(dayOfWeek);
-
 	}
 
-	public static Map<Integer, String> dayOfWeekEnglish = new Map<Integer, String>{
-		0 => 'Monday', 1 => 'Tuesday', 2 => 'Wednesday', 3 => 'Thursday', 4 => 'Friday', 5 => 'Saturday', 6 => 'Sunday'
-	};
+	public static Map<Integer, String> dayOfWeekEnglish = new Map<Integer, String>{ 0 => 'Monday', 1 => 'Tuesday', 2 => 'Wednesday', 3 => 'Thursday', 4 => 'Friday', 5 => 'Saturday', 6 => 'Sunday' };
 
-	public static Weekend_Day__mdt getWeekendDay(String developerName){
+	public static Weekend_Day__mdt getWeekendDay(String developerName) {
 		return Weekend_Day__mdt.getInstance(developerName);
 	}
 
@@ -478,39 +466,37 @@ public without sharing class ActionPlansUtilities {
 	 * @param taskDaysFromStart the days after the initial date that the task will be due
 	 * @return the new task due date
 	 */
-	public static Date adjustTaskDueDate(Date actionPlanStartDate, Integer taskDaysFromStart, String apSkipDay){
-
-		Date dueDate = actionPlanStartDate.addDays( taskDaysFromStart );
+	public static Date adjustTaskDueDate(Date actionPlanStartDate, Integer taskDaysFromStart, String apSkipDay) {
+		Date dueDate = actionPlanStartDate.addDays(taskDaysFromStart);
 
 		// find if the due date fall on a Saturday or Sunday.  Add 1 day for Sunday and 2 for Saturday
 		//Date refDate        = Date.newInstance(1900, 1, 7);  // Jan 7 1900 = Sun
 		//Integer dayOfWeek   = Math.mod(refDate.daysBetween(dueDate), 7); // 0 = Sun ... 6 = Sat
 
-		String dayName = ActionPlansUtilities.getDayOfWeek( dueDate );
+		String dayName = ActionPlansUtilities.getDayOfWeek(dueDate);
 
-		Weekend_Day__mdt cmdt = ActionPlansUtilities.getWeekendDay(dayName);  //Weekend_Day__mdt.getInstance(dayName);
+		Weekend_Day__mdt cmdt = ActionPlansUtilities.getWeekendDay(dayName); //Weekend_Day__mdt.getInstance(dayName);
 
 		Integer addDays = 0;
 
-		if( apSkipDay != null && apSkipDay.startsWithIgnoreCase('End')){
+		if (apSkipDay != null && apSkipDay.startsWithIgnoreCase('End')) {
 			Integer daysToAdjust = cmdt.Days_from_end_of_previous_week__c.intValue();
 			addDays = addDays - daysToAdjust;
-		}
-		else if( apSkipDay != null && apSkipDay.startsWithIgnoreCase('Start')){
+		} else if (apSkipDay != null && apSkipDay.startsWithIgnoreCase('Start')) {
 			Integer daysToAdjust = cmdt.Days_to_start_of_next_week__c.intValue();
 			addDays = addDays + daysToAdjust;
 		}
 		/* if(addDays != 0){
 			System.debug('Task is now due on a ' + ActionPlansUtilities.getDayOfWeek( dueDate.addDays( addDays ) ));
 		} */
-		return dueDate.addDays( addDays );
+		return dueDate.addDays(addDays);
 	}
 
-	/*******
+	/**
 	 * Detect user theme
 	 */
-	public static Boolean getIsLex(){
-		return ( UserInfo.getUiThemeDisplayed().containsIgnoreCase('theme4') );
+	public static Boolean getIsLex() {
+		return (UserInfo.getUiThemeDisplayed().containsIgnoreCase('theme4'));
 	}
 
 	/**

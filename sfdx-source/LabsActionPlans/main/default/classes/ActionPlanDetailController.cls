@@ -37,18 +37,19 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-public with sharing class ActionPlanDetailController{
-
-	private ActionPlan__c            actionPlan;
-	public Boolean                  hasRecordType   { get; set; }
-	public Boolean					canDisplayReminder    { get; private set; }
+/**
+ * @group Visualforce
+ */
+public with sharing class ActionPlanDetailController {
+	private ActionPlan__c actionPlan;
+	public Boolean hasRecordType { get; set; }
+	public Boolean canDisplayReminder { get; private set; }
 
 	/**
-	* Constructor
-	*/
-	public ActionPlanDetailController( ApexPages.StandardController stdController ){
-
-		actionPlan = ( ActionPlan__c ) stdController.getRecord();
+	 * Constructor
+	 */
+	public ActionPlanDetailController(ApexPages.StandardController stdController) {
+		actionPlan = (ActionPlan__c) stdController.getRecord();
 
 		hasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
 
@@ -56,40 +57,41 @@ public with sharing class ActionPlanDetailController{
 	}
 
 	/**
-	* Deletes the current Action Plan loaded and redirects to the AP List
-	* @return newPage
-	*/
-	public PageReference deletePlan(){
-
+	 * Deletes the current Action Plan loaded and redirects to the AP List
+	 * @return newPage
+	 */
+	public PageReference deletePlan() {
 		//delete ap, which will also delete apts via master-detail relationship
-		try{
+		try {
 			new ActionPlansSafely().doDelete(actionPlan);
-		} catch( Exception e ){
-			ApexPages.addMessages(e); return null;
+		} catch (Exception e) {
+			ApexPages.addMessages(e);
+			return null;
 		}
 
-		SetupEntityAccess[] accessSettings =
-			[SELECT Id
+		SetupEntityAccess[] accessSettings = [
+			SELECT Id
 			FROM SetupEntityAccess
-			WHERE SetupEntityId IN (SELECT Id
-									FROM ApexPage
-									WHERE
-									//NamespacePrefix = :your_namespace AND
-									Name = 'ActionPlansHome')
-			AND ParentId IN (SELECT PermissionSetId
-							FROM PermissionSetAssignment
-							WHERE AssigneeId = :UserInfo.getUserId())];
+			WHERE
+				SetupEntityId IN (
+					SELECT Id
+					FROM ApexPage
+					WHERE
+						//NamespacePrefix = :your_namespace AND
+						Name = 'ActionPlansHome'
+				)
+				AND ParentId IN (SELECT PermissionSetId FROM PermissionSetAssignment WHERE AssigneeId = :UserInfo.getUserId())
+		];
 		Boolean useString = true;
-		String retURL = '/' + ActionPlansUtilities.namespacePrefix + ActionPlansUtilities.getObjectKeyPrefix( ActionPlansUtilities.namespacePrefix + 'ActionPlan__c' ) + '/o' ;
+		String retURL = '/' + ActionPlansUtilities.namespacePrefix + ActionPlansUtilities.getObjectKeyPrefix(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c') + '/o';
 
-		if(ApexPages.currentPage().getParameters().get('templateId') != null){
+		if (ApexPages.currentPage().getParameters().get('templateId') != null) {
 			retUrl = '/' + ApexPages.currentPage().getParameters().get('templateId');
-		}
-		else if(ApexPages.currentPage().getParameters().get('retURL') != null && !ActionPlansUtilities.getIsLex()){
+		} else if (ApexPages.currentPage().getParameters().get('retURL') != null && !ActionPlansUtilities.getIsLex()) {
 			retURL = '' + ApexPages.currentPage().getParameters().get('retURL');
 		}
-		Pagereference newPage = new PageReference( '' + retURL );
-		newPage.setRedirect( true );
+		Pagereference newPage = new PageReference('' + retURL);
+		newPage.setRedirect(true);
 
 		return newPage;
 	}
@@ -98,20 +100,44 @@ public with sharing class ActionPlanDetailController{
 	 * Collect and return all TaskWrappers
 	 */
 	private List<TaskWrapper> apTaskWrapperList;
-	public List<TaskWrapper> getActionPlanTasks(){
-		if(apTaskWrapperList == null){
+	public List<TaskWrapper> getActionPlanTasks() {
+		if (apTaskWrapperList == null) {
 			apTaskWrapperList = new List<TaskWrapper>();
-			Map<Id, APTaskTemplate__c> apTaskMap = new Map<Id, APTaskTemplate__c>([SELECT Action_Plan__c, ActivityDate__c, Controller__c, Controller__r.Subject__c,
-							Comments__c, DaysFromStart__c, Dependent__c, Id,
-							IsClosed__c, Minutes_Reminder__c, Name, Priority__c, Reminder__c, Time_Reminder__c, SendEmail__c, Status__c, Subject__c, Task_RecordTypeId__c,
-							TaskIndex__c, Type__c, User__c, User__r.Name
-							FROM APTaskTemplate__c
-							WHERE Action_Plan__c = :actionPlan.Id ORDER BY TaskIndex__c ASC]);
+			Map<Id, APTaskTemplate__c> apTaskMap = new Map<Id, APTaskTemplate__c>(
+				[
+					SELECT
+						Action_Plan__c,
+						ActivityDate__c,
+						Controller__c,
+						Controller__r.Subject__c,
+						Comments__c,
+						DaysFromStart__c,
+						Dependent__c,
+						Id,
+						IsClosed__c,
+						Minutes_Reminder__c,
+						Name,
+						Priority__c,
+						Reminder__c,
+						Time_Reminder__c,
+						SendEmail__c,
+						Status__c,
+						Subject__c,
+						Task_RecordTypeId__c,
+						TaskIndex__c,
+						Type__c,
+						User__c,
+						User__r.Name
+					FROM APTaskTemplate__c
+					WHERE Action_Plan__c = :actionPlan.Id
+					ORDER BY TaskIndex__c ASC
+				]
+			);
 			Map<Id, Id> taskTaskMap = new Map<Id, Id>();
-			for(Task t : [SELECT Id, TaskAPTaskTemplate__c FROM Task WHERE TaskAPTaskTemplate__c IN :apTaskMap.keyset()]){
+			for (Task t : [SELECT Id, TaskAPTaskTemplate__c FROM Task WHERE TaskAPTaskTemplate__c IN :apTaskMap.keyset()]) {
 				taskTaskMap.put(t.TaskAPTaskTemplate__c, t.Id);
 			}
-			for(APTaskTemplate__c a : apTaskMap.values()){
+			for (APTaskTemplate__c a : apTaskMap.values()) {
 				TaskWrapper tw;
 				Id relatedTaskId = taskTaskMap.get(a.Id);
 				tw = new TaskWrapper(a, relatedTaskId);
@@ -125,48 +151,53 @@ public with sharing class ActionPlanDetailController{
 		public APTaskTemplate__c apt { get; private set; }
 		public Id taskId { get; private set; }
 
-		public TaskWrapper(APTaskTemplate__c aptParam, Id taskIdParam){
+		public TaskWrapper(APTaskTemplate__c aptParam, Id taskIdParam) {
 			this.apt = aptParam;
 			this.taskId = taskIdParam;
 		}
 	}
 
 	/**
-	* Returns number of completed tasks
-	*/
-	public Integer getCompleted(){
-		if(actionPlan.Id == null){ return 0; }
+	 * Returns number of completed tasks
+	 */
+	public Integer getCompleted() {
+		if (actionPlan.Id == null) {
+			return 0;
+		}
 
-		List<APTaskTemplate__c> ts = [SELECT Id
-				FROM APTaskTemplate__c
-				WHERE Status__c IN :ActionPlansUtilities.getClosedTaskStatuses()
-				AND ActivityDate__c != null AND Action_Plan__c = :actionPlan.Id];
+		List<APTaskTemplate__c> ts = [
+			SELECT Id
+			FROM APTaskTemplate__c
+			WHERE Status__c IN :ActionPlansUtilities.getClosedTaskStatuses() AND ActivityDate__c != NULL AND Action_Plan__c = :actionPlan.Id
+		];
 
-		return ( ts != null ) ? ts.size() : 0;
+		return (ts != null) ? ts.size() : 0;
 	}
 
 	/**
-	* Checks if Action Plan Template has been changed since the creation of the Action Plan.
-	* @return Boolean
-	*/
-	public Boolean getVersion(){
-		if( actionPlan.Action_Plan_Template__c != null ){
+	 * Checks if Action Plan Template has been changed since the creation of the Action Plan.
+	 * @return Boolean
+	 */
+	public Boolean getVersion() {
+		if (actionPlan.Action_Plan_Template__c != null) {
 			ActionPlanTemplate__c tempApt = [SELECT LastModifiedDate FROM ActionPlanTemplate__c WHERE Id = :actionPlan.Action_Plan_Template__c];
-			if( tempApt.LastModifiedDate > actionPlan.createdDate ){
+			if (tempApt.LastModifiedDate > actionPlan.createdDate) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public String getRelatedObjectLabel(){
+	/**
+	 *
+	 * @return  label of the object related to this Action Plan
+	 */
+	public String getRelatedObjectLabel() {
+		String objLabel = '';
 
-		String objLabel='';
-
-		for( String f : ActionPlansUtilities.getCustomRelationshipFields() ){
-
-			if(actionPlan.get(f) != null){
-				Id objId = (Id)actionPlan.get(f);
+		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
+			if (actionPlan.get(f) != null) {
+				Id objId = (Id) actionPlan.get(f);
 				Schema.DescribeSObjectResult dsr = objId.getSObjectType().getDescribe();
 				objLabel = dsr.getLabel();
 				break;
@@ -175,15 +206,17 @@ public with sharing class ActionPlanDetailController{
 		return objLabel;
 	}
 
-
-	public String getrelatedRecordName(){
-
+	/**
+	 *
+	 * @return  name of the object related to this Action Plan
+	 */
+	public String getrelatedRecordName() {
 		String objName = '';
 		Id objId;
 
-		for( String f : ActionPlansUtilities.getCustomRelationshipFields() ){
-			if(actionPlan.get(f) != null){
-				objId = (Id)actionPlan.get(f);
+		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
+			if (actionPlan.get(f) != null) {
+				objId = (Id) actionPlan.get(f);
 				Schema.DescribeSObjectResult dsr = objId.getSObjectType().getDescribe();
 				objName = dsr.getName();
 				break;
@@ -203,7 +236,7 @@ public with sharing class ActionPlanDetailController{
 				String relNameQuery = 'SELECT Id, Name FROM ' + objName + ' WHERE Id = \'' + objId + '\'';
 				SObject so = Database.query(relNameQuery)[0];
 
-				return (String)so.get('Name');
+				return (String) so.get('Name');
 			}
 		}
 	}
@@ -212,15 +245,14 @@ public with sharing class ActionPlanDetailController{
 	 * Convert Record Type Id to Record Type Name
 	 * @return Record Type Name
 	 */
-	public String getRecordTypeName(){
+	public String getRecordTypeName() {
 		String toReturn = '';
-		if(ActionPlansUtilities.HAS_RECORD_TYPE){
-			Map<Id,Schema.RecordTypeInfo> rtMapById = Task.SObjectType.getDescribe().getRecordTypeInfosById();
-			if(!rtMapById.isEmpty() && rtMapById.containsKey(actionPlan.TaskRecordTypeID__c)){
+		if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			Map<Id, Schema.RecordTypeInfo> rtMapById = Task.SObjectType.getDescribe().getRecordTypeInfosById();
+			if (!rtMapById.isEmpty() && rtMapById.containsKey(actionPlan.TaskRecordTypeID__c)) {
 				return rtMapById.get(actionPlan.TaskRecordTypeID__c).getName();
 			}
 		}
 		return toReturn;
 	}
-
 }

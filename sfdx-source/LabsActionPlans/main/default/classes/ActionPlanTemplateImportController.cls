@@ -36,41 +36,40 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-public with sharing class ActionPlanTemplateImportController{
-
+/**
+ * @group Visualforce
+ */
+public with sharing class ActionPlanTemplateImportController {
 	public Attachment attachment { get; set; }
 
 	/**
-	* Constructor
-	*/
-	public ActionPlanTemplateImportController(){
+	 * Constructor
+	 */
+	public ActionPlanTemplateImportController() {
 		this.attachment = new Attachment();
 	}
 
 	/**
-	* Action that initiates the Import process
-	* @return PageReference
-	*/
-	public PageReference importTemplate(){
-
+	 * Action that initiates the Import process
+	 * @return PageReference
+	 */
+	public PageReference importTemplate() {
 		ActionPlanTemplateImport importUtil = new ActionPlanTemplateImport();
 
-		try{
-			String templateId = importUtil.processImportedDocument( this.attachment );
+		try {
+			String templateId = importUtil.processImportedDocument(this.attachment);
 
 			PageReference newPage = Page.ActionPlanTemplateDetail;
 			newPage.getParameters().put('Id', templateId);
 
-			return newPage ;
-
-		} catch( Exception ex ){
+			return newPage;
+		} catch (Exception ex) {
 			//we reinitialize the attachment when an error ocurres to prevent viewstate size errors
 			this.attachment = new Attachment();
-			ApexPages.addMessages( ex );
+			ApexPages.addMessages(ex);
 			System.debug('ERROR: ' + ex.getMessage());
 		}
 
 		return null;
 	}
-
 }

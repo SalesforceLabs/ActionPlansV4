@@ -36,8 +36,10 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+/**
+ * @group Visualforce
+ */
 public with sharing class ActionPlansCreateMultipleAPsExtension {
-
 	private ApexPages.StandardSetController standardController;
 
 	public String objIDs { get; private set; }
@@ -46,16 +48,17 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 		this.standardController = standardController;
 		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();
 		List<Id> objIDsList = new List<Id>(selected);
-		objIDs = String.join(objIDsList,',');
+		objIDs = String.join(objIDsList, ',');
 	}
 
 	public PageReference doRedirect() {
-
-		if(String.isBlank(objIDs)){
+		if (String.isBlank(objIDs)) {
 			return null;
 		}
 
-		if( !ActionPlansCanTheUser.create(new ActionPlan__c()) ) { return standardcontroller.cancel(); }
+		if (!ActionPlansCanTheUser.create(new ActionPlan__c())) {
+			return standardcontroller.cancel();
+		}
 
 		Pagereference pageRef = Page.ActionPlanCreation;
 
@@ -65,9 +68,8 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 
 		pageRef.getParameters().put('refType', objType);
 		pageRef.getParameters().put('refId', objIDs);
-		pageRef.getParameters().put('retURL', '/' + objPrefix + '/o' );
+		pageRef.getParameters().put('retURL', '/' + objPrefix + '/o');
 		pageRef.setRedirect(true);
 		return pageRef;
-
 	}
 }

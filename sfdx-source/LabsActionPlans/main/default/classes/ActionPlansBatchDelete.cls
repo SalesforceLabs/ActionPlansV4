@@ -56,7 +56,7 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 	}
 
 	/**
-	 * @description For each batch, delete the action plans and send an email on any errors
+	 * For each batch, delete the action plans and send an email on any errors
 	 * @author David Schach
 	 * @param  bc   BatchableContext
 	 * @param  data List<SObject> records to be deleted

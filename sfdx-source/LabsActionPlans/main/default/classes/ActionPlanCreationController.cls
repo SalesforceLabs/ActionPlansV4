@@ -37,6 +37,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
+/**
+ * @group Visualforce
+ */
 public with sharing class ActionPlanCreationController {
 	private Double taskIndex;
 	@TestVisible
@@ -256,7 +259,7 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * @description Action on page load to ensure custom setting is created
+	 * Action on page load to ensure custom setting is created
 	 * @return   null
 	 */
 	public PageReference onLoad() {
@@ -515,7 +518,7 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * @description Action that forwards to previous page
+	 * Action that forwards to previous page
 	 * @return PageReference
 	 */
 	public PageReference cancel() {
@@ -918,7 +921,7 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * @description query the names of the parent records from the IDs. Some standard objects have special "name" fields
+	 * query the names of the parent records from the IDs. Some standard objects have special "name" fields
 	 * @param relatedObjIds
 	 * @param relatedObjectName
 	 * @return List of related record names
