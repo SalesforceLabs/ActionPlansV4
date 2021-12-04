@@ -507,7 +507,6 @@ public without sharing class ActionPlansUtilities {
 			if (namespacePrefix == null) {
 				String[] parts = String.valueOf(ActionPlansUtilities.class).split('\\.', 2);
 				namespacePrefix = parts.size() == 2 ? parts[0] + '__' : '';
-				System.debug('namespace prefix = ' + namespacePrefix);
 			}
 			return namespacePrefix;
 		}
