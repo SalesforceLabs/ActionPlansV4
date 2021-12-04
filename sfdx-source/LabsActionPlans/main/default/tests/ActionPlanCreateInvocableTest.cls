@@ -38,18 +38,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 @IsTest
 private class ActionPlanCreateInvocableTest {
-
 	private static final Integer TASK_COUNT = 7;
 
 	@IsTest
-	private static void relatedAccount(){
-
+	private static void relatedAccount() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
 		aps.Unassigned_Task_Default__c = true;
-		try{
+		try {
 			upsert aps;
-		} catch (Exception e){
+		} catch (Exception e) {
 			update aps;
 		}
 
@@ -59,9 +57,9 @@ private class ActionPlanCreateInvocableTest {
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate( TASK_COUNT );
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 		List<APTTaskTemplate__c> allTaskTemplates = [SELECT Id, Dependent__c, SendEmail__c, Reminder__c FROM APTTaskTemplate__c];
-		for(APTTaskTemplate__c at : allTaskTemplates){
+		for (APTTaskTemplate__c at : allTaskTemplates) {
 			at.SendEmail__c = true;
 			at.Reminder__c = true;
 			at.Dependent__c = null;
@@ -69,7 +67,7 @@ private class ActionPlanCreateInvocableTest {
 		}
 		update allTaskTemplates;
 
-		Test.StartTest();
+		Test.startTest();
 
 		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, 0);
 
@@ -81,32 +79,31 @@ private class ActionPlanCreateInvocableTest {
 		Test.stopTest();
 		System.assertNotEquals(null, resultIDs);
 		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT count() FROM Task]);
-
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
-	private static void relatedContact(){
+	private static void relatedContact() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = false;
 		aps.Unassigned_Task_Default__c = false;
-		try{
+		try {
 			upsert aps;
-		} catch (Exception e){
+		} catch (Exception e) {
 			update aps;
 		}
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		Contact c = testUtil.createNewContact();
 
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate( TASK_COUNT );
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 		apTemplate.SkipDay__c = 'End of previous week';
 		update apTemplate;
 
 		List<APTTaskTemplate__c> allTaskTemplates = [SELECT Id, Dependent__c, SendEmail__c, Reminder__c FROM APTTaskTemplate__c];
-		for(APTTaskTemplate__c at : allTaskTemplates){
+		for (APTTaskTemplate__c at : allTaskTemplates) {
 			at.SendEmail__c = true;
 			at.Reminder__c = true;
 			at.Dependent__c = null;
@@ -124,18 +121,17 @@ private class ActionPlanCreateInvocableTest {
 		Test.stopTest();
 		System.assertNotEquals(null, resultIDs);
 		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT count() FROM Task]);
-
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
-	private static void relatedLead(){
+	private static void relatedLead() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		Lead a = testUtil.createNewLead();
 
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate( TASK_COUNT );
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 		apTemplate.SkipDay__c = null;
 		apTemplate.SkipWeekends__c = false;
 		update apTemplate;
@@ -150,18 +146,17 @@ private class ActionPlanCreateInvocableTest {
 		Test.stopTest();
 		System.assertNotEquals(null, resultIDs);
 		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT count() FROM Task]);
-
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
-	private static void relatedOpportunity(){
+	private static void relatedOpportunity() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		Opportunity a = testUtil.createNewOpportunity();
 
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate( TASK_COUNT );
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 
 		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, 0);
 
@@ -173,18 +168,17 @@ private class ActionPlanCreateInvocableTest {
 		Test.stopTest();
 		System.assertNotEquals(null, resultIDs);
 		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT count() FROM Task]);
-
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
-	private static void relatedCampaign(){
+	private static void relatedCampaign() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		Campaign a = testUtil.createNewCampaign();
 
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate( TASK_COUNT );
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 
 		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, 0);
 
@@ -196,18 +190,17 @@ private class ActionPlanCreateInvocableTest {
 		Test.stopTest();
 		System.assertNotEquals(null, resultIDs);
 		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT Count() FROM Task]);
-
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
-	private static void relatedContract(){
+	private static void relatedContract() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		Contract a = testUtil.createNewContract();
 
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate( TASK_COUNT );
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 
 		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, 0);
 
@@ -219,35 +212,32 @@ private class ActionPlanCreateInvocableTest {
 		Test.stopTest();
 		System.assertNotEquals(null, resultIDs);
 		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT count() FROM Task]);
-
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
-	private static void bulkAccounts(){
+	private static void bulkAccounts() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate( 2 );
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 		apTemplate.name = 'B';
 		update apTemplate;
 
 		Integer BULK_COUNT = 100;
 		List<Account> toInsert = new List<Account>();
 
-
-		for(Integer i = 0; i < BULK_COUNT; i++){
+		for (Integer i = 0; i < BULK_COUNT; i++) {
 			toInsert.add(testUtil.createNewAccount(false));
 		}
-		for(Account a : toInsert){
+		for (Account a : toInsert) {
 			a.Type = null;
 		}
 		insert toInsert;
-
 
 		Test.startTest();
 
 		List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
 
-		for(Account a : toInsert){
+		for (Account a : toInsert) {
 			ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
 			req.templateNameOrID = apTemplate.Id;
 			req.relatedRecordID = a.Id;
@@ -257,23 +247,19 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		System.assertEquals(BULK_COUNT, [SELECT Count() FROM ActionPlan__c WHERE Account__c != null]);
-
+		System.assertEquals(BULK_COUNT, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL]);
 	}
 
 	@IsTest
-	private static void checkWeekendDueDate(){
-
-		Weekend_Day__mdt weekend = [SELECT Days_from_end_of_previous_week__c, Days_to_start_of_next_week__c, DeveloperName
-										FROM Weekend_Day__mdt
-										WHERE Days_to_start_of_next_week__c != 0][0];
+	private static void checkWeekendDueDate() {
+		Weekend_Day__mdt weekend = [SELECT Days_from_end_of_previous_week__c, Days_to_start_of_next_week__c, DeveloperName FROM Weekend_Day__mdt WHERE Days_to_start_of_next_week__c != 0][0];
 		String weekendDayName = weekend.DeveloperName;
 		Date upcomingWeekendDay = Date.today();
 		Integer daysToWeekendDay = 0;
 
-		for(daysToWeekendDay = 0; daysToWeekendDay < 8; daysToWeekendDay++){
+		for (daysToWeekendDay = 0; daysToWeekendDay < 8; daysToWeekendDay++) {
 			upcomingWeekendDay = Date.today().addDays(daysToWeekendDay);
-			if( ActionPlansUtilities.getDayOfWeek(upcomingWeekendDay) == weekendDayName ){
+			if (ActionPlansUtilities.getDayOfWeek(upcomingWeekendDay) == weekendDayName) {
 				break;
 			}
 		}
@@ -281,9 +267,9 @@ private class ActionPlanCreateInvocableTest {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = false;
 		aps.Unassigned_Task_Default__c = true;
-		try{
+		try {
 			upsert aps;
-		} catch (Exception e){
+		} catch (Exception e) {
 			update aps;
 		}
 
@@ -293,15 +279,15 @@ private class ActionPlanCreateInvocableTest {
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate( TASK_COUNT );
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 
-		System.assertEquals(TASK_COUNT, [SELECT Count() FROM APTTaskTemplate__c]);
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM APTTaskTemplate__c]);
 
 		apTemplate.SkipDay__c = 'Start of next week';
 		update apTemplate;
 
 		List<APTTaskTemplate__c> allTaskTemplates = [SELECT Id, Dependent__c, SendEmail__c, Reminder__c FROM APTTaskTemplate__c];
-		for(APTTaskTemplate__c at : allTaskTemplates){
+		for (APTTaskTemplate__c at : allTaskTemplates) {
 			at.SendEmail__c = false;
 			at.Reminder__c = false;
 			at.Dependent__c = null;
@@ -309,7 +295,7 @@ private class ActionPlanCreateInvocableTest {
 		}
 		update allTaskTemplates;
 
-		Test.StartTest();
+		Test.startTest();
 
 		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, daysToWeekendDay);
 
@@ -321,14 +307,14 @@ private class ActionPlanCreateInvocableTest {
 		Test.stopTest();
 		System.assertNotEquals(null, resultIDs);
 		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT Count() FROM Task]);
-		for(Task t : [SELECT Id, ActivityDate FROM Task]){
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		for (Task t : [SELECT Id, ActivityDate FROM Task]) {
 			System.debug('Task is due on ' + t.ActivityDate + ' which is a ' + ActionPlansUtilities.getDayOfWeek(t.ActivityDate));
 		}
-		System.assertEquals(0, [SELECT Count() FROM Task WHERE ActivityDate = :upcomingWeekendDay]);
+		System.assertEquals(0, [SELECT COUNT() FROM Task WHERE ActivityDate = :upcomingWeekendDay]);
 	}
 
-	private static ActionPlanCreateInvocable.CreateActionPlanRequest setupRequest(Id templateId, Id relatedID, Integer daysToActionPlanStart){
+	private static ActionPlanCreateInvocable.CreateActionPlanRequest setupRequest(Id templateId, Id relatedID, Integer daysToActionPlanStart) {
 		ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
 		req.templateNameOrID = templateId;
 		req.relatedRecordID = relatedId;

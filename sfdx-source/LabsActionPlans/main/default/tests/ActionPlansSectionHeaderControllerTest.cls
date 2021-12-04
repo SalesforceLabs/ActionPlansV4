@@ -34,13 +34,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 @IsTest
 private class ActionPlansSectionHeaderControllerTest {
-
 	@IsTest
-	static void testObjectTabDescribe(){
+	static void testObjectTabDescribe() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		User u = testUtil.createTestUser();
 
-		System.runAs(u){
+		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
 			shc.objectName = ActionPlansUtilities.namespacePrefix + 'ActionPlan__c';
 			shc.getIsCustom();
@@ -56,16 +55,14 @@ private class ActionPlansSectionHeaderControllerTest {
 			System.assert(!shc.getIsCustom(), 'Account is a standard object');
 		}
 
-
-
 	}
 
 	@IsTest
-	static void testObjectTabDescribeNotInApplication(){
+	static void testObjectTabDescribeNotInApplication() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		User u = testUtil.createTestUser();
 
-		System.runAs(u){
+		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
 			shc.objectName = 'CaseComment';
 			shc.getIsCustom();
@@ -76,11 +73,11 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	static void testNullObject(){
+	static void testNullObject() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		User u = testUtil.createTestUser();
 
-		System.runAs(u){
+		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
 			shc.objectName = null;
 			shc.getIsCustom();

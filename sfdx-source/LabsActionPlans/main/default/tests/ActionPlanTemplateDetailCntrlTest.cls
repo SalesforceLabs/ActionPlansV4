@@ -39,29 +39,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @IsTest
 private class ActionPlanTemplateDetailCntrlTest {
 	@IsTest
-	private static void testConstructor(){
+	private static void testConstructor() {
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
 
-		ActionPlansTestUtilities testUtil 	= new ActionPlansTestUtilities();
-		ActionPlanTemplate__c apTemplate 	= testUtil.createNewActionPlanTemplate( 2 );
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
 		apTemplate = [SELECT Id, TaskRecordTypeId__c FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
 
-		if(ActionPlansUtilities.HAS_RECORD_TYPE){
-
+		if (ActionPlansUtilities.HAS_RECORD_TYPE) {
 			System.assertNotEquals(null, apTemplate.TaskRecordTypeID__c);
 		}
 
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController( new ApexPages.StandardController( new ActionPlanTemplate__c() ) );
+		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(new ActionPlanTemplate__c()));
 
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
 
-		System.currentPageReference().getParameters().put( 'id', apTemplate.Id );
-		apTemplateDetailController = new ActionPlanTemplateDetailController( new ApexPages.StandardController( apTemplate ) );
+		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
-		if(apTemplateDetailController.taskHasRecordType){
+		if (apTemplateDetailController.taskHasRecordType) {
 			System.assertNotEquals('', apTemplateDetailController.getRecordTypeName());
 		} else {
 			System.assertEquals('', apTemplateDetailController.getRecordTypeName());
@@ -69,117 +68,113 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		//apTemplateDetailController.getMaxAPTasks();
 
-		Test.StopTest();
+		Test.stopTest();
 
 		System.assert(!apTemplateDetailController.getTemplateTasks().isEmpty());
 	}
 
 	@IsTest
-	private static void testForceNoRecordType(){
+	private static void testForceNoRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
 
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
 
-		ActionPlansTestUtilities testUtil 	= new ActionPlansTestUtilities();
-		ActionPlanTemplate__c apTemplate 	= testUtil.createNewActionPlanTemplate( 2 );
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
 		apTemplate = [SELECT Id, TaskRecordTypeId__c FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
-		System.currentPageReference().getParameters().put( 'id', apTemplate.Id );
+		System.currentPageReference().getParameters().put('id', apTemplate.Id);
 
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController( new ApexPages.StandardController( apTemplate ));
+		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
-		Test.StopTest();
+		Test.stopTest();
 
 		System.assertEquals('', apTemplateDetailController.getRecordTypeName());
 	}
 
 	@IsTest
-	private static void testDeleteActionPlanTemplate(){
+	private static void testDeleteActionPlanTemplate() {
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlansTestUtilities testUtil 	= new ActionPlansTestUtilities();
-		ActionPlanTemplate__c apTemplate 	= testUtil.createNewActionPlanTemplate( 2 );
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		System.currentPageReference().getParameters().put( 'id', apTemplate.Id );
-		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController( new ApexPages.StandardController( apTemplate ) );
+		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
 		apTemplateDetailController.deleteTemplate();
 
-		Test.StopTest();
+		Test.stopTest();
 
 		List<ActionPlanTemplate__c> auxTemplate = [SELECT Id FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id];
 
 		//Checks to see if action plan template has been deleted
-		System.assert( auxTemplate.isEmpty(), 'action plan Template was not deleted' );
-
+		System.assert(auxTemplate.isEmpty(), 'action plan Template was not deleted');
 	}
 
 	@IsTest
-	private static void testRetrievingTemplateTasks(){
+	private static void testRetrievingTemplateTasks() {
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(3);
 
-		ActionPlansTestUtilities testUtil 	= new ActionPlansTestUtilities();
-		ActionPlanTemplate__c apTemplate 	= testUtil.createNewActionPlanTemplate( 3 );
+		System.assertEquals(3, [SELECT COUNT() FROM APTTaskTemplate__c]);
 
-		System.assertEquals(3, [SELECT Count() FROM APTTaskTemplate__c]);
-
-		Test.StartTest();
+		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
-		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController( new ApexPages.StandardController( apTemplate ) );
+		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
 		List<APTTaskTemplate__c> taskList = apTemplateDetailController.getTemplateTasks();
 
-		Test.StopTest();
+		Test.stopTest();
 
 		//Checks to see if template tasks is not empty
-		System.assert( !taskList.isEmpty(), 'action plan Template tasks is empty' );
+		System.assert(!taskList.isEmpty(), 'action plan Template tasks is empty');
 
 		//checks that list contains total number of created tasks
-		System.assertEquals( 3, taskList.size() );
+		System.assertEquals(3, taskList.size());
 	}
 
 	@IsTest
-	private static void testRetrievingActionPlanTemplate(){
+	private static void testRetrievingActionPlanTemplate() {
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlansTestUtilities testUtil 	= new ActionPlansTestUtilities();
-		ActionPlanTemplate__c apTemplate 	= testUtil.createNewActionPlanTemplate( 3 );
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(3);
 
-		System.currentPageReference().getParameters().put( 'id', apTemplate.Id );
-		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController( new ApexPages.StandardController( apTemplate ) );
+		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
 		ActionPlanTemplate__c apTemplate2 = apTemplateDetailController.actionPlanTemplate;
 
-		Test.StopTest();
+		Test.stopTest();
 
 		//Checks to see if action plan template is retrieved
-		System.assert( apTemplate2 != null, 'action plan Template tasks is empty' );
+		System.assert(apTemplate2 != null, 'action plan Template tasks is empty');
 
 		//checks to see if both action plan templates are the same
-		System.assertEquals( apTemplate2.Id, apTemplate.Id  );
-
+		System.assertEquals(apTemplate2.Id, apTemplate.Id);
 	}
 
 	@IsTest
-	private static void exportTest(){
+	private static void exportTest() {
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
-		Test.StartTest();
+		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate( 3 );
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(3);
 
-		ActionPlanTemplateDetailController controller = new ActionPlanTemplateDetailController( new ApexPages.StandardController( apTemplate ) );
+		ActionPlanTemplateDetailController controller = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
 		controller.exportTemplateToXMLDoc();
 
-		Test.StopTest();
+		Test.stopTest();
 
-		System.assert( controller.actionPlanExportXMLId != null );
+		System.assert(controller.actionPlanExportXMLId != null);
 
 		System.assertNotEquals(null, controller.getSuccessMessage());
-
 	}
 }

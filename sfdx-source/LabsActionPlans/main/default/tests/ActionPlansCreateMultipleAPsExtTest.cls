@@ -38,12 +38,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 @IsTest
 private class ActionPlansCreateMultipleAPsExtTest {
-
-    @IsTest
-    public static void givenRecordsToDeleteThenDeleted() {
-        List<Account> accts = new List<Account>();
-		for(Integer i = 0; i < 20; i++){
-			Account newAccount 	= new Account();
+	@IsTest
+	public static void givenRecordsToDeleteThenDeleted() {
+		List<Account> accts = new List<Account>();
+		for (Integer i = 0; i < 20; i++) {
+			Account newAccount = new Account();
 			newAccount.Name = 'acc' + math.rint(math.random() * 100000);
 			accts.add(newAccount);
 		}
@@ -53,25 +52,24 @@ private class ActionPlansCreateMultipleAPsExtTest {
 		dml.DuplicateRuleHeader.runAsCurrentUser = true;
 		List<Database.SaveResult> sr = Database.insert(accts, dml);
 
-        ApexPages.StandardSetController std = new ApexPages.StandardSetController(accts );
-        std.setSelected(accts);
-        ActionPlansCreateMultipleAPsExtension ctrl = new ActionPlansCreateMultipleAPsExtension(std);
+		ApexPages.StandardSetController std = new ApexPages.StandardSetController(accts);
+		std.setSelected(accts);
+		ActionPlansCreateMultipleAPsExtension ctrl = new ActionPlansCreateMultipleAPsExtension(std);
 
-        PageReference newAPPage = ctrl.doRedirect();
+		PageReference newAPPage = ctrl.doRedirect();
 
-        System.assert(newAPPage.geturl().containsIgnoreCase('%2C0'));
-    }
+		System.assert(newAPPage.geturl().containsIgnoreCase('%2C0'));
+	}
 
-    @IsTest
-    public static void givenNoRecordsToDeleteThenNotDeleted() {
+	@IsTest
+	public static void givenNoRecordsToDeleteThenNotDeleted() {
+		Test.startTest();
+		ApexPages.StandardSetController std = new ApexPages.StandardSetController(new List<Account>{});
+		ActionPlansCreateMultipleAPsExtension ctrl = new ActionPlansCreateMultipleAPsExtension(std);
 
-        Test.startTest();
-		ApexPages.StandardSetController std = new ApexPages.StandardSetController(new List<Account> { });
-        ActionPlansCreateMultipleAPsExtension ctrl = new ActionPlansCreateMultipleAPsExtension(std);
-
-        PageReference newAPPage = ctrl.doRedirect();
+		PageReference newAPPage = ctrl.doRedirect();
 		Test.stopTest();
 
-        System.assertEquals(null, newAPPage);
-    }
+		System.assertEquals(null, newAPPage);
+	}
 }

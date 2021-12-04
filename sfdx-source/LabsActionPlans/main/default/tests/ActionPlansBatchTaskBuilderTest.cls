@@ -38,127 +38,112 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 @IsTest
 private class ActionPlansBatchTaskBuilderTest {
-
 	@TestSetup
-	static void makeData(){
+	static void makeData() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
-		try{
+		try {
 			upsert aps;
-		} catch (Exception e){
+		} catch (Exception e) {
 			update aps;
 		}
 	}
 
 	@IsTest
-	private static void runBatchAccount(){
-
+	private static void runBatchAccount() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
-			ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder( testutil.batchIds( 'account' ) );
-			Id batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder(testutil.batchIds('account'));
+		Id batchID = Database.executeBatch(testBatch, 20);
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email from AsyncApexJob WHERE Id = :batchId];
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
 		System.AssertEquals('Completed', a.status);
 		System.AssertEquals(0, a.NumberOfErrors);
 	}
 
 	@IsTest
-	private static void runBatchContact(){
-
+	private static void runBatchContact() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
-			ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder( testutil.batchIds( 'contact' ) );
-			Id batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder(testutil.batchIds('contact'));
+		Id batchID = Database.executeBatch(testBatch, 20);
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email from AsyncApexJob WHERE Id = :batchId];
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
 		System.AssertEquals('Completed', a.status);
 		System.AssertEquals(0, a.NumberOfErrors);
-
 	}
 
 	@IsTest
-	private static void runBatchOpportunity(){
-
+	private static void runBatchOpportunity() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
-			ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder( testutil.batchIds( 'opportunity' ) );
-			Id batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder(testutil.batchIds('opportunity'));
+		Id batchID = Database.executeBatch(testBatch, 20);
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email from AsyncApexJob WHERE Id = :batchId];
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
 		System.AssertEquals('Completed', a.status);
 		System.AssertEquals(0, a.NumberOfErrors);
-
 	}
 
 	@IsTest
-	private static void runBatchLead(){
-
+	private static void runBatchLead() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
-			ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder( testutil.batchIds( 'lead' ) );
-			Id batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder(testutil.batchIds('lead'));
+		Id batchID = Database.executeBatch(testBatch, 20);
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email from AsyncApexJob WHERE Id = :batchId];
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
 		System.AssertEquals('Completed', a.status);
 		System.AssertEquals(0, a.NumberOfErrors);
-
 	}
 
 	@IsTest
-	private static void runBatchCampaign(){
-
+	private static void runBatchCampaign() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
-			ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder( testutil.batchIds( 'campaign' ) );
-			Id batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder(testutil.batchIds('campaign'));
+		Id batchID = Database.executeBatch(testBatch, 20);
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email from AsyncApexJob WHERE Id = :batchId];
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
 		System.AssertEquals('Completed', a.status);
 		System.AssertEquals(0, a.NumberOfErrors);
-
 	}
 
 	@IsTest
-	private static void runBatchCase(){
-
+	private static void runBatchCase() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
-			ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder( testutil.batchIds( 'case' ) );
-			Id batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder(testutil.batchIds('case'));
+		Id batchID = Database.executeBatch(testBatch, 20);
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email from AsyncApexJob WHERE Id = :batchId];
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
 		System.AssertEquals('Completed', a.status);
 		System.AssertEquals(0, a.NumberOfErrors);
-
 	}
 
 	@IsTest
-	private static void runBatchContract(){
-
+	private static void runBatchContract() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
-			ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder( testutil.batchIds( 'contract' ) );
-			Id batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansBatchTaskBuilder testBatch = new ActionPlansBatchTaskBuilder(testutil.batchIds('contract'));
+		Id batchID = Database.executeBatch(testBatch, 20);
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email from AsyncApexJob WHERE Id = :batchId];
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
 		System.AssertEquals('Completed', a.status);
 		System.AssertEquals(0, a.NumberOfErrors);
-
 	}
-
 }
