@@ -100,7 +100,6 @@ global without sharing class ActionPlanCreateInvocable {
 		Set<Id> relatedIDs = new Set<Id>();
 		Map<Id, SObject> relatedObjects = new Map<Id, SObject>();
 		String relatedObjectName = requests[0].relatedRecordID.getSObjectType().getDescribe().getName();
-		System.debug('relatedObjectName for owners: ' + relatedObjectName);
 
 		for (CreateActionPlanRequest r : requests) {
 			relatedIDs.add(r.relatedRecordID);
@@ -138,10 +137,8 @@ global without sharing class ActionPlanCreateInvocable {
 			Schema.SObjectType token = relatedId.getSObjectType();
 			Schema.DescribeSObjectResult sor = token.getDescribe();
 			String relObjName = sor.getName().toLowerCase();
-			System.debug('TESTING RELOBJNAME FOR NAMESPACE: ' + relObjName);
 
 			String namespacePrefix = ActionPlansUtilities.namespacePrefix.toLowerCase();
-			System.debug('NAMESPACE PREFIX: ' + namespacePrefix);
 
 			String relObjField = relObjName;
 
@@ -161,23 +158,6 @@ global without sharing class ActionPlanCreateInvocable {
 				//System.debug('Field not present. ' + relObjField);
 				continue;
 			}
-
-			/* if(!relObjName.containsIgnoreCase(ActionPlansUtilities.namespacePrefix)){
-				relObjName = ActionPlansUtilities.namespacePrefix + relObjName;
-			}
-
-			String relObjField = relObjName;
-			if(!relObjName.endsWithIgnoreCase('__c')){
-				relObjField += '__c';
-			}
-
-			if(!Schema.SObjectType.ActionPlan__c.fields.getMap().containsKey(relObjField)){
-				System.debug('Field not present. ' + relObjField);
-				continue;
-			} */
-
-			//System.debug('writing ' + relatedId + ' to ' + relObjField);
-
 			ap.put(relObjField, relatedId);
 			actionPlansToInsert.put(r.relatedRecordID, ap);
 		}
