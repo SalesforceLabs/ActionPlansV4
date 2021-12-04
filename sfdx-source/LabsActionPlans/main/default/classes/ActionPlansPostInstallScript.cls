@@ -32,12 +32,15 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
+/**
+ * Install sample data on first installation
+ */
 global class ActionPlansPostInstallScript implements InstallHandler {
 	global void onInstall(InstallContext context) {
-		if(context.previousVersion() == null) {
-
+		if (context.previousVersion() == null) {
 			Action_Plans_Settings__c instance = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
-			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = true][0].Id;
+			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
 			instance.Default_Object_on_Lead_Conversion__c = Schema.Contact.SObjectType.getDescribe().getName();
 			instance.Unassigned_Task_Default__c = true;
 			instance.Chatter_Object_Brag__c = false;
@@ -78,7 +81,6 @@ global class ActionPlansPostInstallScript implements InstallHandler {
 			a2.SendEmail__c = false;
 			insert a2;
 
-
 			APTTaskTemplate__c a3 = new APTTaskTemplate__c(Action_Plan_Template__c = apt.Id);
 			a3.Subject__c = 'Schedule onboarding call with customer success';
 			a3.Priority__c = 'Normal';
@@ -91,10 +93,11 @@ global class ActionPlansPostInstallScript implements InstallHandler {
 			a3.Reminder__c = false;
 			a3.SendEmail__c = false;
 			insert a3;
-
 		}
 		//else if(context.previousVersion().compareTo(new Version(1,0)) == 0) {}
-		if(context.isUpgrade()) {}
-		if(context.isPush()) {}
+		if (context.isUpgrade()) {
+		}
+		if (context.isPush()) {
+		}
 	}
 }

@@ -37,56 +37,50 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-public inherited sharing class ActionPlansBatchBuilder implements Database.Batchable<SObject>, Database.Stateful{
-
+public inherited sharing class ActionPlansBatchBuilder implements Database.Batchable<SObject>, Database.Stateful {
 	ActionPlansBatchBuilderUtilities taskBatch;
 
 	/**
-	* Constructor
-	*/
-	public ActionPlansBatchBuilder(ActionPlan__c baseObj, List<APTaskTemplate__c> aPTList, String refType, Set<Id> oIdsSet){
-
-		 taskBatch = new ActionPlansBatchBuilderUtilities (baseObj, aPTList, refType, oIdsSet);
-
+	 * Constructor
+	 */
+	public ActionPlansBatchBuilder(ActionPlan__c baseObj, List<APTaskTemplate__c> aPTList, String refType, Set<Id> oIdsSet) {
+		taskBatch = new ActionPlansBatchBuilderUtilities(baseObj, aPTList, refType, oIdsSet);
 	}
 
 	/**
-	* Use the start method to collect the records or objects to be passed to the interface method execute
-	*/
-	public Iterable<sObject> start( Database.BatchableContext bc ){
+	 * Use the start method to collect the records or objects to be passed to the interface method execute
+	 */
+	public Iterable<sObject> start(Database.BatchableContext bc) {
 		return this.taskBatch.getObjects(bc);
 	}
 
 	/**
-	*
-	* @param bc
-	* @param data
-	*/
-	public void execute( Database.BatchableContext bc, List<SObject> data ){
-		try{
-
+	 *
+	 * @param bc
+	 * @param data
+	 */
+	public void execute(Database.BatchableContext bc, List<SObject> data) {
+		try {
 			this.taskBatch.generateActionPlans();
-			if (ActionPlansTestUtilities.forceError){
+			if (ActionPlansTestUtilities.forceError) {
 				String str = null;
 				str.toLowerCase();
 			}
-		} catch(Exception e){
-				AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed,
-									TotalJobItems, CreatedBy.Email, ExtendedStatus
-									FROM AsyncApexJob WHERE Id = :bc.getJobId()];
-				// If there were any errors Send an email to the Apex job submitter
-				// notifying of job completion
-				Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-				String[] toAddresses = new String[] {a.CreatedBy.Email};
-				mail.setToAddresses(toAddresses);
-				mail.setSubject('EXCEPTION during Action Plans Batch creation ' + a.Status);
-				mail.setPlainTextBody ('The batch Apex job processed ' + a.TotalJobItems + ' batches.\nError :' +e);
-				if(ActionPlansUtilities.canSendEmails()){
-					Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
-				}
+		} catch (Exception e) {
+			AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email, ExtendedStatus FROM AsyncApexJob WHERE Id = :bc.getJobId()];
+			// If there were any errors Send an email to the Apex job submitter
+			// notifying of job completion
+			Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+			String[] toAddresses = new List<String>{ a.CreatedBy.Email };
+			mail.setToAddresses(toAddresses);
+			mail.setSubject('EXCEPTION during Action Plans Batch creation ' + a.Status);
+			mail.setPlainTextBody('The batch Apex job processed ' + a.TotalJobItems + ' batches.\nError :' + e);
+			if (ActionPlansUtilities.canSendEmails()) {
+				Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+			}
 		}
 	}
 
-	public void finish(Database.BatchableContext bc){}
-
+	public void finish(Database.BatchableContext bc) {
+	}
 }

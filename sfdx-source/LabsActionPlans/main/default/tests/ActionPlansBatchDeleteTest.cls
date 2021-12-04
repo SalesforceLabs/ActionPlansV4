@@ -38,20 +38,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 @IsTest
 private class ActionPlansBatchDeleteTest {
-
-    @IsTest
+	@IsTest
 	private static void testDelete() {
-
 		Test.startTest();
 
 		ActionPlansTestUtilities aptu = new ActionPlansTestUtilities();
-		ActionPlan__c ap =   aptu.createNewActionPlan('account',1);
+		ActionPlan__c ap = aptu.createNewActionPlan('account', 1);
 
 		Set<Id> sIDs = new Set<Id>();
 		sIDs.add(ap.Id);
 
 		ActionPlansBatchDelete taskBatch = new ActionPlansBatchDelete(sIDs);
-		Database.ExecuteBatch( taskBatch );
+		Database.ExecuteBatch(taskBatch);
 
 		Test.stopTest();
 
@@ -60,11 +58,10 @@ private class ActionPlansBatchDeleteTest {
 
 	@IsTest
 	private static void testFutureDelete() {
-
 		Test.startTest();
 
 		ActionPlansTestUtilities aptu = new ActionPlansTestUtilities();
-		ActionPlan__c ap =   aptu.createNewActionPlan('account',1);
+		ActionPlan__c ap = aptu.createNewActionPlan('account', 1);
 
 		Set<Id> sIDs = new Set<Id>();
 		sIDs.add(ap.Id);
@@ -78,77 +75,74 @@ private class ActionPlansBatchDeleteTest {
 
 	@IsTest
 	private static void testDeleteException() {
-
 		Test.startTest();
 
 		ActionPlansTestUtilities.forceError = true;
 
 		ActionPlansTestUtilities aptu = new ActionPlansTestUtilities();
-		ActionPlan__c ap =   aptu.createNewActionPlan('account',1);
+		ActionPlan__c ap = aptu.createNewActionPlan('account', 1);
 
 		Set<Id> sIDs = new Set<Id>();
 		sIDs.add(ap.Id);
 
 		ActionPlansBatchDelete taskBatch = new ActionPlansBatchDelete(sIDs);
-		Database.ExecuteBatch( taskBatch );
+		Database.ExecuteBatch(taskBatch);
 
 		Test.stopTest();
 
 		System.assert([SELECT Id FROM ActionPlan__c].isEmpty());
 	}
 
-    @IsTest
+	@IsTest
 	private static void testUnDelete() {
-
 		Test.startTest();
 
 		ActionPlansTestUtilities aptu = new ActionPlansTestUtilities();
-		ActionPlan__c ap = aptu.createNewActionPlan('account',1);
+		ActionPlan__c ap = aptu.createNewActionPlan('account', 1);
 
 		APTaskTemplate__c at = new APTaskTemplate__c();
-		at.Action_Plan__c 	 = ap.Id;
-		at.Dependent__c		 = 'None';
-		at.DaysFromStart__c  = 2.0;
-		at.User__c			 = Userinfo.getUserId();
-		at.SendEmail__c		 = false;
-		at.Subject__c		 = 'Test ';
-		at.Type__c			 = 'Email';
-		at.Priority__c		 = 'Low';
-		at.Comments__c		 = 'Test';
-		at.Reminder__c		 = true;
+		at.Action_Plan__c = ap.Id;
+		at.Dependent__c = 'None';
+		at.DaysFromStart__c = 2.0;
+		at.User__c = Userinfo.getUserId();
+		at.SendEmail__c = false;
+		at.Subject__c = 'Test ';
+		at.Type__c = 'Email';
+		at.Priority__c = 'Low';
+		at.Comments__c = 'Test';
+		at.Reminder__c = true;
 		at.Minutes_Reminder__c = '510';
 		insert at;
 
 		at = new APTaskTemplate__c();
-		at.Action_Plan__c 	 = ap.Id;
-		at.Dependent__c		 = 'None';
-		at.DaysFromStart__c  = 2.0;
-		at.User__c			 = Userinfo.getUserId();
-		at.SendEmail__c		 = true;
-		at.Subject__c		 = 'Test ';
-		at.Type__c			 = 'Email';
-		at.Priority__c		 = 'Low';
-		at.Comments__c		 = 'Test';
-		at.Reminder__c		 = true;
+		at.Action_Plan__c = ap.Id;
+		at.Dependent__c = 'None';
+		at.DaysFromStart__c = 2.0;
+		at.User__c = Userinfo.getUserId();
+		at.SendEmail__c = true;
+		at.Subject__c = 'Test ';
+		at.Type__c = 'Email';
+		at.Priority__c = 'Low';
+		at.Comments__c = 'Test';
+		at.Reminder__c = true;
 		at.Minutes_Reminder__c = '510';
 		insert at;
 
-		Task x 				= new Task();
-		x.Priority 			= at.Priority__c;
-		x.TaskAPTaskTemplate__c	= at.Id;
-		x.Subject			= at.Subject__c;
+		Task x = new Task();
+		x.Priority = at.Priority__c;
+		x.TaskAPTaskTemplate__c = at.Id;
+		x.Subject = at.Subject__c;
 		insert x;
 
 		Set<Id> sIDs = new Set<Id>();
 		sIDs.add(ap.Id);
 
 		ActionPlansBatchDelete taskBatch = new ActionPlansBatchDelete(sIDs);
-		Database.ExecuteBatch( taskBatch );
+		Database.ExecuteBatch(taskBatch);
 
 		Test.stopTest();
 		undelete ap;
 
 		System.assert(![SELECT Id FROM ActionPlan__c].isEmpty());
-
 	}
 }

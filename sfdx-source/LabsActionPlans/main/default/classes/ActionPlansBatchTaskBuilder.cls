@@ -37,131 +37,123 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-public without sharing class ActionPlansBatchTaskBuilder implements Database.Batchable<SObject>, Database.Stateful{
-
-	private List<APTaskTemplate__c> apTasks             { get; set; }
-	private List<Id>            aptIds              { get; set; }
-	private List<Task>              myTasksWithOutEmail { get; set; }
-	private List<Task>              myTasksWithEmail    { get; set; }
+public without sharing class ActionPlansBatchTaskBuilder implements Database.Batchable<SObject>, Database.Stateful {
+	private List<APTaskTemplate__c> apTasks { get; set; }
+	private List<Id> aptIds { get; set; }
+	private List<Task> myTasksWithOutEmail { get; set; }
+	private List<Task> myTasksWithEmail { get; set; }
 
 	/**
-	* Constructor
-	*/
-	public ActionPlansBatchTaskBuilder( List<Id> apttIds ){
+	 * Constructor
+	 */
+	public ActionPlansBatchTaskBuilder(List<Id> apttIds) {
 		this.aptIds = apttIds;
 	}
 
 	/**
-	* QueryLocator: Select the List of APTaskTemplate__c.
-	*/
-	public Database.QueryLocator start( Database.BatchableContext bc ){
-
+	 * QueryLocator: Select the List of APTaskTemplate__c.
+	 */
+	public Database.QueryLocator start(Database.BatchableContext bc) {
 		//Add Action Plan custom object reference Field.
-		String soql = 'SELECT User__c, Type__c, Subject__c, Status__c, SendEmail__c, Reminder__c, Minutes_Reminder__c,' +
-					  'Priority__c, Name, Id, Dependent__c, Comments__c, ActivityDate__c,' +
-					  'Action_Plan__c, ';
+		String soql =
+			'SELECT User__c, Type__c, Subject__c, Status__c, SendEmail__c, Reminder__c, Minutes_Reminder__c,' +
+			'Priority__c, Name, Id, Dependent__c, Comments__c, ActivityDate__c,' +
+			'Action_Plan__c, ';
 
-		for(String s : ActionPlansUtilities.getCustomRelationshipFields()){
+		for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
 			soql += 'Action_Plan__r.' + s + ', ';
 		}
 
 		soql += ' Controller__c FROM APTaskTemplate__c WHERE Id IN :aptIds';
-		System.debug('soql query: ' + soql);
+		//System.debug('soql query: ' + soql);
 
-		return Database.getQueryLocator( soql );
+		return Database.getQueryLocator(soql);
 	}
 
 	/**
-	*
-	* @param bc
-	* @param data
-	*/
-	public void execute( Database.BatchableContext bc, List<SObject> data ){
+	 *
+	 * @param bc
+	 * @param data
+	 */
+	public void execute(Database.BatchableContext bc, List<SObject> data) {
+		this.myTasksWithEmail = new List<Task>();
+		this.myTasksWithOutEmail = new List<Task>();
+		this.apTasks = new List<APTaskTemplate__c>();
 
-		this.myTasksWithEmail       = new List<Task>();
-		this.myTasksWithOutEmail    = new List<Task>();
-		this.apTasks                = new List<APTaskTemplate__c>();
-
-		for( SObject obj : data ){
-			   APTaskTemplate__c oneData = ( APTaskTemplate__c )obj;
-			   this.apTasks.add( oneData );
+		for (SObject obj : data) {
+			APTaskTemplate__c oneData = (APTaskTemplate__c) obj;
+			this.apTasks.add(oneData);
 		}
 
 		//Now run this magic!
-		for( APTaskTemplate__c apTask : this.apTasks ){
-
+		for (APTaskTemplate__c apTask : this.apTasks) {
 			// check if task exists already
 			Task t = new Task();
-			t.Subject           = apTask.Subject__c;
-			t.Priority          = apTask.Priority__c;
-			t.OwnerId           = apTask.User__c;
+			t.Subject = apTask.Subject__c;
+			t.Priority = apTask.Priority__c;
+			t.OwnerId = apTask.User__c;
 			t.TaskAPTaskTemplate__c = apTask.Id;
 
 			// fake link to AP Task Template
-			if( apTask.Comments__c != null ){
+			if (apTask.Comments__c != null) {
 				t.Description = apTask.Comments__c;
 			}
 
 			//set reminder based on user's default reminder setting
-			if( apTask.Reminder__c == true && apTask.ActivityDate__c != null ){
-
+			if (apTask.Reminder__c == true && apTask.ActivityDate__c != null) {
 				t.isReminderSet = apTask.Reminder__c;
 
-				t.ReminderDateTime = Datetime.newInstance( apTask.ActivityDate__c.year(), apTask.ActivityDate__c.month(), apTask.ActivityDate__c.day(), 0, 0, 0 );
-				t.ReminderDateTime = t.ReminderDateTime.addMinutes( Integer.valueOf( apTask.Minutes_Reminder__c ) );
+				t.ReminderDateTime = Datetime.newInstance(apTask.ActivityDate__c.year(), apTask.ActivityDate__c.month(), apTask.ActivityDate__c.day(), 0, 0, 0);
+				t.ReminderDateTime = t.ReminderDateTime.addMinutes(Integer.valueOf(apTask.Minutes_Reminder__c));
 			}
 
 			//link to Action Plan's Related To Object
 
 			ActionPlan__c ap = apTask.Action_Plan__r;
 
-			for( String s : ActionPlansUtilities.getCustomRelationshipFields() ){
+			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
 				String f = s;
-				if(!f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') && !f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') && ap.get(f) != null){
-					t.WhatId = (Id)ap.get(f);
+				if (!f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') && !f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') && ap.get(f) != null) {
+					t.WhatId = (Id) ap.get(f);
 					System.debug('set WhatId in batch');
 					break;
 				}
 			}
 
-			if( apTask.Action_Plan__r.Contact__c != null ){
+			if (apTask.Action_Plan__r.Contact__c != null) {
 				t.WhoId = apTask.Action_Plan__r.Contact__c;
-			}
-			else if( apTask.Action_Plan__r.Lead__c != null ){
+			} else if (apTask.Action_Plan__r.Lead__c != null) {
 				t.WhoId = apTask.Action_Plan__r.Lead__c;
-			}
-			else {
+			} else {
 				System.debug('failed to set who/what id');
 			}
 
-			t.Type          = apTask.Type__c;
-			t.ActivityDate  = apTask.ActivityDate__c;
+			t.Type = apTask.Type__c;
+			t.ActivityDate = apTask.ActivityDate__c;
 
-			if( apTask.Dependent__c == null || apTask.Dependent__c == 'None' ){
-				if( apTask.SendEmail__c == true ){
-					this.myTasksWithEmail.add( t );
-				}
-				else {
-					this.myTasksWithOutEmail.add( t );
+			if (apTask.Dependent__c == null || apTask.Dependent__c == 'None') {
+				if (apTask.SendEmail__c == true) {
+					this.myTasksWithEmail.add(t);
+				} else {
+					this.myTasksWithOutEmail.add(t);
 				}
 			}
 		}
 
-			Database.DMLOptions dmlo    = new Database.DMLOptions();
-			Database.DMLOptions dmlo2   = new Database.DMLOptions();
+		Database.DMLOptions dmlo = new Database.DMLOptions();
+		Database.DMLOptions dmlo2 = new Database.DMLOptions();
 
-			if( this.myTasksWithEmail.size() > 0 ){
-				dmlo.EmailHeader.triggerUserEmail = true;
-				Database.insert( this.myTasksWithEmail, dmlo );
-			}
+		if (this.myTasksWithEmail.size() > 0) {
+			dmlo.EmailHeader.triggerUserEmail = true;
+			Database.insert(this.myTasksWithEmail, dmlo);
+		}
 
-			if( this.myTasksWithOutEmail.size() > 0 ){
-				dmlo2.EmailHeader.triggerUserEmail = false;
-				Database.insert( this.myTasksWithOutEmail, dmlo2 );
-			}
+		if (this.myTasksWithOutEmail.size() > 0) {
+			dmlo2.EmailHeader.triggerUserEmail = false;
+			Database.insert(this.myTasksWithOutEmail, dmlo2);
+		}
 	}
 
-	public void finish( Database.BatchableContext bc ){
-
+	public void finish(Database.BatchableContext bc) {
 	}
 }

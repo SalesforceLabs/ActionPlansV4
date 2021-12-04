@@ -38,112 +38,107 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 @IsTest
 private class ActionPlanDetailControllerTest {
-
 	@IsTest
-	private static void constructorTests(){
-
+	private static void constructorTests() {
 		PageReference pageRef = Page.ActionPlanDetail;
 		Test.setCurrentPage(pageRef);
 
-		Test.StartTest();
+		Test.startTest();
 
-		System.currentPageReference().getParameters().put( 'id', null );
-		ActionPlanDetailController apDetailController = new ActionPlanDetailController( new ApexPages.StandardController( new ActionPlan__c() ) );
+		System.currentPageReference().getParameters().put('id', null);
+		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan( 'account', 1 );
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
 
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 
-		Test.StopTest();
+		Test.stopTest();
 		System.assertNotEquals(null, apDetailController2.hasRecordType);
 	}
 
 	@IsTest
-	private static void printConstructorTests(){
-
+	private static void printConstructorTests() {
 		Test.setCurrentPage(Page.ActionPlanPrint);
 
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlanDetailController apDetailController = new ActionPlanDetailController( new ApexPages.StandardController( new ActionPlan__c() ) );
+		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan( 'account', 1 );
-		System.debug(actionPlan);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
 
-		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 
 		apDetailController2.getRecordTypeName();
 
-		Test.StopTest();
+		Test.stopTest();
 
 		System.assertEquals([SELECT Name FROM Account LIMIT 1].Name, apDetailController2.getrelatedRecordName());
 		System.assertEquals('Account', apDetailController2.getRelatedObjectLabel());
-
 	}
 
 	@IsTest
-	private static void checkTasks(){
+	private static void checkTasks() {
 		PageReference pageRef = Page.ActionPlanPrint;
-		Test.StartTest();
+		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan( 'account', 3 );
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3);
 
-		ActionPlanDetailController apDetailController = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		List<ActionPlanDetailController.TaskWrapper> apTasks = apDetailController.getActionPlanTasks();
 
 		//Checks to see that list of tasks is not empty
-		System.assert( !apTasks.isEmpty(), 'task list is empty' );
+		System.assert(!apTasks.isEmpty(), 'task list is empty');
 
-		Test.StopTest();
+		Test.stopTest();
 	}
 
 	@IsTest
-	private static void checkCompletedTasks(){
+	private static void checkCompletedTasks() {
 		PageReference pageRef = Page.ActionPlanDetail;
-		Test.StartTest();
+		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan( 'account', 3 );
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3);
 
-		ActionPlanDetailController apDetailController = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		Integer completedTasks = apDetailController.getCompleted();
 
 		//verifies number of completed tasks
-		System.assertEquals( 0, completedTasks );
+		System.assertEquals(0, completedTasks);
 
-		Test.StopTest();
+		Test.stopTest();
 	}
 
 	@IsTest
-	private static void checkActionPlanTemplateVersion(){
+	private static void checkActionPlanTemplateVersion() {
 		PageReference pageRef = Page.ActionPlanDetail;
-		Test.StartTest();
+		Test.startTest();
 
-		ActionPlansTestUtilities testUtil   = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan            = testUtil.createNewActionPlan( 'account', 2 );
-		ActionPlanTemplate__c apTemplate    = testUtil.createNewActionPlanTemplate( 2 );
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2);
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
 		actionPlan.Action_Plan_Template__c = apTemplate.Id;
 		update actionPlan;
 
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		ActionPlanDetailController apDetailController = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		boolean versionName = apDetailController.getVersion();
 
-		Test.StopTest();
+		Test.stopTest();
 
 		//Checks if Action Plan Template has not been changed since the creation of the Action Plan.
-		System.assert( !versionName );
+		System.assert(!versionName);
 
 		apTemplate.Name = 'new name';
 		update apTemplate;
 
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		apDetailController = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		versionName = apDetailController.getVersion();
 
 		//Checks if Action Plan Template has been changed since the creation of the Action Plan.
@@ -152,88 +147,88 @@ private class ActionPlanDetailControllerTest {
 	}
 
 	@IsTest
-	private static void checkDeleteActionPlan(){
+	private static void checkDeleteActionPlan() {
 		PageReference pageRef = Page.ActionPlanDetail;
-		Test.StartTest();
+		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan( 'account', 2 );
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2);
 
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		ActionPlanDetailController apDetailController = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		apDetailController.deletePlan();
 
 		List<ActionPlan__c> actionPlanList = [SELECT Id FROM ActionPlan__c WHERE Id = :actionPlan.Id LIMIT 1];
 
-		Test.StopTest();
+		Test.stopTest();
 
-		System.assert( actionPlanList.isEmpty(), 'Action Plan was not deleted' );
+		System.assert(actionPlanList.isEmpty(), 'Action Plan was not deleted');
 	}
 
 	@IsTest
-	private static void checkGetrelatedRecordName(){
+	private static void checkGetrelatedRecordName() {
 		PageReference pageRef = Page.ActionPlanDetail;
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan( 'account', 0 );
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		ActionPlanDetailController apdc = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		ActionPlanDetailController apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		String recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
 
-		actionPlan = testUtil.createNewActionPlan( 'campaign', 0 );
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		apdc = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		actionPlan = testUtil.createNewActionPlan('campaign', 0);
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
 
-		actionPlan = testUtil.createNewActionPlan( 'case', 0 );
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		apdc = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		actionPlan = testUtil.createNewActionPlan('case', 0);
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
 
-		actionPlan = testUtil.createNewActionPlan( 'contact', 0 );
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		apdc = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		actionPlan = testUtil.createNewActionPlan('contact', 0);
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
 
-		actionPlan = testUtil.createNewActionPlan( 'contract', 0 );
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		apdc = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		actionPlan = testUtil.createNewActionPlan('contract', 0);
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
 
-		actionPlan = testUtil.createNewActionPlan( 'lead', 0 );
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		apdc = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		actionPlan = testUtil.createNewActionPlan('lead', 0);
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
 
-		actionPlan = testUtil.createNewActionPlan( 'opportunity', 0 );
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		apdc = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		actionPlan = testUtil.createNewActionPlan('opportunity', 0);
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
 	}
 
 	@IsTest
-	private static void testForceNoRecordType(){
+	private static void testForceNoRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
 
 		PageReference pageRef = Page.ActionPlanDetail;
 		Test.setCurrentPage(pageRef);
 
-		Test.StartTest();
+		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan( 'account', 1 );
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
 
-		System.currentPageReference().getParameters().put( 'id', actionPlan.Id );
-		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController( new ApexPages.StandardController( actionPlan ) );
+		System.currentPageReference().getParameters().put('id', actionPlan.Id);
+		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 
-		Test.StopTest();
+		Test.stopTest();
 
 		System.assertEquals(false, apDetailController2.hasRecordType);
 		System.assertEquals('', apDetailController2.getRecordTypeName());

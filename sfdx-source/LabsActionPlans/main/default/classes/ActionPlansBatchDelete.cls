@@ -35,79 +35,73 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 */
-public inherited sharing class ActionPlansBatchDelete implements Database.Batchable<SObject>, Database.Stateful{
 
+public inherited sharing class ActionPlansBatchDelete implements Database.Batchable<SObject>, Database.Stateful {
 	private Set<Id> relActionPlansIds;
 
 	/**
-	* Constructor
-	*/
-	public ActionPlansBatchDelete( Set<Id> oIDsSet){
-
+	 * Constructor
+	 */
+	public ActionPlansBatchDelete(Set<Id> oIDsSet) {
 		relActionPlansIds = oIDsSet;
-
 	}
 
 	/**
-	* Use the start method to collect the records or objects to be passed to the interface method execute
-	*/
-	public Database.QueryLocator start( Database.BatchableContext bc ){
-
+	 * Use the start method to collect the records or objects to be passed to the interface method execute
+	 */
+	public Database.QueryLocator start(Database.BatchableContext bc) {
 		String soql = 'SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds';
-		return Database.getQueryLocator( soql );
-
+		return Database.getQueryLocator(soql);
 	}
 
 	/**
-	*
-	* @param bc
-	* @param data
-	*/
-	public void execute( Database.BatchableContext bc, List<SObject> data ){
+	 * For each batch, delete the action plans and send an email on any errors
+	 * @author David Schach
+	 * @param  bc   BatchableContext
+	 * @param  data List<SObject> records to be deleted
+	 */
+	public void execute(Database.BatchableContext bc, List<SObject> data) {
 		Set<Id> actionPlanIDs = new Set<Id>();
-		for( SObject s : data ){
-			actionPlanIDs.add((Id)s.get('Id'));
+		for (SObject s : data) {
+			actionPlanIDs.add((Id) s.get('Id'));
 		}
-		try{
+		try {
 			deleteActionPlans(actionPlanIDs);
-			if (ActionPlansTestUtilities.forceError){
+			if (ActionPlansTestUtilities.forceError) {
 				String str = null;
 				str.toLowerCase();
 			}
-		} catch(Exception e){
-			AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email, ExtendedStatus
-				FROM AsyncApexJob WHERE Id = :bc.getJobId()];
-		   // If there were any errors Send an email to the Apex job's submitter
-		   // notifying of job completion
+		} catch (Exception e) {
+			AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email, ExtendedStatus FROM AsyncApexJob WHERE Id = :bc.getJobId()];
+			// If there were any errors Send an email to the Apex job's submitter
+			// notifying of job completion
 			Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-			String[] toAddresses = new String[] {a.CreatedBy.Email};
+			String[] toAddresses = new List<String>{ a.CreatedBy.Email };
 			mail.setToAddresses(toAddresses);
 			mail.setSubject('EXCEPTION during Action Plans Batch deletion  ' + a.Status);
-			mail.setPlainTextBody('The batch Apex job processed ' + a.TotalJobItems + ' batches.\nError :' + makeEmailBody(e) );
-			if(ActionPlansUtilities.canSendEmails()){
-				Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+			mail.setPlainTextBody('The batch Apex job processed ' + a.TotalJobItems + ' batches.\nError :' + makeEmailBody(e));
+			if (ActionPlansUtilities.canSendEmails()) {
+				Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
 			}
 		}
 	}
 
 	public void deleteActionPlans(Set<Id> relActionPlansIds) {
-
 		List<ActionPlan__c> relActionPlans = [SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds LIMIT :ActionPlansUtilities.MAX_APTODELETE];
 		Map<Id, APTaskTemplate__c> relTaskTemplateMap = new Map<Id, APTaskTemplate__c>([SELECT Id FROM APTaskTemplate__c WHERE Action_Plan__c IN :relActionPlansIds]);
-		List<Task> relTaskList = [SELECT Id FROM Task WHERE IsClosed = false AND TaskAPTaskTemplate__c IN :relTaskTemplateMap.keySet()];
+		List<Task> relTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTaskTemplate__c IN :relTaskTemplateMap.keySet()];
 
-		if(!relActionPlans.isEmpty()){
-			List<Database.DeleteResult> results = Database.delete( relActionPlans );
+		if (!relActionPlans.isEmpty()) {
+			List<Database.DeleteResult> results = Database.delete(relActionPlans);
 		}
 
-		if(!relTaskList.isEmpty()){
-			List<Database.DeleteResult> results = Database.delete( relTaskList );
+		if (!relTaskList.isEmpty()) {
+			List<Database.DeleteResult> results = Database.delete(relTaskList);
 		}
-	 }
+	}
 
-	 private String makeEmailBody(Exception e){
+	private String makeEmailBody(Exception e) {
 		String emailBody = '';
 		emailBody += 'Exception type caught: ' + e.getTypeName();
 		emailBody += 'Message: ' + e.getMessage();
@@ -115,11 +109,11 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 		emailBody += 'Line number: ' + e.getLineNumber();
 		emailBody += 'Stack trace: ' + e.getStackTraceString();
 		return emailBody;
-	 }
+	}
 
 	/**
-	*
-	*/
-	public void finish( Database.BatchableContext bc ){}
-
+	 * No need to do anything at the finish
+	 */
+	public void finish(Database.BatchableContext bc) {
+	}
 }
