@@ -2,6 +2,9 @@
 	"trailingComma": "none",
 	"singleQuote": true,
 	"tabWidth": 4,
+	"printWidth": 200,
+	"useTabs": true,
+	"bracketSpacing": true,
 	"overrides": [
 		{
 			"files": "**/lwc/**/*.html",
