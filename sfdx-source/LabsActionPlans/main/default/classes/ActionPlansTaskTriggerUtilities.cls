@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * Set to WITHOUT sharing because this is only called from a trigger handler
- * @group Triggers
+ * @group Utilities
  */
 public without sharing class ActionPlansTaskTriggerUtilities {
 	private static List<APTaskTemplate__c> dependentAptts = new List<APTaskTemplate__c>();

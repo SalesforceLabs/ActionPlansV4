@@ -352,6 +352,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Action which saves a new Action Plan
 	 * @return PageReference
+	 * @see ActionPlanCreationController.saveHandler
 	 */
 	public PageReference save() {
 		PageReference pageRef = null;

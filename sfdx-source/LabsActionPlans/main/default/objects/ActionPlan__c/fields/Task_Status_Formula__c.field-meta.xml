@@ -3,7 +3,7 @@
     <fullName>Task_Status_Formula__c</fullName>
     <description>Display the number of completed tasks and total tasks for this Action Plan</description>
     <externalId>false</externalId>
-    <formula>TEXT(Completed__c ) &amp; &quot; &quot; &amp;  $Label.labsactionplans__ap_of &amp; &quot; &quot; &amp;  text(Total__c) &amp; &quot; &quot; &amp;  $Label.labsactionplans__ap_taskscomplete</formula>
+    <formula>TEXT(Completed__c ) &amp; &quot; &quot; &amp;  $Label.ap_of &amp; &quot; &quot; &amp;  text(Total__c) &amp; &quot; &quot; &amp;  $Label.ap_TasksComplete</formula>
     <label>Action Plan Status</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

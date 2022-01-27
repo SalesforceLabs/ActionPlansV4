@@ -40,6 +40,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Visualforce
  */
 public with sharing class ActionPlanTemplateImportController {
+	/**
+	 * @description The attachment to be used to hold imported xml
+	 * @author David Schach
+	 * @return   Attachment
+	 */
 	public Attachment attachment { get; set; }
 
 	/**

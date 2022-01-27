@@ -35,8 +35,12 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 */
+
+/**
+ * When we have more than one task to create, run it in batch context for higher limits
+ * @since 2011
+ */
 public without sharing class ActionPlansBatchTaskBuilder implements Database.Batchable<SObject>, Database.Stateful {
 	private List<APTaskTemplate__c> apTasks { get; set; }
 	private List<Id> aptIds { get; set; }
@@ -51,7 +55,13 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	}
 
 	/**
-	 * QueryLocator: Select the List of APTaskTemplate__c.
+	 *
+	 */
+	/**
+	 * @description QueryLocator: Select the List of `APTaskTemplate__c`.
+	 * @author Salesforce labs
+	 * @param  bc BatchableContext for start method
+	 * @return    `Database.QueryLocator`
 	 */
 	public Database.QueryLocator start(Database.BatchableContext bc) {
 		//Add Action Plan custom object reference Field.
@@ -74,6 +84,12 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	 *
 	 * @param bc
 	 * @param data
+	 */
+	/**
+	 * @description Eecute this method multiple times, by default on batches of 200 records
+	 *
+	 * @param bc    `Database.BatchableContext`
+	 * @param data  The list of SObjects to act on
 	 */
 	public void execute(Database.BatchableContext bc, List<SObject> data) {
 		this.myTasksWithEmail = new List<Task>();
@@ -154,6 +170,11 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 		}
 	}
 
+	/**
+	 * @description Required finish method - we could do something here like send a platform event or notify the user that the batch is complete
+	 * @author Salesforce Labs
+	 * @param  bc BatchableContext
+	 */
 	public void finish(Database.BatchableContext bc) {
-	}
+	} //NOPMD
 }

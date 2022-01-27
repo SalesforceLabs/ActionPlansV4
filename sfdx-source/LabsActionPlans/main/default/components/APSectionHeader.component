@@ -32,8 +32,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<apex:component controller="ActionPlansSectionHeaderController" >
-
+<apex:component controller="ActionPlansSectionHeaderController">
 	<apex:attribute name="sObjType" type="String" assignTo="{!objectName}" description="Object Name for the header object" required="true" />
 	<apex:attribute name="title" type="String" required="false" default="Record" description="Header title text" />
 	<apex:attribute name="subtitle" type="String" required="false" description="Header subtitle text" />
@@ -65,20 +64,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								<div class="slds-page-header__name">
 									<div class="slds-page-header__name-title">
 										<h1>
-											<span class="slds-page-header__title slds-truncate" title="{!title}">{!title}</span>
+											<span class="slds-page-header__title slds-truncate" title="{!title}">
+												<apex:outputText value="{!title}" />
+											</span>
 										</h1>
 									</div>
 								</div>
-								<p class="slds-page-header__name-meta">{!headersubtitle}</p>
+								<p class="slds-page-header__name-meta">
+									<apex:outputText value="{!headersubtitle}" />
+								</p>
 							</div>
 						</div>
 					</div>
 					<div class="slds-page-header__col-actions">
 						<div class="slds-page-header__controls">
 							<div class="slds-page-header__control">
-								<apex:outputLink value="{!printURL}" rendered="{!printURL != null}">
-									<apex:outputText styleclass="no-print" value="{!$Label.ap_Print}" /></apex:outputLink>
-								<apex:componentBody/>
+								<apex:outputLink value="{!printURL}" rendered="{!printURL != null}"> <apex:outputText styleclass="no-print" value="{!$Label.ap_Print}" /></apex:outputLink>
+								<apex:componentBody />
 							</div>
 						</div>
 					</div>

@@ -36,7 +36,10 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
+/**
+ * Batch delete class. This can probably be done in a different way. And we can certainly switch from sending an email to using a platform event
+ * @group Batch Apex
+ */
 public inherited sharing class ActionPlansBatchDelete implements Database.Batchable<SObject>, Database.Stateful {
 	private Set<Id> relActionPlansIds;
 

@@ -1,11 +1,11 @@
 /**
- * Class wraps DML Calls in FLS / Crud checks.
+ * Class wraps DML Calls in FLS / Crud checks. Taken from Codefriar code.
+ * @see https://github.com/codefriar/CanTheUser
+ * @see https://github.com/trailheadapps/apex-recipes
+ * @see ActionPlansCanTheUser
+ * @see ActionPlansSafelyTest
+ * @author Codefriar
  * @group Security
- */
-/**
- * Taken from Codefriar code
- * https://github.com/codefriar/ActionPlansCanTheUser
- * https://github.com/trailheadapps/apex-recipes
  */
 public with sharing class ActionPlansSafely {
 	@testVisible

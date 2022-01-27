@@ -33,44 +33,48 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 <apex:page standardController="ActionPlanTemplate__c" extensions="ActionPlanTemplateDetailController" action="{!exportTemplateToXMLDoc}" lightningStylesheets="true">
-
-	<c:APSectionHeader sObjType="ActionPlanTemplate__c" title="{!$Label.ap_ExportTitle}" subtitle="{!$ObjectType.ActionPlanTemplate__c.label}"  />
+	<c:APSectionHeader sObjType="ActionPlanTemplate__c" title="{!$Label.ap_ExportTitle}" subtitle="{!$ObjectType.ActionPlanTemplate__c.label}" />
 
 	<div class="slds-scope">
-    <apex:pageBlock title="{!$Label.ap_ExportTitle}">
-        <table>
-            <apex:outputPanel layout="none" rendered="{!ISNULL(actionPlanExportXMLId)}">
-                <tr>
-                    <td><apex:outputText value="{!$Label.ap_XMLFailure}" /></td>
-                </tr>
-			</apex:outputPanel>
-			<apex:outputPanel layout="none" rendered="{!NOT(ISNULL(actionPlanExportXMLId))}">
-                <tr>
-                    <td>
-						<apex:outputText value="{!successMessage}" />
+		<apex:pageBlock title="{!$Label.ap_ExportTitle}">
+			<table>
+				<apex:outputPanel layout="none" rendered="{!ISNULL(actionPlanExportXMLId)}">
+					<tr>
+						<td><apex:outputText value="{!$Label.ap_XMLFailure}" /></td>
+					</tr>
+				</apex:outputPanel>
+				<apex:outputPanel layout="none" rendered="{!NOT(ISNULL(actionPlanExportXMLId))}">
+					<tr>
+						<td>
+							<apex:outputText value="{!successMessage}" />
+						</td>
+					</tr>
+					<tr>
+						<td><br /></td>
+					</tr>
+					<tr>
+						<td>{!$Label.ap_ViewFile}&nbsp;<a href="/{!actionPlanExportXMLId}">{!ActionPlanTemplate__c.Name}</a></td>
+					</tr>
+				</apex:outputPanel>
+				<tr>
+					<td><br /></td>
+				</tr>
+				<tr>
+					<td>
+						<apex:form
+							><apex:outputText value="{!$Label.ap_View}" />&nbsp;{!$ObjectType.ActionPlanTemplate__c.label}&nbsp;<apex:commandLink
+								action="{!URLFOR($Action.ActionPlanTemplate__c.View, ActionPlanTemplate__c.Id)}"
+								value="{!ActionPlanTemplate__c.Name}"
+						/></apex:form>
 					</td>
-                </tr>
-                <tr>
-                    <td><br/></td>
-                </tr>
-                <tr>
-                    <td>{!$Label.ap_ViewFile}&nbsp;<a href="/{!actionPlanExportXMLId}">{!ActionPlanTemplate__c.Name}</a></td>
-                </tr>
-            </apex:outputPanel>
-            <tr>
-                <td><br/></td>
-            </tr>
-            <tr>
-                <td><apex:form><apex:outputText value="{!$Label.ap_View}"/>&nbsp;{!$ObjectType.ActionPlanTemplate__c.label}&nbsp;<apex:commandLink action="{!URLFOR($Action.ActionPlanTemplate__c.View, ActionPlanTemplate__c.Id)}" value="{!ActionPlanTemplate__c.Name}"/></apex:form>
-				</td>
-            </tr>
-            <tr>
-                <td>
-                    <br/><br/>
-					<apex:outputText escape="false" value="{!$Label.ap_ShareEmail}" />
-                </td>
-            </tr>
-        </table>
-    </apex:pageBlock>
-    </div>
+				</tr>
+				<tr>
+					<td>
+						<br /><br />
+						<apex:outputText escape="false" value="{!$Label.ap_ShareEmail}" />
+					</td>
+				</tr>
+			</table>
+		</apex:pageBlock>
+	</div>
 </apex:page>
