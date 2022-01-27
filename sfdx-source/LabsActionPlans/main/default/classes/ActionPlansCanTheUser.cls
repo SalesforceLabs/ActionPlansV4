@@ -5,14 +5,13 @@
  * This class name was chosen to facilitate easy-to-understand and read code.
  * Whenever you need to check FLS or CRUD access your code reads like this
  * `if(ActionPlansCanTheUser.read(new account())){}` making the calling and use of this
- * code easy and intuitive.
+ * code easy and intuitive. Taken from Codefriar code.
+ * @see https://github.com/codefriar/CanTheUser
+ * @see https://github.com/trailheadapps/apex-recipes
+ * @see ActionPlansCanTheUserTest
+ * @see ActionPlansSafely
+ * @author Codefriar
  * @group Security
- */
-
-/**
- * Taken from Codefriar code
- * https://github.com/codefriar/CanTheUser
- * https://github.com/trailheadapps/apex-recipes
  */
 public inherited sharing class ActionPlansCanTheUser {
 	@testVisible

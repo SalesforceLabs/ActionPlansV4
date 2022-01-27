@@ -1,10 +1,12 @@
 {
 	"trailingComma": "none",
 	"singleQuote": true,
-	"tabWidth": 4,
+	"tabWidth": 2,
 	"printWidth": 200,
 	"useTabs": true,
 	"bracketSpacing": true,
+	"apexInsertFinalNewline": false,
+	"bracketSameLine": true,
 	"overrides": [
 		{
 			"files": "**/lwc/**/*.html",
@@ -12,7 +14,7 @@
 		},
 		{
 			"files": "*.{cmp,page,component}",
-			"options": { "parser": "html" }
+			"options": { "parser": "html", "tabWidth": 4 }
 		},
 		{
 			"files": ["force-app/**/**/classes/*.cls"]

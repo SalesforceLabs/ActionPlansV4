@@ -37,6 +37,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
+ * @throws ImportException
  * @group Visualforce
  */
 public inherited sharing class ActionPlanTemplateImport {
@@ -154,7 +155,6 @@ public inherited sharing class ActionPlanTemplateImport {
 	/**
 	 * Method for handling importing of Action Plan Template Task Objects
 	 * @param xml
-	 * @return
 	 */
 	private void importAPTtasks(String xml, Id apTemplateId) {
 		Xmlstreamreader reader = new Xmlstreamreader(xml);

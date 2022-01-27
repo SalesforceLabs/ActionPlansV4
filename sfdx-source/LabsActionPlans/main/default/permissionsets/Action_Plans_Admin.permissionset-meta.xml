@@ -91,11 +91,6 @@
     <description>Full Action Plans access</description>
     <fieldPermissions>
         <editable>true</editable>
-					<field>APTTaskTemplate__c.TController__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>APTTaskTemplate__c.Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -122,6 +117,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>APTTaskTemplate__c.SendEmail__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>APTTaskTemplate__c.TController__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -333,6 +333,16 @@
         <editable>true</editable>
         <field>Event.Description</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.IsAllDayEvent</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.Location</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>

@@ -36,17 +36,23 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<apex:page id="thePage" tabStyle="ActionPlanTemplate__c" standardController="ActionPlanTemplate__c" extensions="ActionPlanTemplateDetailController" lightningStylesheets="true" docType="html-5.0" contentType="text/html" >
-
-<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
+<apex:page
+	id="thePage"
+	tabStyle="ActionPlanTemplate__c"
+	standardController="ActionPlanTemplate__c"
+	extensions="ActionPlanTemplateDetailController"
+	lightningStylesheets="true"
+	docType="html-5.0"
+	contentType="text/html">
+	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_Utilities.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_DisplayScripts.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery.tablesorter.min.js')}" />
 	<script type="text/javascript">
 		var j$ = jQuery.noConflict();
 		j$(document).ready(function () {
-			j$("[Id$=theTable]").tablesorter();
-			j$('.helpOrb').css({ 'width': '12px', 'height': '12px' });
+			j$('[Id$=theTable]').tablesorter();
+			j$('.helpOrb').css({ width: '12px', height: '12px' });
 		});
 	</script>
 
@@ -54,13 +60,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	<apex:form id="detailForm">
 		<apex:pageBlock id="templateDetail" title="" mode="detail">
-
 			<apex:pageBlockButtons id="buttons" location="top">
-				<apex:commandButton id="edit" action="{!$Page.ActionPlanTemplateCreation}?id={!ActionPlanTemplate__c.Id}&retURL={!$CurrentPage.URL}" value="{!$Label.ap_Edit}" rendered="{!$ObjectType.ActionPlanTemplate__c.updateable}" />
-				<apex:commandButton id="delete" action="{!deleteTemplate}" value="Delete" onclick="return confirm('{!$Label.ap_AreYouSureAsk}');" rendered="{!$ObjectType.ActionPlanTemplate__c.deletable}" />
-				<apex:commandButton id="clone" action="{!$Page.ActionPlanTemplateCreation}?clone=1&templateId={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_Clone}" rendered="{!$ObjectType.ActionPlanTemplate__c.createable}"/>
-				<apex:commandButton id="newActionPlan" action="{!$Page.ActionPlanCreation}?templateId={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_New} {!$ObjectType.ActionPlan__c.label}" rendered="{!$ObjectType.ActionPlan__c.createable}" />
-				<apex:commandButton id="export" action="{!$Page.ActionPlanTemplateExport}?Id={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_Export}" rendered="{!$Permission.Action_Plan_Template_Export}" />
+				<apex:commandButton
+					id="edit"
+					action="{!$Page.ActionPlanTemplateCreation}?id={!ActionPlanTemplate__c.Id}&retURL={!$CurrentPage.URL}"
+					value="{!$Label.ap_Edit}"
+					rendered="{!$ObjectType.ActionPlanTemplate__c.updateable}" />
+				<apex:commandButton
+					id="delete"
+					action="{!deleteTemplate}"
+					value="Delete"
+					onclick="return confirm('{!$Label.ap_AreYouSureAsk}');"
+					rendered="{!$ObjectType.ActionPlanTemplate__c.deletable}" />
+				<apex:commandButton
+					id="clone"
+					action="{!$Page.ActionPlanTemplateCreation}?clone=1&templateId={!ActionPlanTemplate__c.Id}"
+					value="{!$Label.ap_Clone}"
+					rendered="{!$ObjectType.ActionPlanTemplate__c.createable}" />
+				<apex:commandButton
+					id="newActionPlan"
+					action="{!$Page.ActionPlanCreation}?templateId={!ActionPlanTemplate__c.Id}"
+					value="{!$Label.ap_New} {!$ObjectType.ActionPlan__c.label}"
+					rendered="{!$ObjectType.ActionPlan__c.createable}" />
+				<apex:commandButton
+					id="export"
+					action="{!$Page.ActionPlanTemplateExport}?Id={!ActionPlanTemplate__c.Id}"
+					value="{!$Label.ap_Export}"
+					rendered="{!$Permission.Action_Plan_Template_Export}" />
 			</apex:pageBlockButtons>
 
 			<apex:pageBlockSection columns="2" collapsible="false">
@@ -87,67 +113,72 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				</apex:pageBlockSectionItem>
 				<apex:pageBlockSectionItem rendered="{!NOT(taskHasRecordType)}" />
 
-				<apex:outputField value="{!ActionPlanTemplate__c.SkipDay__c}" rendered="{!ActionPlanTemplate__c.SkipWeekends__c}"/>
+				<apex:outputField value="{!ActionPlanTemplate__c.SkipDay__c}" rendered="{!ActionPlanTemplate__c.SkipWeekends__c}" />
 			</apex:pageBlockSection>
 
 			<apex:pageBlockSection id="taskSection" title="{!$ObjectType.Task.labelPlural} {!$Label.ap_TaskHeaderSortable}" columns="1" collapsible="false">
-			<apex:pageBlockTable value="{!TemplateTasks}" var="task" id="theTable" styleClass="tablesorter sortable noBump" rules="none" style="vertical-align:middle;">
-				<apex:column id="columnOne" headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Subject__c.label}" value="{!task.Subject__c}" style="vertical-align:middle;" />
-				<apex:column id="indexColumn" headerValue="{!$ObjectType.APTaskTemplate__c.fields.TaskIndex__c.label}" rendered="false">
-					<apex:variable value="{!task.TaskIndex__c + 1}" var="row" />
-					<apex:outputText value="{!row}" />
-				</apex:column>
-				<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.TController__c.label}" value="{!task.TController__r.Subject__c}" rendered="{!TemplateTasks.size > 1}"  style="vertical-align:middle;"/>
-				<apex:column value="{!task.DaysFromStart__c}" style="vertical-align:middle;" >
-					<apex:facet name="header">{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.label}
-						<img class="helpOrb" title="{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
-					</apex:facet>
-				</apex:column>
+				<apex:pageBlockTable value="{!TemplateTasks}" var="task" id="theTable" styleClass="tablesorter sortable noBump" rules="none" style="vertical-align: middle">
+					<apex:column id="columnOne" headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Subject__c.label}" value="{!task.Subject__c}" style="vertical-align: middle" />
+					<apex:column id="indexColumn" headerValue="{!$ObjectType.APTaskTemplate__c.fields.TaskIndex__c.label}" rendered="false">
+						<apex:variable value="{!task.TaskIndex__c + 1}" var="row" />
+						<apex:outputText value="{!row}" />
+					</apex:column>
+					<apex:column
+						headerValue="{!$ObjectType.APTTaskTemplate__c.fields.TController__c.label}"
+						value="{!task.TController__r.Subject__c}"
+						rendered="{!TemplateTasks.size > 1}"
+						style="vertical-align: middle" />
+					<apex:column value="{!task.DaysFromStart__c}" style="vertical-align: middle">
+						<apex:facet name="header"
+							>{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.label}
+							<img class="helpOrb" title="{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
+						</apex:facet>
+					</apex:column>
 
-				<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.User__c.label}" styleClass="assigned_to_field" style="vertical-align:middle;" >
-					<apex:outputField value="{!task.User__c}"  />
-				</apex:column>
+					<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.User__c.label}" styleClass="assigned_to_field" style="vertical-align: middle">
+						<apex:outputField value="{!task.User__c}" />
+					</apex:column>
 
-				<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Type__c.label}" value="{!task.Type__c}" style="vertical-align:middle;"/>
-				<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Priority__c.label}" value="{!task.Priority__c}" style="vertical-align:middle;"/>
-				<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.SendEmail__c.label}" value="{!task.SendEmail__c}" style="vertical-align:middle;"/>
+					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Type__c.label}" value="{!task.Type__c}" style="vertical-align: middle" />
+					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Priority__c.label}" value="{!task.Priority__c}" style="vertical-align: middle" />
+					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.SendEmail__c.label}" value="{!task.SendEmail__c}" style="vertical-align: middle" />
 
-				<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Reminder__c.label}" style="vertical-align:middle;" rendered="{!canDisplayReminder}">
-					<apex:outputPanel layout="block" style="vertical-align:middle;">
-						<apex:outputField value="{!task.Reminder__c}" rendered="{!!task.Reminder__c}" />
-						<apex:outputField value="{!task.Time_Reminder__c}" rendered="{!task.Reminder__c}" />
-					</apex:outputPanel>
-				</apex:column>
+					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Reminder__c.label}" style="vertical-align: middle" rendered="{!canDisplayReminder}">
+						<apex:outputPanel layout="block" style="vertical-align: middle">
+							<apex:outputField value="{!task.Reminder__c}" rendered="{!!task.Reminder__c}" />
+							<apex:outputField value="{!task.Time_Reminder__c}" rendered="{!task.Reminder__c}" />
+						</apex:outputPanel>
+					</apex:column>
 
-				<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Comments__c.label}" style="vertical-align:middle;">
-					<apex:outputPanel id="commentPanel" style="display:none" onclick="toggleVisibility('{!$Component.commentPanel}');">
-						<apex:outputField value="{!task.Comments__c}" />
-						<br/>
-					</apex:outputPanel>
+					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Comments__c.label}" style="vertical-align: middle">
+						<apex:outputPanel id="commentPanel" style="display: none" onclick="toggleVisibility('{!$Component.commentPanel}');">
+							<apex:outputField value="{!task.Comments__c}" />
+							<br />
+						</apex:outputPanel>
 
-					<apex:outputPanel rendered="{!task.Comments__c != null}" onclick="toggleVisibility('{!$Component.commentPanel}');">
-						(<apex:outputText style="text-decoration:underline" value="..." />)
-					</apex:outputPanel>
-				</apex:column>
-			</apex:pageBlockTable>
+						<apex:outputPanel rendered="{!task.Comments__c != null}" onclick="toggleVisibility('{!$Component.commentPanel}');">
+							(<apex:outputText style="text-decoration: underline" value="..." />)
+						</apex:outputPanel>
+					</apex:column>
+				</apex:pageBlockTable>
 			</apex:pageBlockSection>
 
 			<apex:pageBlockSection columns="2" collapsible="false">
-				<apex:pageBlockSectionItem >
+				<apex:pageBlockSectionItem>
 					<apex:outputLabel value="{!$Label.ap_CreatedBy}" />
-					<apex:outputPanel >
+					<apex:outputPanel>
 						<apex:outputField value="{!ActionPlanTemplate__c.CreatedById}" />,&nbsp;
 						<apex:outputField value="{!ActionPlanTemplate__c.CreatedDate}" />
 					</apex:outputPanel>
 				</apex:pageBlockSectionItem>
-				<apex:pageBlockSectionItem >
+				<apex:pageBlockSectionItem>
 					<apex:outputLabel value="{!$Label.ap_LastModifiedBy}" />
-					<apex:outputPanel >
+					<apex:outputPanel>
 						<apex:outputField value="{!ActionPlanTemplate__c.LastModifiedById}" />,&nbsp;
 						<apex:outputField value="{!ActionPlanTemplate__c.LastModifiedDate}" />
 					</apex:outputPanel>
 				</apex:pageBlockSectionItem>
-		   	</apex:pageBlockSection>
+			</apex:pageBlockSection>
 		</apex:pageBlock>
 	</apex:form>
 	<apex:relatedList list="ActionPlans__r" />

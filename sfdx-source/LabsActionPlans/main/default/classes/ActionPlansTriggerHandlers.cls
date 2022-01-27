@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.AvoidGlobalModifier')
 /*
 Action Plans v4
 David Schach 2021
@@ -36,6 +37,9 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+/**
+ * Trigger Handler class to manage all triggers. Methods for managed objects are here, as well as a method that any other object can use to enable it to be linked to Action Plans.
+ */
 global without sharing class ActionPlansTriggerHandlers {
 	/**
 	 * Global so that if in managed package, this method is the only one available
@@ -46,6 +50,16 @@ global without sharing class ActionPlansTriggerHandlers {
 		actionPlansSObjectTriggerHandler(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap, Trigger.operationType, sObjectName);
 	}
 
+	/**
+	 * @description Handle SObjects with related Action Plans when those sObject records are deleted and undeleted
+	 * @author David Schach
+	 * @param  newRecords    Trigger.new
+	 * @param  oldRecords    Trigger.old
+	 * @param  newRecordsMap Trigger.newMap
+	 * @param  oldRecordsMap Trigger.oldMap
+	 * @param  triggerEvent  Trigger context
+	 * @param  sObjectName   the name of the SObject
+	 */
 	public static void actionPlansSObjectTriggerHandler(
 		List<SObject> newRecords,
 		List<SObject> oldRecords,
@@ -77,14 +91,14 @@ global without sharing class ActionPlansTriggerHandlers {
 		switch on triggerEvent {
 			when BEFORE_DELETE {
 				Set<Id> apIds = new Set<Id>();
-				List<ActionPlan__c> deletePermenantly_apIds = new List<ActionPlan__c>();
+				List<ActionPlan__c> deletePermenantlyApIds = new List<ActionPlan__c>();
 
 				// Query Action Plans to delete in recycle bin
 				String deleteQueryString = 'SELECT Id, Name FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords AND isDeleted = true ALL ROWS';
-				deletePermenantly_apIds = Database.query(deleteQueryString);
+				deletePermenantlyApIds = Database.query(deleteQueryString);
 
-				if (deletePermenantly_apIds.isEmpty()) {
-					Database.emptyRecycleBin(deletePermenantly_apIds);
+				if (deletePermenantlyApIds.isEmpty()) {
+					Database.emptyRecycleBin(deletePermenantlyApIds);
 				}
 
 				deleteQueryString = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords';
@@ -367,6 +381,15 @@ global without sharing class ActionPlansTriggerHandlers {
 		}
 	}
 
+	/**
+	 * @description Trigger handler for Task records when they are inserted, updated, or deleted
+	 * @author David Schach
+	 * @param  newRecords    Trigger.new
+	 * @param  oldRecords    Trigger.old
+	 * @param  newRecordsMap Trigger.newMap
+	 * @param  oldRecordsMap Trigger.oldMap
+	 * @param  triggerEvent  Trigger context
+	 */
 	public static void triggerHandler_ActionPlanTask(List<Task> newRecords, List<Task> oldRecords, Map<Id, Task> newRecordsMap, Map<Id, Task> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		//System.debug('In Task ' + triggerEvent.name());
 
@@ -531,7 +554,13 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * Handle ActionPlans related to Leads after conversion
+	 * @description Handle ActionPlans related to Leads after conversion
+	 * @author David Schach
+	 * @param  newRecords    Trigger.new
+	 * @param  oldRecords    Trigger.old
+	 * @param  newRecordsMap Trigger.newMap
+	 * @param  oldRecordsMap Trigger.oldMap
+	 * @param  triggerEvent  Trigger context
 	 */
 	public static void triggerHandler_ActionPlanLead(List<Lead> newRecords, List<Lead> oldRecords, Map<Id, Lead> newRecordsMap, Map<Id, Lead> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		switch on triggerEvent {
@@ -636,12 +665,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					relatedIDs.add(c.Id);
 				}
 
-				List<ActionPlan__c> aPs = [
-					SELECT Id
-					FROM ActionPlan__c
-					WHERE Contact__c IN :relatedIDs OR Contract__c IN :relatedIDs OR Case__c IN :relatedIDs OR Opportunity__c IN :relatedIDs
-					ALL ROWS
-				];
+				List<ActionPlan__c> aPs = [SELECT Id FROM ActionPlan__c WHERE Contact__c IN :relatedIDs OR Contract__c IN :relatedIDs OR Case__c IN :relatedIDs OR Opportunity__c IN :relatedIDs ALL ROWS];
 
 				try {
 					if (ActionPlansTestUtilities.forceError) {
@@ -659,6 +683,11 @@ global without sharing class ActionPlansTriggerHandlers {
 		}
 	}
 
+	/**
+	 * @description Validate that 1 and only 1 custom reference field is filled
+	 * @author David Schach
+	 * @param  actionPlans Trigger records to validate
+	 */
 	private static void validateActionPlans(List<ActionPlan__c> actionPlans) {
 		List<String> actionPlanReferenceFields = ActionPlansUtilities.getCustomRelationshipFields();
 
@@ -699,9 +728,9 @@ global without sharing class ActionPlansTriggerHandlers {
 
 	/**
 	 * Validates if the given tasks can change status to in progress or completed.
-	 * If the task : depends on another that is open, returns false
+	 * If the task depends on another that is open, returns false
 	 * This bulkified method avoids SOQL queries in a loop
-	 * @param apTaskTemplateIds - bulkified set of task IDs to consider
+	 * @param apTaskTemplateIds bulkified set of task IDs to consider
 	 * @return dependsOnInProgressTask
 	 */
 	private static Map<Id, Boolean> allowChangeParentStatus(Set<Id> apTaskTemplateIds) {
@@ -711,7 +740,6 @@ global without sharing class ActionPlansTriggerHandlers {
 		for (APTaskTemplate__c apt : [SELECT Status__c, Controller__c, Controller__r.Status__c FROM APTaskTemplate__c WHERE Id IN :apTaskTemplateIds]) {
 			allowTasksMap.put(apt.Id, apt.Controller__c == null || !openStatuses.contains(apt.Controller__r.Status__c));
 		}
-
 		return allowTasksMap;
 	}
 }

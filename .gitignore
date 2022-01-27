@@ -20,6 +20,9 @@ coverage/
 # SOQL Query Results
 **/scripts/soql/query-results
 
+# PMD Cache
+.pmdCache
+
 # Logs
 logs
 *.log

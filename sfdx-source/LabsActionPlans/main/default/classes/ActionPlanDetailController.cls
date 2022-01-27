@@ -165,11 +165,7 @@ public with sharing class ActionPlanDetailController {
 			return 0;
 		}
 
-		List<APTaskTemplate__c> ts = [
-			SELECT Id
-			FROM APTaskTemplate__c
-			WHERE Status__c IN :ActionPlansUtilities.getClosedTaskStatuses() AND ActivityDate__c != NULL AND Action_Plan__c = :actionPlan.Id
-		];
+		List<APTaskTemplate__c> ts = [SELECT Id FROM APTaskTemplate__c WHERE Status__c IN :ActionPlansUtilities.getClosedTaskStatuses() AND ActivityDate__c != NULL AND Action_Plan__c = :actionPlan.Id];
 
 		return (ts != null) ? ts.size() : 0;
 	}

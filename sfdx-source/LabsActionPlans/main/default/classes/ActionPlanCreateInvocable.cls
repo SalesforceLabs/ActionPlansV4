@@ -42,6 +42,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @since v4
  */
 global without sharing class ActionPlanCreateInvocable {
+	/**
+	 * @description
+	 *
+	 * @param requests Wrapper of
+	 * @return         `List<Id>`
+	 */
 	@InvocableMethod(label='Create Action Plan From Template' description='Takes a Template Name/Id and Record Id and makes an Action Plan for that record.' category='ActionPlans')
 	global static List<Id> makeActionPlanFromTemplate(List<CreateActionPlanRequest> requests) {
 		List<Id> resultIDs = new List<Id>();
@@ -357,6 +363,10 @@ global without sharing class ActionPlanCreateInvocable {
 		return resultIDs;
 	}
 
+	/**
+	 * Wrapper class for ActionPlan Request for invocable Apex.
+	 * <br>
+	 */
 	global class CreateActionPlanRequest {
 		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
 		global String templateNameOrID;

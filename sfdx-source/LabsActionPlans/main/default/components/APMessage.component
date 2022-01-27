@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	</script>
 	<apex:attribute name="severity" description="warning, error, success" type="String" required="required" />
 	<apex:attribute name="message" description="UI Message to display" type="String" required="required" />
-	<div class="slds-scope" >
+	<div class="slds-scope">
 		<apex:outputPanel layout="none" rendered="{!$CurrentPage.parameters.message != null}">
 			<div class="slds-notify_container slds-is-fixed slds-align_absolute-center" id="toastPanel">
 				<div class="slds-notify slds-notify_toast slds-theme_success" role="status">
@@ -48,12 +48,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 						<apex:image url="/img/icon/t4v35/utility/success_60.png" styleclass="slds-icon slds-icon_small" html-aria-hidden="true" />
 					</span>
 					<div class="slds-notify__content">
-						<h2 class="slds-text-heading_small ">{!message}
+						<h2 class="slds-text-heading_small">
+							{!message}
 							<!-- <apex:outputLink value="{!$Page.ActionPlansHome}">{!$Page.ActionPlansHome}</apex:outputLink> -->
-							<apex:componentBody/>
+							<apex:componentBody />
 						</h2>
 					</div>
-					<div class="slds-notify__close" style="top:1.5rem;">
+					<div class="slds-notify__close" style="top: 1.5rem">
 						<div class="slds-button slds-button_icon slds-button_icon-inverse" title="{!$Label.ap_Close}" onclick="j$('[Id$=toastPanel]').fadeOut('slow');">
 							<apex:image url="/img/icon/t4v35/action/close_60.png" styleclass="slds-button__icon slds-button__icon_large" html-aria-hidden="true" />
 							<span class="slds-assistive-text">{!$Label.ap_Close}</span>

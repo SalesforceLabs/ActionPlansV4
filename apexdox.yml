@@ -1,0 +1,34 @@
+engine:
+  source:
+    - path: '${workspaceFolder}/sfdx-source/LabsActionPlans/main/default/classes'
+      sourceUrl: https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes
+    - path: '${workspaceFolder}/sfdx-source/LabsActionPlans/main/default/tests'
+      sourceUrl: https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests
+  targetDirectory: '${workspaceFolder}/docs'
+  #excludes:
+  #  - "*Test.cls"
+  title: Action Plans code documentation
+  subtitle: Documentation for <a target="_blank" rel="noopener noreferrer" href="https://github.com/SalesforceLabs/ActionPlansV4">Action Plans</a>
+  sortOrder: alpha
+  cleanDir: true
+  showTOCSnippets: true
+  scope:
+    - global
+    - public
+    - protected
+    - private
+    - webService
+    - testMethod
+  #homePagePath: "${workspaceFolder}/doc-assets/homepage.html"
+  #pages:
+  #  - "${workspaceFolder}/doc-assets/index.html"
+  assets:
+    - '${workspaceFolder}/doc-assets/logo.png'
+    - '${workspaceFolder}/doc-assets/favicon.png'
+    - '${workspaceFolder}/doc-assets/icon.png'
+  #  - "${workspaceFolder}/documentation/meme.jpg"
+  port: 8088
+docblock:
+  alignItems: true
+  spacious: true
+  omitDescriptionTag: false

@@ -36,14 +36,14 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<apex:page lightningStylesheets="true" docType="html-5.0" contentType="text/html" >
-
-<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
-<script type="text/javascript">
-    var j$ = jQuery.noConflict();
-    j$(document).ready(function () {
-		showTab(1);
-		if ({!!$ObjectType.ActionPlan__c.accessible}){
+<apex:page lightningStylesheets="true" docType="html-5.0" title="ActionPlansHome" contentType="text/html">
+	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
+	<script type="text/javascript">
+		var j$ = jQuery.noConflict();
+		j$(document).ready(function () {
+			showTab(1);
+			if ({!!$ObjectType.ActionPlan__c.accessible
+		}){
 			//console.log('no actionplan access');
 			showTab(2);
 		}
@@ -51,68 +51,78 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			//console.log('no aptemplate access');
 			showTab(1);
 		};
-		if ({!!$ObjectType.ActionPlan__c.accessible} && {!!$ObjectType.ActionPlanTemplate__c.accessible}){
+		if ({!!$ObjectType.ActionPlan__c.accessible} && {!!$ObjectType.ActionPlanTemplate__c.accessible}) {
 			j$('[Id$=APTabs]').hide();
 		};
-    });
+		    });
 
-	function showTab(tabIndex) {
-		console.log('showing tabindex ' + tabIndex);
-		//Hide all headers
-		j$( "[Id*=secHeader]").hide();
+		function showTab(tabIndex) {
+			console.log('showing tabindex ' + tabIndex);
+			//Hide all headers
+			j$("[Id*=secHeader]").hide();
 
-		//Show active header
-		j$( '[Id$=secHeader-' + tabIndex + ']').show();
+			//Show active header
+			j$('[Id$=secHeader-' + tabIndex + ']').show();
 
-		//Deactive existing tab
-		j$('li.slds-tabs_default__item').removeClass('slds-is-active');
+			//Deactive existing tab
+			j$('li.slds-tabs_default__item').removeClass('slds-is-active');
 
-		//Hide active tab content
-		j$('div.slds-tabs_default__content').removeClass('slds-show');
+			//Hide active tab content
+			j$('div.slds-tabs_default__content').removeClass('slds-show');
 
-		//Hide active tab content
-		j$('div.slds-tabs_default__content').addClass('slds-hide');
-		j$("#tab-default-" + tabIndex).removeClass("slds-hide");
+			//Hide active tab content
+			j$('div.slds-tabs_default__content').addClass('slds-hide');
+			j$("#tab-default-" + tabIndex).removeClass("slds-hide");
 
-		//Activate actual tab
-		j$('#tab-default-li-' + tabIndex).addClass('slds-is-active');
-		j$('#tab-default-' + tabIndex).addClass('slds-show');
+			//Activate actual tab
+			j$('#tab-default-li-' + tabIndex).addClass('slds-is-active');
+			j$('#tab-default-' + tabIndex).addClass('slds-show');
 
-	}
-</script>
+		}
+	</script>
 
-<apex:variable value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" var="lex" />
-<apex:slds />
+	<apex:variable value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" var="lex" />
+	<apex:slds />
 
-<apex:outputPanel layout="block" id="APTabs" >
-    <div class="slds-scope">
+	<apex:outputPanel layout="block" id="APTabs">
+		<div class="slds-scope">
+			<c:APMessage severity="{!$CurrentPage.parameters.severity}" message="{!$CurrentPage.parameters.message}" rendered="{!$CurrentPage.parameters.message != null}" />
 
-        <c:APMessage severity="{!$CurrentPage.parameters.severity}" message="{!$CurrentPage.parameters.message}" rendered="{!$CurrentPage.parameters.message != null}"/>
+			<article class="slds-card">
+				<div class="slds-card__body slds-card__body_inner">
+					<c:APSectionHeader sObjType="ActionPlan__c" title="{!$ObjectType.ActionPlan__c.LabelPlural}" subtitle="" id="secHeader-1" />
+					<c:APSectionHeader sObjType="ActionPlanTemplate__c" title="{!$ObjectType.ActionPlanTemplate__c.LabelPlural}" subtitle="" id="secHeader-2" />
 
-        <article class="slds-card">
-            <div class="slds-card__body slds-card__body_inner">
-
-                <c:APSectionHeader sObjType="ActionPlan__c" title="{!$ObjectType.ActionPlan__c.LabelPlural}" subtitle="" id="secHeader-1"/>
-				<c:APSectionHeader sObjType="ActionPlanTemplate__c" title="{!$ObjectType.ActionPlanTemplate__c.LabelPlural}" subtitle="" id="secHeader-2" />
-
-                <div class="slds-tabs_default">
-                    <ul class="slds-tabs_default__nav" role="tablist">
-                        <li class="slds-tabs_default__item slds-is-active" title="{!$ObjectType.ActionPlan__c.LabelPlural}" role="presentation" id="tab-default-li-1">
-                            <a class="slds-tabs_default__link" href="#" onclick="showTab(1);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1" id="actionPlansTab">{!$ObjectType.ActionPlan__c.LabelPlural}</a>
-                        </li>
-                        <li class="slds-tabs_default__item" title="{!$ObjectType.ActionPlanTemplate__c.LabelPlural}" role="presentation" id="tab-default-li-2">
-                            <a class="slds-tabs_default__link" href="#" onclick="showTab(2);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-2" id="actionPlanTemplatesTab">{!$ObjectType.ActionPlanTemplate__c.LabelPlural}</a>
-                        </li>
-                    </ul>
-                    <div id="tab-default-1" class="slds-tabs_default__content slds-show" role="tabpanel" aria-labelledby="actionPlansTab">
-                        <apex:ListViews type="ActionPlan__c" />
-                    </div>
-                    <div id="tab-default-2" class="slds-tabs_default__content slds-hide" role="tabpanel" aria-labelledby="actionPlanTemplatesTab">
-						<apex:ListViews type="ActionPlanTemplate__c" />
-                    </div>
-                </div>
-            </div>
-        </article>
-    </div>
-</apex:outputPanel>
+					<div class="slds-tabs_default">
+						<ul class="slds-tabs_default__nav" role="tablist">
+							<li class="slds-tabs_default__item slds-is-active" title="{!$ObjectType.ActionPlan__c.LabelPlural}" role="presentation" id="tab-default-li-1">
+								<a class="slds-tabs_default__link" href="#" onclick="showTab(1);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1" id="actionPlansTab"
+									>{!$ObjectType.ActionPlan__c.LabelPlural}</a
+								>
+							</li>
+							<li class="slds-tabs_default__item" title="{!$ObjectType.ActionPlanTemplate__c.LabelPlural}" role="presentation" id="tab-default-li-2">
+								<a
+									class="slds-tabs_default__link"
+									href="#"
+									onclick="showTab(2);"
+									role="tab"
+									tabindex="-1"
+									aria-selected="false"
+									aria-controls="tab-default-2"
+									id="actionPlanTemplatesTab"
+									>{!$ObjectType.ActionPlanTemplate__c.LabelPlural}</a
+								>
+							</li>
+						</ul>
+						<div id="tab-default-1" class="slds-tabs_default__content slds-show" role="tabpanel" aria-labelledby="actionPlansTab">
+							<apex:ListViews type="ActionPlan__c" />
+						</div>
+						<div id="tab-default-2" class="slds-tabs_default__content slds-hide" role="tabpanel" aria-labelledby="actionPlanTemplatesTab">
+							<apex:ListViews type="ActionPlanTemplate__c" />
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
+	</apex:outputPanel>
 </apex:page>

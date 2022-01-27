@@ -47,14 +47,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	<apex:variable var="customObject" value="{!$ObjectType[sObjType].custom}" />
 	<script>
 		function checkEscape(key, e) {
-			if (e.keyCode === 27) { // escape key maps to keycode `27`
+			if (e.keyCode === 27) {
+				// escape key maps to keycode `27`
 				clearLookup(key);
 			}
 		}
 		function clearLookup(key) {
 			j$('[id$=SrchDrpDwn{!for}]').hide();
 			j$('#' + key.attr('aria-activedescendant')).hide();
-			j$(key).val("").text("");
+			j$(key).val('').text('');
 		}
 	</script>
 
@@ -64,15 +65,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
 					<div class="{!IF(required==true,'requiredInput','')}">
 						<div class="{!IF(required==true,'requiredBlock','')}">
-
 							<!-- <apex:inputField id="searchInput" styleclass="slds-input slds-combobox__input {!fieldClass}" style="{!fieldStyle}" type="text" html-autocomplete="off" onkeyup="LightningLookupScripts{!for}.searchRecords(j$(this), '{!sObjType}', '{!customObject}');checkEscape(j$(this), event);" html-aria-autocomplete="list"
 							 html-role="combobox" html-aria-expanded="true" html-aria-controls="SrchDrpDwn{!for}" html-placeholder="{!$Label.ap_Search}" html-aria-activedescendant="SrchDrpDwn{!for}" required="{!IF(required == true, 'true', '')}" value="{!sObj[field]}" /> -->
-							<input id="searchInput" styleclass="slds-input slds-combobox__input {!fieldClass}" style="{!fieldStyle}" type="text" autocomplete="off" onkeyup="LightningLookupScripts{!for}.searchRecords(j$(this), '{!sObjType}', '{!customObject}');checkEscape(j$(this), event);" aria-autocomplete="list"
-							 role="combobox" aria-expanded="true" aria-controls="SrchDrpDwn{!for}" placeholder="{!$Label.ap_Search}" aria-activedescendant="SrchDrpDwn{!for}" required="{!IF(required == true, 'true', '')}" value="{!recordname}" />
+							<input
+								id="searchInput"
+								styleclass="slds-input slds-combobox__input {!fieldClass}"
+								style="{!fieldStyle}"
+								type="text"
+								autocomplete="off"
+								onkeyup="LightningLookupScripts{!for}.searchRecords(j$(this), '{!sObjType}', '{!customObject}');checkEscape(j$(this), event);"
+								aria-autocomplete="list"
+								role="combobox"
+								aria-expanded="true"
+								aria-controls="SrchDrpDwn{!for}"
+								placeholder="{!$Label.ap_Search}"
+								aria-activedescendant="SrchDrpDwn{!for}"
+								required="{!IF(required == true, 'true', '')}"
+								value="{!recordname}" />
 						</div>
 					</div>
 				</div>
-				<div id="SrchDrpDwn{!for}" class="slds-dropdown slds-dropdown_length-with-icon-5 slds-dropdown_fluid" role="listbox" style="display:none;">
+				<div id="SrchDrpDwn{!for}" class="slds-dropdown slds-dropdown_length-with-icon-5 slds-dropdown_fluid" role="listbox" style="display: none">
 					<ul class="slds-listbox slds-listbox_vertical" role="presentation" id="searchResultsUL{!for}"></ul>
 				</div>
 			</div>

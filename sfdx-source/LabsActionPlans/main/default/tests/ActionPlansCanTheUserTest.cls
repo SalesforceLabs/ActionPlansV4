@@ -1,7 +1,7 @@
 /**
  * Taken from Codefriar code
- * https://github.com/codefriar/CanTheUser
- * https://github.com/trailheadapps/apex-recipes
+ * @see https://github.com/codefriar/CanTheUser
+ * @see https://github.com/trailheadapps/apex-recipes
  * @group Security
  */
 @IsTest

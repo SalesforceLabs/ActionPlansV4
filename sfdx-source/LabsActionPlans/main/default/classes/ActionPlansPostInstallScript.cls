@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * Install sample data on first installation
+ * @group Utilities
  */
 global class ActionPlansPostInstallScript implements InstallHandler {
 	global void onInstall(InstallContext context) {
