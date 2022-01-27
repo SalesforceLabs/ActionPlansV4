@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * When we have more than one task to create, run it in batch context for higher limits
  * @since 2011
+ * @group Batch
  */
 public without sharing class ActionPlansBatchTaskBuilder implements Database.Batchable<SObject>, Database.Stateful {
 	private List<APTaskTemplate__c> apTasks { get; set; }
