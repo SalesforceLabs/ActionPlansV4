@@ -38,10 +38,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Batch Utilities class
- * @group Batch Apex
+ * @group Utilities
+ * @see ActionPlanCreateInvocable
+ * @see ActionPlanCreationController
+ * @see ActionPlansBatchBuilder
  */
 public inherited sharing class ActionPlansBatchBuilderUtilities {
-	//private List<SObject> relObjects                { get; set; }
 	private List<APTaskTemplate__c> baseAPTaskList { get; set; }
 
 	private List<ActionPlan__c> relActionPlans { get; set; }
@@ -49,8 +51,6 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	private String relatedObjectName { get; set; }
 	private Set<Id> relatedRecordIDs { get; set; }
-
-	//private Id newActionPlanId;
 
 	public enum ApEditMode {
 		MODE_EDIT_SINGLE,
@@ -70,10 +70,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 		// if the actionPlan has already an Id, then we are editing an AP and not creating a new one
 		if (baseObj.id != null) {
-			//System.debug('single ap');
-
 			mode = ApEditMode.MODE_EDIT_SINGLE;
-
 			relActionPlans.add(baseObj);
 		} else {
 			List<String> apRefFields = ActionPlansUtilities.getCustomRelationshipFields();
@@ -105,6 +102,11 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 		return relActionPlans;
 	}
 
+	/**
+	 * @description Generate Action Plans from parameters passed to this class
+	 * @author David Schach
+	 * @return   the `Id` of the first created `ActionPlan__c`
+	 */
 	public Id generateActionPlans() {
 		List<APTaskTemplate__c> aptList = new List<APTaskTemplate__c>();
 		List<Id> aptTOTALListId = new List<Id>();
@@ -120,7 +122,6 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 		this.relAPTaskList = new List<APTaskTemplate__c>();
 
 		Map<Id, Id> objectOwnersMap = retrieveOwnersDataRelatedObject(this.relatedRecordIDs, this.relatedObjectName);
-		System.debug('object owners map: ' + objectOwnersMap);
 		//insert Action Plans to DB
 		upsert relActionPlans;
 
@@ -138,7 +139,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 					nt.Action_Plan__c = ap.Id;
 					nt.Name = t.Id == null ? ActionPlansUtilities.actionPlanSubjectToName(t.Subject__c, taskTemplateNameLength) : nt.Name;
 					nt.DaysFromStart__c = (nt.DaysFromStart__c < 0) ? 0 : nt.DaysFromStart__c;
-					nt.User__c = getAPTaskTemplateUser(ap, objectOwnersMap, nt.User__c); //( nt.User__c != null ) ? nt.User__c : getRelatedRecordOwnerId( ap, objectOwnersMap );
+					nt.User__c = getAPTaskTemplateUser(ap, objectOwnersMap, nt.User__c);
 					aptList.add(nt);
 				}
 			}
@@ -153,7 +154,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				for (APTaskTemplate__c t : this.baseAPTaskList) {
 					t.DaysFromStart__c = (t.DaysFromStart__c < 0) ? 0 : t.DaysFromStart__c;
 					t.Name = t.Id == null ? ActionPlansUtilities.actionPlanSubjectToName(t.Subject__c, taskTemplateNameLength) : t.Name;
-					t.User__c = getAPTaskTemplateUser(ap, objectOwnersMap, t.User__c); //( nt.User__c != null ) ? nt.User__c : getRelatedRecordOwnerId( ap, objectOwnersMap );
+					t.User__c = getAPTaskTemplateUser(ap, objectOwnersMap, t.User__c);
 				}
 				aptList = this.baseAPTaskList;
 			}
@@ -241,7 +242,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				t.isReminderSet = false;
 			}
 
-			APTaskTemplate__c apt = mapAP.get(t_t.Id);
+			APTaskTemplate__c apt = mapAP?.get(t_t.Id);
 
 			if (apt != null) {
 				apAux = mapIDAP.get(apt.Action_Plan__c);
@@ -321,11 +322,6 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			}
 		}
 
-		//If we Only Create an Action Plan save the Id of the new object
-		/* if (relActionPlans.size() == 1 ){
-			this.newActionPlanId = relActionPlans[0].Id;
-		} */
-
 		if (this.mode != ApEditMode.MODE_EDIT_SINGLE) {
 			// Execution When a Action Plan is created that checks the Custom Setings in order to post a new FeedPost ( Object )
 			Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
@@ -343,11 +339,12 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	}
 
 	/**
-	 * Read the Action Plan and see the custom setting to determine who should own the at Template
-	 * @param ActionPlan__c ap
-	 * @param Map<Id, Id> relObjOwners
-	 * @param Id apTaskUser current record user
-	 * @return Id newOwner
+	 * @description        Read the Action Plan and see the custom setting to determine who should own the at Template
+	 *
+	 * @param ap           `ActionPlan__c`
+	 * @param relObjOwners Map of ID to record owner
+	 * @param apTaskUser   the current record user
+	 * @return             `Id` related OwnerID
 	 */
 	public static Id getAPTaskTemplateUser(ActionPlan__c ap, Map<Id, Id> relObjOwners, Id apTaskUser) {
 		if (String.isNotBlank(apTaskUser)) {
@@ -364,8 +361,11 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	}
 
 	/**
-	 * Read the Action Plan Object and get the Related Record Owner
-	 * @return rOwner
+	 * @description
+	 *
+	 * @param ap           `ActionPlan__c`
+	 * @param relObjOwners Map of related object `ID` to` OwnerId`
+	 * @return             The related record `OwnerId`
 	 */
 	public static Id getRelatedRecordOwnerId(ActionPlan__c ap, Map<Id, Id> relObjOwners) {
 		Id ownerValue;
@@ -407,45 +407,52 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	}
 
 	/**
-	 * Generate New FeedPosts for multiple Action Plans
-	 * @parm : ap
-	 * @return oFeed
+	 * Generate New `FeedItems` for multiple Action Plans
+	 * @param objIds Set of IDs of records for which we may make Chatter posts
 	 */
 	public static void generateObjectFeeds(Set<Id> objIds) {
-		List<SObject> chatterPosts = new List<SObject>();
+		List<FeedItem> chatterPosts = new List<FeedItem>();
 
 		List<String> apRefFields = ActionPlansUtilities.getCustomRelationshipFields();
 		String apQuery = 'SELECT Id, Name, ' + String.join(apRefFields, ', ') + ' FROM ActionPlan__c WHERE Id IN :objIds';
 
+		if (!Schema.getGlobalDescribe().containsKey('feeditem')) {
+			return;
+		}
 		for (SObject so : Database.query(apQuery)) {
 			ActionPlan__c ap = (ActionPlan__c) so;
 
 			Id objId;
-			String objName;
-			Boolean chatter_enabled;
+			Boolean chatterEnabled;
 
 			for (String f : apRefFields) {
 				if (ap.get(f) != null) {
 					objId = (Id) ap.get(f);
-					chatter_enabled = objId.getSObjectType().getDescribe().isFeedEnabled();
+					chatterEnabled = objId.getSObjectType().getDescribe().isFeedEnabled();
 					break;
 				}
 			}
 
-			if (chatter_enabled) {
-				sObjectType token = Schema.getGlobalDescribe().get('FeedItem');
-				SObject objPost = token.newSObject();
-				objPost.put('Type', 'TextPost');
-				objPost.put('ParentId', objId);
-				objPost.put('Body', getPostObjectBody(objId, (String) ap.get('Name')));
+			if (chatterEnabled) {
+				FeedItem newPost = new FeedItem();
+				newPost.put('Type', 'TextPost');
+				newPost.put('ParentId', objId);
+				newPost.put('Body', getPostObjectBody(objId, (String) ap.get('Name')));
 
-				chatterPosts.add(objPost);
+				chatterPosts.add(newPost);
 			}
 		}
 
 		insert chatterPosts;
 	}
 
+	/**
+	 * @description Given a parentID and the name of an Action Plan, make the `FeedItem` post body
+	 * @author David Schach
+	 * @param  recID  Parent ID
+	 * @param  apName Action Plan Name
+	 * @return        `FeedItem.Body`
+	 */
 	public static String getPostObjectBody(Id recID, String apName) {
 		String objName = recID.getSObjectType().getDescribe().getLabel();
 		String actionPlanName = apName;

@@ -54,7 +54,7 @@ private class ActionPlansCreateMultipleAPsExtTest {
 		dml.DuplicateRuleHeader.allowSave = true;
 		dml.DuplicateRuleHeader.runAsCurrentUser = true;
 		List<Database.SaveResult> sr = Database.insert(accts, dml);
-
+		System.assert(!sr.isEmpty(), 'We attempted to save at least one record');
 		ApexPages.StandardSetController std = new ApexPages.StandardSetController(accts);
 		std.setSelected(accts);
 		ActionPlansCreateMultipleAPsExtension ctrl = new ActionPlansCreateMultipleAPsExtension(std);

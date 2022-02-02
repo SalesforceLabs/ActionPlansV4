@@ -300,7 +300,7 @@ private class ActionPlansObjectTriggersTest {
 		testutil.assignAPPermissionSets(u.Id, true);
 
 		System.runAs(new User(Id = UserInfo.getUserId())) {
-			ActionPlan__c ap = testutil.createNewActionPlan('lead', 1);
+			testutil.createNewActionPlan('lead', 1);
 		}
 
 		Test.startTest();
@@ -339,7 +339,7 @@ private class ActionPlansObjectTriggersTest {
 		testutil.assignAPPermissionSets(u.Id, true);
 
 		System.runAs(new User(Id = UserInfo.getUserId())) {
-			ActionPlan__c ap = testutil.createNewActionPlan('lead', 1);
+			testutil.createNewActionPlan('lead', 1);
 		}
 
 		Test.startTest();
@@ -385,7 +385,7 @@ private class ActionPlansObjectTriggersTest {
 		//testutil.assignAPPermissionSets(u.Id, true);
 
 		System.runAs(new User(Id = UserInfo.getUserId())) {
-			ActionPlan__c ap = testutil.createNewActionPlan('lead', 1);
+			testutil.createNewActionPlan('lead', 1);
 		}
 
 		Test.startTest();

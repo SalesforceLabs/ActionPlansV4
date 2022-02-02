@@ -53,8 +53,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		List<String> closedStatuses = new List<String>(ActionPlansUtilities.getClosedTaskStatuses());
 		String testClosedStatus = closedStatuses[0];
 
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c ap = testUtil.createNewActionPlan('account', 0);
 
 		List<Id> apTTaskIds = new List<Id>();
 		List<Task> apTaskList = new List<Task>();
@@ -64,7 +64,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			APTaskTemplate__c at = new APTaskTemplate__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
-			at.User__c = testutil.createTestUser().Id;
+			at.User__c = testUtil.createTestUser().Id;
 			at.SendEmail__c = false;
 			if (i == 0) {
 				at.SendEmail__c = true;
@@ -97,7 +97,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		apTaskList = [SELECT Id FROM Task WHERE TaskAPTaskTemplate__c = :apTTaskIds[0]];
 
 		Test.stopTest();
-		System.assert(!apTaskList.isEmpty());
+		System.assert(!apTaskList.isEmpty(), 'We should have some records here');
 	}
 
 	/**
@@ -105,8 +105,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 */
 	@IsTest
 	private static void testActionPlanDelete() {
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('contact', 0);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c ap = testUtil.createNewActionPlan('contact', 0);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -120,7 +120,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			APTaskTemplate__c at = new APTaskTemplate__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
-			at.User__c = testutil.createTestUser().Id;
+			at.User__c = testUtil.createTestUser().Id;
 			at.SendEmail__c = false;
 			at.Subject__c = 'Test ' + i;
 			at.Type__c = 'Email';
@@ -154,8 +154,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 */
 	@IsTest
 	private static void testAPTTemplateUpdate() {
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 0);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c ap = testUtil.createNewActionPlan('opportunity', 0);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -169,7 +169,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			APTaskTemplate__c at = new APTaskTemplate__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
-			at.User__c = testutil.createTestUser().Id;
+			at.User__c = testUtil.createTestUser().Id;
 			at.SendEmail__c = false;
 			at.Subject__c = 'Test ' + i;
 			at.Type__c = 'Email';
@@ -213,9 +213,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	@IsTest
 	private static void testAPTTUndelete() {
 		Test.startTest();
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c ap = testutil.createNewActionPlan('contract', 1);
+		ActionPlan__c ap = testUtil.createNewActionPlan('contract', 1);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -264,9 +264,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	@IsTest
 	private static void testAPTTemplateUndeleteException() {
 		Test.startTest();
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c ap = testutil.createNewActionPlan('campaign', 3);
+		ActionPlan__c ap = testUtil.createNewActionPlan('campaign', 3);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -307,8 +307,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	*/
 	@IsTest
 	private static void testTrigger6() {
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('lead', 0);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c ap = testUtil.createNewActionPlan('lead', 0);
 
 		List<Id> apTTaskIds = new List<Id>();
 		List<Task> apTask = new List<Task>();
@@ -319,7 +319,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			APTaskTemplate__c at = new APTaskTemplate__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
-			at.User__c = testutil.createTestUser().Id;
+			at.User__c = testUtil.createTestUser().Id;
 			if (i == 0) {
 				at.SendEmail__c = true;
 			} else {
@@ -363,10 +363,10 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	@IsTest
 	private static void testTaskBeforeDelete() {
 		Test.startTest();
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c ap = testUtil.createNewActionPlan('account', 0);
 
-		Id testUserId = testutil.createTestUser().Id;
+		Id testUserId = testUtil.createTestUser().Id;
 
 		//Task Template 1
 		APTaskTemplate__c at = new APTaskTemplate__c();

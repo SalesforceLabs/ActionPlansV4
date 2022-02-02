@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.AvoidGlobalModifier')
 /*
 Action Plans v4
 David Schach 2021
@@ -43,10 +44,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 global without sharing class ActionPlanCreateInvocable {
 	/**
-	 * @description
+	 * @description Invocable Apex for creating Action Plans from a template, a parent ID, and days from now to start the task due dates
 	 *
-	 * @param requests Wrapper of
-	 * @return         `List<Id>`
+	 * @param requests Wrapper of `CreateActionPlanRequest`
+	 * @return         `List<Id>` of the created Action Plans
 	 */
 	@InvocableMethod(label='Create Action Plan From Template' description='Takes a Template Name/Id and Record Id and makes an Action Plan for that record.' category='ActionPlans')
 	global static List<Id> makeActionPlanFromTemplate(List<CreateActionPlanRequest> requests) {
@@ -104,7 +105,7 @@ global without sharing class ActionPlanCreateInvocable {
 		}
 
 		Set<Id> relatedIDs = new Set<Id>();
-		Map<Id, SObject> relatedObjects = new Map<Id, SObject>();
+		//Map<Id, SObject> relatedObjects = new Map<Id, SObject>();
 		String relatedObjectName = requests[0].relatedRecordID.getSObjectType().getDescribe().getName();
 
 		for (CreateActionPlanRequest r : requests) {
@@ -197,7 +198,6 @@ global without sharing class ActionPlanCreateInvocable {
 					userId = UserInfo.getUserId();
 				} else if (aptTask.User__c == null && (mySettings != null && mySettings.Unassigned_Task_Default__c)) {
 					userId = relatedObjectOwners.get(relatedId);
-					System.debug('assigning task to ' + userId);
 				}
 
 				APTaskTemplate__c apTask = new APTaskTemplate__c();
@@ -210,7 +210,7 @@ global without sharing class ActionPlanCreateInvocable {
 				apTask.User__c = userId;
 				apTask.Comments__c = aptTask.Comments__c;
 				apTask.Reminder__c = aptTask.Reminder__c;
-				apTask.Minutes_Reminder__c = aptTask.Minutes_Reminder__c; //ActionPlansUtilities.getDefaultReminderMinutes();
+				apTask.Minutes_Reminder__c = aptTask.Minutes_Reminder__c;
 				apTask.SendEmail__c = aptTask.SendEmail__c;
 
 				apTask.Action_Plan__c = ap.Id;
@@ -247,7 +247,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 		for (APTaskTemplate__c apTask : planTaskIndexToTask.values()) {
 			String actionPlanPlusIndex = apTask.Action_Plan__c + '' + apTask.Dependent__c;
-			//System.debug('Looking for key ' + actionPlanPlusIndex);
+
 			if (planTaskIndexToTask.containsKey(actionPlanPlusIndex)) {
 				apTask.Controller__c = planTaskIndexToTask.get(actionPlanPlusIndex).Id;
 				dependentTasksToUpdate.add(apTask);
@@ -256,7 +256,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 		Database.update(dependentTasksToUpdate);
 
-		Map<Id, Task> mapApTasks = new Map<Id, Task>();
+		//Map<Id, Task> mapApTasks = new Map<Id, Task>();
 		List<Task> myTasksWithOutEmail = new List<Task>();
 		List<Task> myNewTasksWithEmail = new List<Task>();
 
@@ -329,23 +329,19 @@ global without sharing class ActionPlanCreateInvocable {
 			}
 		}
 
-		Database.DMLOptions dmlo = new Database.DMLOptions();
-		dmlo.EmailHeader.triggerUserEmail = true;
+		Database.DMLOptions dmlo1 = new Database.DMLOptions();
+		dmlo1.EmailHeader.triggerUserEmail = true;
 
 		Database.DMLOptions dmlo2 = new Database.DMLOptions();
 		dmlo2.EmailHeader.triggerUserEmail = false;
 
 		if (myNewTasksWithEmail.size() > 0) {
-			Database.insert(myNewTasksWithEmail, dmlo);
+			Database.insert(myNewTasksWithEmail, dmlo1);
 		}
 
 		if (myTasksWithOutEmail.size() > 0) {
 			Database.insert(myTasksWithOutEmail, dmlo2);
 		}
-
-		//We need to check first if the Related Object is Enabled to FeedPost
-		//Just need the first Object of list to know the Related Object.
-		//Boolean isEnabledForFeed = ActionPlansUtilities.isObjectEnabledFeed( actionPlansToInsert.values()[0]);
 
 		Set<Id> relObjectIDs = new Set<Id>();
 		for (ActionPlan__c ap : actionPlansToInsert.values()) {
@@ -366,15 +362,26 @@ global without sharing class ActionPlanCreateInvocable {
 	/**
 	 * Wrapper class for ActionPlan Request for invocable Apex.
 	 * <br>
+	 * @author David Schach
+	 * @since 2021
 	 */
 	global class CreateActionPlanRequest {
 		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
+		/**
+		 * @description The template Id or Name to use (accepts either, but Id is preferred)
+		 */
 		global String templateNameOrID;
 
 		@InvocableVariable(required=true label='The parent Record ID' description='Must have a relationship named the related record object name from Action Plan object')
+		/**
+		 * @description The parent Record ID
+		 */
 		global Id relatedRecordID;
 
 		@InvocableVariable(required=false label='Days from trigger to start Action Plan' description='Defaults to 0, the day the plan is created')
+		/**
+		 * Days from trigger to start Action Plan
+		 */
 		global Integer daysToActionPlanStart;
 	}
 }

@@ -199,7 +199,6 @@
 			<property name="reportPrivate" value="false" />
 			<property name="reportProtected" value="true" />
 			<property name="reportMissingDescription" value="false" />
-			<property name="reportProperty" value="false" />
 		</properties>
 	</rule>
 

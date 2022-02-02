@@ -66,12 +66,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					action="{!$Page.ActionPlanTemplateCreation}?id={!ActionPlanTemplate__c.Id}&retURL={!$CurrentPage.URL}"
 					value="{!$Label.ap_Edit}"
 					rendered="{!$ObjectType.ActionPlanTemplate__c.updateable}" />
-				<apex:commandButton
-					id="delete"
-					action="{!deleteTemplate}"
-					value="Delete"
-					onclick="return confirm('{!$Label.ap_AreYouSureAsk}');"
-					rendered="{!$ObjectType.ActionPlanTemplate__c.deletable}" />
+				<apex:commandButton id="delete" action="{!deleteTemplate}" value="Delete" onclick="return confirm('{!$Label.ap_AreYouSureAsk}');" rendered="{!$ObjectType.ActionPlanTemplate__c.deletable}" />
 				<apex:commandButton
 					id="clone"
 					action="{!$Page.ActionPlanTemplateCreation}?clone=1&templateId={!ActionPlanTemplate__c.Id}"
@@ -82,11 +77,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					action="{!$Page.ActionPlanCreation}?templateId={!ActionPlanTemplate__c.Id}"
 					value="{!$Label.ap_New} {!$ObjectType.ActionPlan__c.label}"
 					rendered="{!$ObjectType.ActionPlan__c.createable}" />
-				<apex:commandButton
-					id="export"
-					action="{!$Page.ActionPlanTemplateExport}?Id={!ActionPlanTemplate__c.Id}"
-					value="{!$Label.ap_Export}"
-					rendered="{!$Permission.Action_Plan_Template_Export}" />
+				<apex:commandButton id="export" action="{!$Page.ActionPlanTemplateExport}?Id={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_Export}" rendered="{!$Permission.Action_Plan_Template_Export}" />
 			</apex:pageBlockButtons>
 
 			<apex:pageBlockSection columns="2" collapsible="false">

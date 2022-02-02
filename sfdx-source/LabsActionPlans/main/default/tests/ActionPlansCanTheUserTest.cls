@@ -2,6 +2,7 @@
  * Taken from Codefriar code
  * @see https://github.com/codefriar/CanTheUser
  * @see https://github.com/trailheadapps/apex-recipes
+ * @author {@link [Codefriar](https://github.com/codefriar)}
  * @group Security
  */
 @IsTest
@@ -20,11 +21,11 @@ private class ActionPlansCanTheUserTest {
 	@IsTest
 	static void canCrudAccountCreatePositive() {
 		System.assert(
-			ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.CREATE),
+			ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.CREATEABLE),
 			'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts'
 		);
 		System.assert(
-			ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.CREATE),
+			ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.CREATEABLE),
 			'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts'
 		);
 	}
@@ -38,8 +39,8 @@ private class ActionPlansCanTheUserTest {
 
 	@IsTest
 	static void canCrudAccountReadPositive() {
-		System.assert(ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.READ), 'Expected to be able to read accounts');
-		System.assert(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.READ), 'Expected to be able to read accounts');
+		System.assert(ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.READABLE), 'Expected to be able to read accounts');
+		System.assert(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.READABLE), 'Expected to be able to read accounts');
 	}
 
 	@IsTest
@@ -51,8 +52,8 @@ private class ActionPlansCanTheUserTest {
 
 	@IsTest
 	static void canCrudAccountUpdatePositive() {
-		System.assert(ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.EDIT), 'Expected to be able to update accounts');
-		System.assert(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.EDIT), 'Expected to be able to update accounts');
+		System.assert(ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.EDITABLE), 'Expected to be able to update accounts');
+		System.assert(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.EDITABLE), 'Expected to be able to update accounts');
 	}
 
 	@IsTest
@@ -71,9 +72,9 @@ private class ActionPlansCanTheUserTest {
 
 	@IsTest
 	static void canCrudAccountDeletePositive() {
-		System.assert(ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.DEL), 'Expected to be able to delete accounts');
-		System.assert(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.DEL), 'Expected to be able to delete accounts');
-		System.assert(ActionPlansCanTheUser.crud('Account', ActionPlansCanTheUser.CrudType.DEL), 'Expected to be able to delete accounts');
+		System.assert(ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
+		System.assert(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
+		System.assert(ActionPlansCanTheUser.crud('Account', ActionPlansCanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
 	}
 
 	@IsTest
@@ -85,7 +86,7 @@ private class ActionPlansCanTheUserTest {
 
 	@IsTest
 	static void getFLSofAccountNamePositive() {
-		System.assert(ActionPlansCanTheUser.flsAccessible('Account', 'Name'), 'Expected the name field to be accessible on Account');
+		System.assert(ActionPlansCanTheUser.flsAccessible('Account', 'Name'), 'Expected the name field to be accesible on Account');
 	}
 
 	@IsTest
@@ -98,7 +99,7 @@ private class ActionPlansCanTheUserTest {
 		Set<String> fields = new Set<String>{ 'name', 'id' };
 		Map<String, Boolean> bulkCheck = ActionPlansCanTheUser.bulkFLSAccessible('Account', fields);
 		for (String field : bulkCheck.keySet()) {
-			System.assert(bulkCheck.get(field), 'Expected the field ' + field + ' to be accessible on Account');
+			System.assert(bulkCheck.get(field), 'Expected the field ' + field + ' to be accesible on Account');
 		}
 	}
 
@@ -107,9 +108,9 @@ private class ActionPlansCanTheUserTest {
 		Set<String> fields = new Set<String>{ 'name', 'nonExistingField__c' };
 		Map<String, Boolean> bulkCheck = ActionPlansCanTheUser.bulkFLSAccessible('Account', fields);
 
-		System.assert(bulkCheck.get('name'), 'Expected the name ' + 'field to be accessible on Account');
+		System.assert(bulkCheck.get('name'), 'Expected the name ' + 'field to be accesible on Account');
 
-		System.assert(!bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c ' + 'field not to be accessible on Account');
+		System.assert(!bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c ' + 'field not to be accesible on Account');
 	}
 
 	@IsTest
@@ -117,7 +118,7 @@ private class ActionPlansCanTheUserTest {
 		Set<String> fields = new Set<String>{ 'name', 'ShippingStreet' };
 		Map<String, Boolean> bulkCheck = ActionPlansCanTheUser.bulkFLSUpdatable('Account', fields);
 		for (String field : bulkCheck.keySet()) {
-			System.assert(bulkCheck.get(field), 'Expected the field ' + field + ' to be accessible on Account');
+			System.assert(bulkCheck.get(field), 'Expected the field ' + field + ' to be accesible on Account');
 		}
 	}
 
@@ -125,9 +126,7 @@ private class ActionPlansCanTheUserTest {
 	static void getBulkFLSUpdatableWithAccountPositiveWithNegativeResults() {
 		Set<String> fields = new Set<String>{ 'name', 'nonExistingField__c' };
 		Map<String, Boolean> bulkCheck = ActionPlansCanTheUser.bulkFLSUpdatable('Account', fields);
-
-		System.assert(bulkCheck.get('name'), 'Expected the name ' + 'field to be accessible on Account');
-
-		System.assert(!bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c ' + 'field not to be accessible on Account');
+		System.assert(bulkCheck.get('name'), 'Expected the name ' + 'field to be accesible on Account');
+		System.assert(!bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c ' + 'field not to be accesible on Account');
 	}
 }

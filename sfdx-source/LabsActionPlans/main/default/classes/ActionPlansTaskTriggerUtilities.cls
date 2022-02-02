@@ -66,7 +66,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			List<APTaskTemplate__c> dependentAptts = queryDependentAPTaskTemplates(closedTasks);
 
 			//Create actual Task Map
-			List<APTaskTemplate__c> updList = populateNewTaskMap(dependentAptts);
+			// * Method that returns an unused variable should be checked
+			List<APTaskTemplate__c> updList = populateNewTaskMap(dependentAptts); //NOPMD
 
 			//Finally, create all New Tasks and Send DMLOption Emails
 			List<APTaskTemplate__c> updateApttsList = populateUpdateApttsList(dependentAptts);
@@ -314,7 +315,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	private static void generateDependentTasksAndReset(List<APTaskTemplate__c> apTasks, Decimal tmp_taskIndex) {
 		Set<Id> pendingIdsToDelete = new Set<Id>();
 
-		Integer taskIndex, dependentApTaskIndex;
+		Integer taskIndex;
+		Integer dependentApTaskIndex;
 
 		for (Integer t_i = 0; t_i < apTasks.size(); t_i++) {
 			APTaskTemplate__c apTask = apTasks[t_i];
@@ -355,10 +357,10 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			List<APTaskTemplate__c> dependentAptts = queryDependentAPTaskTemplates(closedTasks);
 
 			//Create actual Task Map
-			List<APTaskTemplate__c> updList = populateNewTaskMap(dependentAptts);
+			List<APTaskTemplate__c> updList = populateNewTaskMap(dependentAptts); //NOPMD
 
 			//Finally, Create all New Tasks and Send DMLOption Emails
-			List<APTaskTemplate__c> updateApttsList = populateUpdateApttsList(dependentAptts);
+			List<APTaskTemplate__c> updateApttsList = populateUpdateApttsList(dependentAptts); //NOPMD
 
 			Database.DMLOptions dmlo = new Database.DMLOptions();
 
@@ -378,7 +380,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Before deleting an APTemplate task, initialize the functionalities to create all dependent Tasks and reset index
-	 * @param cTasks list with Task templates to be deleted
+	 * @param cTasks Set of Task template IDs to be deleted
 	 */
 	public static void actionsOnTaskBeforeDelete(Set<Id> cTasks) {
 		tasksSendEmail = new List<Task>();
@@ -391,8 +393,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 		List<APTaskTemplate__c> lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTaskTemplate__c WHERE Id IN :cTasks];
 
 		//create a map with : (APTaskId, APTaskTemplate)
-		for (APTaskTemplate__c ap : lAPT) {
-			apIdToAPTemplateMap.put(ap.Action_Plan__c, ap);
+		for (APTaskTemplate__c aptt : lAPT) {
+			apIdToAPTemplateMap.put(aptt.Action_Plan__c, aptt);
 		}
 
 		/* Map<Id, List<APTaskTemplate__c>> apTasksByActionPlan = new Map<Id, List<APTaskTemplate__c>>();
@@ -405,14 +407,17 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 				apTasksByActionPlan.put(aptt.Action_Plan__c, aptList);
 			} */
 
-		List<APTaskTemplate__c> tmp_lAPT;
-		APTaskTemplate__c aux;
+		/* List<APTaskTemplate__c> tmp_lAPT;
+		APTaskTemplate__c aux; */
+
+
+
 
 		// TODO: Bulkify this SOQL in a loop (see above commented code)
 		for (Id apId : apIdToAPTemplateMap.keySet()) {
-			tmp_lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTaskTemplate__c WHERE Action_Plan__c = :apId];
+			List<APTaskTemplate__c> tmp_lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTaskTemplate__c WHERE Action_Plan__c = :apId]; //NOPMD
 
-			aux = apIdToAPTemplateMap.get(apId);
+			APTaskTemplate__c aux = apIdToAPTemplateMap.get(apId);
 			generateDependentTasksAndReset(tmp_lAPT, aux.TaskIndex__c);
 		}
 	}

@@ -1,10 +1,10 @@
 /**
  * Class wraps DML Calls in FLS / Crud checks. Taken from Codefriar code.
- * @see https://github.com/codefriar/CanTheUser
+ * @see https://github.com/codefriar/ActionPlansCanTheUser
  * @see https://github.com/trailheadapps/apex-recipes
  * @see ActionPlansCanTheUser
  * @see ActionPlansSafelyTest
- * @author Codefriar
+ * @author {@link [Codefriar](https://github.com/codefriar)}
  * @group Security
  */
 public with sharing class ActionPlansSafely {
@@ -13,6 +13,9 @@ public with sharing class ActionPlansSafely {
 	@testVisible
 	private Boolean throwIfRemovedFields = false;
 
+	/**
+	 * Exception thrown if fields are removed from a query due to the user not having access
+	 */
 	public class RemovedFieldsException extends Exception {
 	}
 
@@ -97,6 +100,11 @@ public with sharing class ActionPlansSafely {
 
 	/// Private Methods
 	private List<Database.SaveResult> doDML(System.AccessType accessType, List<SObject> records) {
+		// guard against an empty but non-null list of records.
+		if (records.isEmpty()) {
+			return new List<Database.SaveResult>();
+		}
+
 		SObjectAccessDecision securityDecision = guardAgainstRemovedFields(accessType, records);
 
 		switch on accessType {

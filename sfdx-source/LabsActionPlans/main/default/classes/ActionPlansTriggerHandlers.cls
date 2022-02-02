@@ -212,7 +212,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				List<Task> taskList = [SELECT Id, TaskAPTaskTemplate__c, IsDeleted FROM Task WHERE TaskAPTaskTemplate__c IN :map_APTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
 
 				if (!taskList.isEmpty()) {
-					List<Database.UndeleteResult> unDel_results = Database.undelete(taskList, false);
+					Database.undelete(taskList, false);
 				}
 			}
 		}
@@ -409,7 +409,8 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				Boolean taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
-
+				
+				// May need this
 				Set<String> closedStatuses = ActionPlansUtilities.getClosedTaskStatuses();
 
 				Set<Id> tasktemplatesToValidate = new Set<Id>();
@@ -441,10 +442,10 @@ global without sharing class ActionPlansTriggerHandlers {
 
 						if (t.Status != defaultTaskStatus) {
 							if (allowMap.containsKey(t.TaskAPTaskTemplate__c) && allowMap.get(t.TaskAPTaskTemplate__c)) {
-								if (!t.IsClosed) {
-									inProgressTasksMap.put(t.TaskAPTaskTemplate__c, t.Status);
-								} else if (t.IsClosed) {
+								if(t.IsClosed || closedStatuses.contains(t.Status)){
 									closedTasksMap.put(t.TaskAPTaskTemplate__c, t.Status);
+								} else {
+									inProgressTasksMap.put(t.TaskAPTaskTemplate__c, t.Status);
 								}
 							} else {
 								//throw exception
@@ -544,8 +545,6 @@ global without sharing class ActionPlansTriggerHandlers {
 							ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTaskTemplate__c))
 						) {
 							t.put('RecordTypeId', taskTemplateToIntendedRecordTypeId.get(t.TaskAPTaskTemplate__c));
-						} else {
-							//System.debug('We did not link Task to Template');
 						}
 					}
 				}
@@ -728,8 +727,8 @@ global without sharing class ActionPlansTriggerHandlers {
 
 	/**
 	 * Validates if the given tasks can change status to in progress or completed.
-	 * If the task depends on another that is open, returns false
-	 * This bulkified method avoids SOQL queries in a loop
+	 * <br>If the task depends on another that is open, returns false
+	 * <br>This bulkified method avoids SOQL queries in a loop
 	 * @param apTaskTemplateIds bulkified set of task IDs to consider
 	 * @return dependsOnInProgressTask
 	 */

@@ -309,7 +309,7 @@ public with sharing class ActionPlansTestUtilities {
 
 		insert newActionPlan;
 
-		APTaskTemplate__c auxTask = new APTaskTemplate__c();
+		//APTaskTemplate__c auxTask = new APTaskTemplate__c();
 		User user = this.createTestUser();
 
 		List<APTaskTemplate__c> apttToInsert = new List<APTaskTemplate__c>();

@@ -34,7 +34,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
+ * Utilities class - mostly describe methods and constants
  * @group Utilities
+ * @see ActionPlansUtilitiesTest
  */
 public without sharing class ActionPlansUtilities {
 	/*************
@@ -54,8 +56,8 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Actions to perform whenever loading a Visualforce page
-	 * Ensures that Custom Setting is created for the org
-	 * @return   null PageReference
+	 * <br>Ensures that Custom Setting is created for the org
+	 * @return   PageReference
 	 */
 	public static PageReference onPageLoad() {
 		getCustomSetting();
@@ -111,6 +113,9 @@ public without sharing class ActionPlansUtilities {
 	 * Get prefix of sObject
 	 * @param objName
 	 * @return obj.getKeyPrefix()
+	 * @example
+	 * ActionPlansUtilities.getObjetKeyPrefix('Account');
+	 * (returns '001')
 	 */
 	public static String getObjectKeyPrefix(String objName) {
 		Schema.DescribeSObjectResult obj = Schema.getGlobalDescribe().get(objName).getDescribe();
@@ -246,6 +251,12 @@ public without sharing class ActionPlansUtilities {
 	 * @return List of completed statuses
 	 */
 	private static Set<String> closedTaskStatuses;
+	/**
+	 * @description Set of all `Task` Status values that are Closed
+	 * @author David Schach
+	 * @since v4
+	 * @return   Set of closed `Task` Statuses
+	 */
 	public static Set<String> getClosedTaskStatuses() {
 		if (closedTaskStatuses == null) {
 			closedTaskStatuses = new Set<String>();
@@ -372,11 +383,11 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Gets task reminder default time for current user
-	 * @return String picklist value
+	 * @return `String` picklist value for default minutes after midnight for reminder
 	 */
 	public static String getDefaultReminderMinutes() {
 		if (defaultMinutesForReminderTime == null) {
-			Map<String, Schema.SObjectField> fieldsMap = Schema.sObjectType.User.fields.getMap();
+			//Map<String, Schema.SObjectField> fieldsMap = Schema.sObjectType.User.fields.getMap();
 			defaultMinutesForReminderTime = '480';
 
 			List<UserPreference> uP = [SELECT Value FROM UserPreference WHERE UserId = :Userinfo.getUserId() AND Preference = '58'];

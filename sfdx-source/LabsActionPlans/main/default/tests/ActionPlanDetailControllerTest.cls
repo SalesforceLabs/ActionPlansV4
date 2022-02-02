@@ -50,7 +50,7 @@ private class ActionPlanDetailControllerTest {
 
 		System.currentPageReference().getParameters().put('id', null);
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
-
+		System.assert(apDetailController.getActionPlanTasks().isEmpty(), 'New Action Plan has no tasks');
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
 
@@ -68,7 +68,7 @@ private class ActionPlanDetailControllerTest {
 		Test.startTest();
 
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
-
+		System.assert(apDetailController.getActionPlanTasks().isEmpty(), 'New Action Plan has no tasks');
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
 
@@ -85,6 +85,7 @@ private class ActionPlanDetailControllerTest {
 	@IsTest
 	private static void checkTasks() {
 		PageReference pageRef = Page.ActionPlanPrint;
+		Test.setCurrentPage(pageRef);
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -102,6 +103,7 @@ private class ActionPlanDetailControllerTest {
 	@IsTest
 	private static void checkCompletedTasks() {
 		PageReference pageRef = Page.ActionPlanDetail;
+		Test.setCurrentPage(pageRef);
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -119,6 +121,7 @@ private class ActionPlanDetailControllerTest {
 	@IsTest
 	private static void checkActionPlanTemplateVersion() {
 		PageReference pageRef = Page.ActionPlanDetail;
+		Test.setCurrentPage(pageRef);
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -152,6 +155,7 @@ private class ActionPlanDetailControllerTest {
 	@IsTest
 	private static void checkDeleteActionPlan() {
 		PageReference pageRef = Page.ActionPlanDetail;
+		Test.setCurrentPage(pageRef);
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -171,6 +175,7 @@ private class ActionPlanDetailControllerTest {
 	@IsTest
 	private static void checkGetrelatedRecordName() {
 		PageReference pageRef = Page.ActionPlanDetail;
+		Test.setCurrentPage(pageRef);
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
