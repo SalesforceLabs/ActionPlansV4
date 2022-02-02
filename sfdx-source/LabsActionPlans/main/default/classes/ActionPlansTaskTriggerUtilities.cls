@@ -408,10 +408,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			} */
 
 		/* List<APTaskTemplate__c> tmp_lAPT;
-		APTaskTemplate__c aux; */
-
-
-
+		 APTaskTemplate__c aux; */
 
 		// TODO: Bulkify this SOQL in a loop (see above commented code)
 		for (Id apId : apIdToAPTemplateMap.keySet()) {

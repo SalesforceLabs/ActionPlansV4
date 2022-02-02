@@ -409,7 +409,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				Boolean taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
-				
+
 				// May need this
 				Set<String> closedStatuses = ActionPlansUtilities.getClosedTaskStatuses();
 
@@ -442,7 +442,7 @@ global without sharing class ActionPlansTriggerHandlers {
 
 						if (t.Status != defaultTaskStatus) {
 							if (allowMap.containsKey(t.TaskAPTaskTemplate__c) && allowMap.get(t.TaskAPTaskTemplate__c)) {
-								if(t.IsClosed || closedStatuses.contains(t.Status)){
+								if (t.IsClosed || closedStatuses.contains(t.Status)) {
 									closedTasksMap.put(t.TaskAPTaskTemplate__c, t.Status);
 								} else {
 									inProgressTasksMap.put(t.TaskAPTaskTemplate__c, t.Status);
