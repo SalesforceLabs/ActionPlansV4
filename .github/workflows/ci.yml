@@ -70,4 +70,4 @@ jobs:
           ~/pmd/bin/run.sh pmd --version
       # Run PMD scan
       - name: 'Run PMD scan'
-        run: ~/pmd/bin/run.sh pmd -d sfdx-source/**/classes -R pmd/apexQuickStart.xml -f text --cache pmd/cache -min 2
+        run: ~/pmd/bin/run.sh pmd -d sfdx-source/LabsActionPlans/main/default/classes -R pmd/apexQuickStart.xml -f text --cache pmd/cache -min 2
