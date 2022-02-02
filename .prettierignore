@@ -3,6 +3,7 @@
 #
 
 **/staticresources/**
+!**/staticresources/ActionPlan_Resources/scripts/
 .localdevserver
 .sfdx
 .vscode
