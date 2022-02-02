@@ -233,7 +233,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		delete at;
 
 		List<APTaskTemplate__c> apttDel = [SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id];
-		System.assert(apttDel.size() == 0);
+		System.assert(apttDel.isEmpty());
 
 		// undelete task and APTask and get exception
 		List<Id> ids = new List<Id>();
@@ -246,10 +246,10 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		}
 
 		// now undelete and trigger the code
-		if ([SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id AND isDeleted = TRUE].isEmpty()) {
+		if (![SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id AND isDeleted = TRUE ALL ROWS].isEmpty()) {
 			undelete at;
 			List<APTaskTemplate__c> apttUnDel = [SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id];
-			System.assert(apttUnDel.size() == 1);
+			System.assertEquals(1,apttUnDel.size());
 		}
 
 		Test.stopTest();
@@ -287,7 +287,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		delete at;
 		Database.emptyRecycleBin(t);
 		List<APTaskTemplate__c> apttDel = [SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id];
-		System.assert(apttDel.size() == 0);
+		System.assert(apttDel.isEmpty());
 
 		// undelete task and APTask and get exception
 		try {

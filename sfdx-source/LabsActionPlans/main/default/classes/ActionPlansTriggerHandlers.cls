@@ -97,7 +97,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				String deleteQueryString = 'SELECT Id, Name FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords AND isDeleted = true ALL ROWS';
 				deletePermenantlyApIds = Database.query(deleteQueryString);
 
-				if (deletePermenantlyApIds.isEmpty()) {
+				if (!deletePermenantlyApIds.isEmpty()) {
 					Database.emptyRecycleBin(deletePermenantlyApIds);
 				}
 
@@ -107,7 +107,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					apIds.add(ap.Id);
 				}
 
-				if (apIds.size() > 0) {
+				if (!apIds.isEmpty()) {
 					ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
 					Database.ExecuteBatch(aPBatch);
 				}
@@ -630,7 +630,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					ALL ROWS
 				];
 
-				if (deletePermenantly_apIds.isEmpty()) {
+				if (!deletePermenantly_apIds.isEmpty()) {
 					Database.emptyRecycleBin(deletePermenantly_apIds);
 				}
 
@@ -643,7 +643,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					apIds.add(ap.Id);
 				}
 
-				if (apIds.size() > 0) {
+				if (!apIds.isEmpty()) {
 					ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
 					Database.executeBatch(aPBatch);
 				}
