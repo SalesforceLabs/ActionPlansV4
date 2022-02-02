@@ -248,8 +248,8 @@ private class ActionPlanCreateInvocableTest {
 			requests.add(req);
 		}
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
-
 		Test.stopTest();
+		System.assertEquals(BULK_COUNT, resultIDs.size(), 'Should have made one AP per wrapper');
 		System.assertEquals(BULK_COUNT, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL]);
 	}
 

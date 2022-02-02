@@ -367,7 +367,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 
-		List<ActionPlanTemplateCreationController.ApTTaskWrapper> taskList = aptcc.getTemplateWrappers();
+		List<ActionPlanTemplateCreationController.ApTTaskWrapper> taskList = aptcc.getTemplateWrappers(); //NOPMD
 		List<SelectOption> subjectItems = aptcc.getTemplateSubjectItems();
 
 		Test.stopTest();

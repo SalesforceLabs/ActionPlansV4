@@ -66,7 +66,7 @@ private class ActionPlanCreationControllerTest {
 		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
-		Id recId = apCreateController.relatedObjectId();
+		apCreateController.relatedObjectId();
 		apCreateController.save();
 		Test.stopTest();
 	}
@@ -101,8 +101,10 @@ private class ActionPlanCreationControllerTest {
 		ApexPages.currentPage().getParameters().put('id', null);
 		ApexPages.currentPage().getParameters().put('refId', contact.Id);
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(new ActionPlan__c()));
-		String refid = apCreateController.refId;
+		String refId = apCreateController.refId;
+		System.debug(refId);
 		String reftype = apCreateController.refType;
+		System.debug(reftype);
 
 		apCreateController.refreshRelatedObjectsLookUp();
 		apCreateController.getTaskRTPicklistValues();
@@ -213,14 +215,13 @@ private class ActionPlanCreationControllerTest {
 		Database.DMLOptions dml = new Database.DMLOptions();
 		dml.DuplicateRuleHeader.allowSave = true;
 		dml.DuplicateRuleHeader.runAsCurrentUser = true;
-		List<Database.SaveResult> sr = Database.insert(contacts, dml);
+		Database.insert(contacts, dml);
 
 		List<Id> conIDs = new List<Id>();
 		for (Contact c : contacts) {
 			conIDs.add(c.Id);
 		}
 		String conIdsList = String.join(conIDs, ',');
-		System.debug('conIdsList: ' + conIdsList);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(APTTASKCOUNT);
@@ -659,7 +660,7 @@ private class ActionPlanCreationControllerTest {
 				String taskQuery = 'SELECT Id, RecordTypeId FROM Task';
 
 				for (SObject t : Database.query(taskQuery)) {
-					System.debug([SELECT Id, Name FROM RecordType WHERE Id = :(Id) t.get('RecordTypeId')].Name);
+					System.debug([SELECT Id, Name FROM RecordType WHERE Id = :(Id) t.get('RecordTypeId')].Name); //NOPMD
 					System.assertNotEquals(ActionPlansUtilities.getDefaultTaskRecordTypeId(), t.get('RecordTypeId'), 'Record Type is default');
 				}
 			}

@@ -72,7 +72,6 @@ public with sharing class ActionPlanTemplateImportController {
 			//we reinitialize the attachment when an error ocurres to prevent viewstate size errors
 			this.attachment = new Attachment();
 			ApexPages.addMessages(ex);
-			System.debug('ERROR: ' + ex.getMessage());
 		}
 
 		return null;

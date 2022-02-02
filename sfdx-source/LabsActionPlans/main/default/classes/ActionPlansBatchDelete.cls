@@ -96,11 +96,11 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 		List<Task> relTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTaskTemplate__c IN :relTaskTemplateMap.keySet()];
 
 		if (!relActionPlans.isEmpty()) {
-			List<Database.DeleteResult> results = Database.delete(relActionPlans);
+			List<Database.DeleteResult> results = Database.delete(relActionPlans); //NOPMD
 		}
 
 		if (!relTaskList.isEmpty()) {
-			List<Database.DeleteResult> results = Database.delete(relTaskList);
+			List<Database.DeleteResult> results = Database.delete(relTaskList); //NOPMD
 		}
 	}
 

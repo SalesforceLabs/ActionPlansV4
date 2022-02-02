@@ -295,7 +295,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		try {
 			Database.undelete(ids);
 		} catch (Dmlexception e) {
-			System.debug('Dmlexception: ' + e.getMessage());
+			//System.debug('Dmlexception: ' + e.getMessage());
 			System.assert(e.getMessage().contains(System.Label.ap_Error), e.getMessage() + '(APTaskTemplate__c undelete error should have the proper format)');
 		}
 

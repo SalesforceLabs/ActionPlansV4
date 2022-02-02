@@ -205,7 +205,6 @@ public with sharing class ActionPlanTemplateCreationController {
 	public void addTemplateTask() {
 		taskIndex++;
 
-		Boolean hasNoErrors = false;
 		//in case the task limit is reached set a message error to display
 		if (aptTasks.size() >= ActionPlansUtilities.MAX_APTASKS) {
 			List<String> parameters = new List<String>();
