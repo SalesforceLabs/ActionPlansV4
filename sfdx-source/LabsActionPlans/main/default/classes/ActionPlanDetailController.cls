@@ -38,7 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 /**
+ * @author David Schach
  * @group Visualforce
+ * @see ActionPlanDetailControllerTest
  */
 public with sharing class ActionPlanDetailController {
 	private ActionPlan__c actionPlan;

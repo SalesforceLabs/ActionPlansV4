@@ -42,7 +42,9 @@ public class ActionPlansRedirectTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
+		System.assertNotEquals(null, apTemplate.Id, 'We should have created an ActionPlan Template');
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		System.assertNotEquals(null, actionPlan.Id, 'We should have created an ActionPlan');
 	}
 
 	@IsTest

@@ -272,8 +272,9 @@ private class ActionPlansSafelyTest {
 			Boolean didCatchTheRightException = false;
 			Test.startTest();
 			ActionPlansSafely saf = new ActionPlansSafely();
+			List<Account> accounts;
 			try {
-				List<Account> accounts = (List<Account>) saf.throwIfRemovedFields().doQuery('SELECT ID, Name, TradeStyle FROM Account');
+				accounts = (List<Account>) saf.throwIfRemovedFields().doQuery('SELECT ID, Name, TradeStyle FROM Account');
 			} catch (ActionPlansSafely.RemovedFieldsException rfe) {
 				if (rfe.getMessage().containsIgnoreCase('TradeStyle')) {
 					didCatchTheRightException = true;

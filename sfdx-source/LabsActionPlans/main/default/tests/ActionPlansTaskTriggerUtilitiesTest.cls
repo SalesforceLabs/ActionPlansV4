@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.OperationWithLimitsInLoop')
 /*
 Action Plans v4
 David Schach 2021
@@ -36,18 +37,17 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
 /**
+ * @author David Schach
  * @group Tests
  */
 @IsTest
 private class ActionPlansTaskTriggerUtilitiesTest {
 	static String testClosedStatus;
 	/**
-	test trigger without skipweekends
-	method for testing Task After Update trigger
-	when updating task to status 'Completed'
+	 * test trigger without skipweekends method for testing Task After Update trigger when updating task to status 'Completed'
 	*/
-
 	@IsTest
 	private static void testTaskAfterUpdateToCompleted() {
 		List<String> closedStatuses = new List<String>(ActionPlansUtilities.getClosedTaskStatuses());
