@@ -265,7 +265,7 @@
             <div class="class-container">
 
               <div class="class-description">
-                Batch delete class. This can probably be done in a different way. And we can certainly switch from sending an email to using a platform event
+                Batch delete class. This can probably be done in a different way. And we can certainly switch from sending an email to using a platform event.
               </div>
               <div class="class-subtitle">
                 Signature
@@ -338,11 +338,14 @@
               <h3 class="subsection-title methods">ActionPlansBatchDelete Methods</h3>
               <div class="methods-container">
                 <ul class="methods-toc">
-                  <li class="method public">
+                  <li class="method private">
                     <a class="methods-toc__entry " href="#ActionPlansBatchDelete.deleteActionPlans">
                       deleteActionPlans (relActionPlansIds)
                     </a>
 
+                    <div class="methods-toc__description">
+                      Tiven actionplanIDs, delete these Action Plans AND their open Tasks
+                    </div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansBatchDelete.execute">
@@ -367,6 +370,9 @@
                       makeEmailBody (e)
                     </a>
 
+                    <div class="methods-toc__description">
+                      Create an Email body from an Exception
+                    </div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansBatchDelete.start">
@@ -378,25 +384,40 @@
                     </div>
                   </li>
                 </ul>
-                <div class="method public">
+                <div class="method private">
                   <h4 class="method-title " id="ActionPlansBatchDelete.deleteActionPlans">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchDelete.cls#L94">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchDelete.cls#L102">
                       deleteActionPlans(relActionPlansIds)
                     </a>
                   </h4>
+                  <div class="method-description">
+                    Tiven actionplanIDs, delete these Action Plans AND their open Tasks
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
 
                   <div class="method-signature">
-                    public void deleteActionPlans(Set&lt;Id&gt; relActionPlansIds)
+                    private void deleteActionPlans(Set&lt;Id&gt; relActionPlansIds)
+                  </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">relActionPlansIds</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">Set&lt;Id&gt;</code>
+                  </div>
+                  <div class="param-description">Action Plan IDs</div>
+                  <div class="method-subtitle">
+                    Author
+                  </div>
+                  <div class="method-subtitle-description">
+                    David Schach
                   </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchDelete.execute">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchDelete.cls#L68">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchDelete.cls#L71">
                       execute(bc, data)
                     </a>
                   </h4>
@@ -431,7 +452,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchDelete.finish">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchDelete.cls#L121">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchDelete.cls#L135">
                       finish(bc)
                     </a>
                   </h4>
@@ -449,10 +470,13 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansBatchDelete.makeEmailBody">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchDelete.cls#L108">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchDelete.cls#L122">
                       makeEmailBody(e)
                     </a>
                   </h4>
+                  <div class="method-description">
+                    Create an Email body from an Exception
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
@@ -460,11 +484,29 @@
                   <div class="method-signature">
                     private String makeEmailBody(Exception e)
                   </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">e</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">Exception</code>
+                  </div>
+                  <div class="param-description"><code class="code-inline">Exception</code></div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    Email body
+                  </div>
+                  <div class="method-subtitle">
+                    Author
+                  </div>
+                  <div class="method-subtitle-description">
+                    David Schach
+                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchDelete.start">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchDelete.cls#L57">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchDelete.cls#L60">
                       start(bc)
                     </a>
                   </h4>
@@ -477,6 +519,23 @@
 
                   <div class="method-signature">
                     public Database.QueryLocator start(Database.BatchableContext bc)
+                  </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">bc</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">Database.BatchableContext</code>
+                  </div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    queried records
+                  </div>
+                  <div class="method-subtitle">
+                    Author
+                  </div>
+                  <div class="method-subtitle-description">
+                    David Schach
                   </div>
                 </div>
               </div>
