@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * Tests for `ActionPlan__c` Create/Edit Visualforce Extension
+ * @group Visualforce
  */
 @IsTest
 private class ActionPlanCreationControllerTest {
@@ -66,7 +67,7 @@ private class ActionPlanCreationControllerTest {
 		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
-		Id recId = apCreateController.relatedObjectId();
+		apCreateController.relatedObjectId();
 		apCreateController.save();
 		Test.stopTest();
 	}
@@ -101,8 +102,10 @@ private class ActionPlanCreationControllerTest {
 		ApexPages.currentPage().getParameters().put('id', null);
 		ApexPages.currentPage().getParameters().put('refId', contact.Id);
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(new ActionPlan__c()));
-		String refid = apCreateController.refId;
+		String refId = apCreateController.refId;
+		System.debug(refId);
 		String reftype = apCreateController.refType;
+		System.debug(reftype);
 
 		apCreateController.refreshRelatedObjectsLookUp();
 		apCreateController.getTaskRTPicklistValues();
@@ -204,23 +207,22 @@ private class ActionPlanCreationControllerTest {
 		final Integer CONCOUNT = 40;
 		final Integer APTTASKCOUNT = 2;
 
-		List<Contact> contacts = new List<Contact>();
+		List<Contact> contactsList = new List<Contact>();
 		for (Integer i = 0; i < CONCOUNT; i++) {
 			Contact newContact = new Contact(LastName = 'con' + math.rint(math.random() * 100000));
-			contacts.add(newContact);
+			contactsList.add(newContact);
 		}
 
 		Database.DMLOptions dml = new Database.DMLOptions();
 		dml.DuplicateRuleHeader.allowSave = true;
 		dml.DuplicateRuleHeader.runAsCurrentUser = true;
-		List<Database.SaveResult> sr = Database.insert(contacts, dml);
+		Database.insert(contactsList, dml);
 
 		List<Id> conIDs = new List<Id>();
-		for (Contact c : contacts) {
+		for (Contact c : contactsList) {
 			conIDs.add(c.Id);
 		}
 		String conIdsList = String.join(conIDs, ',');
-		System.debug('conIdsList: ' + conIdsList);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(APTTASKCOUNT);
@@ -659,7 +661,7 @@ private class ActionPlanCreationControllerTest {
 				String taskQuery = 'SELECT Id, RecordTypeId FROM Task';
 
 				for (SObject t : Database.query(taskQuery)) {
-					System.debug([SELECT Id, Name FROM RecordType WHERE Id = :(Id) t.get('RecordTypeId')].Name);
+					System.debug([SELECT Id, Name FROM RecordType WHERE Id = :(Id) t.get('RecordTypeId')].Name); //NOPMD
 					System.assertNotEquals(ActionPlansUtilities.getDefaultTaskRecordTypeId(), t.get('RecordTypeId'), 'Record Type is default');
 				}
 			}
@@ -696,7 +698,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	static void checkMaxTasks() {
+	private static void checkMaxTasks() {
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
@@ -713,7 +715,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	static void checkMaxTasksError() {
+	private static void checkMaxTasksError() {
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanCreation);
 

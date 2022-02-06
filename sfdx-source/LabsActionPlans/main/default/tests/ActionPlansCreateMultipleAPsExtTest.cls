@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -37,12 +37,13 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * @author David Schach
+ * @group Visualforce
  */
 @IsTest
 private class ActionPlansCreateMultipleAPsExtTest {
 	@IsTest
-	public static void givenRecordsToDeleteThenDeleted() {
+	private static void givenRecordsToDeleteThenDeleted() {
 		List<Account> accts = new List<Account>();
 		for (Integer i = 0; i < 20; i++) {
 			Account newAccount = new Account();
@@ -54,7 +55,7 @@ private class ActionPlansCreateMultipleAPsExtTest {
 		dml.DuplicateRuleHeader.allowSave = true;
 		dml.DuplicateRuleHeader.runAsCurrentUser = true;
 		List<Database.SaveResult> sr = Database.insert(accts, dml);
-
+		System.assert(!sr.isEmpty(), 'We attempted to save at least one record');
 		ApexPages.StandardSetController std = new ApexPages.StandardSetController(accts);
 		std.setSelected(accts);
 		ActionPlansCreateMultipleAPsExtension ctrl = new ActionPlansCreateMultipleAPsExtension(std);
@@ -65,7 +66,7 @@ private class ActionPlansCreateMultipleAPsExtTest {
 	}
 
 	@IsTest
-	public static void givenNoRecordsToDeleteThenNotDeleted() {
+	private static void givenNoRecordsToDeleteThenNotDeleted() {
 		Test.startTest();
 		ApexPages.StandardSetController std = new ApexPages.StandardSetController(new List<Account>{});
 		ActionPlansCreateMultipleAPsExtension ctrl = new ActionPlansCreateMultipleAPsExtension(std);

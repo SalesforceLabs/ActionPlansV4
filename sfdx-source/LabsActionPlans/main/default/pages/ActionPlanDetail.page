@@ -1,6 +1,6 @@
 <!--
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -68,18 +68,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					action="{!$Page.ActionPlanCreation}?id={!ActionPlan__c.Id}&retURL={!$CurrentPage.URL}"
 					value="{!$Label.ap_Edit}"
 					rendered="{!$ObjectType.ActionPlan__c.updateable}" />
-				<apex:commandButton
-					id="delete"
-					action="{!deletePlan}"
-					value="{!$Label.ap_Delete}"
-					onclick="return confirm('{!$Label.ap_AreYouSureAsk}');"
-					rendered="{!$ObjectType.ActionPlan__c.deletable}" />
+				<apex:commandButton id="delete" action="{!deletePlan}" value="{!$Label.ap_Delete}" onclick="return confirm('{!$Label.ap_AreYouSureAsk}');" rendered="{!$ObjectType.ActionPlan__c.deletable}" />
 				<apex:commandButton id="clone" action="{!$Page.ActionPlanCreation}?clone=1&Id={!ActionPlan__c.Id}" value="{!$Label.ap_Clone}" rendered="{!$ObjectType.ActionPlan__c.createable}" />
-				<apex:commandButton
-					id="share"
-					action="/p/share/CustomObjectSharingDetail?parentId={!ActionPlan__c.Id}"
-					value="{!$Label.ap_Sharing}"
-					rendered="{!$ObjectType.ActionPlan__c.updateable}" />
+				<apex:commandButton id="share" action="/p/share/CustomObjectSharingDetail?parentId={!ActionPlan__c.Id}" value="{!$Label.ap_Sharing}" rendered="{!$ObjectType.ActionPlan__c.updateable}" />
 			</apex:pageBlockButtons>
 			<!-- END PAGE BUTTTONS -->
 
@@ -170,9 +161,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					</apex:column>
 					<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.ActivityDate__c.label}" style="vertical-align: middle">
 						<span style="color: #cc0000">
-							<apex:outputField
-								value="{!wrap.apt.ActivityDate__c}"
-								rendered="{!wrap.apt.ActivityDate__c != null && wrap.apt.ActivityDate__c < TODAY() && wrap.apt.IsClosed__c == false}" />
+							<apex:outputField value="{!wrap.apt.ActivityDate__c}" rendered="{!wrap.apt.ActivityDate__c != null && wrap.apt.ActivityDate__c < TODAY() && wrap.apt.IsClosed__c == false}" />
 						</span>
 						<apex:outputField value="{!wrap.apt.ActivityDate__c}" rendered="{!wrap.apt.ActivityDate__c = null || wrap.apt.ActivityDate__c >= TODAY() || wrap.apt.IsClosed__c == true}" />
 					</apex:column>

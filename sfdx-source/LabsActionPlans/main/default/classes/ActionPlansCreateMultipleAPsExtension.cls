@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -37,13 +37,22 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
+ * Visualforce extension to create multiple Aciton Plans (one per selected record)
+ * <br>Invoked via a button on a list view
+ * @since 2011
  * @group Visualforce
  */
 public with sharing class ActionPlansCreateMultipleAPsExtension {
 	private ApexPages.StandardSetController standardController;
 
+	/**
+	 * All the selected records from the list view
+	 */
 	public String objIDs { get; private set; }
 
+	/**
+	 * Controller
+	 */
 	public ActionPlansCreateMultipleAPsExtension(ApexPages.StandardSetController standardController) {
 		this.standardController = standardController;
 		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();
@@ -51,6 +60,11 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 		objIDs = String.join(objIDsList, ',');
 	}
 
+	/**
+	 * Go to the page that shows the ActionPlan creation screen to customize the plan for each selected record
+	 * @author David Schach
+	 * @return   The Action Plan creation page
+	 */
 	public PageReference doRedirect() {
 		if (String.isBlank(objIDs)) {
 			return null;

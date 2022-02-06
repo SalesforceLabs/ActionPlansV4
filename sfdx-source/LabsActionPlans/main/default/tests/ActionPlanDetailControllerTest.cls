@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * Tests for `ActionPlan__c` View Controller
+ * @group Visualforce
  */
 @IsTest
 private class ActionPlanDetailControllerTest {
@@ -50,7 +51,7 @@ private class ActionPlanDetailControllerTest {
 
 		System.currentPageReference().getParameters().put('id', null);
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
-
+		System.assert(apDetailController.getActionPlanTasks().isEmpty(), 'New Action Plan has no tasks');
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
 
@@ -68,7 +69,7 @@ private class ActionPlanDetailControllerTest {
 		Test.startTest();
 
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
-
+		System.assert(apDetailController.getActionPlanTasks().isEmpty(), 'New Action Plan has no tasks');
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
 
@@ -85,6 +86,7 @@ private class ActionPlanDetailControllerTest {
 	@IsTest
 	private static void checkTasks() {
 		PageReference pageRef = Page.ActionPlanPrint;
+		Test.setCurrentPage(pageRef);
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -102,6 +104,7 @@ private class ActionPlanDetailControllerTest {
 	@IsTest
 	private static void checkCompletedTasks() {
 		PageReference pageRef = Page.ActionPlanDetail;
+		Test.setCurrentPage(pageRef);
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -119,6 +122,7 @@ private class ActionPlanDetailControllerTest {
 	@IsTest
 	private static void checkActionPlanTemplateVersion() {
 		PageReference pageRef = Page.ActionPlanDetail;
+		Test.setCurrentPage(pageRef);
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -152,6 +156,7 @@ private class ActionPlanDetailControllerTest {
 	@IsTest
 	private static void checkDeleteActionPlan() {
 		PageReference pageRef = Page.ActionPlanDetail;
+		Test.setCurrentPage(pageRef);
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -171,6 +176,7 @@ private class ActionPlanDetailControllerTest {
 	@IsTest
 	private static void checkGetrelatedRecordName() {
 		PageReference pageRef = Page.ActionPlanDetail;
+		Test.setCurrentPage(pageRef);
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);

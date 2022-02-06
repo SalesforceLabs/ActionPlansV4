@@ -1,6 +1,6 @@
 <!--
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -45,12 +45,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	docType="html-5.0"
 	contentType="text/html"
 	applyBodyTag="false"
-	action="{!onload}">
+	action="{!onLoad}">
 	<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
 		<head>
 			<title>
-				<apex:outputText value="{!$ObjectType.ActionPlan__c.label} - {!$Label.ap_New}" rendered="{!ActionPlan__c.Id == null}" /> <apex:outputText value="{!ActionPlan__c.Name} -
-				{!$Label.ap_Edit}" rendered="{!ActionPlan__c.Id != null}" />
+				<apex:outputText value="{!$ObjectType.ActionPlan__c.label} - {!$Label.ap_New}" rendered="{!ActionPlan__c.Id == null}" /> <apex:outputText value="{!ActionPlan__c.Name} - {!$Label.ap_Edit}"
+				rendered="{!ActionPlan__c.Id != null}" />
 			</title>
 			<meta charset="utf-8" />
 			<meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -63,19 +63,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				var j$ = jQuery.noConflict();
 				j$(function () {
 					console.log('onready');
-					checkSkipWeekend(j$("[id$=skipWeekendCheckbox]").attr('id'), j$("[id$=skipDayPicklist]").attr('id'));
+					checkSkipWeekend(j$('[id$=skipWeekendCheckbox]').attr('id'), j$('[id$=skipDayPicklist]').attr('id'));
 					checkAllDependent('{!$Label.ap_ItselfDependencyError}', '{!$Label.ap_Errors_Cyclic_Dependency_Found}');
-					j$('.helpOrb').css({ 'width': '12px', 'height': '12px' });
+					j$('.helpOrb').css({ width: '12px', height: '12px' });
 					showErrors();
 					initSelectors();
-					j$("td [Id*=taskTable]").css("vertical-align", "middle");
+					j$('td [Id*=taskTable]').css('vertical-align', 'middle');
 					checkReminderPicklists();
 				});
 
 				function setSelectWidth() {
 					var yardstick = j$('<select><option>' + j$(this).val() + '</option></select>');
-					if(j$(this).val() == null){
-						yardstick = '<select><option>' + '--' + {!$Label.ap_None} + '--' + '</option></select>';
+					if (j$(this).val() == null) {
+						// prettier-ignore
+						var labelNone = "{!$Label.ap_None}";
+						yardstick = '<select><option>' + '--' + labelNone + '--' + '</option></select>';
 					}
 					yardstick.css({ display: 'none' }).appendTo('body');
 					var fudge = 1.03; // need a little more to avoid clipping for some reason
@@ -84,16 +86,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				}
 
 				function initSelectors() {
-					j$("[Id$=relatedObjLookup]").each(function () {
-						setSelectWidth.apply(this);
-					}).on("change", function () {
-						setSelectWidth.apply(this);
-					});
-					j$(".resize").each(function () {
-						setSelectWidth.apply(this);
-					}).on("change", function () {
-						setSelectWidth.apply(this);
-					});
+					j$('[Id$=relatedObjLookup]')
+						.each(function () {
+							setSelectWidth.apply(this);
+						})
+						.on('change', function () {
+							setSelectWidth.apply(this);
+						});
+					j$('.resize')
+						.each(function () {
+							setSelectWidth.apply(this);
+						})
+						.on('change', function () {
+							setSelectWidth.apply(this);
+						});
 				}
 			</script>
 			<script type="text/javascript">
@@ -104,6 +110,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				input.errorBorder {
 					border: 2px solid #cc0000;
 				}
+
 				/* .slds-scope .slds-input {
 			width:unset;
 		} */
@@ -111,6 +118,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			<apex:variable value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" var="lex" />
 			<apex:slds rendered="{!lex}" />
 		</head>
+
 		<body>
 			<c:APSectionHeader sObjType="ActionPlan__c" subtitle="{!$ObjectType.ActionPlan__c.label}" title="{!subtitle}" />
 
@@ -328,6 +336,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 						</apex:pageBlockSectionItem>
 						<apex:repeat value="{!$ObjectType.ActionPlan__c.FieldSets.Related_Objects}" var="f">
 							<apex:outputField value="{!ActionPlan__c[f.FieldPath]}" rendered="{!(ActionPlan__c[f.FieldPath] != null && hasRelatedObject)}" />
+							<apex:outputField value="{!ActionPlan__c[f.FieldPath]}" rendered="false" />
 						</apex:repeat>
 
 						<apex:pageBlockSectionItem rendered="{!ActionPlan__c.Action_Plan_Template__c != null && ActionPlan__c.Id != null}">
@@ -406,12 +415,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 								<!--  Task subject  -->
 								<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.Subject__c.label}" style="padding-right: 10px">
-									<apex:inputField
-										required="true"
-										value="{!wrapTask.task.Subject__c}"
-										styleClass="slds-scope slds-input"
-										rendered="{!!wrapTask.task.IsClosed__c}"
-										style="width: 100%" />
+									<apex:inputField required="true" value="{!wrapTask.task.Subject__c}" styleClass="slds-scope slds-input" rendered="{!!wrapTask.task.IsClosed__c}" style="width: 100%" />
 									<apex:outputField value="{!wrapTask.task.Subject__c}" rendered="{!wrapTask.task.IsClosed__c}" />
 								</apex:column>
 
@@ -471,16 +475,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 										<apex:outputPanel rendered="{!!$ObjectType.APTaskTemplate__c.fields.User__c.updateable && wrapTask.task.User__c == null}" id="userDisplayPanel">
 											<apex:outputPanel layout="none" rendered="{!!$Setup.Action_Plans_Settings__c.Unassigned_Task_Default__c}" id="userNameDisplay"
-												>[&nbsp;<apex:outputField value="{!wrapTask.task.User__c}" />&nbsp;]</apex:outputPanel
+												>[&nbsp; <apex:outputField value="{!wrapTask.task.User__c}" />&nbsp;]</apex:outputPanel
 											>
-											<apex:outputText rendered="{!$Setup.Action_Plans_Settings__c.Unassigned_Task_Default__c}" id="recordOwnerPlaceholder"
-												>[&nbsp;{!$Label.ap_RecordOwner}&nbsp;]</apex:outputText
-											>
+											<apex:outputText rendered="{!$Setup.Action_Plans_Settings__c.Unassigned_Task_Default__c}" id="recordOwnerPlaceholder">[&nbsp;{!$Label.ap_RecordOwner}&nbsp;]</apex:outputText>
 										</apex:outputPanel>
-										<apex:outputField
-											rendered="{!!$ObjectType.APTaskTemplate__c.fields.User__c.updateable && wrapTask.task.User__c != null}"
-											value="{!wrapTask.task.User__c}"
-											id="userDisplayField" />
+										<apex:outputField rendered="{!!$ObjectType.APTaskTemplate__c.fields.User__c.updateable && wrapTask.task.User__c != null}" value="{!wrapTask.task.User__c}" id="userDisplayField" />
 									</apex:outputPanel>
 
 									<apex:outputField value="{!wrapTask.task.User__c}" rendered="{!wrapTask.task.IsClosed__c}" />
@@ -519,7 +518,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								<!--  Tasks send Email  -->
 								<apex:column>
 									<apex:facet name="header">
-										{!$ObjectType.APTaskTemplate__c.fields.SendEmail__c.label} <br /> <a id="all" onclick="javascript:checkEmail(1);" class="all-none">{!$Label.ap_All}</a> |
+										{!$ObjectType.APTaskTemplate__c.fields.SendEmail__c.label}
+										<br />
+										<a id="all" onclick="javascript:checkEmail(1);" class="all-none">{!$Label.ap_All}</a> |
 										<a id="none" onclick="javascript:checkEmail(0);" class="all-none">{!$Label.ap_None}</a>
 									</apex:facet>
 									<apex:inputCheckbox id="sendEmailCheckbox" value="{!wrapTask.task.SendEmail__c}" disabled="{!wrapTask.task.IsClosed__c}" />
@@ -528,7 +529,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								<!--  Tasks reminder settings  -->
 								<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle" id="reminderCol">
 									<apex:facet name="header"
-										>{!$ObjectType.APTaskTemplate__c.fields.Reminder__c.label} <br />
+										>{!$ObjectType.APTaskTemplate__c.fields.Reminder__c.label}
+										<br />
 										<a id="reminderAll" onclick="javascript:checkReminder(1);" class="all-none">{!$Label.ap_All}</a> |
 										<a id="reminderNone" onclick="javascript:checkReminder(0);" class="all-none">{!$Label.ap_None}</a>
 									</apex:facet>
@@ -555,15 +557,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								<!--  Tasks comments  -->
 								<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.Comments__c.label}" style="vertical-align: middle">
 									<apex:outputPanel rendered="{!!wrapTask.task.IsClosed__c}" layout="none">
-										<apex:inputField id="commentPanel" style="width: 250px; display: none" value="{!wrapTask.task.Comments__c}" />
-										(&nbsp;<a
+										<apex:inputField id="commentPanel" style="width: 250px; display: none" value="{!wrapTask.task.Comments__c}" /> (&nbsp;
+										<a
 											id="{!wrapTask.position}commentLink"
 											onclick="toggleComments('{!$Component.commentPanel}', '{!$Component.actionLinks}', '{!$Label.ap_Add}', '{!$Label.ap_Edit}','{!$Label.ap_Close}');"
 											style="text-decoration: underline">
 											<apex:outputPanel id="actionLinks">
 												<apex:outputText rendered="{!wrapTask.task.Comments__c != null}">{!$Label.ap_Edit}</apex:outputText>
 												<apex:outputText rendered="{!wrapTask.task.Comments__c == null}">{!$Label.ap_Add}</apex:outputText>
-											</apex:outputPanel></a
+											</apex:outputPanel> </a
 										>&nbsp;)
 									</apex:outputPanel>
 									<apex:outputPanel rendered="{!wrapTask.task.IsClosed__c}" layout="none">
@@ -573,7 +575,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 										</apex:outputPanel>
 
 										<apex:outputPanel rendered="{!wrapTask.task.Comments__c != null}" onclick="toggleVisibility('{!$Component.closedCommentPanel}');">
-											(&nbsp;<apex:outputText style="text-decoration: underline" value="..." />&nbsp;)
+											(&nbsp;
+											<apex:outputText style="text-decoration: underline" value="..." />&nbsp;)
 										</apex:outputPanel>
 									</apex:outputPanel>
 								</apex:column>

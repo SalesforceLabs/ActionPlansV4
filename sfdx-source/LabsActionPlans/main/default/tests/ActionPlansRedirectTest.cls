@@ -1,10 +1,10 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * Test for Redirect Visualforce Controller
+ * @group Visualforce
  */
 @IsTest
 public class ActionPlansRedirectTest {
@@ -42,11 +43,13 @@ public class ActionPlansRedirectTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
+		System.assertNotEquals(null, apTemplate.Id, 'We should have created an ActionPlan Template');
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		System.assertNotEquals(null, actionPlan.Id, 'We should have created an ActionPlan');
 	}
 
 	@IsTest
-	static void aPTaskRedirect() {
+	private static void aPTaskRedirect() {
 		Test.startTest();
 		APTaskTemplate__c aptt = [SELECT Id, Action_Plan__c FROM APTaskTemplate__c LIMIT 1];
 
@@ -63,7 +66,7 @@ public class ActionPlansRedirectTest {
 	}
 
 	@IsTest
-	static void aPTTaskRedirect() {
+	private static void aPTTaskRedirect() {
 		Test.startTest();
 		APTTaskTemplate__c apttt = [SELECT Id, Action_Plan_Template__c FROM APTTaskTemplate__c LIMIT 1];
 

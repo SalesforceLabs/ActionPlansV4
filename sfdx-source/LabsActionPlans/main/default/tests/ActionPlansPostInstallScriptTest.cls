@@ -1,10 +1,10 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * Test for PostInstallScript Utility
+ * @see ActionPlansPostInstallScript
+ * @group Utilities
  */
 @IsTest
 private class ActionPlansPostInstallScriptTest {

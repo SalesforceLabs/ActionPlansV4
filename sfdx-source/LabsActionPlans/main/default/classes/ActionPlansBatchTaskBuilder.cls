@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * When we have more than one task to create, run it in batch context for higher limits
  * @since 2011
- * @group Batch
+ * @group Batch Apex
  */
 public without sharing class ActionPlansBatchTaskBuilder implements Database.Batchable<SObject>, Database.Stateful {
 	private List<APTaskTemplate__c> apTasks { get; set; }
@@ -50,6 +50,7 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 
 	/**
 	 * Constructor
+	 * @param apttIds List of` ActionPlansTemplateTaskTemplate` IDs
 	 */
 	public ActionPlansBatchTaskBuilder(List<Id> apttIds) {
 		this.aptIds = apttIds;
@@ -59,7 +60,7 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	 *
 	 */
 	/**
-	 * @description QueryLocator: Select the List of `APTaskTemplate__c`.
+	 * QueryLocator: Select the List of `APTaskTemplate__c`.
 	 * @author Salesforce labs
 	 * @param  bc BatchableContext for start method
 	 * @return    `Database.QueryLocator`
@@ -82,12 +83,7 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	}
 
 	/**
-	 *
-	 * @param bc
-	 * @param data
-	 */
-	/**
-	 * @description Eecute this method multiple times, by default on batches of 200 records
+	 * Eecute this method multiple times, by default on batches of 200 records
 	 *
 	 * @param bc    `Database.BatchableContext`
 	 * @param data  The list of SObjects to act on
@@ -172,10 +168,10 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	}
 
 	/**
-	 * @description Required finish method - we could do something here like send a platform event or notify the user that the batch is complete
+	 * Required finish method - we could do something here like send a platform event or notify the user that the batch is complete
 	 * @author Salesforce Labs
 	 * @param  bc BatchableContext
 	 */
-	public void finish(Database.BatchableContext bc) {
-	} //NOPMD
+	public void finish(Database.BatchableContext bc) { //NOPMD
+	}
 }

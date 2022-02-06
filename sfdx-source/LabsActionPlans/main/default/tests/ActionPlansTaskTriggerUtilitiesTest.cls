@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -34,27 +34,25 @@ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+
 /**
- * @group Tests
+ * @author David Schach
+ * @group Trigger Handlers
  */
 @IsTest
 private class ActionPlansTaskTriggerUtilitiesTest {
 	static String testClosedStatus;
 	/**
-	test trigger without skipweekends
-	method for testing Task After Update trigger
-	when updating task to status 'Completed'
+	 * test trigger without skipweekends method for testing Task After Update trigger when updating task to status 'Completed'
 	*/
-
 	@IsTest
 	private static void testTaskAfterUpdateToCompleted() {
 		List<String> closedStatuses = new List<String>(ActionPlansUtilities.getClosedTaskStatuses());
 		String testClosedStatus = closedStatuses[0];
 
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c ap = testUtil.createNewActionPlan('account', 0);
 
 		List<Id> apTTaskIds = new List<Id>();
 		List<Task> apTaskList = new List<Task>();
@@ -64,7 +62,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			APTaskTemplate__c at = new APTaskTemplate__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
-			at.User__c = testutil.createTestUser().Id;
+			at.User__c = testUtil.createTestUser().Id;
 			at.SendEmail__c = false;
 			if (i == 0) {
 				at.SendEmail__c = true;
@@ -73,7 +71,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			at.Type__c = 'Email';
 			at.Priority__c = 'Low';
 			at.Controller__c = (i > 0) ? apttList[i - 1].Id : null;
-			insert at;
+			insert at; //NOPMD
 			apttList.add(at);
 			apTTaskIds.add(at.Id);
 
@@ -82,7 +80,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 				x.Priority = at.Priority__c;
 				x.TaskAPTaskTemplate__c = at.Id;
 				x.Subject = at.Subject__c;
-				insert x;
+				insert x; //NOPMD
 			}
 		}
 
@@ -97,7 +95,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		apTaskList = [SELECT Id FROM Task WHERE TaskAPTaskTemplate__c = :apTTaskIds[0]];
 
 		Test.stopTest();
-		System.assert(!apTaskList.isEmpty());
+		System.assert(!apTaskList.isEmpty(), 'We should have some records here');
 	}
 
 	/**
@@ -105,8 +103,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 */
 	@IsTest
 	private static void testActionPlanDelete() {
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('contact', 0);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c ap = testUtil.createNewActionPlan('contact', 0);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -120,7 +118,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			APTaskTemplate__c at = new APTaskTemplate__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
-			at.User__c = testutil.createTestUser().Id;
+			at.User__c = testUtil.createTestUser().Id;
 			at.SendEmail__c = false;
 			at.Subject__c = 'Test ' + i;
 			at.Type__c = 'Email';
@@ -128,7 +126,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			at.Comments__c = 'My Comment';
 			at.Reminder__c = true;
 			at.Controller__c = (i > 0) ? aptt[i - 1].Id : null;
-			insert at;
+			insert at; //NOPMD
 			aptt.add(at);
 			apTTaskIds.add(at.Id);
 
@@ -137,7 +135,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 				x.Priority = at.Priority__c;
 				x.TaskAPTaskTemplate__c = at.Id;
 				x.Subject = at.Subject__c;
-				insert x;
+				insert x; //NOPMD
 			}
 		}
 
@@ -154,8 +152,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 */
 	@IsTest
 	private static void testAPTTemplateUpdate() {
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 0);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c ap = testUtil.createNewActionPlan('opportunity', 0);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -169,7 +167,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			APTaskTemplate__c at = new APTaskTemplate__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
-			at.User__c = testutil.createTestUser().Id;
+			at.User__c = testUtil.createTestUser().Id;
 			at.SendEmail__c = false;
 			at.Subject__c = 'Test ' + i;
 			at.Type__c = 'Email';
@@ -178,7 +176,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			at.Reminder__c = true;
 			at.Minutes_Reminder__c = '510';
 			at.Controller__c = (i > 0) ? aptt[i - 1].Id : null;
-			insert at;
+			insert at; //NOPMD
 			aptt.add(at);
 			apTTaskIds.add(at.Id);
 
@@ -187,7 +185,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 				x.Priority = at.Priority__c;
 				x.TaskAPTaskTemplate__c = at.Id;
 				x.Subject = at.Subject__c;
-				insert x;
+				insert x; //NOPMD
 			}
 		}
 
@@ -213,9 +211,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	@IsTest
 	private static void testAPTTUndelete() {
 		Test.startTest();
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c ap = testutil.createNewActionPlan('contract', 1);
+		ActionPlan__c ap = testUtil.createNewActionPlan('contract', 1);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -235,7 +233,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		delete at;
 
 		List<APTaskTemplate__c> apttDel = [SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id];
-		System.assert(apttDel.size() == 0);
+		System.assert(apttDel.isEmpty());
 
 		// undelete task and APTask and get exception
 		List<Id> ids = new List<Id>();
@@ -248,10 +246,10 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		}
 
 		// now undelete and trigger the code
-		if ([SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id AND isDeleted = TRUE].isEmpty()) {
+		if (![SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id AND isDeleted = TRUE ALL ROWS].isEmpty()) {
 			undelete at;
 			List<APTaskTemplate__c> apttUnDel = [SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id];
-			System.assert(apttUnDel.size() == 1);
+			System.assertEquals(1,apttUnDel.size());
 		}
 
 		Test.stopTest();
@@ -264,9 +262,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	@IsTest
 	private static void testAPTTemplateUndeleteException() {
 		Test.startTest();
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c ap = testutil.createNewActionPlan('campaign', 3);
+		ActionPlan__c ap = testUtil.createNewActionPlan('campaign', 3);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -289,13 +287,13 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		delete at;
 		Database.emptyRecycleBin(t);
 		List<APTaskTemplate__c> apttDel = [SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id];
-		System.assert(apttDel.size() == 0);
+		System.assert(apttDel.isEmpty());
 
 		// undelete task and APTask and get exception
 		try {
 			Database.undelete(ids);
 		} catch (Dmlexception e) {
-			System.debug('Dmlexception: ' + e.getMessage());
+			//System.debug('Dmlexception: ' + e.getMessage());
 			System.assert(e.getMessage().contains(System.Label.ap_Error), e.getMessage() + '(APTaskTemplate__c undelete error should have the proper format)');
 		}
 
@@ -307,8 +305,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	*/
 	@IsTest
 	private static void testTrigger6() {
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('lead', 0);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c ap = testUtil.createNewActionPlan('lead', 0);
 
 		List<Id> apTTaskIds = new List<Id>();
 		List<Task> apTask = new List<Task>();
@@ -319,7 +317,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			APTaskTemplate__c at = new APTaskTemplate__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
-			at.User__c = testutil.createTestUser().Id;
+			at.User__c = testUtil.createTestUser().Id;
 			if (i == 0) {
 				at.SendEmail__c = true;
 			} else {
@@ -329,7 +327,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			at.Type__c = 'Email';
 			at.Priority__c = 'Low';
 			at.Controller__c = (i > 0) ? aptt[i - 1].Id : null;
-			insert at;
+			insert at; //NOPMD
 			aptt.add(at);
 			apTTaskIds.add(at.Id);
 
@@ -338,7 +336,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 				x.Priority = at.Priority__c;
 				x.TaskAPTaskTemplate__c = at.Id;
 				x.Subject = at.Subject__c;
-				insert x;
+				insert x; //NOPMD
 			}
 		}
 
@@ -363,10 +361,10 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	@IsTest
 	private static void testTaskBeforeDelete() {
 		Test.startTest();
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c ap = testUtil.createNewActionPlan('account', 0);
 
-		Id testUserId = testutil.createTestUser().Id;
+		Id testUserId = testUtil.createTestUser().Id;
 
 		//Task Template 1
 		APTaskTemplate__c at = new APTaskTemplate__c();

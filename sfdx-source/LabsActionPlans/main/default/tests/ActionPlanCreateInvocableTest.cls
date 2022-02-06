@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * Test class for Invocable Apex class
+ * @since 2022
+ * @author David Schach
+ * @group Invocable
  */
 @IsTest
 private class ActionPlanCreateInvocableTest {
@@ -225,7 +228,7 @@ private class ActionPlanCreateInvocableTest {
 		apTemplate.name = 'B';
 		update apTemplate;
 
-		Integer BULK_COUNT = 100;
+		final Integer BULK_COUNT = 100;
 		List<Account> toInsert = new List<Account>();
 
 		for (Integer i = 0; i < BULK_COUNT; i++) {
@@ -248,8 +251,8 @@ private class ActionPlanCreateInvocableTest {
 			requests.add(req);
 		}
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
-
 		Test.stopTest();
+		System.assertEquals(BULK_COUNT, resultIDs.size(), 'Should have made one AP per wrapper');
 		System.assertEquals(BULK_COUNT, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL]);
 	}
 

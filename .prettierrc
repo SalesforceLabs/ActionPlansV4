@@ -14,10 +14,10 @@
 		},
 		{
 			"files": "*.{cmp,page,component}",
-			"options": { "parser": "html", "tabWidth": 4 }
+			"options": { "parser": "html", "tabWidth": 2 }
 		},
 		{
-			"files": ["force-app/**/**/classes/*.cls"]
+			"files": ["sfdx-source/**/**/**/classes/*.cls", "sfdx-source/**/**/**/tests/*.cls"]
 		}
 	]
 }

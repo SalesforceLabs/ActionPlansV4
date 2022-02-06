@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.ApexDoc')
 /**
  * A reusable, intuitive library for determining wether or not the
  * current use can create, read, edit, or delete objects as well as
@@ -10,7 +11,8 @@
  * @see https://github.com/trailheadapps/apex-recipes
  * @see ActionPlansCanTheUserTest
  * @see ActionPlansSafely
- * @author Codefriar
+ * @author {@link [Codefriar](https://github.com/codefriar)}
+ * @since 2022
  * @group Security
  */
 public inherited sharing class ActionPlansCanTheUser {
@@ -20,11 +22,11 @@ public inherited sharing class ActionPlansCanTheUser {
 	private static Map<String, Set<String>> updatableFieldsByObject = new Map<String, Set<String>>();
 
 	public enum CrudType {
-		CREATE,
-		READ,
-		EDIT,
-		DEL,
-		UPS
+		CREATEABLE,
+		READABLE,
+		EDITABLE,
+		DELETABLE,
+		UPSERTABLE
 	}
 
 	public enum FLSType {
@@ -54,24 +56,24 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param permission create, read, update or delete
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.READ));
+	 * System.debug(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.READABLE));
 	 **/
 	@testVisible
 	private static Boolean crud(SObject obj, CrudType permission) {
 		switch on permission {
-			when CREATE {
+			when CREATEABLE {
 				return obj.getSObjectType().getDescribe().isCreateable();
 			}
-			when READ {
+			when READABLE {
 				return obj.getSObjectType().getDescribe().isAccessible();
 			}
-			when EDIT {
+			when EDITABLE {
 				return obj.getSObjectType().getDescribe().isUpdateable();
 			}
-			when DEL {
+			when DELETABLE {
 				return obj.getSObjectType().getDescribe().isDeletable();
 			}
-			when UPS {
+			when UPSERTABLE {
 				return obj.getSObjectType().getDescribe().isCreateable() && obj.getSObjectType().getDescribe().isUpdateable();
 			}
 			when else {
@@ -102,7 +104,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * System.debug(ActionPlansCanTheUser.create(new Account()));
 	 **/
 	public static Boolean create(SObject obj) {
-		return crud(obj, CrudType.CREATE);
+		return crud(obj, CrudType.CREATEABLE);
 	}
 
 	/**
@@ -113,7 +115,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @return Boolean
 	 */
 	public static Boolean create(List<SObject> objs) {
-		return crud(objs?.get(0), CrudType.CREATE);
+		return crud(objs?.get(0), CrudType.CREATEABLE);
 	}
 
 	/**
@@ -125,7 +127,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * System.debug(ActionPlansCanTheUser.create('Account'));
 	 **/
 	public static Boolean create(String objName) {
-		return crud(objName, CrudType.CREATE);
+		return crud(objName, CrudType.CREATEABLE);
 	}
 
 	/**
@@ -137,7 +139,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * System.debug(ActionPlansCanTheUser.read(new Account()));
 	 **/
 	public static Boolean read(SObject obj) {
-		return crud(obj, CrudType.READ);
+		return crud(obj, CrudType.READABLE);
 	}
 
 	/**
@@ -146,9 +148,10 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param obj object type to check read permissions on
 	 * @return Boolean
 	 * @example
+	 * ActionPlansCanTheUser.read(new List<Account>{a1, a2}));
 	 **/
 	public static Boolean read(List<SObject> objs) {
-		return crud(objs?.get(0), CrudType.READ);
+		return crud(objs?.get(0), CrudType.READABLE);
 	}
 
 	/**
@@ -160,7 +163,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * System.debug(ActionPlansCanTheUser.read('Account'));
 	 **/
 	public static Boolean read(String objName) {
-		return crud(objName, CrudType.READ);
+		return crud(objName, CrudType.READABLE);
 	}
 
 	/**
@@ -172,7 +175,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * System.debug(ActionPlansCanTheUser.edit(new Account()));
 	 **/
 	public static Boolean edit(SObject obj) {
-		return crud(obj, CrudType.EDIT);
+		return crud(obj, CrudType.EDITABLE);
 	}
 
 	/**
@@ -180,10 +183,9 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * edit / update the specified objects
 	 * @param obj object type to check edit permissions on
 	 * @return Boolean
-	 * @example
 	 **/
 	public static Boolean edit(List<SObject> objs) {
-		return crud(objs?.get(0), CrudType.EDIT);
+		return crud(objs?.get(0), CrudType.EDITABLE);
 	}
 
 	/**
@@ -195,7 +197,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * System.debug(ActionPlansCanTheUser.edit('Account'));
 	 **/
 	public static Boolean edit(String objName) {
-		return crud(objName, CrudType.EDIT);
+		return crud(objName, CrudType.EDITABLE);
 	}
 
 	/**
@@ -207,7 +209,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * System.debug(ActionPlansCanTheUser.ups(new Account()));
 	 **/
 	public static Boolean ups(SObject obj) {
-		return crud(obj, CrudType.UPS);
+		return crud(obj, CrudType.UPSERTABLE);
 	}
 
 	/**
@@ -218,7 +220,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @example
 	 **/
 	public static Boolean ups(List<SObject> objs) {
-		return crud(objs?.get(0), CrudType.UPS);
+		return crud(objs?.get(0), CrudType.UPSERTABLE);
 	}
 
 	/**
@@ -230,7 +232,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * System.debug(ActionPlansCanTheUser.ups('Account'));
 	 **/
 	public static Boolean ups(String objName) {
-		return crud(objName, CrudType.UPS);
+		return crud(objName, CrudType.UPSERTABLE);
 	}
 
 	/**
@@ -242,7 +244,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * System.debug(ActionPlansCanTheUser.destroy(new Account()));
 	 **/
 	public static Boolean destroy(SObject obj) {
-		return crud(obj, CrudType.DEL);
+		return crud(obj, CrudType.DELETABLE);
 	}
 
 	/**
@@ -252,7 +254,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @return Boolean
 	 **/
 	public static Boolean destroy(List<SObject> objs) {
-		return crud(objs?.get(0), CrudType.DEL);
+		return crud(objs?.get(0), CrudType.DELETABLE);
 	}
 
 	/**
@@ -264,7 +266,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * System.debug(ActionPlansCanTheUser.destroy('Account'));
 	 **/
 	public static Boolean destroy(String objName) {
-		return crud(objName, CrudType.DEL);
+		return crud(objName, CrudType.DELETABLE);
 	}
 
 	/**
@@ -344,7 +346,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 *   Calculates the FLS for a given object type
+	 * Calculates the FLS for a given object type
 	 * @param objType String name of the object type
 	 * @return        `Map<String, Map<FLSType, Boolean>>`
 	 */

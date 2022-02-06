@@ -1,6 +1,6 @@
 <!--
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 	</style>
 
 	<div class="slds-scope">
-		<div style="margin: 10px; text-align: right"><a href="javascript:window.print();">{!$Label.ap_Print}</a></div>
+		<div style="margin: 10px; text-align: right">
+			<a href="javascript:window.print();">{!$Label.ap_Print}</a>
+		</div>
 		<apex:form id="apForm">
 			<apex:sectionHeader subtitle="{!$ObjectType.ActionPlan__c.label}" title="{!ActionPlan__c.Name}" />
 			<apex:pageBlock id="detailBlock" mode="detail">
@@ -88,10 +90,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 						<apex:outputText>&nbsp;</apex:outputText>
 						<apex:outputText value="{!$ObjectType.ActionPlan__c.fields.Task_Status_Formula__c.label}" />
 						<apex:outputText>{!ActionPlan__c.Task_Status_Formula__c}</apex:outputText>
-						<!--            </apex:panelGrid>
 
-
-                <apex:panelGrid columns="5" style="width:100%" columnClasses="labelCol, dataCol, spacerCol, labelCol, dataCol"> -->
 						<apex:outputText value="{!$ObjectType.ActionPlan__c.fields.SkipWeekends__c.label}" />
 						<apex:outputfield value="{!ActionPlan__c.SkipWeekends__c}" />
 						<apex:outputText>&nbsp;</apex:outputText>
@@ -112,9 +111,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 					</apex:panelGrid>
 				</apex:pageBlockSection>
 
-				<!-- <apex:panelGrid columns="3" columnClasses="labelCol, dataCol, spacerCol" rendered="{!(ActionPlan__c.SkipDay__c != null && ActionPlan__c.SkipWeekends__c == true)}">
-
-                </apex:panelGrid> -->
 				<apex:pageBlockSection columns="1" collapsible="false">
 					<apex:facet name="header">
 						<apex:outputPanel>
@@ -155,11 +151,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 				<apex:pageBlockSection columns="1" collapsible="false">
 					<apex:panelGrid columns="5" columnClasses="labelCol, dataCol, spacerCol, labelCol, dataCol" style="width: 100%">
 						<apex:outputText value="{!$Label.ap_CreatedBy}" />
-						<apex:outputPanel><apex:outputText>{!ActionPlan__c.CreatedBy.Name},&nbsp;</apex:outputText> <apex:outputField value="{!ActionPlan__c.CreatedDate}" /></apex:outputPanel>
+						<apex:outputPanel>
+							<apex:outputText>{!ActionPlan__c.CreatedBy.Name},&nbsp;</apex:outputText>
+							<apex:outputField value="{!ActionPlan__c.CreatedDate}"
+						/></apex:outputPanel>
 						<apex:outputText />
 						<apex:outputText value="{!$Label.ap_LastModifiedBy}" />
-						<apex:outputPanel
-							><apex:outputText>{!ActionPlan__c.LastModifiedBy.Name},&nbsp;</apex:outputText> <apex:outputField value="{!ActionPlan__c.LastModifiedDate}"
+						<apex:outputPanel>
+							<apex:outputText>{!ActionPlan__c.LastModifiedBy.Name},&nbsp;</apex:outputText>
+							<apex:outputField value="{!ActionPlan__c.LastModifiedDate}"
 						/></apex:outputPanel>
 					</apex:panelGrid>
 				</apex:pageBlockSection>

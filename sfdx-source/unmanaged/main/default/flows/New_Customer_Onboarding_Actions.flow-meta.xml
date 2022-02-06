@@ -28,7 +28,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>53.0</apiVersion>
     <description>Sample Flow - change Account Type so it contains &apos;Customer&apos; and if New Customer Onboarding Action Plan Template exists, it will be created as an Action Plan</description>
     <interviewLabel>New Customer Onboarding Actions {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>

@@ -1,6 +1,6 @@
 <!--
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -44,12 +44,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	lightningStylesheets="true"
 	docType="html-5.0"
 	contentType="text/html"
-	applyBodyTag="false">
+	applyBodyTag="false"
+	action="{!onLoad}">
 	<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
 		<head>
 			<title>
-				<apex:outputText value="{!$ObjectType.ActionPlanTemplate__c.label} - {!$Label.ap_New}" rendered="{!ActionPlanTemplate__c.Id == null}" /> <apex:outputText
-				value="{!ActionPlanTemplate__c.Name} - {!$Label.ap_Edit}" rendered="{!ActionPlanTemplate__c.Id != null}" />
+				<apex:outputText value="{!$ObjectType.ActionPlanTemplate__c.label} - {!$Label.ap_New}" rendered="{!ActionPlanTemplate__c.Id == null}" /> <apex:outputText value="{!ActionPlanTemplate__c.Name} -
+				{!$Label.ap_Edit}" rendered="{!ActionPlanTemplate__c.Id != null}" />
 			</title>
 			<meta charset="utf-8" />
 			<meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -225,8 +226,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 								<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle" id="reminderCol">
 									<apex:facet name="header">
-										{!$ObjectType.APTTaskTemplate__c.fields.Reminder__c.label} <br />
-										<a id="reminderAll" onclick="javascript:checkReminder(1);" class="all-none">{!$Label.ap_All}</a> |
+										{!$ObjectType.APTTaskTemplate__c.fields.Reminder__c.label} <br /> <a id="reminderAll" onclick="javascript:checkReminder(1);" class="all-none">{!$Label.ap_All}</a> |
 										<a id="reminderNone" onclick="javascript:checkReminder(0);" class="all-none">{!$Label.ap_None}</a>
 									</apex:facet>
 									<apex:outputPanel styleClass="reminderColumn" id="reminderCell" style="vertical-align: middle">

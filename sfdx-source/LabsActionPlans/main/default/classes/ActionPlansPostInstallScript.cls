@@ -1,10 +1,11 @@
+@SuppressWarnings('PMD.AvoidGlobalModifier')
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -35,6 +36,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * Install sample data on first installation
+ * @since 2022
+ * @author David Schach
  * @group Utilities
  */
 global class ActionPlansPostInstallScript implements InstallHandler {
@@ -96,9 +99,9 @@ global class ActionPlansPostInstallScript implements InstallHandler {
 			insert a3;
 		}
 		//else if(context.previousVersion().compareTo(new Version(1,0)) == 0) {}
-		if (context.isUpgrade()) {
+		if (context.isUpgrade()) { //NOPMD
 		}
-		if (context.isPush()) {
+		if (context.isPush()) { //NOPMD
 		}
 	}
 }

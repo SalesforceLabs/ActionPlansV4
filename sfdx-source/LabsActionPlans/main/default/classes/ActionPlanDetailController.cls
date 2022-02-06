@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -38,11 +38,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 /**
+ * @author David Schach
  * @group Visualforce
+ * @since 2011
+ * @see ActionPlanDetailControllerTest
  */
 public with sharing class ActionPlanDetailController {
 	private ActionPlan__c actionPlan;
+	/**
+	 * Does the org have Record Types enabled for Task SObject
+	 * @author David Schach
+	 */
 	public Boolean hasRecordType { get; set; }
+	
+	/**
+	 * Does the user have reminders enabled? If not, do not shrae the reminder option
+	 * @author David Schach
+	 * @return               Yes/No
+	 */
 	public Boolean canDisplayReminder { get; private set; }
 
 	/**
@@ -50,15 +63,13 @@ public with sharing class ActionPlanDetailController {
 	 */
 	public ActionPlanDetailController(ApexPages.StandardController stdController) {
 		actionPlan = (ActionPlan__c) stdController.getRecord();
-
 		hasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
-
 		canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
 	}
 
 	/**
 	 * Deletes the current Action Plan loaded and redirects to the AP List
-	 * @return newPage
+	 * @return Page to go to after deleting `ActionPlan__c`
 	 */
 	public PageReference deletePlan() {
 		//delete ap, which will also delete apts via master-detail relationship
@@ -69,7 +80,7 @@ public with sharing class ActionPlanDetailController {
 			return null;
 		}
 
-		SetupEntityAccess[] accessSettings = [
+		/* SetupEntityAccess[] accessSettings = [
 			SELECT Id
 			FROM SetupEntityAccess
 			WHERE
@@ -81,8 +92,7 @@ public with sharing class ActionPlanDetailController {
 						Name = 'ActionPlansHome'
 				)
 				AND ParentId IN (SELECT PermissionSetId FROM PermissionSetAssignment WHERE AssigneeId = :UserInfo.getUserId())
-		];
-		Boolean useString = true;
+		]; */
 		String retURL = '/' + ActionPlansUtilities.namespacePrefix + ActionPlansUtilities.getObjectKeyPrefix(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c') + '/o';
 
 		if (ApexPages.currentPage().getParameters().get('templateId') != null) {
@@ -96,10 +106,11 @@ public with sharing class ActionPlanDetailController {
 		return newPage;
 	}
 
+	private List<TaskWrapper> apTaskWrapperList;
 	/**
 	 * Collect and return all TaskWrappers
+	 * @return List of `TaskWrapper` for this Action Plan
 	 */
-	private List<TaskWrapper> apTaskWrapperList;
 	public List<TaskWrapper> getActionPlanTasks() {
 		if (apTaskWrapperList == null) {
 			apTaskWrapperList = new List<TaskWrapper>();
@@ -147,6 +158,9 @@ public with sharing class ActionPlanDetailController {
 		return apTaskWrapperList;
 	}
 
+	/**
+	 * Wrapper for Action Plan Task Template
+	 */
 	public class TaskWrapper {
 		public APTaskTemplate__c apt { get; private set; }
 		public Id taskId { get; private set; }
@@ -159,6 +173,7 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * Returns number of completed tasks
+	 * @return Number of completed tasks
 	 */
 	public Integer getCompleted() {
 		if (actionPlan.Id == null) {
@@ -172,7 +187,7 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * Checks if Action Plan Template has been changed since the creation of the Action Plan.
-	 * @return Boolean
+	 * @return Was the AP's template modified after the Action Plan was created?
 	 */
 	public Boolean getVersion() {
 		if (actionPlan.Action_Plan_Template__c != null) {
@@ -185,7 +200,7 @@ public with sharing class ActionPlanDetailController {
 	}
 
 	/**
-	 *
+	 * The label of the Action Plan's parent record SObject
 	 * @return  label of the object related to this Action Plan
 	 */
 	public String getRelatedObjectLabel() {
@@ -203,7 +218,7 @@ public with sharing class ActionPlanDetailController {
 	}
 
 	/**
-	 *
+	 * The name of the parent record - show a different field based on SObject Type
 	 * @return  name of the object related to this Action Plan
 	 */
 	public String getrelatedRecordName() {
@@ -238,7 +253,7 @@ public with sharing class ActionPlanDetailController {
 	}
 
 	/**
-	 * Convert Record Type Id to Record Type Name
+	 * Convert AP Task Record Type Id to Record Type Name
 	 * @return Record Type Name
 	 */
 	public String getRecordTypeName() {
