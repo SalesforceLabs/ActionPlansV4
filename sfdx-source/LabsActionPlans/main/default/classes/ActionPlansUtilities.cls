@@ -101,7 +101,7 @@ public without sharing class ActionPlansUtilities {
 				if (dt.name().equalsIgnoreCase('Reference') && s.endsWithIgnoreCase('__c')) {
 					String relatedObjectName = dfr.getReferenceTo()[0].getDescribe().getName();
 
-					if (!relatedObjectName.startsWithIgnoreCase(ActionPlansUtilities.getnamespacePrefix() + 'ActionPlan')) {
+					if (!relatedObjectName.startsWithIgnoreCase(namespacePrefix + 'ActionPlan')) {
 						//System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
 						referenceFieldNames.add(s);
 					}
@@ -529,16 +529,18 @@ public without sharing class ActionPlansUtilities {
 		return (UserInfo.getUiThemeDisplayed().containsIgnoreCase('theme4'));
 	}
 
-	private static String namespacePrefix;
 	/**
-	 * Check if we are in a managed package
+	 *  Check if we are in a managed package - if so, return the namespace prefix
 	 * @return The namespace prefix
 	 */
-	public static String getnamespacePrefix() {
-		if (namespacePrefix == null) {
-			String[] parts = String.valueOf(ActionPlansUtilities.class).split('\\.', 2);
-			namespacePrefix = parts.size() == 2 ? parts[0] + '__' : '';
+	public static String namespacePrefix {
+		get {
+			if (namespacePrefix == null) {
+				String[] parts = String.valueOf(ActionPlansUtilities.class).split('\\.', 2);
+				namespacePrefix = parts.size() == 2 ? parts[0] + '__' : '';
+			}
+			return namespacePrefix;
 		}
-		return namespacePrefix;
+		private set;
 	}
 }

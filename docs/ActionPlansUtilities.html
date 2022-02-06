@@ -451,20 +451,20 @@
                       Max number of Action Plans that can be deleted from list
                     </td>
                   </tr>
-                  <tr class="property private">
+                  <tr class="property public">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L532">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L536">
                         namespacePrefix
                       </a></td>
                     <td>
                       <div class="attribute-signature">
-                        private static String namespacePrefix
+                        public static String namespacePrefix
                       </div>
                     </td>
 
 
                     <td class="attribute-description">
-
+                      Check if we are in a managed package - if so, return the namespace prefix
                     </td>
                   </tr>
                   <tr class="property private">
@@ -475,6 +475,22 @@
                     <td>
                       <div class="attribute-signature">
                         private static Set&lt;String&gt; openTaskStatuses
+                      </div>
+                    </td>
+
+
+                    <td class="attribute-description">
+
+                    </td>
+                  </tr>
+                  <tr class="property private">
+                    <td class="attribute-name">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L544">
+                        set
+                      </a></td>
+                    <td>
+                      <div class="attribute-signature">
+                        private set
                       </div>
                     </td>
 
@@ -699,15 +715,6 @@
 
                     <div class="methods-toc__description">
                       Detect user theme
-                    </div>
-                  </li>
-                  <li class="method public">
-                    <a class="methods-toc__entry " href="#ActionPlansUtilities.getnamespacePrefix">
-                      getnamespacePrefix ()
-                    </a>
-
-                    <div class="methods-toc__description">
-                      Check if we are in a managed package
                     </div>
                   </li>
                   <li class="method public">
@@ -1192,30 +1199,6 @@
                   </div>
                   <div class="method-subtitle-description">
                     Are we in Lightning Experience?
-                  </div>
-                </div>
-                <div class="method public">
-                  <h4 class="method-title " id="ActionPlansUtilities.getnamespacePrefix">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L537">
-                      getnamespacePrefix()
-                    </a>
-                  </h4>
-                  <div class="method-description">
-                    Check if we are in a managed package
-                  </div>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-
-                  <div class="method-signature">
-                    public static String getnamespacePrefix()
-                  </div>
-                  <div class="method-subtitle">
-                    Returns
-                  </div>
-                  <div class="method-subtitle-description">
-                    The namespace prefix
                   </div>
                 </div>
                 <div class="method public">
