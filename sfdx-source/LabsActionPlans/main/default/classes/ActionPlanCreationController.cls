@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Visualforce
  * @author Rodrigo Birriel
  * @author David Schach
+ * @see ActionPlanCreateInvocable
  */
 public with sharing class ActionPlanCreationController {
 	private Double taskIndex;
@@ -66,10 +67,12 @@ public with sharing class ActionPlanCreationController {
 	public List<APTaskTemplate__c> pendingDeletes;
 
 	private String cloneParam = '0';
-	public Boolean inVisualforceContext = false;
+	@testVisible private Boolean inVisualforceContext = false;
 
 	/**
-	 * Constructor
+	 * Constructor for ActionPlan Create/Edit Page
+	 * @author David Schach
+	 * @param  stdController `ActionPlan__c` standard controller
 	 */
 	public ActionPlanCreationController(ApexPages.StandardController stdController) {
 		this.inVisualforceContext = true;
@@ -145,12 +148,21 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Initalize controller for creating a new Action Plan from a template
+	 * <br>Used so we can instantiate this controller from Invocable Apex
+	 * @author David Schach
+	 * @param visualforceContext Are we in Visualforce context?
 	 */
-	public void initNewActionPlanFromTemplate(Boolean visualforceContext) {
+	private void initNewActionPlanFromTemplate(Boolean visualforceContext) {
 		initNewActionPlanFromTemplate(visualforceContext, null);
 	}
 
-	public void initNewActionPlanFromTemplate(Boolean visualforceContext, ActionPlanTemplate__c apt) {
+	/**
+	 * initNewActionPlanFromTemplate description
+	 * @author David Schach
+	 * @param  visualforceContext visualforceContext description
+	 * @param  apt                apt description
+	 */
+	private void initNewActionPlanFromTemplate(Boolean visualforceContext, ActionPlanTemplate__c apt) {
 		this.initNewActionPlan();
 		ActionPlanTemplate__c actionPlanTemplate;
 		if (apt == null) {
@@ -210,6 +222,11 @@ public with sharing class ActionPlanCreationController {
 		private set;
 	}
 
+	/**
+	 * Get the specific lookup field used by this Aciton Plan
+	 * @author David Schach
+	 * @return   The field Name
+	 */
 	public String relatedFieldName {
 		get {
 			if (relatedFieldName == null) {
@@ -252,7 +269,7 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * @description Based on the related object name, we display a field from that object as the related record
+	 * Based on the related object name, we display a field from that object as the related record
 	 * @author David Schach
 	 * @param  objectName SObject Name
 	 * @return            The display field
@@ -313,7 +330,8 @@ public with sharing class ActionPlanCreationController {
 	 * Returns the related object Id from lookup fields.
 	 * @return the related object id
 	 */
-	public Id relatedObjectId() {
+	@testVisible 
+	private Id relatedObjectId() {
 		Id currentId;
 		for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
 			if (actionPlan.get(s) != null) {
@@ -341,7 +359,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Check if have pending Tasks to delete
 	 */
-	public void checkPendingDeletes() {
+	private void checkPendingDeletes() {
 		if (this.pendingDeletes != null && !pendingDeletes.isEmpty()) {
 			List<Task> tasksToDelete = new List<Task>();
 			Set<Id> deleteApttIds = new Set<Id>();
@@ -790,11 +808,11 @@ public with sharing class ActionPlanCreationController {
 			} else if (actionPlan.Id != null) {
 				this.apTasks = retrieveTaskFromExistingActionPlan(actionPlan.Id);
 				//check reminders and set 'send email' as false
-				String tmp_reminderDefaultTime = ActionPlansUtilities.getDefaultReminderMinutes();
+				String tmpReminderDefaultTime = ActionPlansUtilities.getDefaultReminderMinutes();
 				for (APTaskTemplate__c t : this.apTasks) {
 					if (t.Reminder__c == null || t.Reminder__c == false) {
 						t.Reminder__c = false;
-						t.Minutes_Reminder__c = tmp_reminderDefaultTime;
+						t.Minutes_Reminder__c = tmpReminderDefaultTime;
 					}
 					t.SendEmail__c = false;
 				}
@@ -860,12 +878,6 @@ public with sharing class ActionPlanCreationController {
 		];
 
 		return myList;
-
-		/* SObjectAccessDecision decision = Security.stripInaccessible(
-				AccessType.READABLE,
-				myList);
-
-			return decision.getRecords(); */
 	}
 
 	/**
@@ -976,7 +988,7 @@ public with sharing class ActionPlanCreationController {
 	private Map<Id, String> relatedObjectNameMap = new Map<Id, String>();
 
 	/**
-	 * @description We need a list of parent RECORD names when showing all the parents when we mass-create action plans
+	 * We need a list of parent RECORD names when showing all the parents when we mass-create action plans
 	 * <br>This initializes the list, and then divides it into three parts for three columns on the page.
 	 * @author David Schach
 	 * @return   The list of related object Names (not labels)
@@ -1007,7 +1019,7 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * @description The size of the list of related objects available as parents to the Action Plan
+	 * The size of the list of related objects available as parents to the Action Plan
 	 * @author David Schach
 	 * @return   The picklist size
 	 */
@@ -1015,9 +1027,9 @@ public with sharing class ActionPlanCreationController {
 		return relatedObjNameList.size();
 	}
 
-	public List<String> relatedRecordsOne { get; private set; }
-	public List<String> relatedRecordsTwo { get; private set; }
-	public List<String> relatedRecordsThree { get; private set; }
+	public List<String> relatedRecordsOne { get; private set; } //NOPMD
+	public List<String> relatedRecordsTwo { get; private set; } //NOPMD
+	public List<String> relatedRecordsThree { get; private set; } //NOPMD
 
 	/**
 	 * Checks if Action Plan Tasks has cyclic dependency.
@@ -1131,6 +1143,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Getter method with the related object options by default.
+	 * @return Picklist of all related objects to Action Plan
 	 */
 	public List<SelectOption> getRelatedObjectOptions() {
 		if (relatedObjectOptions == null) {
@@ -1198,7 +1211,8 @@ public with sharing class ActionPlanCreationController {
 	 * Find user default task recordtype
 	 * @return default task record type Id
 	 */
-	public Id getDefaultTaskRecordTypeId() {
+	@testVisible
+	private Id getDefaultTaskRecordTypeId() {
 		return ActionPlansUtilities.getDefaultTaskRecordTypeId();
 	}
 
@@ -1250,7 +1264,7 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * @description Generate picklist of available task due times
+	 * Generate picklist of available task due times
 	 * @return   picklist of 30-minute intervals
 	 */
 	public List<SelectOption> getHoursOption() {

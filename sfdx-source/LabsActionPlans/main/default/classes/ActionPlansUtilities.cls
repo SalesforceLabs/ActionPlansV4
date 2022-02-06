@@ -43,16 +43,33 @@ public without sharing class ActionPlansUtilities {
 	 * CONSTANTS *
 	 *************/
 
-	// Max number of APTasks per Action Plan
+	/**
+	 * Max number of APTasks per Action Plan
+	 */
 	public static final Integer MAX_APTASKS = 400;
 
-	// Max number of Action Plans that can be deleted from list
+	/**
+	 * Max number of Action Plans that can be deleted from list
+	 */
 	public static final Integer MAX_APTODELETE = 1000;
-
-	//public static final Boolean HAS_RECORD_TYPE = Task.sObjectType.getDescribe().fields.getMap().containsKey('recordtypeid');
-	public static final Id MASTER_RECORD_TYPE_ID = '012000000000000AAA';
-
-	public static final Boolean HAS_RECORD_TYPE = setHasRecordType();
+	/**
+	 * The standard Master `RecordType` Id
+	 */
+	public static final Id MASTER_RECORD_TYPE_ID = '012000000000000AAA'; //NOPMD
+	/**
+	 * Allows us to force the environment variable checking if Task has a Record Type for testing. Increases code coverage.
+	 */
+	public static final Boolean HAS_RECORD_TYPE {
+		get {
+			if (ActionPlansTestUtilities.forceHasRecordType != null) {
+				return ActionPlansTestUtilities.forceHasRecordType;
+			} else {
+				ActionPlansTestUtilities.forceHasRecordType = Task.sObjectType.getDescribe().fields.getMap().containsKey('recordtypeid');
+			}
+			return ActionPlansTestUtilities.forceHasRecordType;
+		}
+		set;
+	}
 
 	/**
 	 * Actions to perform whenever loading a Visualforce page
@@ -62,18 +79,6 @@ public without sharing class ActionPlansUtilities {
 	public static PageReference onPageLoad() {
 		getCustomSetting();
 		return null;
-	}
-
-	/**
-	 * Allows us to force the environment variable checking if Task has a Record Type for testing. Increases code coverage.
-	 */
-	private static Boolean setHasRecordType() {
-		if (ActionPlansTestUtilities.forceHasRecordType != null) {
-			return ActionPlansTestUtilities.forceHasRecordType;
-		} else {
-			ActionPlansTestUtilities.forceHasRecordType = Task.sObjectType.getDescribe().fields.getMap().containsKey('recordtypeid');
-		}
-		return ActionPlansTestUtilities.forceHasRecordType;
 	}
 
 	/**
@@ -252,7 +257,7 @@ public without sharing class ActionPlansUtilities {
 	 */
 	private static Set<String> closedTaskStatuses;
 	/**
-	 * @description Set of all `Task` Status values that are Closed
+	 * Set of all `Task` Status values that are Closed
 	 * @author David Schach
 	 * @since v4
 	 * @return   Set of closed `Task` Statuses

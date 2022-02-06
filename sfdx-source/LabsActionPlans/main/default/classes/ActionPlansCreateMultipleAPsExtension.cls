@@ -37,13 +37,22 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
+ * Visualforce extension to create multiple Aciton Plans (one per selected record)
+ * <br>Invoked via a button on a list view
+ * @since v3
  * @group Visualforce
  */
 public with sharing class ActionPlansCreateMultipleAPsExtension {
 	private ApexPages.StandardSetController standardController;
 
+	/**
+	 * All the selected records from the list view
+	 */
 	public String objIDs { get; private set; }
 
+	/**
+	 * Controller
+	 */
 	public ActionPlansCreateMultipleAPsExtension(ApexPages.StandardSetController standardController) {
 		this.standardController = standardController;
 		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();
@@ -51,6 +60,11 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 		objIDs = String.join(objIDsList, ',');
 	}
 
+	/**
+	 * Go to the page that shows the ActionPlan creation screen to customize the plan for each selected record
+	 * @author David Schach
+	 * @return   The Action Plan creation page
+	 */
 	public PageReference doRedirect() {
 		if (String.isBlank(objIDs)) {
 			return null;

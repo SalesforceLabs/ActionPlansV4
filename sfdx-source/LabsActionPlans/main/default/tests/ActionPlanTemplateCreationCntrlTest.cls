@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @author David Schach
  * @see ActionPlanTemplateCreationController
- * @group Tests
+ * @group Visualforce
  */
 @IsTest
 private class ActionPlanTemplateCreationCntrlTest {
@@ -180,7 +180,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	static void checkMaxTasksError() {
+	private static void checkMaxTasksError() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 

@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * @author David Schach
- * @group Tests
+ * @group Utilities
  * @see ActionPlansUtilities
  */
 @IsTest
@@ -52,7 +52,7 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	static void testDebugParameters() {
+	private static void testDebugParameters() {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 		Test.startTest();
 		ActionPlanCreationController apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));

@@ -50,6 +50,7 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 
 	/**
 	 * Constructor
+	 * @param apttIds List of` ActionPlansTemplateTaskTemplate` IDs
 	 */
 	public ActionPlansBatchTaskBuilder(List<Id> apttIds) {
 		this.aptIds = apttIds;
@@ -59,7 +60,7 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	 *
 	 */
 	/**
-	 * @description QueryLocator: Select the List of `APTaskTemplate__c`.
+	 * QueryLocator: Select the List of `APTaskTemplate__c`.
 	 * @author Salesforce labs
 	 * @param  bc BatchableContext for start method
 	 * @return    `Database.QueryLocator`
@@ -82,12 +83,7 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	}
 
 	/**
-	 *
-	 * @param bc
-	 * @param data
-	 */
-	/**
-	 * @description Eecute this method multiple times, by default on batches of 200 records
+	 * Eecute this method multiple times, by default on batches of 200 records
 	 *
 	 * @param bc    `Database.BatchableContext`
 	 * @param data  The list of SObjects to act on
@@ -172,10 +168,10 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	}
 
 	/**
-	 * @description Required finish method - we could do something here like send a platform event or notify the user that the batch is complete
+	 * Required finish method - we could do something here like send a platform event or notify the user that the batch is complete
 	 * @author Salesforce Labs
 	 * @param  bc BatchableContext
 	 */
-	public void finish(Database.BatchableContext bc) {
-	} //NOPMD
+	public void finish(Database.BatchableContext bc) { //NOPMD
+	}
 }

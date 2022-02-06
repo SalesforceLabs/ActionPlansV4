@@ -40,7 +40,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 /**
+ * Controller for page to mass-delete using a set controller.
+ * <br>Validates using CanTheUser to ensure user permissions
+ * @author David Schach
  * @group Visualforce
+ * @see ActionPlansDeleteMultipleAPExtTest
+ * @see CanTheUser
  */
 public with sharing class ActionPlansDeleteMultipleAPExtension {
 	private ApexPages.StandardSetController standardController;

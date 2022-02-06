@@ -37,8 +37,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
+ * Tests for trigger handlers
  * @author David Schach
- * @group Tests
+ * @group Trigger Handlers
  */
 @IsTest
 private class ActionPlansObjectTriggersTest {
@@ -295,7 +296,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	static void testLeadConversionContact() {
+	private static void testLeadConversionContact() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		User u = testutil.createTestUser();
 		testutil.assignAPPermissionSets(u.Id, true);
@@ -334,7 +335,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	static void testLeadConversionAccount() {
+	private static void testLeadConversionAccount() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		User u = testutil.createTestUser();
 		testutil.assignAPPermissionSets(u.Id, true);
@@ -380,7 +381,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	static void testLeadConversionOpportunity() {
+	private static void testLeadConversionOpportunity() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		User u = testutil.createTestUser();
 		//testutil.assignAPPermissionSets(u.Id, true);

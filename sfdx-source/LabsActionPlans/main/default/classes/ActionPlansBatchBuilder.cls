@@ -60,7 +60,7 @@ public inherited sharing class ActionPlansBatchBuilder implements Database.Batch
 	}
 
 	/**
-	 *
+	 * Batch execute method
 	 * @param bc
 	 * @param data
 	 */
@@ -86,6 +86,9 @@ public inherited sharing class ActionPlansBatchBuilder implements Database.Batch
 		}
 	}
 
-	public void finish(Database.BatchableContext bc) {
-	}
+	/**
+	 * Batch finish method. Do nothing
+	 */
+	// prettier-ignore
+	public void finish(Database.BatchableContext bc) {} //NOPMD
 }

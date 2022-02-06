@@ -40,7 +40,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * Set to WITHOUT sharing because this is only called from a trigger handler
- * @group Utilities
+ * @author David Schach
+ * @group Trigger Handlers
  */
 public without sharing class ActionPlansTaskTriggerUtilities {
 	private static List<APTaskTemplate__c> dependentAptts = new List<APTaskTemplate__c>();
@@ -49,7 +50,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Initialize the functionalities to create all dependent Tasks
-	 * @param cTasks
+	 * @param cTasks Map of Tasks by Id
 	 */
 	//@future
 	public static void initDependentTaskWork(Map<Id, String> cTasks) {
@@ -90,6 +91,11 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Get list of dependent Action Plan Template Tasks
+	 */
+	/**
+	 *  Get list of dependent Action Plan Template Tasks
+	 * @param  closedTasks All `Task` records for which we are finding dependent Task Templates
+	 * @return             The list of dependent Templates Tasks
 	 */
 	private static List<APTaskTemplate__c> queryDependentAPTaskTemplates(Set<Id> closedTasks) {
 		String apdependentQuery = 'SELECT Action_Plan__r.SkipWeekends__c, Action_Plan__r.SkipDay__c, ';

@@ -38,14 +38,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * @author David Schach
- * @group Tests
+ * @group Visualforce
  */
 @IsTest
 private class ActionPlansDeleteMultipleAPExtTest {
 	private static final Integer APS_TO_CREATE = 100;
 
 	@testSetup
-	public static void setupdata() {
+	private static void setupdata() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		List<ActionPlan__c> apToInsert = new List<ActionPlan__c>();
@@ -81,7 +81,7 @@ private class ActionPlansDeleteMultipleAPExtTest {
 	}
 
 	@IsTest
-	public static void givenRecordsToDeleteThenDeleted() {
+	private static void givenRecordsToDeleteThenDeleted() {
 		List<ActionPlan__c> listActionPlan = [SELECT Id, Name FROM ActionPlan__c];
 		System.assertEquals(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
 		ApexPages.StandardSetController std = new ApexPages.StandardSetController(listActionPlan);
@@ -95,7 +95,7 @@ private class ActionPlansDeleteMultipleAPExtTest {
 	}
 
 	@IsTest
-	public static void givenNoRecordsToDeleteThenNotDeleted() {
+	private static void givenNoRecordsToDeleteThenNotDeleted() {
 		List<ActionPlan__c> listActionPlan = [SELECT Id, Name FROM ActionPlan__c];
 		System.assertEquals(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
 		ApexPages.StandardSetController std = new ApexPages.StandardSetController(listActionPlan);

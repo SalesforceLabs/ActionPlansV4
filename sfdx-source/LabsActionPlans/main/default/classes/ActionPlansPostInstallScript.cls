@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.AvoidGlobalModifier')
 /*
 Action Plans v4
 David Schach 2021
@@ -35,6 +36,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * Install sample data on first installation
+ * @since v4
+ * @author David Schach
  * @group Utilities
  */
 global class ActionPlansPostInstallScript implements InstallHandler {
@@ -96,9 +99,9 @@ global class ActionPlansPostInstallScript implements InstallHandler {
 			insert a3;
 		}
 		//else if(context.previousVersion().compareTo(new Version(1,0)) == 0) {}
-		if (context.isUpgrade()) {
+		if (context.isUpgrade()) { //NOPMD
 		}
-		if (context.isPush()) {
+		if (context.isPush()) { //NOPMD
 		}
 	}
 }

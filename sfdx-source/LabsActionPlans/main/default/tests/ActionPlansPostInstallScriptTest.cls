@@ -33,7 +33,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * Test for PostInstallScript Utility
+ * @see ActionPlansPostInstallScript
+ * @group Utilities
  */
 @IsTest
 private class ActionPlansPostInstallScriptTest {

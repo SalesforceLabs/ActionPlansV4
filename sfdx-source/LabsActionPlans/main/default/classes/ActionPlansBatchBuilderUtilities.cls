@@ -103,7 +103,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	}
 
 	/**
-	 * @description Generate Action Plans from parameters passed to this class
+	 * Generate Action Plans from parameters passed to this class
 	 * @author David Schach
 	 * @return   the `Id` of the first created `ActionPlan__c`
 	 */
@@ -339,7 +339,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	}
 
 	/**
-	 * @description        Read the Action Plan and see the custom setting to determine who should own the at Template
+	 * Read the Action Plan and see the custom setting to determine who should own the at Template
 	 *
 	 * @param ap           `ActionPlan__c`
 	 * @param relObjOwners Map of ID to record owner
@@ -447,7 +447,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	}
 
 	/**
-	 * @description Given a parentID and the name of an Action Plan, make the `FeedItem` post body
+	 * Given a parentID and the name of an Action Plan, make the `FeedItem` post body
 	 * @author David Schach
 	 * @param  recID  Parent ID
 	 * @param  apName Action Plan Name

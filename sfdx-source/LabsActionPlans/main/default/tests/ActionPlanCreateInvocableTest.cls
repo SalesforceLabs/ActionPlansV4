@@ -37,7 +37,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * Test class for Invocable Apex class
+ * @since v4
+ * @author David Schach
+ * @group Invocable
  */
 @IsTest
 private class ActionPlanCreateInvocableTest {
@@ -225,7 +228,7 @@ private class ActionPlanCreateInvocableTest {
 		apTemplate.name = 'B';
 		update apTemplate;
 
-		Integer BULK_COUNT = 100;
+		final Integer BULK_COUNT = 100;
 		List<Account> toInsert = new List<Account>();
 
 		for (Integer i = 0; i < BULK_COUNT; i++) {

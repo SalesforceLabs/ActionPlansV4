@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 /**
+ * Visualforce controller for a redirect page to allow override of object actions
  * @group Visualforce
  */
 public with sharing class ActionPlansRedirect {
@@ -41,6 +42,11 @@ public with sharing class ActionPlansRedirect {
 	private APTTaskTemplate__c actionPlanTemplateTask;
 	private Id parentId;
 
+	/**
+	 *  Controller. Gets the SObjectType and returns the correct page to display the record view
+	 * @author David Schach
+	 * @param  controller Standard Controller. Accepts any SObject
+	 */
 	public ActionPlansRedirect(ApexPages.StandardController controller) {
 		Id recordId = controller.getId();
 
@@ -54,6 +60,11 @@ public with sharing class ActionPlansRedirect {
 		}
 	}
 
+	/**
+	 * Show the view page for either the Action Plan or the Action Plan Template
+	 * @author David Schach
+	 * @return   PageReference by recordId ('/' + parentId)
+	 */
 	public Pagereference redirect() {
 		Pagereference pr = new Pagereference('/' + parentId);
 		pr.setRedirect(true);

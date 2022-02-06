@@ -38,12 +38,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * @author David Schach
- * @group Tests
+ * @group Visualforce
  */
 @IsTest
 private class ActionPlansCreateMultipleAPsExtTest {
 	@IsTest
-	public static void givenRecordsToDeleteThenDeleted() {
+	private static void givenRecordsToDeleteThenDeleted() {
 		List<Account> accts = new List<Account>();
 		for (Integer i = 0; i < 20; i++) {
 			Account newAccount = new Account();
@@ -66,7 +66,7 @@ private class ActionPlansCreateMultipleAPsExtTest {
 	}
 
 	@IsTest
-	public static void givenNoRecordsToDeleteThenNotDeleted() {
+	private static void givenNoRecordsToDeleteThenNotDeleted() {
 		Test.startTest();
 		ApexPages.StandardSetController std = new ApexPages.StandardSetController(new List<Account>{});
 		ActionPlansCreateMultipleAPsExtension ctrl = new ActionPlansCreateMultipleAPsExtension(std);

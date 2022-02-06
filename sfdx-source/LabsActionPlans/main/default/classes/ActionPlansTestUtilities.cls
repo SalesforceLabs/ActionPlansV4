@@ -49,13 +49,21 @@ public with sharing class ActionPlansTestUtilities {
 	public static Set<String> standardObjects = new Set<String>{ 'account', 'lead', 'contact', 'contract', 'case', 'campaign', 'opportunity' };
 
 	/**
-	 * Random words are required for testing
-	 * as you will likely run into any word I can insert
+	 * Random words are required for testing, as you will likely run into any word I can insert
 	 * during a test class and produce false test results.
+	 * @return A random work
 	 */
 	public String createRandomWord() {
 		return createRandomWord('apword');
 	}
+	/**
+	 * Make a random `String` with a specific prefix and a random `Integer`
+	 * @param  prefix The prefix
+	 * @return        the random word
+	 * @example 
+	 * createRandomWord('test');
+	 * test123456
+	 */
 	public String createRandomWord(String prefix) {
 		String ret = prefix + math.rint(math.random() * 100000);
 		return ret;
@@ -79,6 +87,7 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new User
+	 * @param p Profile (not the Id)
 	 * @return Testuser
 	 */
 	public User createTestUser(Profile p) {
@@ -99,6 +108,13 @@ public with sharing class ActionPlansTestUtilities {
 		return testUser;
 	}
 
+	/**
+	 * Assign a permissionSet to a user (via UserId)
+	 * @author David Schach
+	 * @param  testUserId The User ID
+	 * @param  allOrNone  Insert allOrNone, or allow an insert of only successful assingments, failing silently
+	 * @return            The list of `PermissionSetAssignment` records
+	 */
 	public List<PermissionSetAssignment> assignAPPermissionSets(Id testUserId, Boolean allOrNone) {
 		List<PermissionSet> pslist = [SELECT Id FROM PermissionSet WHERE Name LIKE 'Action_Plans%'];
 		List<PermissionSetAssignment> psalist = new List<PermissionSetAssignment>();
@@ -111,9 +127,8 @@ public with sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Creates a new Account Object
-	 * With option to insert or just return the record
-	 * @param insertRecord
+	 * Creates a new Account SObject With option to insert or just return the record
+	 * @param insertRecord insert the record before returning it?
 	 * @return newaccount
 	 */
 	public Account createNewAccount(Boolean insertRecord) {
@@ -127,8 +142,8 @@ public with sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Creates a new Account Object
-	 * Defaults to inserting before returning
+	 * Creates a new Account SObject
+	 * <br>Defaults to inserting before returning
 	 * @return newAccount
 	 */
 	public Account createNewAccount() {
@@ -136,7 +151,8 @@ public with sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Creates a new Campaign Object
+	 * Creates a new Campaign SObject
+	 * @param insertRecord insert the record before returning it?
 	 * @return newCampaign
 	 */
 	public Campaign createNewCampaign(Boolean insertRecord) {
@@ -150,7 +166,7 @@ public with sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Creates a new Campaign Object
+	 * Creates a new Campaign SObject
 	 * Defaults to inserting before returning
 	 * @return newCampaign
 	 */
@@ -159,7 +175,8 @@ public with sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Creates a new Case Object
+	 * Creates a new Case SObject
+	 * @param insertRecord insert the record before returning it?
 	 * @return newCase
 	 */
 	public Case createNewCase(Boolean insertRecord) {
@@ -184,6 +201,7 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Contact Object
+	 * @param insertRecord insert the record before returning it?
 	 * @return newContact
 	 */
 	public Contact createNewContact(Boolean insertRecord) {
@@ -207,6 +225,7 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Contract Object
+	 * @param insertRecord insert the record before returning it?
 	 * @return newContract
 	 */
 	public Contract createNewContract(Boolean insertRecord) {
@@ -232,6 +251,7 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Lead Object
+	 * @param insertRecord insert the record before returning it?
 	 * @return newLead
 	 */
 	public Lead createNewLead(Boolean insertRecord) {
@@ -258,6 +278,7 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Opportunity Object
+	 * @param insertRecord insert the record before returning it?
 	 * @return newOpportunity
 	 */
 	public Opportunity createNewOpportunity(Boolean insertRecord) {
@@ -282,8 +303,9 @@ public with sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Create Action Plan
-	 * @param relatedObject
+	 * Create Action Plan and APTaskss
+	 * @param relatedObject The Related Object (included field) for the Action Plan
+	 * @param numTasks How many tasks to create for the ActionPlan
 	 * @return newActionPlan
 	 */
 	public ActionPlan__c createNewActionPlan(String relatedObject, Integer numTasks) {
@@ -328,6 +350,16 @@ public with sharing class ActionPlansTestUtilities {
 	 * Create Action Plan Task template
 	 * @return newAPTask
 	 */
+	/**
+	 * Create Action Plan Task template
+	 * @author David Schach
+	 * @param  actionPlan The `APTaskTemplate__c` object
+	 * @param  days      Days from now to start the plan
+	 * @param  user       The assigned owner
+	 * @param  category   Task Category
+	 * @param  priority   Task Priority
+	 * @return            The created `APTaskTemplate__c` record
+	 */
 	public APTaskTemplate__c createNewActionPlanTask(ActionPlan__c actionPlan, Integer days, User user, String category, String priority) {
 		APTaskTemplate__c newAPTask = new APTaskTemplate__c();
 		newAPTask.Subject__c = this.createRandomWord('subject');
@@ -342,8 +374,10 @@ public with sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Create Action Plan Template
-	 * @return apTemplate
+	 *  Create Action Plan Template
+	 * @author David Schach
+	 * @param  numTasks Number of tasks to create
+	 * @return          `ActionPlanTemplate__c` record
 	 */
 	public ActionPlanTemplate__c createNewActionPlanTemplate(Integer numTasks) {
 		if (numTasks < 0) {
@@ -367,18 +401,18 @@ public with sharing class ActionPlansTestUtilities {
 
 		insert auxTasks;
 
-		/* if( numTasks >= 2 ) {
-			auxTasks[1].TController__c = auxTasks[0].Id;
-			auxTasks[1].Dependent__c = '0';
-			update auxTasks[1];
-		} */
-
 		return apTemplate;
 	}
 
 	/**
 	 * Create Action Plan Template Task Template
-	 * @return newAPTTask
+	 * @author David Schach
+	 * @param  apTemplate The parent ActionPlanTemplate__c object
+	 * @param  days       Days from now to start Action Plan
+	 * @param  user       The assigned user for each created task
+	 * @param  category   Task Category
+	 * @param  priority   Task Priority
+	 * @return            The new Action Plan Template Task Template
 	 */
 	public APTTaskTemplate__c createNewActionPlanTemplateTask(ActionPlanTemplate__c apTemplate, Integer days, User user, String category, String priority) {
 		APTTaskTemplate__c newAPTTask = new APTTaskTemplate__c();
@@ -404,8 +438,14 @@ public with sharing class ActionPlansTestUtilities {
 	 * Create Enviroment for BatchProcess
 	 * return apTasksIds
 	 */
-	public List<Id> batchIds(String ref) {
-		ActionPlan__c ap = this.createNewActionPlan(ref, 0);
+	/**
+	 * Create Environment for Batch Process
+	 * @author David Schach
+	 * @param  relatedObject The parent Object for the created Action Plans
+	 * @return The list of created Action Plan Task IDs
+	 */
+	public List<Id> batchIds(String relatedObject) {
+		ActionPlan__c ap = this.createNewActionPlan(relatedObject, 0);
 		List<Id> apTasksIds = new List<Id>();
 
 		APTaskTemplate__c at = new APTaskTemplate__c();
@@ -441,6 +481,11 @@ public with sharing class ActionPlansTestUtilities {
 		return apTasksIds;
 	}
 
+	/**
+	 * Find a non-default Task Record Type
+	 * @author David Schach
+	 * @return   The `Id` of a non-default `Task` Record Type for the running user
+	 */
 	public static Id getNonDefaultAvailableTaskRecordType() {
 		if (!ActionPlansUtilities.HAS_RECORD_TYPE) {
 			return null;
@@ -459,10 +504,17 @@ public with sharing class ActionPlansTestUtilities {
 		return notdefaultRecordTypeId;
 	}
 
+	/**
+	 * Should we show debug statements for Visualforce parameters when testing?
+	 * @author David Schach
+	 * @param  prefix True/False
+	 */
 	public static Boolean showDebugParameters = false;
 
 	/**
-	 * Utility method for debugging Visualforce page parameters
+	 *  Utility method for debugging Visualforce page parameters
+	 * @author David Schach
+	 * @param  prefix The line prefix for the debug statement
 	 */
 	public static void debugParameters(String prefix) {
 		try {

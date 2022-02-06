@@ -37,7 +37,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * Tests for `ActionPlan__c` Create/Edit Visualforce Extension
+ * @group Visualforce
  */
 @IsTest
 private class ActionPlanCreationControllerTest {
@@ -206,19 +207,19 @@ private class ActionPlanCreationControllerTest {
 		final Integer CONCOUNT = 40;
 		final Integer APTTASKCOUNT = 2;
 
-		List<Contact> contacts = new List<Contact>();
+		List<Contact> contactsList = new List<Contact>();
 		for (Integer i = 0; i < CONCOUNT; i++) {
 			Contact newContact = new Contact(LastName = 'con' + math.rint(math.random() * 100000));
-			contacts.add(newContact);
+			contactsList.add(newContact);
 		}
 
 		Database.DMLOptions dml = new Database.DMLOptions();
 		dml.DuplicateRuleHeader.allowSave = true;
 		dml.DuplicateRuleHeader.runAsCurrentUser = true;
-		Database.insert(contacts, dml);
+		Database.insert(contactsList, dml);
 
 		List<Id> conIDs = new List<Id>();
-		for (Contact c : contacts) {
+		for (Contact c : contactsList) {
 			conIDs.add(c.Id);
 		}
 		String conIdsList = String.join(conIDs, ',');
@@ -697,7 +698,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	static void checkMaxTasks() {
+	private static void checkMaxTasks() {
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
@@ -714,7 +715,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	static void checkMaxTasksError() {
+	private static void checkMaxTasksError() {
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanCreation);
 

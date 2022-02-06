@@ -37,7 +37,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * @group Import Export
  * @see ActionPlanTemplateImportController
  */
 @IsTest
@@ -147,7 +147,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	static void testRoundTrip() {
+	private static void testRoundTrip() {
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();

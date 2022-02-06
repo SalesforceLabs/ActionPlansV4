@@ -44,7 +44,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 public with sharing class ActionPlanDetailController {
 	private ActionPlan__c actionPlan;
+	/**
+	 * Does the org have Record Types enabled for Task SObject
+	 * @author David Schach
+	 */
 	public Boolean hasRecordType { get; set; }
+	
+	/**
+	 * Does the user have reminders enabled? If not, do not shrae the reminder option
+	 * @author David Schach
+	 * @return               Yes/No
+	 */
 	public Boolean canDisplayReminder { get; private set; }
 
 	/**

@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 global without sharing class ActionPlanCreateInvocable {
 	/**
-	 * @description Invocable Apex for creating Action Plans from a template, a parent ID, and days from now to start the task due dates
+	 * Invocable Apex for creating Action Plans from a template, a parent ID, and days from now to start the task due dates
 	 *
 	 * @param requests Wrapper of `CreateActionPlanRequest`
 	 * @return         `List<Id>` of the created Action Plans
@@ -368,13 +368,13 @@ global without sharing class ActionPlanCreateInvocable {
 	global class CreateActionPlanRequest {
 		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
 		/**
-		 * @description The template Id or Name to use (accepts either, but Id is preferred)
+		 * The template Id or Name to use (accepts either, but Id is preferred)
 		 */
 		global String templateNameOrID;
 
 		@InvocableVariable(required=true label='The parent Record ID' description='Must have a relationship named the related record object name from Action Plan object')
 		/**
-		 * @description The parent Record ID
+		 * The parent Record ID
 		 */
 		global Id relatedRecordID;
 

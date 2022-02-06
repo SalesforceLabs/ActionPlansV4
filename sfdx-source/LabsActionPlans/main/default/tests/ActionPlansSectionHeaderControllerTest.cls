@@ -33,12 +33,14 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * Test class for Section Header Visualforce Controller
+ * @author David Schach
+ * @group Visualforce
  */
 @IsTest
 private class ActionPlansSectionHeaderControllerTest {
 	@IsTest
-	static void testObjectTabDescribe() {
+	private static void testObjectTabDescribe() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		User u = testUtil.createTestUser();
 
@@ -61,7 +63,7 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	static void testObjectTabDescribeNotInApplication() {
+	private static void testObjectTabDescribeNotInApplication() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		User u = testUtil.createTestUser();
 
@@ -76,7 +78,7 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	static void testNullObject() {
+	private static void testNullObject() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		User u = testUtil.createTestUser();
 

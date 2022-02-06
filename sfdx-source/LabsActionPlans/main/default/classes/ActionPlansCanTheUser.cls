@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.ApexDoc')
 /**
  * A reusable, intuitive library for determining wether or not the
  * current use can create, read, edit, or delete objects as well as
@@ -11,6 +12,7 @@
  * @see ActionPlansCanTheUserTest
  * @see ActionPlansSafely
  * @author {@link [Codefriar](https://github.com/codefriar)}
+ * @since v4
  * @group Security
  */
 public inherited sharing class ActionPlansCanTheUser {
@@ -33,7 +35,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description This variable stores, within the same transaction, all previously calculated
+	 * This variable stores, within the same transaction, all previously calculated
 	 * FLS results for an object. This prevents multiple calls to this library within the same
 	 * transaction from executing more than a single describe call.
 	 * @return   return description
@@ -94,7 +96,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * create the specified object
 	 * @param obj Object type to check create permissions on
 	 * @return Boolean
@@ -106,7 +108,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * create the specified object
 	 * @param  objs list of objects. Only the first will be checked. (logically, a list is of uniform type
 	 * and, and if the user can create one)
@@ -117,7 +119,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * create the specified object
 	 * @param String Object type to check create permissions on
 	 * @return Boolean
@@ -129,7 +131,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * read / access the specified object
 	 * @param obj object type to check read permissions on
 	 * @return Boolean
@@ -141,18 +143,19 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * read / access the specified objects
 	 * @param obj object type to check read permissions on
 	 * @return Boolean
 	 * @example
+	 * ActionPlansCanTheUser.read(new List<Account>{a1, a2}));
 	 **/
 	public static Boolean read(List<SObject> objs) {
 		return crud(objs?.get(0), CrudType.READABLE);
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * read the specified object
 	 * @param String Object type to check read permissions on
 	 * @return Boolean
@@ -164,7 +167,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * edit / update the specified object
 	 * @param obj object type to check edit permissions on
 	 * @return Boolean
@@ -176,18 +179,17 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * edit / update the specified objects
 	 * @param obj object type to check edit permissions on
 	 * @return Boolean
-	 * @example
 	 **/
 	public static Boolean edit(List<SObject> objs) {
 		return crud(objs?.get(0), CrudType.EDITABLE);
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * edit the specified object
 	 * @param String Object type to check edit permissions on
 	 * @return Boolean
@@ -199,7 +201,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * upsert (insert and update) the specified objects
 	 * @param obj object type to check edit permissions on
 	 * @return Boolean
@@ -211,7 +213,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * edit / update the specified objects
 	 * @param obj object type to check upsert permissions on
 	 * @return Boolean
@@ -222,7 +224,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * upsert the specified object
 	 * @param String Object type to check upsert permissions on
 	 * @return Boolean
@@ -234,7 +236,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * delete/destroy the specified object
 	 * @param obj object type to check destroy permissions on
 	 * @return Boolean
@@ -246,7 +248,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * delete the specified object
 	 * @param String Object type to check delete permissions on
 	 * @return Boolean
@@ -256,7 +258,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description convenience api for determining if the running user can
+	 * convenience api for determining if the running user can
 	 * delete the specified object
 	 * @param String Object type to check create permissions on
 	 * @return Boolean
@@ -268,7 +270,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description public static method to determine if a given field on a given
+	 * public static method to determine if a given field on a given
 	 * object is Accessible (readable)
 	 * @param obj the object in question, in string form
 	 * @param field the field in question in SObjectField form
@@ -281,7 +283,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description  bulk form of flsAccessible
+	 *  bulk form of flsAccessible
 	 * @param obj    Obj name on which to check
 	 * @param fields Set of Fields to check for accessibility.
 	 * @return      `Map<String, Boolean>`
@@ -298,7 +300,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description public static method to determine if a given field on a given
+	 * public static method to determine if a given field on a given
 	 * object is Updatable.
 	 * @param obj the string version of an object name
 	 * @param field the field to check
@@ -311,7 +313,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description  bulk form of flsUpdatable call
+	 *  bulk form of flsUpdatable call
 	 * @param obj    Name of the object
 	 * @param fields Set of Field names to check
 	 * @return      `Map<String, Boolean>`
@@ -328,7 +330,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description     Abstracted method for retrieving or calculating
+	 *     Abstracted method for retrieving or calculating
 	 * (memoization) of the FLS for a given field on a given object.
 	 * @param obj       String version of object name to check
 	 * @param field     String version of the field to check
@@ -344,7 +346,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	}
 
 	/**
-	 * @description   Calculates the FLS for a given object type
+	 * Calculates the FLS for a given object type
 	 * @param objType String name of the object type
 	 * @return        `Map<String, Map<FLSType, Boolean>>`
 	 */

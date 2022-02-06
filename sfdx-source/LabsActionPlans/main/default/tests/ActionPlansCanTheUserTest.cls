@@ -19,7 +19,7 @@ private class ActionPlansCanTheUserTest {
 	}
 
 	@IsTest
-	static void canCrudAccountCreatePositive() {
+	private static void canCrudAccountCreatePositive() {
 		System.assert(
 			ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.CREATEABLE),
 			'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts'
@@ -31,71 +31,71 @@ private class ActionPlansCanTheUserTest {
 	}
 
 	@IsTest
-	static void canCrudCreateAccountPositive() {
+	private static void canCrudCreateAccountPositive() {
 		System.assert(ActionPlansCanTheUser.create(generateAccounts()), 'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts');
 		System.assert(ActionPlansCanTheUser.create(new Account()), 'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts');
 		System.assert(ActionPlansCanTheUser.create('Account'), 'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts');
 	}
 
 	@IsTest
-	static void canCrudAccountReadPositive() {
+	private static void canCrudAccountReadPositive() {
 		System.assert(ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.READABLE), 'Expected to be able to read accounts');
 		System.assert(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.READABLE), 'Expected to be able to read accounts');
 	}
 
 	@IsTest
-	static void canCrudReadAccountPositive() {
+	private static void canCrudReadAccountPositive() {
 		System.assert(ActionPlansCanTheUser.read(generateAccounts()), 'Expected to be able to read accounts');
 		System.assert(ActionPlansCanTheUser.read(new Account()), 'Expected to be able to read accounts');
 		System.assert(ActionPlansCanTheUser.read('Account'), 'Expected to be able to read accounts');
 	}
 
 	@IsTest
-	static void canCrudAccountUpdatePositive() {
+	private static void canCrudAccountUpdatePositive() {
 		System.assert(ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.EDITABLE), 'Expected to be able to update accounts');
 		System.assert(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.EDITABLE), 'Expected to be able to update accounts');
 	}
 
 	@IsTest
-	static void canCrudEditAccountPositive() {
+	private static void canCrudEditAccountPositive() {
 		System.assert(ActionPlansCanTheUser.edit(generateAccounts()), 'Expected to be able to update accounts');
 		System.assert(ActionPlansCanTheUser.edit(new Account()), 'Expected to be able to update accounts');
 		System.assert(ActionPlansCanTheUser.edit('Account'), 'Expected to be able to update accounts');
 	}
 
 	@IsTest
-	static void canCrudUpsertAccountPositive() {
+	private static void canCrudUpsertAccountPositive() {
 		System.assert(ActionPlansCanTheUser.ups(generateAccounts()), 'Expected to be able to upsert accounts');
 		System.assert(ActionPlansCanTheUser.ups(new Account()), 'Expected to be able to upsert accounts');
 		System.assert(ActionPlansCanTheUser.ups('Account'), 'Expected to be able to upsert accounts');
 	}
 
 	@IsTest
-	static void canCrudAccountDeletePositive() {
+	private static void canCrudAccountDeletePositive() {
 		System.assert(ActionPlansCanTheUser.crud(generateAccounts(), ActionPlansCanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
 		System.assert(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
 		System.assert(ActionPlansCanTheUser.crud('Account', ActionPlansCanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
 	}
 
 	@IsTest
-	static void canCrudDestroyAccountPositive() {
+	private static void canCrudDestroyAccountPositive() {
 		System.assert(ActionPlansCanTheUser.destroy(generateAccounts()), 'Expected to be able to delete accounts');
 		System.assert(ActionPlansCanTheUser.destroy(new Account()), 'Expected to be able to delete accounts');
 		System.assert(ActionPlansCanTheUser.destroy('Account'), 'Expected to be able to delete accounts');
 	}
 
 	@IsTest
-	static void getFLSofAccountNamePositive() {
+	private static void getFLSofAccountNamePositive() {
 		System.assert(ActionPlansCanTheUser.flsAccessible('Account', 'Name'), 'Expected the name field to be accesible on Account');
 	}
 
 	@IsTest
-	static void getFLSofAccountIDNegative() {
+	private static void getFLSofAccountIDNegative() {
 		System.assert(ActionPlansCanTheUser.flsUpdatable('Account', 'id') == false, 'Expected that the ID of an object cannot be updated.');
 	}
 
 	@IsTest
-	static void getBulkFLSAccessibleWithAccountPositive() {
+	private static void getBulkFLSAccessibleWithAccountPositive() {
 		Set<String> fields = new Set<String>{ 'name', 'id' };
 		Map<String, Boolean> bulkCheck = ActionPlansCanTheUser.bulkFLSAccessible('Account', fields);
 		for (String field : bulkCheck.keySet()) {
@@ -104,7 +104,7 @@ private class ActionPlansCanTheUserTest {
 	}
 
 	@IsTest
-	static void getBulkFLSAccessibleWithAccountPositiveWithNegativeResults() {
+	private static void getBulkFLSAccessibleWithAccountPositiveWithNegativeResults() {
 		Set<String> fields = new Set<String>{ 'name', 'nonExistingField__c' };
 		Map<String, Boolean> bulkCheck = ActionPlansCanTheUser.bulkFLSAccessible('Account', fields);
 
@@ -114,7 +114,7 @@ private class ActionPlansCanTheUserTest {
 	}
 
 	@IsTest
-	static void getBulkFLSUpdatableWithAccountPositive() {
+	private static void getBulkFLSUpdatableWithAccountPositive() {
 		Set<String> fields = new Set<String>{ 'name', 'ShippingStreet' };
 		Map<String, Boolean> bulkCheck = ActionPlansCanTheUser.bulkFLSUpdatable('Account', fields);
 		for (String field : bulkCheck.keySet()) {
@@ -123,7 +123,7 @@ private class ActionPlansCanTheUserTest {
 	}
 
 	@IsTest
-	static void getBulkFLSUpdatableWithAccountPositiveWithNegativeResults() {
+	private static void getBulkFLSUpdatableWithAccountPositiveWithNegativeResults() {
 		Set<String> fields = new Set<String>{ 'name', 'nonExistingField__c' };
 		Map<String, Boolean> bulkCheck = ActionPlansCanTheUser.bulkFLSUpdatable('Account', fields);
 		System.assert(bulkCheck.get('name'), 'Expected the name ' + 'field to be accesible on Account');

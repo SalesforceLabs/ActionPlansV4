@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.ApexDoc')
 /**
  * Class wraps DML Calls in FLS / Crud checks. Taken from Codefriar code.
  * @see https://github.com/codefriar/ActionPlansCanTheUser
@@ -5,6 +6,7 @@
  * @see ActionPlansCanTheUser
  * @see ActionPlansSafelyTest
  * @author {@link [Codefriar](https://github.com/codefriar)}
+ * @since v4
  * @group Security
  */
 public with sharing class ActionPlansSafely {

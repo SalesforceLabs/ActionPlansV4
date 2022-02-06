@@ -38,16 +38,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 /**
+ * Extension for `Action Plan Template` Create/Edit page
  * @group Visualforce
  */
 public with sharing class ActionPlanTemplateCreationController {
 	private Double taskIndex;
 	@testVisible
 	private ActionPlanTemplate__c actionPlanTemplate;
+	/**
+	 * Page SubTitle
+	 */
 	public String subTitle { get; private set; }
+	/**
+	 * Does the user have reminders enabled?
+	 */
 	public Boolean canDisplayReminder { get; private set; }
+	/**
+	 * Does the `Task` object have Record Types enabled?
+	 */
 	public Boolean taskHasRecordType { get; private set; }
-	public List<APTTaskTemplate__c> pendingTemplateDeletes;
+	
+	@testVisible
+	private List<APTTaskTemplate__c> pendingTemplateDeletes;
+	
 	private Id templateId;
 
 	/**
@@ -100,6 +113,15 @@ public with sharing class ActionPlanTemplateCreationController {
 			this.taskIndex = 0;
 			this.subTitle = System.Label.ap_New + ' ' + Schema.getGlobalDescribe().get(ActionPlansUtilities.namespacePrefix + 'ActionPlanTemplate__c').getDescribe().getLabel();
 		}
+	}
+
+	/**
+	 * Action on page load to ensure custom setting is created
+	 * @return   null
+	 */
+	public PageReference onLoad() {
+		ActionPlansUtilities.onPageLoad();
+		return null;
 	}
 
 	/**

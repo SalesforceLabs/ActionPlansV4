@@ -44,7 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	lightningStylesheets="true"
 	docType="html-5.0"
 	contentType="text/html"
-	applyBodyTag="false">
+	applyBodyTag="false"
+	action="{!onLoad}">
 	<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
 		<head>
 			<title>

@@ -33,15 +33,30 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
+ * Controller for the Section Header at the top of every VF page.
+ * <br>Determines the icon for the page object
+ * @author David Schach
  * @group Visualforce
  */
 public inherited sharing class ActionPlansSectionHeaderController {
+	/**
+	 * The object for the Section Header
+	 * @return The object Name
+	 */
 	public String objectName { get; set; }
 
+	/**
+	 * Map of Icon attribute and value
+	 * @return Key-value pairs
+	 */
 	public Map<String, String> getObjectIconInfo() {
 		return retrieveIconForObject(objectName);
 	}
 
+	/**
+	 * Is this a custom object?
+	 * @return true if custom object
+	 */
 	public Boolean getIsCustom() {
 		return isCustom(objectName);
 	}

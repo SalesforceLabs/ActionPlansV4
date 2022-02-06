@@ -39,6 +39,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Trigger Handler class to manage all triggers. Methods for managed objects are here, as well as a method that any other object can use to enable it to be linked to Action Plans.
+ * @author David Schach
+ * @group Trigger Handlers
  */
 global without sharing class ActionPlansTriggerHandlers {
 	/**
@@ -51,7 +53,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * @description Handle SObjects with related Action Plans when those sObject records are deleted and undeleted
+	 * Handle SObjects with related Action Plans when those sObject records are deleted and undeleted
 	 * @author David Schach
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
@@ -139,7 +141,6 @@ global without sharing class ActionPlansTriggerHandlers {
 		Map<Id, ActionPlan__c> oldRecordsMap,
 		System.TriggerOperation triggerEvent
 	) {
-		//System.debug('In ActionPlan__c ' + triggerEvent.name());
 
 		switch on triggerEvent {
 			when BEFORE_INSERT {
@@ -241,8 +242,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				Schema.DescribeSObjectResult aptDescribe = apttype.getDescribe();
 				String aptObjectName = aptDescribe.getName();
 				String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix(aptObjectName);
-				//String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix('APTaskTemplate__c');
-				System.debug('prefix for ' + aptObjectName + ' is ' + aptPrefix);
+				//System.debug('prefix for ' + aptObjectName + ' is ' + aptPrefix);
 
 				for (APTaskTemplate__c apt : newRecords) {
 					if (
@@ -382,7 +382,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * @description Trigger handler for Task records when they are inserted, updated, or deleted
+	 * Trigger handler for Task records when they are inserted, updated, or deleted
 	 * @author David Schach
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
@@ -553,7 +553,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * @description Handle ActionPlans related to Leads after conversion
+	 * Handle ActionPlans related to Leads after conversion
 	 * @author David Schach
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
@@ -618,7 +618,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				Set<Id> oldRecordIDs = oldRecordsMap.keyset();
 
 				// GET Action Plans to delete in recycle bin
-				List<ActionPlan__c> deletePermenantly_apIds = [
+				List<ActionPlan__c> deletePermenantlyAPIds = [
 					SELECT Id
 					FROM ActionPlan__c
 					WHERE
@@ -630,8 +630,8 @@ global without sharing class ActionPlansTriggerHandlers {
 					ALL ROWS
 				];
 
-				if (!deletePermenantly_apIds.isEmpty()) {
-					Database.emptyRecycleBin(deletePermenantly_apIds);
+				if (!deletePermenantlyAPIds.isEmpty()) {
+					Database.emptyRecycleBin(deletePermenantlyAPIds);
 				}
 
 				Set<Id> apIds = new Set<Id>();
@@ -683,7 +683,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * @description Validate that 1 and only 1 custom reference field is filled
+	 * Validate that 1 and only 1 custom reference field is filled
 	 * @author David Schach
 	 * @param  actionPlans Trigger records to validate
 	 */

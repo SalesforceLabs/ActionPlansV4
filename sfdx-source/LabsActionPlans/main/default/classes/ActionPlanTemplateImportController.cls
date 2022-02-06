@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 public with sharing class ActionPlanTemplateImportController {
 	/**
-	 * @description The attachment to be used to hold imported xml
+	 * The attachment to be used to hold imported xml
 	 * @author David Schach
 	 * @return   Attachment
 	 */
