@@ -40,10 +40,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @see ActionPlansUtilitiesTest
  */
 public without sharing class ActionPlansUtilities {
-	/*************
-	 * CONSTANTS *
-	 *************/
-
 	/**
 	 * Max number of APTasks per Action Plan
 	 */
@@ -53,10 +49,12 @@ public without sharing class ActionPlansUtilities {
 	 * Max number of Action Plans that can be deleted from list
 	 */
 	public static final Integer MAX_APTODELETE = 1000;
+
 	/**
 	 * The standard Master `RecordType` Id
 	 */
 	public static final Id MASTER_RECORD_TYPE_ID = '012000000000000AAA'; //NOPMD
+
 	/**
 	 * Allows us to force the environment variable checking if Task has a Record Type for testing. Increases code coverage.
 	 */
@@ -103,7 +101,7 @@ public without sharing class ActionPlansUtilities {
 				if (dt.name().equalsIgnoreCase('Reference') && s.endsWithIgnoreCase('__c')) {
 					String relatedObjectName = dfr.getReferenceTo()[0].getDescribe().getName();
 
-					if (!relatedObjectName.startsWithIgnoreCase(ActionPlansUtilities.namespacePrefix + 'ActionPlan')) {
+					if (!relatedObjectName.startsWithIgnoreCase(ActionPlansUtilities.getnamespacePrefix() + 'ActionPlan')) {
 						//System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
 						referenceFieldNames.add(s);
 					}
@@ -385,7 +383,6 @@ public without sharing class ActionPlansUtilities {
 	 */
 	public static String getDefaultReminderMinutes() {
 		if (defaultMinutesForReminderTime == null) {
-			//Map<String, Schema.SObjectField> fieldsMap = Schema.sObjectType.User.fields.getMap();
 			defaultMinutesForReminderTime = '480';
 
 			List<UserPreference> uP = [SELECT Value FROM UserPreference WHERE UserId = :Userinfo.getUserId() AND Preference = '58'];
@@ -418,7 +415,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Single method to shorten long strings to the hard-coded 80 character length of record name field
-	 * @param the long string
+	 * @param subject the long string
 	 * @return the full string or shortened if longer than 80 characters
 	 */
 	public static String actionPlanSubjectToName(String subject) {
@@ -427,7 +424,8 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Single method to shorten long strings to the dynamically described character length of record name field
-	 * @param the long string
+	 * @param subject the long string
+	 * @param maxChars the maximum length allowed for Action Plan Subject
 	 * @return the full string or shortened if longer than max characters
 	 */
 	public static String actionPlanSubjectToName(String subject, Integer maxChars) {
@@ -441,7 +439,11 @@ public without sharing class ActionPlansUtilities {
 		return subject;
 	}
 
-	//private static Boolean orgCanSendEmails;
+	/**
+	 * Is the org allowed to send emails?
+	 * <br>This could be because deliverability is off, or because we have hit the org limits for emails
+	 * @return Can the org send an email?
+	 */
 	public static Boolean canSendEmails() {
 		Boolean orgCanSendEmails;
 		if (orgCanSendEmails == null) {
@@ -460,14 +462,29 @@ public without sharing class ActionPlansUtilities {
 		return orgCanSendEmails;
 	}
 
+	/**
+	 * Given a date, give the English day of the week
+	 * @author David Schach
+	 * @param  d The given date
+	 * @return   The day of hte week in English
+	 */
 	public static String getDayOfWeek(Date d) {
 		Date monday = Date.newInstance(1900, 1, 1);
 		Integer dayOfWeek = Math.mod(monday.daysBetween(d), 7);
 		return dayOfWeekEnglish.get(dayOfWeek);
 	}
 
+	/**
+	 * Map of day of week (as number) to English day
+	 */
 	public static Map<Integer, String> dayOfWeekEnglish = new Map<Integer, String>{ 0 => 'Monday', 1 => 'Tuesday', 2 => 'Wednesday', 3 => 'Thursday', 4 => 'Friday', 5 => 'Saturday', 6 => 'Sunday' };
 
+	/**
+	 * Get the Custom Metadata record for the weekend day
+	 * @author David Schach
+	 * @param  developerName Of day (Saturday, Sunday, etc)
+	 * @return               Custom Metadata
+	 */
 	public static Weekend_Day__mdt getWeekendDay(String developerName) {
 		return Weekend_Day__mdt.getInstance(developerName);
 	}
@@ -506,22 +523,22 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Detect user theme
+	 * @return Are we in Lightning Experience?
 	 */
 	public static Boolean getIsLex() {
 		return (UserInfo.getUiThemeDisplayed().containsIgnoreCase('theme4'));
 	}
 
+	private static String namespacePrefix;
 	/**
 	 * Check if we are in a managed package
+	 * @return The namespace prefix
 	 */
-	public static String namespacePrefix {
-		get {
-			if (namespacePrefix == null) {
-				String[] parts = String.valueOf(ActionPlansUtilities.class).split('\\.', 2);
-				namespacePrefix = parts.size() == 2 ? parts[0] + '__' : '';
-			}
-			return namespacePrefix;
+	public static String getnamespacePrefix() {
+		if (namespacePrefix == null) {
+			String[] parts = String.valueOf(ActionPlansUtilities.class).split('\\.', 2);
+			namespacePrefix = parts.size() == 2 ? parts[0] + '__' : '';
 		}
-		private set;
+		return namespacePrefix;
 	}
 }
