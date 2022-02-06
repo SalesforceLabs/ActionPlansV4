@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * Batch delete class. This can probably be done in a different way. And we can certainly switch from sending an email to using a platform event
+ * Batch delete class. This can probably be done in a different way. And we can certainly switch from sending an email to using a platform event.
+ * @since 2011
  * @group Batch Apex
  */
 public inherited sharing class ActionPlansBatchDelete implements Database.Batchable<SObject>, Database.Stateful {
@@ -52,6 +53,9 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 
 	/**
 	 * Use the start method to collect the records or objects to be passed to the interface method execute
+	 * @author David Schach
+	 * @param  bc
+	 * @return    queried records
 	 */
 	public Database.QueryLocator start(Database.BatchableContext bc) {
 		String soql = 'SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds';
@@ -90,20 +94,31 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 		}
 	}
 
-	public void deleteActionPlans(Set<Id> relActionPlansIds) {
+	/**
+	 * Tiven actionplanIDs, delete these Action Plans AND their open Tasks
+	 * @author David Schach
+	 * @param  relActionPlansIds Action Plan IDs
+	 */
+	private void deleteActionPlans(Set<Id> relActionPlansIds) {
 		List<ActionPlan__c> relActionPlans = [SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds LIMIT :ActionPlansUtilities.MAX_APTODELETE];
 		Map<Id, APTaskTemplate__c> relTaskTemplateMap = new Map<Id, APTaskTemplate__c>([SELECT Id FROM APTaskTemplate__c WHERE Action_Plan__c IN :relActionPlansIds]);
 		List<Task> relTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTaskTemplate__c IN :relTaskTemplateMap.keySet()];
 
 		if (!relActionPlans.isEmpty()) {
-			List<Database.DeleteResult> results = Database.delete(relActionPlans);
+			List<Database.DeleteResult> results = Database.delete(relActionPlans); //NOPMD
 		}
 
 		if (!relTaskList.isEmpty()) {
-			List<Database.DeleteResult> results = Database.delete(relTaskList);
+			List<Database.DeleteResult> results = Database.delete(relTaskList); //NOPMD
 		}
 	}
 
+	/**
+	 * Create an Email body from an Exception
+	 * @author David Schach
+	 * @param  e `Exception`
+	 * @return   Email body
+	 */
 	private String makeEmailBody(Exception e) {
 		String emailBody = '';
 		emailBody += 'Exception type caught: ' + e.getTypeName();

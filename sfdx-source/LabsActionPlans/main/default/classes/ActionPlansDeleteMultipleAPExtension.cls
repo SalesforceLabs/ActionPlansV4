@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -11,7 +11,7 @@ All rights reserved.
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,13 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 /**
+ * Controller for page to mass-delete using a set controller.
+ * <br>Validates using CanTheUser to ensure user permissions
+ * @author David Schach
  * @group Visualforce
+ * @since 2011
+ * @see ActionPlansDeleteMultipleAPExtTest
+ * @see CanTheUser
  */
 public with sharing class ActionPlansDeleteMultipleAPExtension {
 	private ApexPages.StandardSetController standardController;

@@ -1,8 +1,8 @@
 /**
  * Action Plans v4
  * @author David Schach
- * @since 2021
- * @group Tests
+ * @since 2022
+ * @group Import Export
  * @see ActionPlanTemplateExport
  */
 @IsTest

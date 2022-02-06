@@ -1,7 +1,7 @@
 @SuppressWarnings('PMD.AvoidGlobalModifier')
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -9,7 +9,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Trigger Handler class to manage all triggers. Methods for managed objects are here, as well as a method that any other object can use to enable it to be linked to Action Plans.
+ * @author David Schach
+ * @since 2011
+ * @group Trigger Handlers
  */
 global without sharing class ActionPlansTriggerHandlers {
 	/**
@@ -51,7 +54,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * @description Handle SObjects with related Action Plans when those sObject records are deleted and undeleted
+	 * Handle SObjects with related Action Plans when those sObject records are deleted and undeleted
 	 * @author David Schach
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
@@ -97,7 +100,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				String deleteQueryString = 'SELECT Id, Name FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords AND isDeleted = true ALL ROWS';
 				deletePermenantlyApIds = Database.query(deleteQueryString);
 
-				if (deletePermenantlyApIds.isEmpty()) {
+				if (!deletePermenantlyApIds.isEmpty()) {
 					Database.emptyRecycleBin(deletePermenantlyApIds);
 				}
 
@@ -107,7 +110,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					apIds.add(ap.Id);
 				}
 
-				if (apIds.size() > 0) {
+				if (!apIds.isEmpty()) {
 					ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
 					Database.ExecuteBatch(aPBatch);
 				}
@@ -139,7 +142,6 @@ global without sharing class ActionPlansTriggerHandlers {
 		Map<Id, ActionPlan__c> oldRecordsMap,
 		System.TriggerOperation triggerEvent
 	) {
-		//System.debug('In ActionPlan__c ' + triggerEvent.name());
 
 		switch on triggerEvent {
 			when BEFORE_INSERT {
@@ -212,7 +214,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				List<Task> taskList = [SELECT Id, TaskAPTaskTemplate__c, IsDeleted FROM Task WHERE TaskAPTaskTemplate__c IN :map_APTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
 
 				if (!taskList.isEmpty()) {
-					List<Database.UndeleteResult> unDel_results = Database.undelete(taskList, false);
+					Database.undelete(taskList, false);
 				}
 			}
 		}
@@ -241,8 +243,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				Schema.DescribeSObjectResult aptDescribe = apttype.getDescribe();
 				String aptObjectName = aptDescribe.getName();
 				String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix(aptObjectName);
-				//String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix('APTaskTemplate__c');
-				System.debug('prefix for ' + aptObjectName + ' is ' + aptPrefix);
+				//System.debug('prefix for ' + aptObjectName + ' is ' + aptPrefix);
 
 				for (APTaskTemplate__c apt : newRecords) {
 					if (
@@ -382,7 +383,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * @description Trigger handler for Task records when they are inserted, updated, or deleted
+	 * Trigger handler for Task records when they are inserted, updated, or deleted
 	 * @author David Schach
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
@@ -410,6 +411,7 @@ global without sharing class ActionPlansTriggerHandlers {
 
 				Boolean taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
 
+				// May need this
 				Set<String> closedStatuses = ActionPlansUtilities.getClosedTaskStatuses();
 
 				Set<Id> tasktemplatesToValidate = new Set<Id>();
@@ -441,10 +443,10 @@ global without sharing class ActionPlansTriggerHandlers {
 
 						if (t.Status != defaultTaskStatus) {
 							if (allowMap.containsKey(t.TaskAPTaskTemplate__c) && allowMap.get(t.TaskAPTaskTemplate__c)) {
-								if (!t.IsClosed) {
-									inProgressTasksMap.put(t.TaskAPTaskTemplate__c, t.Status);
-								} else if (t.IsClosed) {
+								if (t.IsClosed || closedStatuses.contains(t.Status)) {
 									closedTasksMap.put(t.TaskAPTaskTemplate__c, t.Status);
+								} else {
+									inProgressTasksMap.put(t.TaskAPTaskTemplate__c, t.Status);
 								}
 							} else {
 								//throw exception
@@ -544,8 +546,6 @@ global without sharing class ActionPlansTriggerHandlers {
 							ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTaskTemplate__c))
 						) {
 							t.put('RecordTypeId', taskTemplateToIntendedRecordTypeId.get(t.TaskAPTaskTemplate__c));
-						} else {
-							//System.debug('We did not link Task to Template');
 						}
 					}
 				}
@@ -554,7 +554,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * @description Handle ActionPlans related to Leads after conversion
+	 * Handle ActionPlans related to Leads after conversion
 	 * @author David Schach
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
@@ -619,7 +619,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				Set<Id> oldRecordIDs = oldRecordsMap.keyset();
 
 				// GET Action Plans to delete in recycle bin
-				List<ActionPlan__c> deletePermenantly_apIds = [
+				List<ActionPlan__c> deletePermenantlyAPIds = [
 					SELECT Id
 					FROM ActionPlan__c
 					WHERE
@@ -631,8 +631,8 @@ global without sharing class ActionPlansTriggerHandlers {
 					ALL ROWS
 				];
 
-				if (deletePermenantly_apIds.isEmpty()) {
-					Database.emptyRecycleBin(deletePermenantly_apIds);
+				if (!deletePermenantlyAPIds.isEmpty()) {
+					Database.emptyRecycleBin(deletePermenantlyAPIds);
 				}
 
 				Set<Id> apIds = new Set<Id>();
@@ -644,7 +644,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					apIds.add(ap.Id);
 				}
 
-				if (apIds.size() > 0) {
+				if (!apIds.isEmpty()) {
 					ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
 					Database.executeBatch(aPBatch);
 				}
@@ -684,7 +684,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * @description Validate that 1 and only 1 custom reference field is filled
+	 * Validate that 1 and only 1 custom reference field is filled
 	 * @author David Schach
 	 * @param  actionPlans Trigger records to validate
 	 */
@@ -728,8 +728,8 @@ global without sharing class ActionPlansTriggerHandlers {
 
 	/**
 	 * Validates if the given tasks can change status to in progress or completed.
-	 * If the task depends on another that is open, returns false
-	 * This bulkified method avoids SOQL queries in a loop
+	 * <br>If the task depends on another that is open, returns false
+	 * <br>This bulkified method avoids SOQL queries in a loop
 	 * @param apTaskTemplateIds bulkified set of task IDs to consider
 	 * @return dependsOnInProgressTask
 	 */

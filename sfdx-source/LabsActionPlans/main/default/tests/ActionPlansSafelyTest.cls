@@ -1,10 +1,14 @@
 /**
+ * Test class for Safely
+ * @see https://github.com/codefriar/CanTheUser
+ * @see https://github.com/trailheadapps/apex-recipes
+ * @author {@link [Codefriar](https://github.com/codefriar)}
  * @group Security
  */
 @IsTest
 private class ActionPlansSafelyTest {
 	@IsTest
-	static void testConstructorChains() {
+	private static void testConstructorChains() {
 		Test.startTest();
 		ActionPlansSafely instanceOne = new ActionPlansSafely().allOrNothing();
 		ActionPlansSafely instanceTwo = new ActionPlansSafely().throwIfRemovedFields();
@@ -17,7 +21,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testDoInsertMethodsNoThrowPositive() {
+	private static void testDoInsertMethodsNoThrowPositive() {
 		Account account = (Account) new Account(Name = 'TestAccount');
 		Test.startTest();
 		List<Database.SaveResult> results = new ActionPlansSafely().doInsert(account);
@@ -27,7 +31,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testDoInsertNegative() {
+	private static void testDoInsertNegative() {
 		User minAccessUser = createMinAccessUser(true);
 
 		System.runAs(minAccessUser) {
@@ -41,14 +45,14 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testMarketingProfileGeneratesInsertExceptionPositive() {
+	private static void testMarketingProfileGeneratesInsertExceptionPositive() {
 		User marketingUser = createMarketingUser(true);
 		Boolean didCatchTheRightException = false;
-		Contact contact = (Contact) new Contact(LastName = 'TestContact', DoNotCall = true);
+		Account account = (Account) new Account(Name = 'TestAccount', TradeStyle = 'invalid');
 		Test.startTest();
 		System.runAs(marketingUser) {
 			try {
-				new ActionPlansSafely().throwIfRemovedFields().doInsert(contact);
+				new ActionPlansSafely().throwIfRemovedFields().doInsert(account);
 			} catch (ActionPlansSafely.RemovedFieldsException rfe) {
 				if (rfe.getMessage().containsIgnoreCase('and the following fields')) {
 					didCatchTheRightException = true;
@@ -60,7 +64,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testDoUpdateMethodsNoThrowPositive() {
+	private static void testDoUpdateMethodsNoThrowPositive() {
 		Account account = (Account) new Account(Name = 'TestAccount');
 		insert account;
 		account.Name = 'TestAccount2';
@@ -72,7 +76,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testDoUpdateNegative() {
+	private static void testDoUpdateNegative() {
 		User minAccessUser = createMinAccessUser(true);
 
 		PermissionSet ps = new PermissionSet(Label = 'testPermSet', Name = 'testPermSet');
@@ -100,7 +104,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testMarketingProfileDeleteNegative() {
+	private static void testMarketingProfileDeleteNegative() {
 		User marketingUser = createMarketingUser(true);
 		Case c = (Case) new Case(Subject = 'TestCase');
 		insert c;
@@ -115,16 +119,16 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testMarketingProfileGeneratesUpdateExceptionPositive() {
+	private static void testMarketingProfileGeneratesUpdateExceptionPositive() {
 		User marketingUser = createMarketingUser(true);
 		Boolean didCatchTheRightException = false;
-		Contact contact = (Contact) new Contact(Lastname = 'TestContact');
-		insert contact;
-		contact.DoNotCall = true;
+		Account account = (Account) new Account(Name = 'TestAccount');
+		insert account;
+		account.TradeStyle = 'off limits field';
 		Test.startTest();
 		System.runAs(marketingUser) {
 			try {
-				new ActionPlansSafely().throwIfRemovedFields().doUpdate(contact);
+				new ActionPlansSafely().throwIfRemovedFields().doUpdate(account);
 			} catch (ActionPlansSafely.RemovedFieldsException rfe) {
 				if (rfe.getMessage().containsIgnoreCase('and the following fields')) {
 					didCatchTheRightException = true;
@@ -136,7 +140,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testDoUpsertMethodsNoThrowPositive() {
+	private static void testDoUpsertMethodsNoThrowPositive() {
 		Account account = (Account) new Account(Name = 'TestAccount');
 		insert account;
 		account.Name = 'TestAccount2';
@@ -164,7 +168,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testDoUpsertMethodsNegative() {
+	private static void testDoUpsertMethodsNegative() {
 		User minAccessUser = createMinAccessUser(true);
 
 		PermissionSet ps = new PermissionSet(Label = 'testPermSet', Name = 'testPermSet');
@@ -194,16 +198,16 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testMarketingProfileGeneratesUpsertExceptionPositive() {
+	private static void testMarketingProfileGeneratesUpsertExceptionPositive() {
 		User marketingUser = createMarketingUser(true);
 		Boolean didCatchTheRightException = false;
-		Contact contact = (Contact) new Contact(Lastname = 'TestContact');
-		insert contact;
-		contact.DoNotCall = true;
+		Account account = (Account) new Account(Name = 'TestAccount');
+		insert account;
+		account.TradeStyle = 'off limits field';
 		Test.startTest();
 		System.runAs(marketingUser) {
 			try {
-				new ActionPlansSafely().throwIfRemovedFields().doUpsert(contact);
+				new ActionPlansSafely().throwIfRemovedFields().doUpsert(account);
 			} catch (ActionPlansSafely.RemovedFieldsException rfe) {
 				if (rfe.getMessage().containsIgnoreCase('and the following fields')) {
 					didCatchTheRightException = true;
@@ -215,7 +219,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testDeleteWithRegularProfilePositive() {
+	private static void testDeleteWithRegularProfilePositive() {
 		Account account = (Account) new Account(Name = 'TestAccount');
 		insert account;
 		Test.startTest();
@@ -225,7 +229,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testDeleteWithRegularProfileNegative() {
+	private static void testDeleteWithRegularProfileNegative() {
 		User minAccessUser = createMinAccessUser(true);
 		Account account = (Account) new Account(Name = 'TestAccount');
 		insert account;
@@ -240,7 +244,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testDoQueryPositive() {
+	private static void testDoQueryPositive() {
 		Account account = (Account) new Account(Name = 'TestAccount');
 		insert account;
 		Test.startTest();
@@ -250,29 +254,30 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void testDoQueryThrowsRemovedFieldsException() {
+	private static void testDoQueryThrowsRemovedFieldsException() {
 		User minAccessUser = createMinAccessUser(true);
 
 		PermissionSet ps = new PermissionSet(Label = 'testPermSet', Name = 'testPermSet');
 		insert ps;
-		ObjectPermissions op = new ObjectPermissions(ParentId = ps.Id, SobjectType = 'Contact');
+		ObjectPermissions op = new ObjectPermissions(ParentId = ps.Id, SobjectType = 'Account');
 		op.PermissionsRead = true;
 		op.PermissionsViewAllRecords = true;
 		insert op;
 		insert new PermissionSetAssignment(PermissionSetId = ps.Id, AssigneeId = minAccessUser.Id);
 
 		System.runAs(new User(Id = UserInfo.getUserId())) {
-			Contact contact = (Contact) new Contact(LastName = 'TestContact');
-			insert contact;
+			Account account = (Account) new Account(Name = 'TestAccount');
+			insert account;
 		}
 		System.runAs(minAccessUser) {
 			Boolean didCatchTheRightException = false;
 			Test.startTest();
 			ActionPlansSafely saf = new ActionPlansSafely();
+			List<Account> accounts;
 			try {
-				List<Contact> contacts = (List<Contact>) saf.throwIfRemovedFields().doQuery('SELECT ID, Name, DoNotCall FROM Contact');
+				accounts = (List<Account>) saf.throwIfRemovedFields().doQuery('SELECT ID, Name, TradeStyle FROM Account');
 			} catch (ActionPlansSafely.RemovedFieldsException rfe) {
-				if (rfe.getMessage().containsIgnoreCase('DoNotCall')) {
+				if (rfe.getMessage().containsIgnoreCase('TradeStyle')) {
 					didCatchTheRightException = true;
 				}
 			}
@@ -283,7 +288,7 @@ private class ActionPlansSafelyTest {
 	}
 
 	@IsTest
-	static void emptyCollections() {
+	private static void emptyCollections() {
 		Test.startTest();
 		List<Database.SaveResult> insertResults = new ActionPlansSafely().doInsert(new List<Account>());
 		List<Database.SaveResult> updateResults = new ActionPlansSafely().doUpdate(new List<Account>());
@@ -297,17 +302,13 @@ private class ActionPlansSafelyTest {
 		System.assert(deleteResults.isEmpty());
 	}
 
-	/**
-	 * Data setup
-	 */
-
 	private static User createMinAccessUser(Boolean doInsert) {
 		Id profileId = [SELECT Id FROM Profile WHERE Name = 'Minimum Access - Salesforce'].Id;
 		return createTestUser(profileId, doInsert);
 	}
 
 	private static User createMarketingUser(Boolean doInsert) {
-		Id profileId = [SELECT Id FROM Profile WHERE Name = 'Marketing User'].Id;
+		Id profileId = [SELECT Id FROM Profile WHERE Name = 'Custom: Marketing Profile'].Id;
 		return createTestUser(profileId, doInsert);
 	}
 

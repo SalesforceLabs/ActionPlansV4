@@ -1,10 +1,10 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -34,44 +34,50 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
+ * Utilities class - mostly describe methods and constants
+ * @since 2011
  * @group Utilities
+ * @see ActionPlansUtilitiesTest
  */
 public without sharing class ActionPlansUtilities {
-	/*************
-	 * CONSTANTS *
-	 *************/
-
-	// Max number of APTasks per Action Plan
+	/**
+	 * Max number of APTasks per Action Plan
+	 */
 	public static final Integer MAX_APTASKS = 400;
 
-	// Max number of Action Plans that can be deleted from list
+	/**
+	 * Max number of Action Plans that can be deleted from list
+	 */
 	public static final Integer MAX_APTODELETE = 1000;
 
-	//public static final Boolean HAS_RECORD_TYPE = Task.sObjectType.getDescribe().fields.getMap().containsKey('recordtypeid');
-	public static final Id MASTER_RECORD_TYPE_ID = '012000000000000AAA';
-
-	public static final Boolean HAS_RECORD_TYPE = setHasRecordType();
-
 	/**
-	 * Actions to perform whenever loading a Visualforce page
-	 * Ensures that Custom Setting is created for the org
-	 * @return   null PageReference
+	 * The standard Master `RecordType` Id
 	 */
-	public static PageReference onPageLoad() {
-		getCustomSetting();
-		return null;
-	}
+	public static final Id MASTER_RECORD_TYPE_ID = '012000000000000AAA'; //NOPMD
 
 	/**
 	 * Allows us to force the environment variable checking if Task has a Record Type for testing. Increases code coverage.
 	 */
-	private static Boolean setHasRecordType() {
-		if (ActionPlansTestUtilities.forceHasRecordType != null) {
+	public static final Boolean HAS_RECORD_TYPE {
+		get {
+			if (ActionPlansTestUtilities.forceHasRecordType != null) {
+				return ActionPlansTestUtilities.forceHasRecordType;
+			} else {
+				ActionPlansTestUtilities.forceHasRecordType = Task.sObjectType.getDescribe().fields.getMap().containsKey('recordtypeid');
+			}
 			return ActionPlansTestUtilities.forceHasRecordType;
-		} else {
-			ActionPlansTestUtilities.forceHasRecordType = Task.sObjectType.getDescribe().fields.getMap().containsKey('recordtypeid');
 		}
-		return ActionPlansTestUtilities.forceHasRecordType;
+		set;
+	}
+
+	/**
+	 * Actions to perform whenever loading a Visualforce page
+	 * <br>Ensures that Custom Setting is created for the org
+	 * @return   PageReference
+	 */
+	public static PageReference onPageLoad() {
+		getCustomSetting();
+		return null;
 	}
 
 	/**
@@ -95,7 +101,7 @@ public without sharing class ActionPlansUtilities {
 				if (dt.name().equalsIgnoreCase('Reference') && s.endsWithIgnoreCase('__c')) {
 					String relatedObjectName = dfr.getReferenceTo()[0].getDescribe().getName();
 
-					if (!relatedObjectName.startsWithIgnoreCase(ActionPlansUtilities.namespacePrefix + 'ActionPlan')) {
+					if (!relatedObjectName.startsWithIgnoreCase(namespacePrefix + 'ActionPlan')) {
 						//System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
 						referenceFieldNames.add(s);
 					}
@@ -111,6 +117,9 @@ public without sharing class ActionPlansUtilities {
 	 * Get prefix of sObject
 	 * @param objName
 	 * @return obj.getKeyPrefix()
+	 * @example
+	 * ActionPlansUtilities.getObjetKeyPrefix('Account');
+	 * (returns '001')
 	 */
 	public static String getObjectKeyPrefix(String objName) {
 		Schema.DescribeSObjectResult obj = Schema.getGlobalDescribe().get(objName).getDescribe();
@@ -119,7 +128,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Lazy load task record types to reduce queries
-	 * @since v4
+	 * @return A list of all Task `RecordType` records
 	 */
 	private static List<SObject> getTaskRecordTypes() {
 		if (taskRecordTypes == null) {
@@ -132,7 +141,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Status
-	 * @since v4
 	 */
 	public static Map<Id, String> getTaskRecordTypeStatusDefaultValues() {
 		if (taskRecordTypeStatusDefaultValues == null) {
@@ -152,7 +160,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Type
-	 * @since v4
 	 */
 	public static Map<Id, String> getTaskRecordTypeTypeDefaultValues() {
 		if (taskRecordTypeTypeDefaultValues == null) {
@@ -173,7 +180,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Priority
-	 * @since v4
 	 */
 	public static Map<Id, String> getTaskRecordTypePriorityDefaultValues() {
 		if (taskRecordTypePriorityDefaultValues == null) {
@@ -193,7 +199,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Find user default recordtype
-	 * @since v4
 	 */
 	public static String getDefaultTaskRecordTypeId() {
 		String toReturn = null;
@@ -212,7 +217,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate picklist of Task Record Types
-	 * @since v4
 	 */
 	public static List<SelectOption> getTaskRTPicklistValues() {
 		if (taskRTs == null) {
@@ -228,7 +232,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Lazy load open task statuses
-	 * @since v4
 	 */
 	public static Set<String> getOpenTaskStatuses() {
 		if (openTaskStatuses == null) {
@@ -246,6 +249,11 @@ public without sharing class ActionPlansUtilities {
 	 * @return List of completed statuses
 	 */
 	private static Set<String> closedTaskStatuses;
+	/**
+	 * Set of all `Task` Status values that are Closed
+	 * @author David Schach
+	 * @return   Set of closed `Task` Statuses
+	 */
 	public static Set<String> getClosedTaskStatuses() {
 		if (closedTaskStatuses == null) {
 			closedTaskStatuses = new Set<String>();
@@ -355,7 +363,6 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Check user preferences for whether to show task reminders by default
 	 * @return Boolean if Task reminder checkbox should be checked by default (this will override default value)
-	 * @since v4
 	 */
 	public static Boolean getCheckReminderByDefault() {
 		if (checkReminderByDefault == null) {
@@ -372,11 +379,10 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Gets task reminder default time for current user
-	 * @return String picklist value
+	 * @return `String` picklist value for default minutes after midnight for reminder
 	 */
 	public static String getDefaultReminderMinutes() {
 		if (defaultMinutesForReminderTime == null) {
-			Map<String, Schema.SObjectField> fieldsMap = Schema.sObjectType.User.fields.getMap();
 			defaultMinutesForReminderTime = '480';
 
 			List<UserPreference> uP = [SELECT Value FROM UserPreference WHERE UserId = :Userinfo.getUserId() AND Preference = '58'];
@@ -409,7 +415,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Single method to shorten long strings to the hard-coded 80 character length of record name field
-	 * @param the long string
+	 * @param subject the long string
 	 * @return the full string or shortened if longer than 80 characters
 	 */
 	public static String actionPlanSubjectToName(String subject) {
@@ -418,7 +424,8 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Single method to shorten long strings to the dynamically described character length of record name field
-	 * @param the long string
+	 * @param subject the long string
+	 * @param maxChars the maximum length allowed for Action Plan Subject
 	 * @return the full string or shortened if longer than max characters
 	 */
 	public static String actionPlanSubjectToName(String subject, Integer maxChars) {
@@ -432,7 +439,11 @@ public without sharing class ActionPlansUtilities {
 		return subject;
 	}
 
-	//private static Boolean orgCanSendEmails;
+	/**
+	 * Is the org allowed to send emails?
+	 * <br>This could be because deliverability is off, or because we have hit the org limits for emails
+	 * @return Can the org send an email?
+	 */
 	public static Boolean canSendEmails() {
 		Boolean orgCanSendEmails;
 		if (orgCanSendEmails == null) {
@@ -451,14 +462,29 @@ public without sharing class ActionPlansUtilities {
 		return orgCanSendEmails;
 	}
 
+	/**
+	 * Given a date, give the English day of the week
+	 * @author David Schach
+	 * @param  d The given date
+	 * @return   The day of hte week in English
+	 */
 	public static String getDayOfWeek(Date d) {
 		Date monday = Date.newInstance(1900, 1, 1);
 		Integer dayOfWeek = Math.mod(monday.daysBetween(d), 7);
 		return dayOfWeekEnglish.get(dayOfWeek);
 	}
 
+	/**
+	 * Map of day of week (as number) to English day
+	 */
 	public static Map<Integer, String> dayOfWeekEnglish = new Map<Integer, String>{ 0 => 'Monday', 1 => 'Tuesday', 2 => 'Wednesday', 3 => 'Thursday', 4 => 'Friday', 5 => 'Saturday', 6 => 'Sunday' };
 
+	/**
+	 * Get the Custom Metadata record for the weekend day
+	 * @author David Schach
+	 * @param  developerName Of day (Saturday, Sunday, etc)
+	 * @return               Custom Metadata
+	 */
 	public static Weekend_Day__mdt getWeekendDay(String developerName) {
 		return Weekend_Day__mdt.getInstance(developerName);
 	}
@@ -497,13 +523,15 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Detect user theme
+	 * @return Are we in Lightning Experience?
 	 */
 	public static Boolean getIsLex() {
 		return (UserInfo.getUiThemeDisplayed().containsIgnoreCase('theme4'));
 	}
 
 	/**
-	 * Check if we are in a managed package
+	 *  Check if we are in a managed package - if so, return the namespace prefix
+	 * @return The namespace prefix
 	 */
 	public static String namespacePrefix {
 		get {

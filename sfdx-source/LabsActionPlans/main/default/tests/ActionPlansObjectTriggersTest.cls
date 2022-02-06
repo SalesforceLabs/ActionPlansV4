@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @group Tests
+ * Tests for trigger handlers
+ * @author David Schach
+ * @group Trigger Handlers
  */
 @IsTest
 private class ActionPlansObjectTriggersTest {
@@ -294,13 +296,13 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	static void testLeadConversionContact() {
+	private static void testLeadConversionContact() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		User u = testutil.createTestUser();
 		testutil.assignAPPermissionSets(u.Id, true);
 
 		System.runAs(new User(Id = UserInfo.getUserId())) {
-			ActionPlan__c ap = testutil.createNewActionPlan('lead', 1);
+			testutil.createNewActionPlan('lead', 1);
 		}
 
 		Test.startTest();
@@ -333,13 +335,13 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	static void testLeadConversionAccount() {
+	private static void testLeadConversionAccount() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		User u = testutil.createTestUser();
 		testutil.assignAPPermissionSets(u.Id, true);
 
 		System.runAs(new User(Id = UserInfo.getUserId())) {
-			ActionPlan__c ap = testutil.createNewActionPlan('lead', 1);
+			testutil.createNewActionPlan('lead', 1);
 		}
 
 		Test.startTest();
@@ -379,13 +381,13 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	static void testLeadConversionOpportunity() {
+	private static void testLeadConversionOpportunity() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		User u = testutil.createTestUser();
 		//testutil.assignAPPermissionSets(u.Id, true);
 
 		System.runAs(new User(Id = UserInfo.getUserId())) {
-			ActionPlan__c ap = testutil.createNewActionPlan('lead', 1);
+			testutil.createNewActionPlan('lead', 1);
 		}
 
 		Test.startTest();

@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -38,16 +38,30 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 /**
+ * Extension for `Action Plan Template` Create/Edit page
+ * @since 2011
  * @group Visualforce
  */
 public with sharing class ActionPlanTemplateCreationController {
 	private Double taskIndex;
 	@testVisible
 	private ActionPlanTemplate__c actionPlanTemplate;
+	/**
+	 * Page SubTitle
+	 */
 	public String subTitle { get; private set; }
+	/**
+	 * Does the user have reminders enabled?
+	 */
 	public Boolean canDisplayReminder { get; private set; }
+	/**
+	 * Does the `Task` object have Record Types enabled?
+	 */
 	public Boolean taskHasRecordType { get; private set; }
-	public List<APTTaskTemplate__c> pendingTemplateDeletes;
+	
+	@testVisible
+	private List<APTTaskTemplate__c> pendingTemplateDeletes;
+	
 	private Id templateId;
 
 	/**
@@ -100,6 +114,15 @@ public with sharing class ActionPlanTemplateCreationController {
 			this.taskIndex = 0;
 			this.subTitle = System.Label.ap_New + ' ' + Schema.getGlobalDescribe().get(ActionPlansUtilities.namespacePrefix + 'ActionPlanTemplate__c').getDescribe().getLabel();
 		}
+	}
+
+	/**
+	 * Action on page load to ensure custom setting is created
+	 * @return   null
+	 */
+	public PageReference onLoad() {
+		ActionPlansUtilities.onPageLoad();
+		return null;
 	}
 
 	/**
@@ -205,7 +228,6 @@ public with sharing class ActionPlanTemplateCreationController {
 	public void addTemplateTask() {
 		taskIndex++;
 
-		Boolean hasNoErrors = false;
 		//in case the task limit is reached set a message error to display
 		if (aptTasks.size() >= ActionPlansUtilities.MAX_APTASKS) {
 			List<String> parameters = new List<String>();
@@ -555,7 +577,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * @author Matias Menafra
 	 * @createddate 08/08/2010
 	 * @author David Schach
-	 * @updateddate 05/2021
+	 * @updateddate 05/2022
 	 */
 	public class ApTTaskWrapper {
 		public APTTaskTemplate__c task { get; set; }
