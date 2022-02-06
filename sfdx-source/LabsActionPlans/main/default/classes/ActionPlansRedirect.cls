@@ -1,10 +1,10 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Visualforce controller for a redirect page to allow override of object actions
+ * @since 2011
  * @group Visualforce
  */
 public with sharing class ActionPlansRedirect {

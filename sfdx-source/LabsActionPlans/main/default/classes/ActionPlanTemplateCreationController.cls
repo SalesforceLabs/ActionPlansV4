@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Extension for `Action Plan Template` Create/Edit page
+ * @since 2011
  * @group Visualforce
  */
 public with sharing class ActionPlanTemplateCreationController {
@@ -576,7 +577,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * @author Matias Menafra
 	 * @createddate 08/08/2010
 	 * @author David Schach
-	 * @updateddate 05/2021
+	 * @updateddate 05/2022
 	 */
 	public class ApTTaskWrapper {
 		public APTTaskTemplate__c task { get; set; }

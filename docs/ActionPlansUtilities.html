@@ -37,31 +37,49 @@
           <a class="nav-header" id="home" href="javascript:void(0)" onclick="goToLocation('index.html');">
             Home
           </a>
-          <details id="Batch" class="group-name">
-            <summary id="header-Batch" class="nav-header">
-              <span>Batch</span>
-            </summary>
-            <ul>
-              <!-- menu items -->
-              <li title="ActionPlansBatchTaskBuilder" id="item-ActionPlansBatchTaskBuilder" class="nav-item class " onclick="goToLocation('ActionPlansBatchTaskBuilder.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchTaskBuilder</a>
-              </li>
-            </ul>
-          </details>
           <details id="Batch_Apex" class="group-name">
             <summary id="header-Batch_Apex" class="nav-header">
               <span>Batch Apex</span>
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansBatchBuilder" id="item-ActionPlansBatchBuilder" class="nav-item class " onclick="goToLocation('ActionPlansBatchBuilder.html');">
+              <li title="ActionPlansBatchBuilder" id="item-ActionPlansBatchBuilder" class="nav-item class public" onclick="goToLocation('ActionPlansBatchBuilder.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchBuilder</a>
               </li>
-              <li title="ActionPlansBatchBuilderUtilities" id="item-ActionPlansBatchBuilderUtilities" class="nav-item class " onclick="goToLocation('ActionPlansBatchBuilderUtilities.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchBuilderUtilities</a>
-              </li>
-              <li title="ActionPlansBatchDelete" id="item-ActionPlansBatchDelete" class="nav-item class " onclick="goToLocation('ActionPlansBatchDelete.html');">
+              <li title="ActionPlansBatchDelete" id="item-ActionPlansBatchDelete" class="nav-item class public" onclick="goToLocation('ActionPlansBatchDelete.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchDelete</a>
+              </li>
+              <li title="ActionPlansBatchTaskBuilder" id="item-ActionPlansBatchTaskBuilder" class="nav-item class public" onclick="goToLocation('ActionPlansBatchTaskBuilder.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchTaskBuilder</a>
+              </li>
+              <li title="ActionPlansBatchBuilderTest" id="item-ActionPlansBatchBuilderTest" class="nav-item class private" onclick="goToLocation('ActionPlansBatchBuilderTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchBuilderTest</a>
+              </li>
+              <li title="ActionPlansBatchDeleteTest" id="item-ActionPlansBatchDeleteTest" class="nav-item class private" onclick="goToLocation('ActionPlansBatchDeleteTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchDeleteTest</a>
+              </li>
+              <li title="ActionPlansBatchTaskBuilderTest" id="item-ActionPlansBatchTaskBuilderTest" class="nav-item class private" onclick="goToLocation('ActionPlansBatchTaskBuilderTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchTaskBuilderTest</a>
+              </li>
+            </ul>
+          </details>
+          <details id="Import_Export" class="group-name">
+            <summary id="header-Import_Export" class="nav-header">
+              <span>Import Export</span>
+            </summary>
+            <ul>
+              <!-- menu items -->
+              <li title="ActionPlanTemplateExport" id="item-ActionPlanTemplateExport" class="nav-item class public" onclick="goToLocation('ActionPlanTemplateExport.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateExport</a>
+              </li>
+              <li title="ActionPlanTemplateImport" id="item-ActionPlanTemplateImport" class="nav-item class public" onclick="goToLocation('ActionPlanTemplateImport.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateImport</a>
+              </li>
+              <li title="ActionPlanTemplateExportTest" id="item-ActionPlanTemplateExportTest" class="nav-item class private" onclick="goToLocation('ActionPlanTemplateExportTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateExportTest</a>
+              </li>
+              <li title="ActionPlanTemplateImportCntrlTest" id="item-ActionPlanTemplateImportCntrlTest" class="nav-item class private" onclick="goToLocation('ActionPlanTemplateImportCntrlTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateImportCntrlTest</a>
               </li>
             </ul>
           </details>
@@ -71,19 +89,11 @@
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlanCreateInvocable" id="item-ActionPlanCreateInvocable" class="nav-item class " onclick="goToLocation('ActionPlanCreateInvocable.html');">
+              <li title="ActionPlanCreateInvocable" id="item-ActionPlanCreateInvocable" class="nav-item class global" onclick="goToLocation('ActionPlanCreateInvocable.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlanCreateInvocable</a>
               </li>
-            </ul>
-          </details>
-          <details id="Miscellaneous" class="group-name">
-            <summary id="header-Miscellaneous" class="nav-header">
-              <span>Miscellaneous</span>
-            </summary>
-            <ul>
-              <!-- menu items -->
-              <li title="ActionPlansTriggerHandlers" id="item-ActionPlansTriggerHandlers" class="nav-item class " onclick="goToLocation('ActionPlansTriggerHandlers.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansTriggerHandlers</a>
+              <li title="ActionPlanCreateInvocableTest" id="item-ActionPlanCreateInvocableTest" class="nav-item class private" onclick="goToLocation('ActionPlanCreateInvocableTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlanCreateInvocableTest</a>
               </li>
             </ul>
           </details>
@@ -93,82 +103,37 @@
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansCanTheUser" id="item-ActionPlansCanTheUser" class="nav-item class " onclick="goToLocation('ActionPlansCanTheUser.html');">
+              <li title="ActionPlansCanTheUser" id="item-ActionPlansCanTheUser" class="nav-item class public" onclick="goToLocation('ActionPlansCanTheUser.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansCanTheUser</a>
               </li>
-              <li title="ActionPlansSafely" id="item-ActionPlansSafely" class="nav-item class " onclick="goToLocation('ActionPlansSafely.html');">
+              <li title="ActionPlansSafely" id="item-ActionPlansSafely" class="nav-item class public" onclick="goToLocation('ActionPlansSafely.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansSafely</a>
               </li>
-              <li title="ActionPlansCanTheUserTest" id="item-ActionPlansCanTheUserTest" class="nav-item class " onclick="goToLocation('ActionPlansCanTheUserTest.html');">
+              <li title="ActionPlansCanTheUserTest" id="item-ActionPlansCanTheUserTest" class="nav-item class private" onclick="goToLocation('ActionPlansCanTheUserTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansCanTheUserTest</a>
               </li>
-              <li title="ActionPlansSafelyTest" id="item-ActionPlansSafelyTest" class="nav-item class " onclick="goToLocation('ActionPlansSafelyTest.html');">
+              <li title="ActionPlansSafelyTest" id="item-ActionPlansSafelyTest" class="nav-item class private" onclick="goToLocation('ActionPlansSafelyTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansSafelyTest</a>
               </li>
             </ul>
           </details>
-          <details id="Tests" class="group-name">
-            <summary id="header-Tests" class="nav-header">
-              <span>Tests</span>
+          <details id="Trigger_Handlers" class="group-name">
+            <summary id="header-Trigger_Handlers" class="nav-header">
+              <span>Trigger Handlers</span>
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansTestUtilities" id="item-ActionPlansTestUtilities" class="nav-item class " onclick="goToLocation('ActionPlansTestUtilities.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansTestUtilities</a>
+              <li title="ActionPlansTaskTriggerUtilities" id="item-ActionPlansTaskTriggerUtilities" class="nav-item class public" onclick="goToLocation('ActionPlansTaskTriggerUtilities.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansTaskTriggerUtilities</a>
               </li>
-              <li title="ActionPlanCreateInvocableTest" id="item-ActionPlanCreateInvocableTest" class="nav-item class " onclick="goToLocation('ActionPlanCreateInvocableTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlanCreateInvocableTest</a>
+              <li title="ActionPlansTriggerHandlers" id="item-ActionPlansTriggerHandlers" class="nav-item class global" onclick="goToLocation('ActionPlansTriggerHandlers.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansTriggerHandlers</a>
               </li>
-              <li title="ActionPlanCreationControllerTest" id="item-ActionPlanCreationControllerTest" class="nav-item class " onclick="goToLocation('ActionPlanCreationControllerTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlanCreationControllerTest</a>
-              </li>
-              <li title="ActionPlanDetailControllerTest" id="item-ActionPlanDetailControllerTest" class="nav-item class " onclick="goToLocation('ActionPlanDetailControllerTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlanDetailControllerTest</a>
-              </li>
-              <li title="ActionPlanTemplateCreationCntrlTest" id="item-ActionPlanTemplateCreationCntrlTest" class="nav-item class " onclick="goToLocation('ActionPlanTemplateCreationCntrlTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateCreationCntrlTest</a>
-              </li>
-              <li title="ActionPlanTemplateDetailCntrlTest" id="item-ActionPlanTemplateDetailCntrlTest" class="nav-item class " onclick="goToLocation('ActionPlanTemplateDetailCntrlTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateDetailCntrlTest</a>
-              </li>
-              <li title="ActionPlanTemplateExportTest" id="item-ActionPlanTemplateExportTest" class="nav-item class " onclick="goToLocation('ActionPlanTemplateExportTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateExportTest</a>
-              </li>
-              <li title="ActionPlanTemplateImportCntrlTest" id="item-ActionPlanTemplateImportCntrlTest" class="nav-item class " onclick="goToLocation('ActionPlanTemplateImportCntrlTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateImportCntrlTest</a>
-              </li>
-              <li title="ActionPlansBatchBuilderTest" id="item-ActionPlansBatchBuilderTest" class="nav-item class " onclick="goToLocation('ActionPlansBatchBuilderTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchBuilderTest</a>
-              </li>
-              <li title="ActionPlansBatchDeleteTest" id="item-ActionPlansBatchDeleteTest" class="nav-item class " onclick="goToLocation('ActionPlansBatchDeleteTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchDeleteTest</a>
-              </li>
-              <li title="ActionPlansBatchTaskBuilderTest" id="item-ActionPlansBatchTaskBuilderTest" class="nav-item class " onclick="goToLocation('ActionPlansBatchTaskBuilderTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchTaskBuilderTest</a>
-              </li>
-              <li title="ActionPlansCreateMultipleAPsExtTest" id="item-ActionPlansCreateMultipleAPsExtTest" class="nav-item class " onclick="goToLocation('ActionPlansCreateMultipleAPsExtTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansCreateMultipleAPsExtTest</a>
-              </li>
-              <li title="ActionPlansDeleteMultipleAPExtTest" id="item-ActionPlansDeleteMultipleAPExtTest" class="nav-item class " onclick="goToLocation('ActionPlansDeleteMultipleAPExtTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansDeleteMultipleAPExtTest</a>
-              </li>
-              <li title="ActionPlansObjectTriggersTest" id="item-ActionPlansObjectTriggersTest" class="nav-item class " onclick="goToLocation('ActionPlansObjectTriggersTest.html');">
+              <li title="ActionPlansObjectTriggersTest" id="item-ActionPlansObjectTriggersTest" class="nav-item class private" onclick="goToLocation('ActionPlansObjectTriggersTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansObjectTriggersTest</a>
               </li>
-              <li title="ActionPlansPostInstallScriptTest" id="item-ActionPlansPostInstallScriptTest" class="nav-item class " onclick="goToLocation('ActionPlansPostInstallScriptTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansPostInstallScriptTest</a>
-              </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class " onclick="goToLocation('ActionPlansRedirectTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
-              </li>
-              <li title="ActionPlansSectionHeaderControllerTest" id="item-ActionPlansSectionHeaderControllerTest" class="nav-item class " onclick="goToLocation('ActionPlansSectionHeaderControllerTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansSectionHeaderControllerTest</a>
-              </li>
-              <li title="ActionPlansTaskTriggerUtilitiesTest" id="item-ActionPlansTaskTriggerUtilitiesTest" class="nav-item class " onclick="goToLocation('ActionPlansTaskTriggerUtilitiesTest.html');">
+              <li title="ActionPlansTaskTriggerUtilitiesTest" id="item-ActionPlansTaskTriggerUtilitiesTest" class="nav-item class private" onclick="goToLocation('ActionPlansTaskTriggerUtilitiesTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansTaskTriggerUtilitiesTest</a>
-              </li>
-              <li title="ActionPlansUtilitiesTest" id="item-ActionPlansUtilitiesTest" class="nav-item class " onclick="goToLocation('ActionPlansUtilitiesTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansUtilitiesTest</a>
               </li>
             </ul>
           </details>
@@ -178,14 +143,23 @@
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansPostInstallScript" id="item-ActionPlansPostInstallScript" class="nav-item class " onclick="goToLocation('ActionPlansPostInstallScript.html');">
+              <li title="ActionPlansBatchBuilderUtilities" id="item-ActionPlansBatchBuilderUtilities" class="nav-item class public" onclick="goToLocation('ActionPlansBatchBuilderUtilities.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchBuilderUtilities</a>
+              </li>
+              <li title="ActionPlansPostInstallScript" id="item-ActionPlansPostInstallScript" class="nav-item class global" onclick="goToLocation('ActionPlansPostInstallScript.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansPostInstallScript</a>
               </li>
-              <li title="ActionPlansTaskTriggerUtilities" id="item-ActionPlansTaskTriggerUtilities" class="nav-item class " onclick="goToLocation('ActionPlansTaskTriggerUtilities.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansTaskTriggerUtilities</a>
+              <li title="ActionPlansTestUtilities" id="item-ActionPlansTestUtilities" class="nav-item class public" onclick="goToLocation('ActionPlansTestUtilities.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansTestUtilities</a>
               </li>
-              <li title="ActionPlansUtilities" id="item-ActionPlansUtilities" class="nav-item class " onclick="goToLocation('ActionPlansUtilities.html');">
+              <li title="ActionPlansUtilities" id="item-ActionPlansUtilities" class="nav-item class public" onclick="goToLocation('ActionPlansUtilities.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansUtilities</a>
+              </li>
+              <li title="ActionPlansPostInstallScriptTest" id="item-ActionPlansPostInstallScriptTest" class="nav-item class private" onclick="goToLocation('ActionPlansPostInstallScriptTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansPostInstallScriptTest</a>
+              </li>
+              <li title="ActionPlansUtilitiesTest" id="item-ActionPlansUtilitiesTest" class="nav-item class private" onclick="goToLocation('ActionPlansUtilitiesTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansUtilitiesTest</a>
               </li>
             </ul>
           </details>
@@ -195,38 +169,56 @@
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlanCreationController" id="item-ActionPlanCreationController" class="nav-item class " onclick="goToLocation('ActionPlanCreationController.html');">
+              <li title="ActionPlanCreationController" id="item-ActionPlanCreationController" class="nav-item class public" onclick="goToLocation('ActionPlanCreationController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlanCreationController</a>
               </li>
-              <li title="ActionPlanDetailController" id="item-ActionPlanDetailController" class="nav-item class " onclick="goToLocation('ActionPlanDetailController.html');">
+              <li title="ActionPlanDetailController" id="item-ActionPlanDetailController" class="nav-item class public" onclick="goToLocation('ActionPlanDetailController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlanDetailController</a>
               </li>
-              <li title="ActionPlanTemplateCreationController" id="item-ActionPlanTemplateCreationController" class="nav-item class " onclick="goToLocation('ActionPlanTemplateCreationController.html');">
+              <li title="ActionPlanTemplateCreationController" id="item-ActionPlanTemplateCreationController" class="nav-item class public" onclick="goToLocation('ActionPlanTemplateCreationController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateCreationController</a>
               </li>
-              <li title="ActionPlanTemplateDetailController" id="item-ActionPlanTemplateDetailController" class="nav-item class " onclick="goToLocation('ActionPlanTemplateDetailController.html');">
+              <li title="ActionPlanTemplateDetailController" id="item-ActionPlanTemplateDetailController" class="nav-item class public" onclick="goToLocation('ActionPlanTemplateDetailController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateDetailController</a>
               </li>
-              <li title="ActionPlanTemplateExport" id="item-ActionPlanTemplateExport" class="nav-item class " onclick="goToLocation('ActionPlanTemplateExport.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateExport</a>
-              </li>
-              <li title="ActionPlanTemplateImport" id="item-ActionPlanTemplateImport" class="nav-item class " onclick="goToLocation('ActionPlanTemplateImport.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateImport</a>
-              </li>
-              <li title="ActionPlanTemplateImportController" id="item-ActionPlanTemplateImportController" class="nav-item class " onclick="goToLocation('ActionPlanTemplateImportController.html');">
+              <li title="ActionPlanTemplateImportController" id="item-ActionPlanTemplateImportController" class="nav-item class public" onclick="goToLocation('ActionPlanTemplateImportController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateImportController</a>
               </li>
-              <li title="ActionPlansCreateMultipleAPsExtension" id="item-ActionPlansCreateMultipleAPsExtension" class="nav-item class " onclick="goToLocation('ActionPlansCreateMultipleAPsExtension.html');">
+              <li title="ActionPlansCreateMultipleAPsExtension" id="item-ActionPlansCreateMultipleAPsExtension" class="nav-item class public" onclick="goToLocation('ActionPlansCreateMultipleAPsExtension.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansCreateMultipleAPsExtension</a>
               </li>
-              <li title="ActionPlansDeleteMultipleAPExtension" id="item-ActionPlansDeleteMultipleAPExtension" class="nav-item class " onclick="goToLocation('ActionPlansDeleteMultipleAPExtension.html');">
+              <li title="ActionPlansDeleteMultipleAPExtension" id="item-ActionPlansDeleteMultipleAPExtension" class="nav-item class public" onclick="goToLocation('ActionPlansDeleteMultipleAPExtension.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansDeleteMultipleAPExtension</a>
               </li>
-              <li title="ActionPlansRedirect" id="item-ActionPlansRedirect" class="nav-item class " onclick="goToLocation('ActionPlansRedirect.html');">
+              <li title="ActionPlansRedirect" id="item-ActionPlansRedirect" class="nav-item class public" onclick="goToLocation('ActionPlansRedirect.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirect</a>
               </li>
-              <li title="ActionPlansSectionHeaderController" id="item-ActionPlansSectionHeaderController" class="nav-item class " onclick="goToLocation('ActionPlansSectionHeaderController.html');">
+              <li title="ActionPlansSectionHeaderController" id="item-ActionPlansSectionHeaderController" class="nav-item class public" onclick="goToLocation('ActionPlansSectionHeaderController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansSectionHeaderController</a>
+              </li>
+              <li title="ActionPlanCreationControllerTest" id="item-ActionPlanCreationControllerTest" class="nav-item class private" onclick="goToLocation('ActionPlanCreationControllerTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlanCreationControllerTest</a>
+              </li>
+              <li title="ActionPlanDetailControllerTest" id="item-ActionPlanDetailControllerTest" class="nav-item class private" onclick="goToLocation('ActionPlanDetailControllerTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlanDetailControllerTest</a>
+              </li>
+              <li title="ActionPlanTemplateCreationCntrlTest" id="item-ActionPlanTemplateCreationCntrlTest" class="nav-item class private" onclick="goToLocation('ActionPlanTemplateCreationCntrlTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateCreationCntrlTest</a>
+              </li>
+              <li title="ActionPlanTemplateDetailCntrlTest" id="item-ActionPlanTemplateDetailCntrlTest" class="nav-item class private" onclick="goToLocation('ActionPlanTemplateDetailCntrlTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateDetailCntrlTest</a>
+              </li>
+              <li title="ActionPlansCreateMultipleAPsExtTest" id="item-ActionPlansCreateMultipleAPsExtTest" class="nav-item class private" onclick="goToLocation('ActionPlansCreateMultipleAPsExtTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansCreateMultipleAPsExtTest</a>
+              </li>
+              <li title="ActionPlansDeleteMultipleAPExtTest" id="item-ActionPlansDeleteMultipleAPExtTest" class="nav-item class private" onclick="goToLocation('ActionPlansDeleteMultipleAPExtTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansDeleteMultipleAPExtTest</a>
+              </li>
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
+              </li>
+              <li title="ActionPlansSectionHeaderControllerTest" id="item-ActionPlansSectionHeaderControllerTest" class="nav-item class private" onclick="goToLocation('ActionPlansSectionHeaderControllerTest.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansSectionHeaderControllerTest</a>
               </li>
             </ul>
           </details>
@@ -266,12 +258,15 @@
 
             <h2 class="class-title top-level-type" id="ActionPlansUtilities">
 
-              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L39">
+              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L42">
                 ActionPlansUtilities
               </a>
             </h2>
             <div class="class-container">
 
+              <div class="class-description">
+                Utilities class - mostly describe methods and constants
+              </div>
               <div class="class-subtitle">
                 Signature
               </div>
@@ -279,6 +274,12 @@
               <div class="class-signature">
                 public without sharing class ActionPlansUtilities
               </div>
+              <div class="class-subtitle">
+                See
+              </div>
+              <div class="class-subtitle-description">
+                <a href="javascript:void(0)" onclick="goToLocation('ActionPlansUtilitiesTest.html')">ActionPlansUtilitiesTest</a>
+              </div><br />2011
             </div>
             <div class="subsection properties ActionPlansUtilities">
               <h3 class="subsection-title properties">ActionPlansUtilities Properties</h2>
@@ -290,9 +291,9 @@
 
                     <th>Description</th>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L81">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L89">
                         apCustomRelationshipFields
                       </a></td>
                     <td>
@@ -306,9 +307,9 @@
                       Section to describe ActionPlan object to make custom relationship fields dynamic
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L353">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L363">
                         canDisplayReminder
                       </a></td>
                     <td>
@@ -322,9 +323,9 @@
 
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L371">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L380">
                         checkReminderByDefault
                       </a></td>
                     <td>
@@ -338,9 +339,9 @@
 
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L248">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L253">
                         closedTaskStatuses
                       </a></td>
                     <td>
@@ -354,9 +355,9 @@
                       Find all closed Task statuses
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property public">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L460">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L469">
                         dayOfWeekEnglish
                       </a></td>
                     <td>
@@ -370,9 +371,9 @@
 
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L389">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L398">
                         defaultMinutesForReminderTime
                       </a></td>
                     <td>
@@ -386,9 +387,9 @@
 
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property public">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L53">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L63">
                         HAS_RECORD_TYPE
                       </a></td>
                     <td>
@@ -399,12 +400,12 @@
 
 
                     <td class="attribute-description">
-
+                      Allows us to force the environment variable checking if Task has a Record Type for testing. Increases code coverage.
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property public">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L51">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L59">
                         MASTER_RECORD_TYPE_ID
                       </a></td>
                     <td>
@@ -415,12 +416,12 @@
 
 
                     <td class="attribute-description">
-
+                      The standard Master <code class="code-inline">RecordType</code> Id
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property public">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L45">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L50">
                         MAX_APTASKS
                       </a></td>
                     <td>
@@ -434,9 +435,9 @@
                       CONSTANTS *
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property public">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L48">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L55">
                         MAX_APTODELETE
                       </a></td>
                     <td>
@@ -447,12 +448,12 @@
 
 
                     <td class="attribute-description">
-
+                      Max number of Action Plans that can be deleted from list
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property public">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L508">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L517">
                         namespacePrefix
                       </a></td>
                     <td>
@@ -466,9 +467,9 @@
                       Check if we are in a managed package
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L242">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L247">
                         openTaskStatuses
                       </a></td>
                     <td>
@@ -482,9 +483,9 @@
 
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L516">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L525">
                         set
                       </a></td>
                     <td>
@@ -498,9 +499,9 @@
 
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L192">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L200">
                         taskRecordTypePriorityDefaultValues
                       </a></td>
                     <td>
@@ -514,9 +515,9 @@
 
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L131">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L142">
                         taskRecordTypes
                       </a></td>
                     <td>
@@ -530,9 +531,9 @@
 
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L151">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L161">
                         taskRecordTypeStatusDefaultValues
                       </a></td>
                     <td>
@@ -546,9 +547,9 @@
 
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L172">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L181">
                         taskRecordTypeTypeDefaultValues
                       </a></td>
                     <td>
@@ -562,9 +563,9 @@
 
                     </td>
                   </tr>
-                  <tr class="property ">
+                  <tr class="property private">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L227">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L233">
                         taskRTs
                       </a></td>
                     <td>
@@ -640,6 +641,9 @@
                       getClosedTaskStatuses ()
                     </a>
 
+                    <div class="methods-toc__description">
+                      Set of all <code class="code-inline">Task</code> Status values that are Closed
+                    </div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansUtilities.getCustomRelationshipFields">
@@ -782,23 +786,14 @@
                     </a>
 
                     <div class="methods-toc__description">
-                      Actions to perform whenever loading a Visualforce page Ensures that Custom Setting is created for the org
-                    </div>
-                  </li>
-                  <li class="method private">
-                    <a class="methods-toc__entry " href="#ActionPlansUtilities.setHasRecordType">
-                      setHasRecordType ()
-                    </a>
-
-                    <div class="methods-toc__description">
-                      Allows us to force the environment variable checking if Task has a Record Type for testing. Increases code coverage.
+                      Actions to perform whenever loading a Visualforce page <br>Ensures that Custom Setting is created for the org
                     </div>
                   </li>
                 </ul>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.actionPlanSubjectToName">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L415">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L424">
                       actionPlanSubjectToName(subject)
                     </a>
                   </h4>
@@ -825,7 +820,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.actionPlanSubjectToName_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L424">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L433">
                       actionPlanSubjectToName(subject, maxChars)
                     </a>
                   </h4>
@@ -852,7 +847,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.adjustTaskDueDate">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L472">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L481">
                       adjustTaskDueDate(actionPlanStartDate, taskDaysFromStart, apSkipDay)
                     </a>
                   </h4>
@@ -887,7 +882,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.canSendEmails">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L436">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L445">
                       canSendEmails()
                     </a>
                   </h4>
@@ -902,7 +897,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getCanDisplayReminder">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L347">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L357">
                       getCanDisplayReminder()
                     </a>
                   </h4>
@@ -926,7 +921,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getCheckReminderByDefault">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L360">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L369">
                       getCheckReminderByDefault()
                     </a>
                   </h4>
@@ -946,20 +941,17 @@
                   <div class="method-subtitle-description">
                     Boolean if Task reminder checkbox should be checked by default (this will override default value)
                   </div>
-                  <div class="method-subtitle">
-                    Since
-                  </div>
-                  <div class="method-subtitle-description">
-                    v4
-                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getClosedTaskStatuses">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L249">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L259">
                       getClosedTaskStatuses()
                     </a>
                   </h4>
+                  <div class="method-description">
+                    Set of all <code class="code-inline">Task</code> Status values that are Closed
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
@@ -967,11 +959,23 @@
                   <div class="method-signature">
                     public static Set&lt;String&gt; getClosedTaskStatuses()
                   </div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    Set of closed <code class="code-inline">Task</code> Statuses
+                  </div>
+                  <div class="method-subtitle">
+                    Author
+                  </div>
+                  <div class="method-subtitle-description">
+                    David Schach
+                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getCustomRelationshipFields">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L83">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L91">
                       getCustomRelationshipFields()
                     </a>
                   </h4>
@@ -986,7 +990,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getCustomSetting">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L395">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L404">
                       getCustomSetting()
                     </a>
                   </h4>
@@ -1010,7 +1014,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getDayOfWeek">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L454">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L463">
                       getDayOfWeek(d)
                     </a>
                   </h4>
@@ -1025,7 +1029,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getDefaultReminderMinutes">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L377">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L386">
                       getDefaultReminderMinutes()
                     </a>
                   </h4>
@@ -1043,13 +1047,13 @@
                     Returns
                   </div>
                   <div class="method-subtitle-description">
-                    String picklist value
+                    <code class="code-inline">String</code> picklist value for default minutes after midnight for reminder
                   </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getDefaultTaskRecordTypeId">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L198">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L205">
                       getDefaultTaskRecordTypeId()
                     </a>
                   </h4>
@@ -1063,17 +1067,11 @@
                   <div class="method-signature">
                     public static String getDefaultTaskRecordTypeId()
                   </div>
-                  <div class="method-subtitle">
-                    Since
-                  </div>
-                  <div class="method-subtitle-description">
-                    v4
-                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getFieldOptions">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L265">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L275">
                       getFieldOptions(objectname, fieldname, hasDefaultValue)
                     </a>
                   </h4>
@@ -1108,7 +1106,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getHoursOption">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L286">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L296">
                       getHoursOption()
                     </a>
                   </h4>
@@ -1132,7 +1130,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getIsLex">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L501">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L510">
                       getIsLex()
                     </a>
                   </h4>
@@ -1150,7 +1148,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getObjectKeyPrefix">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L115">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L126">
                       getObjectKeyPrefix(objName)
                     </a>
                   </h4>
@@ -1175,11 +1173,16 @@
                   <div class="method-subtitle-description">
                     obj.getKeyPrefix()
                   </div>
+                  <div class="method-subtitle">
+                    Example
+                  </div>
+                  <pre class="code-example"><code> ActionPlansUtilities.getObjetKeyPrefix(&#39;Account&#39;); 
+ (returns &#39;001&#39;)</code></pre>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getOpenTaskStatuses">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L233">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L238">
                       getOpenTaskStatuses()
                     </a>
                   </h4>
@@ -1193,17 +1196,11 @@
                   <div class="method-signature">
                     public static Set&lt;String&gt; getOpenTaskStatuses()
                   </div>
-                  <div class="method-subtitle">
-                    Since
-                  </div>
-                  <div class="method-subtitle-description">
-                    v4
-                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L178">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L186">
                       getTaskRecordTypePriorityDefaultValues()
                     </a>
                   </h4>
@@ -1217,17 +1214,11 @@
                   <div class="method-signature">
                     public static Map&lt;Id, String&gt; getTaskRecordTypePriorityDefaultValues()
                   </div>
-                  <div class="method-subtitle">
-                    Since
-                  </div>
-                  <div class="method-subtitle-description">
-                    v4
-                  </div>
                 </div>
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansUtilities.getTaskRecordTypes">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L124">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L135">
                       getTaskRecordTypes()
                     </a>
                   </h4>
@@ -1242,16 +1233,16 @@
                     private static List&lt;SObject&gt; getTaskRecordTypes()
                   </div>
                   <div class="method-subtitle">
-                    Since
+                    Returns
                   </div>
                   <div class="method-subtitle-description">
-                    v4
+                    A list of all Task <code class="code-inline">RecordType</code> records
                   </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L137">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L147">
                       getTaskRecordTypeStatusDefaultValues()
                     </a>
                   </h4>
@@ -1265,17 +1256,11 @@
                   <div class="method-signature">
                     public static Map&lt;Id, String&gt; getTaskRecordTypeStatusDefaultValues()
                   </div>
-                  <div class="method-subtitle">
-                    Since
-                  </div>
-                  <div class="method-subtitle-description">
-                    v4
-                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getTaskRecordTypeTypeDefaultValues">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L157">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L166">
                       getTaskRecordTypeTypeDefaultValues()
                     </a>
                   </h4>
@@ -1289,17 +1274,11 @@
                   <div class="method-signature">
                     public static Map&lt;Id, String&gt; getTaskRecordTypeTypeDefaultValues()
                   </div>
-                  <div class="method-subtitle">
-                    Since
-                  </div>
-                  <div class="method-subtitle-description">
-                    v4
-                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getTaskRTPicklistValues">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L217">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L223">
                       getTaskRTPicklistValues()
                     </a>
                   </h4>
@@ -1313,17 +1292,11 @@
                   <div class="method-signature">
                     public static List&lt;SelectOption&gt; getTaskRTPicklistValues()
                   </div>
-                  <div class="method-subtitle">
-                    Since
-                  </div>
-                  <div class="method-subtitle-description">
-                    v4
-                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.getWeekendDay">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L462">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L471">
                       getWeekendDay(developerName)
                     </a>
                   </h4>
@@ -1338,12 +1311,12 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansUtilities.onPageLoad">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L60">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L80">
                       onPageLoad()
                     </a>
                   </h4>
                   <div class="method-description">
-                    Actions to perform whenever loading a Visualforce page Ensures that Custom Setting is created for the org
+                    Actions to perform whenever loading a Visualforce page <br>Ensures that Custom Setting is created for the org
                   </div>
                   <div class="method-subtitle">
                     Signature
@@ -1356,25 +1329,7 @@
                     Returns
                   </div>
                   <div class="method-subtitle-description">
-                    null PageReference
-                  </div>
-                </div>
-                <div class="method private">
-                  <h4 class="method-title " id="ActionPlansUtilities.setHasRecordType">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L68">
-                      setHasRecordType()
-                    </a>
-                  </h4>
-                  <div class="method-description">
-                    Allows us to force the environment variable checking if Task has a Record Type for testing. Increases code coverage.
-                  </div>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-
-                  <div class="method-signature">
-                    private static Boolean setHasRecordType()
+                    PageReference
                   </div>
                 </div>
               </div>

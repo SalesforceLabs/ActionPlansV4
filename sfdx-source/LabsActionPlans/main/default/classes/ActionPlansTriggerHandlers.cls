@@ -1,7 +1,7 @@
 @SuppressWarnings('PMD.AvoidGlobalModifier')
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -9,7 +9,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Trigger Handler class to manage all triggers. Methods for managed objects are here, as well as a method that any other object can use to enable it to be linked to Action Plans.
  * @author David Schach
+ * @since 2011
  * @group Trigger Handlers
  */
 global without sharing class ActionPlansTriggerHandlers {

@@ -12,7 +12,7 @@
  * @see ActionPlansCanTheUserTest
  * @see ActionPlansSafely
  * @author {@link [Codefriar](https://github.com/codefriar)}
- * @since v4
+ * @since 2022
  * @group Security
  */
 public inherited sharing class ActionPlansCanTheUser {

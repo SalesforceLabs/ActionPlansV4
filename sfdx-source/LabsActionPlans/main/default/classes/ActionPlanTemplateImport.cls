@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -8,7 +8,7 @@ http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -37,8 +37,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @throws ImportException
- * @group Visualforce
+ * @exception ImportException
+ * @since 2011
+ * @group Import Export
  */
 public inherited sharing class ActionPlanTemplateImport {
 	private Map<Id, APTTaskTemplate__c> importedTasks;
@@ -55,7 +56,8 @@ public inherited sharing class ActionPlanTemplateImport {
 	/**
 	 * Method in charge of retrieving and compiling the data from imported file,
 	 * for then inserting into the system.
-	 * @param document
+	 * @param document Attachment record
+	 * @exception ImportException
 	 * @return String
 	 */
 	public String processImportedDocument(Attachment document) {
@@ -109,7 +111,8 @@ public inherited sharing class ActionPlanTemplateImport {
 
 	/**
 	 * Method for reading the meta data tag from xml document
-	 * @param xml
+	 * @exception ImportException
+	 * @param xml String of import file
 	 */
 	private void readingMetaData(String xml) {
 		Xmlstreamreader reader = new Xmlstreamreader(xml);
@@ -132,7 +135,7 @@ public inherited sharing class ActionPlanTemplateImport {
 
 	/**
 	 * Method for handling importing of a Action Plan Template Object
-	 * @param xml
+	 * @param xml import file
 	 * @return apTemplate
 	 */
 	private ActionPlanTemplate__c importAPTemplate(String xml) {
@@ -154,7 +157,8 @@ public inherited sharing class ActionPlanTemplateImport {
 
 	/**
 	 * Method for handling importing of Action Plan Template Task Objects
-	 * @param xml
+	 * @param xml import file
+	 * @param apTemplateId Action Plan Template Id
 	 */
 	private void importAPTtasks(String xml, Id apTemplateId) {
 		Xmlstreamreader reader = new Xmlstreamreader(xml);
@@ -173,6 +177,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	/**
 	 * Method in charge of parsing meta data from XMl document
 	 * @param reader
+	 * @exception ImportException
 	 * @return correctMetaData
 	 */
 	private Boolean parseMetaData(Xmlstreamreader reader) {
@@ -280,7 +285,8 @@ public inherited sharing class ActionPlanTemplateImport {
 
 	/**
 	 * Method in charge of parsing data from XMl document to create a Template Task Object
-	 * @param reader
+	 * @param reader XML reader
+	 * @param apTemplateId template Id
 	 * @return
 	 */
 	private void parseTemplateTask(Xmlstreamreader reader, Id apTemplateId) {

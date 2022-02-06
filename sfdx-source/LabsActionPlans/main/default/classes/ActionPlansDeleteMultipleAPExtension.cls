@@ -1,6 +1,6 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 Action Plans v3
 Force.com Labs 2011
@@ -11,7 +11,7 @@ All rights reserved.
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * <br>Validates using CanTheUser to ensure user permissions
  * @author David Schach
  * @group Visualforce
+ * @since 2011
  * @see ActionPlansDeleteMultipleAPExtTest
  * @see CanTheUser
  */

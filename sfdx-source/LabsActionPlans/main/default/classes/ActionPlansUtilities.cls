@@ -1,10 +1,10 @@
 /*
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 BSD 3-Clause License
 
-Copyright (c) 2021, salesforce.com, inc.
+Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * Utilities class - mostly describe methods and constants
+ * @since 2011
  * @group Utilities
  * @see ActionPlansUtilitiesTest
  */
@@ -129,7 +130,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Lazy load task record types to reduce queries
-	 * @since v4
+	 * @return A list of all Task `RecordType` records
 	 */
 	private static List<SObject> getTaskRecordTypes() {
 		if (taskRecordTypes == null) {
@@ -142,7 +143,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Status
-	 * @since v4
 	 */
 	public static Map<Id, String> getTaskRecordTypeStatusDefaultValues() {
 		if (taskRecordTypeStatusDefaultValues == null) {
@@ -162,7 +162,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Type
-	 * @since v4
 	 */
 	public static Map<Id, String> getTaskRecordTypeTypeDefaultValues() {
 		if (taskRecordTypeTypeDefaultValues == null) {
@@ -183,7 +182,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Priority
-	 * @since v4
 	 */
 	public static Map<Id, String> getTaskRecordTypePriorityDefaultValues() {
 		if (taskRecordTypePriorityDefaultValues == null) {
@@ -203,7 +201,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Find user default recordtype
-	 * @since v4
 	 */
 	public static String getDefaultTaskRecordTypeId() {
 		String toReturn = null;
@@ -222,7 +219,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate picklist of Task Record Types
-	 * @since v4
 	 */
 	public static List<SelectOption> getTaskRTPicklistValues() {
 		if (taskRTs == null) {
@@ -238,7 +234,6 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Lazy load open task statuses
-	 * @since v4
 	 */
 	public static Set<String> getOpenTaskStatuses() {
 		if (openTaskStatuses == null) {
@@ -259,7 +254,6 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Set of all `Task` Status values that are Closed
 	 * @author David Schach
-	 * @since v4
 	 * @return   Set of closed `Task` Statuses
 	 */
 	public static Set<String> getClosedTaskStatuses() {
@@ -371,7 +365,6 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Check user preferences for whether to show task reminders by default
 	 * @return Boolean if Task reminder checkbox should be checked by default (this will override default value)
-	 * @since v4
 	 */
 	public static Boolean getCheckReminderByDefault() {
 		if (checkReminderByDefault == null) {

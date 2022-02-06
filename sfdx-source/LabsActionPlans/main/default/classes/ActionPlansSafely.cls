@@ -6,7 +6,7 @@
  * @see ActionPlansCanTheUser
  * @see ActionPlansSafelyTest
  * @author {@link [Codefriar](https://github.com/codefriar)}
- * @since v4
+ * @since 2022
  * @group Security
  */
 public with sharing class ActionPlansSafely {
