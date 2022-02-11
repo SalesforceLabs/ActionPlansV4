@@ -50,7 +50,7 @@ public with sharing class ActionPlanDetailController {
 	 * @author David Schach
 	 */
 	public Boolean hasRecordType { get; set; }
-	
+
 	/**
 	 * Does the user have reminders enabled? If not, do not shrae the reminder option
 	 * @author David Schach
@@ -60,9 +60,10 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * Constructor
+	 * @param stdController Standard Controller (`ActionPlan__c`)
 	 */
 	public ActionPlanDetailController(ApexPages.StandardController stdController) {
-		actionPlan = (ActionPlan__c) stdController.getRecord();
+		this.actionPlan = (ActionPlan__c) stdController.getRecord();
 		hasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
 		canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
 	}
@@ -80,19 +81,6 @@ public with sharing class ActionPlanDetailController {
 			return null;
 		}
 
-		/* SetupEntityAccess[] accessSettings = [
-			SELECT Id
-			FROM SetupEntityAccess
-			WHERE
-				SetupEntityId IN (
-					SELECT Id
-					FROM ApexPage
-					WHERE
-						//NamespacePrefix = :your_namespace AND
-						Name = 'ActionPlansHome'
-				)
-				AND ParentId IN (SELECT PermissionSetId FROM PermissionSetAssignment WHERE AssigneeId = :UserInfo.getUserId())
-		]; */
 		String retURL = '/' + ActionPlansUtilities.namespacePrefix + ActionPlansUtilities.getObjectKeyPrefix(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c') + '/o';
 
 		if (ApexPages.currentPage().getParameters().get('templateId') != null) {
@@ -160,11 +148,24 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * Wrapper for Action Plan Task Template
+	 * <br>It contains the `APTaskTemplate` and the `Task` Id
 	 */
 	public class TaskWrapper {
+		/**
+		 * The Action Plan Task Template
+		 */
 		public APTaskTemplate__c apt { get; private set; }
+		/**
+		 * The (standard) `Task` Id
+		 */
 		public Id taskId { get; private set; }
 
+		/**
+		 * @description       Constructor for the task wrapper
+		 *
+		 * @param aptParam    Action Plan Task Template
+		 * @param taskIdParam TaskId (for the standard object `Task`)
+		 */
 		public TaskWrapper(APTaskTemplate__c aptParam, Id taskIdParam) {
 			this.apt = aptParam;
 			this.taskId = taskIdParam;
