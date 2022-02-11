@@ -58,10 +58,10 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * Does the `Task` object have Record Types enabled?
 	 */
 	public Boolean taskHasRecordType { get; private set; }
-	
+
 	@testVisible
 	private List<APTTaskTemplate__c> pendingTemplateDeletes;
-	
+
 	private Id templateId;
 
 	/**
@@ -286,6 +286,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Iterate over aptTasks
+	 * @return All the template wrappers for display on the page
 	 */
 	public List<ApTTaskWrapper> getTemplateWrappers() {
 		ApTTaskWrapper apTTaskWrapper;
@@ -397,6 +398,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Return size of the APTTemplate Tasks List.
+	 * @return the number of template tasks
 	 */
 	public Integer getTemplateTaskSize() {
 		return aptTasks.size();
@@ -404,6 +406,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Call method getTemplateSubjectItems()
+	 * @return the picklist of Task subjects
 	 */
 	public List<SelectOption> getTemplateSubjectItems() {
 		List<SelectOption> options = new List<SelectOption>();
@@ -465,7 +468,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	}
 
 	/**
-	 *
+	 * Check for dependent tasks
 	 * @param destinyTask
 	 * @param index
 	 * @return Boolean
@@ -534,6 +537,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Find user default recordtype
+	 * @return The org default Task RecordTypeId
 	 */
 	public Id getDefaultTaskRecordTypeId() {
 		return ActionPlansUtilities.getDefaultTaskRecordTypeId();
@@ -541,6 +545,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Generate picklist of Task Record Types
+	 * @return A picklist of available Record Types
 	 */
 	public List<SelectOption> getTaskRTPicklistValues() {
 		return ActionPlansUtilities.getTaskRTPicklistValues();
@@ -550,6 +555,10 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * Generate picklist of Task Types
 	 */
 	private List<SelectOption> taskTypes;
+	/**
+	 * Generate a picklist of Task.Type
+	 * @return Picklist of Task Type
+	 */
 	public List<SelectOption> getTaskTypes() {
 		if (taskTypes == null) {
 			taskTypes = ActionPlansUtilities.getFieldOptions('Task', 'Type', null);
@@ -557,10 +566,11 @@ public with sharing class ActionPlanTemplateCreationController {
 		return taskTypes;
 	}
 
+	private List<SelectOption> taskPriorities;
 	/**
 	 * Generate picklist of Task Priorities
+	 * @return Picklist of Task Priority
 	 */
-	private List<SelectOption> taskPriorities;
 	public List<SelectOption> getTaskPriorities() {
 		if (taskPriorities == null) {
 			taskPriorities = ActionPlansUtilities.getFieldOptions('Task', 'Priority', null);
@@ -568,6 +578,10 @@ public with sharing class ActionPlanTemplateCreationController {
 		return taskPriorities;
 	}
 
+	/**
+	 * @description Get the reminder time picklist options from the central utilities class
+	 * @return      Picklist of reminder times
+	 */
 	public List<SelectOption> getHoursOption() {
 		return ActionPlansUtilities.getHoursOption();
 	}
@@ -575,15 +589,22 @@ public with sharing class ActionPlanTemplateCreationController {
 	/**
 	 * Inner Wrapper Class for Action Plan Template Tasks
 	 * @author Matias Menafra
-	 * @createddate 08/08/2010
+	 * @date 08/08/2010
 	 * @author David Schach
-	 * @updateddate 05/2022
+	 * @date 05/2022
 	 */
 	public class ApTTaskWrapper {
 		public APTTaskTemplate__c task { get; set; }
 		public Integer position { get; set; }
 		public Boolean isLast { get; set; }
 
+		/**
+		 * @description       Constructor for ActionPlan Template Task Wrapper
+		 *
+		 * @param apTask      Action Plan Template Task
+		 * @param pos         Position/Index
+		 * @param apTTaskRTId The RecordType of the related Task
+		 */
 		public ApTTaskWrapper(APTTaskTemplate__c apTask, Integer pos, Id apTTaskRTId) {
 			task = apTask;
 			position = pos;

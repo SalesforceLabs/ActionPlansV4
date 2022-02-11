@@ -287,7 +287,6 @@ public inherited sharing class ActionPlanTemplateImport {
 	 * Method in charge of parsing data from XMl document to create a Template Task Object
 	 * @param reader XML reader
 	 * @param apTemplateId template Id
-	 * @return
 	 */
 	private void parseTemplateTask(Xmlstreamreader reader, Id apTemplateId) {
 		APTTaskTemplate__c apTaskAux = new APTTaskTemplate__c();

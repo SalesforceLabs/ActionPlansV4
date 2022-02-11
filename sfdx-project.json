@@ -20,7 +20,7 @@
         }
     ],
     "name": "ActionPlans",
-    "namespace": "LabsActionPlans",
+    "namespace": "",
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "53.0",
     "packageAliases": {

@@ -49,12 +49,21 @@ public inherited sharing class ActionPlansBatchBuilder implements Database.Batch
 	/**
 	 * Constructor
 	 */
+	/**
+	 * @description
+	 *
+	 * @param baseObj ActionPlan base
+	 * @param aPTList List of the task templates
+	 * @param refType The related object name
+	 * @param oIdsSet IDs of related parents
+	 */
 	public ActionPlansBatchBuilder(ActionPlan__c baseObj, List<APTaskTemplate__c> aPTList, String refType, Set<Id> oIdsSet) {
 		taskBatch = new ActionPlansBatchBuilderUtilities(baseObj, aPTList, refType, oIdsSet);
 	}
 
 	/**
 	 * Use the start method to collect the records or objects to be passed to the interface method execute
+	 * @return Iterable
 	 */
 	public Iterable<sObject> start(Database.BatchableContext bc) {
 		return this.taskBatch.getObjects(bc);

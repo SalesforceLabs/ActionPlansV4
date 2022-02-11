@@ -116,6 +116,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Cycle through list of dependent Action Plans Template Task and create actual tasks
+	 * @param dependentApttList
+	 * @return List of AP Tasks to update
 	 */
 	private static List<APTaskTemplate__c> populateNewTaskMap(List<APTaskTemplate__c> dependentApttList) {
 		List<APTaskTemplate__c> updList = new List<APTaskTemplate__c>();
@@ -173,6 +175,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Cycle through list of dependent Action Plans Template Task and create tasks
+	 * @param dependentApttList
+	 * @return the list of dependent Action Plan Tasks we just updated
 	 */
 	private static List<APTaskTemplate__c> populateUpdateApttsList(List<APTaskTemplate__c> dependentApttList) {
 		List<APTaskTemplate__c> updateApttsList = new List<APTaskTemplate__c>();
@@ -265,6 +269,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Update associated aptt of task to match status
+	 * @param cTasks map of ActionPlan Tasks by Id
 	 */
 	private static void updateActionPlansTemplateTaskStatus(Map<Id, String> cTasks) {
 		if (!cTasks.keyset().isEmpty()) {
@@ -274,7 +279,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Update APTasks status as passed into method
-	 * @param cTasks
+	 * @param cTasks Map of ActionPlan Tasks by Id
 	 */
 	//@future
 	public static void updateAPTasksStatus(Map<Id, String> cTasks) {
