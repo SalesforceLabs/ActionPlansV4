@@ -44,14 +44,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 public with sharing class ActionPlanTemplateDetailController {
 	@TestVisible
 	private ActionPlanTemplate__c actionPlanTemplate;
+	/**
+	 * The Id of the Action Plan for Exporting. Shown on the Export page that shares thsi controller
+	 */
 	public Id actionPlanExportXMLId { get; private set; }
+	/**
+	 * Does the org use Task RecordType?
+	 */
 	public Boolean taskHasRecordType { get; private set; }
+	/**
+	 * Does the user have reminders enabled?
+	 */
 	public Boolean canDisplayReminder { get; private set; }
 
 	/**
 	 * Constructor
 	 * If we can obtain the Id from the page parameters then we search for that template and set the variable for that template.
 	 * If we can't obtain the Id from the page parameters then we create a new template and obtain from the controller.
+	 * @param stdController Standard Controller (Action Plan Template)
 	 */
 	public ActionPlanTemplateDetailController(ApexPages.StandardController stdController) {
 		actionPlanTemplate = (ActionPlanTemplate__c) stdController.getRecord();
@@ -128,20 +138,6 @@ public with sharing class ActionPlanTemplateDetailController {
 	}
 
 	/**
-	 * Flush the viewstate to make cloning work
-	 * Commenting for now; will add this functionality
-	 * @return PageReference pageRef edit page
-	 */
-	/* public PageReference cloneTemplate(){
-		Pagereference pageRef = Page.ActionPlanTemplateCreation;
-		pageRef.getParameters().put('id', actionPlanTemplate.Id);
-		pageRef.getParameters().put( 'clone', '1' );
-
-		pageRef.setRedirect(true);
-		return pageRef;
-	} */
-
-	/**
 	 * Method exports the Action Plan template into a new XML document
 	 */
 	public void exportTemplateToXMLDoc() {
@@ -149,6 +145,10 @@ public with sharing class ActionPlanTemplateDetailController {
 		actionPlanExportXMLId = utility.export();
 	}
 
+	/**
+	 * Determine the export success message based on LEX vs Classic
+	 * @return      The success message
+	 */
 	public String getSuccessMessage() {
 		Boolean isLex = ActionPlansUtilities.getIsLex();
 		String fileLabel = '';
