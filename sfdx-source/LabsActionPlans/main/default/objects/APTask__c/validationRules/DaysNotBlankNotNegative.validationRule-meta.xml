@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DaysNotBlankNotNegative</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISBLANK(DaysFromStart__c) || DaysFromStart__c  &lt; 0</errorConditionFormula>
+    <errorDisplayField>DaysFromStart__c</errorDisplayField>
+    <errorMessage>You must enter a positive value</errorMessage>
+</ValidationRule>

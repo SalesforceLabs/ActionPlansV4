@@ -4,10 +4,10 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Controlling Task</label>
-    <referenceTo>APTaskTemplate__c</referenceTo>
-    <relationshipLabel>Dependent AP Tasks</relationshipLabel>
+    <referenceTo>APTask__c</referenceTo>
     <relationshipName>Dependent_AP_Tasks</relationshipName>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

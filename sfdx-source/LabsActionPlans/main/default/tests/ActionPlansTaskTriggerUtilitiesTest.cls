@@ -34,8 +34,8 @@ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
-
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 /**
  * @author David Schach
  * @group Trigger Handlers
@@ -45,7 +45,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	static String testClosedStatus;
 	/**
 	 * test trigger without skipweekends method for testing Task After Update trigger when updating task to status 'Completed'
-	*/
+	 */
 	@IsTest
 	private static void testTaskAfterUpdateToCompleted() {
 		List<String> closedStatuses = new List<String>(ActionPlansUtilities.getClosedTaskStatuses());
@@ -56,10 +56,10 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		List<Id> apTTaskIds = new List<Id>();
 		List<Task> apTaskList = new List<Task>();
-		List<APTaskTemplate__c> apttList = new List<APTaskTemplate__c>();
+		List<APTask__c> apttList = new List<APTask__c>();
 
 		for (Integer i = 0; i < 4; i++) {
-			APTaskTemplate__c at = new APTaskTemplate__c();
+			APTask__c at = new APTask__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
 			at.User__c = testUtil.createTestUser().Id;
@@ -78,21 +78,21 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			if (i == 0) {
 				Task x = new Task();
 				x.Priority = at.Priority__c;
-				x.TaskAPTaskTemplate__c = at.Id;
+				x.TaskAPTask__c = at.Id;
 				x.Subject = at.Subject__c;
 				insert x; //NOPMD
 			}
 		}
 
 		Test.startTest();
-		apTaskList = [SELECT Status, Id FROM Task WHERE TaskAPTaskTemplate__c IN :apTTaskIds];
+		apTaskList = [SELECT Status, Id FROM Task WHERE TaskAPTask__c IN :apTTaskIds];
 
 		for (Task t : apTaskList) {
 			t.Status = testClosedStatus;
 		}
 
 		update apTaskList;
-		apTaskList = [SELECT Id FROM Task WHERE TaskAPTaskTemplate__c = :apTTaskIds[0]];
+		apTaskList = [SELECT Id FROM Task WHERE TaskAPTask__c = :apTTaskIds[0]];
 
 		Test.stopTest();
 		System.assert(!apTaskList.isEmpty(), 'We should have some records here');
@@ -111,11 +111,11 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		List<Id> apTTaskIds = new List<Id>();
 		List<Task> apTask = new List<Task>();
-		List<APTaskTemplate__c> aptt = new List<APTaskTemplate__c>();
+		List<APTask__c> aptt = new List<APTask__c>();
 
 		Test.startTest();
 		for (Integer i = 0; i < 4; i++) {
-			APTaskTemplate__c at = new APTaskTemplate__c();
+			APTask__c at = new APTask__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
 			at.User__c = testUtil.createTestUser().Id;
@@ -133,14 +133,14 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			if (i == 0) {
 				Task x = new Task();
 				x.Priority = at.Priority__c;
-				x.TaskAPTaskTemplate__c = at.Id;
+				x.TaskAPTask__c = at.Id;
 				x.Subject = at.Subject__c;
 				insert x; //NOPMD
 			}
 		}
 
 		delete ap;
-		apTask = [SELECT Id FROM Task WHERE TaskAPTaskTemplate__c = :apTTaskIds[1]];
+		apTask = [SELECT Id FROM Task WHERE TaskAPTask__c = :apTTaskIds[1]];
 
 		Test.stopTest();
 
@@ -151,7 +151,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 * test trigger
 	 */
 	@IsTest
-	private static void testAPTTemplateUpdate() {
+	private static void testAPTaskUpdate() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testUtil.createNewActionPlan('opportunity', 0);
 		ap.SkipWeekends__c = true;
@@ -160,11 +160,11 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		List<Id> apTTaskIds = new List<Id>();
 		List<Task> apTask = new List<Task>();
-		List<APTaskTemplate__c> aptt = new List<APTaskTemplate__c>();
+		List<APTask__c> aptt = new List<APTask__c>();
 
 		Test.startTest();
 		for (Integer i = 0; i < 4; i++) {
-			APTaskTemplate__c at = new APTaskTemplate__c();
+			APTask__c at = new APTask__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
 			at.User__c = testUtil.createTestUser().Id;
@@ -183,7 +183,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			if (i == 0) {
 				Task x = new Task();
 				x.Priority = at.Priority__c;
-				x.TaskAPTaskTemplate__c = at.Id;
+				x.TaskAPTask__c = at.Id;
 				x.Subject = at.Subject__c;
 				insert x; //NOPMD
 			}
@@ -192,12 +192,12 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		List<String> closedStatuses = new List<String>(ActionPlansUtilities.getClosedTaskStatuses());
 		String testClosedStatus = closedStatuses[0];
 
-		apTask = [SELECT Status, Id FROM Task WHERE TaskAPTaskTemplate__c IN :apTTaskIds];
+		apTask = [SELECT Status, Id FROM Task WHERE TaskAPTask__c IN :apTTaskIds];
 		for (Task t : apTask) {
 			t.Status = testClosedStatus;
 		}
 		update apTask;
-		apTask = [SELECT Id FROM Task WHERE TaskAPTaskTemplate__c = :apTTaskIds[0]];
+		apTask = [SELECT Id FROM Task WHERE TaskAPTask__c = :apTTaskIds[0]];
 
 		Test.stopTest();
 
@@ -209,7 +209,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 *	When the user undeletes an ActionPlan Task Template
 	 */
 	@IsTest
-	private static void testAPTTUndelete() {
+	private static void testAPTaskUndelete() {
 		Test.startTest();
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
@@ -218,21 +218,21 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
 
-		// select the APTask Template
-		APTaskTemplate__c at = [SELECT Id, Subject__c, Priority__c, User__c FROM APTaskTemplate__c WHERE Action_Plan__c = :ap.id LIMIT 1];
+		// select the APTask
+		APTask__c at = [SELECT Id, Subject__c, Priority__c, User__c FROM APTask__c WHERE Action_Plan__c = :ap.id LIMIT 1];
 
 		// create the related Task
 		Task t = new Task();
 		t.Subject = at.Subject__c;
 		t.Priority = at.Priority__c;
 		t.OwnerId = at.User__c;
-		t.TaskAPTaskTemplate__c = at.Id;
+		t.TaskAPTask__c = at.Id;
 		insert t;
 
-		// delete the APTask Template
+		// delete the APTask
 		delete at;
 
-		List<APTaskTemplate__c> apttDel = [SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id];
+		List<APTask__c> apttDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
 		System.assert(apttDel.isEmpty());
 
 		// undelete task and APTask and get exception
@@ -246,10 +246,10 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		}
 
 		// now undelete and trigger the code
-		if (![SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id AND isDeleted = TRUE ALL ROWS].isEmpty()) {
+		if (![SELECT Id FROM APTask__c WHERE Id = :at.Id AND isDeleted = TRUE ALL ROWS].isEmpty()) {
 			undelete at;
-			List<APTaskTemplate__c> apttUnDel = [SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id];
-			System.assertEquals(1,apttUnDel.size());
+			List<APTask__c> apttUnDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
+			System.assertEquals(1, apttUnDel.size());
 		}
 
 		Test.stopTest();
@@ -270,14 +270,14 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		update ap;
 
 		// select the APTask Template
-		APTaskTemplate__c at = [SELECT Id, Subject__c, Priority__c, User__c FROM APTaskTemplate__c WHERE Action_Plan__c = :ap.id LIMIT 1];
+		APTask__c at = [SELECT Id, Subject__c, Priority__c, User__c FROM APTask__c WHERE Action_Plan__c = :ap.id LIMIT 1];
 
 		// create the related Task
 		Task t = new Task();
 		t.Subject = at.Subject__c;
 		t.Priority = at.Priority__c;
 		t.OwnerId = at.User__c;
-		t.TaskAPTaskTemplate__c = at.Id;
+		t.TaskAPTask__c = at.Id;
 		insert t;
 
 		List<Id> ids = new List<Id>();
@@ -286,7 +286,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		// delete the APTask Template
 		delete at;
 		Database.emptyRecycleBin(t);
-		List<APTaskTemplate__c> apttDel = [SELECT Id FROM APTaskTemplate__c WHERE Id = :at.Id];
+		List<APTask__c> apttDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
 		System.assert(apttDel.isEmpty());
 
 		// undelete task and APTask and get exception
@@ -294,15 +294,15 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			Database.undelete(ids);
 		} catch (Dmlexception e) {
 			//System.debug('Dmlexception: ' + e.getMessage());
-			System.assert(e.getMessage().contains(System.Label.ap_Error), e.getMessage() + '(APTaskTemplate__c undelete error should have the proper format)');
+			System.assert(e.getMessage().contains(System.Label.ap_Error), e.getMessage() + '(APTask__c undelete error should have the proper format)');
 		}
 
 		Test.stopTest();
 	}
-	/*
-	method for testing Task  After Update trigger
-	when updating task to status 'In progress'
-	*/
+	/**
+	 * method for testing Task  After Update trigger
+	 * when updating task to status 'In progress'
+	 */
 	@IsTest
 	private static void testTrigger6() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -310,11 +310,11 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		List<Id> apTTaskIds = new List<Id>();
 		List<Task> apTask = new List<Task>();
-		List<APTaskTemplate__c> aptt = new List<APTaskTemplate__c>();
+		List<APTask__c> aptt = new List<APTask__c>();
 
 		Test.startTest();
 		for (Integer i = 0; i < 4; i++) {
-			APTaskTemplate__c at = new APTaskTemplate__c();
+			APTask__c at = new APTask__c();
 			at.Action_Plan__c = ap.Id;
 			at.DaysFromStart__c = 2.0;
 			at.User__c = testUtil.createTestUser().Id;
@@ -334,13 +334,13 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			if (i == 0) {
 				Task x = new Task();
 				x.Priority = at.Priority__c;
-				x.TaskAPTaskTemplate__c = at.Id;
+				x.TaskAPTask__c = at.Id;
 				x.Subject = at.Subject__c;
 				insert x; //NOPMD
 			}
 		}
 
-		apTask = [SELECT Status, Id FROM Task WHERE TaskAPTaskTemplate__c IN :apTTaskIds];
+		apTask = [SELECT Status, Id FROM Task WHERE TaskAPTask__c IN :apTTaskIds];
 
 		List<String> openStatuses = new List<String>(ActionPlansUtilities.getOpenTaskStatuses());
 		String testOpenStatus = openStatuses[1];
@@ -349,13 +349,13 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		}
 
 		update apTask;
-		apTask = [SELECT Id FROM Task WHERE TaskAPTaskTemplate__c = :apTTaskIds[0]];
+		apTask = [SELECT Id FROM Task WHERE TaskAPTask__c = :apTTaskIds[0]];
 
 		Test.stopTest();
 		System.assert(!apTask.isEmpty());
 	}
 
-	/*
+	/**
 	 * method for testing Task before delete trigger
 	 */
 	@IsTest
@@ -367,7 +367,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		Id testUserId = testUtil.createTestUser().Id;
 
 		//Task Template 1
-		APTaskTemplate__c at = new APTaskTemplate__c();
+		APTask__c at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.DaysFromStart__c = 2;
 		at.SendEmail__c = false;
@@ -378,7 +378,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		at.TaskIndex__c = 0;
 		insert at;
 		//Task Template 2
-		APTaskTemplate__c at2 = new APTaskTemplate__c();
+		APTask__c at2 = new APTask__c();
 		at2.Action_Plan__c = ap.Id;
 		at2.DaysFromStart__c = 2;
 		at2.User__c = testUserId;
@@ -398,12 +398,12 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		}
 		x.Priority = at.Priority__c;
 		x.Status = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
-		x.TaskAPTaskTemplate__c = at.Id;
+		x.TaskAPTask__c = at.Id;
 		x.Subject = at.Subject__c;
 		x.WhatId = [SELECT Id FROM Account LIMIT 1].Id;
 		insert x;
 
-		x = [SELECT Id, Status, Subject, TaskAPTaskTemplate__r.Name, WhatId FROM Task WHERE Id = :x.Id LIMIT 1];
+		x = [SELECT Id, Status, Subject, TaskAPTask__r.Name, WhatId FROM Task WHERE Id = :x.Id LIMIT 1];
 
 		List<String> closedStatuses = new List<String>(ActionPlansUtilities.getClosedTaskStatuses());
 		String testClosedStatus = closedStatuses[0];
@@ -415,7 +415,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		delete x;
 
 		//check if the dependent task was created
-		List<Task> newTaskList = [SELECT Status, Id FROM Task WHERE TaskAPTaskTemplate__c = :at2.Id];
+		List<Task> newTaskList = [SELECT Status, Id FROM Task WHERE TaskAPTask__c = :at2.Id];
 		System.assert(!newTaskList.isEmpty());
 		newTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE];
 		System.assertEquals(1, newTaskList.size());

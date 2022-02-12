@@ -104,7 +104,7 @@ private class ActionPlansBatchDeleteTest {
 		ActionPlansTestUtilities aptu = new ActionPlansTestUtilities();
 		ActionPlan__c ap = aptu.createNewActionPlan('account', 1);
 
-		APTaskTemplate__c at = new APTaskTemplate__c();
+		APTask__c at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
@@ -118,7 +118,7 @@ private class ActionPlansBatchDeleteTest {
 		at.Minutes_Reminder__c = '510';
 		insert at;
 
-		at = new APTaskTemplate__c();
+		at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
@@ -134,7 +134,7 @@ private class ActionPlansBatchDeleteTest {
 
 		Task x = new Task();
 		x.Priority = at.Priority__c;
-		x.TaskAPTaskTemplate__c = at.Id;
+		x.TaskAPTask__c = at.Id;
 		x.Subject = at.Subject__c;
 		insert x;
 

@@ -48,22 +48,26 @@ public with sharing class ActionPlanDetailController {
 	/**
 	 * Does the org have Record Types enabled for Task SObject
 	 * @author David Schach
+	 * @return Yes/No
 	 */
 	public Boolean hasRecordType { get; set; }
 
 	/**
 	 * Does the user have reminders enabled? If not, do not shrae the reminder option
 	 * @author David Schach
-	 * @return               Yes/No
+	 * @return Yes/No
 	 */
 	public Boolean canDisplayReminder { get; private set; }
 
 	/**
 	 * Constructor
-	 * @param stdController Standard Controller (`ActionPlan__c`)
+	 * @param stdController Standard Controller
 	 */
 	public ActionPlanDetailController(ApexPages.StandardController stdController) {
-		this.actionPlan = (ActionPlan__c) stdController.getRecord();
+		if (!Test.isRunningTest()) {
+			stdController.addFields(ActionPlansUtilities.getCustomRelationshipFields());
+		}
+		actionPlan = (ActionPlan__c) stdController.getRecord();
 		hasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
 		canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
 	}
@@ -102,14 +106,14 @@ public with sharing class ActionPlanDetailController {
 	public List<TaskWrapper> getActionPlanTasks() {
 		if (apTaskWrapperList == null) {
 			apTaskWrapperList = new List<TaskWrapper>();
-			Map<Id, APTaskTemplate__c> apTaskMap = new Map<Id, APTaskTemplate__c>(
+			Map<Id, APTask__c> apTaskMap = new Map<Id, APTask__c>(
 				[
 					SELECT
 						Action_Plan__c,
 						ActivityDate__c,
+						Comments__c,
 						Controller__c,
 						Controller__r.Subject__c,
-						Comments__c,
 						DaysFromStart__c,
 						Dependent__c,
 						Id,
@@ -118,25 +122,25 @@ public with sharing class ActionPlanDetailController {
 						Name,
 						Priority__c,
 						Reminder__c,
-						Time_Reminder__c,
 						SendEmail__c,
 						Status__c,
 						Subject__c,
 						Task_RecordTypeId__c,
 						TaskIndex__c,
+						Time_Reminder__c,
 						Type__c,
 						User__c,
 						User__r.Name
-					FROM APTaskTemplate__c
+					FROM APTask__c
 					WHERE Action_Plan__c = :actionPlan.Id
 					ORDER BY TaskIndex__c ASC
 				]
 			);
 			Map<Id, Id> taskTaskMap = new Map<Id, Id>();
-			for (Task t : [SELECT Id, TaskAPTaskTemplate__c FROM Task WHERE TaskAPTaskTemplate__c IN :apTaskMap.keyset()]) {
-				taskTaskMap.put(t.TaskAPTaskTemplate__c, t.Id);
+			for (Task t : [SELECT Id, TaskAPTask__c FROM Task WHERE TaskAPTask__c IN :apTaskMap.keyset()]) {
+				taskTaskMap.put(t.TaskAPTask__c, t.Id);
 			}
-			for (APTaskTemplate__c a : apTaskMap.values()) {
+			for (APTask__c a : apTaskMap.values()) {
 				TaskWrapper tw;
 				Id relatedTaskId = taskTaskMap.get(a.Id);
 				tw = new TaskWrapper(a, relatedTaskId);
@@ -147,26 +151,26 @@ public with sharing class ActionPlanDetailController {
 	}
 
 	/**
-	 * Wrapper for Action Plan Task Template
-	 * <br>It contains the `APTaskTemplate` and the `Task` Id
+	 * Wrapper for Action Plan Task
+	 * <br>It contains the `Action Plan Task` and the `Task` Id
 	 */
 	public class TaskWrapper {
 		/**
-		 * The Action Plan Task Template
+		 * The Action Plan Task
 		 */
-		public APTaskTemplate__c apt { get; private set; }
+    public APTask__c apt { get; private set; }
 		/**
 		 * The (standard) `Task` Id
 		 */
-		public Id taskId { get; private set; }
-
-		/**
+    public Id taskId { get; private set; }
+    
+    /**
 		 * @description       Constructor for the task wrapper
 		 *
 		 * @param aptParam    Action Plan Task Template
 		 * @param taskIdParam TaskId (for the standard object `Task`)
 		 */
-		public TaskWrapper(APTaskTemplate__c aptParam, Id taskIdParam) {
+		public TaskWrapper(APTask__c aptParam, Id taskIdParam) {
 			this.apt = aptParam;
 			this.taskId = taskIdParam;
 		}
@@ -181,7 +185,7 @@ public with sharing class ActionPlanDetailController {
 			return 0;
 		}
 
-		List<APTaskTemplate__c> ts = [SELECT Id FROM APTaskTemplate__c WHERE Status__c IN :ActionPlansUtilities.getClosedTaskStatuses() AND ActivityDate__c != NULL AND Action_Plan__c = :actionPlan.Id];
+		List<APTask__c> ts = [SELECT Id FROM APTask__c WHERE Status__c IN :ActionPlansUtilities.getClosedTaskStatuses() AND ActivityDate__c != NULL AND Action_Plan__c = :actionPlan.Id];
 
 		return (ts != null) ? ts.size() : 0;
 	}

@@ -4,9 +4,10 @@
     <externalId>false</externalId>
     <label>Action Plan</label>
     <referenceTo>ActionPlan__c</referenceTo>
-    <relationshipName>apTasks</relationshipName>
+    <relationshipName>apTasks1</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MasterDetail</type>
     <writeRequiresMasterRead>false</writeRequiresMasterRead>
