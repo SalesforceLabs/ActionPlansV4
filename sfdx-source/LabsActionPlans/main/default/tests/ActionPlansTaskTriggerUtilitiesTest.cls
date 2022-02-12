@@ -34,8 +34,8 @@ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
-
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 /**
  * @author David Schach
  * @group Trigger Handlers
@@ -151,7 +151,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 * test trigger
 	 */
 	@IsTest
-	private static void testAPTTemplateUpdate() {
+	private static void testAPTaskUpdate() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testUtil.createNewActionPlan('opportunity', 0);
 		ap.SkipWeekends__c = true;
@@ -209,7 +209,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 *	When the user undeletes an ActionPlan Task Template
 	 */
 	@IsTest
-	private static void testAPTTUndelete() {
+	private static void testAPTaskUndelete() {
 		Test.startTest();
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
@@ -218,7 +218,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
 
-		// select the APTask Template
+		// select the APTask
 		APTask__c at = [SELECT Id, Subject__c, Priority__c, User__c FROM APTask__c WHERE Action_Plan__c = :ap.id LIMIT 1];
 
 		// create the related Task
@@ -229,7 +229,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		t.TaskAPTask__c = at.Id;
 		insert t;
 
-		// delete the APTask Template
+		// delete the APTask
 		delete at;
 
 		List<APTask__c> apttDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
@@ -299,10 +299,10 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		Test.stopTest();
 	}
-	/*
-	method for testing Task  After Update trigger
-	when updating task to status 'In progress'
-	*/
+	/**
+	 * method for testing Task  After Update trigger
+	 * when updating task to status 'In progress'
+	 */
 	@IsTest
 	private static void testTrigger6() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -355,7 +355,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		System.assert(!apTask.isEmpty());
 	}
 
-	/*
+	/**
 	 * method for testing Task before delete trigger
 	 */
 	@IsTest
