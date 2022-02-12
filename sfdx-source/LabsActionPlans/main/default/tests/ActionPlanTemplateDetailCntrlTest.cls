@@ -123,13 +123,13 @@ private class ActionPlanTemplateDetailCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(3);
 
-		System.assertEquals(3, [SELECT COUNT() FROM APTTaskTemplate__c]);
+		System.assertEquals(3, [SELECT COUNT() FROM APTemplateTask__c]);
 
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
 		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
-		List<APTTaskTemplate__c> taskList = apTemplateDetailController.getTemplateTasks();
+		List<APTemplateTask__c> taskList = apTemplateDetailController.getTemplateTasks();
 
 		Test.stopTest();
 

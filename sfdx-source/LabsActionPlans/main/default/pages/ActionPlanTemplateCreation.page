@@ -36,266 +36,221 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<apex:page
-	id="thePage"
-	tabStyle="ActionPlanTemplate__c"
-	standardController="ActionPlanTemplate__c"
-	extensions="ActionPlanTemplateCreationController"
-	lightningStylesheets="true"
-	docType="html-5.0"
-	contentType="text/html"
-	applyBodyTag="false"
-	action="{!onLoad}">
+<apex:page id="thePage" tabStyle="ActionPlanTemplate__c" standardController="ActionPlanTemplate__c" extensions="ActionPlanTemplateCreationController" lightningStylesheets="true" docType="html-5.0" contentType="text/html" applyBodyTag="false" action="{!onLoad}">
 	<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
-		<head>
-			<title>
-				<apex:outputText value="{!$ObjectType.ActionPlanTemplate__c.label} - {!$Label.ap_New}" rendered="{!ActionPlanTemplate__c.Id == null}" /> <apex:outputText value="{!ActionPlanTemplate__c.Name} -
+
+	<head>
+		<title>
+			<apex:outputText value="{!$ObjectType.ActionPlanTemplate__c.label} - {!$Label.ap_New}" rendered="{!ActionPlanTemplate__c.Id == null}" />
+			<apex:outputText value="{!ActionPlanTemplate__c.Name} -
 				{!$Label.ap_Edit}" rendered="{!ActionPlanTemplate__c.Id != null}" />
-			</title>
-			<meta charset="utf-8" />
-			<meta http-equiv="x-ua-compatible" content="ie=edge" />
-			<meta name="viewport" content="width=device-width, initial-scale=1" />
+		</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
-			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_Utilities.js')}" />
-			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_EditScripts.js')}" />
-			<script>
-				var j$ = jQuery.noConflict();
-				j$(document).ready(function () {
-					onLoad();
-				});
-				function onLoad() {
-					console.log('onLoad');
-					checkSkipWeekend(j$('[id$=skipWeekendCheckbox]').attr('id'), j$('[id$=skipDayPicklist]').attr('id'));
-					checkAllDependent('{!$Label.ap_ItselfDependencyError}', '{!$Label.ap_Errors_Cyclic_Dependency_Found}');
-					showErrors();
-					j$('.helpOrb').css({ width: '12px', height: '12px' });
-					j$('td [Id*=taskTable]').css('vertical-align', 'middle');
-					//checkReminderPicklists();
-				}
-			</script>
-			<script type="text/javascript">
-				var __sfdcSessionId = '{!GETSESSIONID()}';
-			</script>
-			<script src="../../soap/ajax/51.0/connection.js" type="text/javascript"></script>
-			<style>
-				input.errorBorder {
-					border: 2px solid #cc0000;
-				}
-			</style>
-			<apex:variable value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" var="lex" />
-			<apex:slds rendered="{!lex}" />
-		</head>
-		<body>
-			<c:APSectionHeader sObjType="ActionPlanTemplate__c" subtitle="{!$ObjectType.ActionPlanTemplate__c.label}" title="{!subtitle}" />
+		<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
+		<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_Utilities.js')}" />
+		<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_EditScripts.js')}" />
+		<script>
+			var j$ = jQuery.noConflict();
+			j$(document).ready(function () {
+				onLoad();
+			});
+			function onLoad() {
+				console.log('onLoad');
+				checkSkipWeekend(j$('[id$=skipWeekendCheckbox]').attr('id'), j$('[id$=skipDayPicklist]').attr('id'));
+				checkAllDependent('{!$Label.ap_ItselfDependencyError}', '{!$Label.ap_Errors_Cyclic_Dependency_Found}');
+				showErrors();
+				j$('.helpOrb').css({ width: '12px', height: '12px' });
+				j$('td [Id*=taskTable]').css('vertical-align', 'middle');
+				//checkReminderPicklists();
+			}
+		</script>
+		<script type="text/javascript">
+			var __sfdcSessionId = '{!GETSESSIONID()}';
+		</script>
+		<script src="../../soap/ajax/51.0/connection.js" type="text/javascript"></script>
+		<style>
+			input.errorBorder {
+				border: 2px solid #cc0000;
+			}
 
-			<apex:pageMessages id="pageMessages" />
+		</style>
+		<apex:variable value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" var="lex" />
+		<apex:slds rendered="{!lex}" />
+	</head>
 
-			<apex:form id="templateForm" html-novalidate="novalidate">
-				<apex:pageBlock id="editBlock" mode="edit">
-					<apex:pageBlockButtons id="buttons">
-						<apex:commandButton id="save" action="{!checkCycleDependent}" value="{!$Label.ap_Save}" reRender="pageMessages" />
-						<apex:commandButton id="saveandnew" action="{!saveAndNew}" value="{!$Label.ap_SaveAndNew}" reRender="pageMessages" />
+	<body>
+		<c:APSectionHeader sObjType="ActionPlanTemplate__c" subtitle="{!$ObjectType.ActionPlanTemplate__c.label}" title="{!subtitle}" />
+
+		<apex:pageMessages id="pageMessages" />
+
+		<apex:form id="templateForm" html-novalidate="novalidate">
+			<apex:pageBlock id="editBlock" mode="edit">
+				<apex:pageBlockButtons id="buttons">
+					<apex:commandButton id="save" action="{!checkCycleDependent}" value="{!$Label.ap_Save}" reRender="pageMessages" />
+					<apex:commandButton id="saveandnew" action="{!saveAndNew}" value="{!$Label.ap_SaveAndNew}" reRender="pageMessages" />
+					<apex:actionRegion>
+						<apex:commandButton id="cancel" action="{!cancelTemplate}" value="{!$Label.ap_Cancel}" html-formnovalidate="novalidate" immediate="true" />
+					</apex:actionRegion>
+				</apex:pageBlockButtons>
+
+				<!-- Information Section -->
+				<apex:pageBlockSection id="informationSection" columns="1" collapsible="false">
+					<apex:pageBlockSectionItem>
+						<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.fields.Name.label}" />
+						<apex:inputField required="true" id="name" value="{!ActionPlanTemplate__c.Name}" style="width: 300px" />
+					</apex:pageBlockSectionItem>
+
+					<apex:pageBlockSectionItem>
+						<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.fields.Description__c.label}" />
+						<apex:inputField id="description" value="{!ActionPlanTemplate__c.Description__c}" style="width: 300px" />
+					</apex:pageBlockSectionItem>
+				</apex:pageBlockSection>
+				<!-- End Information Section -->
+
+				<!-- Tasks Section -->
+				<apex:pageBlockSection title="{!$ObjectType.Task.labelPlural}" columns="2" collapsible="false" id="taskDetails">
+					<apex:inputField value="{!ActionPlanTemplate__c.SkipWeekends__c}" id="skipWeekendCheckbox" onclick="checkSkipWeekend('{!$Component.skipWeekendCheckbox}','{!$Component.taskDetails.skipDayPicklist}');" />
+
+					<apex:pageBlockSectionItem rendered="{!taskHasRecordType}">
+						<apex:outputLabel>{!$ObjectType.Task.Label}&nbsp;{!$ObjectType.RecordType.Label}&nbsp;</apex:outputLabel>
 						<apex:actionRegion>
-							<apex:commandButton id="cancel" action="{!cancelTemplate}" value="{!$Label.ap_Cancel}" html-formnovalidate="novalidate" immediate="true" />
+							<apex:selectList value="{!ActionPlanTemplate__c.TaskRecordTypeID__c}" styleclass="slds-select" required="{!taskHasRecordType}" size="1" disabled="{!!$ObjectType.ActionPlanTemplate__c.updateable}">
+								<apex:actionSupport event="onchange" reRender="taskSection" />
+								<apex:selectOptions value="{!TaskRTPicklistValues}" />
+							</apex:selectList>
 						</apex:actionRegion>
-					</apex:pageBlockButtons>
+					</apex:pageBlockSectionItem>
+					<apex:outputPanel rendered="{!!taskHasRecordType}" />
 
-					<!-- Information Section -->
-					<apex:pageBlockSection id="informationSection" columns="1" collapsible="false">
-						<apex:pageBlockSectionItem>
-							<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.fields.Name.label}" />
-							<apex:inputField required="true" id="name" value="{!ActionPlanTemplate__c.Name}" style="width: 300px" />
-						</apex:pageBlockSectionItem>
+					<apex:inputField id="skipDayPicklist" styleclass="slds-select" value="{!ActionPlanTemplate__c.SkipDay__c}" />
+				</apex:pageBlockSection>
 
-						<apex:pageBlockSectionItem>
-							<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.fields.Description__c.label}" />
-							<apex:inputField id="description" value="{!ActionPlanTemplate__c.Description__c}" style="width: 300px" />
-						</apex:pageBlockSectionItem>
-					</apex:pageBlockSection>
-					<!-- End Information Section -->
+				<apex:pageBlockSection id="taskSection" columns="1" collapsible="false">
+					<apex:outputPanel id="taskList" styleClass="slds-scope" layout="inline">
+						<apex:pageBlockTable value="{!TemplateWrappers}" var="wrapTask" id="taskTable" rules="none" style="table-layout: auto; width: 100%">
+							<!-- columnClasses="first,second,third,fourth,fifth,sixth, seventh, eighth" styleClass="taskTable cardTable noBump pullTable" -->
+							<!--  Tasks delete actions  -->
+							<apex:column style="vertical-align: middle" headerValue="" id="columnOne" rendered="{!TemplateWrappers.size > 1 && $ObjectType.APTemplateTask__c.deletable}">
+								<apex:commandLink action="{!removeTemplateTask}" id="deleteLink" immediate="{!wrapTask.isLast}" onclick="if (confirmTaskDeletion('{!$Component.taskTable.dependent}', '{!$Label.ap_Confirm_Tasks_Deletion}')) return false;" oncomplete="showErrors();onLoad();" rendered="{!(wrapTask.task.Id != null && $ObjectType.APTemplateTask__c.deletable) || wrapTask.task.Id == null}"
+								 rerender="taskList, pageMessages" status="taskStatus">
+									<apex:image url="{!URLFOR($Resource.ActionPlan_Resources, 'ActionPlans_cross.gif')}" alt="{!$Label.ap_Remove}" title="{!$Label.ap_Remove}" />
+									<apex:param name="remove" value="{!wrapTask.position}" />
+								</apex:commandLink>
+							</apex:column>
 
-					<!-- Tasks Section -->
-					<apex:pageBlockSection title="{!$ObjectType.Task.labelPlural}" columns="2" collapsible="false" id="taskDetails">
-						<apex:inputField
-							value="{!ActionPlanTemplate__c.SkipWeekends__c}"
-							id="skipWeekendCheckbox"
-							onclick="checkSkipWeekend('{!$Component.skipWeekendCheckbox}','{!$Component.taskDetails.skipDayPicklist}');" />
+							<!--  Tasks subject  -->
+							<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Subject__c.label}" style="padding-right: 10px">
+								<apex:inputField id="subject" required="true" value="{!wrapTask.task.Subject__c}" style="width: 100%" />
+							</apex:column>
 
-						<apex:pageBlockSectionItem rendered="{!taskHasRecordType}">
-							<apex:outputLabel>{!$ObjectType.Task.Label}&nbsp;{!$ObjectType.RecordType.Label}&nbsp;</apex:outputLabel>
-							<apex:actionRegion>
-								<apex:selectList
-									value="{!ActionPlanTemplate__c.TaskRecordTypeID__c}"
-									styleclass="slds-select"
-									required="{!taskHasRecordType}"
-									size="1"
-									disabled="{!!$ObjectType.ActionPlanTemplate__c.updateable}">
-									<apex:actionSupport event="onchange" reRender="taskSection" />
-									<apex:selectOptions value="{!TaskRTPicklistValues}" />
+							<!--  Tasks depending status  -->
+							<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.TController__c.label}" rendered="{!TemplateWrappers.size > 1}" styleClass="third">
+								<apex:selectList id="dependent" value="{!wrapTask.task.Dependent__c}" multiselect="false" size="1" style="min-width: 85px" onchange="checkDependent('{!$Component.taskTable.dependent}','{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');" styleClass="selectDepending">
+									<apex:selectOptions value="{!TemplateSubjectItems}" />
 								</apex:selectList>
-							</apex:actionRegion>
-						</apex:pageBlockSectionItem>
-						<apex:outputPanel rendered="{!!taskHasRecordType}" />
+								<apex:inputHidden value="{!wrapTask.task.TaskIndex__c}" id="theHiddenInput" />
+							</apex:column>
 
-						<apex:inputField id="skipDayPicklist" styleclass="slds-select" value="{!ActionPlanTemplate__c.SkipDay__c}" />
-					</apex:pageBlockSection>
+							<apex:column>
+								<apex:facet name="header">
+									{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.label}
+									<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
+								</apex:facet>
+								<apex:inputField value="{!wrapTask.task.DaysFromStart__c}" required="true" id="daysInput" style="width: 50px" />
+							</apex:column>
 
-					<apex:pageBlockSection id="taskSection" columns="1" collapsible="false">
-						<apex:outputPanel id="taskList" styleClass="slds-scope" layout="inline">
-							<apex:pageBlockTable value="{!TemplateWrappers}" var="wrapTask" id="taskTable" rules="none" style="table-layout: auto; width: 100%">
-								<!-- columnClasses="first,second,third,fourth,fifth,sixth, seventh, eighth" styleClass="taskTable cardTable noBump pullTable" -->
-								<!--  Tasks delete actions  -->
-								<apex:column style="vertical-align: middle" headerValue="" id="columnOne" rendered="{!TemplateWrappers.size > 1 && $ObjectType.APTTaskTemplate__c.deletable}">
-									<apex:commandLink
-										action="{!removeTemplateTask}"
-										id="deleteLink"
-										immediate="{!wrapTask.isLast}"
-										onclick="if (confirmTaskDeletion('{!$Component.taskTable.dependent}', '{!$Label.ap_Confirm_Tasks_Deletion}')) return false;"
-										oncomplete="showErrors();onLoad();"
-										rendered="{!(wrapTask.task.Id != null && $ObjectType.APTTaskTemplate__c.deletable) || wrapTask.task.Id == null}"
-										rerender="taskList, pageMessages"
-										status="taskStatus">
-										<apex:image url="{!URLFOR($Resource.ActionPlan_Resources, 'ActionPlans_cross.gif')}" alt="{!$Label.ap_Remove}" title="{!$Label.ap_Remove}" />
-										<apex:param name="remove" value="{!wrapTask.position}" />
-									</apex:commandLink>
-								</apex:column>
+							<apex:column id="userLookup" headerValue="{!$ObjectType.APTemplateTask__c.fields.User__c.label}">
+								<apex:outputPanel layout="block" id="userPanel">
+									<apex:inputField value="{!wrapTask.task.User__c}" rendered="{!!lex}" />
+									<c:APLightningLookup field="User__c" sObj="{!wrapTask.task}" sObjType="User" for="{!wrapTask.position}rowuserlookup" required="false" where="AND IsActive = true AND ProfileId != null" rendered="{!lex}" fieldStyle="width:100%;" />
+								</apex:outputPanel>
+							</apex:column>
 
-								<!--  Tasks subject  -->
-								<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Subject__c.label}" style="padding-right: 10px">
-									<apex:inputField id="subject" required="true" value="{!wrapTask.task.Subject__c}" style="width: 100%" />
-								</apex:column>
+							<apex:column headerValue="{!$ObjectType.Task.fields.Type.label}" rendered="{!$ObjectType.Task.fields.Type.accessible}">
+								<apex:selectList value="{!wrapTask.task.Type__c}" size="1" styleclass="slds-input slds-select">
+									<apex:selectOptions value="{!TaskTypes}" />
+								</apex:selectList>
+							</apex:column>
 
-								<!--  Tasks depending status  -->
-								<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.TController__c.label}" rendered="{!TemplateWrappers.size > 1}" styleClass="third">
-									<apex:selectList
-										id="dependent"
-										value="{!wrapTask.task.Dependent__c}"
-										multiselect="false"
-										size="1"
-										style="min-width: 85px"
-										onchange="checkDependent('{!$Component.taskTable.dependent}','{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');"
-										styleClass="selectDepending">
-										<apex:selectOptions value="{!TemplateSubjectItems}" />
+							<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Priority__c.label}">
+								<apex:selectList required="true" value="{!wrapTask.task.Priority__c}" size="1" styleclass="slds-input slds-select">
+									<apex:selectOptions value="{!TaskPriorities}" />
+								</apex:selectList>
+							</apex:column>
+
+							<apex:column style="vertical-align: middle">
+								<apex:facet name="header">
+									{!$ObjectType.APTemplateTask__c.fields.SendEmail__c.label}
+									<br />
+									<a id="all" onclick="javascript:checkEmail(1);" class="all-none">{!$Label.ap_All}</a> |
+									<a id="none" onclick="javascript:checkEmail(0);" class="all-none">{!$Label.ap_None}</a>
+								</apex:facet>
+								<apex:inputField id="sendEmailCheckbox" value="{!wrapTask.task.SendEmail__c}" />
+							</apex:column>
+
+							<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle" id="reminderCol">
+								<apex:facet name="header">
+									{!$ObjectType.APTemplateTask__c.fields.Reminder__c.label}
+									<br />
+									<a id="reminderAll" onclick="javascript:checkReminder(1);" class="all-none">{!$Label.ap_All}</a> |
+									<a id="reminderNone" onclick="javascript:checkReminder(0);" class="all-none">{!$Label.ap_None}</a>
+								</apex:facet>
+								<apex:outputPanel styleClass="reminderColumn" id="reminderCell" style="vertical-align: middle">
+									<apex:inputCheckbox id="reminder" value="{!wrapTask.task.Reminder__c}" style="float: left; display: inline-block; vertical-align: middle" onclick="javascript:enableDisableReminderPicklist(this, '{!$Component.reminderPickList}');" />
+									<apex:selectList id="reminderPickList" size="1" value="{!wrapTask.task.Minutes_Reminder__c}" style="float: left" disabled="{!!wrapTask.task.Reminder__c}">
+										<apex:selectOptions value="{!hoursOption}" />
 									</apex:selectList>
-									<apex:inputHidden value="{!wrapTask.task.TaskIndex__c}" id="theHiddenInput" />
-								</apex:column>
+								</apex:outputPanel>
+							</apex:column>
 
-								<apex:column>
-									<apex:facet name="header">
-										{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.label}
-										<img class="helpOrb" title="{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
-									</apex:facet>
-									<apex:inputField value="{!wrapTask.task.DaysFromStart__c}" required="true" id="daysInput" style="width: 50px" />
-								</apex:column>
+							<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Comments__c.label}" id="commentCol">
+								<apex:inputField id="commentPanel" style="width: 250px; display: none" value="{!wrapTask.task.Comments__c}" />
+								<div style="clear: left">
+									(&nbsp;
+									<a id="{!wrapTask.position}commentLink" onclick="toggleComments('{!$Component.commentPanel}', '{!$Component.actionLinks}', '{!$Label.ap_Add}', '{!$Label.ap_Edit}','{!$Label.ap_Close}');" style="text-decoration: underline; clear: left">
+										<apex:outputPanel id="actionLinks">
+											<apex:outputText rendered="{!wrapTask.task.Comments__c != null}">{!$Label.ap_Edit}</apex:outputText>
+											<apex:outputText rendered="{!wrapTask.task.Comments__c == null}">{!$Label.ap_Add}</apex:outputText>
+										</apex:outputPanel>
+									</a>&nbsp;)
+								</div>
+							</apex:column>
+						</apex:pageBlockTable>
+					</apex:outputPanel>
 
-								<apex:column id="userLookup" headerValue="{!$ObjectType.APTTaskTemplate__c.fields.User__c.label}">
-									<apex:outputPanel layout="block" id="userPanel">
-										<apex:inputField value="{!wrapTask.task.User__c}" rendered="{!!lex}" />
-										<c:APLightningLookup
-											field="User__c"
-											sObj="{!wrapTask.task}"
-											sObjType="User"
-											for="{!wrapTask.position}rowuserlookup"
-											required="false"
-											where="AND IsActive = true AND ProfileId != null"
-											rendered="{!lex}"
-											fieldStyle="width:100%;" />
-									</apex:outputPanel>
-								</apex:column>
-
-								<apex:column headerValue="{!$ObjectType.Task.fields.Type.label}" rendered="{!$ObjectType.Task.fields.Type.accessible}">
-									<apex:selectList value="{!wrapTask.task.Type__c}" size="1" styleclass="slds-input slds-select">
-										<apex:selectOptions value="{!TaskTypes}" />
-									</apex:selectList>
-								</apex:column>
-
-								<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Priority__c.label}">
-									<apex:selectList required="true" value="{!wrapTask.task.Priority__c}" size="1" styleclass="slds-input slds-select">
-										<apex:selectOptions value="{!TaskPriorities}" />
-									</apex:selectList>
-								</apex:column>
-
-								<apex:column style="vertical-align: middle">
-									<apex:facet name="header">
-										{!$ObjectType.APTTaskTemplate__c.fields.SendEmail__c.label} <br /> <a id="all" onclick="javascript:checkEmail(1);" class="all-none">{!$Label.ap_All}</a> |
-										<a id="none" onclick="javascript:checkEmail(0);" class="all-none">{!$Label.ap_None}</a>
-									</apex:facet>
-									<apex:inputField id="sendEmailCheckbox" value="{!wrapTask.task.SendEmail__c}" />
-								</apex:column>
-
-								<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle" id="reminderCol">
-									<apex:facet name="header">
-										{!$ObjectType.APTTaskTemplate__c.fields.Reminder__c.label} <br /> <a id="reminderAll" onclick="javascript:checkReminder(1);" class="all-none">{!$Label.ap_All}</a> |
-										<a id="reminderNone" onclick="javascript:checkReminder(0);" class="all-none">{!$Label.ap_None}</a>
-									</apex:facet>
-									<apex:outputPanel styleClass="reminderColumn" id="reminderCell" style="vertical-align: middle">
-										<apex:inputCheckbox
-											id="reminder"
-											value="{!wrapTask.task.Reminder__c}"
-											style="float: left; display: inline-block; vertical-align: middle"
-											onclick="javascript:enableDisableReminderPicklist(this, '{!$Component.reminderPickList}');" />
-										<apex:selectList id="reminderPickList" size="1" value="{!wrapTask.task.Minutes_Reminder__c}" style="float: left" disabled="{!!wrapTask.task.Reminder__c}">
-											<apex:selectOptions value="{!hoursOption}" />
-										</apex:selectList>
-									</apex:outputPanel>
-								</apex:column>
-
-								<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Comments__c.label}" id="commentCol">
-									<apex:inputField id="commentPanel" style="width: 250px; display: none" value="{!wrapTask.task.Comments__c}" />
-									<div style="clear: left">
-										(&nbsp;<a
-											id="{!wrapTask.position}commentLink"
-											onclick="toggleComments('{!$Component.commentPanel}', '{!$Component.actionLinks}', '{!$Label.ap_Add}', '{!$Label.ap_Edit}','{!$Label.ap_Close}');"
-											style="text-decoration: underline; clear: left"
-											><apex:outputPanel id="actionLinks">
-												<apex:outputText rendered="{!wrapTask.task.Comments__c != null}">{!$Label.ap_Edit}</apex:outputText>
-												<apex:outputText rendered="{!wrapTask.task.Comments__c == null}">{!$Label.ap_Add}</apex:outputText>
-											</apex:outputPanel></a
-										>&nbsp;)
-									</div>
-								</apex:column>
-							</apex:pageBlockTable>
-						</apex:outputPanel>
-
-						<apex:panelGrid columns="2">
-							<apex:commandLink
-								action="{!addTemplateTask}"
-								id="addLink"
-								immediate="false"
-								onclick="console.log('addclick');"
-								oncomplete="checkReminderPicklists();console.log('add completed');"
-								rendered="{!$ObjectType.APTTaskTemplate__c.createable}"
-								rerender="taskList, pageMessages"
-								status="taskStatus"
-								style="font-weight: bold">
-								<apex:outputText value="{!$Label.ap_AddNewTask}" />
-							</apex:commandLink>
-							<apex:actionStatus id="taskStatus">
-								<apex:facet name="start">
-									<div class="slds-scope">
-										<div class="slds-spinner_container slds-is-fixed" style="position: fixed">
-											<div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
-												<span class="slds-assistive-text">Loading</span>
-												<div class="slds-spinner__dot-a"></div>
-												<div class="slds-spinner__dot-b"></div>
-											</div>
+					<apex:panelGrid columns="2">
+						<apex:commandLink action="{!addTemplateTask}" id="addLink" immediate="false" onclick="console.log('addclick');" oncomplete="checkReminderPicklists();console.log('add completed');" rendered="{!$ObjectType.APTemplateTask__c.createable}" rerender="taskList, pageMessages" status="taskStatus" style="font-weight: bold">
+							<apex:outputText value="{!$Label.ap_AddNewTask}" />
+						</apex:commandLink>
+						<apex:actionStatus id="taskStatus">
+							<apex:facet name="start">
+								<div class="slds-scope">
+									<div class="slds-spinner_container slds-is-fixed" style="position: fixed">
+										<div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+											<span class="slds-assistive-text">Loading</span>
+											<div class="slds-spinner__dot-a"></div>
+											<div class="slds-spinner__dot-b"></div>
 										</div>
 									</div>
-								</apex:facet>
-								<apex:facet name="stop">
-									<apex:outputText value="{!$Label.ap_Error}: {!ErrorMsg}" styleClass="errorMessage" rendered="{!(ErrorMsg != null)}" />
-								</apex:facet>
-							</apex:actionStatus>
-						</apex:panelGrid>
-					</apex:pageBlockSection>
+								</div>
+							</apex:facet>
+							<apex:facet name="stop">
+								<apex:outputText value="{!$Label.ap_Error}: {!ErrorMsg}" styleClass="errorMessage" rendered="{!(ErrorMsg != null)}" />
+							</apex:facet>
+						</apex:actionStatus>
+					</apex:panelGrid>
+				</apex:pageBlockSection>
 
-					<!-- End Tasks Section -->
-					<div id="error" style="text-align: center">
-						<span class="pbError">{!$Label.ap_Errors_Review_Errors}</span>
-					</div>
-				</apex:pageBlock>
-			</apex:form>
-		</body>
+				<!-- End Tasks Section -->
+				<div id="error" style="text-align: center">
+					<span class="pbError">{!$Label.ap_Errors_Review_Errors}</span>
+				</div>
+			</apex:pageBlock>
+		</apex:form>
+	</body>
+
 	</html>
 </apex:page>

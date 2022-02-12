@@ -64,8 +64,8 @@ private class ActionPlanCreateInvocableTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
-		List<APTTaskTemplate__c> allTaskTemplates = [SELECT Id, Dependent__c, SendEmail__c, Reminder__c FROM APTTaskTemplate__c];
-		for (APTTaskTemplate__c at : allTaskTemplates) {
+		List<APTemplateTask__c> allTaskTemplates = [SELECT Id, Dependent__c, SendEmail__c, Reminder__c FROM APTemplateTask__c];
+		for (APTemplateTask__c at : allTaskTemplates) {
 			at.SendEmail__c = true;
 			at.Reminder__c = true;
 			at.Dependent__c = null;
@@ -108,8 +108,8 @@ private class ActionPlanCreateInvocableTest {
 		apTemplate.SkipDay__c = 'End of previous week';
 		update apTemplate;
 
-		List<APTTaskTemplate__c> allTaskTemplates = [SELECT Id, Dependent__c, SendEmail__c, Reminder__c FROM APTTaskTemplate__c];
-		for (APTTaskTemplate__c at : allTaskTemplates) {
+		List<APTemplateTask__c> allTaskTemplates = [SELECT Id, Dependent__c, SendEmail__c, Reminder__c FROM APTemplateTask__c];
+		for (APTemplateTask__c at : allTaskTemplates) {
 			at.SendEmail__c = true;
 			at.Reminder__c = true;
 			at.Dependent__c = null;
@@ -287,13 +287,13 @@ private class ActionPlanCreateInvocableTest {
 
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 
-		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM APTTaskTemplate__c]);
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM APTemplateTask__c]);
 
 		apTemplate.SkipDay__c = 'Start of next week';
 		update apTemplate;
 
-		List<APTTaskTemplate__c> allTaskTemplates = [SELECT Id, Dependent__c, SendEmail__c, Reminder__c FROM APTTaskTemplate__c];
-		for (APTTaskTemplate__c at : allTaskTemplates) {
+		List<APTemplateTask__c> allTaskTemplates = [SELECT Id, Dependent__c, SendEmail__c, Reminder__c FROM APTemplateTask__c];
+		for (APTemplateTask__c at : allTaskTemplates) {
 			at.SendEmail__c = false;
 			at.Reminder__c = false;
 			at.Dependent__c = null;

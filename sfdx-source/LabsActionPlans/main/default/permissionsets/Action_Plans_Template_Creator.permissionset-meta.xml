@@ -79,57 +79,57 @@
 	<description>Permissions to create Action Plan Templates for others to use</description>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>APTTaskTemplate__c.Comments__c</field>
+		<field>APTemplateTask__c.Comments__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>APTTaskTemplate__c.Dependent__c</field>
+		<field>APTemplateTask__c.Dependent__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>APTTaskTemplate__c.Minutes_Reminder__c</field>
+		<field>APTemplateTask__c.Minutes_Reminder__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>APTTaskTemplate__c.Priority__c</field>
+		<field>APTemplateTask__c.Priority__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>APTTaskTemplate__c.Reminder__c</field>
+		<field>APTemplateTask__c.Reminder__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>APTTaskTemplate__c.SendEmail__c</field>
+		<field>APTemplateTask__c.SendEmail__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>APTTaskTemplate__c.TController__c</field>
+		<field>APTemplateTask__c.TController__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>APTTaskTemplate__c.TaskIndex__c</field>
+		<field>APTemplateTask__c.TaskIndex__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.Time_Reminder__c</field>
+		<field>APTemplateTask__c.Time_Reminder__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>APTTaskTemplate__c.Type__c</field>
+		<field>APTemplateTask__c.Type__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>APTTaskTemplate__c.User__c</field>
+		<field>APTemplateTask__c.User__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
@@ -390,7 +390,7 @@
 		<allowEdit>true</allowEdit>
 		<allowRead>true</allowRead>
 		<modifyAllRecords>true</modifyAllRecords>
-		<object>APTTaskTemplate__c</object>
+		<object>APTemplateTask__c</object>
 		<viewAllRecords>true</viewAllRecords>
 	</objectPermissions>
 	<objectPermissions>

@@ -90,15 +90,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 			<apex:pageBlockSection id="taskSection" title="{!$ObjectType.Task.labelPlural} {!$Label.ap_TaskHeaderSortable}" columns="1" collapsible="false">
 				<apex:pageBlockTable value="{!TemplateTasks}" var="task" id="theTable" styleClass="tablesorter sortable noBump" rules="none" style="vertical-align: middle">
-					<apex:column id="columnOne" headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Subject__c.label}" value="{!task.Subject__c}" style="vertical-align: middle" />
+					<apex:column id="columnOne" headerValue="{!$ObjectType.APTemplateTask__c.fields.Subject__c.label}" value="{!task.Subject__c}" style="vertical-align: middle" />
 					<apex:column id="indexColumn" headerValue="{!$ObjectType.APTask__c.fields.TaskIndex__c.label}" rendered="false">
 						<apex:variable value="{!task.TaskIndex__c + 1}" var="row" />
 						<apex:outputText value="{!row}" />
 					</apex:column>
-					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.TController__c.label}" value="{!task.TController__r.Subject__c}" rendered="{!TemplateTasks.size > 1}" style="vertical-align: middle" />
+					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.TController__c.label}" value="{!task.TController__r.Subject__c}" rendered="{!TemplateTasks.size > 1}" style="vertical-align: middle" />
 					<apex:column value="{!task.DaysFromStart__c}" style="vertical-align: middle">
-						<apex:facet name="header">{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.label}
-							<img class="helpOrb" title="{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
+						<apex:facet name="header">{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.label}
+							<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
 						</apex:facet>
 					</apex:column>
 
@@ -106,18 +106,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 						<apex:outputField value="{!task.User__c}" />
 					</apex:column>
 
-					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Type__c.label}" value="{!task.Type__c}" style="vertical-align: middle" />
-					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Priority__c.label}" value="{!task.Priority__c}" style="vertical-align: middle" />
-					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.SendEmail__c.label}" value="{!task.SendEmail__c}" style="vertical-align: middle" />
+					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Type__c.label}" value="{!task.Type__c}" style="vertical-align: middle" />
+					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Priority__c.label}" value="{!task.Priority__c}" style="vertical-align: middle" />
+					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.SendEmail__c.label}" value="{!task.SendEmail__c}" style="vertical-align: middle" />
 
-					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Reminder__c.label}" style="vertical-align: middle" rendered="{!canDisplayReminder}">
+					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Reminder__c.label}" style="vertical-align: middle" rendered="{!canDisplayReminder}">
 						<apex:outputPanel layout="block" style="vertical-align: middle">
 							<apex:outputField value="{!task.Reminder__c}" rendered="{!!task.Reminder__c}" />
 							<apex:outputField value="{!task.Time_Reminder__c}" rendered="{!task.Reminder__c}" />
 						</apex:outputPanel>
 					</apex:column>
 
-					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Comments__c.label}" style="vertical-align: middle">
+					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Comments__c.label}" style="vertical-align: middle">
 						<apex:outputPanel id="commentPanel" style="display: none" onclick="toggleVisibility('{!$Component.commentPanel}');">
 							<apex:outputField value="{!task.Comments__c}" />
 							<br />

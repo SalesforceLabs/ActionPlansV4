@@ -245,7 +245,7 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.save();
 
 		Test.stopTest();
-		System.assertEquals(APTTASKCOUNT, [SELECT COUNT() FROM APTTaskTemplate__c]);
+		System.assertEquals(APTTASKCOUNT, [SELECT COUNT() FROM APTemplateTask__c]);
 
 		System.assertEquals(CONCOUNT, [SELECT COUNT() FROM ActionPlan__c], 'Failed to make one AP per contact');
 		System.debug('successfully related to ' + CONCOUNT + ' Contacts');

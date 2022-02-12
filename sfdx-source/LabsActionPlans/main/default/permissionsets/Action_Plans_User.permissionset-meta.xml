@@ -19,57 +19,57 @@
 	<description>End-users who can access and work with Action Plans but cannot modify the Action Plan Tasks directly. Their Task updates will be reflected in the Action Plan Tasks.</description>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.Comments__c</field>
+		<field>APTemplateTask__c.Comments__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.Dependent__c</field>
+		<field>APTemplateTask__c.Dependent__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.Minutes_Reminder__c</field>
+		<field>APTemplateTask__c.Minutes_Reminder__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.Priority__c</field>
+		<field>APTemplateTask__c.Priority__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.Reminder__c</field>
+		<field>APTemplateTask__c.Reminder__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.SendEmail__c</field>
+		<field>APTemplateTask__c.SendEmail__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.TController__c</field>
+		<field>APTemplateTask__c.TController__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.TaskIndex__c</field>
+		<field>APTemplateTask__c.TaskIndex__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.Time_Reminder__c</field>
+		<field>APTemplateTask__c.Time_Reminder__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.Type__c</field>
+		<field>APTemplateTask__c.Type__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>APTTaskTemplate__c.User__c</field>
+		<field>APTemplateTask__c.User__c</field>
 		<readable>false</readable>
 	</fieldPermissions>
 	<fieldPermissions>

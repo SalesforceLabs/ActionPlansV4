@@ -462,7 +462,7 @@ public with sharing class ActionPlanCreationController {
 		if (String.isNotBlank(objName) && oIdsList.size() == 1) {
 			Set<Id> parentIDs = new Set<Id>();
 			parentIDs.addAll(oIdsList);
-      
+
 			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()) {
 				Database.ExecuteBatch(new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, objName, parentIDs));
 			} else {
@@ -759,7 +759,7 @@ public with sharing class ActionPlanCreationController {
 			}
 
 			if (templateId != null) {
-				List<APTTaskTemplate__c> aptTasks = [
+				List<APTemplateTask__c> aptTasks = [
 					SELECT
 						Subject__c,
 						Priority__c,
@@ -779,7 +779,7 @@ public with sharing class ActionPlanCreationController {
 						Comments__c,
 						TaskIndex__c,
 						Action_Plan_Template__r.TaskRecordTypeID__c
-					FROM APTTaskTemplate__c
+					FROM APTemplateTask__c
 					WHERE Action_Plan_Template__c = :templateId
 					ORDER BY TaskIndex__c ASC
 				];
@@ -787,7 +787,7 @@ public with sharing class ActionPlanCreationController {
 				this.apTasks = new List<APTask__c>();
 
 				Id userId;
-				for (APTTaskTemplate__c aptTask : aptTasks) {
+				for (APTemplateTask__c aptTask : aptTasks) {
 					//Read the Custom Settings in order to asign the User to that Task
 					if (aptTask.User__c != null) {
 						userId = aptTask.User__c;
@@ -1153,7 +1153,7 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public Double calculateAPTTaskIndexValue() {
 		Double maxIndex = 0;
-		List<AggregateResult> arList = [SELECT MAX(TaskIndex__c) m FROM APTTaskTemplate__c WHERE Action_Plan_Template__c = :this.templateId];
+		List<AggregateResult> arList = [SELECT MAX(TaskIndex__c) m FROM APTemplateTask__c WHERE Action_Plan_Template__c = :this.templateId];
 		if (!arList.isEmpty()) {
 			maxIndex = (Double) arList[0].get('m');
 			maxIndex = (maxIndex == null ? 0 : maxIndex);

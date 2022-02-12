@@ -68,7 +68,7 @@ public class ActionPlansRedirectTest {
 	@IsTest
 	private static void aPTTaskRedirect() {
 		Test.startTest();
-		APTTaskTemplate__c apttt = [SELECT Id, Action_Plan_Template__c FROM APTTaskTemplate__c LIMIT 1];
+		APTemplateTask__c apttt = [SELECT Id, Action_Plan_Template__c FROM APTemplateTask__c LIMIT 1];
 
 		Test.setCurrentPage(Page.ActionPlanTemplateTaskOverride);
 		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(apttt));

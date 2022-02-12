@@ -6,7 +6,7 @@
     <inlineHelpText>The user who will always be assigned this task. Leaving this blank will, depending on Action Plans Settings, assign this task to the related record owner or the running user.</inlineHelpText>
     <label>Assigned To</label>
     <referenceTo>User</referenceTo>
-    <relationshipName>APTTasks1</relationshipName>
+    <relationshipName>APTTasks</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

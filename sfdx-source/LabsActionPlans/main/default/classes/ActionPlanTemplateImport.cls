@@ -42,15 +42,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Import Export
  */
 public inherited sharing class ActionPlanTemplateImport {
-	private Map<Id, APTTaskTemplate__c> importedTasks;
-	private Map<Id, APTTaskTemplate__c> newTasks;
+	private Map<Id, APTemplateTask__c> importedTasks;
+	private Map<Id, APTemplateTask__c> newTasks;
 
 	/**
 	 * Constructor
 	 */
 	public ActionPlanTemplateImport() {
-		this.importedTasks = new Map<Id, APTTaskTemplate__c>();
-		this.newTasks = new Map<Id, APTTaskTemplate__c>();
+		this.importedTasks = new Map<Id, APTemplateTask__c>();
+		this.newTasks = new Map<Id, APTemplateTask__c>();
 	}
 
 	/**
@@ -100,7 +100,7 @@ public inherited sharing class ActionPlanTemplateImport {
 
 		try {
 			//Finish linking up dependent Tasks and updating those tasks in the system
-			List<APTTaskTemplate__c> updatedTasks = this.setupDependentTasks();
+			List<APTemplateTask__c> updatedTasks = this.setupDependentTasks();
 			update updatedTasks;
 		} catch (Exception ex) {
 			throw new ImportException(System.Label.ap_Errors_ImportingXMLTask);
@@ -289,7 +289,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	 * @param apTemplateId template Id
 	 */
 	private void parseTemplateTask(Xmlstreamreader reader, Id apTemplateId) {
-		APTTaskTemplate__c apTaskAux = new APTTaskTemplate__c();
+		APTemplateTask__c apTaskAux = new APTemplateTask__c();
 
 		apTaskAux.Action_Plan_Template__c = apTemplateId;
 		String currentTaskOldId = '';
@@ -372,8 +372,8 @@ public inherited sharing class ActionPlanTemplateImport {
 
 		//Add relevant information to Maps for later completing linking between dependent tasks
 		this.importedTasks.put(currentTaskOldId, apTaskAux);
-		//Note: removing APTTaskTemplate__c reference field to be able to insert tasks.
-		APTTaskTemplate__c clonedTask = apTaskAux.clone();
+		//Note: removing APTemplateTask__c reference field to be able to insert tasks.
+		APTemplateTask__c clonedTask = apTaskAux.clone();
 		clonedTask.TController__c = null;
 		this.newTasks.put(currentTaskOldId, clonedTask);
 	}
@@ -382,22 +382,22 @@ public inherited sharing class ActionPlanTemplateImport {
 	 * Method in charge of re-building dependent tasks for imported Action Plans Template
 	 * @return updatedTasks
 	 */
-	private List<APTTaskTemplate__c> setupDependentTasks() {
+	private List<APTemplateTask__c> setupDependentTasks() {
 		//list for returning updated tasks
-		List<APTTaskTemplate__c> updatedTasks = new List<APTTaskTemplate__c>();
+		List<APTemplateTask__c> updatedTasks = new List<APTemplateTask__c>();
 		//get all old ids as keys from recently imported and inserted tasks
 		Set<Id> keys = this.newTasks.keySet();
 
 		for (Id key : keys) {
-			APTTaskTemplate__c auxNewTask = this.newTasks.get(key);
-			APTTaskTemplate__c auxOldTask = this.importedTasks.get(key);
+			APTemplateTask__c auxNewTask = this.newTasks.get(key);
+			APTemplateTask__c auxOldTask = this.importedTasks.get(key);
 
 			//checks to see if task has a reference to another task
 			if (auxOldTask.TController__c != null) {
 				if (String.valueOf(auxOldTask.TController__c).length() != 0) {
 					Id auxRefId = auxOldTask.TController__c;
 					//get dependent task
-					APTTaskTemplate__c auxRefTask = this.newTasks.get(auxRefId);
+					APTemplateTask__c auxRefTask = this.newTasks.get(auxRefId);
 
 					//Update task reference
 					auxNewTask.TController__c = auxRefTask.Id;
