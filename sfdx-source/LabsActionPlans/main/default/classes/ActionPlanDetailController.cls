@@ -84,6 +84,7 @@ public with sharing class ActionPlanDetailController {
 			ApexPages.addMessages(e);
 			return null;
 		}
+
 		String retURL = '/' + ActionPlansUtilities.namespacePrefix + ActionPlansUtilities.getObjectKeyPrefix(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c') + '/o';
 
 		if (ApexPages.currentPage().getParameters().get('templateId') != null) {
@@ -150,12 +151,25 @@ public with sharing class ActionPlanDetailController {
 	}
 
 	/**
-	 * Wrapper for Action Plan Task Template
+	 * Wrapper for Action Plan Task
+	 * <br>It contains the `Action Plan Task` and the `Task` Id
 	 */
 	public class TaskWrapper {
-		public APTask__c apt { get; private set; }
-		public Id taskId { get; private set; }
-
+		/**
+		 * The Action Plan Task
+		 */
+    public APTask__c apt { get; private set; }
+		/**
+		 * The (standard) `Task` Id
+		 */
+    public Id taskId { get; private set; }
+    
+    /**
+		 * @description       Constructor for the task wrapper
+		 *
+		 * @param aptParam    Action Plan Task Template
+		 * @param taskIdParam TaskId (for the standard object `Task`)
+		 */
 		public TaskWrapper(APTask__c aptParam, Id taskIdParam) {
 			this.apt = aptParam;
 			this.taskId = taskIdParam;

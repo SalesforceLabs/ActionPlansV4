@@ -135,6 +135,15 @@ global without sharing class ActionPlansTriggerHandlers {
 		}
 	}
 
+	/**
+	 * Actions to take on ActionPlan DML
+	 * @author David Schach
+	 * @param  newRecords    Trigger.new
+	 * @param  oldRecords    Trigger.old
+	 * @param  newRecordsMap Trigger.newMap
+	 * @param  oldRecordsMap Trigger.oldMap
+	 * @param  triggerEvent  Trigger context
+	 */
 	public static void triggerHandler_ActionPlan(
 		List<ActionPlan__c> newRecords,
 		List<ActionPlan__c> oldRecords,
@@ -218,7 +227,16 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 		}
 	}
-
+  
+  /**
+	 * Handle ActionPlan Tasks
+	 * @author David Schach
+	 * @param  newRecords    Trigger.new
+	 * @param  oldRecords    Trigger.old
+	 * @param  newRecordsMap Trigger.newMap
+	 * @param  oldRecordsMap Trigger.oldMap
+	 * @param  triggerEvent  Trigger context
+	 */
 	public static void triggerHandler_ActionPlanTask(
 		List<APTask__c> newRecords,
 		List<APTask__c> oldRecords,
@@ -285,10 +303,10 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 			}
 			when AFTER_UNDELETE {
-				List<Task> aP_tasks = [SELECT Id FROM Task WHERE TaskAPTask__c IN :newRecordsMap.keyset() AND isDeleted = TRUE ALL ROWS];
+				List<Task> apTasks = [SELECT Id FROM Task WHERE TaskAPTask__c IN :newRecordsMap.keyset() AND isDeleted = TRUE ALL ROWS];
 
 				try {
-					Database.undelete(aP_tasks);
+					Database.undelete(apTasks);
 				} catch (Dmlexception e) {
 					for (APTask__c a : newRecords) {
 						a.addError(System.Label.ap_Error + ' ' + Task.sObjectType.getDescribe().getLabel() + ' ' + triggerEvent + ': ' + e);
@@ -297,7 +315,14 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 		}
 	}
-
+	/**
+	 * Handle ActionPlan Templates
+	 * @author David Schach
+	 * @param  newRecords    Trigger.new
+	 * @param  oldRecords    Trigger.old
+	 * @param  oldRecordsMap Trigger.oldMap
+	 * @param  triggerEvent  Trigger context
+	 */
 	public static void triggerHandler_ActionPlanTemplate(
 		List<ActionPlanTemplate__c> newRecords,
 		List<ActionPlanTemplate__c> oldRecords,
@@ -331,7 +356,14 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 		}
 	}
-
+	/**
+	 * Handle Action Plan Template Tasks
+	 * @author David Schach
+	 * @param  newRecords    Trigger.new
+	 * @param  oldRecords    Trigger.old
+	 * @param  oldRecordsMap Trigger.oldMap
+	 * @param  triggerEvent  Trigger context
+	 */
 	public static void triggerHandler_ActionPlanTemplateTaskTemplate(
 		List<APTTaskTemplate__c> newRecords,
 		List<APTTaskTemplate__c> oldRecords,
@@ -397,7 +429,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			when AFTER_UPDATE {
 				Map<Id, String> closedTasksMap = new Map<Id, String>();
 				Map<Id, String> inProgressTasksMap = new Map<Id, String>();
-				Set<Id> APTasksIds = new Set<Id>();
+				Set<Id> aPTasksIds = new Set<Id>();
 
 				Map<Id, Task> triggerTasksWithTemplateTaskStatus = new Map<Id, Task>();
 				for (Task ta : [SELECT Id, Status, TaskAPTask__r.Status__c, TaskAPTask__r.Controller__c, TaskAPTask__r.Controller__r.Status__c FROM Task WHERE Id IN :newRecords AND TaskAPTask__c != NULL]) {
@@ -425,7 +457,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				//Get all my Updated complete Task Id's.
 				for (Task t : newRecords) {
 					if (t.TaskAPTask__c != null) {
-						APTasksIds.add(t.TaskAPTask__c);
+						aPTasksIds.add(t.TaskAPTask__c);
 
 						// Find default task status
 						String defaultTaskStatus;
@@ -461,7 +493,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				//Query APTask__c objects to update fields
-				if (!APTasksIds.isEmpty()) {
+				if (!aPTasksIds.isEmpty()) {
 					Map<Id, APTask__c> mapAPTasks = new Map<Id, APTask__c>(
 						[SELECT Status__c, Id, Controller__r.Status__c, ActivityDate__c, Minutes_Reminder__c, Action_Plan__r.Name FROM APTask__c WHERE Id IN :APTasksIds]
 					);
@@ -531,10 +563,11 @@ global without sharing class ActionPlansTriggerHandlers {
 						taskTemplateToIntendedRecordTypeId.put(aptt.Id, aptt.Action_Plan__r.TaskRecordTypeID__c);
 					}
 					for (Task t : newRecords) {
-						if (!taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c)) {
+						/* if (!taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c)) {
 						}
 						if (!ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c))) {
-						}
+						} */
+
 						if (
 							t.TaskAPTask__c != null &&
 							taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c) &&
@@ -601,6 +634,15 @@ global without sharing class ActionPlansTriggerHandlers {
 		}
 	}
 
+	/**
+	 * Handle Account-related Action Plans on delete and undelete (of the Account)
+	 * @author David Schach
+	 * @param  newRecords    Trigger.new
+	 * @param  oldRecords    Trigger.old
+	 * @param  newRecordsMap Trigger.newMap
+	 * @param  oldRecordsMap Trigger.oldMap
+	 * @param  triggerEvent  Trigger context
+	 */
 	public static void triggerHandler_ActionPlanAccount(
 		List<Account> newRecords,
 		List<Account> oldRecords,
@@ -702,6 +744,12 @@ global without sharing class ActionPlansTriggerHandlers {
 		}
 	}
 
+	/**
+	 * @description    Though the object name should match the field name, we get the name of the related object
+	 *
+	 * @param recordId The related record Id
+	 * @return         The name of the filled Relationship field object name
+	 */
 	private static String getRelationshipName(Id recordId) {
 		Schema.SObjectType token = recordId.getSObjectType();
 		String sObjectName = token.getDescribe().getName().toLowerCase();

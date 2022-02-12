@@ -53,7 +53,6 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 
 	/**
 	 * Use the start method to collect the records or objects to be passed to the interface method execute
-	 * @author David Schach
 	 * @param  bc
 	 * @return    queried records
 	 */
@@ -64,7 +63,6 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 
 	/**
 	 * For each batch, delete the action plans and send an email on any errors
-	 * @author David Schach
 	 * @param  bc   BatchableContext
 	 * @param  data List<SObject> records to be deleted
 	 */
@@ -132,6 +130,7 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 	/**
 	 * No need to do anything at the finish
 	 */
+	@SuppressWarnings('PMD')
 	public void finish(Database.BatchableContext bc) {
 	}
 }

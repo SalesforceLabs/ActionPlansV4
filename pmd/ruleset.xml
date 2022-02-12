@@ -246,6 +246,8 @@
 		<priority>3</priority>
 		<properties>
 			<property name="reportMissingDescription" value="false"></property>
+			<property name="reportPrivate" value="false"></property>
+			<property name="reportProtected" value="true"></property>
 		</properties>
 	</rule>
 

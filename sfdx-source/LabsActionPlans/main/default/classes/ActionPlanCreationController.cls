@@ -50,21 +50,45 @@ public with sharing class ActionPlanCreationController {
 	@TestVisible
 	private ActionPlan__c actionPlan;
 	private Id templateId;
-	public Set<Id> relatedObjIds { get; set; }
+	/**
+	 * Related Record IDs
+	 */
+	public Set<Id> relatedRecordIDs { get; set; }
+	/**
+	 * Related Object Name (Plural)
+	 */
 	public String relatedObjLabelPlural { get; set; }
 
+	/**
+	 * Is there a related record or template when we load the page?
+	 */
 	public Boolean hasRelated { get; set; }
+	/**
+	 * Set to true if a relationship field is filled
+	 */
 	public Boolean hasRelatedObject { get; set; }
+	/**
+	 * The name of the object (the same as the relationship field, except for standard objects) the AP is related to.
+	 * <br>NOT the name of the related record
+	 */
 	public String relatedObjectName { get; private set; }
+	/**
+	 * The field on the related record we use to display on the ActionPlan. (Not Name for Case and Contract)
+	 */
 	public String relatedObjDisplayField { get; set; }
 
 	private String errorMsg;
+	/**
+	 * Is the User able to see reminders?
+	 */
 	public Boolean canDisplayReminder { get; set; }
 	private Map<Id, ApTaskWrapper> mapTasksListBkp;
+	/**
+	 * The subtitle shown on the page
+	 */
 	public String subtitle { get; set; }
 
 	public List<APTask__c> apTasks;
-	public List<APTask__c> apTasksOrg;
 	public List<APTask__c> pendingDeletes;
 
 	private String cloneParam = '0';
@@ -83,7 +107,7 @@ public with sharing class ActionPlanCreationController {
 
 		this.hasRelated = false;
 		this.hasRelatedObject = false;
-		this.relatedObjIds = new Set<Id>();
+		this.relatedRecordIDs = new Set<Id>();
 		this.mapTasksListBkp = new Map<Id, ApTaskWrapper>();
 		this.actionPlan = (ActionPlan__c) stdController.getRecord();
 
@@ -347,7 +371,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Check if the action plan has a related object
-	 * @return hasRelated;
+	 * @return Is a relationship field filled?;
 	 */
 	public Boolean hasRelatedObject() {
 		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
@@ -438,11 +462,7 @@ public with sharing class ActionPlanCreationController {
 		if (String.isNotBlank(objName) && oIdsList.size() == 1) {
 			Set<Id> parentIDs = new Set<Id>();
 			parentIDs.addAll(oIdsList);
-
-			//Now for each inserted AP we should run through tasks and create them
-			this.apTasksOrg = new List<APTask__c>();
-			this.apTasksOrg.addAll(this.apTasks);
-
+      
 			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()) {
 				Database.ExecuteBatch(new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, objName, parentIDs));
 			} else {
@@ -844,7 +864,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Get a Existing Action Plan Task List
-	 * @param actionPlanId
+	 * @param actionPlanId Parent `ActionPlan__c` Id
 	 * @return All template tasks
 	 */
 	public static List<APTask__c> retrieveTaskFromExistingActionPlan(Id actionPlanId) {
@@ -892,7 +912,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Returns list of Dependent tasks to fill drop down
-	 * @return List<SelectOption> All other AP Task subjects
+	 * @return `List<SelectOption>` All other AP Task subjects
 	 */
 	public List<SelectOption> getSubjectItems() {
 		List<SelectOption> options = new List<SelectOption>();
@@ -923,11 +943,11 @@ public with sharing class ActionPlanCreationController {
 
 			if (idsParam != null && idsParam != '') {
 				List<Id> paramList = parseRelatedIDs(idsParam);
-				this.relatedObjIds = new Set<Id>(paramList);
+				this.relatedRecordIDs = new Set<Id>(paramList);
 			}
 		}
 
-		relatedObjNameList = retrieveNameRelatedRecord(relatedObjIds, nameParam);
+		relatedObjNameList = retrieveNameRelatedRecord(relatedRecordIDs, nameParam);
 	}
 
 	private List<Id> parseRelatedIDs(String relatedIDs) {
@@ -946,11 +966,11 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Query the names of the parent records from the IDs. Some standard objects have special "name" fields
-	 * @param relatedObjIds The related object IDs
+	 * @param relatedRecordIDs The related object IDs
 	 * @param relatedObjectName The name of the SObject for which the IDs refer
 	 * @return List of related record names
 	 */
-	private List<String> retrieveNameRelatedRecord(Set<Id> relatedObjIds, String relatedObjectName) {
+	private List<String> retrieveNameRelatedRecord(Set<Id> relatedRecordIDs, String relatedObjectName) {
 		List<String> nameList = new List<String>();
 
 		String objectlower = relatedObjectName.toLowerCase();
@@ -962,14 +982,14 @@ public with sharing class ActionPlanCreationController {
 		switch on objectlower {
 			when 'case' {
 				if (ActionPlansCanTheUser.read('Case')) {
-					for (Case ca : [SELECT Subject, CaseNumber FROM Case WHERE Id IN :relatedObjIds]) {
+					for (Case ca : [SELECT Subject, CaseNumber FROM Case WHERE Id IN :relatedRecordIDs]) {
 						nameList.add((ca.Subject != null) ? ca.CaseNumber + ': ' + ca.Subject : ca.CaseNumber);
 					}
 				}
 			}
 			when 'contract' {
 				if (ActionPlansCanTheUser.read('Contract')) {
-					for (Contract contr : [SELECT ContractNumber FROM Contract WHERE Id IN :relatedObjIds]) {
+					for (Contract contr : [SELECT ContractNumber FROM Contract WHERE Id IN :relatedRecordIDs]) {
 						nameList.add(Contract.Name.getDescribe().getLabel() + ': ' + contr.ContractNumber);
 					}
 				}
@@ -977,7 +997,7 @@ public with sharing class ActionPlanCreationController {
 			when else {
 				System.debug('checking perms and querying related record for object ' + relatedObjectName);
 				if (ActionPlansCanTheUser.read(relatedObjectName)) {
-					for (SObject so : Database.query('SELECT Id, Name FROM ' + relatedObjectName + ' WHERE Id IN :relatedObjIds')) {
+					for (SObject so : Database.query('SELECT Id, Name FROM ' + relatedObjectName + ' WHERE Id IN :relatedRecordIDs')) {
 						//System.debug('adding record name ' + (String)so.get('Name'));
 						nameList.add((String) so.get('Name'));
 					}
@@ -1288,7 +1308,7 @@ public with sharing class ActionPlanCreationController {
 		public Boolean userRequired { get; set; }
 
 		/**
-		 * @description
+		 * @description      Constructor
 		 *
 		 * @param apTask     Action Plan Task Template
 		 * @param pos        Position (in the list of AP Tasks) on the Page

@@ -63,6 +63,14 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	private List<Task> myOldTasksWithEmail { get; set; }
 	private List<Task> myNewTasksWithEmail { get; set; }
 
+  /**
+	 * @description        Controller
+	 *
+	 * @param baseObj      ActionPlan object
+	 * @param aPTListparam Action Plan Task Template records
+	 * @param refType      Related object Name
+	 * @param oIdsLIst     Parent IDs
+	 */
 	public ActionPlansBatchBuilderUtilities(ActionPlan__c baseObj, List<APTask__c> aPTListparam, String refType, Set<Id> oIdsLIst) {
 		this.baseAPTaskList = aPTListparam;
 		this.relActionPlans = new List<ActionPlan__c>();
@@ -90,7 +98,6 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 						break;
 					}
 				}
-
 				//add Action Plan to list that will be inserted later and referenced by ActionPlanTasks
 				relActionPlans.add(ap);
 			}
@@ -390,15 +397,15 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Retrieve the owner list from the related object.
-	 * @param relatedObjIds		list of sobjects' id
+	 * @param relatedRecordIDs		list of sobjects' id
 	 * @param relatedObjectName
 	 */
-	public static Map<Id, Id> retrieveOwnersDataRelatedObject(Set<Id> relatedObjIds, String relatedObjectName) {
+	public static Map<Id, Id> retrieveOwnersDataRelatedObject(Set<Id> relatedRecordIDs, String relatedObjectName) {
 		Map<Id, Id> relatedObjOwners = new Map<Id, Id>();
 		String queryRetrieveOwnerIds;
 
-		if (!relatedObjIds.isEmpty()) {
-			queryRetrieveOwnerIds = 'SELECT Id, OwnerId FROM ' + relatedObjectName + ' WHERE Id IN :relatedObjIds';
+		if (!relatedRecordIDs.isEmpty()) {
+			queryRetrieveOwnerIds = 'SELECT Id, OwnerId FROM ' + relatedObjectName + ' WHERE Id IN :relatedRecordIDs';
 
 			for (SObject obj : Database.query(queryRetrieveOwnerIds)) {
 				relatedObjOwners.put((Id) (obj.get('Id')), (Id) (obj.get('OwnerId')));
