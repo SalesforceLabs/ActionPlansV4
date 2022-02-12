@@ -5,7 +5,7 @@
     <inlineHelpText>This value determines the due date of the task. For tasks with no dependency, the task&apos;s due date will be offset from the plan start date. For tasks with a dependency, the due date will be offset from the expected due date of the task on which it depends.</inlineHelpText>
     <label>Days After</label>
     <precision>3</precision>
-    <required>true</required>
+    <required>false</required>
     <scale>0</scale>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
