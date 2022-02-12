@@ -193,7 +193,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				Set<Id> taskIds = new Set<Id>();
 				if (!System.isBatch() && !System.isFuture()) {
 					// if action plan is deleted, delete all tasks associated with it
-					for (Task ap : [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTaskTemplate__r.Action_Plan__c IN :oldRecordsMap.keyset()]) {
+					for (Task ap : [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__r.Action_Plan__c IN :oldRecordsMap.keyset()]) {
 						taskIds.add(ap.Id);
 					}
 					if (!taskIds.isEmpty()) {
@@ -202,7 +202,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				} else {
 					// no permissions check because trigger handler must run in system mode
-					delete [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTaskTemplate__r.Action_Plan__c IN :oldRecordsMap.keyset()];
+					delete [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__r.Action_Plan__c IN :oldRecordsMap.keyset()];
 				}
 			}
 			when AFTER_UNDELETE {
@@ -400,11 +400,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				Set<Id> APTasksIds = new Set<Id>();
 
 				Map<Id, Task> triggerTasksWithTemplateTaskStatus = new Map<Id, Task>();
-				for (Task ta : [
-					SELECT Id, Status, TaskAPTaskTemplate__r.Status__c, TaskAPTaskTemplate__r.Controller__c, TaskAPTaskTemplate__r.Controller__r.Status__c
-					FROM Task
-					WHERE Id IN :newRecords AND TaskAPTask__c != NULL
-				]) {
+				for (Task ta : [SELECT Id, Status, TaskAPTask__r.Status__c, TaskAPTask__r.Controller__c, TaskAPTask__r.Controller__r.Status__c FROM Task WHERE Id IN :newRecords AND TaskAPTask__c != NULL]) {
 					triggerTasksWithTemplateTaskStatus.put(ta.Id, ta);
 				}
 

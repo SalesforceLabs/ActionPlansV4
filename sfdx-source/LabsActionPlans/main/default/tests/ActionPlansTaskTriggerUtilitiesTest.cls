@@ -403,7 +403,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		x.WhatId = [SELECT Id FROM Account LIMIT 1].Id;
 		insert x;
 
-		x = [SELECT Id, Status, Subject, TaskAPTaskTemplate__r.Name, WhatId FROM Task WHERE Id = :x.Id LIMIT 1];
+		x = [SELECT Id, Status, Subject, TaskAPTask__r.Name, WhatId FROM Task WHERE Id = :x.Id LIMIT 1];
 
 		List<String> closedStatuses = new List<String>(ActionPlansUtilities.getClosedTaskStatuses());
 		String testClosedStatus = closedStatuses[0];
