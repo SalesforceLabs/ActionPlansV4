@@ -50,7 +50,7 @@ private class ActionPlansSectionHeaderControllerTest {
 			shc.getIsCustom();
 			shc.getObjectIconInfo();
 
-			shc.objectName = ActionPlansUtilities.namespacePrefix + 'APTaskTemplate__c';
+			shc.objectName = ActionPlansUtilities.namespacePrefix + 'APTask__c';
 			shc.getIsCustom();
 			shc.getObjectIconInfo();
 

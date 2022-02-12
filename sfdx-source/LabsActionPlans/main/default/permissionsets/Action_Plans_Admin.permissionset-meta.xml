@@ -146,77 +146,82 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.ActivityDate__c</field>
+        <field>APTask__c.ActivityDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.Comments__c</field>
+        <field>APTask__c.Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.Controller__c</field>
+        <field>APTask__c.Controller__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.Dependent__c</field>
+        <field>APTask__c.DaysFromStart__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.IsClosed__c</field>
+        <field>APTask__c.Dependent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.Minutes_Reminder__c</field>
+        <field>APTask__c.IsClosed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.Priority__c</field>
+        <field>APTask__c.Minutes_Reminder__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.Reminder__c</field>
+        <field>APTask__c.Priority__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.SendEmail__c</field>
+        <field>APTask__c.Reminder__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.Status__c</field>
+        <field>APTask__c.SendEmail__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.TaskIndex__c</field>
+        <field>APTask__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>APTask__c.TaskIndex__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>APTaskTemplate__c.Task_RecordTypeId__c</field>
+        <field>APTask__c.Task_RecordTypeId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>APTaskTemplate__c.Time_Reminder__c</field>
+        <field>APTask__c.Time_Reminder__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.Type__c</field>
+        <field>APTask__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTaskTemplate__c.User__c</field>
+        <field>APTask__c.User__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -335,18 +340,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Event.IsAllDayEvent</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Event.Location</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
-        <field>Event.TaskAPTaskTemplate__c</field>
+        <field>Event.TaskAPTask__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -376,7 +371,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Task.TaskAPTaskTemplate__c</field>
+        <field>Task.TaskAPTask__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -411,7 +406,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>APTaskTemplate__c</object>
+        <object>APTask__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

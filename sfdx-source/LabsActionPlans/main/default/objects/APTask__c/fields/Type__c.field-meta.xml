@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Status__c</fullName>
+    <fullName>Type__c</fullName>
     <externalId>false</externalId>
-    <label>Status</label>
+    <label>Type</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Not Started</fullName>
+                <fullName>Call</fullName>
                 <default>false</default>
-                <label>Not Started</label>
+                <label>Call</label>
             </value>
             <value>
-                <fullName>In Progress</fullName>
+                <fullName>Email</fullName>
                 <default>false</default>
-                <label>In Progress</label>
+                <label>Email</label>
             </value>
             <value>
-                <fullName>Waiting on someone else</fullName>
+                <fullName>Mail</fullName>
                 <default>false</default>
-                <label>Waiting on someone else</label>
+                <label>Mail</label>
             </value>
             <value>
-                <fullName>Deferred</fullName>
+                <fullName>Meeting</fullName>
                 <default>false</default>
-                <label>Deferred</label>
+                <label>Meeting</label>
             </value>
             <value>
-                <fullName>Completed</fullName>
+                <fullName>Misc</fullName>
                 <default>false</default>
-                <label>Completed</label>
+                <label>Misc</label>
             </value>
         </valueSetDefinition>
     </valueSet>

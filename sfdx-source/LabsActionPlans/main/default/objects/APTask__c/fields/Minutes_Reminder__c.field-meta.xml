@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>TaskIndex__c</fullName>
+    <fullName>Minutes_Reminder__c</fullName>
     <externalId>false</externalId>
-    <label>Task Index</label>
-    <precision>18</precision>
+    <inlineHelpText>Minutes after midnight to show Task reminder</inlineHelpText>
+    <label>Minutes Reminder</label>
+    <length>4</length>
     <required>false</required>
-    <scale>0</scale>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Number</type>
+    <type>Text</type>
     <unique>false</unique>
 </CustomField>

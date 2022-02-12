@@ -6,8 +6,9 @@
     <inlineHelpText>If this field is not required, leaving it blank will assign the task to the related record owner.</inlineHelpText>
     <label>Assigned To</label>
     <referenceTo>User</referenceTo>
-    <relationshipName>AP_Tasks</relationshipName>
+    <relationshipName>APTasks</relationshipName>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

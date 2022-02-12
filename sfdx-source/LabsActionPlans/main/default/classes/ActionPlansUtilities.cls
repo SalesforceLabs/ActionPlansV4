@@ -141,6 +141,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Status
+	 * @return Default Status for each Task `RecordType`
 	 */
 	public static Map<Id, String> getTaskRecordTypeStatusDefaultValues() {
 		if (taskRecordTypeStatusDefaultValues == null) {
@@ -160,6 +161,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Type
+	 * @return Map of `RecordTypeId` to default `Task Type`
 	 */
 	public static Map<Id, String> getTaskRecordTypeTypeDefaultValues() {
 		if (taskRecordTypeTypeDefaultValues == null) {
@@ -199,6 +201,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Find user default recordtype
+	 * @return Default `RecordType` Name
 	 */
 	public static String getDefaultTaskRecordTypeId() {
 		String toReturn = null;
@@ -493,6 +496,7 @@ public without sharing class ActionPlansUtilities {
 	 * Given a task due date, we adjust it here for weekends
 	 * @param actionPlanStartDate the start date of the action plan
 	 * @param taskDaysFromStart the days after the initial date that the task will be due
+	 * @param apSkipDay Start or End (determines how to handle weekend day)
 	 * @return the new task due date
 	 */
 	public static Date adjustTaskDueDate(Date actionPlanStartDate, Integer taskDaysFromStart, String apSkipDay) {

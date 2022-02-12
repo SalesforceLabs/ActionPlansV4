@@ -175,7 +175,7 @@ private class ActionPlanCreationControllerTest {
 		actionPlan.Contact__c = contact.Id;
 		actionPlan.StartDate__c = Date.today();
 
-		APTaskTemplate__c apTask = new APTaskTemplate__c();
+		APTask__c apTask = new APTask__c();
 
 		apTask.Subject__c = testUtil.createRandomWord('subject');
 		apTask.User__c = testUtil.createTestUser().Id;
@@ -191,7 +191,7 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
-		apCreateController.apTasks = new List<APTaskTemplate__c>();
+		apCreateController.apTasks = new List<APTask__c>();
 		apCreateController.apTasks.add(apTask);
 		apCreateController.saveAndNew();
 		Test.stopTest();
@@ -252,7 +252,7 @@ private class ActionPlanCreationControllerTest {
 
 		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL], 'Should have linked Action Plan to contact');
 
-		System.assertEquals(CONCOUNT * APTTASKCOUNT, [SELECT COUNT() FROM APTaskTemplate__c], 'Not enough Action Plan Tasks created');
+		System.assertEquals(CONCOUNT * APTTASKCOUNT, [SELECT COUNT() FROM APTask__c], 'Not enough Action Plan Tasks created');
 
 		System.assertEquals(CONCOUNT * APTTASKCOUNT, [SELECT COUNT() FROM Task], 'Wrong number of Tasks created');
 	}
@@ -287,8 +287,8 @@ private class ActionPlanCreationControllerTest {
 		// add code for shortening long record names
 		actionPlan.Name = '1234567890123456789012345678901234567890'; // 40 characters
 		update actionPlan;
-		List<APTaskTemplate__c> apts = [SELECT Id, Subject__c FROM APTaskTemplate__c];
-		for (APTaskTemplate__c a : apts) {
+		List<APTask__c> apts = [SELECT Id, Subject__c FROM APTask__c];
+		for (APTask__c a : apts) {
 			a.Subject__c = 'abcdefghijabcdefghijabcdefghijabcdefghij'; // 40 characters
 		}
 		update apts;
@@ -301,7 +301,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.stopTest();
 
-		for (APTaskTemplate__c a : [SELECT Id, Name FROM APTaskTemplate__c]) {
+		for (APTask__c a : [SELECT Id, Name FROM APTask__c]) {
 			System.assertEquals(80, a.Name.length(), 'APTask Template name was not updated');
 		}
 	}
@@ -316,7 +316,7 @@ private class ActionPlanCreationControllerTest {
 
 		User ownerUser = testUtil.createTestUser();
 
-		APTaskTemplate__c apTask = new APTaskTemplate__c();
+		APTask__c apTask = new APTask__c();
 		apTask.Action_Plan__c = actionPlan.Id;
 		apTask.Subject__c = testUtil.createRandomWord('subject');
 		apTask.User__c = ownerUser.Id;
@@ -331,7 +331,7 @@ private class ActionPlanCreationControllerTest {
 		Test.startTest();
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
-		//apCreateController.apTasks = new List<APTaskTemplate__c>();
+		//apCreateController.apTasks = new List<APTask__c>();
 		apCreateController.getTasks();
 		System.assertEquals(1, apCreateController.getTasks().size());
 		apCreateController.addTask();
@@ -349,7 +349,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.stopTest();
 
-		System.assertEquals(2, [SELECT COUNT() FROM APTaskTemplate__c]);
+		System.assertEquals(2, [SELECT COUNT() FROM APTask__c]);
 	}
 
 	@IsTest
@@ -371,7 +371,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.stopTest();
 
-		System.assertEquals(2, [SELECT COUNT() FROM APTaskTemplate__c]);
+		System.assertEquals(2, [SELECT COUNT() FROM APTask__c]);
 	}
 
 	@IsTest
@@ -426,7 +426,7 @@ private class ActionPlanCreationControllerTest {
 				Reminder__c,
 				SendEmail__c,
 				Comments__c
-			FROM APTaskTemplate__c
+			FROM APTask__c
 			WHERE Action_Plan__c = :actionPlan.Id
 			ORDER BY createdDate ASC
 		];
@@ -449,9 +449,9 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
 
-		APTaskTemplate__c newAPTask1 = new APTaskTemplate__c();
-		APTaskTemplate__c newAPTask2 = new APTaskTemplate__c();
-		APTaskTemplate__c newAPTask3 = new APTaskTemplate__c();
+		APTask__c newAPTask1 = new APTask__c();
+		APTask__c newAPTask2 = new APTask__c();
+		APTask__c newAPTask3 = new APTask__c();
 
 		newAPTask1.Subject__c = testUtil.createRandomWord('subject');
 		newAPTask1.DaysFromStart__c = 2;
@@ -479,7 +479,7 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
-		apCreateController.apTasks = new List<APTaskTemplate__c>();
+		apCreateController.apTasks = new List<APTask__c>();
 		apCreateController.apTasks.add(newAPTask1);
 		apCreateController.apTasks.add(newAPTask2);
 		apCreateController.apTasks.add(newAPTask3);
@@ -501,9 +501,9 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
 
-		APTaskTemplate__c newAPTask1 = new APTaskTemplate__c();
-		APTaskTemplate__c newAPTask2 = new APTaskTemplate__c();
-		APTaskTemplate__c newAPTask3 = new APTaskTemplate__c();
+		APTask__c newAPTask1 = new APTask__c();
+		APTask__c newAPTask2 = new APTask__c();
+		APTask__c newAPTask3 = new APTask__c();
 
 		newAPTask1.Subject__c = testUtil.createRandomWord('subject');
 		newAPTask1.DaysFromStart__c = 2;
@@ -526,7 +526,7 @@ private class ActionPlanCreationControllerTest {
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
-		apCreateController.apTasks = new List<APTaskTemplate__c>();
+		apCreateController.apTasks = new List<APTask__c>();
 		apCreateController.apTasks.add(newAPTask1);
 		apCreateController.apTasks.add(newAPTask2);
 		apCreateController.apTasks.add(newAPTask3);

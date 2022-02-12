@@ -99,8 +99,8 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 	 */
 	private void deleteActionPlans(Set<Id> relActionPlansIds) {
 		List<ActionPlan__c> relActionPlans = [SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds LIMIT :ActionPlansUtilities.MAX_APTODELETE];
-		Map<Id, APTaskTemplate__c> relTaskTemplateMap = new Map<Id, APTaskTemplate__c>([SELECT Id FROM APTaskTemplate__c WHERE Action_Plan__c IN :relActionPlansIds]);
-		List<Task> relTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTaskTemplate__c IN :relTaskTemplateMap.keySet()];
+		Map<Id, APTask__c> relTaskTemplateMap = new Map<Id, APTask__c>([SELECT Id FROM APTask__c WHERE Action_Plan__c IN :relActionPlansIds]);
+		List<Task> relTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__c IN :relTaskTemplateMap.keySet()];
 
 		if (!relActionPlans.isEmpty()) {
 			List<Database.DeleteResult> results = Database.delete(relActionPlans); //NOPMD

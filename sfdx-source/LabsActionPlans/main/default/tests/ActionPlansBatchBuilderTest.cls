@@ -61,10 +61,10 @@ private class ActionPlansBatchBuilderTest {
 
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 2);
 		ap.Name = 'check_undelete';
-		List<APTaskTemplate__c> apTasks = new List<APTaskTemplate__c>();
+		List<APTask__c> apTasks = new List<APTask__c>();
 		User u = testutil.createTestUser();
 
-		APTaskTemplate__c at = new APTaskTemplate__c();
+		APTask__c at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
@@ -79,7 +79,7 @@ private class ActionPlansBatchBuilderTest {
 		insert at;
 		apTasks.add(at);
 
-		at = new APTaskTemplate__c();
+		at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
@@ -122,10 +122,10 @@ private class ActionPlansBatchBuilderTest {
 		Test.startTest();
 
 		ActionPlan__c ap = testutil.createNewActionPlan('contact', 2);
-		List<APTaskTemplate__c> apTasks = new List<APTaskTemplate__c>();
+		List<APTask__c> apTasks = new List<APTask__c>();
 		User u = testutil.createTestUser();
 
-		APTaskTemplate__c at = new APTaskTemplate__c();
+		APTask__c at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
@@ -140,7 +140,7 @@ private class ActionPlansBatchBuilderTest {
 		insert at;
 		apTasks.add(at);
 
-		at = new APTaskTemplate__c();
+		at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
@@ -183,9 +183,9 @@ private class ActionPlansBatchBuilderTest {
 		Test.startTest();
 
 		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 2);
-		List<APTaskTemplate__c> apTasks = new List<APTaskTemplate__c>();
+		List<APTask__c> apTasks = new List<APTask__c>();
 
-		APTaskTemplate__c at = new APTaskTemplate__c();
+		APTask__c at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
@@ -200,7 +200,7 @@ private class ActionPlansBatchBuilderTest {
 		insert at;
 		apTasks.add(at);
 
-		at = new APTaskTemplate__c();
+		at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
@@ -248,9 +248,9 @@ private class ActionPlansBatchBuilderTest {
 		Test.startTest();
 
 		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 2);
-		List<APTaskTemplate__c> apTasks = new List<APTaskTemplate__c>();
+		List<APTask__c> apTasks = new List<APTask__c>();
 
-		APTaskTemplate__c at = new APTaskTemplate__c();
+		APTask__c at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
@@ -265,7 +265,7 @@ private class ActionPlansBatchBuilderTest {
 		insert at;
 		apTasks.add(at);
 
-		at = new APTaskTemplate__c();
+		at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;

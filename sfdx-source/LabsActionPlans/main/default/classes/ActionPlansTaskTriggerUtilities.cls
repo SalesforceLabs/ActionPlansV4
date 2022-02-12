@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Trigger Handlers
  */
 public without sharing class ActionPlansTaskTriggerUtilities {
-	private static List<APTaskTemplate__c> dependentAptts = new List<APTaskTemplate__c>();
+	private static List<APTask__c> dependentAptts = new List<APTask__c>();
 	private static List<Task> tasksSendEmail = new List<Task>();
 	private static List<Task> tasksSendNoEmail = new List<Task>();
 
@@ -65,14 +65,14 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			updateActionPlansTemplateTaskStatus(cTasks);
 
 			//Get all dependent APTasks
-			List<APTaskTemplate__c> dependentAptts = queryDependentAPTaskTemplates(closedTasks);
+			List<APTask__c> dependentAptts = queryDependentAPTaskTemplates(closedTasks);
 
 			//Create actual Task Map
 			// * Method that returns an unused variable should be checked
-			List<APTaskTemplate__c> updList = populateNewTaskMap(dependentAptts); //NOPMD
+			List<APTask__c> updList = populateNewTaskMap(dependentAptts); //NOPMD
 
 			//Finally, create all New Tasks and Send DMLOption Emails
-			List<APTaskTemplate__c> updateApttsList = populateUpdateApttsList(dependentAptts);
+			List<APTask__c> updateApttsList = populateUpdateApttsList(dependentAptts);
 
 			Database.DMLOptions dmlo = new Database.DMLOptions();
 
@@ -98,7 +98,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	 * @param  closedTasks All `Task` records for which we are finding dependent Task Templates
 	 * @return             The list of dependent Templates Tasks
 	 */
-	private static List<APTaskTemplate__c> queryDependentAPTaskTemplates(Set<Id> closedTasks) {
+	private static List<APTask__c> queryDependentAPTaskTemplates(Set<Id> closedTasks) {
 		String apdependentQuery = 'SELECT Action_Plan__r.SkipWeekends__c, Action_Plan__r.SkipDay__c, ';
 
 		apdependentQuery += 'Action_Plan__r.' + String.join(ActionPlansUtilities.getCustomRelationshipFields(), ', Action_Plan__r.') + ', ';
@@ -108,7 +108,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			'Dependent__c, Name, User__c, User__r.Name, Id, DaysFromStart__c, CreatedById, ' +
 			'Controller__r.Subject__c, Controller__c, SendEmail__c,  Controller__r.Name, ' +
 			'Reminder__c, Priority__c, Status__c, Comments__c, Minutes_Reminder__c, Task_RecordTypeId__c' +
-			' FROM APTaskTemplate__c WHERE Controller__c IN :closedTasks';
+			' FROM APTask__c WHERE Controller__c IN :closedTasks';
 
 		dependentAptts = Database.query(apdependentQuery);
 		return dependentAptts;
@@ -119,16 +119,16 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	 * @param dependentApttList
 	 * @return List of AP Tasks to update
 	 */
-	private static List<APTaskTemplate__c> populateNewTaskMap(List<APTaskTemplate__c> dependentApttList) {
-		List<APTaskTemplate__c> updList = new List<APTaskTemplate__c>();
+	private static List<APTask__c> populateNewTaskMap(List<APTask__c> dependentApttList) {
+		List<APTask__c> updList = new List<APTask__c>();
 		Task auxTask;
 
 		Map<Id, Task> taskMap = new Map<Id, Task>();
-		for (Task t : [SELECT Id, TaskAPTaskTemplate__c FROM Task WHERE TaskAPTaskTemplate__c = :dependentApttList]) {
-			taskMap.put(t.TaskAPTaskTemplate__c, t);
+		for (Task t : [SELECT Id, TaskAPTask__c FROM Task WHERE TaskAPTask__c = :dependentApttList]) {
+			taskMap.put(t.TaskAPTask__c, t);
 		}
 
-		for (APTaskTemplate__c dependentAptt : dependentApttList) {
+		for (APTask__c dependentAptt : dependentApttList) {
 			//Create the new task and template
 			//check if the task was already created
 			if (taskMap.containsKey(dependentAptt.Id)) {
@@ -141,7 +141,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			auxTask.Priority = dependentAptt.Priority__c;
 			auxTask.OwnerId = dependentAptt.User__c;
 			auxTask.Type = dependentAptt.Type__c;
-			auxTask.TaskAPTaskTemplate__c = dependentAptt.Id;
+			auxTask.TaskAPTask__c = dependentAptt.Id;
 			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
 				auxTask.put('RecordTypeId', dependentAptt.Task_RecordTypeId__c);
 			}
@@ -178,24 +178,24 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	 * @param dependentApttList
 	 * @return the list of dependent Action Plan Tasks we just updated
 	 */
-	private static List<APTaskTemplate__c> populateUpdateApttsList(List<APTaskTemplate__c> dependentApttList) {
-		List<APTaskTemplate__c> updateApttsList = new List<APTaskTemplate__c>();
+	private static List<APTask__c> populateUpdateApttsList(List<APTask__c> dependentApttList) {
+		List<APTask__c> updateApttsList = new List<APTask__c>();
 
 		Set<Id> apIDs = new Set<Id>();
 		Set<Id> controllingIDs = new Set<Id>();
-		for (APTaskTemplate__c dAptt : dependentApttList) {
+		for (APTask__c dAptt : dependentApttList) {
 			apIDs.add(dAptt.Action_Plan__c);
 			controllingIDs.add(dAptt.Controller__c);
 		}
 
-		Map<Id, APTaskTemplate__c> controllingTasks = new Map<Id, APTaskTemplate__c>([SELECT Id, ActivityDate__c FROM APTaskTemplate__c WHERE Id IN :controllingIDs]);
+		Map<Id, APTask__c> controllingTasks = new Map<Id, APTask__c>([SELECT Id, ActivityDate__c FROM APTask__c WHERE Id IN :controllingIDs]);
 
 		Map<Id, Task> taskMap = new Map<Id, Task>();
-		for (Task t : [SELECT Id, TaskAPTaskTemplate__c FROM Task WHERE TaskAPTaskTemplate__c = :dependentApttList]) {
-			taskMap.put(t.TaskAPTaskTemplate__c, t);
+		for (Task t : [SELECT Id, TaskAPTask__c FROM Task WHERE TaskAPTask__c = :dependentApttList]) {
+			taskMap.put(t.TaskAPTask__c, t);
 		}
 
-		for (APTaskTemplate__c dependentAptt : dependentApttList) {
+		for (APTask__c dependentAptt : dependentApttList) {
 			Task t2 = new Task();
 			//Create the new task and template
 			if (taskMap.containsKey(dependentAptt.Id)) {
@@ -205,7 +205,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			t2.Subject = dependentAptt.Subject__c;
 			t2.Priority = dependentAptt.Priority__c;
 			t2.OwnerId = dependentAptt.User__c;
-			t2.TaskAPTaskTemplate__c = dependentAptt.Id;
+			t2.TaskAPTask__c = dependentAptt.Id;
 			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
 				t2.put('RecordTypeId', dependentAptt.Task_RecordTypeId__c);
 			}
@@ -285,9 +285,9 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	public static void updateAPTasksStatus(Map<Id, String> cTasks) {
 		if (!cTasks.keyset().isEmpty()) {
 			//Update all APTasks
-			List<APTaskTemplate__c> updateApttList = [SELECT Id, Status__c FROM APTaskTemplate__c WHERE Id IN :cTasks.keyset()];
+			List<APTask__c> updateApttList = [SELECT Id, Status__c FROM APTask__c WHERE Id IN :cTasks.keyset()];
 
-			for (APTaskTemplate__c aptt : updateApttList) {
+			for (APTask__c aptt : updateApttList) {
 				aptt.Status__c = cTasks.get(aptt.Id);
 			}
 
@@ -303,7 +303,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	//@future
 	public static void deleteAPTasks(Set<Id> aPTasks) {
 		try {
-			List<APTaskTemplate__c> toDelete = [SELECT aPT.Id FROM APTaskTemplate__c aPT WHERE aPT.Id IN :aPTasks];
+			List<APTask__c> toDelete = [SELECT aPT.Id FROM APTask__c aPT WHERE aPT.Id IN :aPTasks];
 			delete toDelete;
 		} catch (Exception e) {
 			System.debug('Error deleting APTTemplate - probably a circular error when deleting a APTTemplate, then its Task, then the template again.');
@@ -324,14 +324,14 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	This method reviews the task list FOR A SINGLE ACTION PLAN and removes the one with TaskIndex__c field matching tmp_taskIndex.
 	Rearranges the dependencies between tasks.
 	*/
-	private static void generateDependentTasksAndReset(List<APTaskTemplate__c> apTasks, Decimal tmp_taskIndex) {
+	private static void generateDependentTasksAndReset(List<APTask__c> apTasks, Decimal tmp_taskIndex) {
 		Set<Id> pendingIdsToDelete = new Set<Id>();
 
 		Integer taskIndex;
 		Integer dependentApTaskIndex;
 
 		for (Integer t_i = 0; t_i < apTasks.size(); t_i++) {
-			APTaskTemplate__c apTask = apTasks[t_i];
+			APTask__c apTask = apTasks[t_i];
 			if (apTask.TaskIndex__c == tmp_taskIndex) {
 				taskIndex = t_i;
 			}
@@ -339,7 +339,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 		//update the current dependent position from tasks below deleted one.
 		for (Integer i = 0; i < apTasks.size(); i++) {
-			APTaskTemplate__c apTask = apTasks[i];
+			APTask__c apTask = apTasks[i];
 
 			if (apTask.Dependent__c != null && apTask.Dependent__c != 'None') {
 				dependentApTaskIndex = Integer.valueOf(apTask.Dependent__c);
@@ -366,13 +366,13 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 		if (!closedTasks.isEmpty()) {
 			//Get all dependent APTask
-			List<APTaskTemplate__c> dependentAptts = queryDependentAPTaskTemplates(closedTasks);
+			List<APTask__c> dependentAptts = queryDependentAPTaskTemplates(closedTasks);
 
 			//Create actual Task Map
-			List<APTaskTemplate__c> updList = populateNewTaskMap(dependentAptts); //NOPMD
+			List<APTask__c> updList = populateNewTaskMap(dependentAptts); //NOPMD
 
 			//Finally, Create all New Tasks and Send DMLOption Emails
-			List<APTaskTemplate__c> updateApttsList = populateUpdateApttsList(dependentAptts); //NOPMD
+			List<APTask__c> updateApttsList = populateUpdateApttsList(dependentAptts); //NOPMD
 
 			Database.DMLOptions dmlo = new Database.DMLOptions();
 
@@ -401,32 +401,32 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 		// Uncommenting this so we surface our errors
 		//try{
 
-		Map<Id, APTaskTemplate__c> apIdToAPTemplateMap = new Map<Id, APTaskTemplate__c>();
-		List<APTaskTemplate__c> lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTaskTemplate__c WHERE Id IN :cTasks];
+		Map<Id, APTask__c> apIdToAPTemplateMap = new Map<Id, APTask__c>();
+		List<APTask__c> lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTask__c WHERE Id IN :cTasks];
 
 		//create a map with : (APTaskId, APTaskTemplate)
-		for (APTaskTemplate__c aptt : lAPT) {
+		for (APTask__c aptt : lAPT) {
 			apIdToAPTemplateMap.put(aptt.Action_Plan__c, aptt);
 		}
 
-		/* Map<Id, List<APTaskTemplate__c>> apTasksByActionPlan = new Map<Id, List<APTaskTemplate__c>>();
-			for(APTaskTemplate__c aptt : lAPT){
+		/* Map<Id, List<APTask__c>> apTasksByActionPlan = new Map<Id, List<APTask__c>>();
+			for(APTask__c aptt : lAPT){
 				if( !apTasksByActionPlan.containsKey(aptt.Action_Plan__c)){
-					apTasksByActionPlan.put(aptt.Action_Plan__c, new List<APTaskTemplate__c>);
+					apTasksByActionPlan.put(aptt.Action_Plan__c, new List<APTask__c>);
 				}
-				List<APTaskTemplate__c> aptList = apTasksByActionPlan.get(aptt.Action_Plan__c);
+				List<APTask__c> aptList = apTasksByActionPlan.get(aptt.Action_Plan__c);
 				aptList.add(aptt);
 				apTasksByActionPlan.put(aptt.Action_Plan__c, aptList);
 			} */
 
-		/* List<APTaskTemplate__c> tmp_lAPT;
-		 APTaskTemplate__c aux; */
+		/* List<APTask__c> tmp_lAPT;
+		 APTask__c aux; */
 
 		// TODO: Bulkify this SOQL in a loop (see above commented code)
 		for (Id apId : apIdToAPTemplateMap.keySet()) {
-			List<APTaskTemplate__c> tmp_lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTaskTemplate__c WHERE Action_Plan__c = :apId]; //NOPMD
+			List<APTask__c> tmp_lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTask__c WHERE Action_Plan__c = :apId]; //NOPMD
 
-			APTaskTemplate__c aux = apIdToAPTemplateMap.get(apId);
+			APTask__c aux = apIdToAPTemplateMap.get(apId);
 			generateDependentTasksAndReset(tmp_lAPT, aux.TaskIndex__c);
 		}
 	}
