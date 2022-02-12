@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Minutes_must_be_an_integer</fullName>
-    <active>true</active>
-    <errorConditionFormula>(!ISNUMBER( Minutes_Reminder__c ) ||  CONTAINS(Minutes_Reminder__c, &quot;.&quot;)) &amp;&amp; !ISBLANK(Minutes_Reminder__c)</errorConditionFormula>
-    <errorMessage>Minutes Reminder must be a whole number</errorMessage>
-</ValidationRule>
