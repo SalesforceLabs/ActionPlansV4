@@ -175,7 +175,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 		insert actionPlansToInsert.values();
 
-		Map<String, APTaskTemplate__c> planTaskIndexToTask = new Map<String, APTaskTemplate__c>();
+		Map<String, APTask__c> planTaskIndexToTask = new Map<String, APTask__c>();
 
 		for (CreateActionPlanRequest r : requests) {
 			if (!actionPlansToInsert.containsKey(r.relatedRecordID)) {
@@ -200,7 +200,7 @@ global without sharing class ActionPlanCreateInvocable {
 					userId = relatedObjectOwners.get(relatedId);
 				}
 
-				APTaskTemplate__c apTask = new APTaskTemplate__c();
+				APTask__c apTask = new APTask__c();
 				apTask.Type__c = aptTask.Type__c;
 				apTask.Subject__c = aptTask.Subject__c;
 				apTask.Priority__c = aptTask.Priority__c;
@@ -243,9 +243,9 @@ global without sharing class ActionPlanCreateInvocable {
 
 		// Now we have to update with the controlling/dependent task IDs
 
-		List<APTaskTemplate__c> dependentTasksToUpdate = new List<APTaskTemplate__c>();
+		List<APTask__c> dependentTasksToUpdate = new List<APTask__c>();
 
-		for (APTaskTemplate__c apTask : planTaskIndexToTask.values()) {
+		for (APTask__c apTask : planTaskIndexToTask.values()) {
 			String actionPlanPlusIndex = apTask.Action_Plan__c + '' + apTask.Dependent__c;
 
 			if (planTaskIndexToTask.containsKey(actionPlanPlusIndex)) {
@@ -260,8 +260,8 @@ global without sharing class ActionPlanCreateInvocable {
 		List<Task> myTasksWithOutEmail = new List<Task>();
 		List<Task> myNewTasksWithEmail = new List<Task>();
 
-		Map<Id, APTaskTemplate__c> mapAP = new Map<Id, APTaskTemplate__c>();
-		for (APTaskTemplate__c a : planTaskIndexToTask.values()) {
+		Map<Id, APTask__c> mapAP = new Map<Id, APTask__c>();
+		for (APTask__c a : planTaskIndexToTask.values()) {
 			mapAP.put(a.Id, a);
 		}
 
@@ -270,14 +270,14 @@ global without sharing class ActionPlanCreateInvocable {
 			insertedActionPlans.put(ap.Id, ap);
 		}
 
-		for (APTaskTemplate__c apTask : planTaskIndexToTask.values()) {
+		for (APTask__c apTask : planTaskIndexToTask.values()) {
 			ActionPlan__c insertedAP;
 			// check if task exists already
 			Task t = new Task();
 			t.Subject = apTask.Subject__c;
 			t.Priority = apTask.Priority__c;
 			t.OwnerId = apTask.User__c;
-			t.TaskAPTaskTemplate__c = apTask.Id;
+			t.TaskAPTask__c = apTask.Id;
 
 			if (apTask.Comments__c != null) {
 				t.Description = apTask.Comments__c;
@@ -292,7 +292,7 @@ global without sharing class ActionPlanCreateInvocable {
 				t.isReminderSet = false;
 			}
 
-			APTaskTemplate__c apt = mapAP.get(apTask.Id);
+			APTask__c apt = mapAP.get(apTask.Id);
 
 			if (apt != null) {
 				insertedAP = insertedActionPlans.get(apt.Action_Plan__c);

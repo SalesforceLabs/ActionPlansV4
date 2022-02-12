@@ -51,18 +51,18 @@ public class ActionPlansRedirectTest {
 	@IsTest
 	private static void aPTaskRedirect() {
 		Test.startTest();
-		APTaskTemplate__c aptt = [SELECT Id, Action_Plan__c FROM APTaskTemplate__c LIMIT 1];
+		APTask__c apt = [SELECT Id, Action_Plan__c FROM APTask__c LIMIT 1];
 
 		Test.setCurrentPage(Page.ActionPlanTaskOverride);
-		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(aptt));
+		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(apt));
 
 		PageReference pr = apr.redirect();
 		Test.stopTest();
 
 		Pagereference cp = pr;
-		System.assert(!cp.getURL().containsIgnoreCase(aptt.Id));
+		System.assert(!cp.getURL().containsIgnoreCase(apt.Id));
 		System.debug('CurrentPage ' + cp.getURL());
-		System.assert(cp.getURL().containsIgnoreCase(aptt.Action_Plan__c));
+		System.assert(cp.getURL().containsIgnoreCase(apt.Action_Plan__c));
 	}
 
 	@IsTest

@@ -35,15 +35,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
-<apex:page
-	id="printPage"
-	tabStyle="ActionPlan__c"
-	standardController="ActionPlan__c"
-	extensions="ActionPlanDetailController"
-	showheader="false"
-	lightningStylesheets="true"
-	sidebar="false"
-	readOnly="true">
+<apex:page id="printPage" tabStyle="ActionPlan__c" standardController="ActionPlan__c" extensions="ActionPlanDetailController" showheader="false" lightningStylesheets="true" sidebar="false" readOnly="true">
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery.tablesorter.min.js')}" />
 	<script type="text/javascript">
@@ -61,6 +53,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 				display: none !important;
 			}
 		}
+
 	</style>
 
 	<div class="slds-scope">
@@ -120,26 +113,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 					</apex:facet>
 
 					<apex:pageBlockTable value="{!ActionPlanTasks}" var="task" id="theTable" styleClass="tablesorter" style="width: 100%">
-						<apex:column id="columnOne" headerValue="{!$ObjectType.APTaskTemplate__c.fields.Subject__c.label}">
+						<apex:column id="columnOne" headerValue="{!$ObjectType.APTask__c.fields.Subject__c.label}">
 							<apex:outputText id="subject">{!task.apt.Subject__c}</apex:outputText>
 						</apex:column>
-						<apex:column id="dependency" headerValue="{!$ObjectType.APTaskTemplate__c.fields.Controller__c.label}" headerClass="dependencyColumn">
+						<apex:column id="dependency" headerValue="{!$ObjectType.APTask__c.fields.Controller__c.label}" headerClass="dependencyColumn">
 							<apex:outputText>{!task.apt.Controller__r.Subject__c}</apex:outputText>
 						</apex:column>
-						<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.ActivityDate__c.label}">
-							<apex:outputField
-								value="{!task.apt.ActivityDate__c}"
-								style="{!IF(task.apt.ActivityDate__c != null && task.apt.ActivityDate__c < TODAY() && task.apt.IsClosed__c == false, 'color:#cc0000', '')}" />
+						<apex:column headerValue="{!$ObjectType.APTask__c.fields.ActivityDate__c.label}">
+							<apex:outputField value="{!task.apt.ActivityDate__c}" style="{!IF(task.apt.ActivityDate__c != null && task.apt.ActivityDate__c < TODAY() && task.apt.IsClosed__c == false, 'color:#cc0000', '')}" />
 						</apex:column>
-						<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.User__c.label}">
+						<apex:column headerValue="{!$ObjectType.APTask__c.fields.User__c.label}">
 							<apex:outputText>{!task.apt.User__r.Name}</apex:outputText>
 						</apex:column>
-						<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.Type__c.label}" value="{!task.apt.Type__c}" />
-						<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.Status__c.label}" value="{!task.apt.Status__c}" />
-						<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.Priority__c.label}" value="{!task.apt.Priority__c}" />
-						<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.SendEmail__c.label}" value="{!task.apt.SendEmail__c}" />
-						<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.Reminder__c.label}" value="{!task.apt.Reminder__c}" />
-						<apex:column id="comment" headerValue="{!$ObjectType.APTaskTemplate__c.fields.Comments__c.label}">
+						<apex:column headerValue="{!$ObjectType.APTask__c.fields.Type__c.label}" value="{!task.apt.Type__c}" />
+						<apex:column headerValue="{!$ObjectType.APTask__c.fields.Status__c.label}" value="{!task.apt.Status__c}" />
+						<apex:column headerValue="{!$ObjectType.APTask__c.fields.Priority__c.label}" value="{!task.apt.Priority__c}" />
+						<apex:column headerValue="{!$ObjectType.APTask__c.fields.SendEmail__c.label}" value="{!task.apt.SendEmail__c}" />
+						<apex:column headerValue="{!$ObjectType.APTask__c.fields.Reminder__c.label}" value="{!task.apt.Reminder__c}" />
+						<apex:column id="comment" headerValue="{!$ObjectType.APTask__c.fields.Comments__c.label}">
 							<apex:outputText rendered="{!LEN(task.apt.Comments__c) <= 80}">{!task.apt.Comments__c}</apex:outputText>
 							<apex:outputText rendered="{!LEN(task.apt.Comments__c) > 80}">{!LEFT(task.apt.Comments__c,77)}...</apex:outputText>
 						</apex:column>
@@ -153,19 +144,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 						<apex:outputText value="{!$Label.ap_CreatedBy}" />
 						<apex:outputPanel>
 							<apex:outputText>{!ActionPlan__c.CreatedBy.Name},&nbsp;</apex:outputText>
-							<apex:outputField value="{!ActionPlan__c.CreatedDate}"
-						/></apex:outputPanel>
+							<apex:outputField value="{!ActionPlan__c.CreatedDate}" /></apex:outputPanel>
 						<apex:outputText />
 						<apex:outputText value="{!$Label.ap_LastModifiedBy}" />
 						<apex:outputPanel>
 							<apex:outputText>{!ActionPlan__c.LastModifiedBy.Name},&nbsp;</apex:outputText>
-							<apex:outputField value="{!ActionPlan__c.LastModifiedDate}"
-						/></apex:outputPanel>
+							<apex:outputField value="{!ActionPlan__c.LastModifiedDate}" /></apex:outputPanel>
 					</apex:panelGrid>
 				</apex:pageBlockSection>
 				<!-- END SYSTEM INFORMATION SECTION -->
 
-				<apex:outputField value="{!ActionPlan__c.Account__c}" rendered="false" />
+				<!-- <apex:outputField value="{!ActionPlan__c.Account__c}" rendered="false" />
 				<apex:outputField value="{!ActionPlan__c.Contact__c}" rendered="false" />
 				<apex:outputField value="{!ActionPlan__c.Lead__c}" rendered="false" />
 				<apex:outputField value="{!ActionPlan__c.Opportunity__c}" rendered="false" />
@@ -173,7 +162,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 				<apex:outputField value="{!ActionPlan__c.Campaign__c}" rendered="false" />
 				<apex:outputField value="{!ActionPlan__c.Contract__c}" rendered="false" />
 				<apex:outputField value="{!ActionPlan__c.Case__c}" rendered="false" />
-				<apex:outputField value="{!ActionPlan__c.TaskRecordTypeID__c}" rendered="false" />
+				<apex:outputField value="{!ActionPlan__c.TaskRecordTypeID__c}" rendered="false" /> -->
 			</apex:pageBlock>
 		</apex:form>
 	</div>

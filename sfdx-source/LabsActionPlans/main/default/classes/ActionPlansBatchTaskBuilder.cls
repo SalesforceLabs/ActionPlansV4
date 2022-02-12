@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Batch Apex
  */
 public without sharing class ActionPlansBatchTaskBuilder implements Database.Batchable<SObject>, Database.Stateful {
-	private List<APTaskTemplate__c> apTasks { get; set; }
+	private List<APTask__c> apTasks { get; set; }
 	private List<Id> aptIds { get; set; }
 	private List<Task> myTasksWithOutEmail { get; set; }
 	private List<Task> myTasksWithEmail { get; set; }
@@ -60,7 +60,7 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	 *
 	 */
 	/**
-	 * QueryLocator: Select the List of `APTaskTemplate__c`.
+	 * QueryLocator: Select the List of `APTask__c`.
 	 * @author Salesforce labs
 	 * @param  bc BatchableContext for start method
 	 * @return    `Database.QueryLocator`
@@ -76,7 +76,7 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 			soql += 'Action_Plan__r.' + s + ', ';
 		}
 
-		soql += ' Controller__c FROM APTaskTemplate__c WHERE Id IN :aptIds';
+		soql += ' Controller__c FROM APTask__c WHERE Id IN :aptIds';
 		//System.debug('soql query: ' + soql);
 
 		return Database.getQueryLocator(soql);
@@ -91,21 +91,21 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	public void execute(Database.BatchableContext bc, List<SObject> data) {
 		this.myTasksWithEmail = new List<Task>();
 		this.myTasksWithOutEmail = new List<Task>();
-		this.apTasks = new List<APTaskTemplate__c>();
+		this.apTasks = new List<APTask__c>();
 
 		for (SObject obj : data) {
-			APTaskTemplate__c oneData = (APTaskTemplate__c) obj;
+			APTask__c oneData = (APTask__c) obj;
 			this.apTasks.add(oneData);
 		}
 
 		//Now run this magic!
-		for (APTaskTemplate__c apTask : this.apTasks) {
+		for (APTask__c apTask : this.apTasks) {
 			// check if task exists already
 			Task t = new Task();
 			t.Subject = apTask.Subject__c;
 			t.Priority = apTask.Priority__c;
 			t.OwnerId = apTask.User__c;
-			t.TaskAPTaskTemplate__c = apTask.Id;
+			t.TaskAPTask__c = apTask.Id;
 
 			// fake link to AP Task Template
 			if (apTask.Comments__c != null) {
@@ -172,6 +172,7 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	 * @author Salesforce Labs
 	 * @param  bc BatchableContext
 	 */
-	public void finish(Database.BatchableContext bc) { //NOPMD
+	public void finish(Database.BatchableContext bc) {
+		//NOPMD
 	}
 }

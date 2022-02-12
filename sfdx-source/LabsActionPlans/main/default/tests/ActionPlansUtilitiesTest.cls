@@ -68,7 +68,7 @@ private class ActionPlansUtilitiesTest {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
 
-		List<APTaskTemplate__c> aptl = new List<APTaskTemplate__c>();
+		List<APTask__c> aptl = new List<APTask__c>();
 		for (Integer i = 0; i < 3; i++) {
 			aptl.add(makeAppTask(ap));
 		}
@@ -97,7 +97,7 @@ private class ActionPlansUtilitiesTest {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
 
-		List<APTaskTemplate__c> aptl = new List<APTaskTemplate__c>();
+		List<APTask__c> aptl = new List<APTask__c>();
 		for (Integer i = 0; i < 3; i++) {
 			aptl.add(makeAppTask(ap));
 		}
@@ -381,9 +381,9 @@ private class ActionPlansUtilitiesTest {
 		System.assert(testUtil.createRandomWord('testword') != testUtil.createRandomWord());
 	}
 
-	private static APTaskTemplate__c makeAppTask(ActionPlan__c ap) {
+	private static APTask__c makeAppTask(ActionPlan__c ap) {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		APTaskTemplate__c at = new APTaskTemplate__c();
+		APTask__c at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;

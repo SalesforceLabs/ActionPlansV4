@@ -49,7 +49,7 @@ public inherited sharing class ActionPlansBatchBuilder implements Database.Batch
 	/**
 	 * Constructor
 	 */
-	public ActionPlansBatchBuilder(ActionPlan__c baseObj, List<APTaskTemplate__c> aPTList, String refType, Set<Id> oIdsSet) {
+	public ActionPlansBatchBuilder(ActionPlan__c baseObj, List<APTask__c> aPTList, String refType, Set<Id> oIdsSet) {
 		taskBatch = new ActionPlansBatchBuilderUtilities(baseObj, aPTList, refType, oIdsSet);
 	}
 

@@ -45,10 +45,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @see ActionPlansBatchBuilder
  */
 public inherited sharing class ActionPlansBatchBuilderUtilities {
-	private List<APTaskTemplate__c> baseAPTaskList { get; set; }
+	private List<APTask__c> baseAPTaskList { get; set; }
 
 	private List<ActionPlan__c> relActionPlans { get; set; }
-	private List<APTaskTemplate__c> relAPTaskList { get; set; }
+	private List<APTask__c> relAPTaskList { get; set; }
 
 	private String relatedObjectName { get; set; }
 	private Set<Id> relatedRecordIDs { get; set; }
@@ -63,7 +63,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	private List<Task> myOldTasksWithEmail { get; set; }
 	private List<Task> myNewTasksWithEmail { get; set; }
 
-	public ActionPlansBatchBuilderUtilities(ActionPlan__c baseObj, List<APTaskTemplate__c> aPTListparam, String refType, Set<Id> oIdsLIst) {
+	public ActionPlansBatchBuilderUtilities(ActionPlan__c baseObj, List<APTask__c> aPTListparam, String refType, Set<Id> oIdsLIst) {
 		this.baseAPTaskList = aPTListparam;
 		this.relActionPlans = new List<ActionPlan__c>();
 		this.relatedObjectName = refType;
@@ -109,18 +109,18 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	 * @return   the `Id` of the first created `ActionPlan__c`
 	 */
 	public Id generateActionPlans() {
-		List<APTaskTemplate__c> aptList = new List<APTaskTemplate__c>();
+		List<APTask__c> aptList = new List<APTask__c>();
 		List<Id> aptTOTALListId = new List<Id>();
-		Map<Id, APTaskTemplate__c> mapAP = new Map<Id, APTaskTemplate__c>();
+		Map<Id, APTask__c> mapAP = new Map<Id, APTask__c>();
 		Map<Id, ActionPlan__c> mapIDAP = new Map<Id, ActionPlan__c>();
 		ActionPlan__c apAux;
 		Map<Id, Task> mapApTasks = new Map<Id, Task>();
-		Integer taskTemplateNameLength = APTaskTemplate__c.Name.getDescribe().getLength();
+		Integer taskTemplateNameLength = APTask__c.Name.getDescribe().getLength();
 
 		this.myOldTasksWithEmail = new List<Task>();
 		this.myNewTasksWithEmail = new List<Task>();
 		this.myTasksWithOutEmail = new List<Task>();
-		this.relAPTaskList = new List<APTaskTemplate__c>();
+		this.relAPTaskList = new List<APTask__c>();
 
 		Map<Id, Id> objectOwnersMap = retrieveOwnersDataRelatedObject(this.relatedRecordIDs, this.relatedObjectName);
 		//insert Action Plans to DB
@@ -133,8 +133,8 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				mapIDAP.put(ap.Id, ap);
 
 				//Now for each inserted ap we should run through tasks and create them
-				for (APTaskTemplate__c t : this.baseAPTaskList) {
-					APTaskTemplate__c nt = new APTaskTemplate__c();
+				for (APTask__c t : this.baseAPTaskList) {
+					APTask__c nt = new APTask__c();
 					nt = t.clone();
 
 					nt.Action_Plan__c = ap.Id;
@@ -152,7 +152,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			for (ActionPlan__c ap : relActionPlans) {
 				mapIDAP.put(ap.Id, ap);
 
-				for (APTaskTemplate__c t : this.baseAPTaskList) {
+				for (APTask__c t : this.baseAPTaskList) {
 					t.DaysFromStart__c = (t.DaysFromStart__c < 0) ? 0 : t.DaysFromStart__c;
 					t.Name = t.Id == null ? ActionPlansUtilities.actionPlanSubjectToName(t.Subject__c, taskTemplateNameLength) : t.Name;
 					t.User__c = getAPTaskTemplateUser(ap, objectOwnersMap, t.User__c);
@@ -161,10 +161,10 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			}
 		}
 
-		List<APTaskTemplate__c> aptsToUpsert = new List<APTaskTemplate__c>();
+		List<APTask__c> aptsToUpsert = new List<APTask__c>();
 
 		for (ActionPlan__c ap : relActionPlans) {
-			for (APTaskTemplate__c at : aptList) {
+			for (APTask__c at : aptList) {
 				if (at.Action_Plan__c != null && at.Action_Plan__c != ap.Id) {
 					continue;
 				}
@@ -214,11 +214,11 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 		upsert aptsToUpsert;
 
-		for (Task task_tmp : [SELECT Id, TaskAPTaskTemplate__c, Subject FROM Task WHERE TaskAPTaskTemplate__c IN :mapAP.keySet()]) {
-			mapApTasks.put(task_tmp.TaskAPTaskTemplate__c, task_tmp);
+		for (Task task_tmp : [SELECT Id, TaskAPTask__c, Subject FROM Task WHERE TaskAPTask__c IN :mapAP.keySet()]) {
+			mapApTasks.put(task_tmp.TaskAPTask__c, task_tmp);
 		}
 
-		for (APTaskTemplate__c t_t : aptsToUpsert) {
+		for (APTask__c t_t : aptsToUpsert) {
 			// check if task exists already
 			Task t = mapApTasks.get(t_t.Id);
 			if (t == null) {
@@ -228,7 +228,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			t.Subject = t_t.Subject__c;
 			t.Priority = t_t.Priority__c;
 			t.OwnerId = t_t.User__c;
-			t.TaskAPTaskTemplate__c = t_t.Id;
+			t.TaskAPTask__c = t_t.Id;
 
 			if (t_t.Comments__c != null) {
 				t.Description = t_t.Comments__c;
@@ -243,7 +243,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				t.isReminderSet = false;
 			}
 
-			APTaskTemplate__c apt = mapAP?.get(t_t.Id);
+			APTask__c apt = mapAP?.get(t_t.Id);
 
 			if (apt != null) {
 				apAux = mapIDAP.get(apt.Action_Plan__c);

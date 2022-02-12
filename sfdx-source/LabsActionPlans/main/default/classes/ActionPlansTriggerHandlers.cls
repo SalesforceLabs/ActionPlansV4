@@ -142,7 +142,6 @@ global without sharing class ActionPlansTriggerHandlers {
 		Map<Id, ActionPlan__c> oldRecordsMap,
 		System.TriggerOperation triggerEvent
 	) {
-
 		switch on triggerEvent {
 			when BEFORE_INSERT {
 				Id defaultTaskRTId = ActionPlansUtilities.getDefaultTaskRecordTypeId();
@@ -181,8 +180,8 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 				if (!actionPlanNewNames.isEmpty()) {
-					List<APTaskTemplate__c> templateTasks = [SELECT Id, Name FROM APTaskTemplate__c WHERE Action_Plan__c IN :actionPlanNewNames];
-					for (APTaskTemplate__c a : templateTasks) {
+					List<APTask__c> templateTasks = [SELECT Id, Name FROM APTask__c WHERE Action_Plan__c IN :actionPlanNewNames];
+					for (APTask__c a : templateTasks) {
 						a.Name = null;
 					}
 					// no permissions check because trigger handler must run in system mode
@@ -208,10 +207,10 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 			when AFTER_UNDELETE {
 				//get Id of all deleted Action Plan Task Templates
-				Map<Id, APTaskTemplate__c> map_APTasks = new Map<Id, APTaskTemplate__c>([SELECT Id, Action_Plan__c FROM APTaskTemplate__c WHERE Action_Plan__c IN :newRecordsMap.keyset() ALL ROWS]);
+				Map<Id, APTask__c> map_APTasks = new Map<Id, APTask__c>([SELECT Id, Action_Plan__c FROM APTask__c WHERE Action_Plan__c IN :newRecordsMap.keyset() ALL ROWS]);
 
 				//get all tasks asociated to this APTasks
-				List<Task> taskList = [SELECT Id, TaskAPTaskTemplate__c, IsDeleted FROM Task WHERE TaskAPTaskTemplate__c IN :map_APTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
+				List<Task> taskList = [SELECT Id, TaskAPTask__c, IsDeleted FROM Task WHERE TaskAPTask__c IN :map_APTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
 
 				if (!taskList.isEmpty()) {
 					Database.undelete(taskList, false);
@@ -220,18 +219,18 @@ global without sharing class ActionPlansTriggerHandlers {
 		}
 	}
 
-	public static void triggerHandler_ActionPlanTaskTemplate(
-		List<APTaskTemplate__c> newRecords,
-		List<APTaskTemplate__c> oldRecords,
-		Map<Id, APTaskTemplate__c> newRecordsMap,
-		Map<Id, APTaskTemplate__c> oldRecordsMap,
+	public static void triggerHandler_ActionPlanTask(
+		List<APTask__c> newRecords,
+		List<APTask__c> oldRecords,
+		Map<Id, APTask__c> newRecordsMap,
+		Map<Id, APTask__c> oldRecordsMap,
 		System.TriggerOperation triggerEvent
 	) {
-		//System.debug('In APTaskTemplate__c ' + triggerEvent.name());
+		//System.debug('In APTask__c ' + triggerEvent.name());
 
 		switch on triggerEvent {
 			when BEFORE_INSERT, BEFORE_UPDATE {
-				for (APTaskTemplate__c a : newRecords) {
+				for (APTask__c a : newRecords) {
 					a.IsClosed__c = ActionPlansUtilities.getClosedTaskStatuses().contains(a.Status__c);
 					if (a.User__c == null) {
 						a.User__c = UserInfo.getUserId();
@@ -239,13 +238,13 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				Set<Id> apIDs = new Set<Id>();
-				Schema.SObjectType apttype = Schema.APTaskTemplate__c.getSObjectType();
+				Schema.SObjectType apttype = Schema.APTask__c.getSObjectType();
 				Schema.DescribeSObjectResult aptDescribe = apttype.getDescribe();
 				String aptObjectName = aptDescribe.getName();
 				String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix(aptObjectName);
 				//System.debug('prefix for ' + aptObjectName + ' is ' + aptPrefix);
 
-				for (APTaskTemplate__c apt : newRecords) {
+				for (APTask__c apt : newRecords) {
 					if (
 						oldRecords == null ||
 						(apt.Name == null ||
@@ -260,8 +259,8 @@ global without sharing class ActionPlansTriggerHandlers {
 				if (!apIDs.isEmpty()) {
 					Map<Id, ActionPlan__c> nameMap = new Map<Id, ActionPlan__c>([SELECT Id, Name FROM ActionPlan__c WHERE Id IN :apIDs]);
 
-					Integer taskTemplateNameLength = APTaskTemplate__c.Name.getDescribe().getLength();
-					for (APTaskTemplate__c apt : newRecords) {
+					Integer taskTemplateNameLength = APTask__c.Name.getDescribe().getLength();
+					for (APTask__c apt : newRecords) {
 						if (nameMap.containsKey(apt.Action_Plan__c)) {
 							String apName = nameMap.get(apt.Action_Plan__c).Name;
 							String newSubject = apName + ' - ' + apt.Subject__c;
@@ -270,7 +269,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 
-				for (APTaskTemplate__c a : newRecords) {
+				for (APTask__c a : newRecords) {
 					if (a.Reminder__c && String.isBlank(a.Minutes_Reminder__c)) {
 						a.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
 					} else if (!a.Reminder__c) {
@@ -280,18 +279,18 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 			when BEFORE_DELETE {
 				try {
-					Database.delete([SELECT Id FROM Task WHERE TaskAPTaskTemplate__c IN :oldRecordsMap.keyset() AND IsClosed = FALSE]);
+					Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :oldRecordsMap.keyset() AND IsClosed = FALSE]);
 				} catch (Exception e) {
 					System.debug('Error when deleting Tasks related to APTaskTemplate');
 				}
 			}
 			when AFTER_UNDELETE {
-				List<Task> aP_tasks = [SELECT Id FROM Task WHERE TaskAPTaskTemplate__c IN :newRecordsMap.keyset() AND isDeleted = TRUE ALL ROWS];
+				List<Task> aP_tasks = [SELECT Id FROM Task WHERE TaskAPTask__c IN :newRecordsMap.keyset() AND isDeleted = TRUE ALL ROWS];
 
 				try {
 					Database.undelete(aP_tasks);
 				} catch (Dmlexception e) {
-					for (APTaskTemplate__c a : newRecords) {
+					for (APTask__c a : newRecords) {
 						a.addError(System.Label.ap_Error + ' ' + Task.sObjectType.getDescribe().getLabel() + ' ' + triggerEvent + ': ' + e);
 					}
 				}
@@ -391,7 +390,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanTask(List<Task> newRecords, List<Task> oldRecords, Map<Id, Task> newRecordsMap, Map<Id, Task> oldRecordsMap, System.TriggerOperation triggerEvent) {
+	public static void triggerHandler_Task(List<Task> newRecords, List<Task> oldRecords, Map<Id, Task> newRecordsMap, Map<Id, Task> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		//System.debug('In Task ' + triggerEvent.name());
 
 		switch on triggerEvent {
@@ -404,7 +403,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				for (Task ta : [
 					SELECT Id, Status, TaskAPTaskTemplate__r.Status__c, TaskAPTaskTemplate__r.Controller__c, TaskAPTaskTemplate__r.Controller__r.Status__c
 					FROM Task
-					WHERE Id IN :newRecords AND TaskAPTaskTemplate__c != NULL
+					WHERE Id IN :newRecords AND TaskAPTask__c != NULL
 				]) {
 					triggerTasksWithTemplateTaskStatus.put(ta.Id, ta);
 				}
@@ -417,8 +416,8 @@ global without sharing class ActionPlansTriggerHandlers {
 				Set<Id> tasktemplatesToValidate = new Set<Id>();
 
 				for (Task t : newRecords) {
-					if (t.TaskAPTaskTemplate__c != null) {
-						tasktemplatesToValidate.add(t.TaskAPTaskTemplate__c);
+					if (t.TaskAPTask__c != null) {
+						tasktemplatesToValidate.add(t.TaskAPTask__c);
 					}
 				}
 
@@ -429,8 +428,8 @@ global without sharing class ActionPlansTriggerHandlers {
 
 				//Get all my Updated complete Task Id's.
 				for (Task t : newRecords) {
-					if (t.TaskAPTaskTemplate__c != null) {
-						APTasksIds.add(t.TaskAPTaskTemplate__c);
+					if (t.TaskAPTask__c != null) {
+						APTasksIds.add(t.TaskAPTask__c);
 
 						// Find default task status
 						String defaultTaskStatus;
@@ -442,11 +441,11 @@ global without sharing class ActionPlansTriggerHandlers {
 						}
 
 						if (t.Status != defaultTaskStatus) {
-							if (allowMap.containsKey(t.TaskAPTaskTemplate__c) && allowMap.get(t.TaskAPTaskTemplate__c)) {
+							if (allowMap.containsKey(t.TaskAPTask__c) && allowMap.get(t.TaskAPTask__c)) {
 								if (t.IsClosed || closedStatuses.contains(t.Status)) {
-									closedTasksMap.put(t.TaskAPTaskTemplate__c, t.Status);
+									closedTasksMap.put(t.TaskAPTask__c, t.Status);
 								} else {
-									inProgressTasksMap.put(t.TaskAPTaskTemplate__c, t.Status);
+									inProgressTasksMap.put(t.TaskAPTask__c, t.Status);
 								}
 							} else {
 								//throw exception
@@ -465,16 +464,16 @@ global without sharing class ActionPlansTriggerHandlers {
 					ActionPlansTaskTriggerUtilities.updateAPTasksStatus(inProgressTasksMap);
 				}
 
-				//Query APTaskTemplate__c objects to update fields
+				//Query APTask__c objects to update fields
 				if (!APTasksIds.isEmpty()) {
-					Map<Id, APTaskTemplate__c> mapAPTasks = new Map<Id, APTaskTemplate__c>(
-						[SELECT Status__c, Id, Controller__r.Status__c, ActivityDate__c, Minutes_Reminder__c, Action_Plan__r.Name FROM APTaskTemplate__c a WHERE Id IN :APTasksIds]
+					Map<Id, APTask__c> mapAPTasks = new Map<Id, APTask__c>(
+						[SELECT Status__c, Id, Controller__r.Status__c, ActivityDate__c, Minutes_Reminder__c, Action_Plan__r.Name FROM APTask__c WHERE Id IN :APTasksIds]
 					);
-					List<APTaskTemplate__c> lUpsert = new List<APTaskTemplate__c>();
+					List<APTask__c> lUpsert = new List<APTask__c>();
 
 					for (Task t : newRecords) {
-						if (mapAPTasks.containsKey(t.TaskAPTaskTemplate__c)) {
-							APTaskTemplate__c tmp = mapAPTasks.get(t.TaskAPTaskTemplate__c);
+						if (mapAPTasks.containsKey(t.TaskAPTask__c)) {
+							APTask__c tmp = mapAPTasks.get(t.TaskAPTask__c);
 							tmp.Subject__c = t.Subject;
 							tmp.Name = tmp.Id;
 							tmp.Comments__c = t.Description;
@@ -494,8 +493,8 @@ global without sharing class ActionPlansTriggerHandlers {
 			when BEFORE_DELETE {
 				Set<Id> taskTempIds = new Set<Id>();
 				for (Task t : oldRecords) {
-					if (t.TaskAPTaskTemplate__c != null) {
-						taskTempIds.add(t.TaskAPTaskTemplate__c);
+					if (t.TaskAPTask__c != null) {
+						taskTempIds.add(t.TaskAPTask__c);
 					}
 				}
 				//only delete Action Plan Template Tasks that are not deleted
@@ -506,18 +505,18 @@ global without sharing class ActionPlansTriggerHandlers {
 				Set<Id> taskTempIds = new Set<Id>();
 				Set<Id> finalIds = new Set<Id>();
 				for (Task t : oldRecords) {
-					if (t.TaskAPTaskTemplate__c != null) {
-						taskTempIds.add(t.TaskAPTaskTemplate__c);
+					if (t.TaskAPTask__c != null) {
+						taskTempIds.add(t.TaskAPTask__c);
 					}
 				}
 				//only delete Action Plan Template Tasks that are not deleted
-				for (APTaskTemplate__c ta : [SELECT Id, Action_Plan__c FROM APTaskTemplate__c WHERE Id IN :taskTempIds AND isDeleted = FALSE ALL ROWS]) {
+				for (APTask__c ta : [SELECT Id, Action_Plan__c FROM APTask__c WHERE Id IN :taskTempIds AND isDeleted = FALSE ALL ROWS]) {
 					finalIds.add(ta.Id);
 				}
 
 				if (!finalIds.isEmpty()) {
 					if (System.isBatch() || System.isFuture()) {
-						Database.delete([SELECT Id FROM APTaskTemplate__c WHERE Id IN :finalIds]);
+						Database.delete([SELECT Id FROM APTask__c WHERE Id IN :finalIds]);
 					} else {
 						ActionPlansTaskTriggerUtilities.deleteAPTasks(finalIds);
 					}
@@ -528,24 +527,24 @@ global without sharing class ActionPlansTriggerHandlers {
 					Map<Id, Id> taskTemplateToIntendedRecordTypeId = new Map<Id, Id>();
 					Set<Id> taskTemplateIDs = new Set<Id>();
 					for (Task t : newRecords) {
-						if (t.TaskAPTaskTemplate__c != null) {
-							taskTemplateIDs.add(t.TaskAPTaskTemplate__c);
+						if (t.TaskAPTask__c != null) {
+							taskTemplateIDs.add(t.TaskAPTask__c);
 						}
 					}
-					for (APTaskTemplate__c aptt : [SELECT Id, Action_Plan__r.TaskRecordTypeID__c FROM APTaskTemplate__c WHERE Id IN :taskTemplateIDs]) {
+					for (APTask__c aptt : [SELECT Id, Action_Plan__r.TaskRecordTypeID__c FROM APTask__c WHERE Id IN :taskTemplateIDs]) {
 						taskTemplateToIntendedRecordTypeId.put(aptt.Id, aptt.Action_Plan__r.TaskRecordTypeID__c);
 					}
 					for (Task t : newRecords) {
-						if (!taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTaskTemplate__c)) {
+						if (!taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c)) {
 						}
-						if (!ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTaskTemplate__c))) {
+						if (!ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c))) {
 						}
 						if (
-							t.TaskAPTaskTemplate__c != null &&
-							taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTaskTemplate__c) &&
-							ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTaskTemplate__c))
+							t.TaskAPTask__c != null &&
+							taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c) &&
+							ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c))
 						) {
-							t.put('RecordTypeId', taskTemplateToIntendedRecordTypeId.get(t.TaskAPTaskTemplate__c));
+							t.put('RecordTypeId', taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c));
 						}
 					}
 				}
@@ -737,7 +736,7 @@ global without sharing class ActionPlansTriggerHandlers {
 		Map<Id, Boolean> allowTasksMap = new Map<Id, Boolean>();
 		Set<String> openStatuses = ActionPlansUtilities.getOpenTaskStatuses();
 
-		for (APTaskTemplate__c apt : [SELECT Status__c, Controller__c, Controller__r.Status__c FROM APTaskTemplate__c WHERE Id IN :apTaskTemplateIds]) {
+		for (APTask__c apt : [SELECT Status__c, Controller__c, Controller__r.Status__c FROM APTask__c WHERE Id IN :apTaskTemplateIds]) {
 			allowTasksMap.put(apt.Id, apt.Controller__c == null || !openStatuses.contains(apt.Controller__r.Status__c));
 		}
 		return allowTasksMap;

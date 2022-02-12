@@ -36,14 +36,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<apex:page
-	id="thePage"
-	tabStyle="ActionPlanTemplate__c"
-	standardController="ActionPlanTemplate__c"
-	extensions="ActionPlanTemplateDetailController"
-	lightningStylesheets="true"
-	docType="html-5.0"
-	contentType="text/html">
+<apex:page id="thePage" tabStyle="ActionPlanTemplate__c" standardController="ActionPlanTemplate__c" extensions="ActionPlanTemplateDetailController" lightningStylesheets="true" docType="html-5.0" contentType="text/html">
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_Utilities.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_DisplayScripts.js')}" />
@@ -61,22 +54,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	<apex:form id="detailForm">
 		<apex:pageBlock id="templateDetail" title="" mode="detail">
 			<apex:pageBlockButtons id="buttons" location="top">
-				<apex:commandButton
-					id="edit"
-					action="{!$Page.ActionPlanTemplateCreation}?id={!ActionPlanTemplate__c.Id}&retURL={!$CurrentPage.URL}"
-					value="{!$Label.ap_Edit}"
-					rendered="{!$ObjectType.ActionPlanTemplate__c.updateable}" />
+				<apex:commandButton id="edit" action="{!$Page.ActionPlanTemplateCreation}?id={!ActionPlanTemplate__c.Id}&retURL={!$CurrentPage.URL}" value="{!$Label.ap_Edit}" rendered="{!$ObjectType.ActionPlanTemplate__c.updateable}" />
 				<apex:commandButton id="delete" action="{!deleteTemplate}" value="Delete" onclick="return confirm('{!$Label.ap_AreYouSureAsk}');" rendered="{!$ObjectType.ActionPlanTemplate__c.deletable}" />
-				<apex:commandButton
-					id="clone"
-					action="{!$Page.ActionPlanTemplateCreation}?clone=1&templateId={!ActionPlanTemplate__c.Id}"
-					value="{!$Label.ap_Clone}"
-					rendered="{!$ObjectType.ActionPlanTemplate__c.createable}" />
-				<apex:commandButton
-					id="newActionPlan"
-					action="{!$Page.ActionPlanCreation}?templateId={!ActionPlanTemplate__c.Id}"
-					value="{!$Label.ap_New} {!$ObjectType.ActionPlan__c.label}"
-					rendered="{!$ObjectType.ActionPlan__c.createable}" />
+				<apex:commandButton id="clone" action="{!$Page.ActionPlanTemplateCreation}?clone=1&templateId={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_Clone}" rendered="{!$ObjectType.ActionPlanTemplate__c.createable}" />
+				<apex:commandButton id="newActionPlan" action="{!$Page.ActionPlanCreation}?templateId={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_New} {!$ObjectType.ActionPlan__c.label}" rendered="{!$ObjectType.ActionPlan__c.createable}" />
 				<apex:commandButton id="export" action="{!$Page.ActionPlanTemplateExport}?Id={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_Export}" rendered="{!$Permission.Action_Plan_Template_Export}" />
 			</apex:pageBlockButtons>
 
@@ -110,23 +91,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			<apex:pageBlockSection id="taskSection" title="{!$ObjectType.Task.labelPlural} {!$Label.ap_TaskHeaderSortable}" columns="1" collapsible="false">
 				<apex:pageBlockTable value="{!TemplateTasks}" var="task" id="theTable" styleClass="tablesorter sortable noBump" rules="none" style="vertical-align: middle">
 					<apex:column id="columnOne" headerValue="{!$ObjectType.APTTaskTemplate__c.fields.Subject__c.label}" value="{!task.Subject__c}" style="vertical-align: middle" />
-					<apex:column id="indexColumn" headerValue="{!$ObjectType.APTaskTemplate__c.fields.TaskIndex__c.label}" rendered="false">
+					<apex:column id="indexColumn" headerValue="{!$ObjectType.APTask__c.fields.TaskIndex__c.label}" rendered="false">
 						<apex:variable value="{!task.TaskIndex__c + 1}" var="row" />
 						<apex:outputText value="{!row}" />
 					</apex:column>
-					<apex:column
-						headerValue="{!$ObjectType.APTTaskTemplate__c.fields.TController__c.label}"
-						value="{!task.TController__r.Subject__c}"
-						rendered="{!TemplateTasks.size > 1}"
-						style="vertical-align: middle" />
+					<apex:column headerValue="{!$ObjectType.APTTaskTemplate__c.fields.TController__c.label}" value="{!task.TController__r.Subject__c}" rendered="{!TemplateTasks.size > 1}" style="vertical-align: middle" />
 					<apex:column value="{!task.DaysFromStart__c}" style="vertical-align: middle">
-						<apex:facet name="header"
-							>{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.label}
+						<apex:facet name="header">{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.label}
 							<img class="helpOrb" title="{!$ObjectType.APTTaskTemplate__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
 						</apex:facet>
 					</apex:column>
 
-					<apex:column headerValue="{!$ObjectType.APTaskTemplate__c.fields.User__c.label}" styleClass="assigned_to_field" style="vertical-align: middle">
+					<apex:column headerValue="{!$ObjectType.APTask__c.fields.User__c.label}" styleClass="assigned_to_field" style="vertical-align: middle">
 						<apex:outputField value="{!task.User__c}" />
 					</apex:column>
 
@@ -148,7 +124,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 						</apex:outputPanel>
 
 						<apex:outputPanel rendered="{!task.Comments__c != null}" onclick="toggleVisibility('{!$Component.commentPanel}');">
-							(<apex:outputText style="text-decoration: underline" value="..." />)
+							(
+							<apex:outputText style="text-decoration: underline" value="..." />)
 						</apex:outputPanel>
 					</apex:column>
 				</apex:pageBlockTable>

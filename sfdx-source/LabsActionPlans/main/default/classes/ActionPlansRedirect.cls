@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Visualforce
  */
 public with sharing class ActionPlansRedirect {
-	private APTaskTemplate__c actionPlanTask;
+	private APTask__c actionPlanTask;
 	private APTTaskTemplate__c actionPlanTemplateTask;
 	private Id parentId;
 
@@ -52,8 +52,8 @@ public with sharing class ActionPlansRedirect {
 		Id recordId = controller.getId();
 
 		String objName = recordId.getSObjectType().getDescribe().getLocalName();
-		if (objName.equalsIgnoreCase('APTaskTemplate__c')) {
-			actionPlanTask = (APTaskTemplate__c) controller.getRecord();
+		if (objName.equalsIgnoreCase('APTask__c')) {
+			actionPlanTask = (APTask__c) controller.getRecord();
 			parentId = actionPlanTask.Action_Plan__c;
 		} else if (objName.equalsIgnoreCase('APTTaskTemplate__c')) {
 			actionPlanTemplateTask = (APTTaskTemplate__c) controller.getRecord();

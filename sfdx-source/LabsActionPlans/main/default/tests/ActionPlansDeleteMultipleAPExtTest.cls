@@ -49,7 +49,7 @@ private class ActionPlansDeleteMultipleAPExtTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		List<ActionPlan__c> apToInsert = new List<ActionPlan__c>();
-		List<APTaskTemplate__c> apttToInsert = new List<APTaskTemplate__c>();
+		List<APTask__c> apttToInsert = new List<APTask__c>();
 
 		Account a = testUtil.createNewAccount();
 
@@ -65,7 +65,7 @@ private class ActionPlansDeleteMultipleAPExtTest {
 
 		for (ActionPlan__c newActionPlan : apToInsert) {
 			for (Integer j = 0; j < 5; j++) {
-				APTaskTemplate__c newAPTask = new APTaskTemplate__c();
+				APTask__c newAPTask = new APTask__c();
 				newAPTask.Subject__c = testUtil.createRandomWord();
 				newAPTask.DaysFromStart__c = j + 1;
 				newAPTask.Action_Plan__c = newActionPlan.Id;

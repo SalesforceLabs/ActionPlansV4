@@ -61,7 +61,7 @@ public with sharing class ActionPlansTestUtilities {
 	 * Make a random `String` with a specific prefix and a random `Integer`
 	 * @param  prefix The prefix
 	 * @return        the random word
-	 * @example 
+	 * @example
 	 * createRandomWord('test');
 	 * test123456
 	 */
@@ -333,10 +333,10 @@ public with sharing class ActionPlansTestUtilities {
 
 		insert newActionPlan;
 
-		//APTaskTemplate__c auxTask = new APTaskTemplate__c();
+		//APTask__c auxTask = new APTask__c();
 		User user = this.createTestUser();
 
-		List<APTaskTemplate__c> apttToInsert = new List<APTaskTemplate__c>();
+		List<APTask__c> apttToInsert = new List<APTask__c>();
 		//Creates default tasks for Action Plan
 		for (Integer i = 0; i < numTasks; i++) {
 			apttToInsert.add(this.createNewActionPlanTask(newActionPlan, i + 1, user, 'Email', 'High'));
@@ -354,15 +354,15 @@ public with sharing class ActionPlansTestUtilities {
 	/**
 	 * Create Action Plan Task template
 	 * @author David Schach
-	 * @param  actionPlan The `APTaskTemplate__c` object
+	 * @param  actionPlan The `ActionPlan__c` object
 	 * @param  days      Days from now to start the plan
 	 * @param  user       The assigned owner
 	 * @param  category   Task Category
 	 * @param  priority   Task Priority
-	 * @return            The created `APTaskTemplate__c` record
+	 * @return            The created `APTask__c` record
 	 */
-	public APTaskTemplate__c createNewActionPlanTask(ActionPlan__c actionPlan, Integer days, User user, String category, String priority) {
-		APTaskTemplate__c newAPTask = new APTaskTemplate__c();
+	public APTask__c createNewActionPlanTask(ActionPlan__c actionPlan, Integer days, User user, String category, String priority) {
+		APTask__c newAPTask = new APTask__c();
 		newAPTask.Subject__c = this.createRandomWord('subject');
 		newAPTask.DaysFromStart__c = days;
 		newAPTask.Action_Plan__c = actionPlan.Id;
@@ -449,7 +449,7 @@ public with sharing class ActionPlansTestUtilities {
 		ActionPlan__c ap = this.createNewActionPlan(relatedObject, 0);
 		List<Id> apTasksIds = new List<Id>();
 
-		APTaskTemplate__c at = new APTaskTemplate__c();
+		APTask__c at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
@@ -464,7 +464,7 @@ public with sharing class ActionPlansTestUtilities {
 		insert at;
 		apTasksIds.add(at.Id);
 
-		at = new APTaskTemplate__c();
+		at = new APTask__c();
 		at.Action_Plan__c = ap.Id;
 		at.Dependent__c = 'None';
 		at.DaysFromStart__c = 2.0;
