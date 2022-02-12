@@ -64,32 +64,13 @@ public with sharing class ActionPlanDetailController {
 	 * @param stdController Standard Controller
 	 */
 	public ActionPlanDetailController(ApexPages.StandardController stdController) {
-		stdController.addFields(ActionPlansUtilities.getCustomRelationshipFields());
+		if (!Test.isRunningTest()) {
+			stdController.addFields(ActionPlansUtilities.getCustomRelationshipFields());
+		}
 		actionPlan = (ActionPlan__c) stdController.getRecord();
 		hasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
 		canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
 	}
-
-	/**
-	 * @description In case the user adds custom fields to ActionPlan__c, we need to allow for any of them to be shown on the print page
-	 * <br>So we go through the fieldset and add those to the controller
-	 *
-	 * @return      `List<String>` List of all relationship fields on ActionPlan
-	 */
-	/* private List<String> getRelationshipFields() {
-		List<String> fieldNames = new List<String>();
-
-		Map<String, Schema.SObjectField> M = Schema.SObjectType.ActionPlan__c.fields.getMap();
-		for (Schema.SObjectField ssof : M.values()) {
-			Schema.DescribeFieldResult dsr = ssof.getDescribe();
-			Schema.DisplayType dt = dsr.getType();
-			String s = dsr.getName();
-			if (dt.name().equalsIgnoreCase('Reference') && s.endsWithIgnoreCase('__c')) {
-				fieldNames.add(s); // only look at custom references
-			}
-		}
-		return fieldNames;
-	} */
 
 	/**
 	 * Deletes the current Action Plan loaded and redirects to the AP List
