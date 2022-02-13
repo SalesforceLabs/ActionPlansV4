@@ -189,7 +189,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 			Id relatedId = r.relatedRecordID;
 
-			for (APTTaskTemplate__c aptTask : actionPlanTemplate.apTasks__r) {
+			for (APTemplateTask__c aptTask : actionPlanTemplate.apTasks__r) {
 				Id userId;
 				//Read the Custom Settings in order to asign the User to that Task
 				if (aptTask.User__c != null) {

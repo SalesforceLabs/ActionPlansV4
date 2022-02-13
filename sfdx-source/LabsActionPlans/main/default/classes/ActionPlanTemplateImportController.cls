@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * Controller for import page
  * @group Visualforce
  * @since 2011
+ * @see ActionPlanTemplateImport
  */
 public with sharing class ActionPlanTemplateImportController {
 	/**
@@ -59,6 +60,7 @@ public with sharing class ActionPlanTemplateImportController {
 	/**
 	 * Action that initiates the Import process
 	 * @return PageReference
+	 * @see ActionPlanTemplateImport
 	 */
 	public PageReference importTemplate() {
 		ActionPlanTemplateImport importUtil = new ActionPlanTemplateImport();

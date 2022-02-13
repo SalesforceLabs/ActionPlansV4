@@ -69,7 +69,7 @@ public with sharing class ActionPlansDeleteMultipleAPExtension {
 
 		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();
 
-		if (ActionPlansCanTheUser.destroy(actionPlansToShow[0])) {
+		if (CanTheUser.destroy(actionPlansToShow[0])) {
 			List<ActionPlan__c> toDelete = [SELECT Id FROM ActionPlan__c WHERE Id IN :selected];
 			delete toDelete;
 			String confirmation = System.Label.ap_ConfirmationofDeletion;

@@ -33,24 +33,19 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <apex:component>
-	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
-	<script type="text/javascript">
-		var j$ = jQuery.noConflict();
-	</script>
-	<apex:attribute name="severity" description="warning, error, success" type="String" required="required" />
+	<apex:attribute name="severity" description="warning, error, success" type="String" default="success" />
 	<apex:attribute name="message" description="UI Message to display" type="String" required="required" />
 	<div class="slds-scope">
 		<apex:outputPanel layout="none" rendered="{!$CurrentPage.parameters.message != null}">
 			<div class="slds-notify_container slds-is-fixed slds-align_absolute-center" id="toastPanel">
-				<div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+				<div class="slds-notify slds-notify_toast slds-theme_{!severity}" role="status">
 					<span class="slds-assistive-text">{!severity}</span>
 					<span class="slds-icon_container slds-icon-utility-{!severity} slds-m-right_small slds-no-flex slds-align-top" title="{!severity}">
-						<apex:image url="/img/icon/t4v35/utility/success_60.png" styleclass="slds-icon slds-icon_small" html-aria-hidden="true" />
+						<apex:image url="/img/icon/t4v35/utility/{!severity}_60.png" styleclass="slds-icon slds-icon_small" html-aria-hidden="true" />
 					</span>
 					<div class="slds-notify__content">
 						<h2 class="slds-text-heading_small">
-							{!message}
-							<!-- <apex:outputLink value="{!$Page.ActionPlansHome}">{!$Page.ActionPlansHome}</apex:outputLink> -->
+							{!message}&nbsp;
 							<apex:componentBody />
 						</h2>
 					</div>

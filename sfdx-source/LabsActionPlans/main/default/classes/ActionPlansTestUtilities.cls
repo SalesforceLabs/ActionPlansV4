@@ -392,10 +392,10 @@ public with sharing class ActionPlansTestUtilities {
 
 		insert apTemplate;
 
-		List<APTTaskTemplate__c> auxTasks = new List<APTTaskTemplate__c>();
+		List<APTemplateTask__c> auxTasks = new List<APTemplateTask__c>();
 		//Creates default tasks for Action Plan
 		for (Integer i = 0; i < numTasks; i++) {
-			APTTaskTemplate__c a = this.createNewActionPlanTemplateTask(apTemplate, i + 1, null, 'Email', 'High');
+			APTemplateTask__c a = this.createNewActionPlanTemplateTask(apTemplate, i + 1, null, 'Email', 'High');
 			a.TaskIndex__c = i;
 			auxTasks.add(a);
 		}
@@ -415,8 +415,8 @@ public with sharing class ActionPlansTestUtilities {
 	 * @param  priority   Task Priority
 	 * @return            The new Action Plan Template Task Template
 	 */
-	public APTTaskTemplate__c createNewActionPlanTemplateTask(ActionPlanTemplate__c apTemplate, Integer days, User user, String category, String priority) {
-		APTTaskTemplate__c newAPTTask = new APTTaskTemplate__c();
+	public APTemplateTask__c createNewActionPlanTemplateTask(ActionPlanTemplate__c apTemplate, Integer days, User user, String category, String priority) {
+		APTemplateTask__c newAPTTask = new APTemplateTask__c();
 
 		newAPTTask.Action_Plan_Template__c = apTemplate.Id;
 		newAPTTask.Subject__c = this.createRandomWord('subject');

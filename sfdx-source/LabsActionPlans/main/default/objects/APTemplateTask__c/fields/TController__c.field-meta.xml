@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<fullName>TController__c</fullName>
+	<businessStatus>Active</businessStatus>
+	<deleteConstraint>SetNull</deleteConstraint>
+	<description>Controlling template task for this template task</description>
+	<externalId>false</externalId>
+	<label>Controlling Task</label>
+	<referenceTo>APTemplateTask__c</referenceTo>
+	<relationshipLabel>Dependent APT Tasks</relationshipLabel>
+	<relationshipName>Dependent_APT_Tasks</relationshipName>
+	<required>false</required>
+	<trackTrending>false</trackTrending>
+	<type>Lookup</type>
+</CustomField>

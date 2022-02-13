@@ -162,7 +162,7 @@ public without sharing class ActionPlanTemplateExport {
 		out.writeEndElement();
 		out.writeStartElement(null, 'ActionPlanTemplateTasks', null);
 
-		for (APTTaskTemplate__c currentTask : target.apTasks__r) {
+		for (APTemplateTask__c currentTask : target.apTasks__r) {
 			out.writeStartElement(null, 'TaskTemplate', null);
 			writeElement(out, 'id', '' + currentTask.Id);
 			writeElement(out, 'templateId', '' + currentTask.Action_Plan_Template__c);

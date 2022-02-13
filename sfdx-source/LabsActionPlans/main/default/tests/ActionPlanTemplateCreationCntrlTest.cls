@@ -84,7 +84,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		apTemplate.Name = testUtil.createRandomWord('Name');
 
-		APTTaskTemplate__c newAPTTask = new APTTaskTemplate__c();
+		APTemplateTask__c newAPTTask = new APTemplateTask__c();
 
 		newAPTTask.Subject__c = testUtil.createRandomWord('subject');
 		newAPTTask.DaysFromStart__c = 2;
@@ -92,7 +92,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		newAPTTask.Priority__c = 'High';
 
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
-		aptcc.aptTasks = new List<APTTaskTemplate__c>();
+		aptcc.aptTasks = new List<APTemplateTask__c>();
 		aptcc.aptTasks.add(newAPTTask);
 		Pagereference page = aptcc.saveTemplate();
 
@@ -113,7 +113,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apt));
 		Test.startTest();
 
-		aptcc.pendingTemplateDeletes = new List<APTTaskTemplate__c>();
+		aptcc.pendingTemplateDeletes = new List<APTemplateTask__c>();
 		aptcc.pendingTemplateDeletes.add(testutil.createNewActionPlanTemplateTask(apt, 3, tUser, 'Email', 'High'));
 		insert aptcc.pendingTemplateDeletes;
 		aptcc.aptTasks.add(testutil.createNewActionPlanTemplateTask(apt, 3, null, 'Email', 'High'));
@@ -125,9 +125,9 @@ private class ActionPlanTemplateCreationCntrlTest {
 		System.assert(!aptcc.pendingTemplateDeletes.isEmpty());
 
 		//Enter Task Catch()
-		aptcc.pendingTemplateDeletes = new List<APTTaskTemplate__c>();
+		aptcc.pendingTemplateDeletes = new List<APTemplateTask__c>();
 		aptcc.aptTasks.clear();
-		aptcc.aptTasks.add(new APTTaskTemplate__c(DaysFromStart__c = -3));
+		aptcc.aptTasks.add(new APTemplateTask__c(DaysFromStart__c = -3));
 		aptcc.saveTemplate();
 
 		System.assert(!aptcc.aptTasks.isEmpty());
@@ -270,7 +270,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c actionPlanTemplate = testUtil.createNewActionPlanTemplate(5);
 
-		System.assertEquals(5, [SELECT COUNT() FROM APTTaskTemplate__c], 'We created 5 tasks');
+		System.assertEquals(5, [SELECT COUNT() FROM APTemplateTask__c], 'We created 5 tasks');
 
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(actionPlanTemplate));
 		aptcc.getTemplateTasks();
@@ -317,8 +317,8 @@ private class ActionPlanTemplateCreationCntrlTest {
 		apTemplate.Name = '1234567890123456789012345678901234567890'; // 40 characters
 		update apTemplate;
 
-		List<APTTaskTemplate__c> aptts = [SELECT Id, Subject__c FROM APTTaskTemplate__c];
-		for (APTTaskTemplate__c a : aptts) {
+		List<APTemplateTask__c> aptts = [SELECT Id, Subject__c FROM APTemplateTask__c];
+		for (APTemplateTask__c a : aptts) {
 			a.Subject__c = 'abcdefghijabcdefghijabcdefghijabcdefghij'; // 40 characters
 		}
 		update aptts;
@@ -383,9 +383,9 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		APTTaskTemplate__c newAPTTask1 = new APTTaskTemplate__c();
-		APTTaskTemplate__c newAPTTask2 = new APTTaskTemplate__c();
-		APTTaskTemplate__c newAPTTask3 = new APTTaskTemplate__c();
+		APTemplateTask__c newAPTTask1 = new APTemplateTask__c();
+		APTemplateTask__c newAPTTask2 = new APTemplateTask__c();
+		APTemplateTask__c newAPTTask3 = new APTemplateTask__c();
 
 		newAPTTask1.Subject__c = testUtil.createRandomWord('subject');
 		newAPTTask1.DaysFromStart__c = 2;
@@ -411,7 +411,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		System.currentPageReference().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 
-		aptcc.aptTasks = new List<APTTaskTemplate__c>();
+		aptcc.aptTasks = new List<APTemplateTask__c>();
 		aptcc.aptTasks.add(newAPTTask1);
 		aptcc.aptTasks.add(newAPTTask2);
 		aptcc.aptTasks.add(newAPTTask3);
@@ -431,7 +431,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		APTTaskTemplate__c newAPTTask1 = new APTTaskTemplate__c();
+		APTemplateTask__c newAPTTask1 = new APTemplateTask__c();
 
 		newAPTTask1.Subject__c = testUtil.createRandomWord('subject');
 		newAPTTask1.DaysFromStart__c = 2;
@@ -443,7 +443,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		System.currentPageReference().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 
-		aptcc.aptTasks = new List<APTTaskTemplate__c>();
+		aptcc.aptTasks = new List<APTemplateTask__c>();
 		aptcc.aptTasks.add(newAPTTask1);
 
 		aptcc.checkCycleDependent();
@@ -461,10 +461,10 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		APTTaskTemplate__c newAPTTask1 = new APTTaskTemplate__c();
-		APTTaskTemplate__c newAPTTask2 = new APTTaskTemplate__c();
-		APTTaskTemplate__c newAPTTask3 = new APTTaskTemplate__c();
-		APTTaskTemplate__c newAPTTask4 = new APTTaskTemplate__c();
+		APTemplateTask__c newAPTTask1 = new APTemplateTask__c();
+		APTemplateTask__c newAPTTask2 = new APTemplateTask__c();
+		APTemplateTask__c newAPTTask3 = new APTemplateTask__c();
+		APTemplateTask__c newAPTTask4 = new APTemplateTask__c();
 
 		newAPTTask1.Subject__c = testUtil.createRandomWord('subject');
 		newAPTTask1.DaysFromStart__c = 2;
@@ -497,7 +497,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		System.currentPageReference().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 
-		aptcc.aptTasks = new List<APTTaskTemplate__c>();
+		aptcc.aptTasks = new List<APTemplateTask__c>();
 		aptcc.aptTasks.add(newAPTTask1);
 		aptcc.aptTasks.add(newAPTTask2);
 		aptcc.aptTasks.add(newAPTTask3);

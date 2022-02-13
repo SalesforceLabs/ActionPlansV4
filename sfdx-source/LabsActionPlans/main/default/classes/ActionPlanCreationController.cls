@@ -153,7 +153,6 @@ public with sharing class ActionPlanCreationController {
 		this.actionPlan.Name = null;
 		this.subtitle = this.actionPlan.Name;
 
-		//List<APTask__c> tcAux = this.getAPTasks();
 		List<APTask__c> tC = this.apTasks.deepClone(false, true);
 
 		this.apTasks.clear();
@@ -282,16 +281,21 @@ public with sharing class ActionPlanCreationController {
 		get {
 			System.debug('mySettings ' + mySettings);
 			if (mySettings == null) {
-				try {
-					mySettings = ActionPlansUtilities.getCustomSetting();
-				} catch (Exception e) {
-					mySettings = Action_Plans_Settings__c.getInstance();
-				}
+				mySettings = ActionPlansUtilities.getCustomSetting();
 			}
 			System.debug('mysettings: ' + mySettings);
 			return mySettings;
 		}
 		private set;
+	}
+
+	/**
+	 * Utility method for checking if we default ownership to parent record owner if we can't edit the field
+	 *
+	 * @return      `Boolean` Is the Custom Setting present, and do we default uneditable assigned user fields to the parent record owner?
+	 */
+	public Boolean getAssignToParentOwner() {
+		return mySettings.Unassigned_Task_Default__c;
 	}
 
 	/**
@@ -316,10 +320,13 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Action on page load to ensure custom setting is created
-	 * @return   null
+	 * @return   null (required for page actions method)
 	 */
 	public PageReference onLoad() {
 		ActionPlansUtilities.onPageLoad();
+		if (getTasks().isEmpty()) {
+			addTask();
+		}
 		return null;
 	}
 
@@ -371,7 +378,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Check if the action plan has a related object
-	 * @return Is a relationship field filled?;
+	 * @return Is a relationship field filled?
 	 */
 	public Boolean hasRelatedObject() {
 		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
@@ -395,11 +402,11 @@ public with sharing class ActionPlanCreationController {
 			}
 			//do not delete completed tasks
 			tasksToDelete = [SELECT Id FROM Task WHERE TaskAPTask__c IN :deleteApttIds AND IsClosed = FALSE];
-			/* if(ActionPlansCanTheUser.destroy('Task') ){
+			/* if(CanTheUser.destroy('Task') ){
 				delete tasksToDelete;
 			} */
 			Database.delete(tasksToDelete);
-			/* if(ActionPlansCanTheUser.destroy('APTask__c')){
+			/* if(CanTheUser.destroy('APTask__c')){
 				delete pendingDeletes;
 			} */
 			Database.delete(pendingDeletes);
@@ -434,6 +441,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Saves Action Plan Instance and task. Also creates all due dates for tasks, then redirects to the AP list
+	 * @return `ActionPlan__c` Id
 	 */
 	public Id saveAp() {
 		Id actionPlanId;
@@ -462,7 +470,7 @@ public with sharing class ActionPlanCreationController {
 		if (String.isNotBlank(objName) && oIdsList.size() == 1) {
 			Set<Id> parentIDs = new Set<Id>();
 			parentIDs.addAll(oIdsList);
-      
+
 			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()) {
 				Database.ExecuteBatch(new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, objName, parentIDs));
 			} else {
@@ -596,12 +604,12 @@ public with sharing class ActionPlanCreationController {
 		} else if (objectType != null && objectIds != null) {
 			List<Id> oIdsList = parseRelatedIDs(objectIds);
 			// Reference object list page
-			if (oIdsList.size() > 1) {
-				pageRef = '/' + ActionPlansUtilities.getObjectKeyPrefix(objectType);
-			} else {
+			if (oIdsList.size() == 1) {
 				// Reference object detail page
 				String cancelId = oIdsList.get(0) == null ? '' : oIdsList.get(0);
 				pageRef = '/' + cancelId;
+			} else {
+				pageRef = '/' + ActionPlansUtilities.getObjectKeyPrefix(objectType);
 			}
 		} else if (retURL != null) {
 			// Reference previous page if defined
@@ -631,12 +639,12 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * Creates a blank APTask__c object and adds it to List<APTask__c>
+	 * Creates a blank `APTask__c` record and adds it to apTasks
 	 */
 	public void addTask() {
 		this.taskIndex++;
 
-		Boolean hasNoErrors = true;
+		Boolean hasError = false;
 		if (this.apTasks.size() >= ActionPlansUtilities.MAX_APTASKS) {
 			List<String> parameters = new List<String>();
 			parameters.add(String.valueof(ActionPlansUtilities.MAX_APTASKS));
@@ -650,20 +658,18 @@ public with sharing class ActionPlanCreationController {
 			t.TaskIndex__c = this.taskIndex;
 
 			// validate subject and days before adding another
-
 			for (APTask__c apt : apTasks) {
-				hasNoErrors = (apt.Subject__c != null);
-
+				hasError = (hasError == true) || (apt.Subject__c == null);
 				apt.DaysFromStart__c = (apt.DaysFromStart__c < 0) ? 0 : apt.DaysFromStart__c;
 			}
-			if (hasNoErrors) {
+			if (!hasError) {
 				this.apTasks.add(t);
 			}
 		}
 	}
 
 	/**
-	 * Action for removing a existing task
+	 * Action for removing a existing Action Plan Task
 	 */
 	public void removeTask() {
 		if (ApexPages.currentPage().getParameters().get('remove') != null) {
@@ -676,7 +682,7 @@ public with sharing class ActionPlanCreationController {
 			APTask__c apTask;
 			Integer dependentApTask;
 
-			//update the current dependent position from tasks below of deleted one.
+			//update the current dependent position from tasks below deleted one.
 			for (Integer i = 0; i < this.apTasks.size(); i++) {
 				apTask = this.apTasks.get(i);
 				if (apTask.Dependent__c != null && apTask.Dependent__c != 'None') {
@@ -690,7 +696,7 @@ public with sharing class ActionPlanCreationController {
 				}
 			}
 
-			// before remove check if it exists in the DB, if so, add to pendingDeletes to be deleted on save.
+			// before remove, check if it exists in the DB. If so, add to pendingDeletes to be deleted on save.
 			if (this.apTasks[taskIndex].Id != null) {
 				if (pendingDeletes == null) {
 					pendingDeletes = new List<APTask__c>();
@@ -714,16 +720,23 @@ public with sharing class ActionPlanCreationController {
 	public List<ApTaskWrapper> getTasks() {
 		List<ApTaskWrapper> tasksList = new List<ApTaskWrapper>();
 		Integer i = 0;
-		for (APTask__c apTaskTemplate : this.getAPTasks()) {
+		for (APTask__c apTask : this.getAPTasks()) {
 			ApTaskWrapper newTaskWrapper;
 
 			//check if the lookup has to be shown
-			if (apTaskTemplate.Id != null) {
-				newTaskWrapper = this.mapTasksListBkp.get(apTaskTemplate.Id);
+			if (apTask.Id != null) {
+				newTaskWrapper = this.mapTasksListBkp.get(apTask.Id);
 			}
 
 			Boolean userRequired = false;
 			Boolean displayLookUp = Schema.sObjectType.APTask__c.fields.User__c.isUpdateable();
+
+			if (apTask.Id == null && apTask.User__c != null) {
+				displayLookUp = false;
+			}
+
+			// We need to account for the User being filled AND having the option to change it
+			// How can we refer to the template task?
 
 			// User is Required if the ap parent id is null and we don't give unassigned to record owner
 			// We always display the lookup (if editable) because we never FORCE the task to be assigned to the record owner
@@ -735,22 +748,22 @@ public with sharing class ActionPlanCreationController {
 			} */
 			userRequired = mySettings == null || !mySettings.Unassigned_Task_Default__c;
 
-			ApTaskWrapper apTWrapper = new ApTaskWrapper(apTaskTemplate, i, displayLookup, userRequired, actionPlan.TaskRecordTypeID__c);
+			ApTaskWrapper apTWrapper = new ApTaskWrapper(apTask, i, displayLookup, userRequired, actionPlan.TaskRecordTypeID__c);
 			tasksList.add(apTWrapper);
-			if (String.isNotBlank(apTaskTemplate.Id)) {
-				this.mapTasksListBkp.put(apTaskTemplate.Id, apTWrapper);
+			if (String.isNotBlank(apTask.Id)) {
+				this.mapTasksListBkp.put(apTask.Id, apTWrapper);
 			}
-
 			i++;
 		}
-		tasksList[i - 1].isLast = true;
-
+		if (i > 0) {
+			tasksList[i - 1].isLast = true;
+		}
 		return tasksList;
 	}
 
 	/**
-	 * Gets Tasks related to an Action Plan
-	 * @return apTasks
+	 * Gets Tasks related to an Action Plan, or initializes from the Action Plan Template
+	 * @return Action Plan Tasks
 	 */
 	public List<APTask__c> getAPTasks() {
 		if (this.apTasks == null || this.apTasks.size() == 0) {
@@ -759,7 +772,7 @@ public with sharing class ActionPlanCreationController {
 			}
 
 			if (templateId != null) {
-				List<APTTaskTemplate__c> aptTasks = [
+				List<APTemplateTask__c> aptTasks = [
 					SELECT
 						Subject__c,
 						Priority__c,
@@ -779,20 +792,20 @@ public with sharing class ActionPlanCreationController {
 						Comments__c,
 						TaskIndex__c,
 						Action_Plan_Template__r.TaskRecordTypeID__c
-					FROM APTTaskTemplate__c
+					FROM APTemplateTask__c
 					WHERE Action_Plan_Template__c = :templateId
 					ORDER BY TaskIndex__c ASC
 				];
 
 				this.apTasks = new List<APTask__c>();
 
-				Id userId;
-				for (APTTaskTemplate__c aptTask : aptTasks) {
+				for (APTemplateTask__c aptTask : aptTasks) {
+					APTask__c t = new APTask__c();
 					//Read the Custom Settings in order to asign the User to that Task
 					if (aptTask.User__c != null) {
-						userId = aptTask.User__c;
-					} else if (aptTask.User__c == null && (mySettings != null && !mySettings.Unassigned_Task_Default__c)) {
-						userId = UserInfo.getUserId();
+						t.User__c = aptTask.User__c;
+					} else if (aptTask.User__c == null && (!mySettings.Unassigned_Task_Default__c)) {
+						t.User__c = UserInfo.getUserId();
 					}
 					/* else if( aptTask.User__c == null && ( mySettings != null &&  mySettings.Unassigned_Task_Default__c ) ) {
 						userId = null;
@@ -801,14 +814,13 @@ public with sharing class ActionPlanCreationController {
 						userId = UserInfo.getUserId();
 					} */
 
-					APTask__c t = new APTask__c();
 					t.Type__c = aptTask.Type__c;
 					t.Subject__c = aptTask.Subject__c;
 					t.Priority__c = aptTask.Priority__c;
 					t.Dependent__c = aptTask.Dependent__c;
 					t.TaskIndex__c = aptTask.TaskIndex__c;
 					t.DaysFromStart__c = aptTask.DaysFromStart__c;
-					t.User__c = userId;
+					//t.User__c = userId;
 					t.Reminder__c = aptTask.Reminder__c;
 
 					if (aptTask.Reminder__c && String.isBlank(aptTask.Minutes_Reminder__c)) {
@@ -959,6 +971,7 @@ public with sharing class ActionPlanCreationController {
 				toReturn.add(validId);
 			} catch (Exception ex) {
 				System.debug('RelatedId did not have the form of a valid ID');
+				return new List<Id>();
 			}
 		}
 		return toReturn;
@@ -981,14 +994,14 @@ public with sharing class ActionPlanCreationController {
 
 		switch on objectlower {
 			when 'case' {
-				if (ActionPlansCanTheUser.read('Case')) {
+				if (CanTheUser.read('Case')) {
 					for (Case ca : [SELECT Subject, CaseNumber FROM Case WHERE Id IN :relatedRecordIDs]) {
 						nameList.add((ca.Subject != null) ? ca.CaseNumber + ': ' + ca.Subject : ca.CaseNumber);
 					}
 				}
 			}
 			when 'contract' {
-				if (ActionPlansCanTheUser.read('Contract')) {
+				if (CanTheUser.read('Contract')) {
 					for (Contract contr : [SELECT ContractNumber FROM Contract WHERE Id IN :relatedRecordIDs]) {
 						nameList.add(Contract.Name.getDescribe().getLabel() + ': ' + contr.ContractNumber);
 					}
@@ -996,7 +1009,7 @@ public with sharing class ActionPlanCreationController {
 			}
 			when else {
 				System.debug('checking perms and querying related record for object ' + relatedObjectName);
-				if (ActionPlansCanTheUser.read(relatedObjectName)) {
+				if (CanTheUser.read(relatedObjectName)) {
 					for (SObject so : Database.query('SELECT Id, Name FROM ' + relatedObjectName + ' WHERE Id IN :relatedRecordIDs')) {
 						//System.debug('adding record name ' + (String)so.get('Name'));
 						nameList.add((String) so.get('Name'));
@@ -1153,7 +1166,7 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public Double calculateAPTTaskIndexValue() {
 		Double maxIndex = 0;
-		List<AggregateResult> arList = [SELECT MAX(TaskIndex__c) m FROM APTTaskTemplate__c WHERE Action_Plan_Template__c = :this.templateId];
+		List<AggregateResult> arList = [SELECT MAX(TaskIndex__c) m FROM APTemplateTask__c WHERE Action_Plan_Template__c = :this.templateId];
 		if (!arList.isEmpty()) {
 			maxIndex = (Double) arList[0].get('m');
 			maxIndex = (maxIndex == null ? 0 : maxIndex);
@@ -1301,14 +1314,20 @@ public with sharing class ActionPlanCreationController {
 	 * @since 4/2022
 	 */
 	public class ApTaskWrapper {
-		public APTask__c task { get; set; }
+		public APTask__c apt { get; set; }
 		public Integer position { get; set; }
 		public Boolean isLast { get; set; }
+		/**
+		 * Should we display the lookup?
+		 */
 		public Boolean displayLookUp { get; set; }
+		/**
+		 * Is the User lookup required?
+		 */
 		public Boolean userRequired { get; set; }
 
 		/**
-		 * @description      Constructor
+		 * Constructor
 		 *
 		 * @param apTask     Action Plan Task Template
 		 * @param pos        Position (in the list of AP Tasks) on the Page
@@ -1317,7 +1336,7 @@ public with sharing class ActionPlanCreationController {
 		 * @param apTaskRTId The Record Type of the Task eventually to be created
 		 */
 		public ApTaskWrapper(APTask__c apTask, Integer pos, Boolean looKp, Boolean userReq, Id apTaskRTId) {
-			task = apTask;
+			apt = apTask;
 			position = pos;
 			isLast = false;
 			displayLookUp = looKp;
@@ -1332,16 +1351,16 @@ public with sharing class ActionPlanCreationController {
 				}
 			}
 
-			if (task.Id == null) {
-				task.Priority__c = task.Priority__c != null ? task.Priority__c : ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(taskRTID);
-				task.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(taskRTID);
-				task.Type__c = task.Type__c != null ? task.Type__c : ActionPlansUtilities.getTaskRecordTypeTypeDefaultValues().get(taskRTID);
-				task.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
-				task.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
+			if (apt.Id == null) {
+				apt.Priority__c = apt.Priority__c != null ? apt.Priority__c : ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(taskRTID);
+				apt.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(taskRTID);
+				apt.Type__c = apt.Type__c != null ? apt.Type__c : ActionPlansUtilities.getTaskRecordTypeTypeDefaultValues().get(taskRTID);
+				apt.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
+				apt.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
 			}
 
-			if (task.User__c == null && displayLookUp && userRequired) {
-				task.User__c = UserInfo.getUserId();
+			if (apt.User__c == null && displayLookUp && userRequired) {
+				apt.User__c = UserInfo.getUserId();
 			}
 		}
 	}

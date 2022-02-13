@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 public with sharing class ActionPlansRedirect {
 	private APTask__c actionPlanTask;
-	private APTTaskTemplate__c actionPlanTemplateTask;
+	private APTemplateTask__c actionPlanTemplateTask;
 	private Id parentId;
 
 	/**
@@ -55,8 +55,8 @@ public with sharing class ActionPlansRedirect {
 		if (objName.equalsIgnoreCase('APTask__c')) {
 			actionPlanTask = (APTask__c) controller.getRecord();
 			parentId = actionPlanTask.Action_Plan__c;
-		} else if (objName.equalsIgnoreCase('APTTaskTemplate__c')) {
-			actionPlanTemplateTask = (APTTaskTemplate__c) controller.getRecord();
+		} else if (objName.equalsIgnoreCase('APTemplateTask__c')) {
+			actionPlanTemplateTask = (APTemplateTask__c) controller.getRecord();
 			parentId = actionPlanTemplateTask.Action_Plan_Template__c;
 		}
 	}

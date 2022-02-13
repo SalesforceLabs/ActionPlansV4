@@ -60,7 +60,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	public Boolean taskHasRecordType { get; private set; }
 
 	@testVisible
-	private List<APTTaskTemplate__c> pendingTemplateDeletes;
+	private List<APTemplateTask__c> pendingTemplateDeletes;
 
 	private Id templateId;
 
@@ -84,9 +84,6 @@ public with sharing class ActionPlanTemplateCreationController {
 			}
 
 			if (templateId != null) {
-				//System.debug('templateId ' + templateId);
-				//System.debug('CLONING');
-
 				ActionPlanTemplate__c apC = [SELECT Name, Description__c, SkipDay__c, SkipWeekends__c, TaskRecordTypeID__c FROM ActionPlanTemplate__c WHERE Id = :templateId LIMIT 1];
 
 				actionPlanTemplate.Name = apC.Name;
@@ -118,10 +115,13 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Action on page load to ensure custom setting is created
-	 * @return   null
+	 * @return   PageReference (null)
 	 */
 	public PageReference onLoad() {
 		ActionPlansUtilities.onPageLoad();
+		if (getTemplateWrappers().isEmpty()) {
+			addTemplateTask();
+		}
 		return null;
 	}
 
@@ -147,7 +147,7 @@ public with sharing class ActionPlanTemplateCreationController {
 		}
 
 		// save tasks to the template and attach relation to Action Plan
-		for (APTTaskTemplate__c t : aptTasks) {
+		for (APTemplateTask__c t : aptTasks) {
 			if (t.Action_Plan_Template__c == null) {
 				t.Action_Plan_Template__c = actionPlanTemplate.Id;
 			}
@@ -165,7 +165,7 @@ public with sharing class ActionPlanTemplateCreationController {
 		}
 
 		// run through the tasks and take care of dependents
-		for (APTTaskTemplate__c t : aptTasks) {
+		for (APTemplateTask__c t : aptTasks) {
 			if (t.Dependent__c != null && t.Dependent__c != 'None') {
 				t.TController__c = aptTasks[Integer.valueOf(t.Dependent__c)].Id;
 			} else {
@@ -234,7 +234,7 @@ public with sharing class ActionPlanTemplateCreationController {
 			parameters.add(String.valueof(ActionPlansUtilities.MAX_APTASKS));
 			errorMsg = String.format(System.Label.ap_Errors_TaskLimitError, parameters);
 		} else {
-			APTTaskTemplate__c t = new APTTaskTemplate__c();
+			APTemplateTask__c t = new APTemplateTask__c();
 			t.TaskIndex__c = taskIndex;
 			aptTasks.add(t);
 		}
@@ -255,7 +255,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 			//update the current dependent position from tasks below of deleted one.
 			for (Integer i = 0; i < aptTasks.size(); i++) {
-				APTTaskTemplate__c aptTask = aptTasks.get(i);
+				APTemplateTask__c aptTask = aptTasks.get(i);
 				if (aptTask.Dependent__c != null && aptTask.Dependent__c != 'None') {
 					dependentApTask = Integer.valueOf(aptTask.Dependent__c);
 					if (dependentApTask > taskIndex) {
@@ -270,7 +270,7 @@ public with sharing class ActionPlanTemplateCreationController {
 			// before remove check if it exists in the DB. If so, add to pendingTemplateDeletes to be deleted on save.
 			if (aptTasks[taskIndex].Id != null) {
 				if (pendingTemplateDeletes == null) {
-					pendingTemplateDeletes = new List<APTTaskTemplate__c>();
+					pendingTemplateDeletes = new List<APTemplateTask__c>();
 				}
 				pendingTemplateDeletes.add(aptTasks[taskIndex]);
 			}
@@ -293,20 +293,22 @@ public with sharing class ActionPlanTemplateCreationController {
 		List<ApTTaskWrapper> tasksList = new List<ApTTaskWrapper>();
 
 		Integer i = 0;
-		for (APTTaskTemplate__c aptTaskTemplate : aptTasks) {
+		for (APTemplateTask__c aptTaskTemplate : aptTasks) {
 			ApTTaskWrapper = new ApTTaskWrapper(aptTaskTemplate, i, this.actionPlanTemplate.TaskRecordTypeID__c);
 			tasksList.add(ApTTaskWrapper);
 			i++;
 		}
-		tasksList[i - 1].isLast = true;
+		if (i > 0) {
+			tasksList[i - 1].isLast = true;
+		}
 		return tasksList;
 	}
 
 	@TestVisible
-	private List<APTTaskTemplate__c> aptTasks {
+	private List<APTemplateTask__c> aptTasks {
 		get {
 			if (aptTasks == null) {
-				aptTasks = new List<APTTaskTemplate__c>();
+				aptTasks = new List<APTemplateTask__c>();
 				aptTasks = getTemplateTasks();
 			}
 			return aptTasks;
@@ -318,7 +320,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * Get all tasks related to the Action Template.
 	 * @return aptTasks
 	 */
-	public List<APTTaskTemplate__c> getTemplateTasks() {
+	public List<APTemplateTask__c> getTemplateTasks() {
 		if (aptTasks.size() == 0) {
 			if (actionPlanTemplate.Id != null) {
 				aptTasks = [
@@ -341,13 +343,13 @@ public with sharing class ActionPlanTemplateCreationController {
 						Reminder__c,
 						SendEmail__c,
 						Comments__c
-					FROM APTTaskTemplate__c
+					FROM APTemplateTask__c
 					WHERE Action_Plan_Template__c = :actionPlanTemplate.Id
 					ORDER BY TaskIndex__c ASC
 				];
 			} else {
-				aptTasks = new List<APTTaskTemplate__c>();
-				APTTaskTemplate__c t = new APTTaskTemplate__c(); //(APTTaskTemplate__c)APTTaskTemplate__c.getSObjectType().newSObject(null, true);
+				aptTasks = new List<APTemplateTask__c>();
+				APTemplateTask__c t = new APTemplateTask__c(); //(APTemplateTask__c)APTemplateTask__c.getSObjectType().newSObject(null, true);
 				t.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
 				t.Priority__c = ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(actionPlanTemplate.TaskRecordTypeID__c); //(String)Task.Priority.getDescribe().getDefaultValue();
 				aptTasks.add(t);
@@ -375,17 +377,17 @@ public with sharing class ActionPlanTemplateCreationController {
 						Reminder__c,
 						SendEmail__c,
 						Comments__c
-					FROM APTTaskTemplate__c
+					FROM APTemplateTask__c
 					WHERE Action_Plan_Template__c = :templateId
 					ORDER BY TaskIndex__c ASC
 				];
 
-				List<APTTaskTemplate__c> tempTaskList = aptTasks.deepClone(false, false, false);
+				List<APTemplateTask__c> tempTaskList = aptTasks.deepClone(false, false, false);
 				aptTasks.clear();
 				aptTasks = tempTaskList;
 
 				// clear lookup relationship also
-				for (APTTaskTemplate__c t : aptTasks) {
+				for (APTemplateTask__c t : aptTasks) {
 					if (t.Action_Plan_Template__c != null) {
 						t.Action_Plan_Template__c = null;
 					}
@@ -414,7 +416,7 @@ public with sharing class ActionPlanTemplateCreationController {
 		Integer i = 0;
 
 		if (aptTasks != null) {
-			for (APTTaskTemplate__c t : aptTasks) {
+			for (APTemplateTask__c t : aptTasks) {
 				if (t.Subject__c != null) {
 					options.add(new SelectOption(String.valueOf(i), t.Subject__c + ' (' + (i + 1) + ')'));
 				}
@@ -445,9 +447,9 @@ public with sharing class ActionPlanTemplateCreationController {
 		this.errorMsg = null;
 		Integer index = 0;
 
-		for (APTTaskTemplate__c t : aptTasks) {
+		for (APTemplateTask__c t : aptTasks) {
 			if (t.Dependent__c != null && t.Dependent__c != 'None') {
-				APTTaskTemplate__c link = aptTasks[Integer.valueOf(t.Dependent__c)];
+				APTemplateTask__c link = aptTasks[Integer.valueOf(t.Dependent__c)];
 
 				//task can not depend on themselves
 				if (Integer.valueOf(t.Dependent__c) == index) {
@@ -473,7 +475,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * @param index
 	 * @return Boolean
 	 */
-	private Boolean dependantCycle(APTTaskTemplate__c destinyTask, Integer index) {
+	private Boolean dependantCycle(APTemplateTask__c destinyTask, Integer index) {
 		Boolean hasDependency = false;
 		Set<Integer> visitedTasks = new Set<Integer>();
 
@@ -489,7 +491,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 			if (destinyTask.Dependent__c != null && destinyTask.Dependent__c != 'None') {
 				Integer tempIndexDestiny = Integer.valueOf(destinyTask.Dependent__c);
-				APTTaskTemplate__c link = aptTasks[tempIndexDestiny];
+				APTemplateTask__c link = aptTasks[tempIndexDestiny];
 
 				if (link.Dependent__c != null && link.Dependent__c != 'None') {
 					if (Integer.valueOf(link.Dependent__c) == index) {
@@ -526,7 +528,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	 */
 	public Double calculateTaskIndexValue() {
 		Double maxIndex = 0;
-		for (APTTaskTemplate__c tsk : [SELECT Id, TaskIndex__c FROM APTTaskTemplate__c WHERE Action_Plan_Template__c = :actionPlanTemplate.Id]) {
+		for (APTemplateTask__c tsk : [SELECT Id, TaskIndex__c FROM APTemplateTask__c WHERE Action_Plan_Template__c = :actionPlanTemplate.Id]) {
 			if (tsk.TaskIndex__c > maxIndex) {
 				maxIndex = tsk.TaskIndex__c;
 			}
@@ -579,7 +581,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	}
 
 	/**
-	 * @description Get the reminder time picklist options from the central utilities class
+	 * Get the reminder time picklist options from the central utilities class
 	 * @return      Picklist of reminder times
 	 */
 	public List<SelectOption> getHoursOption() {
@@ -594,18 +596,18 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * @date 05/2022
 	 */
 	public class ApTTaskWrapper {
-		public APTTaskTemplate__c task { get; set; }
+		public APTemplateTask__c task { get; set; }
 		public Integer position { get; set; }
 		public Boolean isLast { get; set; }
 
 		/**
-		 * @description       Constructor for ActionPlan Template Task Wrapper
+		 * Constructor for ActionPlan Template Task Wrapper
 		 *
 		 * @param apTask      Action Plan Template Task
 		 * @param pos         Position/Index
 		 * @param apTTaskRTId The RecordType of the related Task
 		 */
-		public ApTTaskWrapper(APTTaskTemplate__c apTask, Integer pos, Id apTTaskRTId) {
+		public ApTTaskWrapper(APTemplateTask__c apTask, Integer pos, Id apTTaskRTId) {
 			task = apTask;
 			position = pos;
 			isLast = false;

@@ -10,6 +10,9 @@ on:
     paths-ignore:
       - 'sfdx-project.json'
       - 'README.md'
+      - 'docs/**'
+      - 'doc-assets/**'
+      - '.vscode/**'
 
 # Jobs to be executed
 jobs:
@@ -53,7 +56,7 @@ jobs:
         run: npm run apex:local:stop
   pmd-analysis:
     runs-on: ubuntu-latest
-    #needs: format-lint-apex-lwc
+    needs: format-lint
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       # Checkout the source code

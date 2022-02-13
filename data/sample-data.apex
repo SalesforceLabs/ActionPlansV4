@@ -7,7 +7,7 @@ apt.TaskRecordTypeID__c = '';
 
 insert apt;
 
-APTTaskTemplate__c a1 = new APTTaskTemplate__c(Action_Plan_Template__c = apt.Id);
+APTemplateTask__c a1 = new APTemplateTask__c(Action_Plan_Template__c = apt.Id);
 a1.Subject__c = 'Send welcome gift';
 a1.Priority__c = 'High';
 a1.Dependent__c = 'None';
@@ -20,7 +20,7 @@ a1.SendEmail__c = false;
 a1.Comments__c = 'Contact our branded product provider to ship appropriate gift';
 insert a1;
 
-APTTaskTemplate__c a2 = new APTTaskTemplate__c(Action_Plan_Template__c = apt.Id);
+APTemplateTask__c a2 = new APTemplateTask__c(Action_Plan_Template__c = apt.Id);
 a2.Subject__c = 'Enable Customer Community User';
 a2.Priority__c = 'Normal';
 a2.Dependent__c = '0';
@@ -34,7 +34,7 @@ a2.SendEmail__c = false;
 insert a2;
 
 
-APTTaskTemplate__c a3 = new APTTaskTemplate__c(Action_Plan_Template__c = apt.Id);
+APTemplateTask__c a3 = new APTemplateTask__c(Action_Plan_Template__c = apt.Id);
 a3.Subject__c = 'Schedule onboarding call with customer success';
 a3.Priority__c = 'Normal';
 a3.Dependent__c = '1';

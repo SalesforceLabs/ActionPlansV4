@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Chatter_Object_Brag__c</fullName>
-    <defaultValue>false</defaultValue>
-    <description>Enable Chatter Object Brag when a New Action Plan for this object is created.</description>
-    <externalId>false</externalId>
-    <inlineHelpText>Enable Chatter FeedItem post when a New Action Plan for a record is created.</inlineHelpText>
-    <label>Enable Chatter Post</label>
-    <trackTrending>false</trackTrending>
-    <type>Checkbox</type>
+	<fullName>Chatter_Object_Brag__c</fullName>
+	<businessStatus>Active</businessStatus>
+	<defaultValue>false</defaultValue>
+	<description>Enable Chatter Object Brag when a New Action Plan for this object is created.</description>
+	<externalId>false</externalId>
+	<inlineHelpText>Enable Chatter FeedItem post when a New Action Plan for a record is created.</inlineHelpText>
+	<label>Enable Chatter Post</label>
+	<trackTrending>false</trackTrending>
+	<type>Checkbox</type>
 </CustomField>

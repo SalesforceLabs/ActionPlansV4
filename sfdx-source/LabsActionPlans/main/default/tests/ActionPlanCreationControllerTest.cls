@@ -44,14 +44,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 private class ActionPlanCreationControllerTest {
 	@TestSetup
 	static void makeData() {
-		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
+		/* Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
 		aps.Unassigned_Task_Default__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {
 			update aps;
-		}
+		} */
 	}
 
 	@IsTest
@@ -64,6 +64,7 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.onLoad();
+		System.assertEquals(0, apCreateController.getCompleted(), 'New AP should have no completed tasks');
 		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
@@ -114,6 +115,7 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.getHoursOption();
 		apCreateController.getDisplayTemplateLookup();
 		apCreateController.getRecordTypeName();
+		apCreateController.getAssignToParentOwner();
 
 		apCreateController.relatedFieldName = ActionPlansUtilities.namespacePrefix + 'Contract__c';
 		apCreateController.relatedFieldName = ActionPlansUtilities.namespacePrefix + 'Case__c';
@@ -245,7 +247,7 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.save();
 
 		Test.stopTest();
-		System.assertEquals(APTTASKCOUNT, [SELECT COUNT() FROM APTTaskTemplate__c]);
+		System.assertEquals(APTTASKCOUNT, [SELECT COUNT() FROM APTemplateTask__c]);
 
 		System.assertEquals(CONCOUNT, [SELECT COUNT() FROM ActionPlan__c], 'Failed to make one AP per contact');
 		System.debug('successfully related to ' + CONCOUNT + ' Contacts');
@@ -338,12 +340,12 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.getTasks();
 		System.assertEquals(2, apCreateController.getTasks().size());
 
-		ActionPlanCreationController.ApTaskWrapper apt = apCreateController.getTasks()[1];
+		ActionPlanCreationController.ApTaskWrapper taskWrap = apCreateController.getTasks()[1];
 
-		apt.task.Subject__c = testUtil.createRandomWord('subject');
-		apt.task.DaysFromStart__c = 3;
-		apt.task.User__c = ownerUser.Id;
-		apt.task.Priority__c = ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(defaultTaskRTId);
+		taskWrap.apt.Subject__c = testUtil.createRandomWord('subject');
+		taskWrap.apt.DaysFromStart__c = 3;
+		taskWrap.apt.User__c = ownerUser.Id;
+		taskWrap.apt.Priority__c = ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(defaultTaskRTId);
 		System.debug('Priority is set to ' + ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(defaultTaskRTId));
 		apCreateController.save();
 
@@ -612,24 +614,6 @@ private class ActionPlanCreationControllerTest {
 
 		System.assertEquals(1, apCreateController.relatedObjNameList.size());
 	}
-
-	/* @IsTest
-	private static void testCustomMessage(){
-
-		try{
-			Account c = new Account();
-			insert c;
-		}
-		catch( DmlException e1 ) {
-			try{
-				throw new ActionPlanCreationController.FieldCustomValidationException( e1 );
-			}
-			catch( ActionPlanCreationController.FieldCustomValidationException e2 ){
-				System.assert( e2.getCustomMessage() != '' );
-			}
-
-		}
-	} */
 
 	@IsTest
 	private static void testSetTaskRecordType() {

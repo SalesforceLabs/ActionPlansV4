@@ -93,7 +93,7 @@ public with sharing class ActionPlanTemplateDetailController {
 	 */
 	public PageReference deleteTemplate() {
 		try {
-			new ActionPlansSafely().doDelete(actionPlanTemplate);
+			new Safely().doDelete(actionPlanTemplate);
 		} catch (Exception e) {
 			Apexpages.addMessages(e);
 			return null;
@@ -108,9 +108,9 @@ public with sharing class ActionPlanTemplateDetailController {
 
 	/**
 	 * Call method getTemplateTasks()
-	 * @return List<APTTaskTemplate__c>
+	 * @return List<APTemplateTask__c>
 	 */
-	public List<APTTaskTemplate__c> getTemplateTasks() {
+	public List<APTemplateTask__c> getTemplateTasks() {
 		return [
 			SELECT
 				Subject__c,
@@ -131,7 +131,7 @@ public with sharing class ActionPlanTemplateDetailController {
 				Reminder__c,
 				SendEmail__c,
 				Comments__c
-			FROM APTTaskTemplate__c
+			FROM APTemplateTask__c
 			WHERE Action_Plan_Template__c = :actionPlanTemplate.Id
 			ORDER BY TaskIndex__c ASC NULLS FIRST
 		];

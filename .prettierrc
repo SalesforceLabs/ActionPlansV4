@@ -17,7 +17,8 @@
 			"options": { "parser": "html", "tabWidth": 2 }
 		},
 		{
-			"files": ["sfdx-source/**/**/**/classes/*.cls", "sfdx-source/**/**/**/tests/*.cls"]
+			"files": "**/*.{cls,trigger,apex}",
+			"options": { "tabWidth": 2 }
 		}
 	]
 }

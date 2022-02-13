@@ -227,8 +227,8 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 		}
 	}
-  
-  /**
+
+	/**
 	 * Handle ActionPlan Tasks
 	 * @author David Schach
 	 * @param  newRecords    Trigger.new
@@ -347,8 +347,8 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 				if (!changedNames.isEmpty()) {
-					List<APTTaskTemplate__c> templateTasks = [SELECT Id, Name FROM APTTaskTemplate__c WHERE Action_Plan_Template__c IN :changedNames];
-					for (APTTaskTemplate__c a : templateTasks) {
+					List<APTemplateTask__c> templateTasks = [SELECT Id, Name FROM APTemplateTask__c WHERE Action_Plan_Template__c IN :changedNames];
+					for (APTemplateTask__c a : templateTasks) {
 						a.Name = null;
 					}
 					update templateTasks;
@@ -364,23 +364,23 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanTemplateTaskTemplate(
-		List<APTTaskTemplate__c> newRecords,
-		List<APTTaskTemplate__c> oldRecords,
-		Map<Id, APTTaskTemplate__c> oldRecordsMap,
+	public static void triggerHandler_ActionPlanTemplateTask(
+		List<APTemplateTask__c> newRecords,
+		List<APTemplateTask__c> oldRecords,
+		Map<Id, APTemplateTask__c> oldRecordsMap,
 		System.TriggerOperation triggerEvent
 	) {
-		//System.debug('In APTTaskTemplate__c ' + triggerEvent.name());
+		//System.debug('In APTemplateTask__c ' + triggerEvent.name());
 
 		switch on triggerEvent {
 			when BEFORE_INSERT, BEFORE_UPDATE {
 				Set<Id> templateIDs = new Set<Id>();
-				Schema.SObjectType aptttype = Schema.APTTaskTemplate__c.getSObjectType();
+				Schema.SObjectType aptttype = Schema.APTemplateTask__c.getSObjectType();
 				Schema.DescribeSObjectResult apttDescribe = aptttype.getDescribe();
 				String apttObjectName = apttDescribe.getName();
 				String apttPrefix = ActionPlansUtilities.getObjectKeyPrefix(apttObjectName);
 				//System.debug('prefix for ' + apttObjectName + ' is ' + apttPrefix);
-				for (APTTaskTemplate__c aptt : newRecords) {
+				for (APTemplateTask__c aptt : newRecords) {
 					if (
 						aptt.Name == null ||
 						aptt.Name.startsWithIgnoreCase(apttPrefix) ||
@@ -394,7 +394,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				if (!templateIDs.isEmpty()) {
 					Map<Id, ActionPlanTemplate__c> nameMap = new Map<Id, ActionPlanTemplate__c>([SELECT Id, Name FROM ActionPlanTemplate__c WHERE Id IN :templateIDs]);
 
-					for (APTTaskTemplate__c aptt : newRecords) {
+					for (APTemplateTask__c aptt : newRecords) {
 						if (nameMap.containsKey(aptt.Action_Plan_Template__c)) {
 							String templateName = nameMap.get(aptt.Action_Plan_Template__c).Name;
 							String newSubject = templateName + ' - ' + aptt.Subject__c;
@@ -402,7 +402,7 @@ global without sharing class ActionPlansTriggerHandlers {
 						}
 					}
 				}
-				for (APTTaskTemplate__c a : newRecords) {
+				for (APTemplateTask__c a : newRecords) {
 					if (a.Reminder__c && String.isBlank(a.Minutes_Reminder__c)) {
 						a.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
 					} else if (!a.Reminder__c) {
@@ -745,7 +745,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * @description    Though the object name should match the field name, we get the name of the related object
+	 * Though the object name should match the field name, we get the name of the related object
 	 *
 	 * @param recordId The related record Id
 	 * @return         The name of the filled Relationship field object name
