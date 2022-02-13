@@ -402,11 +402,11 @@ public with sharing class ActionPlanCreationController {
 			}
 			//do not delete completed tasks
 			tasksToDelete = [SELECT Id FROM Task WHERE TaskAPTask__c IN :deleteApttIds AND IsClosed = FALSE];
-			/* if(ActionPlansCanTheUser.destroy('Task') ){
+			/* if(CanTheUser.destroy('Task') ){
 				delete tasksToDelete;
 			} */
 			Database.delete(tasksToDelete);
-			/* if(ActionPlansCanTheUser.destroy('APTask__c')){
+			/* if(CanTheUser.destroy('APTask__c')){
 				delete pendingDeletes;
 			} */
 			Database.delete(pendingDeletes);
@@ -994,14 +994,14 @@ public with sharing class ActionPlanCreationController {
 
 		switch on objectlower {
 			when 'case' {
-				if (ActionPlansCanTheUser.read('Case')) {
+				if (CanTheUser.read('Case')) {
 					for (Case ca : [SELECT Subject, CaseNumber FROM Case WHERE Id IN :relatedRecordIDs]) {
 						nameList.add((ca.Subject != null) ? ca.CaseNumber + ': ' + ca.Subject : ca.CaseNumber);
 					}
 				}
 			}
 			when 'contract' {
-				if (ActionPlansCanTheUser.read('Contract')) {
+				if (CanTheUser.read('Contract')) {
 					for (Contract contr : [SELECT ContractNumber FROM Contract WHERE Id IN :relatedRecordIDs]) {
 						nameList.add(Contract.Name.getDescribe().getLabel() + ': ' + contr.ContractNumber);
 					}
@@ -1009,7 +1009,7 @@ public with sharing class ActionPlanCreationController {
 			}
 			when else {
 				System.debug('checking perms and querying related record for object ' + relatedObjectName);
-				if (ActionPlansCanTheUser.read(relatedObjectName)) {
+				if (CanTheUser.read(relatedObjectName)) {
 					for (SObject so : Database.query('SELECT Id, Name FROM ' + relatedObjectName + ' WHERE Id IN :relatedRecordIDs')) {
 						//System.debug('adding record name ' + (String)so.get('Name'));
 						nameList.add((String) so.get('Name'));

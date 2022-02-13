@@ -1,17 +1,17 @@
 /**
  * Test class for Safely
- * @see https://github.com/codefriar/CanTheUser
+ * @see https://github.com/codefriar/Safely
  * @see https://github.com/trailheadapps/apex-recipes
  * @author {@link [Codefriar](https://github.com/codefriar)}
  * @group Security
  */
 @IsTest
-private class ActionPlansSafelyTest {
+private class SafelyTest {
 	@IsTest
 	private static void testConstructorChains() {
 		Test.startTest();
-		ActionPlansSafely instanceOne = new ActionPlansSafely().allOrNothing();
-		ActionPlansSafely instanceTwo = new ActionPlansSafely().throwIfRemovedFields();
+		Safely instanceOne = new Safely().allOrNothing();
+		Safely instanceTwo = new Safely().throwIfRemovedFields();
 		Test.stopTest();
 
 		System.assertEquals(true, instanceOne.allOrNothing, 'Expected Fluent constructor to have set this to true');
@@ -24,7 +24,7 @@ private class ActionPlansSafelyTest {
 	private static void testDoInsertMethodsNoThrowPositive() {
 		Account account = (Account) new Account(Name = 'TestAccount');
 		Test.startTest();
-		List<Database.SaveResult> results = new ActionPlansSafely().doInsert(account);
+		List<Database.SaveResult> results = new Safely().doInsert(account);
 		Test.stopTest();
 		System.assertEquals(1, results.size(), 'Expected one save result in the list');
 		System.assert(results.get(0).success, 'This dml should succeed');
@@ -35,10 +35,10 @@ private class ActionPlansSafelyTest {
 		User minAccessUser = createMinAccessUser(true);
 
 		System.runAs(minAccessUser) {
-			System.assert(!ActionPlansCanTheUser.create(new Account()));
+			System.assert(!CanTheUser.create(new Account()));
 			Test.startTest();
 			Account account = (Account) new Account(Name = 'TestAccount');
-			List<Database.SaveResult> results = new ActionPlansSafely().doInsert(account);
+			List<Database.SaveResult> results = new Safely().doInsert(account);
 			Test.stopTest();
 			System.assertEquals(0, results.size(), 'Expected zero delete result in the list');
 		}
@@ -52,8 +52,8 @@ private class ActionPlansSafelyTest {
 		Test.startTest();
 		System.runAs(marketingUser) {
 			try {
-				new ActionPlansSafely().throwIfRemovedFields().doInsert(account);
-			} catch (ActionPlansSafely.RemovedFieldsException rfe) {
+				new Safely().throwIfRemovedFields().doInsert(account);
+			} catch (Safely.RemovedFieldsException rfe) {
 				if (rfe.getMessage().containsIgnoreCase('and the following fields')) {
 					didCatchTheRightException = true;
 				}
@@ -69,7 +69,7 @@ private class ActionPlansSafelyTest {
 		insert account;
 		account.Name = 'TestAccount2';
 		Test.startTest();
-		List<Database.SaveResult> results = new ActionPlansSafely().doUpdate(account);
+		List<Database.SaveResult> results = new Safely().doUpdate(account);
 		Test.stopTest();
 		System.assertEquals(1, results.size(), 'Expected one save result in the list');
 		System.assert(results.get(0).success, 'This dml should succeed');
@@ -90,13 +90,13 @@ private class ActionPlansSafelyTest {
 		insert new PermissionSetAssignment(PermissionSetId = ps.Id, AssigneeId = minAccessUser.Id);
 		System.runAs(minAccessUser) {
 			Account account = (Account) new Account(name = 'TestAccount');
-			System.assert(ActionPlansCanTheUser.create(account));
+			System.assert(CanTheUser.create(account));
 			insert account;
 
 			Test.startTest();
 			account.Name = 'UpdatedAccount';
-			System.assert(!(ActionPlansCanTheUser.edit(account)));
-			List<Database.SaveResult> results = new ActionPlansSafely().doUpdate(account);
+			System.assert(!(CanTheUser.edit(account)));
+			List<Database.SaveResult> results = new Safely().doUpdate(account);
 			Test.stopTest();
 
 			System.assertEquals(0, results.size(), 'Expected zero update results in the list');
@@ -112,7 +112,7 @@ private class ActionPlansSafelyTest {
 		System.runAs(marketingUser) {
 			Test.startTest();
 
-			List<Database.DeleteResult> results = new ActionPlansSafely().doDelete(c);
+			List<Database.DeleteResult> results = new Safely().doDelete(c);
 			Test.stopTest();
 			System.assertEquals(0, results.size(), 'Expected zero delete result in the list');
 		}
@@ -128,8 +128,8 @@ private class ActionPlansSafelyTest {
 		Test.startTest();
 		System.runAs(marketingUser) {
 			try {
-				new ActionPlansSafely().throwIfRemovedFields().doUpdate(account);
-			} catch (ActionPlansSafely.RemovedFieldsException rfe) {
+				new Safely().throwIfRemovedFields().doUpdate(account);
+			} catch (Safely.RemovedFieldsException rfe) {
 				if (rfe.getMessage().containsIgnoreCase('and the following fields')) {
 					didCatchTheRightException = true;
 				}
@@ -147,8 +147,8 @@ private class ActionPlansSafelyTest {
 		Account account2 = (Account) new Account(Name = 'TestAccount');
 		List<Account> accounts = new List<Account>{ account, account2 };
 		Test.startTest();
-		List<Database.upsertResult> insertResults = new ActionPlansSafely().doUpsert(account);
-		List<Database.UpsertResult> mixedResults = new ActionPlansSafely().doUpsert(accounts);
+		List<Database.upsertResult> insertResults = new Safely().doUpsert(account);
+		List<Database.UpsertResult> mixedResults = new Safely().doUpsert(accounts);
 		Test.stopTest();
 		System.assertEquals(1, insertResults.size(), 'Expected one save result in the list');
 		System.assertEquals(2, mixedResults.size(), 'expected two results');
@@ -186,10 +186,10 @@ private class ActionPlansSafelyTest {
 			Account account2 = (Account) new Account(Name = 'TestAccount02');
 
 			Test.startTest();
-			List<Database.SaveResult> insertResults = new ActionPlansSafely().doInsert(account);
+			List<Database.SaveResult> insertResults = new Safely().doInsert(account);
 			account.Name = 'TestAccount2';
 			List<Account> accounts = new List<Account>{ account, account2 };
-			List<Database.UpsertResult> mixedResults = new ActionPlansSafely().doUpsert(accounts);
+			List<Database.UpsertResult> mixedResults = new Safely().doUpsert(accounts);
 			Test.stopTest();
 			System.assertEquals(1, insertResults.size(), 'Expected one save result in the list');
 			System.assert(insertResults.get(0).success, 'This dml should succeed');
@@ -207,8 +207,8 @@ private class ActionPlansSafelyTest {
 		Test.startTest();
 		System.runAs(marketingUser) {
 			try {
-				new ActionPlansSafely().throwIfRemovedFields().doUpsert(account);
-			} catch (ActionPlansSafely.RemovedFieldsException rfe) {
+				new Safely().throwIfRemovedFields().doUpsert(account);
+			} catch (Safely.RemovedFieldsException rfe) {
 				if (rfe.getMessage().containsIgnoreCase('and the following fields')) {
 					didCatchTheRightException = true;
 				}
@@ -223,7 +223,7 @@ private class ActionPlansSafelyTest {
 		Account account = (Account) new Account(Name = 'TestAccount');
 		insert account;
 		Test.startTest();
-		List<Database.deleteResult> results = new ActionPlansSafely().throwIfRemovedFields().doDelete(account);
+		List<Database.deleteResult> results = new Safely().throwIfRemovedFields().doDelete(account);
 		Test.stopTest();
 		System.assert(results.get(0).success, 'expected this dml to succeed');
 	}
@@ -236,7 +236,7 @@ private class ActionPlansSafelyTest {
 		Test.startTest();
 		List<Database.deleteResult> results;
 		System.runAs(minAccessUser) {
-			results = new ActionPlansSafely().throwIfRemovedFields().doDelete(account);
+			results = new Safely().throwIfRemovedFields().doDelete(account);
 		}
 
 		Test.stopTest();
@@ -248,7 +248,7 @@ private class ActionPlansSafelyTest {
 		Account account = (Account) new Account(Name = 'TestAccount');
 		insert account;
 		Test.startTest();
-		List<Account> accounts = (List<Account>) new ActionPlansSafely().throwIfRemovedFields().doQuery('SELECT ID, Name FROM Account');
+		List<Account> accounts = (List<Account>) new Safely().throwIfRemovedFields().doQuery('SELECT ID, Name FROM Account');
 		Test.stopTest();
 		System.assertEquals(1, Accounts.size(), 'expected to find one record');
 	}
@@ -272,11 +272,11 @@ private class ActionPlansSafelyTest {
 		System.runAs(minAccessUser) {
 			Boolean didCatchTheRightException = false;
 			Test.startTest();
-			ActionPlansSafely saf = new ActionPlansSafely();
+			Safely saf = new Safely();
 			List<Account> accounts;
 			try {
 				accounts = (List<Account>) saf.throwIfRemovedFields().doQuery('SELECT ID, Name, TradeStyle FROM Account');
-			} catch (ActionPlansSafely.RemovedFieldsException rfe) {
+			} catch (Safely.RemovedFieldsException rfe) {
 				if (rfe.getMessage().containsIgnoreCase('TradeStyle')) {
 					didCatchTheRightException = true;
 				}
@@ -290,10 +290,10 @@ private class ActionPlansSafelyTest {
 	@IsTest
 	private static void emptyCollections() {
 		Test.startTest();
-		List<Database.SaveResult> insertResults = new ActionPlansSafely().doInsert(new List<Account>());
-		List<Database.SaveResult> updateResults = new ActionPlansSafely().doUpdate(new List<Account>());
-		List<Database.UpsertResult> upsertResults = new ActionPlansSafely().doUpsert(new List<Account>());
-		List<Database.DeleteResult> deleteResults = new ActionPlansSafely().doDelete(new List<Account>());
+		List<Database.SaveResult> insertResults = new Safely().doInsert(new List<Account>());
+		List<Database.SaveResult> updateResults = new Safely().doUpdate(new List<Account>());
+		List<Database.UpsertResult> upsertResults = new Safely().doUpsert(new List<Account>());
+		List<Database.DeleteResult> deleteResults = new Safely().doDelete(new List<Account>());
 		Test.stopTest();
 
 		System.assert(insertResults.isEmpty());

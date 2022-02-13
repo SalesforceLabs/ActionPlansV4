@@ -1,15 +1,15 @@
 @SuppressWarnings('PMD.ApexDoc')
 /**
  * Class wraps DML Calls in FLS / Crud checks. Taken from Codefriar code.
- * @see https://github.com/codefriar/ActionPlansCanTheUser
+ * @see https://github.com/codefriar/CanTheUser
  * @see https://github.com/trailheadapps/apex-recipes
- * @see ActionPlansCanTheUser
- * @see ActionPlansSafelyTest
+ * @see CanTheUser
+ * @see SafelyTest
  * @author {@link [Codefriar](https://github.com/codefriar)}
  * @since 2022
  * @group Security
  */
-public with sharing class ActionPlansSafely {
+public with sharing class Safely {
 	@testVisible
 	private Boolean allOrNothing = false;
 	@testVisible
@@ -21,12 +21,12 @@ public with sharing class ActionPlansSafely {
 	public class RemovedFieldsException extends Exception {
 	}
 
-	public ActionPlansSafely allOrNothing() {
+	public Safely allOrNothing() {
 		this.allOrNothing = true;
 		return this;
 	}
 
-	public ActionPlansSafely throwIfRemovedFields() {
+	public Safely throwIfRemovedFields() {
 		this.throwIfRemovedFields = true;
 		return this;
 	}
@@ -36,7 +36,7 @@ public with sharing class ActionPlansSafely {
 		if (records.isEmpty()) {
 			return new List<Database.SaveResult>();
 		}
-		if (ActionPlansCanTheUser.create(records)) {
+		if (CanTheUser.create(records)) {
 			return doDML(System.AccessType.CREATABLE, records);
 		}
 		return new List<Database.SaveResult>();
@@ -51,7 +51,7 @@ public with sharing class ActionPlansSafely {
 		if (records.isEmpty()) {
 			return new List<Database.SaveResult>();
 		}
-		if (ActionPlansCanTheUser.edit(records)) {
+		if (CanTheUser.edit(records)) {
 			return doDML(System.AccessType.UPDATABLE, records);
 		}
 		return new List<Database.SaveResult>();
@@ -66,7 +66,7 @@ public with sharing class ActionPlansSafely {
 		if (records.isEmpty()) {
 			return new List<Database.UpsertResult>();
 		}
-		if (ActionPlansCanTheUser.edit(records) && ActionPlansCanTheUser.create(records)) {
+		if (CanTheUser.edit(records) && CanTheUser.create(records)) {
 			SObjectAccessDecision securityDecision = guardAgainstRemovedFields(AccessType.UPSERTABLE, records);
 
 			return Database.upsert(securityDecision.getRecords(), this.allOrNothing);
@@ -83,7 +83,7 @@ public with sharing class ActionPlansSafely {
 		if (records.isEmpty()) {
 			return new List<Database.DeleteResult>();
 		}
-		if (ActionPlansCanTheUser.destroy(records)) {
+		if (CanTheUser.destroy(records)) {
 			return Database.delete(records, this.allOrNothing);
 		}
 		return new List<Database.DeleteResult>();

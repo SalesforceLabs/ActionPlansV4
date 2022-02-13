@@ -5,17 +5,17 @@
  * determining if the user has access or update permissions on specific fields.
  * This class name was chosen to facilitate easy-to-understand and read code.
  * Whenever you need to check FLS or CRUD access your code reads like this
- * `if(ActionPlansCanTheUser.read(new account())){}` making the calling and use of this
+ * `if(CanTheUser.read(new account())){}` making the calling and use of this
  * code easy and intuitive. Taken from Codefriar code.
  * @see https://github.com/codefriar/CanTheUser
  * @see https://github.com/trailheadapps/apex-recipes
- * @see ActionPlansCanTheUserTest
- * @see ActionPlansSafely
+ * @see CanTheUserTest
+ * @see Safely
  * @author {@link [Codefriar](https://github.com/codefriar)}
  * @since 2022
  * @group Security
  */
-public inherited sharing class ActionPlansCanTheUser {
+public inherited sharing class CanTheUser {
 	@testVisible
 	private static Map<String, Set<String>> accessibleFieldsByObject = new Map<String, Set<String>>();
 	@testVisible
@@ -46,7 +46,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * This class' name was chosen to facilitate easy-to-understand and read
 	 * code. Whenever you need to check FLS or CRUD access your code reads like
 	 * this
-	 * `if(ActionPlansCanTheUser.read(new account())){}` making the calling and use of this
+	 * `if(CanTheUser.read(new account())){}` making the calling and use of this
 	 * code easy and intuitive.
 	 */
 
@@ -56,7 +56,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param permission create, read, update or delete
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.crud(new Account(), ActionPlansCanTheUser.CrudType.READABLE));
+	 * System.debug(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE));
 	 **/
 	@testVisible
 	private static Boolean crud(SObject obj, CrudType permission) {
@@ -101,7 +101,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param obj Object type to check create permissions on
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.create(new Account()));
+	 * System.debug(CanTheUser.create(new Account()));
 	 **/
 	public static Boolean create(SObject obj) {
 		return crud(obj, CrudType.CREATEABLE);
@@ -124,7 +124,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param String Object type to check create permissions on
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.create('Account'));
+	 * System.debug(CanTheUser.create('Account'));
 	 **/
 	public static Boolean create(String objName) {
 		return crud(objName, CrudType.CREATEABLE);
@@ -136,7 +136,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param obj object type to check read permissions on
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.read(new Account()));
+	 * System.debug(CanTheUser.read(new Account()));
 	 **/
 	public static Boolean read(SObject obj) {
 		return crud(obj, CrudType.READABLE);
@@ -148,7 +148,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param obj object type to check read permissions on
 	 * @return Boolean
 	 * @example
-	 * ActionPlansCanTheUser.read(new List<Account>{a1, a2}));
+	 * CanTheUser.read(new List<Account>{a1, a2}));
 	 **/
 	public static Boolean read(List<SObject> objs) {
 		return crud(objs?.get(0), CrudType.READABLE);
@@ -160,7 +160,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param String Object type to check read permissions on
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.read('Account'));
+	 * System.debug(CanTheUser.read('Account'));
 	 **/
 	public static Boolean read(String objName) {
 		return crud(objName, CrudType.READABLE);
@@ -172,7 +172,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param obj object type to check edit permissions on
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.edit(new Account()));
+	 * System.debug(CanTheUser.edit(new Account()));
 	 **/
 	public static Boolean edit(SObject obj) {
 		return crud(obj, CrudType.EDITABLE);
@@ -194,7 +194,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param String Object type to check edit permissions on
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.edit('Account'));
+	 * System.debug(CanTheUser.edit('Account'));
 	 **/
 	public static Boolean edit(String objName) {
 		return crud(objName, CrudType.EDITABLE);
@@ -206,7 +206,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param obj object type to check edit permissions on
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.ups(new Account()));
+	 * System.debug(CanTheUser.ups(new Account()));
 	 **/
 	public static Boolean ups(SObject obj) {
 		return crud(obj, CrudType.UPSERTABLE);
@@ -229,7 +229,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param String Object type to check upsert permissions on
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.ups('Account'));
+	 * System.debug(CanTheUser.ups('Account'));
 	 **/
 	public static Boolean ups(String objName) {
 		return crud(objName, CrudType.UPSERTABLE);
@@ -241,7 +241,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param obj object type to check destroy permissions on
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.destroy(new Account()));
+	 * System.debug(CanTheUser.destroy(new Account()));
 	 **/
 	public static Boolean destroy(SObject obj) {
 		return crud(obj, CrudType.DELETABLE);
@@ -263,7 +263,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param String Object type to check create permissions on
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.destroy('Account'));
+	 * System.debug(CanTheUser.destroy('Account'));
 	 **/
 	public static Boolean destroy(String objName) {
 		return crud(objName, CrudType.DELETABLE);
@@ -276,7 +276,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param field the field in question in SObjectField form
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.flsAccessible('Account', 'Name'));
+	 * System.debug(CanTheUser.flsAccessible('Account', 'Name'));
 	 **/
 	public static Boolean flsAccessible(String obj, String field) {
 		return getFLSForFieldOnObject(obj, field, FLSType.ACCESSIBLE);
@@ -289,7 +289,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @return      `Map<String, Boolean>`
 	 * @example
 	 * String[] fields = new String[]{'Name', 'ShippingStreet'};
-	 * System.debug(ActionPlansCanTheUser.bulkFLSAccessible('Account', fields));
+	 * System.debug(CanTheUser.bulkFLSAccessible('Account', fields));
 	 */
 	public static Map<String, Boolean> bulkFLSAccessible(String obj, Set<String> fields) {
 		Map<String, Boolean> results = new Map<String, Boolean>();
@@ -306,7 +306,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @param field the field to check
 	 * @return Boolean
 	 * @example
-	 * System.debug(ActionPlansCanTheUser.flsUpdatable('Account', 'Name'));
+	 * System.debug(CanTheUser.flsUpdatable('Account', 'Name'));
 	 **/
 	public static Boolean flsUpdatable(String obj, String field) {
 		return getFLSForFieldOnObject(obj, field, FLSType.UPDATABLE);
@@ -319,7 +319,7 @@ public inherited sharing class ActionPlansCanTheUser {
 	 * @return      `Map<String, Boolean>`
 	 * @example
 	 * String[] fields = new String[]{'Name', 'ShippingStreet'};
-	 * System.debug(ActionPlansCanTheUser.bulkFLSUpdatable('Account', fields));
+	 * System.debug(CanTheUser.bulkFLSUpdatable('Account', fields));
 	 */
 	public static Map<String, Boolean> bulkFLSUpdatable(String obj, Set<String> fields) {
 		Map<String, Boolean> results = new Map<String, Boolean>();

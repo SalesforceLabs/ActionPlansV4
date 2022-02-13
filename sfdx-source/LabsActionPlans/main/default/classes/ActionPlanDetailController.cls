@@ -79,7 +79,7 @@ public with sharing class ActionPlanDetailController {
 	public PageReference deletePlan() {
 		//delete ap, which will also delete apts via master-detail relationship
 		try {
-			new ActionPlansSafely().doDelete(actionPlan);
+			new Safely().doDelete(actionPlan);
 		} catch (Exception e) {
 			ApexPages.addMessages(e);
 			return null;
