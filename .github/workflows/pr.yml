@@ -55,6 +55,11 @@ jobs:
       - name: 'Authenticate Dev Hub'
         run: sfdx auth:sfdxurl:store -f ./DEVHUB_SFDX_URL.txt -a devhub -d
 
+        # Add namespace to project config
+      - name: Add namespace to project config
+        run: |
+          sed -i 's,"namespace": "","namespace": "LabsActionPlans",' sfdx-project.json
+
       # Create scratch org
       - name: 'Create scratch org'
         run: sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -d 1
