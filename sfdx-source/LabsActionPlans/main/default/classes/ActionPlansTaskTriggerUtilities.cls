@@ -281,7 +281,6 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	 * Update APTasks status as passed into method
 	 * @param cTasks Map of ActionPlan Tasks by Id
 	 */
-	//@future
 	public static void updateAPTasksStatus(Map<Id, String> cTasks) {
 		if (!cTasks.keyset().isEmpty()) {
 			//Update all APTasks
@@ -297,10 +296,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Delete Action Plan Tasks
-	 * @param aPTasks
-	 * We are changing this to synchronous; can make future later
+	 * @param aPTasks Ids of APTasks to delete
 	 */
-	//@future
 	public static void deleteAPTasks(Set<Id> aPTasks) {
 		try {
 			List<APTask__c> toDelete = [SELECT aPT.Id FROM APTask__c aPT WHERE aPT.Id IN :aPTasks];

@@ -100,17 +100,17 @@
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansCanTheUser" id="item-ActionPlansCanTheUser" class="nav-item class " onclick="goToLocation('ActionPlansCanTheUser.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansCanTheUser</a>
+              <li title="CanTheUser" id="item-CanTheUser" class="nav-item class " onclick="goToLocation('CanTheUser.html');">
+                <a tabindex="1" href="javascript:void(0)">CanTheUser</a>
               </li>
-              <li title="ActionPlansSafely" id="item-ActionPlansSafely" class="nav-item class " onclick="goToLocation('ActionPlansSafely.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansSafely</a>
+              <li title="Safely" id="item-Safely" class="nav-item class " onclick="goToLocation('Safely.html');">
+                <a tabindex="1" href="javascript:void(0)">Safely</a>
               </li>
-              <li title="ActionPlansCanTheUserTest" id="item-ActionPlansCanTheUserTest" class="nav-item class " onclick="goToLocation('ActionPlansCanTheUserTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansCanTheUserTest</a>
+              <li title="CanTheUserTest" id="item-CanTheUserTest" class="nav-item class " onclick="goToLocation('CanTheUserTest.html');">
+                <a tabindex="1" href="javascript:void(0)">CanTheUserTest</a>
               </li>
-              <li title="ActionPlansSafelyTest" id="item-ActionPlansSafelyTest" class="nav-item class " onclick="goToLocation('ActionPlansSafelyTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansSafelyTest</a>
+              <li title="SafelyTest" id="item-SafelyTest" class="nav-item class " onclick="goToLocation('SafelyTest.html');">
+                <a tabindex="1" href="javascript:void(0)">SafelyTest</a>
               </li>
             </ul>
           </details>
@@ -256,155 +256,161 @@
 
           <div class="section">
 
-            <h2 class="class-title top-level-type" id="ActionPlansSafelyTest">
+            <h2 class="class-title top-level-type" id="Safely">
 
-              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L9">
-                ActionPlansSafelyTest
+              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L12">
+                Safely
               </a>
             </h2>
             <div class="class-container">
 
               <div class="class-description">
-                Test class for Safely
+                Class wraps DML Calls in FLS / Crud checks. Taken from Codefriar code.
               </div>
               <div class="class-subtitle">
                 Signature
               </div>
-              <div class="class-annotations">@IsTest</div>
+
               <div class="class-signature">
-                private class ActionPlansSafelyTest
+                public with sharing class Safely
               </div>
               <div class="class-subtitle">
                 See
               </div>
               <div class="class-subtitle-description">
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/codefriar/CanTheUser">https://github.com/codefriar/CanTheUser</a>, <a target="_blank" rel="noopener noreferrer" href="https://github.com/trailheadapps/apex-recipes">https://github.com/trailheadapps/apex-recipes</a>
-              </div><br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/codefriar">Codefriar</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/codefriar/Safely">https://github.com/codefriar/Safely</a>, <a target="_blank" rel="noopener noreferrer" href="https://github.com/trailheadapps/apex-recipes">https://github.com/trailheadapps/apex-recipes</a>, <a href="javascript:void(0)" onclick="goToLocation('CanTheUser.html')">CanTheUser</a>, <a href="javascript:void(0)" onclick="goToLocation('SafelyTest.html')">SafelyTest</a>
+              </div><br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/codefriar">Codefriar</a><br />2022
+            </div>
+            <div class="subsection properties Safely">
+              <h3 class="subsection-title properties">Safely Properties</h2>
+                <table class="attributes-table properties">
+
+                  <tr>
+                    <th>Name</th>
+                    <th>Signature</th>
+                    <th>Annotations</th>
+
+                  </tr>
+                  <tr class="property ">
+                    <td class="attribute-name">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L14">
+                        allOrNothing
+                      </a></td>
+                    <td>
+                      <div class="attribute-signature">
+                        private Boolean allOrNothing
+                      </div>
+                    </td>
+                    <td>
+                      <div class="prop-annotations">@testVisible</div>
+                    </td>
+
+                  </tr>
+                  <tr class="property ">
+                    <td class="attribute-name">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L16">
+                        throwIfRemovedFields
+                      </a></td>
+                    <td>
+                      <div class="attribute-signature">
+                        private Boolean throwIfRemovedFields
+                      </div>
+                    </td>
+                    <td>
+                      <div class="prop-annotations">@testVisible</div>
+                    </td>
+
+                  </tr>
+                </table>
             </div>
             <div class="subsection methods">
-              <h3 class="subsection-title methods">ActionPlansSafelyTest Methods</h3>
+              <h3 class="subsection-title methods">Safely Methods</h3>
               <div class="methods-container">
                 <ul class="methods-toc">
-                  <li class="method private">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.createMarketingUser">
-                      createMarketingUser (doInsert)
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.allOrNothing">
+                      allOrNothing ()
+                    </a>
+
+                  </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.doDelete">
+                      doDelete (records)
+                    </a>
+
+                  </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.doDelete_1">
+                      doDelete (record)
                     </a>
 
                   </li>
                   <li class="method private">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.createMinAccessUser">
-                      createMinAccessUser (doInsert)
+                    <a class="methods-toc__entry " href="#Safely.doDML">
+                      doDML (accessType, records)
+                    </a>
+
+                  </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.doInsert">
+                      doInsert (records)
+                    </a>
+
+                  </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.doInsert_1">
+                      doInsert (record)
+                    </a>
+
+                  </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.doQuery">
+                      doQuery (query)
+                    </a>
+
+                  </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.doUpdate">
+                      doUpdate (records)
+                    </a>
+
+                  </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.doUpdate_1">
+                      doUpdate (record)
+                    </a>
+
+                  </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.doUpsert">
+                      doUpsert (records)
+                    </a>
+
+                  </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.doUpsert_1">
+                      doUpsert (record)
                     </a>
 
                   </li>
                   <li class="method private">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.createTestUser">
-                      createTestUser (profileId, doInsert)
+                    <a class="methods-toc__entry " href="#Safely.guardAgainstRemovedFields">
+                      guardAgainstRemovedFields (accessType, records)
                     </a>
 
                   </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.emptyCollections">
-                      emptyCollections ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testConstructorChains">
-                      testConstructorChains ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testDeleteWithRegularProfileNegative">
-                      testDeleteWithRegularProfileNegative ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testDeleteWithRegularProfilePositive">
-                      testDeleteWithRegularProfilePositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testDoInsertMethodsNoThrowPositive">
-                      testDoInsertMethodsNoThrowPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testDoInsertNegative">
-                      testDoInsertNegative ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testDoQueryPositive">
-                      testDoQueryPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testDoQueryThrowsRemovedFieldsException">
-                      testDoQueryThrowsRemovedFieldsException ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testDoUpdateMethodsNoThrowPositive">
-                      testDoUpdateMethodsNoThrowPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testDoUpdateNegative">
-                      testDoUpdateNegative ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testDoUpsertMethodsNegative">
-                      testDoUpsertMethodsNegative ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testDoUpsertMethodsNoThrowPositive">
-                      testDoUpsertMethodsNoThrowPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testMarketingProfileDeleteNegative">
-                      testMarketingProfileDeleteNegative ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testMarketingProfileGeneratesInsertExceptionPositive">
-                      testMarketingProfileGeneratesInsertExceptionPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testMarketingProfileGeneratesUpdateExceptionPositive">
-                      testMarketingProfileGeneratesUpdateExceptionPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansSafelyTest.testMarketingProfileGeneratesUpsertExceptionPositive">
-                      testMarketingProfileGeneratesUpsertExceptionPositive ()
+                  <li class="method public">
+                    <a class="methods-toc__entry " href="#Safely.throwIfRemovedFields">
+                      throwIfRemovedFields ()
                     </a>
 
                   </li>
                 </ul>
-                <div class="method private">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.createMarketingUser">
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.allOrNothing">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L310">
-                      createMarketingUser(doInsert)
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L24">
+                      allOrNothing()
                     </a>
                   </h4>
                   <div class="method-subtitle">
@@ -412,14 +418,44 @@
                   </div>
 
                   <div class="method-signature">
-                    private static User createMarketingUser(Boolean doInsert)
+                    public Safely allOrNothing()
+                  </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.doDelete">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L82">
+                      doDelete(records)
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    public List&lt;Database.DeleteResult&gt; doDelete(List&lt;SObject&gt; records)
+                  </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.doDelete_1">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L92">
+                      doDelete(record)
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    public List&lt;Database.DeleteResult&gt; doDelete(SObject record)
                   </div>
                 </div>
                 <div class="method private">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.createMinAccessUser">
+                  <h4 class="method-title " id="Safely.doDML">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L305">
-                      createMinAccessUser(doInsert)
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L104">
+                      doDML(accessType, records)
                     </a>
                   </h4>
                   <div class="method-subtitle">
@@ -427,14 +463,119 @@
                   </div>
 
                   <div class="method-signature">
-                    private static User createMinAccessUser(Boolean doInsert)
+                    private List&lt;Database.SaveResult&gt; doDML(System.AccessType accessType, List&lt;SObject&gt; records)
+                  </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.doInsert">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L35">
+                      doInsert(records)
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    public List&lt;Database.SaveResult&gt; doInsert(List&lt;SObject&gt; records)
+                  </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.doInsert_1">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L45">
+                      doInsert(record)
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    public List&lt;Database.SaveResult&gt; doInsert(SObject record)
+                  </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.doQuery">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L97">
+                      doQuery(query)
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    public List&lt;SObject&gt; doQuery(String query)
+                  </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.doUpdate">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L50">
+                      doUpdate(records)
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    public List&lt;Database.SaveResult&gt; doUpdate(List&lt;SObject&gt; records)
+                  </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.doUpdate_1">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L60">
+                      doUpdate(record)
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    public List&lt;Database.SaveResult&gt; doUpdate(SObject record)
+                  </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.doUpsert">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L65">
+                      doUpsert(records)
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    public List&lt;Database.UpsertResult&gt; doUpsert(List&lt;SObject&gt; records)
+                  </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.doUpsert_1">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L77">
+                      doUpsert(record)
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    public List&lt;Database.UpsertResult&gt; doUpsert(Sobject record)
                   </div>
                 </div>
                 <div class="method private">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.createTestUser">
+                  <h4 class="method-title " id="Safely.guardAgainstRemovedFields">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L315">
-                      createTestUser(profileId, doInsert)
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L126">
+                      guardAgainstRemovedFields(accessType, records)
                     </a>
                   </h4>
                   <div class="method-subtitle">
@@ -442,249 +583,47 @@
                   </div>
 
                   <div class="method-signature">
-                    private static User createTestUser(Id profileId, boolean doInsert)
+                    private SObjectAccessDecision guardAgainstRemovedFields(System.AccessType accessType, List&lt;SObject&gt; records)
                   </div>
                 </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.emptyCollections">
+                <div class="method public">
+                  <h4 class="method-title " id="Safely.throwIfRemovedFields">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L291">
-                      emptyCollections()
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L29">
+                      throwIfRemovedFields()
                     </a>
                   </h4>
                   <div class="method-subtitle">
                     Signature
                   </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void emptyCollections()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testConstructorChains">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L11">
-                      testConstructorChains()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">
-                    private static void testConstructorChains()
+                    public Safely throwIfRemovedFields()
                   </div>
                 </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testDeleteWithRegularProfileNegative">
+              </div>
+            </div>
+          </div>
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L232">
-                      testDeleteWithRegularProfileNegative()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testDeleteWithRegularProfileNegative()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testDeleteWithRegularProfilePositive">
+          <div class="section">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L222">
-                      testDeleteWithRegularProfilePositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testDeleteWithRegularProfilePositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testDoInsertMethodsNoThrowPositive">
+            <h2 class="class-title " id="Safely.RemovedFieldsException">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L24">
-                      testDoInsertMethodsNoThrowPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testDoInsertMethodsNoThrowPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testDoInsertNegative">
+              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/Safely.cls#L21">
+                Safely.RemovedFieldsException
+              </a>
+            </h2>
+            <div class="class-container">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L34">
-                      testDoInsertNegative()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testDoInsertNegative()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testDoQueryPositive">
+              <div class="class-description">
+                Exception thrown if fields are removed from a query due to the user not having access
+              </div>
+              <div class="class-subtitle">
+                Signature
+              </div>
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L247">
-                      testDoQueryPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testDoQueryPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testDoQueryThrowsRemovedFieldsException">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L257">
-                      testDoQueryThrowsRemovedFieldsException()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testDoQueryThrowsRemovedFieldsException()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testDoUpdateMethodsNoThrowPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L67">
-                      testDoUpdateMethodsNoThrowPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testDoUpdateMethodsNoThrowPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testDoUpdateNegative">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L79">
-                      testDoUpdateNegative()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testDoUpdateNegative()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testDoUpsertMethodsNegative">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L171">
-                      testDoUpsertMethodsNegative()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testDoUpsertMethodsNegative()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testDoUpsertMethodsNoThrowPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L143">
-                      testDoUpsertMethodsNoThrowPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testDoUpsertMethodsNoThrowPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testMarketingProfileDeleteNegative">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L107">
-                      testMarketingProfileDeleteNegative()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testMarketingProfileDeleteNegative()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testMarketingProfileGeneratesInsertExceptionPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L48">
-                      testMarketingProfileGeneratesInsertExceptionPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testMarketingProfileGeneratesInsertExceptionPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testMarketingProfileGeneratesUpdateExceptionPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L122">
-                      testMarketingProfileGeneratesUpdateExceptionPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testMarketingProfileGeneratesUpdateExceptionPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansSafelyTest.testMarketingProfileGeneratesUpsertExceptionPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansSafelyTest.cls#L201">
-                      testMarketingProfileGeneratesUpsertExceptionPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void testMarketingProfileGeneratesUpsertExceptionPositive()
-                  </div>
-                </div>
+              <div class="class-signature">
+                public class RemovedFieldsException extends Exception
               </div>
             </div>
           </div>

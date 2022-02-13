@@ -1,7 +1,7 @@
 @SuppressWarnings('PMD.ApexDoc')
 /**
  * Class wraps DML Calls in FLS / Crud checks. Taken from Codefriar code.
- * @see https://github.com/codefriar/CanTheUser
+ * @see https://github.com/codefriar/Safely
  * @see https://github.com/trailheadapps/apex-recipes
  * @see CanTheUser
  * @see SafelyTest

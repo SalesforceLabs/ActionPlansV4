@@ -100,17 +100,17 @@
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansCanTheUser" id="item-ActionPlansCanTheUser" class="nav-item class " onclick="goToLocation('ActionPlansCanTheUser.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansCanTheUser</a>
+              <li title="CanTheUser" id="item-CanTheUser" class="nav-item class " onclick="goToLocation('CanTheUser.html');">
+                <a tabindex="1" href="javascript:void(0)">CanTheUser</a>
               </li>
-              <li title="ActionPlansSafely" id="item-ActionPlansSafely" class="nav-item class " onclick="goToLocation('ActionPlansSafely.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansSafely</a>
+              <li title="Safely" id="item-Safely" class="nav-item class " onclick="goToLocation('Safely.html');">
+                <a tabindex="1" href="javascript:void(0)">Safely</a>
               </li>
-              <li title="ActionPlansCanTheUserTest" id="item-ActionPlansCanTheUserTest" class="nav-item class " onclick="goToLocation('ActionPlansCanTheUserTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansCanTheUserTest</a>
+              <li title="CanTheUserTest" id="item-CanTheUserTest" class="nav-item class " onclick="goToLocation('CanTheUserTest.html');">
+                <a tabindex="1" href="javascript:void(0)">CanTheUserTest</a>
               </li>
-              <li title="ActionPlansSafelyTest" id="item-ActionPlansSafelyTest" class="nav-item class " onclick="goToLocation('ActionPlansSafelyTest.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansSafelyTest</a>
+              <li title="SafelyTest" id="item-SafelyTest" class="nav-item class " onclick="goToLocation('SafelyTest.html');">
+                <a tabindex="1" href="javascript:void(0)">SafelyTest</a>
               </li>
             </ul>
           </details>
@@ -256,272 +256,170 @@
 
           <div class="section">
 
-            <h2 class="class-title top-level-type" id="ActionPlansCanTheUserTest">
+            <h2 class="class-title top-level-type" id="SafelyTest">
 
-              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L9">
-                ActionPlansCanTheUserTest
+              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L9">
+                SafelyTest
               </a>
             </h2>
             <div class="class-container">
 
               <div class="class-description">
-                Taken from Codefriar code
+                Test class for Safely
               </div>
               <div class="class-subtitle">
                 Signature
               </div>
               <div class="class-annotations">@IsTest</div>
               <div class="class-signature">
-                private class ActionPlansCanTheUserTest
+                private class SafelyTest
               </div>
               <div class="class-subtitle">
                 See
               </div>
               <div class="class-subtitle-description">
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/codefriar/CanTheUser">https://github.com/codefriar/CanTheUser</a>, <a target="_blank" rel="noopener noreferrer" href="https://github.com/trailheadapps/apex-recipes">https://github.com/trailheadapps/apex-recipes</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/codefriar/Safely">https://github.com/codefriar/Safely</a>, <a target="_blank" rel="noopener noreferrer" href="https://github.com/trailheadapps/apex-recipes">https://github.com/trailheadapps/apex-recipes</a>
               </div><br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/codefriar">Codefriar</a>
             </div>
             <div class="subsection methods">
-              <h3 class="subsection-title methods">ActionPlansCanTheUserTest Methods</h3>
+              <h3 class="subsection-title methods">SafelyTest Methods</h3>
               <div class="methods-container">
                 <ul class="methods-toc">
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.canCrudAccountCreatePositive">
-                      canCrudAccountCreatePositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.canCrudAccountDeletePositive">
-                      canCrudAccountDeletePositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.canCrudAccountReadPositive">
-                      canCrudAccountReadPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.canCrudAccountUpdatePositive">
-                      canCrudAccountUpdatePositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.canCrudCreateAccountPositive">
-                      canCrudCreateAccountPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.canCrudDestroyAccountPositive">
-                      canCrudDestroyAccountPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.canCrudEditAccountPositive">
-                      canCrudEditAccountPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.canCrudReadAccountPositive">
-                      canCrudReadAccountPositive ()
-                    </a>
-
-                  </li>
-                  <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.canCrudUpsertAccountPositive">
-                      canCrudUpsertAccountPositive ()
+                  <li class="method private">
+                    <a class="methods-toc__entry " href="#SafelyTest.createMarketingUser">
+                      createMarketingUser (doInsert)
                     </a>
 
                   </li>
                   <li class="method private">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.generateAccounts">
-                      generateAccounts ()
+                    <a class="methods-toc__entry " href="#SafelyTest.createMinAccessUser">
+                      createMinAccessUser (doInsert)
+                    </a>
+
+                  </li>
+                  <li class="method private">
+                    <a class="methods-toc__entry " href="#SafelyTest.createTestUser">
+                      createTestUser (profileId, doInsert)
                     </a>
 
                   </li>
                   <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.getBulkFLSAccessibleWithAccountPositive">
-                      getBulkFLSAccessibleWithAccountPositive ()
+                    <a class="methods-toc__entry " href="#SafelyTest.emptyCollections">
+                      emptyCollections ()
                     </a>
 
                   </li>
                   <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.getBulkFLSAccessibleWithAccountPositiveWithNegativeResults">
-                      getBulkFLSAccessibleWithAccountPositiveWithNegativeResults ()
+                    <a class="methods-toc__entry " href="#SafelyTest.testConstructorChains">
+                      testConstructorChains ()
                     </a>
 
                   </li>
                   <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.getBulkFLSUpdatableWithAccountPositive">
-                      getBulkFLSUpdatableWithAccountPositive ()
+                    <a class="methods-toc__entry " href="#SafelyTest.testDeleteWithRegularProfileNegative">
+                      testDeleteWithRegularProfileNegative ()
                     </a>
 
                   </li>
                   <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.getBulkFLSUpdatableWithAccountPositiveWithNegativeResults">
-                      getBulkFLSUpdatableWithAccountPositiveWithNegativeResults ()
+                    <a class="methods-toc__entry " href="#SafelyTest.testDeleteWithRegularProfilePositive">
+                      testDeleteWithRegularProfilePositive ()
                     </a>
 
                   </li>
                   <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.getFLSofAccountIDNegative">
-                      getFLSofAccountIDNegative ()
+                    <a class="methods-toc__entry " href="#SafelyTest.testDoInsertMethodsNoThrowPositive">
+                      testDoInsertMethodsNoThrowPositive ()
                     </a>
 
                   </li>
                   <li class="method testmethod">
-                    <a class="methods-toc__entry " href="#ActionPlansCanTheUserTest.getFLSofAccountNamePositive">
-                      getFLSofAccountNamePositive ()
+                    <a class="methods-toc__entry " href="#SafelyTest.testDoInsertNegative">
+                      testDoInsertNegative ()
+                    </a>
+
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry " href="#SafelyTest.testDoQueryPositive">
+                      testDoQueryPositive ()
+                    </a>
+
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry " href="#SafelyTest.testDoQueryThrowsRemovedFieldsException">
+                      testDoQueryThrowsRemovedFieldsException ()
+                    </a>
+
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry " href="#SafelyTest.testDoUpdateMethodsNoThrowPositive">
+                      testDoUpdateMethodsNoThrowPositive ()
+                    </a>
+
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry " href="#SafelyTest.testDoUpdateNegative">
+                      testDoUpdateNegative ()
+                    </a>
+
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry " href="#SafelyTest.testDoUpsertMethodsNegative">
+                      testDoUpsertMethodsNegative ()
+                    </a>
+
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry " href="#SafelyTest.testDoUpsertMethodsNoThrowPositive">
+                      testDoUpsertMethodsNoThrowPositive ()
+                    </a>
+
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry " href="#SafelyTest.testMarketingProfileDeleteNegative">
+                      testMarketingProfileDeleteNegative ()
+                    </a>
+
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry " href="#SafelyTest.testMarketingProfileGeneratesInsertExceptionPositive">
+                      testMarketingProfileGeneratesInsertExceptionPositive ()
+                    </a>
+
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry " href="#SafelyTest.testMarketingProfileGeneratesUpdateExceptionPositive">
+                      testMarketingProfileGeneratesUpdateExceptionPositive ()
+                    </a>
+
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry " href="#SafelyTest.testMarketingProfileGeneratesUpsertExceptionPositive">
+                      testMarketingProfileGeneratesUpsertExceptionPositive ()
                     </a>
 
                   </li>
                 </ul>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.canCrudAccountCreatePositive">
+                <div class="method private">
+                  <h4 class="method-title " id="SafelyTest.createMarketingUser">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L22">
-                      canCrudAccountCreatePositive()
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L310">
+                      createMarketingUser(doInsert)
                     </a>
                   </h4>
                   <div class="method-subtitle">
                     Signature
                   </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void canCrudAccountCreatePositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.canCrudAccountDeletePositive">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L74">
-                      canCrudAccountDeletePositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">
-                    private static void canCrudAccountDeletePositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.canCrudAccountReadPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L41">
-                      canCrudAccountReadPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void canCrudAccountReadPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.canCrudAccountUpdatePositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L54">
-                      canCrudAccountUpdatePositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void canCrudAccountUpdatePositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.canCrudCreateAccountPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L34">
-                      canCrudCreateAccountPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void canCrudCreateAccountPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.canCrudDestroyAccountPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L81">
-                      canCrudDestroyAccountPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void canCrudDestroyAccountPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.canCrudEditAccountPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L60">
-                      canCrudEditAccountPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void canCrudEditAccountPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.canCrudReadAccountPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L47">
-                      canCrudReadAccountPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void canCrudReadAccountPositive()
-                  </div>
-                </div>
-                <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.canCrudUpsertAccountPositive">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L67">
-                      canCrudUpsertAccountPositive()
-                    </a>
-                  </h4>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-                  <div class="method-annotations">@IsTest</div>
-                  <div class="method-signature">
-                    private static void canCrudUpsertAccountPositive()
+                    private static User createMarketingUser(Boolean doInsert)
                   </div>
                 </div>
                 <div class="method private">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.generateAccounts">
+                  <h4 class="method-title " id="SafelyTest.createMinAccessUser">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L13">
-                      generateAccounts()
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L305">
+                      createMinAccessUser(doInsert)
                     </a>
                   </h4>
                   <div class="method-subtitle">
@@ -529,14 +427,29 @@
                   </div>
 
                   <div class="method-signature">
-                    private static List&lt;Account&gt; generateAccounts()
+                    private static User createMinAccessUser(Boolean doInsert)
+                  </div>
+                </div>
+                <div class="method private">
+                  <h4 class="method-title " id="SafelyTest.createTestUser">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L315">
+                      createTestUser(profileId, doInsert)
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    private static User createTestUser(Id profileId, boolean doInsert)
                   </div>
                 </div>
                 <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.getBulkFLSAccessibleWithAccountPositive">
+                  <h4 class="method-title " id="SafelyTest.emptyCollections">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L98">
-                      getBulkFLSAccessibleWithAccountPositive()
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L291">
+                      emptyCollections()
                     </a>
                   </h4>
                   <div class="method-subtitle">
@@ -544,14 +457,14 @@
                   </div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">
-                    private static void getBulkFLSAccessibleWithAccountPositive()
+                    private static void emptyCollections()
                   </div>
                 </div>
                 <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.getBulkFLSAccessibleWithAccountPositiveWithNegativeResults">
+                  <h4 class="method-title " id="SafelyTest.testConstructorChains">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L107">
-                      getBulkFLSAccessibleWithAccountPositiveWithNegativeResults()
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L11">
+                      testConstructorChains()
                     </a>
                   </h4>
                   <div class="method-subtitle">
@@ -559,14 +472,14 @@
                   </div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">
-                    private static void getBulkFLSAccessibleWithAccountPositiveWithNegativeResults()
+                    private static void testConstructorChains()
                   </div>
                 </div>
                 <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.getBulkFLSUpdatableWithAccountPositive">
+                  <h4 class="method-title " id="SafelyTest.testDeleteWithRegularProfileNegative">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L117">
-                      getBulkFLSUpdatableWithAccountPositive()
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L232">
+                      testDeleteWithRegularProfileNegative()
                     </a>
                   </h4>
                   <div class="method-subtitle">
@@ -574,14 +487,14 @@
                   </div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">
-                    private static void getBulkFLSUpdatableWithAccountPositive()
+                    private static void testDeleteWithRegularProfileNegative()
                   </div>
                 </div>
                 <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.getBulkFLSUpdatableWithAccountPositiveWithNegativeResults">
+                  <h4 class="method-title " id="SafelyTest.testDeleteWithRegularProfilePositive">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L126">
-                      getBulkFLSUpdatableWithAccountPositiveWithNegativeResults()
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L222">
+                      testDeleteWithRegularProfilePositive()
                     </a>
                   </h4>
                   <div class="method-subtitle">
@@ -589,14 +502,14 @@
                   </div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">
-                    private static void getBulkFLSUpdatableWithAccountPositiveWithNegativeResults()
+                    private static void testDeleteWithRegularProfilePositive()
                   </div>
                 </div>
                 <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.getFLSofAccountIDNegative">
+                  <h4 class="method-title " id="SafelyTest.testDoInsertMethodsNoThrowPositive">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L93">
-                      getFLSofAccountIDNegative()
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L24">
+                      testDoInsertMethodsNoThrowPositive()
                     </a>
                   </h4>
                   <div class="method-subtitle">
@@ -604,14 +517,14 @@
                   </div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">
-                    private static void getFLSofAccountIDNegative()
+                    private static void testDoInsertMethodsNoThrowPositive()
                   </div>
                 </div>
                 <div class="method testmethod">
-                  <h4 class="method-title " id="ActionPlansCanTheUserTest.getFLSofAccountNamePositive">
+                  <h4 class="method-title " id="SafelyTest.testDoInsertNegative">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansCanTheUserTest.cls#L88">
-                      getFLSofAccountNamePositive()
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L34">
+                      testDoInsertNegative()
                     </a>
                   </h4>
                   <div class="method-subtitle">
@@ -619,7 +532,157 @@
                   </div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">
-                    private static void getFLSofAccountNamePositive()
+                    private static void testDoInsertNegative()
+                  </div>
+                </div>
+                <div class="method testmethod">
+                  <h4 class="method-title " id="SafelyTest.testDoQueryPositive">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L247">
+                      testDoQueryPositive()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">
+                    private static void testDoQueryPositive()
+                  </div>
+                </div>
+                <div class="method testmethod">
+                  <h4 class="method-title " id="SafelyTest.testDoQueryThrowsRemovedFieldsException">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L257">
+                      testDoQueryThrowsRemovedFieldsException()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">
+                    private static void testDoQueryThrowsRemovedFieldsException()
+                  </div>
+                </div>
+                <div class="method testmethod">
+                  <h4 class="method-title " id="SafelyTest.testDoUpdateMethodsNoThrowPositive">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L67">
+                      testDoUpdateMethodsNoThrowPositive()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">
+                    private static void testDoUpdateMethodsNoThrowPositive()
+                  </div>
+                </div>
+                <div class="method testmethod">
+                  <h4 class="method-title " id="SafelyTest.testDoUpdateNegative">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L79">
+                      testDoUpdateNegative()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">
+                    private static void testDoUpdateNegative()
+                  </div>
+                </div>
+                <div class="method testmethod">
+                  <h4 class="method-title " id="SafelyTest.testDoUpsertMethodsNegative">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L171">
+                      testDoUpsertMethodsNegative()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">
+                    private static void testDoUpsertMethodsNegative()
+                  </div>
+                </div>
+                <div class="method testmethod">
+                  <h4 class="method-title " id="SafelyTest.testDoUpsertMethodsNoThrowPositive">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L143">
+                      testDoUpsertMethodsNoThrowPositive()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">
+                    private static void testDoUpsertMethodsNoThrowPositive()
+                  </div>
+                </div>
+                <div class="method testmethod">
+                  <h4 class="method-title " id="SafelyTest.testMarketingProfileDeleteNegative">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L107">
+                      testMarketingProfileDeleteNegative()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">
+                    private static void testMarketingProfileDeleteNegative()
+                  </div>
+                </div>
+                <div class="method testmethod">
+                  <h4 class="method-title " id="SafelyTest.testMarketingProfileGeneratesInsertExceptionPositive">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L48">
+                      testMarketingProfileGeneratesInsertExceptionPositive()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">
+                    private static void testMarketingProfileGeneratesInsertExceptionPositive()
+                  </div>
+                </div>
+                <div class="method testmethod">
+                  <h4 class="method-title " id="SafelyTest.testMarketingProfileGeneratesUpdateExceptionPositive">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L122">
+                      testMarketingProfileGeneratesUpdateExceptionPositive()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">
+                    private static void testMarketingProfileGeneratesUpdateExceptionPositive()
+                  </div>
+                </div>
+                <div class="method testmethod">
+                  <h4 class="method-title " id="SafelyTest.testMarketingProfileGeneratesUpsertExceptionPositive">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/SafelyTest.cls#L201">
+                      testMarketingProfileGeneratesUpsertExceptionPositive()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">
+                    private static void testMarketingProfileGeneratesUpsertExceptionPositive()
                   </div>
                 </div>
               </div>
