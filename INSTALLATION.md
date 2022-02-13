@@ -13,18 +13,34 @@ Follow these instructions to deploy Action Plans to your org.
 [Optional installation instructions](#optional-installation-instructions): Installing sample Action Plan Template
 <hr/>
 
-## Direct deployment to an org
+## AppExchange (Managed Package - RECOMMENDED)
 
-<a href="https://githubsfdeploy.herokuapp.com">
-  <img alt="Deploy to Salesforce"
-       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
-</a>
+[Action Plans](https://appexchange.salesforce.com): This is the best way to install the package, which you can easily upgrade as features are added.
 
-## AppExchange (Managed Package - recommended)
+## Installing the App using a Scratch Org (Fast Method)
 
-[Action Plans](https://appexchange.salesforce.com): This is the best way to install the product, which you can easily upgrade as features are added.
+1. Set up your environment. Follow the steps in the [Quick Start: Lightning Web Components](https://trailhead.salesforce.com/content/learn/projects/quick-start-lightning-web-components/) Trailhead project. The steps include:
 
-## Installing the App using a Developer Edition Org or your own Sandbox Org
+    - Enable Dev Hub in your Trailhead Playground
+    - Install Salesforce CLI
+    - Install Visual Studio Code
+    - Install the Visual Studio Code Salesforce extensions
+
+1. Clone this repository:
+
+    ```
+    git clone https://github.com/SalesforceLabs/ActionPlansV4
+    cd ActionPlansV4
+    ```
+
+1. From the terminal window, run the installation script
+	```
+	npm run-script scratchorg
+	```
+
+1. That's it! 
+
+## Installing the App using a Developer Edition Org or your own Sandbox Org (Line by Line)
 
 Follow this set of instructions if you want to deploy the app to a more permanent environment than a Scratch org.
 This includes non source-tracked orgs such as a [free Developer Edition Org](https://developer.salesforce.com/signup) or a [Trailhead Playground](https://trailhead.salesforce.com/), or your own Sandbox.
@@ -40,8 +56,8 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 1. Clone this repository:
 
     ```
-    git clone https://github.com/salesforcelabs/ActionPlans
-    cd ActionPlans
+    git clone https://github.com/SalesforceLabs/ActionPlansV4
+    cd ActionPlansV4
     ```
 
 1. If you are setting up a Developer Edition: go to **Setup**, and under **My Domain**, [register a My Domain](https://help.salesforce.com/articleView?id=domain_name_setup.htm&type=5).
@@ -49,7 +65,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 1. Run this command to deploy the app.
 
     ```
-    sfdx force:source:deploy -p sfdx-source
+    sfdx force:source:deploy -p sfdx-source/LabsActionPlans
     ```
 
 1. Assign the `Action_Plans_Admin` permission set to the admin user.
@@ -72,7 +88,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 
 This repository contains several files that are relevant if you want to add sample data, or integrate modern web development tooling to your Salesforce development processes or to your continuous integration/continuous deployment processes.
 
-### Data Import (Optional - not available if using the AppExchange managed package)
+### Data Import (Optional - NOT available if using the AppExchange managed package)
 
 - This repository creates sample data (Accounts, Contacts, Leads) if you choose to create a scratch org. To prevent this, go to the [scratch org definition](./config/project-scratch-def.json) and change `hasSampleData` to `false`.
     ```
@@ -94,7 +110,7 @@ This repository contains several files that are relevant if you want to add samp
     sfdx force:data:tree:import -p ./data/data-plan.json
     ```
 
-### Data Import (Optional - ONLY if using AppExchange managed package)
+### Data Import (Optional - ONLY if using the AppExchange managed package)
 
 - To create a sample Action Plan Template for Account onboarding, run the following:
 	```
