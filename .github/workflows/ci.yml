@@ -12,7 +12,6 @@ on:
       - 'README.md'
       - 'docs/**'
       - 'doc-assets/**'
-      - '.github/**'
       - '.vscode/**'
 
 # Jobs to be executed
