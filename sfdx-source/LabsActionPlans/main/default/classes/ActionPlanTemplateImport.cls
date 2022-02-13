@@ -37,9 +37,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @exception ImportException
+ * Called from ActionPlanTemplateImportController - can probably be rolled into that class, but it's doing fine here.
  * @since 2011
  * @group Import Export
+ * @see ActionPlanTemplateImportController
  */
 public inherited sharing class ActionPlanTemplateImport {
 	private Map<Id, APTemplateTask__c> importedTasks;
@@ -233,7 +234,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	/**
 	 * Method in charge of parsing data from XMl document to create a Action Plan Template Object
 	 * @param reader
-	 * @return apTemplateAux
+	 * @return The created Action Plan Template
 	 */
 	private ActionPlanTemplate__c parseTemplate(Xmlstreamreader reader) {
 		ActionPlanTemplate__c apTemplateAux = new ActionPlanTemplate__c();
@@ -285,7 +286,7 @@ public inherited sharing class ActionPlanTemplateImport {
 
 	/**
 	 * Method in charge of parsing data from XMl document to create a Template Task Object
-	 * @param reader XML reader
+	 * @param reader       XML reader
 	 * @param apTemplateId template Id
 	 */
 	private void parseTemplateTask(Xmlstreamreader reader, Id apTemplateId) {
