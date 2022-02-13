@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Minutes_Reminder__c</fullName>
-    <externalId>false</externalId>
-    <inlineHelpText>Minutes after midnight to show Task reminder</inlineHelpText>
-    <label>Minutes Reminder</label>
-    <length>4</length>
-    <required>false</required>
-    <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+	<fullName>Minutes_Reminder__c</fullName>
+	<businessStatus>Active</businessStatus>
+	<externalId>false</externalId>
+	<inlineHelpText>Minutes after midnight to show Task reminder</inlineHelpText>
+	<label>Minutes Reminder</label>
+	<length>4</length>
+	<required>false</required>
+	<trackTrending>false</trackTrending>
+	<type>Text</type>
+	<unique>false</unique>
 </CustomField>
