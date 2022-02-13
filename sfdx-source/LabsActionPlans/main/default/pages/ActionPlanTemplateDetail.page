@@ -88,7 +88,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				<apex:outputField value="{!ActionPlanTemplate__c.SkipDay__c}" rendered="{!ActionPlanTemplate__c.SkipWeekends__c}" />
 			</apex:pageBlockSection>
 
-			<apex:pageBlockSection id="taskSection" title="{!$ObjectType.Task.labelPlural} {!$Label.ap_TaskHeaderSortable}" columns="1" collapsible="false">
+			<apex:pageBlockSection id="taskSection" title="{!$ObjectType.Task.labelPlural} {!$Label.ap_TaskHeaderSortable}" columns="1" collapsible="false" rendered="{!TemplateTasks.size > 0}">
 				<apex:pageBlockTable value="{!TemplateTasks}" var="task" id="theTable" styleClass="tablesorter sortable noBump" rules="none" style="vertical-align: middle">
 					<apex:column id="columnOne" headerValue="{!$ObjectType.APTemplateTask__c.fields.Subject__c.label}" value="{!task.Subject__c}" style="vertical-align: middle" />
 					<apex:column id="indexColumn" headerValue="{!$ObjectType.APTask__c.fields.TaskIndex__c.label}" rendered="false">
@@ -149,6 +149,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			</apex:pageBlockSection>
 		</apex:pageBlock>
 	</apex:form>
+	<apex:relatedList list="apTasks__r" rendered="{!TemplateTasks.size = 0}" />
 	<apex:relatedList list="ActionPlans__r" />
 	<apex:outputField value="{!ActionPlanTemplate__c.TaskRecordTypeID__c}" rendered="false" />
 </apex:page>

@@ -158,14 +158,14 @@ public with sharing class ActionPlanDetailController {
 		/**
 		 * The Action Plan Task
 		 */
-    public APTask__c apt { get; private set; }
+		public APTask__c apt { get; private set; }
 		/**
 		 * The (standard) `Task` Id
 		 */
-    public Id taskId { get; private set; }
-    
-    /**
-		 * @description       Constructor for the task wrapper
+		public Id taskId { get; private set; }
+
+		/**
+		 * Constructor for the task wrapper
 		 *
 		 * @param aptParam    Action Plan Task Template
 		 * @param taskIdParam TaskId (for the standard object `Task`)

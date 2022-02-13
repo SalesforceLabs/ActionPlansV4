@@ -53,7 +53,10 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	private String relatedObjectName { get; set; }
 	private Set<Id> relatedRecordIDs { get; set; }
 
-	public enum ApEditMode {
+	/**
+	 * Editing or creating an `ActionPlan__c` record?
+	 */
+	private enum ApEditMode {
 		MODE_EDIT_SINGLE,
 		MODE_NEW
 	}
@@ -63,8 +66,8 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	private List<Task> myOldTasksWithEmail { get; set; }
 	private List<Task> myNewTasksWithEmail { get; set; }
 
-  /**
-	 * @description        Controller
+	/**
+	 * Constructor
 	 *
 	 * @param baseObj      ActionPlan object
 	 * @param aPTListparam Action Plan Task Template records
@@ -87,6 +90,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			// If baseObjId == null, then we are inserting a single or multiple APs
 
 			for (Id relObjId : oIdsLIst) {
+				mode = ApEditMode.MODE_NEW;
 				// iterate over all related IDs
 				ActionPlan__c ap = new ActionPlan__c();
 				ap = baseObj.clone();
@@ -101,11 +105,15 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				//add Action Plan to list that will be inserted later and referenced by ActionPlanTasks
 				relActionPlans.add(ap);
 			}
-
-			mode = ApEditMode.MODE_NEW;
 		}
 	}
 
+	/**
+	 * Iterable method for batch
+	 *
+	 * @param bc    BatchableContext automatically passed
+	 * @return      `Iterable<sObject>`
+	 */
 	public Iterable<sObject> getObjects(Database.BatchableContext bc) {
 		return relActionPlans;
 	}
@@ -221,43 +229,43 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 		upsert aptsToUpsert;
 
-		for (Task task_tmp : [SELECT Id, TaskAPTask__c, Subject FROM Task WHERE TaskAPTask__c IN :mapAP.keySet()]) {
-			mapApTasks.put(task_tmp.TaskAPTask__c, task_tmp);
+		for (Task tmpTask : [SELECT Id, TaskAPTask__c, Subject FROM Task WHERE TaskAPTask__c IN :mapAP.keySet()]) {
+			mapApTasks.put(tmpTask.TaskAPTask__c, tmpTask);
 		}
 
-		for (APTask__c t_t : aptsToUpsert) {
+		for (APTask__c refAPTask : aptsToUpsert) {
 			// check if task exists already
-			Task t = mapApTasks.get(t_t.Id);
+			Task t = mapApTasks.get(refAPTask.Id);
 			if (t == null) {
 				//Create the new task and template
 				t = new Task();
 			}
-			t.Subject = t_t.Subject__c;
-			t.Priority = t_t.Priority__c;
-			t.OwnerId = t_t.User__c;
-			t.TaskAPTask__c = t_t.Id;
+			t.Subject = refAPTask.Subject__c;
+			t.Priority = refAPTask.Priority__c;
+			t.OwnerId = refAPTask.User__c;
+			t.TaskAPTask__c = refAPTask.Id;
 
-			if (t_t.Comments__c != null) {
-				t.Description = t_t.Comments__c;
+			if (refAPTask.Comments__c != null) {
+				t.Description = refAPTask.Comments__c;
 			}
 
 			//set reminder based on user's default reminder setting
-			if (t_t.Reminder__c == true && t_t.ActivityDate__c != null) {
+			if (refAPTask.Reminder__c == true && refAPTask.ActivityDate__c != null) {
 				t.isReminderSet = true;
-				t.ReminderDateTime = Datetime.newInstance(t_t.ActivityDate__c.year(), t_t.ActivityDate__c.month(), t_t.ActivityDate__c.day(), 0, 0, 0);
-				t.ReminderDateTime = t.ReminderDateTime.addMinutes(Integer.valueOf(t_t.Minutes_Reminder__c));
+				t.ReminderDateTime = Datetime.newInstance(refAPTask.ActivityDate__c.year(), refAPTask.ActivityDate__c.month(), refAPTask.ActivityDate__c.day(), 0, 0, 0);
+				t.ReminderDateTime = t.ReminderDateTime.addMinutes(Integer.valueOf(refAPTask.Minutes_Reminder__c));
 			} else {
 				t.isReminderSet = false;
 			}
 
-			APTask__c apt = mapAP?.get(t_t.Id);
+			APTask__c apt = mapAP?.get(refAPTask.Id);
 
 			if (apt != null) {
 				apAux = mapIDAP.get(apt.Action_Plan__c);
 			}
 
 			if (apAux == null) {
-				apAux = t_t.Action_Plan__r;
+				apAux = refAPTask.Action_Plan__r;
 			}
 
 			Boolean setWho = true;
@@ -283,15 +291,15 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				System.debug('We do not set whoId');
 			}
 
-			t.Type = t_t.Type__c;
+			t.Type = refAPTask.Type__c;
 
 			if (t.Id == null) {
-				t.Status = t_t.Status__c;
+				t.Status = refAPTask.Status__c;
 			}
-			t.ActivityDate = t_t.ActivityDate__c;
+			t.ActivityDate = refAPTask.ActivityDate__c;
 
-			if (t_t.Dependent__c == 'None') {
-				if (t_t.SendEmail__c == true) {
+			if (refAPTask.Dependent__c == 'None') {
+				if (refAPTask.SendEmail__c == true) {
 					if (t.id == null) {
 						this.myNewTasksWithEmail.add(t);
 					} else {
@@ -313,20 +321,20 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 		if (this.myNewTasksWithEmail.size() > 0) {
 			dmlo.EmailHeader.triggerUserEmail = true;
-			Database.insert(this.myNewTasksWithEmail, dmlo);
+			Database.insert(this.myNewTasksWithEmail, dmlo); //NOPMD
 		}
 
 		if (this.myOldTasksWithEmail.size() > 0) {
 			dmlo.EmailHeader.triggerUserEmail = true;
-			Database.update(this.myOldTasksWithEmail, dmlo);
+			Database.update(this.myOldTasksWithEmail, dmlo); //NOPMD
 		}
 
 		if (this.myTasksWithOutEmail.size() > 0) {
 			if (this.mode == ApEditMode.MODE_EDIT_SINGLE) {
-				Database.upsert(this.myTasksWithOutEmail);
+				Database.upsert(this.myTasksWithOutEmail); //NOPMD
 			} else {
 				dmlo2.EmailHeader.triggerUserEmail = false;
-				Database.insert(this.myTasksWithOutEmail, dmlo2);
+				Database.insert(this.myTasksWithOutEmail, dmlo2); //NOPMD
 			}
 		}
 
@@ -343,7 +351,11 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				generateObjectFeeds(relObjectIDs);
 			}
 		}
-		return relActionPlans[0].id;
+		if (relActionPlans.size() == 1) {
+			return relActionPlans[0].id;
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -388,7 +400,6 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 		if (relObjOwners.containsKey(objId)) {
 			ownerValue = relObjOwners.get(objId);
-
 			return ownerValue;
 		} else {
 			return null;
@@ -405,7 +416,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 		String queryRetrieveOwnerIds;
 
 		if (!relatedRecordIDs.isEmpty()) {
-			queryRetrieveOwnerIds = 'SELECT Id, OwnerId FROM ' + relatedObjectName + ' WHERE Id IN :relatedRecordIDs';
+			queryRetrieveOwnerIds = 'SELECT Id, OwnerId FROM ' + String.escapeSingleQuotes(relatedObjectName) + ' WHERE Id IN :relatedRecordIDs';
 
 			for (SObject obj : Database.query(queryRetrieveOwnerIds)) {
 				relatedObjOwners.put((Id) (obj.get('Id')), (Id) (obj.get('OwnerId')));
@@ -427,7 +438,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 		if (!Schema.getGlobalDescribe().containsKey('feeditem')) {
 			return;
 		}
-		for (SObject so : Database.query(apQuery)) {
+		for (SObject so : Database.query(String.escapeSingleQuotes(apQuery))) {
 			ActionPlan__c ap = (ActionPlan__c) so;
 
 			Id objId;

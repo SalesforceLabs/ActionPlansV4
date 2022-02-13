@@ -84,9 +84,6 @@ public with sharing class ActionPlanTemplateCreationController {
 			}
 
 			if (templateId != null) {
-				//System.debug('templateId ' + templateId);
-				//System.debug('CLONING');
-
 				ActionPlanTemplate__c apC = [SELECT Name, Description__c, SkipDay__c, SkipWeekends__c, TaskRecordTypeID__c FROM ActionPlanTemplate__c WHERE Id = :templateId LIMIT 1];
 
 				actionPlanTemplate.Name = apC.Name;
@@ -118,10 +115,13 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Action on page load to ensure custom setting is created
-	 * @return   null
+	 * @return   PageReference (null)
 	 */
 	public PageReference onLoad() {
 		ActionPlansUtilities.onPageLoad();
+		if (getTemplateWrappers().isEmpty()) {
+			addTemplateTask();
+		}
 		return null;
 	}
 
@@ -298,7 +298,9 @@ public with sharing class ActionPlanTemplateCreationController {
 			tasksList.add(ApTTaskWrapper);
 			i++;
 		}
-		tasksList[i - 1].isLast = true;
+		if (i > 0) {
+			tasksList[i - 1].isLast = true;
+		}
 		return tasksList;
 	}
 
@@ -579,7 +581,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	}
 
 	/**
-	 * @description Get the reminder time picklist options from the central utilities class
+	 * Get the reminder time picklist options from the central utilities class
 	 * @return      Picklist of reminder times
 	 */
 	public List<SelectOption> getHoursOption() {
@@ -599,7 +601,7 @@ public with sharing class ActionPlanTemplateCreationController {
 		public Boolean isLast { get; set; }
 
 		/**
-		 * @description       Constructor for ActionPlan Template Task Wrapper
+		 * Constructor for ActionPlan Template Task Wrapper
 		 *
 		 * @param apTask      Action Plan Template Task
 		 * @param pos         Position/Index

@@ -36,7 +36,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<apex:page lightningStylesheets="true" docType="html-5.0" title="ActionPlansHome" contentType="text/html">
+<apex:page lightningStylesheets="true" docType="html-5.0" title="ActionPlansHome" contentType="text/html" tabStyle="Action_Plans_Home__tab">
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
 	<script type="text/javascript">
 		var notAPTAccessible = {!!$ObjectType.ActionPlanTemplate__c.accessible};
@@ -88,7 +88,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	<apex:outputPanel layout="block" id="APTabs">
 		<div class="slds-scope">
-			<!-- <c:APMessage severity="{!$CurrentPage.parameters.severity}" message="{!$CurrentPage.parameters.message}" rendered="{!$CurrentPage.parameters.message != null}" /> -->
+			<c:APMessage severity="{!$CurrentPage.parameters.severity}" message="{!$CurrentPage.parameters.message}" rendered="{!$CurrentPage.parameters.message != null}" />
 
 			<article class="slds-card">
 				<div class="slds-card__body slds-card__body_inner">
@@ -119,28 +119,4 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			</article>
 		</div>
 	</apex:outputPanel>
-
-	<!-- <c:APSectionHeader sObjType="ActionPlan__c" title="{!$ObjectType.ActionPlan__c.LabelPlural}" subtitle="" id="secHeader-1" />
-	<c:APSectionHeader sObjType="ActionPlanTemplate__c" title="{!$ObjectType.ActionPlanTemplate__c.LabelPlural}" subtitle="" id="secHeader-2" />
-	<style>
-		.activeTab {
-			background-color: #236FBD;
-			color: white;
-			background-image: none
-		}
-
-		.inactiveTab {
-			background-color: lightgrey;
-			color: black;
-			background-image: none
-		}
-
-	</style>
-
-	<apex:tabPanel switchType="client" selectedTab="name2" id="APlanTabPanel" tabClass='activeTab' inactiveTabClass='inactiveTab'>
-		<apex:tab label="One" name="name1" id="tabOne">
-			<apex:ListViews type="ActionPlan__c" /></apex:tab>
-		<apex:tab label="Two" name="name2" id="tabTwo">
-			<apex:ListViews type="ActionPlanTemplate__c" /></apex:tab>
-	</apex:tabPanel> -->
 </apex:page>

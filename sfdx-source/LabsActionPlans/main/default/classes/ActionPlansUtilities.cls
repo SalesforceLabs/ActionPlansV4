@@ -408,8 +408,8 @@ public without sharing class ActionPlansUtilities {
 			instance = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
 			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
 			instance.Default_Object_on_Lead_Conversion__c = 'Contact';
-			instance.Unassigned_Task_Default__c = true;
-			instance.Chatter_Object_Brag__c = false;
+			instance.Unassigned_Task_Default__c = (Boolean) Action_Plans_Settings__c.Unassigned_Task_Default__c.getDescribe().getDefaultValue();
+			instance.Chatter_Object_Brag__c = (Boolean) Action_Plans_Settings__c.Chatter_Object_Brag__c.getDescribe().getDefaultValue();
 		} else {
 			instance = Action_Plans_Settings__c.getInstance();
 		}

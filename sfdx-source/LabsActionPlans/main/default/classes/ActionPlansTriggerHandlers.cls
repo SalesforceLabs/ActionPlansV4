@@ -745,7 +745,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 
 	/**
-	 * @description    Though the object name should match the field name, we get the name of the related object
+	 * Though the object name should match the field name, we get the name of the related object
 	 *
 	 * @param recordId The related record Id
 	 * @return         The name of the filled Relationship field object name

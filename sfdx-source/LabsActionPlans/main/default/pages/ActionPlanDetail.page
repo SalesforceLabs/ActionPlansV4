@@ -128,7 +128,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				</apex:pageBlockSectionItem>
 			</apex:pageBlockSection>
 
-			<apex:pageBlockSection id="taskSection" columns="1" collapsible="false">
+			<apex:pageBlockSection id="taskSection" columns="1" collapsible="false" rendered="{!ActionPlanTasks.size > 0}">
 				<apex:facet name="header">
 					<apex:outputPanel>
 						<apex:outputText value="{!$ObjectType.Task.labelPlural}" />&nbsp;
@@ -213,4 +213,5 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			<!-- END SYSTEM INFORMATION SECTION -->
 		</apex:pageBlock>
 	</apex:form>
+	<apex:relatedList list="APTasks__r" rendered="{!ActionPlanTasks.size = 0}" />
 </apex:page>

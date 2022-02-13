@@ -163,7 +163,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							</apex:column>
 
 							<apex:column id="userLookup" headerValue="{!$ObjectType.APTemplateTask__c.fields.User__c.label}">
-								<apex:outputPanel layout="block" id="userPanel">
+								<apex:outputPanel layout="block" id="userPanel" style="z-index:9999;">
 									<apex:inputField value="{!wrapTask.task.User__c}" rendered="{!!lex}" />
 									<c:APLightningLookup field="User__c" sObj="{!wrapTask.task}" sObjType="User" for="{!wrapTask.position}rowuserlookup" required="false" where="AND IsActive = true AND ProfileId != null" rendered="{!lex}" fieldStyle="width:100%;" />
 								</apex:outputPanel>
