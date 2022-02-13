@@ -74,7 +74,7 @@ jobs:
 
       # Run Apex tests in scratch org
       - name: 'Run Apex tests'
-        run: sfdx force:apex:test:run -c -r human -d -l RunLocalTests -w 20
+        run: sfdx force:apex:test:run -c -r human -l RunLocalTests -w 20
 
       # Housekeeping
       - name: 'Delete scratch org'
