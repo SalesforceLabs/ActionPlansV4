@@ -9,7 +9,6 @@ IF(MOD(FLOOR(VALUE(Minutes_Reminder__c) / 60),12) == 0,&apos;12&apos;,TEXT(MOD(F
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Time Reminder</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

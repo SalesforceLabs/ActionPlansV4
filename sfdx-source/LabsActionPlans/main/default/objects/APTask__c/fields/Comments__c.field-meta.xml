@@ -4,7 +4,6 @@
     <externalId>false</externalId>
     <label>Comments</label>
     <length>32000</length>
-    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

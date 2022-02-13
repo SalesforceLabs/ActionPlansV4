@@ -6,7 +6,6 @@
     <inlineHelpText>The default priority of the new task</inlineHelpText>
     <label>Priority</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
