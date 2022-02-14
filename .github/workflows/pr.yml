@@ -4,10 +4,9 @@ name: Validate/Test Deploy
 on:
   pull_request:
     types: [edited, opened, synchronize, reopened, review_requested]
-    #  - main
     paths:
       - 'sfdx-source/**'
-      - 'pmd/**';
+      - 'pmd/**'
 
 # Jobs to be executed
 jobs:
