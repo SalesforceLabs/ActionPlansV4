@@ -56,7 +56,7 @@ public without sharing class ActionPlansUtilities {
 	public static final Id MASTER_RECORD_TYPE_ID = '012000000000000AAA'; //NOPMD
 
 	/**
-	 * Allows us to force the environment variable checking if Task has a Record Type for testing. Increases code coverage.
+	 * Allows us to force the environment variable checking if Task has a Record Type for testing (forcing NO record type,). Increases code coverage.
 	 */
 	public static final Boolean taskUsesRecordTypes {
 		get {
@@ -80,12 +80,14 @@ public without sharing class ActionPlansUtilities {
 		return null;
 	}
 
-	/**
-	 * Section to describe ActionPlan object to make custom relationship fields dynamic
-	 */
+	// Section to describe ActionPlan object to make custom relationship fields dynamic
 
 	private static List<String> apCustomRelationshipFields;
-
+	/**
+	 * Check the fieldSet for all active Action Plan relationaship fields (available parent objects)
+	 * @author David Schach
+	 * @return   List of field names
+	 */
 	public static List<String> getCustomRelationshipFields() {
 		if (apCustomRelationshipFields == null) {
 			List<String> referenceFieldNames = new List<String>();
@@ -181,7 +183,8 @@ public without sharing class ActionPlansUtilities {
 	private static Map<Id, String> taskRecordTypeTypeDefaultValues;
 
 	/**
-	 * Generate Map of Record Type Id to default Task Priority
+	 * Generate default Task Priority picklist
+	 * @return Map of `RecordTypeId` to default `Task Priority`
 	 */
 	public static Map<Id, String> getTaskRecordTypePriorityDefaultValues() {
 		if (taskRecordTypePriorityDefaultValues == null) {
@@ -219,7 +222,8 @@ public without sharing class ActionPlansUtilities {
 	}
 
 	/**
-	 * Generate picklist of Task Record Types
+	 * Generate picklist of `Task.RecordType`
+	 * @return Visualforce Picklist
 	 */
 	public static List<SelectOption> getTaskRTPicklistValues() {
 		if (taskRTs == null) {
@@ -235,6 +239,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Lazy load open task statuses
+	 * @return All Open `Task` Status values
 	 */
 	public static Set<String> getOpenTaskStatuses() {
 		if (openTaskStatuses == null) {
@@ -268,23 +273,28 @@ public without sharing class ActionPlansUtilities {
 	}
 
 	/**
-	 * Get a Visualforce picklist from any object and field
-	 * @param objectname    the object name
-	 * @param fieldname     the field name
-	 * @return              List<SelectOption>
+	 * For a given object/field, generate a Visualforce Picklist
+	 * @author David Schach
+	 * @param  objectname      Object Nams
+	 * @param  fieldname       Field Name
+	 * @param  requireValue    We can provide the option of not selecting the value by default
+	 * @return                 Picklist
 	 */
-	public static List<SelectOption> getFieldOptions(String objectname, String fieldname, Boolean hasDefaultValue) {
+	public static List<SelectOption> getFieldOptions(String objectname, String fieldname, Boolean requireValue) {
+		if (requireValue == null) {
+			requireValue = false;
+		}
 		List<SelectOption> toReturn = new List<SelectOption>();
 		Schema.DescribeSObjectResult obj = Schema.getGlobalDescribe().get(objectname).getDescribe();
 		Schema.SObjectField sof = obj.fields.getMap().get(fieldname);
-
+		Boolean hasDefaultValue = false;
 		for (Schema.PicklistEntry spe : sof.getDescribe().getPicklistValues()) {
 			if (spe.isDefaultValue()) {
 				hasDefaultValue = true;
 			}
 			toReturn.add(new Selectoption(spe.getValue(), spe.getLabel()));
 		}
-		if (hasDefaultValue == null || !hasDefaultValue) {
+		if (hasDefaultValue == false && requireValue == false) {
 			toReturn.add(0, new SelectOption('', '--' + System.Label.ap_None + '--'));
 		}
 		return toReturn;

@@ -1293,7 +1293,7 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public List<SelectOption> getTaskPriorities() {
 		if (taskPriorities == null) {
-			taskPriorities = ActionPlansUtilities.getFieldOptions('Task', 'Priority', null);
+			taskPriorities = ActionPlansUtilities.getFieldOptions('Task', 'Priority', true);
 		}
 		return taskPriorities;
 	}
@@ -1314,8 +1314,20 @@ public with sharing class ActionPlanCreationController {
 	 * @since 4/2022
 	 */
 	public class ApTaskWrapper {
+		/**
+		 * Action Plan Task in wrapper
+		 * @return   The Action Plan task
+		 */
 		public APTask__c apt { get; set; }
+		/**
+		 * Task position (order on the page)
+		 * @return  Index
+		 */
 		public Integer position { get; set; }
+		/**
+		 * Last Task
+		 * @return   Is this AP Task the last in the list?
+		 */
 		public Boolean isLast { get; set; }
 		/**
 		 * Should we display the lookup?

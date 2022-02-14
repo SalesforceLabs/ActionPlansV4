@@ -44,9 +44,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Utilities
  */
 public with sharing class ActionPlansTestUtilities {
+	/**
+	 * Used in testing - we force an Error during tests
+	 */
 	public static Boolean forceError = false;
+
+	/**
+	 * Used during testing to "fool" the org into thinking that it has Task record types
+	 */
 	public static Boolean forceHasRecordType;
 
+	/**
+	 * Standard objects included in this package
+	 */
 	public static Set<String> standardObjects = new Set<String>{ 'account', 'lead', 'contact', 'contract', 'case', 'campaign', 'opportunity' };
 
 	/**
@@ -70,11 +80,10 @@ public with sharing class ActionPlansTestUtilities {
 		return ret;
 	}
 
-	/*
-	 * A random user is useful for testing in order to be
-	 * sure that you are able to see data across posts regardless
-	 * of follow status.
-	 * Permission Set would still be required
+	/**
+	 * A random user is useful for testing in order to be sure that you are able to see data across posts regardless of follow status.
+	 * <br> A Permission Set would still be required
+	 * @return A newly-created User
 	 */
 	public User createTestUser() {
 		for (Profile p : [SELECT Id, PermissionsModifyAllData, Name FROM Profile WHERE PermissionsModifyAllData = TRUE AND UserType = 'Standard' LIMIT 1]) {
@@ -82,7 +91,6 @@ public with sharing class ActionPlansTestUtilities {
 				return this.createTestUser(p);
 			}
 		}
-
 		return new User();
 	}
 

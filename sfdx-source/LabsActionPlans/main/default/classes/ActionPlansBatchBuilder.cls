@@ -35,11 +35,11 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 */
 
 /**
- * Batch
+ * Batch for creating Action Plans
+ * <br>Stateful because we may be making a LOT of Action Plans and we want to maintain state in the Utilities class
  * @since 2011
  * @group Batch Apex
  */
@@ -47,8 +47,7 @@ public inherited sharing class ActionPlansBatchBuilder implements Database.Batch
 	ActionPlansBatchBuilderUtilities taskBatch;
 
 	/**
-	 * @description
-	 *
+	 * Constructor
 	 * @param baseObj ActionPlan base
 	 * @param aPTList List of the task templates
 	 * @param refType The related object name
@@ -60,6 +59,7 @@ public inherited sharing class ActionPlansBatchBuilder implements Database.Batch
 
 	/**
 	 * Use the start method to collect the records or objects to be passed to the interface method execute
+	 * @param bc BatchableContext
 	 * @return Iterable
 	 */
 	public Iterable<sObject> start(Database.BatchableContext bc) {
@@ -75,6 +75,7 @@ public inherited sharing class ActionPlansBatchBuilder implements Database.Batch
 		try {
 			this.taskBatch.generateActionPlans();
 			if (ActionPlansTestUtilities.forceError) {
+				// A way to force an error without trying to create an SObject record
 				String str = null;
 				str.toLowerCase();
 			}
@@ -94,7 +95,7 @@ public inherited sharing class ActionPlansBatchBuilder implements Database.Batch
 	}
 
 	/**
-	 * Batch finish method. Do nothing
+	 * Batch finish method. Do nothing.
 	 */
 	// prettier-ignore
 	public void finish(Database.BatchableContext bc) {} //NOPMD

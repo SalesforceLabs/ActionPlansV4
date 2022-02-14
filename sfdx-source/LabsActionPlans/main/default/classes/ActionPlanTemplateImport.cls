@@ -421,6 +421,6 @@ public inherited sharing class ActionPlanTemplateImport {
 		return EncodingUtil.urlDecode(reader.getText(), 'UTF-8').trim();
 	}
 
-	public class ImportException extends Exception {
-	}
+	// prettier-ignore
+	public class ImportException extends Exception {} //NOPMD
 }

@@ -41,6 +41,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Utilities
  */
 global class ActionPlansPostInstallScript implements InstallHandler {
+	/**
+	 * Script torun when the managed package is installed
+	 * @author David Schach
+	 * @param  context Is this a new install, an upgrade, or a push (from the developer)?
+	 */
 	global void onInstall(InstallContext context) {
 		if (context.previousVersion() == null) {
 			Action_Plans_Settings__c instance = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
@@ -98,7 +103,6 @@ global class ActionPlansPostInstallScript implements InstallHandler {
 			a3.SendEmail__c = false;
 			insert a3;
 		}
-		//else if(context.previousVersion().compareTo(new Version(1,0)) == 0) {}
 		// prettier-ignore
 		if (context.isUpgrade()) {} //NOPMD
 		// prettier-ignore

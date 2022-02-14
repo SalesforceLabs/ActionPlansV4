@@ -37,17 +37,21 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
+ * Helper class to do the work for creating XML for a given Action Plan Template
  * @group Import Export
  * @since 2011
  */
 public without sharing class ActionPlanTemplateExport {
 	private String templateId;
 
+	/**
+	 * The `File` or `Document` Id for display on the Visualforce confirmation page
+	 */
 	public Id fileOrDocumentId { get; private set; }
 
 	/**
 	 * Constructor
-	 * @param templateId
+	 * @param templateId `ActionPlanTemplate__c` Id
 	 */
 	public ActionPlanTemplateExport(String templateId) {
 		this.templateId = templateId;
@@ -55,7 +59,7 @@ public without sharing class ActionPlanTemplateExport {
 
 	/**
 	 * Method in charge of handling the export task related to a Action Plan Template
-	 * @return doc
+	 * @return `ContentDocument` or `Document` Id
 	 */
 	public Id export() {
 		ActionPlanTemplate__c apTemplate = [
@@ -114,7 +118,14 @@ public without sharing class ActionPlanTemplateExport {
 	}
 
 	/**
+	 *
+	 */
+	/**
 	 * Method to save the XML file to a File (if the user is using Lightning Experience)
+	 * @author David Schach
+	 * @param  name File Name
+	 * @param  xml  The XML of the exported template
+	 * @return      `ContentDocument` Id
 	 */
 	@TestVisible
 	private Id saveToContent(String name, String xml) {
@@ -131,9 +142,9 @@ public without sharing class ActionPlanTemplateExport {
 	}
 
 	/**
-	 * Method in charge of compiling XML document for a given Action Plan Template and child tasks
+	 * Method to compile XML document for a given Action Plan Template and child tasks
 	 * @param target
-	 * @return ret
+	 * @return The XML
 	 */
 	@TestVisible
 	private String buildXmlString(ActionPlanTemplate__c target) {

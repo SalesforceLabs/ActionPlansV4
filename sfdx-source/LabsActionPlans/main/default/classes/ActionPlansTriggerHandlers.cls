@@ -122,7 +122,6 @@ global without sharing class ActionPlansTriggerHandlers {
 
 				try {
 					if (ActionPlansTestUtilities.forceError) {
-						//throw dmlException
 						insert new Contact();
 					}
 					Database.undelete(aPs, false);

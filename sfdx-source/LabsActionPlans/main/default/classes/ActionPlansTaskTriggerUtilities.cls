@@ -317,11 +317,13 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 		delete toDelete;
 	}
 
-	/*
-	This method reviews the task list FOR A SINGLE ACTION PLAN and removes the one with TaskIndex__c field matching tmp_taskIndex.
-	Rearranges the dependencies between tasks.
-	*/
-	private static void generateDependentTasksAndReset(List<APTask__c> apTasks, Decimal tmp_taskIndex) {
+	/**
+	 * This method reviews the task list FOR A SINGLE ACTION PLAN and removes the one with `TaskIndex__c` field matching taskIndexToDelete.
+	 * <br>Rearranges the dependencies between tasks.
+	 * @param  apTasks           All the Action Plan Tasks for the Action Plan
+	 * @param  taskIndexToDelete The index of the task we are trying to delete
+	 */
+	private static void generateDependentTasksAndReset(List<APTask__c> apTasks, Decimal taskIndexToDelete) {
 		Set<Id> pendingIdsToDelete = new Set<Id>();
 
 		Integer taskIndex;
@@ -329,7 +331,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 		for (Integer i = 0; i < apTasks.size(); i++) {
 			APTask__c apTask = apTasks[i];
-			if (apTask.TaskIndex__c == tmp_taskIndex) {
+			if (apTask.TaskIndex__c == taskIndexToDelete) {
 				taskIndex = i;
 			}
 		}

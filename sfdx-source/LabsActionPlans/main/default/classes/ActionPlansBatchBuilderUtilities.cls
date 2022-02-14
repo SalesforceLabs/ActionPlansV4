@@ -409,7 +409,8 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	/**
 	 * Retrieve the owner list from the related object.
 	 * @param relatedRecordIDs		list of sobjects' id
-	 * @param relatedObjectName
+	 * @param relatedObjectName     The name of the related object
+	 * @return Map of record Id to Owner Id
 	 */
 	public static Map<Id, Id> retrieveOwnersDataRelatedObject(Set<Id> relatedRecordIDs, String relatedObjectName) {
 		Map<Id, Id> relatedObjOwners = new Map<Id, Id>();

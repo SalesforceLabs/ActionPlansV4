@@ -42,7 +42,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Controller for page to mass-delete using a set controller.
  * <br>Validates using CanTheUser to ensure user permissions
- * @author David Schach
+ * @author {@link [Andrew Fawcett](https://github.com/andyinthecloud)}
+ * @author {@link [Kevin Poorman](https://github.com/codefriar)}
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Visualforce
  * @since 2011
  * @see ActionPlansDeleteMultipleAPExtTest
@@ -51,20 +53,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 public with sharing class ActionPlansDeleteMultipleAPExtension {
 	private ApexPages.StandardSetController standardController;
 
+	/**
+	 * The Action Plan records to delete (after user confirmation)
+	 */
 	public List<ActionPlan__c> actionPlansToShow { get; private set; }
-
-	public ActionPlansDeleteMultipleAPExtension(ApexPages.StandardSetController standardController) {
-		this.standardController = standardController;
+	/**
+	 * Constructor for page showing Action Plans we want to delete
+	 * @author David Schach
+	 * @param  stdController `ActionPlan__c` standard controller
+	 */
+	public ActionPlansDeleteMultipleAPExtension(ApexPages.StandardSetController stdController) {
+		this.standardController = stdController;
 		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();
 		actionPlansToShow = [SELECT Id, Name FROM ActionPlan__c WHERE Id IN :selected];
 	}
 
+	/**
+	 * Page Redirect on delete
+	 * @author David Schach
+	 * @return   PageReference with success/error message
+	 */
 	public PageReference deleteRecords() {
 		PageReference newPage = Page.ActionPlansHome;
 		newPage.setRedirect(true);
 
 		if (actionPlansToShow.isEmpty()) {
 			return null;
+			//return standardController.cancel();
 		}
 
 		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();

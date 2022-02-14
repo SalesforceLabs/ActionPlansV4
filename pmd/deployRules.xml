@@ -68,7 +68,7 @@
 	<rule ref="category/apex/design.xml/AvoidDeeplyNestedIfStmts" message="Deeply nested if..else statements are hard to read">
 		<priority>3</priority>
 		<properties>
-			<property name="problemDepth" value="4" />
+			<property name="problemDepth" value="6" />
 		</properties>
 	</rule>
 

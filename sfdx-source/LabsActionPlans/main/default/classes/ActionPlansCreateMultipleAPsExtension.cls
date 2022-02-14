@@ -52,6 +52,7 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 
 	/**
 	 * Controller
+	 * @param standardController Standard Controller - used only for Cancel standard action
 	 */
 	public ActionPlansCreateMultipleAPsExtension(ApexPages.StandardSetController standardController) {
 		this.standardController = standardController;
