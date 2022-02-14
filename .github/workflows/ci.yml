@@ -13,8 +13,6 @@ on:
       - 'docs/**'
       - 'doc-assets/**'
       - '.vscode/**'
-      - 'scripts/**'
-      - '.husky/**';
 
 # Jobs to be executed
 jobs:
@@ -73,7 +71,7 @@ jobs:
           unzip pmd-bin-$PMD_VERSION.zip -d ~
           mv ~/pmd-bin-$PMD_VERSION ~/pmd
           ~/pmd/bin/run.sh pmd --version
-          
+
       # Run PMD scan
       - name: 'Run PMD scan'
         run: ~/pmd/bin/run.sh pmd -d sfdx-source/LabsActionPlans -R pmd/deployRules.xml -f text --cache .pmdCache -min 2
