@@ -2,7 +2,9 @@
 
 ## Badges
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![twitter](https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social)](https://twitter.com/salesforce_labs)
+[![Latest Commit](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml)
+[![Latest Pull Request](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml)
+[![Twitter](https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social)](https://twitter.com/salesforce_labs)
 
 # Action Plans Installation and Setup
 
