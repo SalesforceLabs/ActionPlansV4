@@ -19,13 +19,15 @@ engine:
     - private
     - webService
     - testMethod
-  #homePagePath: "${workspaceFolder}/doc-assets/homepage.html"
-  #pages:
-  #  - "${workspaceFolder}/doc-assets/index.html"
+  homePagePath: '${workspaceFolder}/doc-assets/README.html'
+  pages:
+    - '${workspaceFolder}/doc-assets/INSTALLATION.html'
   assets:
     - '${workspaceFolder}/doc-assets/logo.png'
     - '${workspaceFolder}/doc-assets/favicon.png'
     - '${workspaceFolder}/doc-assets/icon.png'
+    - '${workspaceFolder}/doc-assets/index.css'
+    - '${workspaceFolder}/doc-assets/readme_images'
   #  - "${workspaceFolder}/documentation/meme.jpg"
   port: 8088
 docblock:
