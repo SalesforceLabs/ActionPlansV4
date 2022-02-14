@@ -27,7 +27,6 @@ engine:
     - '${workspaceFolder}/doc-assets/favicon.png'
     - '${workspaceFolder}/doc-assets/icon.png'
     - '${workspaceFolder}/doc-assets/index.css'
-    - '${workspaceFolder}/doc-assets/readme_images'
   #  - "${workspaceFolder}/documentation/meme.jpg"
   port: 8088
 docblock:

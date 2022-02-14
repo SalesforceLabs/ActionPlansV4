@@ -3,6 +3,7 @@
  * @see https://github.com/codefriar/CanTheUser
  * @see https://github.com/trailheadapps/apex-recipes
  * @author {@link [Codefriar](https://github.com/codefriar)}
+ * @since 2021
  * @group Security
  */
 @IsTest

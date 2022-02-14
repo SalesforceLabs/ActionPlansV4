@@ -273,7 +273,7 @@
 
               <div class="class-signature">
                 global without sharing class ActionPlansTriggerHandlers
-              </div><br />David Schach<br />2011
+              </div><br />David Schach<br />2022
             </div>
             <div class="subsection methods">
               <h3 class="subsection-title methods">ActionPlansTriggerHandlers Methods</h3>
@@ -421,7 +421,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L66">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L67">
                       actionPlansSObjectTriggerHandler(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent, sObjectName)
                     </a>
                   </h4>
@@ -433,29 +433,38 @@
                   </div>
 
                   <div class="method-signature">
-                    public static void actionPlansSObjectTriggerHandler( List&lt;SObject&gt; newRecords, List&lt;SObject&gt; oldRecords, Map&lt;Id, SObject&gt; newRecordsMap, Map&lt;Id, SObject&gt; oldRecordsMap, System.TriggerOperation triggerEvent, String sObjectName )
+                    public static void actionPlansSObjectTriggerHandler(List&lt;SObject&gt; newRecords, List&lt;SObject&gt; oldRecords, Map&lt;Id, SObject&gt; newRecordsMap, Map&lt;Id, SObject&gt; oldRecordsMap, System.TriggerOperation triggerEvent, String sObjectName)
                   </div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">newRecords</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">		List&lt;SObject&gt;</code>
+                    Type: <code class="code-inline">List&lt;SObject&gt;</code>
                   </div>
                   <div class="param-description"> Trigger.new</div>
                   <div class="param-name">oldRecords</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">List&lt;SObject&gt;</code>
+                  </div>
                   <div class="param-description"> Trigger.old</div>
                   <div class="param-name">newRecordsMap</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">SObject&gt;</code>
+                    Type: <code class="code-inline">Map&lt;Id, SObject&gt;</code>
                   </div>
                   <div class="param-description">Trigger.newMap</div>
                   <div class="param-name">oldRecordsMap</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">SObject&gt;</code>
+                    Type: <code class="code-inline">Map&lt;Id, SObject&gt;</code>
                   </div>
                   <div class="param-description">Trigger.oldMap</div>
                   <div class="param-name">triggerEvent</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">System.TriggerOperation</code>
+                  </div>
                   <div class="param-description"> Trigger context</div>
                   <div class="param-name">sObjectName</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">String</code>
+                  </div>
                   <div class="param-description"> the name of the SObject</div>
                   <div class="method-subtitle">
                     Author
@@ -467,7 +476,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.allowChangeParentStatus">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L778">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L743">
                       allowChangeParentStatus(apTaskTemplateIds)
                     </a>
                   </h4>
@@ -497,7 +506,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.getRelationshipName">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L752">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L717">
                       getRelationshipName(recordId)
                     </a>
                   </h4>
@@ -527,7 +536,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlan">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L146">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L140">
                       triggerhandlerActionPlan(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -539,27 +548,33 @@
                   </div>
 
                   <div class="method-signature">
-                    public static void triggerhandlerActionPlan( List&lt;ActionPlan__c&gt; newRecords, List&lt;ActionPlan__c&gt; oldRecords, Map&lt;Id, ActionPlan__c&gt; newRecordsMap, Map&lt;Id, ActionPlan__c&gt; oldRecordsMap, System.TriggerOperation triggerEvent )
+                    public static void triggerhandlerActionPlan(List&lt;ActionPlan__c&gt; newRecords, List&lt;ActionPlan__c&gt; oldRecords, Map&lt;Id, ActionPlan__c&gt; newRecordsMap, Map&lt;Id, ActionPlan__c&gt; oldRecordsMap, System.TriggerOperation triggerEvent)
                   </div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">newRecords</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">		List&lt;ActionPlan__c&gt;</code>
+                    Type: <code class="code-inline">List&lt;ActionPlan__c&gt;</code>
                   </div>
                   <div class="param-description"> Trigger.new</div>
                   <div class="param-name">oldRecords</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">List&lt;ActionPlan__c&gt;</code>
+                  </div>
                   <div class="param-description"> Trigger.old</div>
                   <div class="param-name">newRecordsMap</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">ActionPlan__c&gt;</code>
+                    Type: <code class="code-inline">Map&lt;Id, ActionPlan__c&gt;</code>
                   </div>
                   <div class="param-description">Trigger.newMap</div>
                   <div class="param-name">oldRecordsMap</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">ActionPlan__c&gt;</code>
+                    Type: <code class="code-inline">Map&lt;Id, ActionPlan__c&gt;</code>
                   </div>
                   <div class="param-description">Trigger.oldMap</div>
                   <div class="param-name">triggerEvent</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">System.TriggerOperation</code>
+                  </div>
                   <div class="param-description"> Trigger context</div>
                   <div class="method-subtitle">
                     Author
@@ -571,7 +586,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlanAccount">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L645">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L617">
                       triggerhandlerActionPlanAccount(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -583,27 +598,33 @@
                   </div>
 
                   <div class="method-signature">
-                    public static void triggerhandlerActionPlanAccount( List&lt;Account&gt; newRecords, List&lt;Account&gt; oldRecords, Map&lt;Id, Account&gt; newRecordsMap, Map&lt;Id, Account&gt; oldRecordsMap, System.TriggerOperation triggerEvent )
+                    public static void triggerhandlerActionPlanAccount(List&lt;Account&gt; newRecords, List&lt;Account&gt; oldRecords, Map&lt;Id, Account&gt; newRecordsMap, Map&lt;Id, Account&gt; oldRecordsMap, System.TriggerOperation triggerEvent)
                   </div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">newRecords</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">		List&lt;Account&gt;</code>
+                    Type: <code class="code-inline">List&lt;Account&gt;</code>
                   </div>
                   <div class="param-description"> Trigger.new</div>
                   <div class="param-name">oldRecords</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">List&lt;Account&gt;</code>
+                  </div>
                   <div class="param-description"> Trigger.old</div>
                   <div class="param-name">newRecordsMap</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">Account&gt;</code>
+                    Type: <code class="code-inline">Map&lt;Id, Account&gt;</code>
                   </div>
                   <div class="param-description">Trigger.newMap</div>
                   <div class="param-name">oldRecordsMap</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">Account&gt;</code>
+                    Type: <code class="code-inline">Map&lt;Id, Account&gt;</code>
                   </div>
                   <div class="param-description">Trigger.oldMap</div>
                   <div class="param-name">triggerEvent</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">System.TriggerOperation</code>
+                  </div>
                   <div class="param-description"> Trigger context</div>
                   <div class="method-subtitle">
                     Author
@@ -615,7 +636,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlanLead">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L592">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L563">
                       triggerhandlerActionPlanLead(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -665,7 +686,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlanTask">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L239">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L227">
                       triggerhandlerActionPlanTask(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -677,15 +698,18 @@
                   </div>
 
                   <div class="method-signature">
-                    public static void triggerhandlerActionPlanTask( List&lt;APTask__c&gt; newRecords, List&lt;APTask__c&gt; oldRecords, Map&lt;Id, APTask__c&gt; newRecordsMap, Map&lt;Id, APTask__c&gt; oldRecordsMap, System.TriggerOperation triggerEvent )
+                    public static void triggerhandlerActionPlanTask(List&lt;APTask__c&gt; newRecords, List&lt;APTask__c&gt; oldRecords, Map&lt;Id, APTask__c&gt; newRecordsMap,Map&lt;Id, APTask__c&gt; oldRecordsMap, System.TriggerOperation triggerEvent)
                   </div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">newRecords</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">		List&lt;APTask__c&gt;</code>
+                    Type: <code class="code-inline">List&lt;APTask__c&gt;</code>
                   </div>
                   <div class="param-description"> Trigger.new</div>
                   <div class="param-name">oldRecords</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">List&lt;APTask__c&gt;</code>
+                  </div>
                   <div class="param-description"> Trigger.old</div>
                   <div class="param-name">newRecordsMap</div>
                   <div class="param-type">
@@ -698,6 +722,9 @@
                   </div>
                   <div class="param-description">Trigger.oldMap</div>
                   <div class="param-name">triggerEvent</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">System.TriggerOperation</code>
+                  </div>
                   <div class="param-description"> Trigger context</div>
                   <div class="method-subtitle">
                     Author
@@ -709,7 +736,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlanTemplate">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L325">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L306">
                       triggerhandlerActionPlanTemplate(newRecords, oldRecords, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -721,22 +748,28 @@
                   </div>
 
                   <div class="method-signature">
-                    public static void triggerhandlerActionPlanTemplate( List&lt;ActionPlanTemplate__c&gt; newRecords, List&lt;ActionPlanTemplate__c&gt; oldRecords, Map&lt;Id, ActionPlanTemplate__c&gt; oldRecordsMap, System.TriggerOperation triggerEvent )
+                    public static void triggerhandlerActionPlanTemplate(List&lt;ActionPlanTemplate__c&gt; newRecords, List&lt;ActionPlanTemplate__c&gt; oldRecords, Map&lt;Id, ActionPlanTemplate__c&gt; oldRecordsMap, System.TriggerOperation triggerEvent)
                   </div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">newRecords</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">		List&lt;ActionPlanTemplate__c&gt;</code>
+                    Type: <code class="code-inline">List&lt;ActionPlanTemplate__c&gt;</code>
                   </div>
                   <div class="param-description"> Trigger.new</div>
                   <div class="param-name">oldRecords</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">List&lt;ActionPlanTemplate__c&gt;</code>
+                  </div>
                   <div class="param-description"> Trigger.old</div>
                   <div class="param-name">oldRecordsMap</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">ActionPlanTemplate__c&gt;</code>
+                    Type: <code class="code-inline">Map&lt;Id, ActionPlanTemplate__c&gt;</code>
                   </div>
                   <div class="param-description">Trigger.oldMap</div>
                   <div class="param-name">triggerEvent</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">System.TriggerOperation</code>
+                  </div>
                   <div class="param-description"> Trigger context</div>
                   <div class="method-subtitle">
                     Author
@@ -748,7 +781,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlanTemplateTask">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L366">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L343">
                       triggerhandlerActionPlanTemplateTask(newRecords, oldRecords, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -760,22 +793,28 @@
                   </div>
 
                   <div class="method-signature">
-                    public static void triggerhandlerActionPlanTemplateTask( List&lt;APTemplateTask__c&gt; newRecords, List&lt;APTemplateTask__c&gt; oldRecords, Map&lt;Id, APTemplateTask__c&gt; oldRecordsMap, System.TriggerOperation triggerEvent )
+                    public static void triggerhandlerActionPlanTemplateTask(List&lt;APTemplateTask__c&gt; newRecords, List&lt;APTemplateTask__c&gt; oldRecords, Map&lt;Id, APTemplateTask__c&gt; oldRecordsMap, System.TriggerOperation triggerEvent)
                   </div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">newRecords</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">		List&lt;APTemplateTask__c&gt;</code>
+                    Type: <code class="code-inline">List&lt;APTemplateTask__c&gt;</code>
                   </div>
                   <div class="param-description"> Trigger.new</div>
                   <div class="param-name">oldRecords</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">List&lt;APTemplateTask__c&gt;</code>
+                  </div>
                   <div class="param-description"> Trigger.old</div>
                   <div class="param-name">oldRecordsMap</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">APTemplateTask__c&gt;</code>
+                    Type: <code class="code-inline">Map&lt;Id, APTemplateTask__c&gt;</code>
                   </div>
                   <div class="param-description">Trigger.oldMap</div>
                   <div class="param-name">triggerEvent</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">System.TriggerOperation</code>
+                  </div>
                   <div class="param-description"> Trigger context</div>
                   <div class="method-subtitle">
                     Author
@@ -787,7 +826,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerTask">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L424">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L395">
                       triggerhandlerTask(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -837,7 +876,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.validateActionPlans">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L727">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L692">
                       validateActionPlans(actionPlans)
                     </a>
                   </h4>

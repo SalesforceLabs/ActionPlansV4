@@ -289,7 +289,7 @@
                 <div class="method global">
                   <h4 class="method-title " id="ActionPlanCreateInvocable.makeActionPlanFromTemplate">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L53">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L54">
                       makeActionPlanFromTemplate(requests)
                     </a>
                   </h4>
@@ -315,6 +315,12 @@
                   <div class="method-subtitle-description">
                     <code class="code-inline">List&lt;Id&gt;</code> of the created Action Plans
                   </div>
+                  <div class="method-subtitle">
+                    See
+                  </div>
+                  <div class="method-subtitle-description">
+                    <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreateInvocable.html#ActionPlanCreateInvocable.CreateActionPlanRequest')">ActionPlanCreateInvocable.CreateActionPlanRequest</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -324,14 +330,14 @@
 
             <h2 class="class-title " id="ActionPlanCreateInvocable.CreateActionPlanRequest">
 
-              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L368">
+              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L360">
                 ActionPlanCreateInvocable.CreateActionPlanRequest
               </a>
             </h2>
             <div class="class-container">
 
               <div class="class-description">
-                Wrapper class for ActionPlan Request for invocable Apex. <br>
+                Wrapper class for ActionPlan Request for invocable Apex.
               </div>
               <div class="class-subtitle">
                 Signature
@@ -353,7 +359,7 @@
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L385">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L377">
                         daysToActionPlanStart
                       </a></td>
                     <td>
@@ -364,12 +370,12 @@
 
 
                     <td class="attribute-description">
-                      Days from trigger to start Action Plan
+                      Days from trigger to start Action Plan. Defaults to 0, the day the plan is created.
                     </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L379">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L371">
                         relatedRecordID
                       </a></td>
                     <td>
@@ -380,12 +386,12 @@
 
 
                     <td class="attribute-description">
-                      The parent Record ID
+                      The parent Record ID. Must have a relationship named the related record object name from Action Plan object.
                     </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L373">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L365">
                         templateNameOrID
                       </a></td>
                     <td>
@@ -396,7 +402,7 @@
 
 
                     <td class="attribute-description">
-                      The template Id or Name to use (accepts either, but Id is preferred)
+                      The template Id or Name to use. (Name is not unique, so ID is preferred)
                     </td>
                   </tr>
                 </table>
