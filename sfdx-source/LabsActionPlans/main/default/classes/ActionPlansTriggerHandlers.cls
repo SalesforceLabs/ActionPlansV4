@@ -216,10 +216,10 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 			when AFTER_UNDELETE {
 				//get Id of all deleted Action Plan Task Templates
-				Map<Id, APTask__c> map_APTasks = new Map<Id, APTask__c>([SELECT Id, Action_Plan__c FROM APTask__c WHERE Action_Plan__c IN :newRecordsMap.keyset() ALL ROWS]);
+				Map<Id, APTask__c> mapAPTasks = new Map<Id, APTask__c>([SELECT Id, Action_Plan__c FROM APTask__c WHERE Action_Plan__c IN :newRecordsMap.keyset() ALL ROWS]);
 
 				//get all tasks asociated to this APTasks
-				List<Task> taskList = [SELECT Id, TaskAPTask__c, IsDeleted FROM Task WHERE TaskAPTask__c IN :map_APTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
+				List<Task> taskList = [SELECT Id, TaskAPTask__c, IsDeleted FROM Task WHERE TaskAPTask__c IN :mapAPTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
 
 				if (!taskList.isEmpty()) {
 					Database.undelete(taskList, false);

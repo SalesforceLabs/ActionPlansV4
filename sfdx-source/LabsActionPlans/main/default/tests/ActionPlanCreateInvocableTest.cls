@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @IsTest
 private class ActionPlanCreateInvocableTest {
 	private static final Integer TASK_COUNT = 7;
+	private static final Integer BULK_COUNT = 100;
 
 	@IsTest
 	private static void relatedAccount() {
@@ -228,7 +229,6 @@ private class ActionPlanCreateInvocableTest {
 		apTemplate.name = 'B';
 		update apTemplate;
 
-		final Integer BULK_COUNT = 100;
 		List<Account> toInsert = new List<Account>();
 
 		for (Integer i = 0; i < BULK_COUNT; i++) {

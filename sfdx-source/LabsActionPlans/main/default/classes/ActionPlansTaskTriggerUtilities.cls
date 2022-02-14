@@ -327,10 +327,10 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 		Integer taskIndex;
 		Integer dependentApTaskIndex;
 
-		for (Integer t_i = 0; t_i < apTasks.size(); t_i++) {
-			APTask__c apTask = apTasks[t_i];
+		for (Integer i = 0; i < apTasks.size(); i++) {
+			APTask__c apTask = apTasks[i];
 			if (apTask.TaskIndex__c == tmp_taskIndex) {
-				taskIndex = t_i;
+				taskIndex = i;
 			}
 		}
 

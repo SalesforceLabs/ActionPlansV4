@@ -43,6 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @IsTest
 private class ActionPlanTemplateCreationCntrlTest {
+	private static final Integer TEMPLATE_TASKS_COUNT = 2;
+
 	@IsTest
 	private static void testContructor() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
@@ -335,13 +337,11 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 	@IsTest
 	private static void checkTemplateTaskSize() {
-		final Integer TEMPLATE_TASKS = 2;
-
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TEMPLATE_TASKS);
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TEMPLATE_TASKS_COUNT);
 
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		List<ActionPlanTemplateCreationController.ApTTaskWrapper> taskList = aptcc.getTemplateWrappers();
@@ -354,7 +354,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		//Checks to see if both methods return same task size
 		System.assertEquals(numTasks, taskList.size());
-		System.assertEquals(TEMPLATE_TASKS, taskList.size());
+		System.assertEquals(TEMPLATE_TASKS_COUNT, taskList.size());
 	}
 
 	@IsTest
