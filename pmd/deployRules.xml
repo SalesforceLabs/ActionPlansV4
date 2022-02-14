@@ -148,7 +148,7 @@
 	<!--    <rule ref="category/apex/bestpractices.xml/ApexAssertionsShouldIncludeMessage"/> -->
 
 	<rule ref="category/apex/errorprone.xml/TestMethodsMustBeInTestClasses">
-		<priority>2</priority>
+		<priority>1</priority>
 	</rule>
 
 	<!-- SECURITY -->
@@ -198,19 +198,19 @@
 
 	<!-- BRACES -->
 	<rule ref="category/apex/codestyle.xml/IfStmtsMustUseBraces" message="Avoid using if statements without curly braces">
-		<priority>2</priority>
+		<priority>1</priority>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/WhileLoopsMustUseBraces" message="Avoid using 'while' statements without curly braces">
-		<priority>2</priority>
+		<priority>1</priority>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/IfElseStmtsMustUseBraces" message="Avoid using 'if...else' statements without curly braces">
-		<priority>2</priority>
+		<priority>1</priority>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/ForLoopsMustUseBraces" message="Avoid using 'for' statements without curly braces">
-		<priority>2</priority>
+		<priority>1</priority>
 	</rule>
 
 	<!-- EMPTY -->
@@ -236,7 +236,7 @@
 
 	<!-- STYLE -->
 	<rule ref="category/apex/codestyle.xml/OneDeclarationPerLine">
-		<priority>2</priority>
+		<priority>1</priority>
 	</rule>
 
 	<!-- <rule ref="category/apex/codestyle.xml/FieldDeclarationsShouldBeAtStart"/> -->
