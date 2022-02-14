@@ -488,7 +488,7 @@ public with sharing class ActionPlansTestUtilities {
 	 * @return   The `Id` of a non-default `Task` Record Type for the running user
 	 */
 	public static Id getNonDefaultAvailableTaskRecordType() {
-		if (!ActionPlansUtilities.HAS_RECORD_TYPE) {
+		if (!ActionPlansUtilities.taskUsesRecordTypes) {
 			return null;
 		}
 		List<Schema.RecordTypeInfo> recordTypeInfoList = Task.SObjectType.getDescribe().getRecordTypeInfos();

@@ -99,7 +99,7 @@ public with sharing class ActionPlanTemplateCreationController {
 		}
 
 		this.canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
-		this.taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
+		this.taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 
 		if (actionPlanTemplate.Id != null) {
 			taskIndex = calculateTaskIndexValue();
@@ -613,7 +613,7 @@ public with sharing class ActionPlanTemplateCreationController {
 			isLast = false;
 
 			Id taskRTID = null;
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				if (ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(apTTaskRTId)) {
 					taskRTID = apTTaskRTId;
 				} else {

@@ -436,7 +436,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					triggerTasksWithTemplateTaskStatus.put(ta.Id, ta);
 				}
 
-				Boolean taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
+				Boolean taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 
 				// May need this
 				Set<String> closedStatuses = ActionPlansUtilities.getClosedTaskStatuses();
@@ -551,7 +551,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 			}
 			when BEFORE_INSERT {
-				if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+				if (ActionPlansUtilities.taskUsesRecordTypes) {
 					Map<Id, Id> taskTemplateToIntendedRecordTypeId = new Map<Id, Id>();
 					Set<Id> taskTemplateIDs = new Set<Id>();
 					for (Task t : newRecords) {

@@ -393,7 +393,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		//create task for task template 1
 		Task x = new Task();
-		if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			x.put('RecordTypeId', ActionPlansUtilities.getDefaultTaskRecordTypeId());
 		}
 		x.Priority = at.Priority__c;

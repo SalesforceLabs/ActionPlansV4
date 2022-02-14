@@ -142,7 +142,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			auxTask.OwnerId = dependentAptt.User__c;
 			auxTask.Type = dependentAptt.Type__c;
 			auxTask.TaskAPTask__c = dependentAptt.Id;
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				auxTask.put('RecordTypeId', dependentAptt.Task_RecordTypeId__c);
 			}
 
@@ -206,7 +206,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			t2.Priority = dependentAptt.Priority__c;
 			t2.OwnerId = dependentAptt.User__c;
 			t2.TaskAPTask__c = dependentAptt.Id;
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				t2.put('RecordTypeId', dependentAptt.Task_RecordTypeId__c);
 			}
 

@@ -194,7 +194,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 					if (!String.isBlank(at.Task_RecordTypeId__c) && at.Task_RecordTypeId__c instanceof Id && at.Task_RecordTypeId__c.startsWithIgnoreCase('012')) {
 						at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(at.Task_RecordTypeId__c);
 					} else {
-						if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+						if (ActionPlansUtilities.taskUsesRecordTypes) {
 							at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
 						} else {
 							at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(null);

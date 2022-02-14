@@ -81,7 +81,7 @@ public without sharing class ActionPlanTemplateExport {
 						Subject__c,
 						Minutes_Reminder__c,
 						TaskIndex__c
-					FROM apTasks__r
+					FROM aptTasks__r
 				)
 			FROM ActionPlanTemplate__c
 			WHERE Id = :this.templateId
@@ -162,12 +162,12 @@ public without sharing class ActionPlanTemplateExport {
 		out.writeEndElement();
 		out.writeStartElement(null, 'ActionPlanTemplateTasks', null);
 
-		for (APTemplateTask__c currentTask : target.apTasks__r) {
+		for (APTemplateTask__c currentTask : target.aptTasks__r) {
 			out.writeStartElement(null, 'TaskTemplate', null);
 			writeElement(out, 'id', '' + currentTask.Id);
 			writeElement(out, 'templateId', '' + currentTask.Action_Plan_Template__c);
 			writeElement(out, 'subject', '' + currentTask.Subject__c);
-			if (target.apTasks__r.size() == 1) {
+			if (target.aptTasks__r.size() == 1) {
 				writeElement(out, 'dependent', '' + System.Label.ap_None);
 				writeElement(out, 'taskIndex', '0');
 			} else {

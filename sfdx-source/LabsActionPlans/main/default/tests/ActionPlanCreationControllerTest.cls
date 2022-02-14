@@ -640,7 +640,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.stopTest();
 
-		if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			if (ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType() != null) {
 				String taskQuery = 'SELECT Id, RecordTypeId FROM Task';
 
@@ -659,7 +659,7 @@ private class ActionPlanCreationControllerTest {
 	private static void testForceNoRecordTypes() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
 
-		System.debug('hasrt: ' + ActionPlansUtilities.HAS_RECORD_TYPE);
+		System.debug('hasrt: ' + ActionPlansUtilities.taskUsesRecordTypes);
 
 		ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues();
 		ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues();
@@ -678,7 +678,7 @@ private class ActionPlanCreationControllerTest {
 		Test.stopTest();
 		System.assertEquals(null, apCreateController.getDefaultTaskRecordTypeId());
 
-		System.assert(!ActionPlansUtilities.HAS_RECORD_TYPE);
+		System.assert(!ActionPlansUtilities.taskUsesRecordTypes);
 	}
 
 	@IsTest

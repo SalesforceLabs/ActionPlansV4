@@ -130,7 +130,7 @@ public with sharing class ActionPlanCreationController {
 		}
 
 		this.canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
-		this.taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
+		this.taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 
 		this.relatedFieldName = getRelatedObjectOptions()[0].getValue();
 	}
@@ -240,7 +240,7 @@ public with sharing class ActionPlanCreationController {
 	public Boolean taskHasRecordType {
 		get {
 			if (taskHasRecordType == null) {
-				taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
+				taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 			}
 			return taskHasRecordType;
 		}
@@ -1257,7 +1257,7 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public String getRecordTypeName() {
 		String toReturn = '';
-		if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			Map<Id, Schema.RecordTypeInfo> rtMapById = Task.SObjectType.getDescribe().getRecordTypeInfosById();
 			if (!rtMapById.isEmpty() && rtMapById.containsKey(actionPlan.TaskRecordTypeID__c)) {
 				return rtMapById.get(actionPlan.TaskRecordTypeID__c).getName();
@@ -1343,7 +1343,7 @@ public with sharing class ActionPlanCreationController {
 			userRequired = userReq;
 
 			Id taskRTID = null;
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				if (ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(apTaskRTId)) {
 					taskRTID = apTaskRTId;
 				} else {

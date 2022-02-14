@@ -58,7 +58,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Allows us to force the environment variable checking if Task has a Record Type for testing. Increases code coverage.
 	 */
-	public static final Boolean HAS_RECORD_TYPE {
+	public static final Boolean taskUsesRecordTypes {
 		get {
 			if (ActionPlansTestUtilities.forceHasRecordType != null) {
 				return ActionPlansTestUtilities.forceHasRecordType;
@@ -146,7 +146,7 @@ public without sharing class ActionPlansUtilities {
 	public static Map<Id, String> getTaskRecordTypeStatusDefaultValues() {
 		if (taskRecordTypeStatusDefaultValues == null) {
 			taskRecordTypeStatusDefaultValues = new Map<Id, String>();
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				for (SObject rt : getTaskRecordTypes()) {
 					Task t = (Task) Task.sObjectType.newSObject((Id) rt.get('Id'), true);
 					taskRecordTypeStatusDefaultValues.put((Id) rt.get('Id'), t.Status);
@@ -166,7 +166,7 @@ public without sharing class ActionPlansUtilities {
 	public static Map<Id, String> getTaskRecordTypeTypeDefaultValues() {
 		if (taskRecordTypeTypeDefaultValues == null) {
 			taskRecordTypeTypeDefaultValues = new Map<Id, String>();
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				for (SObject rt : getTaskRecordTypes()) {
 					Task t = (Task) Task.sObjectType.newSObject((Id) rt.get('Id'), true);
 					taskRecordTypeTypeDefaultValues.put((Id) rt.get('Id'), t.Type);
@@ -186,7 +186,7 @@ public without sharing class ActionPlansUtilities {
 	public static Map<Id, String> getTaskRecordTypePriorityDefaultValues() {
 		if (taskRecordTypePriorityDefaultValues == null) {
 			taskRecordTypePriorityDefaultValues = new Map<Id, String>();
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				for (SObject rt : getTaskRecordTypes()) {
 					Task t = (Task) Task.sObjectType.newSObject((Id) rt.get('Id'), true);
 					taskRecordTypePriorityDefaultValues.put((Id) rt.get('Id'), t.Priority);
@@ -205,7 +205,7 @@ public without sharing class ActionPlansUtilities {
 	 */
 	public static String getDefaultTaskRecordTypeId() {
 		String toReturn = null;
-		if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			List<Schema.RecordTypeInfo> recordTypeInfoList = Task.SObjectType.getDescribe().getRecordTypeInfos();
 			for (RecordTypeInfo info : recordTypeInfoList) {
 				//Check default record type

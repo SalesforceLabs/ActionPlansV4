@@ -336,10 +336,10 @@ private class ActionPlansUtilitiesTest {
 			}
 
 			ActionPlanTemplate__c apt = testutil.createNewActionPlanTemplate(5);
-			for (APTemplateTask__c aptt : apt.apTasks__r) {
+			for (APTemplateTask__c aptt : apt.aptTasks__r) {
 				aptt.User__c = null;
 			}
-			update apt.apTasks__r; //NOPMD
+			update apt.aptTasks__r; //NOPMD
 
 			apt.TaskRecordTypeID__c = ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType();
 			apt.SkipWeekends__c = true;
