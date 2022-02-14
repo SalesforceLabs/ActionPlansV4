@@ -91,7 +91,9 @@ public inherited sharing class ActionPlanTemplateImport {
 			//Get information for all Tasks
 			this.importAPTtasks(xml, apTemplate.Id);
 			if (this.newTasks.size() > ActionPlansUtilities.MAX_APTASKS) {
-				//throw new ImportException( 'You cannot import more than 75 tasks, Please review your Template and try again.' );
+				List<String> parameters = new List<String>();
+				parameters.add(String.valueof(ActionPlansUtilities.MAX_APTASKS));
+				throw new ImportException(String.format(System.Label.ap_Errors_TaskLimitError, parameters));
 			}
 			//Insert Tasks for Action Plan template
 			insert newTasks.values();
