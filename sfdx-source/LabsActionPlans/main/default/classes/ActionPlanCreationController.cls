@@ -295,7 +295,7 @@ public with sharing class ActionPlanCreationController {
 	 * @return      `Boolean` Is the Custom Setting present, and do we default uneditable assigned user fields to the parent record owner?
 	 */
 	public Boolean getAssignToParentOwner() {
-		return mySettings.Unassigned_Task_Default__c;
+		return mySettings.Unassigned_Task_Default_to_Owner__c;
 	}
 
 	/**
@@ -742,11 +742,11 @@ public with sharing class ActionPlanCreationController {
 			// We always display the lookup (if editable) because we never FORCE the task to be assigned to the record owner
 
 			/* if (newTaskWrapper == null){
-				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default__c || actionPlan.get(relatedFieldName) == null; // true if not auto-assigned to record owner. User may have been set via template, but is still required.
+				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c || actionPlan.get(relatedFieldName) == null; // true if not auto-assigned to record owner. User may have been set via template, but is still required.
 			} else { // editing existing task
-				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default__c;
+				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c;
 			} */
-			userRequired = mySettings == null || !mySettings.Unassigned_Task_Default__c;
+			userRequired = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c;
 
 			ApTaskWrapper apTWrapper = new ApTaskWrapper(apTask, i, displayLookup, userRequired, actionPlan.TaskRecordTypeID__c);
 			tasksList.add(apTWrapper);
@@ -804,10 +804,10 @@ public with sharing class ActionPlanCreationController {
 					//Read the Custom Settings in order to asign the User to that Task
 					if (aptTask.User__c != null) {
 						t.User__c = aptTask.User__c;
-					} else if (aptTask.User__c == null && (!mySettings.Unassigned_Task_Default__c)) {
+					} else if (aptTask.User__c == null && (!mySettings.Unassigned_Task_Default_to_Owner__c)) {
 						t.User__c = UserInfo.getUserId();
 					}
-					/* else if( aptTask.User__c == null && ( mySettings != null &&  mySettings.Unassigned_Task_Default__c ) ) {
+					/* else if( aptTask.User__c == null && ( mySettings != null &&  mySettings.Unassigned_Task_Default_to_Owner__c ) ) {
 						userId = null;
 					}
 					else if( aptTask.User__c == null && mySettings == null ){

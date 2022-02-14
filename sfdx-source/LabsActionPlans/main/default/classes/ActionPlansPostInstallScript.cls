@@ -46,7 +46,7 @@ global class ActionPlansPostInstallScript implements InstallHandler {
 			Action_Plans_Settings__c instance = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
 			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
 			instance.Default_Object_on_Lead_Conversion__c = Schema.Contact.SObjectType.getDescribe().getName();
-			instance.Unassigned_Task_Default__c = true;
+			instance.Unassigned_Task_Default_to_Owner__c = true;
 			instance.Chatter_Object_Brag__c = false;
 			upsert instance;
 
@@ -99,11 +99,9 @@ global class ActionPlansPostInstallScript implements InstallHandler {
 			insert a3;
 		}
 		//else if(context.previousVersion().compareTo(new Version(1,0)) == 0) {}
-		if (context.isUpgrade()) {
-			//NOPMD
-		}
-		if (context.isPush()) {
-			//NOPMD
-		}
+		// prettier-ignore
+		if (context.isUpgrade()) {} //NOPMD
+		// prettier-ignore
+		if (context.isPush()) {} //NOPMD
 	}
 }

@@ -156,12 +156,12 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>ActionPlanTemplate Task</label>
+    <label>Action Plan Template Task</label>
     <nameField>
         <label>Action Plan Template Task Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>ActionPlanTemplate Tasks</pluralLabel>
+    <pluralLabel>Action Plan Template Tasks</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
     <startsWith>Vowel</startsWith>

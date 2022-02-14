@@ -518,16 +518,17 @@ public with sharing class ActionPlansTestUtilities {
 	 * @param  prefix The line prefix for the debug statement
 	 */
 	public static void debugParameters(String prefix) {
+		if (showDebugParameters = false || !Test.isRunningTest()) {
+			return;
+		}
+		// We will hit an error if this is called outside Visualforce, so to be safe...
 		try {
-			if (showDebugParameters = false || !Test.isRunningTest()) {
-				return;
-			}
-
 			Map<String, String> pageParams = ApexPages.currentPage().getParameters();
 			for (String s : ApexPages.currentPage().getParameters().keyset()) {
 				System.debug(prefix + ' debug parameters: ' + s + ' - ' + pageParams.get(s));
 			}
 		} catch (Exception e) {
+			return;
 		}
 	}
 }

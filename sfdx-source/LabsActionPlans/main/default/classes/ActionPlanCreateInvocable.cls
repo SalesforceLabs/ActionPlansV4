@@ -194,9 +194,9 @@ global without sharing class ActionPlanCreateInvocable {
 				//Read the Custom Settings in order to asign the User to that Task
 				if (aptTask.User__c != null) {
 					userId = aptTask.User__c;
-				} else if (aptTask.User__c == null && (mySettings != null && !mySettings.Unassigned_Task_Default__c)) {
+				} else if (aptTask.User__c == null && (mySettings != null && !mySettings.Unassigned_Task_Default_to_Owner__c)) {
 					userId = UserInfo.getUserId();
-				} else if (aptTask.User__c == null && (mySettings != null && mySettings.Unassigned_Task_Default__c)) {
+				} else if (aptTask.User__c == null && (mySettings != null && mySettings.Unassigned_Task_Default_to_Owner__c)) {
 					userId = relatedObjectOwners.get(relatedId);
 				}
 

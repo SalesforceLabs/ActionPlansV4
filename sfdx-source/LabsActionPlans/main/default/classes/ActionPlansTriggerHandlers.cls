@@ -144,7 +144,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlan(
+	public static void triggerhandlerActionPlan(
 		List<ActionPlan__c> newRecords,
 		List<ActionPlan__c> oldRecords,
 		Map<Id, ActionPlan__c> newRecordsMap,
@@ -237,7 +237,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanTask(
+	public static void triggerhandlerActionPlanTask(
 		List<APTask__c> newRecords,
 		List<APTask__c> oldRecords,
 		Map<Id, APTask__c> newRecordsMap,
@@ -323,7 +323,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanTemplate(
+	public static void triggerhandlerActionPlanTemplate(
 		List<ActionPlanTemplate__c> newRecords,
 		List<ActionPlanTemplate__c> oldRecords,
 		Map<Id, ActionPlanTemplate__c> oldRecordsMap,
@@ -364,7 +364,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanTemplateTask(
+	public static void triggerhandlerActionPlanTemplateTask(
 		List<APTemplateTask__c> newRecords,
 		List<APTemplateTask__c> oldRecords,
 		Map<Id, APTemplateTask__c> oldRecordsMap,
@@ -422,7 +422,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_Task(List<Task> newRecords, List<Task> oldRecords, Map<Id, Task> newRecordsMap, Map<Id, Task> oldRecordsMap, System.TriggerOperation triggerEvent) {
+	public static void triggerhandlerTask(List<Task> newRecords, List<Task> oldRecords, Map<Id, Task> newRecordsMap, Map<Id, Task> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		//System.debug('In Task ' + triggerEvent.name());
 
 		switch on triggerEvent {
@@ -590,7 +590,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanLead(List<Lead> newRecords, List<Lead> oldRecords, Map<Id, Lead> newRecordsMap, Map<Id, Lead> oldRecordsMap, System.TriggerOperation triggerEvent) {
+	public static void triggerhandlerActionPlanLead(List<Lead> newRecords, List<Lead> oldRecords, Map<Id, Lead> newRecordsMap, Map<Id, Lead> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		switch on triggerEvent {
 			when AFTER_UPDATE {
 				List<ActionPlan__c> leadAPs = [SELECT Id, Lead__c, Contact__c, Account__c, Opportunity__c, Description__c FROM ActionPlan__c WHERE Lead__c IN :newRecordsMap.keySet()];
@@ -643,7 +643,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanAccount(
+	public static void triggerhandlerActionPlanAccount(
 		List<Account> newRecords,
 		List<Account> oldRecords,
 		Map<Id, Account> newRecordsMap,

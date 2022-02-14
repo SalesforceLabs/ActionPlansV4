@@ -419,7 +419,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 									</apex:outputPanel>
 
 									<apex:outputPanel rendered="{!!$ObjectType.APTask__c.fields.User__c.updateable && wrapTask.apt.User__c == null}" id="userDisplayPanel">
-										<apex:outputPanel layout="none" rendered="{!!$Setup.Action_Plans_Settings__c.Unassigned_Task_Default__c}" id="userNameDisplay">[&nbsp;
+										<apex:outputPanel layout="none" rendered="{!!$Setup.Action_Plans_Settings__c.Unassigned_Task_Default_to_Owner__c}" id="userNameDisplay">[&nbsp;
 											<apex:outputField value="{!wrapTask.apt.User__c}" />&nbsp;]</apex:outputPanel>
 										<apex:outputText rendered="{!AssignToParentOwner}" id="recordOwnerPlaceholder">[&nbsp;{!$Label.ap_RecordOwner}&nbsp;]</apex:outputText>
 									</apex:outputPanel>
