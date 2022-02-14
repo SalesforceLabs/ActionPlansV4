@@ -1,5 +1,5 @@
 # Unique name for this workflow
-name: Validate/Test Deploy
+name: PR Validation
 # Definition when the workflow should run
 on:
   pull_request:
