@@ -287,7 +287,7 @@
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L47">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L50">
                         forceError
                       </a></td>
                     <td>
@@ -298,12 +298,12 @@
 
 
                     <td class="attribute-description">
-
+                      Used in testing - we force an Error during tests
                     </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L48">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L55">
                         forceHasRecordType
                       </a></td>
                     <td>
@@ -314,12 +314,12 @@
 
 
                     <td class="attribute-description">
-
+                      Used during testing to &quot;fool&quot; the org into thinking that it has Task record types
                     </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L513">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L521">
                         showDebugParameters
                       </a></td>
                     <td>
@@ -335,7 +335,7 @@
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L50">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L60">
                         standardObjects
                       </a></td>
                     <td>
@@ -346,7 +346,7 @@
 
 
                     <td class="attribute-description">
-
+                      Standard objects included in this package
                     </td>
                   </tr>
                 </table>
@@ -558,6 +558,9 @@
                       createTestUser ()
                     </a>
 
+                    <div class="methods-toc__description">
+                      A random user is useful for testing in order to be sure that you are able to see data across posts regardless of follow status. <br> A Permission Set would still be required
+                    </div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansTestUtilities.createTestUser_1">
@@ -590,7 +593,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.assignAPPermissionSets">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L119">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L127">
                       assignAPPermissionSets(testUserId, allOrNone)
                     </a>
                   </h4>
@@ -631,7 +634,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.batchIds">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L448">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L456">
                       batchIds(relatedObject)
                     </a>
                   </h4>
@@ -649,7 +652,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewAccount">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L135">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L143">
                       createNewAccount(insertRecord)
                     </a>
                   </h4>
@@ -679,7 +682,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewAccount_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L150">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L158">
                       createNewAccount()
                     </a>
                   </h4>
@@ -703,7 +706,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewActionPlan">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L312">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L320">
                       createNewActionPlan(relatedObject, numTasks)
                     </a>
                   </h4>
@@ -738,7 +741,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewActionPlanTask">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L364">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L372">
                       createNewActionPlanTask(actionPlan, days, user, category, priority)
                     </a>
                   </h4>
@@ -762,7 +765,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewActionPlanTemplate">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L383">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L391">
                       createNewActionPlanTemplate(numTasks)
                     </a>
                   </h4>
@@ -798,7 +801,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewActionPlanTemplateTask">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L418">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L426">
                       createNewActionPlanTemplateTask(apTemplate, days, user, category, priority)
                     </a>
                   </h4>
@@ -854,7 +857,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewCampaign">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L159">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L167">
                       createNewCampaign(insertRecord)
                     </a>
                   </h4>
@@ -884,7 +887,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewCampaign_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L174">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L182">
                       createNewCampaign()
                     </a>
                   </h4>
@@ -908,7 +911,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewCase">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L183">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L191">
                       createNewCase(insertRecord)
                     </a>
                   </h4>
@@ -938,7 +941,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewCase_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L199">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L207">
                       createNewCase()
                     </a>
                   </h4>
@@ -962,7 +965,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewContact">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L208">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L216">
                       createNewContact(insertRecord)
                     </a>
                   </h4>
@@ -992,7 +995,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewContact_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L223">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L231">
                       createNewContact()
                     </a>
                   </h4>
@@ -1016,7 +1019,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewContract">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L232">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L240">
                       createNewContract(insertRecord)
                     </a>
                   </h4>
@@ -1046,7 +1049,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewContract_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L249">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L257">
                       createNewContract()
                     </a>
                   </h4>
@@ -1070,7 +1073,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewLead">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L258">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L266">
                       createNewLead(insertRecord)
                     </a>
                   </h4>
@@ -1100,7 +1103,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewLead_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L276">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L284">
                       createNewLead()
                     </a>
                   </h4>
@@ -1124,7 +1127,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewOpportunity">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L285">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L293">
                       createNewOpportunity(insertRecord)
                     </a>
                   </h4>
@@ -1154,7 +1157,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createNewOpportunity_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L302">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L310">
                       createNewOpportunity()
                     </a>
                   </h4>
@@ -1178,7 +1181,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createRandomWord">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L57">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L67">
                       createRandomWord()
                     </a>
                   </h4>
@@ -1202,7 +1205,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createRandomWord_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L68">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L78">
                       createRandomWord(prefix)
                     </a>
                   </h4>
@@ -1237,10 +1240,13 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createTestUser">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L79">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L88">
                       createTestUser()
                     </a>
                   </h4>
+                  <div class="method-description">
+                    A random user is useful for testing in order to be sure that you are able to see data across posts regardless of follow status. <br> A Permission Set would still be required
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
@@ -1248,11 +1254,17 @@
                   <div class="method-signature">
                     public User createTestUser()
                   </div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    A newly-created User
+                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.createTestUser_1">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L94">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L102">
                       createTestUser(p)
                     </a>
                   </h4>
@@ -1282,7 +1294,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.debugParameters">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L520">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L528">
                       debugParameters(prefix)
                     </a>
                   </h4>
@@ -1312,7 +1324,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L490">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L498">
                       getNonDefaultAvailableTaskRecordType()
                     </a>
                   </h4>

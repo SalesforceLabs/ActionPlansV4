@@ -293,6 +293,9 @@
                       makeAppTask (ap)
                     </a>
 
+                    <div class="methods-toc__description">
+                      Helper method to create <code class="code-inline">APTask__c</code> record for an <code class="code-inline">ActionPlan__c</code>
+                    </div>
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry " href="#ActionPlansUtilitiesTest.makeData">
@@ -365,6 +368,9 @@
                       testObject (objectName)
                     </a>
 
+                    <div class="methods-toc__description">
+                      Pass in any object and create an Action Plan for that object
+                    </div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry " href="#ActionPlansUtilitiesTest.testRandomWord">
@@ -394,7 +400,7 @@
                 <div class="method testmethod">
                   <h4 class="method-title " id="ActionPlansUtilitiesTest.doChatterPost">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L292">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L298">
                       doChatterPost()
                     </a>
                   </h4>
@@ -409,16 +415,37 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansUtilitiesTest.makeAppTask">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L384">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L396">
                       makeAppTask(ap)
                     </a>
                   </h4>
+                  <div class="method-description">
+                    Helper method to create <code class="code-inline">APTask__c</code> record for an <code class="code-inline">ActionPlan__c</code>
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
 
                   <div class="method-signature">
                     private static APTask__c makeAppTask(ActionPlan__c ap)
+                  </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">ap</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">ActionPlan__c</code>
+                  </div>
+                  <div class="param-description">The parent Action Plan</div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    The test Action Plan Task
+                  </div>
+                  <div class="method-subtitle">
+                    Author
+                  </div>
+                  <div class="method-subtitle-description">
+                    David Schach
                   </div>
                 </div>
                 <div class="method private">
@@ -454,7 +481,7 @@
                 <div class="method testmethod">
                   <h4 class="method-title " id="ActionPlansUtilitiesTest.testbatchIds">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L371">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L377">
                       testbatchIds()
                     </a>
                   </h4>
@@ -484,7 +511,7 @@
                 <div class="method testmethod">
                   <h4 class="method-title " id="ActionPlansUtilitiesTest.testCancel">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L181">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L187">
                       testCancel()
                     </a>
                   </h4>
@@ -559,7 +586,7 @@
                 <div class="method testmethod">
                   <h4 class="method-title " id="ActionPlansUtilitiesTest.testDeleteActionPlans">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L263">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L269">
                       testDeleteActionPlans()
                     </a>
                   </h4>
@@ -589,22 +616,43 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansUtilitiesTest.testObject">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L152">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L158">
                       testObject(objectName)
                     </a>
                   </h4>
+                  <div class="method-description">
+                    Pass in any object and create an Action Plan for that object
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
 
                   <div class="method-signature">
-                    private static void testObject(String objectName)
+                    private static Boolean testObject(String objectName)
+                  </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">objectName</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">String</code>
+                  </div>
+                  <div class="param-description">The object name</div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    Success at creating tasks for the Action Plan
+                  </div>
+                  <div class="method-subtitle">
+                    Author
+                  </div>
+                  <div class="method-subtitle-description">
+                    David Schach
                   </div>
                 </div>
                 <div class="method testmethod">
                   <h4 class="method-title " id="ActionPlansUtilitiesTest.testRandomWord">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L378">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L384">
                       testRandomWord()
                     </a>
                   </h4>
@@ -619,7 +667,7 @@
                 <div class="method testmethod">
                   <h4 class="method-title " id="ActionPlansUtilitiesTest.testRelatedObjectId">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L236">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L242">
                       testRelatedObjectId()
                     </a>
                   </h4>

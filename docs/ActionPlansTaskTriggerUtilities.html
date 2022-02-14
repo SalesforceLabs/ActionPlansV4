@@ -359,9 +359,12 @@
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry " href="#ActionPlansTaskTriggerUtilities.generateDependentTasksAndReset">
-                      generateDependentTasksAndReset (apTasks, tmp_taskIndex)
+                      generateDependentTasksAndReset (apTasks, taskIndexToDelete)
                     </a>
 
+                    <div class="methods-toc__description">
+                      This method reviews the task list FOR A SINGLE ACTION PLAN and removes the one with <code class="code-inline">TaskIndex__c</code> field matching taskIndexToDelete. <br>Rearranges the dependencies between tasks.
+                    </div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansTaskTriggerUtilities.initDependentTaskWork">
@@ -421,7 +424,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.actionsOnTaskBeforeDelete">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L394">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L396">
                       actionsOnTaskBeforeDelete(cTasks)
                     </a>
                   </h4>
@@ -492,17 +495,31 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.generateDependentTasksAndReset">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L324">
-                      generateDependentTasksAndReset(apTasks, tmp_taskIndex)
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L326">
+                      generateDependentTasksAndReset(apTasks, taskIndexToDelete)
                     </a>
                   </h4>
+                  <div class="method-description">
+                    This method reviews the task list FOR A SINGLE ACTION PLAN and removes the one with <code class="code-inline">TaskIndex__c</code> field matching taskIndexToDelete. <br>Rearranges the dependencies between tasks.
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
 
                   <div class="method-signature">
-                    private static void generateDependentTasksAndReset(List&lt;APTask__c&gt; apTasks, Decimal tmp_taskIndex)
+                    private static void generateDependentTasksAndReset(List&lt;APTask__c&gt; apTasks, Decimal taskIndexToDelete)
                   </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">apTasks</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">List&lt;APTask__c&gt;</code>
+                  </div>
+                  <div class="param-description"> All the Action Plan Tasks for the Action Plan</div>
+                  <div class="param-name">taskIndexToDelete</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">Decimal</code>
+                  </div>
+                  <div class="param-description">The index of the task we are trying to delete</div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.initDependentTaskWork">

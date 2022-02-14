@@ -265,7 +265,7 @@
             <div class="class-container">
 
               <div class="class-description">
-                Batch
+                Batch for creating Action Plans <br>Stateful because we may be making a LOT of Action Plans and we want to maintain state in the Utilities class
               </div>
               <div class="class-subtitle">
                 Signature
@@ -284,15 +284,21 @@
                       ActionPlansBatchBuilder (baseObj, aPTList, refType, oIdsSet)
                     </a>
 
+                    <div class="methods-toc__description">
+                      Constructor
+                    </div>
                   </li>
                 </ul>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilder.ActionPlansBatchBuilder">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilder.cls#L57">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilder.cls#L56">
                       ActionPlansBatchBuilder(baseObj, aPTList, refType, oIdsSet)
                     </a>
                   </h4>
+                  <div class="method-description">
+                    Constructor
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
@@ -343,7 +349,7 @@
                     </a>
 
                     <div class="methods-toc__description">
-                      Batch finish method. Do nothing
+                      Batch finish method. Do nothing.
                     </div>
                   </li>
                   <li class="method public">
@@ -386,12 +392,12 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilder.finish">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilder.cls#L100">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilder.cls#L101">
                       finish(bc)
                     </a>
                   </h4>
                   <div class="method-description">
-                    Batch finish method. Do nothing
+                    Batch finish method. Do nothing.
                   </div>
                   <div class="method-subtitle">
                     Signature
@@ -418,6 +424,12 @@
                   <div class="method-signature">
                     public Iterable&lt;sObject&gt; start(Database.BatchableContext bc)
                   </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">bc</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">Database.BatchableContext</code>
+                  </div>
+                  <div class="param-description">BatchableContext</div>
                   <div class="method-subtitle">
                     Returns
                   </div>
