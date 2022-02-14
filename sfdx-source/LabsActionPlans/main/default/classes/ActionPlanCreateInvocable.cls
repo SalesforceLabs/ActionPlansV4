@@ -47,7 +47,8 @@ global without sharing class ActionPlanCreateInvocable {
 	 * Invocable Apex for creating Action Plans from a template, a parent ID, and days from now to start the task due dates
 	 *
 	 * @param requests Wrapper of `CreateActionPlanRequest`
-	 * @return         `List<Id>` of the created Action Plans
+	 * @see ActionPlanCreateInvocable.CreateActionPlanRequest
+	 * @return `List<Id>` of the created Action Plans
 	 */
 	@InvocableMethod(label='Create Action Plan From Template' description='Takes a Template Name/Id and Record Id and makes an Action Plan for that record.' category='ActionPlans')
 	global static List<Id> makeActionPlanFromTemplate(List<CreateActionPlanRequest> requests) {
@@ -105,7 +106,6 @@ global without sharing class ActionPlanCreateInvocable {
 		}
 
 		Set<Id> relatedIDs = new Set<Id>();
-		//Map<Id, SObject> relatedObjects = new Map<Id, SObject>();
 		String relatedObjectName = requests[0].relatedRecordID.getSObjectType().getDescribe().getName();
 
 		for (CreateActionPlanRequest r : requests) {
@@ -152,11 +152,6 @@ global without sharing class ActionPlanCreateInvocable {
 			if (!relObjName.endsWithIgnoreCase('__c')) {
 				relObjField = relObjField + '__c';
 			}
-
-			//System.debug('relObjField ' + relObjField);
-			//System.debug('namespaceField ' + namespacePrefix + relObjField);
-			//System.debug(actionPlanFields);
-
 			if (actionPlanFields.contains(namespacePrefix + relObjField)) {
 				relObjField = namespacePrefix + relObjField;
 			} else if (actionPlanFields.contains(relObjField)) {
@@ -179,7 +174,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 		for (CreateActionPlanRequest r : requests) {
 			if (!actionPlansToInsert.containsKey(r.relatedRecordID)) {
-				//System.debug('PROBLEM: Did not create Action Plan.');
+				System.debug('PROBLEM: Did not create Action Plan.');
 				continue;
 			}
 
@@ -234,7 +229,6 @@ global without sharing class ActionPlanCreateInvocable {
 						apTask.ActivityDate__c = ap.StartDate__c.addDays(apTask.DaysFromStart__c.intValue());
 					}
 				}
-				//System.debug('Our uniqueID is ' + ap.Id + '' + apTask.TaskIndex__c);
 				planTaskIndexToTask.put(ap.Id + '' + apTask.TaskIndex__c, apTask);
 			}
 		}
@@ -256,7 +250,6 @@ global without sharing class ActionPlanCreateInvocable {
 
 		Database.update(dependentTasksToUpdate);
 
-		//Map<Id, Task> mapApTasks = new Map<Id, Task>();
 		List<Task> myTasksWithOutEmail = new List<Task>();
 		List<Task> myNewTasksWithEmail = new List<Task>();
 
@@ -361,26 +354,25 @@ global without sharing class ActionPlanCreateInvocable {
 
 	/**
 	 * Wrapper class for ActionPlan Request for invocable Apex.
-	 * <br>
 	 * @author David Schach
 	 * @since 2022
 	 */
 	global class CreateActionPlanRequest {
 		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
 		/**
-		 * The template Id or Name to use (accepts either, but Id is preferred)
+		 * The template Id or Name to use. (Name is not unique, so ID is preferred)
 		 */
 		global String templateNameOrID;
 
 		@InvocableVariable(required=true label='The parent Record ID' description='Must have a relationship named the related record object name from Action Plan object')
 		/**
-		 * The parent Record ID
+		 * The parent Record ID. Must have a relationship named the related record object name from Action Plan object.
 		 */
 		global Id relatedRecordID;
 
 		@InvocableVariable(required=false label='Days from trigger to start Action Plan' description='Defaults to 0, the day the plan is created')
 		/**
-		 * Days from trigger to start Action Plan
+		 * Days from trigger to start Action Plan. Defaults to 0, the day the plan is created.
 		 */
 		global Integer daysToActionPlanStart;
 	}

@@ -6,7 +6,7 @@
  * @see CanTheUser
  * @see SafelyTest
  * @author {@link [Codefriar](https://github.com/codefriar)}
- * @since 2022
+ * 1
  * @group Security
  */
 public with sharing class Safely {

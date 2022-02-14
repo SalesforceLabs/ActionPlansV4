@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Trigger Handler class to manage all triggers. Methods for managed objects are here, as well as a method that any other object can use to enable it to be linked to Action Plans.
  * @author David Schach
- * @since 2011
+ * @since 2022
  * @group Trigger Handlers
  */
 global without sharing class ActionPlansTriggerHandlers {
@@ -63,14 +63,8 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  triggerEvent  Trigger context
 	 * @param  sObjectName   the name of the SObject
 	 */
-	public static void actionPlansSObjectTriggerHandler(
-		List<SObject> newRecords,
-		List<SObject> oldRecords,
-		Map<Id, SObject> newRecordsMap,
-		Map<Id, SObject> oldRecordsMap,
-		System.TriggerOperation triggerEvent,
-		String sObjectName
-	) {
+	// prettier-ignore
+	public static void actionPlansSObjectTriggerHandler(List<SObject> newRecords, List<SObject> oldRecords, Map<Id, SObject> newRecordsMap, Map<Id, SObject> oldRecordsMap, System.TriggerOperation triggerEvent, String sObjectName) {
 		//System.debug('In ' + sObjectName + ' ' + triggerEvent.name());
 
 		String relationshipName = null;
@@ -133,7 +127,6 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 		}
 	}
-
 	/**
 	 * Actions to take on ActionPlan DML
 	 * @author David Schach
@@ -143,13 +136,8 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerhandlerActionPlan(
-		List<ActionPlan__c> newRecords,
-		List<ActionPlan__c> oldRecords,
-		Map<Id, ActionPlan__c> newRecordsMap,
-		Map<Id, ActionPlan__c> oldRecordsMap,
-		System.TriggerOperation triggerEvent
-	) {
+	// prettier-ignore
+	public static void triggerhandlerActionPlan(List<ActionPlan__c> newRecords, List<ActionPlan__c> oldRecords, Map<Id, ActionPlan__c> newRecordsMap, Map<Id, ActionPlan__c> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		switch on triggerEvent {
 			when BEFORE_INSERT {
 				Id defaultTaskRTId = ActionPlansUtilities.getDefaultTaskRecordTypeId();
@@ -226,7 +214,6 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 		}
 	}
-
 	/**
 	 * Handle ActionPlan Tasks
 	 * @author David Schach
@@ -236,15 +223,8 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerhandlerActionPlanTask(
-		List<APTask__c> newRecords,
-		List<APTask__c> oldRecords,
-		Map<Id, APTask__c> newRecordsMap,
-		Map<Id, APTask__c> oldRecordsMap,
-		System.TriggerOperation triggerEvent
-	) {
-		//System.debug('In APTask__c ' + triggerEvent.name());
-
+	// prettier-ignore
+	public static void triggerhandlerActionPlanTask(List<APTask__c> newRecords, List<APTask__c> oldRecords,	Map<Id, APTask__c> newRecordsMap,Map<Id, APTask__c> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		switch on triggerEvent {
 			when BEFORE_INSERT, BEFORE_UPDATE {
 				for (APTask__c a : newRecords) {
@@ -322,12 +302,8 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerhandlerActionPlanTemplate(
-		List<ActionPlanTemplate__c> newRecords,
-		List<ActionPlanTemplate__c> oldRecords,
-		Map<Id, ActionPlanTemplate__c> oldRecordsMap,
-		System.TriggerOperation triggerEvent
-	) {
+	// prettier-ignore
+	public static void triggerhandlerActionPlanTemplate(List<ActionPlanTemplate__c> newRecords, List<ActionPlanTemplate__c> oldRecords, Map<Id, ActionPlanTemplate__c> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		switch on triggerEvent {
 			when BEFORE_INSERT {
 				Id defaultTaskRTId = ActionPlansUtilities.getDefaultTaskRecordTypeId();
@@ -363,12 +339,8 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerhandlerActionPlanTemplateTask(
-		List<APTemplateTask__c> newRecords,
-		List<APTemplateTask__c> oldRecords,
-		Map<Id, APTemplateTask__c> oldRecordsMap,
-		System.TriggerOperation triggerEvent
-	) {
+	// prettier-ignore
+	public static void triggerhandlerActionPlanTemplateTask(List<APTemplateTask__c> newRecords, List<APTemplateTask__c> oldRecords, Map<Id, APTemplateTask__c> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		//System.debug('In APTemplateTask__c ' + triggerEvent.name());
 
 		switch on triggerEvent {
@@ -411,7 +383,6 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 		}
 	}
-
 	/**
 	 * Trigger handler for Task records when they are inserted, updated, or deleted
 	 * @author David Schach
@@ -642,13 +613,8 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerhandlerActionPlanAccount(
-		List<Account> newRecords,
-		List<Account> oldRecords,
-		Map<Id, Account> newRecordsMap,
-		Map<Id, Account> oldRecordsMap,
-		System.TriggerOperation triggerEvent
-	) {
+	// prettier-ignore
+	public static void triggerhandlerActionPlanAccount(List<Account> newRecords, List<Account> oldRecords, Map<Id, Account> newRecordsMap, Map<Id, Account> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		//Delete related action plans
 		switch on triggerEvent {
 			when BEFORE_DELETE {
@@ -718,7 +684,6 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 		}
 	}
-
 	/**
 	 * Validate that 1 and only 1 custom reference field is filled
 	 * @author David Schach

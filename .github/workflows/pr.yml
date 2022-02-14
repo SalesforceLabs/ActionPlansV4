@@ -61,7 +61,7 @@ jobs:
 
       # Create scratch org
       - name: 'Create scratch org'
-        run: sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -d 1
+        run: sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -d 1 -w 20
 
       # Deploy source to scratch org
       - name: 'Push source to scratch org'

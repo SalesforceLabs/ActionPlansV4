@@ -12,7 +12,7 @@
  * @see CanTheUserTest
  * @see Safely
  * @author {@link [Codefriar](https://github.com/codefriar)}
- * @since 2022
+ * @since 2021
  * @group Security
  */
 public inherited sharing class CanTheUser {
@@ -51,10 +51,10 @@ public inherited sharing class CanTheUser {
 	 */
 
 	/**
-	 * @description
+	 * @description Main crud method checks an object for a specific permission
 	 * @param obj the object type to check
 	 * @param permission create, read, update or delete
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE));
 	 **/
@@ -99,7 +99,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * create the specified object
 	 * @param obj Object type to check create permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.create(new Account()));
 	 **/
@@ -112,7 +112,7 @@ public inherited sharing class CanTheUser {
 	 * create the specified object
 	 * @param  objs list of objects. Only the first will be checked. (logically, a list is of uniform type
 	 * and, and if the user can create one)
-	 * @return Boolean
+	 * @return `Boolean`
 	 */
 	public static Boolean create(List<SObject> objs) {
 		return crud(objs?.get(0), CrudType.CREATEABLE);
@@ -122,7 +122,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * create the specified object
 	 * @param String Object type to check create permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.create('Account'));
 	 **/
@@ -134,7 +134,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * read / access the specified object
 	 * @param obj object type to check read permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.read(new Account()));
 	 **/
@@ -146,7 +146,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * read / access the specified objects
 	 * @param obj object type to check read permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * CanTheUser.read(new List<Account>{a1, a2}));
 	 **/
@@ -158,7 +158,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * read the specified object
 	 * @param String Object type to check read permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.read('Account'));
 	 **/
@@ -170,7 +170,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * edit / update the specified object
 	 * @param obj object type to check edit permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.edit(new Account()));
 	 **/
@@ -182,7 +182,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * edit / update the specified objects
 	 * @param obj object type to check edit permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 **/
 	public static Boolean edit(List<SObject> objs) {
 		return crud(objs?.get(0), CrudType.EDITABLE);
@@ -192,7 +192,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * edit the specified object
 	 * @param String Object type to check edit permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.edit('Account'));
 	 **/
@@ -204,7 +204,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * upsert (insert and update) the specified objects
 	 * @param obj object type to check edit permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.ups(new Account()));
 	 **/
@@ -216,7 +216,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * edit / update the specified objects
 	 * @param obj object type to check upsert permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 **/
 	public static Boolean ups(List<SObject> objs) {
@@ -227,7 +227,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * upsert the specified object
 	 * @param String Object type to check upsert permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.ups('Account'));
 	 **/
@@ -239,7 +239,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * delete/destroy the specified object
 	 * @param obj object type to check destroy permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.destroy(new Account()));
 	 **/
@@ -251,7 +251,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * delete the specified object
 	 * @param String Object type to check delete permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 **/
 	public static Boolean destroy(List<SObject> objs) {
 		return crud(objs?.get(0), CrudType.DELETABLE);
@@ -261,7 +261,7 @@ public inherited sharing class CanTheUser {
 	 * convenience api for determining if the running user can
 	 * delete the specified object
 	 * @param String Object type to check create permissions on
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.destroy('Account'));
 	 **/
@@ -274,7 +274,7 @@ public inherited sharing class CanTheUser {
 	 * object is Accessible (readable)
 	 * @param obj the object in question, in string form
 	 * @param field the field in question in SObjectField form
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.flsAccessible('Account', 'Name'));
 	 **/
@@ -304,7 +304,7 @@ public inherited sharing class CanTheUser {
 	 * object is Updatable.
 	 * @param obj the string version of an object name
 	 * @param field the field to check
-	 * @return Boolean
+	 * @return `Boolean`
 	 * @example
 	 * System.debug(CanTheUser.flsUpdatable('Account', 'Name'));
 	 **/
@@ -316,7 +316,7 @@ public inherited sharing class CanTheUser {
 	 *  bulk form of flsUpdatable call
 	 * @param obj    Name of the object
 	 * @param fields Set of Field names to check
-	 * @return      `Map<String, Boolean>`
+	 * @return      `Map<String, Boolean>` (FieldName, true)
 	 * @example
 	 * String[] fields = new String[]{'Name', 'ShippingStreet'};
 	 * System.debug(CanTheUser.bulkFLSUpdatable('Account', fields));
