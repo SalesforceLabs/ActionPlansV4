@@ -7,7 +7,6 @@ on:
     paths:
       - 'sfdx-source/**'
       - 'pmd/**'
-
 # Jobs to be executed
 jobs:
   scratch-org-test:
