@@ -45,12 +45,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @IsTest
 private class ActionPlanCreateInvocableTest {
 	private static final Integer TASK_COUNT = 7;
+	private static final Integer BULK_COUNT = 100;
 
 	@IsTest
 	private static void relatedAccount() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
-		aps.Unassigned_Task_Default__c = true;
+		aps.Unassigned_Task_Default_to_Owner__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {
@@ -92,7 +93,7 @@ private class ActionPlanCreateInvocableTest {
 	private static void relatedContact() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = false;
-		aps.Unassigned_Task_Default__c = false;
+		aps.Unassigned_Task_Default_to_Owner__c = false;
 		try {
 			upsert aps;
 		} catch (Exception e) {
@@ -228,7 +229,6 @@ private class ActionPlanCreateInvocableTest {
 		apTemplate.name = 'B';
 		update apTemplate;
 
-		final Integer BULK_COUNT = 100;
 		List<Account> toInsert = new List<Account>();
 
 		for (Integer i = 0; i < BULK_COUNT; i++) {
@@ -272,7 +272,7 @@ private class ActionPlanCreateInvocableTest {
 
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = false;
-		aps.Unassigned_Task_Default__c = true;
+		aps.Unassigned_Task_Default_to_Owner__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {

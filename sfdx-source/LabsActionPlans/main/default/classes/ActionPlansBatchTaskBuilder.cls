@@ -172,7 +172,6 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 	 * @author Salesforce Labs
 	 * @param  bc BatchableContext
 	 */
-	public void finish(Database.BatchableContext bc) {
-		//NOPMD
-	}
+	// prettier-ignore
+	public void finish(Database.BatchableContext bc) {} //NOPMD
 }

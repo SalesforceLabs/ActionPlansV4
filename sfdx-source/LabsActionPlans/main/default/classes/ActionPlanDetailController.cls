@@ -68,7 +68,7 @@ public with sharing class ActionPlanDetailController {
 			stdController.addFields(ActionPlansUtilities.getCustomRelationshipFields());
 		}
 		actionPlan = (ActionPlan__c) stdController.getRecord();
-		hasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
+		hasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 		canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
 	}
 
@@ -263,7 +263,7 @@ public with sharing class ActionPlanDetailController {
 	 */
 	public String getRecordTypeName() {
 		String toReturn = '';
-		if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			Map<Id, Schema.RecordTypeInfo> rtMapById = Task.SObjectType.getDescribe().getRecordTypeInfosById();
 			if (!rtMapById.isEmpty() && rtMapById.containsKey(actionPlan.TaskRecordTypeID__c)) {
 				return rtMapById.get(actionPlan.TaskRecordTypeID__c).getName();

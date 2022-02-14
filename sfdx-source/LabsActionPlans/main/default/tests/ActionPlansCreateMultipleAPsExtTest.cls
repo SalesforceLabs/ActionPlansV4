@@ -66,7 +66,7 @@ private class ActionPlansCreateMultipleAPsExtTest {
 	}
 
 	@IsTest
-	private static void givenNoRecordsToDeleteThenNotDeleted() {
+	private static void givenNoRecordsToCreateThenNotCreated() {
 		Test.startTest();
 		ApexPages.StandardSetController std = new ApexPages.StandardSetController(new List<Account>{});
 		ActionPlansCreateMultipleAPsExtension ctrl = new ActionPlansCreateMultipleAPsExtension(std);

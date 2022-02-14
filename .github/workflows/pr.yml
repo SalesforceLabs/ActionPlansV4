@@ -4,10 +4,9 @@ name: Validate/Test Deploy
 on:
   pull_request:
     types: [edited, opened, synchronize, reopened, review_requested]
-    #  - main
     paths:
       - 'sfdx-source/**'
-
+      - 'pmd/**'
 # Jobs to be executed
 jobs:
   scratch-org-test:
@@ -29,7 +28,7 @@ jobs:
 
       # Run PMD scan
       - name: 'Run PMD scan'
-        run: ~/pmd/bin/run.sh pmd -d sfdx-source/LabsActionPlans/main/default -R pmd/deployRules.xml -f text --cache .pmdCache -min 1
+        run: ~/pmd/bin/run.sh pmd -d sfdx-source/LabsActionPlans -R pmd/deployRules.xml -f text --cache .pmdCache -min 2
 
       # Install Salesforce CLI
       - name: 'Install Salesforce CLI'
@@ -80,3 +79,8 @@ jobs:
       - name: 'Delete scratch org'
         if: always()
         run: sfdx force:org:delete -p -u ActionPlans
+
+      # Remove namespace from project config
+      - name: Remove namespace from project config
+        run: |
+          sed -i 's,"namespace": "LabsActionPlans","namespace": "",' sfdx-project.json

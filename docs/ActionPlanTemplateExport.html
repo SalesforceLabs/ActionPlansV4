@@ -258,12 +258,15 @@
 
             <h2 class="class-title top-level-type" id="ActionPlanTemplateExport">
 
-              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L43">
+              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L44">
                 ActionPlanTemplateExport
               </a>
             </h2>
             <div class="class-container">
 
+              <div class="class-description">
+                Helper class to do the work for creating XML for a given Action Plan Template
+              </div>
               <div class="class-subtitle">
                 Signature
               </div>
@@ -280,11 +283,11 @@
                     <th>Name</th>
                     <th>Signature</th>
 
-
+                    <th>Description</th>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L46">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L50">
                         fileOrDocumentId
                       </a></td>
                     <td>
@@ -294,10 +297,13 @@
                     </td>
 
 
+                    <td class="attribute-description">
+                      The <code class="code-inline">File</code> or <code class="code-inline">Document</code> Id for display on the Visualforce confirmation page
+                    </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L44">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L45">
                         templateId
                       </a></td>
                     <td>
@@ -307,6 +313,9 @@
                     </td>
 
 
+                    <td class="attribute-description">
+
+                    </td>
                   </tr>
                 </table>
             </div>
@@ -327,7 +336,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlanTemplateExport.ActionPlanTemplateExport">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L52">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L56">
                       ActionPlanTemplateExport(templateId)
                     </a>
                   </h4>
@@ -346,6 +355,7 @@
                   <div class="param-type">
                     Type: <code class="code-inline">String</code>
                   </div>
+                  <div class="param-description"><code class="code-inline">ActionPlanTemplate__c</code> Id</div>
                 </div>
               </div>
             </div>
@@ -359,7 +369,7 @@
                     </a>
 
                     <div class="methods-toc__description">
-                      Method in charge of compiling XML document for a given Action Plan Template and child tasks
+                      Method to compile XML document for a given Action Plan Template and child tasks
                     </div>
                   </li>
                   <li class="method public">
@@ -376,9 +386,6 @@
                       saveToContent (name, xml)
                     </a>
 
-                    <div class="methods-toc__description">
-                      Method to save the XML file to a File (if the user is using Lightning Experience)
-                    </div>
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry " href="#ActionPlanTemplateExport.saveToDocument">
@@ -402,12 +409,12 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlanTemplateExport.buildXmlString">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L139">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L150">
                       buildXmlString(target)
                     </a>
                   </h4>
                   <div class="method-description">
-                    Method in charge of compiling XML document for a given Action Plan Template and child tasks
+                    Method to compile XML document for a given Action Plan Template and child tasks
                   </div>
                   <div class="method-subtitle">
                     Signature
@@ -425,13 +432,13 @@
                     Returns
                   </div>
                   <div class="method-subtitle-description">
-                    ret
+                    The XML
                   </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlanTemplateExport.export">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L60">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L64">
                       export()
                     </a>
                   </h4>
@@ -449,19 +456,16 @@
                     Returns
                   </div>
                   <div class="method-subtitle-description">
-                    doc
+                    <code class="code-inline">ContentDocument</code> or <code class="code-inline">Document</code> Id
                   </div>
                 </div>
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlanTemplateExport.saveToContent">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L120">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L131">
                       saveToContent(name, xml)
                     </a>
                   </h4>
-                  <div class="method-description">
-                    Method to save the XML file to a File (if the user is using Lightning Experience)
-                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
@@ -473,7 +477,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlanTemplateExport.saveToDocument">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L104">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L108">
                       saveToDocument(name, xml)
                     </a>
                   </h4>
@@ -506,7 +510,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlanTemplateExport.writeElement">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L206">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L217">
                       writeElement(out, tag, content)
                     </a>
                   </h4>

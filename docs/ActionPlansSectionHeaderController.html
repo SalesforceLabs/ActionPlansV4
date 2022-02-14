@@ -395,7 +395,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansSectionHeaderController.isCustom">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L68">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L70">
                       isCustom(sObjectName)
                     </a>
                   </h4>
@@ -409,11 +409,23 @@
                   <div class="method-signature">
                     private Boolean isCustom(String sObjectName)
                   </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">sObjectName</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">String</code>
+                  </div>
+                  <div class="param-description">The name of the SObject</div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    Is this object a custom object?
+                  </div>
                 </div>
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansSectionHeaderController.retrieveIconForObject">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L86">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L87">
                       retrieveIconForObject(sObjectName)
                     </a>
                   </h4>
@@ -428,13 +440,16 @@
                     private Map&lt;String, String&gt; retrieveIconForObject(String sObjectName)
                   </div>
                   <div class="method-subtitle">Parameters</div>
-                  <div class="param-name">sObjectTypeName</div>
-                  <div class="param-description"> the sObject to find the icon for</div>
+                  <div class="param-name">sObjectName</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">String</code>
+                  </div>
+                  <div class="param-description"> The sObject to find the icon for</div>
                   <div class="method-subtitle">
                     Returns
                   </div>
                   <div class="method-subtitle-description">
-                    Map&lt;String,String&gt; Map of properties about the icon to be consumed by the front end. Right now, returns values for keys: iconStyle,iconURL
+                    Map of properties about the icon to be consumed by the front end. Returns values for keys: iconStyle,iconURL
                   </div>
                 </div>
               </div>

@@ -258,7 +258,7 @@
 
             <h2 class="class-title top-level-type" id="ActionPlansDeleteMultipleAPExtension">
 
-              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansDeleteMultipleAPExtension.cls#L51">
+              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansDeleteMultipleAPExtension.cls#L53">
                 ActionPlansDeleteMultipleAPExtension
               </a>
             </h2>
@@ -279,7 +279,7 @@
               </div>
               <div class="class-subtitle-description">
                 <a href="javascript:void(0)" onclick="goToLocation('ActionPlansDeleteMultipleAPExtTest.html')">ActionPlansDeleteMultipleAPExtTest</a>, <a href="javascript:void(0)" onclick="goToLocation('CanTheUser.html')">CanTheUser</a>
-              </div><br />David Schach<br />2011
+              </div><br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/andyinthecloud">Andrew Fawcett</a> <a target="_blank" rel="noopener noreferrer" href="https://github.com/codefriar">Kevin Poorman</a> <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />2011
             </div>
             <div class="subsection properties ActionPlansDeleteMultipleAPExtension">
               <h3 class="subsection-title properties">ActionPlansDeleteMultipleAPExtension Properties</h2>
@@ -289,11 +289,11 @@
                     <th>Name</th>
                     <th>Signature</th>
 
-
+                    <th>Description</th>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansDeleteMultipleAPExtension.cls#L54">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansDeleteMultipleAPExtension.cls#L59">
                         actionPlansToShow
                       </a></td>
                     <td>
@@ -303,10 +303,13 @@
                     </td>
 
 
+                    <td class="attribute-description">
+                      The Action Plan records to delete (after user confirmation)
+                    </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansDeleteMultipleAPExtension.cls#L52">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansDeleteMultipleAPExtension.cls#L54">
                         standardController
                       </a></td>
                     <td>
@@ -316,6 +319,9 @@
                     </td>
 
 
+                    <td class="attribute-description">
+
+                    </td>
                   </tr>
                 </table>
             </div>
@@ -325,24 +331,42 @@
                 <ul class="methods-toc">
                   <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansDeleteMultipleAPExtension.ActionPlansDeleteMultipleAPExtension">
-                      ActionPlansDeleteMultipleAPExtension (standardController)
+                      ActionPlansDeleteMultipleAPExtension (stdController)
                     </a>
 
+                    <div class="methods-toc__description">
+                      Constructor for page showing Action Plans we want to delete
+                    </div>
                   </li>
                 </ul>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansDeleteMultipleAPExtension.ActionPlansDeleteMultipleAPExtension">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansDeleteMultipleAPExtension.cls#L56">
-                      ActionPlansDeleteMultipleAPExtension(standardController)
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansDeleteMultipleAPExtension.cls#L65">
+                      ActionPlansDeleteMultipleAPExtension(stdController)
                     </a>
                   </h4>
+                  <div class="method-description">
+                    Constructor for page showing Action Plans we want to delete
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
 
                   <div class="method-signature">
-                    public ActionPlansDeleteMultipleAPExtension(ApexPages.StandardSetController standardController)
+                    public ActionPlansDeleteMultipleAPExtension(ApexPages.StandardSetController stdController)
+                  </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">stdController</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">ApexPages.StandardSetController</code>
+                  </div>
+                  <div class="param-description"><code class="code-inline">ActionPlan__c</code> standard controller</div>
+                  <div class="method-subtitle">
+                    Author
+                  </div>
+                  <div class="method-subtitle-description">
+                    David Schach
                   </div>
                 </div>
               </div>
@@ -356,21 +380,39 @@
                       deleteRecords ()
                     </a>
 
+                    <div class="methods-toc__description">
+                      Page Redirect on delete
+                    </div>
                   </li>
                 </ul>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansDeleteMultipleAPExtension.deleteRecords">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansDeleteMultipleAPExtension.cls#L62">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansDeleteMultipleAPExtension.cls#L76">
                       deleteRecords()
                     </a>
                   </h4>
+                  <div class="method-description">
+                    Page Redirect on delete
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
 
                   <div class="method-signature">
                     public PageReference deleteRecords()
+                  </div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    PageReference with success/error message
+                  </div>
+                  <div class="method-subtitle">
+                    Author
+                  </div>
+                  <div class="method-subtitle-description">
+                    David Schach
                   </div>
                 </div>
               </div>

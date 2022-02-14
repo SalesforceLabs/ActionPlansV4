@@ -130,7 +130,7 @@ public with sharing class ActionPlanCreationController {
 		}
 
 		this.canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
-		this.taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
+		this.taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 
 		this.relatedFieldName = getRelatedObjectOptions()[0].getValue();
 	}
@@ -240,7 +240,7 @@ public with sharing class ActionPlanCreationController {
 	public Boolean taskHasRecordType {
 		get {
 			if (taskHasRecordType == null) {
-				taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
+				taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 			}
 			return taskHasRecordType;
 		}
@@ -295,7 +295,7 @@ public with sharing class ActionPlanCreationController {
 	 * @return      `Boolean` Is the Custom Setting present, and do we default uneditable assigned user fields to the parent record owner?
 	 */
 	public Boolean getAssignToParentOwner() {
-		return mySettings.Unassigned_Task_Default__c;
+		return mySettings.Unassigned_Task_Default_to_Owner__c;
 	}
 
 	/**
@@ -742,11 +742,11 @@ public with sharing class ActionPlanCreationController {
 			// We always display the lookup (if editable) because we never FORCE the task to be assigned to the record owner
 
 			/* if (newTaskWrapper == null){
-				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default__c || actionPlan.get(relatedFieldName) == null; // true if not auto-assigned to record owner. User may have been set via template, but is still required.
+				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c || actionPlan.get(relatedFieldName) == null; // true if not auto-assigned to record owner. User may have been set via template, but is still required.
 			} else { // editing existing task
-				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default__c;
+				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c;
 			} */
-			userRequired = mySettings == null || !mySettings.Unassigned_Task_Default__c;
+			userRequired = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c;
 
 			ApTaskWrapper apTWrapper = new ApTaskWrapper(apTask, i, displayLookup, userRequired, actionPlan.TaskRecordTypeID__c);
 			tasksList.add(apTWrapper);
@@ -804,10 +804,10 @@ public with sharing class ActionPlanCreationController {
 					//Read the Custom Settings in order to asign the User to that Task
 					if (aptTask.User__c != null) {
 						t.User__c = aptTask.User__c;
-					} else if (aptTask.User__c == null && (!mySettings.Unassigned_Task_Default__c)) {
+					} else if (aptTask.User__c == null && (!mySettings.Unassigned_Task_Default_to_Owner__c)) {
 						t.User__c = UserInfo.getUserId();
 					}
-					/* else if( aptTask.User__c == null && ( mySettings != null &&  mySettings.Unassigned_Task_Default__c ) ) {
+					/* else if( aptTask.User__c == null && ( mySettings != null &&  mySettings.Unassigned_Task_Default_to_Owner__c ) ) {
 						userId = null;
 					}
 					else if( aptTask.User__c == null && mySettings == null ){
@@ -1257,7 +1257,7 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public String getRecordTypeName() {
 		String toReturn = '';
-		if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			Map<Id, Schema.RecordTypeInfo> rtMapById = Task.SObjectType.getDescribe().getRecordTypeInfosById();
 			if (!rtMapById.isEmpty() && rtMapById.containsKey(actionPlan.TaskRecordTypeID__c)) {
 				return rtMapById.get(actionPlan.TaskRecordTypeID__c).getName();
@@ -1293,7 +1293,7 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public List<SelectOption> getTaskPriorities() {
 		if (taskPriorities == null) {
-			taskPriorities = ActionPlansUtilities.getFieldOptions('Task', 'Priority', null);
+			taskPriorities = ActionPlansUtilities.getFieldOptions('Task', 'Priority', true);
 		}
 		return taskPriorities;
 	}
@@ -1314,8 +1314,20 @@ public with sharing class ActionPlanCreationController {
 	 * @since 4/2022
 	 */
 	public class ApTaskWrapper {
+		/**
+		 * Action Plan Task in wrapper
+		 * @return   The Action Plan task
+		 */
 		public APTask__c apt { get; set; }
+		/**
+		 * Task position (order on the page)
+		 * @return  Index
+		 */
 		public Integer position { get; set; }
+		/**
+		 * Last Task
+		 * @return   Is this AP Task the last in the list?
+		 */
 		public Boolean isLast { get; set; }
 		/**
 		 * Should we display the lookup?
@@ -1343,7 +1355,7 @@ public with sharing class ActionPlanCreationController {
 			userRequired = userReq;
 
 			Id taskRTID = null;
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				if (ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(apTaskRTId)) {
 					taskRTID = apTaskRTId;
 				} else {

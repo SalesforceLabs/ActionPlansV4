@@ -66,9 +66,10 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Constructor
-	 * If we can obtain the Id from the page parameters then we search for that template and set the variable for that template.
-	 * If we can't obtain the Id from the page parameters then we create a new template and obtain from the controller.
-	 * Then we need to check if we are cloning the template; in that case clone the template without Id.
+	 * <br>If we can obtain the Id from the page parameters then we search for that template and set the variable for that template.
+	 * <br>If we can't obtain the Id from the page parameters then we create a new template and obtain from the controller.
+	 * <br>Then we need to check if we are cloning the template; in that case clone the template without Id.
+	 * @param stdController Standard Controller (`ActionPlanTemplate__c`)
 	 */
 	public ActionPlanTemplateCreationController(ApexPages.StandardController stdController) {
 		this.taskIndex = 0;
@@ -99,7 +100,7 @@ public with sharing class ActionPlanTemplateCreationController {
 		}
 
 		this.canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
-		this.taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
+		this.taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 
 		if (actionPlanTemplate.Id != null) {
 			taskIndex = calculateTaskIndexValue();
@@ -512,12 +513,11 @@ public with sharing class ActionPlanTemplateCreationController {
 		return hasDependency;
 	}
 
+	private String errorMsg;
 	/**
-	 * Getter method to return the error message from
-	 * action plans utilities
+	 * Getter method to return the error message from action plans utilities
 	 * @return errorMsg
 	 */
-	private String errorMsg;
 	public String getErrorMsg() {
 		return errorMsg;
 	}
@@ -559,7 +559,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	private List<SelectOption> taskTypes;
 	/**
 	 * Generate a picklist of Task.Type
-	 * @return Picklist of Task Type
+	 * @return Picklist of `TaskType`
 	 */
 	public List<SelectOption> getTaskTypes() {
 		if (taskTypes == null) {
@@ -571,11 +571,11 @@ public with sharing class ActionPlanTemplateCreationController {
 	private List<SelectOption> taskPriorities;
 	/**
 	 * Generate picklist of Task Priorities
-	 * @return Picklist of Task Priority
+	 * @return Picklist of `Task.Priority`
 	 */
 	public List<SelectOption> getTaskPriorities() {
 		if (taskPriorities == null) {
-			taskPriorities = ActionPlansUtilities.getFieldOptions('Task', 'Priority', null);
+			taskPriorities = ActionPlansUtilities.getFieldOptions('Task', 'Priority', true);
 		}
 		return taskPriorities;
 	}
@@ -593,11 +593,23 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * @author Matias Menafra
 	 * @date 08/08/2010
 	 * @author David Schach
-	 * @date 05/2022
+	 * @date 05/2021
 	 */
 	public class ApTTaskWrapper {
+		/**
+		 * Action Plan Template Task in wrapper
+		 * @return   The Action Plan Template Task
+		 */
 		public APTemplateTask__c task { get; set; }
+		/**
+		 * Task position (order on the page)
+		 * @return  Index
+		 */
 		public Integer position { get; set; }
+		/**
+		 * Last Task
+		 * @return   Is this AP Task the last in the list?
+		 */
 		public Boolean isLast { get; set; }
 
 		/**
@@ -613,7 +625,7 @@ public with sharing class ActionPlanTemplateCreationController {
 			isLast = false;
 
 			Id taskRTID = null;
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				if (ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(apTTaskRTId)) {
 					taskRTID = apTTaskRTId;
 				} else {

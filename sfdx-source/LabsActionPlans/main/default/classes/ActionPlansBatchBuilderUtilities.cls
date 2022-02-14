@@ -194,7 +194,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 					if (!String.isBlank(at.Task_RecordTypeId__c) && at.Task_RecordTypeId__c instanceof Id && at.Task_RecordTypeId__c.startsWithIgnoreCase('012')) {
 						at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(at.Task_RecordTypeId__c);
 					} else {
-						if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+						if (ActionPlansUtilities.taskUsesRecordTypes) {
 							at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
 						} else {
 							at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(null);
@@ -359,10 +359,10 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	}
 
 	/**
-	 * Read the Action Plan and see the custom setting to determine who should own the at Template
+	 * Read the Action Plan and see the custom setting to determine who should own the AP Tasks
 	 *
 	 * @param ap           `ActionPlan__c`
-	 * @param relObjOwners Map of ID to record owner
+	 * @param relObjOwners Map of Id to record owner
 	 * @param apTaskUser   the current record user
 	 * @return             `Id` related OwnerID
 	 */
@@ -371,17 +371,17 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			return apTaskUser;
 		}
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
-		if (!mySettings.Unassigned_Task_Default__c) {
-			System.debug('Assigning task to current user');
+		if (!mySettings.Unassigned_Task_Default_to_Owner__c) {
+			//System.debug('Assigning task to current user');
 			return UserInfo.getUserId();
 		}
-		Id relatedOwnerId = getRelatedRecordOwnerId(ap, relObjOwners);
-		System.debug('assigning to related record owner ' + relatedOwnerId);
-		return relatedOwnerId;
+		//Id relatedOwnerId = getRelatedRecordOwnerId(ap, relObjOwners);
+		//System.debug('assigning to related record owner ' + relatedOwnerId);
+		return getRelatedRecordOwnerId(ap, relObjOwners);
 	}
 
 	/**
-	 * @description
+	 * Given an Action Plan, looking in its relationship fields, find the owner of the related record from the map of records and owners
 	 *
 	 * @param ap           `ActionPlan__c`
 	 * @param relObjOwners Map of related object `ID` to` OwnerId`
@@ -409,7 +409,8 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	/**
 	 * Retrieve the owner list from the related object.
 	 * @param relatedRecordIDs		list of sobjects' id
-	 * @param relatedObjectName
+	 * @param relatedObjectName     The name of the related object
+	 * @return Map of record Id to Owner Id
 	 */
 	public static Map<Id, Id> retrieveOwnersDataRelatedObject(Set<Id> relatedRecordIDs, String relatedObjectName) {
 		Map<Id, Id> relatedObjOwners = new Map<Id, Id>();
@@ -430,7 +431,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	 * @param objIds Set of IDs of records for which we may make Chatter posts
 	 */
 	public static void generateObjectFeeds(Set<Id> objIds) {
-		List<FeedItem> chatterPosts = new List<FeedItem>();
+		List<SObject> chatterPosts = new List<SObject>();
 
 		List<String> apRefFields = ActionPlansUtilities.getCustomRelationshipFields();
 		String apQuery = 'SELECT Id, Name, ' + String.join(apRefFields, ', ') + ' FROM ActionPlan__c WHERE Id IN :objIds';
@@ -453,9 +454,12 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			}
 
 			if (chatterEnabled) {
-				FeedItem newPost = new FeedItem();
+				//FeedItem newPost = new FeedItem();
+
+				SObjectType token = Schema.getGlobalDescribe().get('FeedItem');
+				SObject newPost = token.newSObject();
 				newPost.put('Type', 'TextPost');
-				newPost.put('ParentId', objId);
+				newPost.put('ParentId', objId); // m_oppty is an instance of an Opportunity object
 				newPost.put('Body', getPostObjectBody(objId, (String) ap.get('Name')));
 
 				chatterPosts.add(newPost);

@@ -88,7 +88,7 @@ global without sharing class ActionPlanCreateInvocable {
 						Comments__c,
 						TaskIndex__c,
 						Action_Plan_Template__r.TaskRecordTypeID__c
-					FROM ApTasks__r
+					FROM aptTasks__r
 					ORDER BY TaskIndex__c ASC
 				)
 			FROM ActionPlanTemplate__c
@@ -189,14 +189,14 @@ global without sharing class ActionPlanCreateInvocable {
 
 			Id relatedId = r.relatedRecordID;
 
-			for (APTemplateTask__c aptTask : actionPlanTemplate.apTasks__r) {
+			for (APTemplateTask__c aptTask : actionPlanTemplate.aptTasks__r) {
 				Id userId;
 				//Read the Custom Settings in order to asign the User to that Task
 				if (aptTask.User__c != null) {
 					userId = aptTask.User__c;
-				} else if (aptTask.User__c == null && (mySettings != null && !mySettings.Unassigned_Task_Default__c)) {
+				} else if (aptTask.User__c == null && (mySettings != null && !mySettings.Unassigned_Task_Default_to_Owner__c)) {
 					userId = UserInfo.getUserId();
-				} else if (aptTask.User__c == null && (mySettings != null && mySettings.Unassigned_Task_Default__c)) {
+				} else if (aptTask.User__c == null && (mySettings != null && mySettings.Unassigned_Task_Default_to_Owner__c)) {
 					userId = relatedObjectOwners.get(relatedId);
 				}
 

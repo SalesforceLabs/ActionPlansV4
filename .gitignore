@@ -74,3 +74,5 @@ src
 !**/ActionPlan__c/listViews
 !**/Account-Account %28Action Plans%29 Layout.layout-meta.xml
 dev-tools
+pmd/deploy.csv
+pmd/pmd.csv

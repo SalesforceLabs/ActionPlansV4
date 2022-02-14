@@ -66,7 +66,7 @@ public with sharing class ActionPlanTemplateDetailController {
 	public ActionPlanTemplateDetailController(ApexPages.StandardController stdController) {
 		actionPlanTemplate = (ActionPlanTemplate__c) stdController.getRecord();
 
-		taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
+		taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 
 		canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
 	}

@@ -1,5 +1,6 @@
 echo "Cleaning previous scratch org..."
 sfdx force:org:delete -p -u ActionPlans
+
 echo "Creating new scratch org"
 sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s
 
@@ -9,6 +10,7 @@ sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s
 # For use with namespaced scratch org in package development process
 echo "Pushing metadata"
 sfdx force:source:push
+
 echo "Assigning permission set"
 sfdx force:user:permset:assign -n Action_Plans_Admin
 

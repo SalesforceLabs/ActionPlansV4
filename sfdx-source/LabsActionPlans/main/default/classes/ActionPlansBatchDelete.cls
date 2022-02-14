@@ -46,6 +46,7 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 
 	/**
 	 * Constructor
+	 * @param oIDsSet The ActionPlan record IDs we're planning to delete
 	 */
 	public ActionPlansBatchDelete(Set<Id> oIDsSet) {
 		relActionPlansIds = oIDsSet;
@@ -64,7 +65,7 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 	/**
 	 * For each batch, delete the action plans and send an email on any errors
 	 * @param  bc   BatchableContext
-	 * @param  data List<SObject> records to be deleted
+	 * @param  data `List<SObject>` records to be deleted
 	 */
 	public void execute(Database.BatchableContext bc, List<SObject> data) {
 		Set<Id> actionPlanIDs = new Set<Id>();
@@ -74,6 +75,7 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 		try {
 			deleteActionPlans(actionPlanIDs);
 			if (ActionPlansTestUtilities.forceError) {
+				// A way to force an error without trying to create an SObject record
 				String str = null;
 				str.toLowerCase();
 			}

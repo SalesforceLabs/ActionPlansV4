@@ -521,7 +521,7 @@
                     </a>
 
                     <div class="methods-toc__description">
-                      Read the Action Plan and see the custom setting to determine who should own the at Template
+                      Read the Action Plan and see the custom setting to determine who should own the AP Tasks
                     </div>
                   </li>
                   <li class="method public">
@@ -547,6 +547,9 @@
                       getRelatedRecordOwnerId (ap, relObjOwners)
                     </a>
 
+                    <div class="methods-toc__description">
+                      Given an Action Plan, looking in its relationship fields, find the owner of the related record from the map of records and owners
+                    </div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansBatchBuilderUtilities.retrieveOwnersDataRelatedObject">
@@ -591,7 +594,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.generateObjectFeeds">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L432">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L433">
                       generateObjectFeeds(objIds)
                     </a>
                   </h4>
@@ -620,7 +623,7 @@
                     </a>
                   </h4>
                   <div class="method-description">
-                    Read the Action Plan and see the custom setting to determine who should own the at Template
+                    Read the Action Plan and see the custom setting to determine who should own the AP Tasks
                   </div>
                   <div class="method-subtitle">
                     Signature
@@ -639,7 +642,7 @@
                   <div class="param-type">
                     Type: <code class="code-inline">Map&lt;Id, Id&gt;</code>
                   </div>
-                  <div class="param-description">Map of ID to record owner</div>
+                  <div class="param-description">Map of Id to record owner</div>
                   <div class="param-name">apTaskUser</div>
                   <div class="param-type">
                     Type: <code class="code-inline">Id</code>
@@ -685,7 +688,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.getPostObjectBody">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L475">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L479">
                       getPostObjectBody(recID, apName)
                     </a>
                   </h4>
@@ -730,6 +733,9 @@
                       getRelatedRecordOwnerId(ap, relObjOwners)
                     </a>
                   </h4>
+                  <div class="method-description">
+                    Given an Action Plan, looking in its relationship fields, find the owner of the related record from the map of records and owners
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
@@ -758,7 +764,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.retrieveOwnersDataRelatedObject">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L414">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L415">
                       retrieveOwnersDataRelatedObject(relatedRecordIDs, relatedObjectName)
                     </a>
                   </h4>
@@ -781,6 +787,13 @@
                   <div class="param-name">relatedObjectName</div>
                   <div class="param-type">
                     Type: <code class="code-inline">String</code>
+                  </div>
+                  <div class="param-description"> The name of the related object</div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    Map of record Id to Owner Id
                   </div>
                 </div>
               </div>

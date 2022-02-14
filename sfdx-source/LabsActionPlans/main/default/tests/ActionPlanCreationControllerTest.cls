@@ -44,14 +44,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 private class ActionPlanCreationControllerTest {
 	@TestSetup
 	static void makeData() {
-		/* Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
+		Action_Plans_Settings__c aps = ActionPlansUtilities.getCustomSetting();
 		aps.Chatter_Object_Brag__c = true;
-		aps.Unassigned_Task_Default__c = true;
+		aps.Unassigned_Task_Default_to_Owner__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {
 			update aps;
-		} */
+		}
 	}
 
 	@IsTest
@@ -206,11 +206,11 @@ private class ActionPlanCreationControllerTest {
 
 	@IsTest
 	private static void testRelateToMultipleContacts() {
-		final Integer CONCOUNT = 40;
-		final Integer APTTASKCOUNT = 2;
+		final Integer conCOUNT = 40;
+		final Integer apTASKCOUNT = 2;
 
 		List<Contact> contactsList = new List<Contact>();
-		for (Integer i = 0; i < CONCOUNT; i++) {
+		for (Integer i = 0; i < conCOUNT; i++) {
 			Contact newContact = new Contact(LastName = 'con' + math.rint(math.random() * 100000));
 			contactsList.add(newContact);
 		}
@@ -227,7 +227,7 @@ private class ActionPlanCreationControllerTest {
 		String conIdsList = String.join(conIDs, ',');
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(APTTASKCOUNT);
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(apTASKCOUNT);
 
 		Test.startTest();
 
@@ -240,23 +240,23 @@ private class ActionPlanCreationControllerTest {
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(new ActionPlan__c()));
 		System.assert(apCreateController.inVisualforceContext, 'Test should have VF context as true');
 		apCreateController.getTasks();
-		System.assertEquals(APTTASKCOUNT, apCreateController.getTasks().size());
+		System.assertEquals(apTASKCOUNT, apCreateController.getTasks().size());
 
-		System.assertEquals(CONCOUNT, apCreateController.getNameListSize());
+		System.assertEquals(conCOUNT, apCreateController.getNameListSize());
 
 		apCreateController.save();
 
 		Test.stopTest();
-		System.assertEquals(APTTASKCOUNT, [SELECT COUNT() FROM APTemplateTask__c]);
+		System.assertEquals(apTASKCOUNT, [SELECT COUNT() FROM APTemplateTask__c]);
 
-		System.assertEquals(CONCOUNT, [SELECT COUNT() FROM ActionPlan__c], 'Failed to make one AP per contact');
-		System.debug('successfully related to ' + CONCOUNT + ' Contacts');
+		System.assertEquals(conCOUNT, [SELECT COUNT() FROM ActionPlan__c], 'Failed to make one AP per contact');
+		System.debug('successfully related to ' + conCOUNT + ' Contacts');
 
 		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL], 'Should have linked Action Plan to contact');
 
-		System.assertEquals(CONCOUNT * APTTASKCOUNT, [SELECT COUNT() FROM APTask__c], 'Not enough Action Plan Tasks created');
+		System.assertEquals(conCOUNT * apTASKCOUNT, [SELECT COUNT() FROM APTask__c], 'Not enough Action Plan Tasks created');
 
-		System.assertEquals(CONCOUNT * APTTASKCOUNT, [SELECT COUNT() FROM Task], 'Wrong number of Tasks created');
+		System.assertEquals(conCOUNT * apTASKCOUNT, [SELECT COUNT() FROM Task], 'Wrong number of Tasks created');
 	}
 
 	@IsTest
@@ -397,13 +397,13 @@ private class ActionPlanCreationControllerTest {
 
 	@IsTest
 	private static void checkSubjectItems() {
-		Integer TASK_COUNT = 2;
+		Integer taskCOUNT = 2;
 		Test.startTest();
 
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', TASK_COUNT);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', taskCOUNT);
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
@@ -438,7 +438,7 @@ private class ActionPlanCreationControllerTest {
 		Test.stopTest();
 
 		System.assert(!options.isEmpty(), 'SELECT options is empty');
-		System.assertEquals(TASK_COUNT + 1, options.size(), 'incorrect number of select options');
+		System.assertEquals(taskCOUNT + 1, options.size(), 'incorrect number of select options');
 	}
 
 	@IsTest
@@ -640,7 +640,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.stopTest();
 
-		if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			if (ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType() != null) {
 				String taskQuery = 'SELECT Id, RecordTypeId FROM Task';
 
@@ -659,7 +659,7 @@ private class ActionPlanCreationControllerTest {
 	private static void testForceNoRecordTypes() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
 
-		System.debug('hasrt: ' + ActionPlansUtilities.HAS_RECORD_TYPE);
+		System.debug('hasrt: ' + ActionPlansUtilities.taskUsesRecordTypes);
 
 		ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues();
 		ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues();
@@ -678,7 +678,7 @@ private class ActionPlanCreationControllerTest {
 		Test.stopTest();
 		System.assertEquals(null, apCreateController.getDefaultTaskRecordTypeId());
 
-		System.assert(!ActionPlansUtilities.HAS_RECORD_TYPE);
+		System.assert(!ActionPlansUtilities.taskUsesRecordTypes);
 	}
 
 	@IsTest

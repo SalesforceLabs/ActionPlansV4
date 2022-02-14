@@ -142,7 +142,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			auxTask.OwnerId = dependentAptt.User__c;
 			auxTask.Type = dependentAptt.Type__c;
 			auxTask.TaskAPTask__c = dependentAptt.Id;
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				auxTask.put('RecordTypeId', dependentAptt.Task_RecordTypeId__c);
 			}
 
@@ -206,7 +206,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			t2.Priority = dependentAptt.Priority__c;
 			t2.OwnerId = dependentAptt.User__c;
 			t2.TaskAPTask__c = dependentAptt.Id;
-			if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				t2.put('RecordTypeId', dependentAptt.Task_RecordTypeId__c);
 			}
 
@@ -317,20 +317,22 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 		delete toDelete;
 	}
 
-	/*
-	This method reviews the task list FOR A SINGLE ACTION PLAN and removes the one with TaskIndex__c field matching tmp_taskIndex.
-	Rearranges the dependencies between tasks.
-	*/
-	private static void generateDependentTasksAndReset(List<APTask__c> apTasks, Decimal tmp_taskIndex) {
+	/**
+	 * This method reviews the task list FOR A SINGLE ACTION PLAN and removes the one with `TaskIndex__c` field matching taskIndexToDelete.
+	 * <br>Rearranges the dependencies between tasks.
+	 * @param  apTasks           All the Action Plan Tasks for the Action Plan
+	 * @param  taskIndexToDelete The index of the task we are trying to delete
+	 */
+	private static void generateDependentTasksAndReset(List<APTask__c> apTasks, Decimal taskIndexToDelete) {
 		Set<Id> pendingIdsToDelete = new Set<Id>();
 
 		Integer taskIndex;
 		Integer dependentApTaskIndex;
 
-		for (Integer t_i = 0; t_i < apTasks.size(); t_i++) {
-			APTask__c apTask = apTasks[t_i];
-			if (apTask.TaskIndex__c == tmp_taskIndex) {
-				taskIndex = t_i;
+		for (Integer i = 0; i < apTasks.size(); i++) {
+			APTask__c apTask = apTasks[i];
+			if (apTask.TaskIndex__c == taskIndexToDelete) {
+				taskIndex = i;
 			}
 		}
 

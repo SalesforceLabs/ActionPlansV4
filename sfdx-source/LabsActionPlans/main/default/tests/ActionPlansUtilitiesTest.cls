@@ -43,7 +43,7 @@ private class ActionPlansUtilitiesTest {
 	static void makeData() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
-		aps.Unassigned_Task_Default__c = true;
+		aps.Unassigned_Task_Default_to_Owner__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {
@@ -121,35 +121,41 @@ private class ActionPlansUtilitiesTest {
 
 	@IsTest
 	private static void testAccount() {
-		testObject('Account');
+		System.assert(testObject('Account'));
 	}
 
 	@IsTest
 	private static void testContact() {
-		testObject('Contact');
+		System.assert(testObject('Contact'));
 	}
 
 	@IsTest
 	private static void testLead() {
-		testObject('Lead');
+		System.assert(testObject('Lead'));
 	}
 
 	@IsTest
 	private static void testCase() {
-		testObject('Case');
+		System.assert(testObject('Case'));
 	}
 
 	@IsTest
 	private static void testCampaign() {
-		testObject('Campaign');
+		System.assert(testObject('Campaign'));
 	}
 
 	@IsTest
 	private static void testContract() {
-		testObject('Contract');
+		System.assert(testObject('Contract'));
 	}
 
-	private static void testObject(String objectName) {
+	/**
+	 * Pass in any object and create an Action Plan for that object
+	 * @author David Schach
+	 * @param  objectName The object name
+	 * @return            Success at creating tasks for the Action Plan
+	 */
+	private static Boolean testObject(String objectName) {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
@@ -171,10 +177,10 @@ private class ActionPlansUtilitiesTest {
 		apcc.apTasks = apcc.getAPTasks();
 
 		apcc.save();
-
-		System.assert(!apcc.apTasks.isEmpty());
-
 		Test.stopTest();
+		Boolean hasAPTasks = !apcc.apTasks.isEmpty();
+
+		return hasAPTasks;
 	}
 
 	@IsTest
@@ -336,10 +342,10 @@ private class ActionPlansUtilitiesTest {
 			}
 
 			ActionPlanTemplate__c apt = testutil.createNewActionPlanTemplate(5);
-			for (APTemplateTask__c aptt : apt.apTasks__r) {
+			for (APTemplateTask__c aptt : apt.aptTasks__r) {
 				aptt.User__c = null;
 			}
-			update apt.apTasks__r; //NOPMD
+			update apt.aptTasks__r; //NOPMD
 
 			apt.TaskRecordTypeID__c = ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType();
 			apt.SkipWeekends__c = true;
@@ -381,6 +387,12 @@ private class ActionPlansUtilitiesTest {
 		System.assert(testUtil.createRandomWord('testword') != testUtil.createRandomWord());
 	}
 
+	/**
+	 * Helper method to create `APTask__c` record for an `ActionPlan__c`
+	 * @author David Schach
+	 * @param  ap The parent Action Plan
+	 * @return    The test Action Plan Task
+	 */
 	private static APTask__c makeAppTask(ActionPlan__c ap) {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		APTask__c at = new APTask__c();

@@ -64,6 +64,8 @@ public inherited sharing class ActionPlansSectionHeaderController {
 
 	/**
 	 * Given an object name, return if it is a custom object
+	 * @param sObjectName The name of the SObject
+	 * @return Is this object a custom object?
 	 */
 	private Boolean isCustom(String sObjectName) {
 		if (sObjectName == null) {
@@ -79,9 +81,8 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	 * Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
 	 * Thanks to https://salesforce.stackexchange.com/users/12582/cricketlang
 	 *
-	 * @param   sObjectTypeName       the sObject to find the icon for
-	 * @return  Map<String,String>    Map of properties about the icon to be consumed by the front end.
-	 *                                Right now, returns values for keys: iconStyle,iconURL
+	 * @param   sObjectName           The sObject to find the icon for
+	 * @return  Map of properties about the icon to be consumed by the front end. Returns values for keys: iconStyle,iconURL
 	 */
 	private Map<String, String> retrieveIconForObject(String sObjectName) {
 		String iconStyle;
@@ -103,6 +104,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 					if (tr.isCustom() == true) {
 						iconStyle = 'slds-icon-standard-record';
 						iconURL = '/img/icon/t4v35/standard/record_120.png';
+						//iconTag = 'custom'; // Do we need to add this?
 					} else {
 						iconStyle = 'slds-icon-standard-' + sObjectName.toLowerCase();
 						iconURL = '/img/icon/t4v35/standard/' + sObjectName.toLowerCase() + '_120.png';

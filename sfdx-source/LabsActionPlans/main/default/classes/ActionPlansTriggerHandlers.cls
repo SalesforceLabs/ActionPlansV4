@@ -122,7 +122,6 @@ global without sharing class ActionPlansTriggerHandlers {
 
 				try {
 					if (ActionPlansTestUtilities.forceError) {
-						//throw dmlException
 						insert new Contact();
 					}
 					Database.undelete(aPs, false);
@@ -144,7 +143,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlan(
+	public static void triggerhandlerActionPlan(
 		List<ActionPlan__c> newRecords,
 		List<ActionPlan__c> oldRecords,
 		Map<Id, ActionPlan__c> newRecordsMap,
@@ -216,10 +215,10 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 			when AFTER_UNDELETE {
 				//get Id of all deleted Action Plan Task Templates
-				Map<Id, APTask__c> map_APTasks = new Map<Id, APTask__c>([SELECT Id, Action_Plan__c FROM APTask__c WHERE Action_Plan__c IN :newRecordsMap.keyset() ALL ROWS]);
+				Map<Id, APTask__c> mapAPTasks = new Map<Id, APTask__c>([SELECT Id, Action_Plan__c FROM APTask__c WHERE Action_Plan__c IN :newRecordsMap.keyset() ALL ROWS]);
 
 				//get all tasks asociated to this APTasks
-				List<Task> taskList = [SELECT Id, TaskAPTask__c, IsDeleted FROM Task WHERE TaskAPTask__c IN :map_APTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
+				List<Task> taskList = [SELECT Id, TaskAPTask__c, IsDeleted FROM Task WHERE TaskAPTask__c IN :mapAPTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
 
 				if (!taskList.isEmpty()) {
 					Database.undelete(taskList, false);
@@ -237,7 +236,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanTask(
+	public static void triggerhandlerActionPlanTask(
 		List<APTask__c> newRecords,
 		List<APTask__c> oldRecords,
 		Map<Id, APTask__c> newRecordsMap,
@@ -323,7 +322,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanTemplate(
+	public static void triggerhandlerActionPlanTemplate(
 		List<ActionPlanTemplate__c> newRecords,
 		List<ActionPlanTemplate__c> oldRecords,
 		Map<Id, ActionPlanTemplate__c> oldRecordsMap,
@@ -364,7 +363,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanTemplateTask(
+	public static void triggerhandlerActionPlanTemplateTask(
 		List<APTemplateTask__c> newRecords,
 		List<APTemplateTask__c> oldRecords,
 		Map<Id, APTemplateTask__c> oldRecordsMap,
@@ -422,7 +421,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_Task(List<Task> newRecords, List<Task> oldRecords, Map<Id, Task> newRecordsMap, Map<Id, Task> oldRecordsMap, System.TriggerOperation triggerEvent) {
+	public static void triggerhandlerTask(List<Task> newRecords, List<Task> oldRecords, Map<Id, Task> newRecordsMap, Map<Id, Task> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		//System.debug('In Task ' + triggerEvent.name());
 
 		switch on triggerEvent {
@@ -436,7 +435,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					triggerTasksWithTemplateTaskStatus.put(ta.Id, ta);
 				}
 
-				Boolean taskHasRecordType = ActionPlansUtilities.HAS_RECORD_TYPE;
+				Boolean taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 
 				// May need this
 				Set<String> closedStatuses = ActionPlansUtilities.getClosedTaskStatuses();
@@ -551,7 +550,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 			}
 			when BEFORE_INSERT {
-				if (ActionPlansUtilities.HAS_RECORD_TYPE) {
+				if (ActionPlansUtilities.taskUsesRecordTypes) {
 					Map<Id, Id> taskTemplateToIntendedRecordTypeId = new Map<Id, Id>();
 					Set<Id> taskTemplateIDs = new Set<Id>();
 					for (Task t : newRecords) {
@@ -590,7 +589,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanLead(List<Lead> newRecords, List<Lead> oldRecords, Map<Id, Lead> newRecordsMap, Map<Id, Lead> oldRecordsMap, System.TriggerOperation triggerEvent) {
+	public static void triggerhandlerActionPlanLead(List<Lead> newRecords, List<Lead> oldRecords, Map<Id, Lead> newRecordsMap, Map<Id, Lead> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		switch on triggerEvent {
 			when AFTER_UPDATE {
 				List<ActionPlan__c> leadAPs = [SELECT Id, Lead__c, Contact__c, Account__c, Opportunity__c, Description__c FROM ActionPlan__c WHERE Lead__c IN :newRecordsMap.keySet()];
@@ -643,7 +642,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerHandler_ActionPlanAccount(
+	public static void triggerhandlerActionPlanAccount(
 		List<Account> newRecords,
 		List<Account> oldRecords,
 		Map<Id, Account> newRecordsMap,
