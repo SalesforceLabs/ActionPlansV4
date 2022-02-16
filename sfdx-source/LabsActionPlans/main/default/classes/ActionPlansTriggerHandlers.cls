@@ -92,14 +92,14 @@ global without sharing class ActionPlansTriggerHandlers {
 
 				// Query Action Plans to delete in recycle bin
 				String deleteQueryString = 'SELECT Id, Name FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords AND isDeleted = true ALL ROWS';
-				deletePermenantlyApIds = Database.query(deleteQueryString);
+				deletePermenantlyApIds = Database.query(String.escapeSingleQuotes(deleteQueryString));
 
 				if (!deletePermenantlyApIds.isEmpty()) {
 					Database.emptyRecycleBin(deletePermenantlyApIds);
 				}
 
 				deleteQueryString = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords';
-				List<ActionPlan__c> apList = Database.query(deleteQueryString);
+				List<ActionPlan__c> apList = Database.query(String.escapeSingleQuotes(deleteQueryString));
 				for (ActionPlan__c ap : apList) {
 					apIds.add(ap.Id);
 				}
@@ -112,7 +112,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			//Undelete related action plans
 			when AFTER_UNDELETE {
 				String afterUndeleteQuery = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :newRecords ALL ROWS';
-				List<ActionPlan__c> aPs = Database.query(afterUndeleteQuery);
+				List<ActionPlan__c> aPs = Database.query(String.escapeSingleQuotes(afterUndeleteQuery));
 
 				try {
 					if (ActionPlansTestUtilities.forceError) {

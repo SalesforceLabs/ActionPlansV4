@@ -87,15 +87,37 @@ public with sharing class ActionPlanDetailController {
 
 		String retURL = '/' + ActionPlansUtilities.namespacePrefix + ActionPlansUtilities.getObjectKeyPrefix(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c') + '/o';
 
-		if (ApexPages.currentPage().getParameters().get('templateId') != null) {
-			retUrl = '/' + ApexPages.currentPage().getParameters().get('templateId');
-		} else if (ApexPages.currentPage().getParameters().get('retURL') != null && !ActionPlansUtilities.getIsLex()) {
-			retURL = '' + ApexPages.currentPage().getParameters().get('retURL');
+		Boolean hasTemplateIdParam = ApexPages.currentPage().getParameters().containsKey('templateId');
+		Boolean hasRetURLParam = ApexPages.currentPage().getParameters().containsKey('retURL');
+
+		if (hasTemplateIdParam) {
+			retURL = '/' + ActionPlansUtilities.getEscapedPageParameter('templateId');
+		} else if (hasRetURLParam && !ActionPlansUtilities.getIsLex()) {
+			retURL = '' + ActionPlansUtilities.getEscapedPageParameter('retURL');
 		}
 		Pagereference newPage = new PageReference('' + retURL);
 		newPage.setRedirect(true);
 
 		return newPage;
+	}
+
+	/**
+	 * Display ControllingTasks column only if there are controlling tasks
+	 * @author David Schach
+	 * @return   `Boolean` is the Controller__c field populated for any Action Plan Tasks?
+	 */
+	public Boolean hasControllingTasks {
+		get {
+			hasControllingTasks = false;
+			for (TaskWrapper tw : getActionPlanTasks()) {
+				if (tw.apt.Controller__c != null) {
+					hasControllingTasks = true;
+					break;
+				}
+			}
+			return hasControllingTasks;
+		}
+		private set;
 	}
 
 	private List<TaskWrapper> apTaskWrapperList;
@@ -177,7 +199,7 @@ public with sharing class ActionPlanDetailController {
 	}
 
 	/**
-	 * Returns number of completed tasks
+	 * Returns number of completed tasks for this Action Plan
 	 * @return Number of completed tasks
 	 */
 	public Integer getCompleted() {
@@ -206,7 +228,7 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * The label of the Action Plan's parent record SObject
-	 * @return  label of the object related to this Action Plan
+	 * @return  Label of the object related to this Action Plan
 	 */
 	public String getRelatedObjectLabel() {
 		String objLabel = '';
@@ -251,7 +273,6 @@ public with sharing class ActionPlanDetailController {
 			when else {
 				String relNameQuery = 'SELECT Id, Name FROM ' + objName + ' WHERE Id = \'' + objId + '\'';
 				SObject so = Database.query(relNameQuery)[0];
-
 				return (String) so.get('Name');
 			}
 		}
@@ -270,5 +291,23 @@ public with sharing class ActionPlanDetailController {
 			}
 		}
 		return toReturn;
+	}
+
+	/**
+	 * If we have no share object, we don't need to show a Share button
+	 * @author David Schach
+	 * @return   Does the `ActionPlan__Share` object exist?
+	 */
+	public Boolean getCanShare() {
+		return ActionPlansUtilities.canShareRecord('ActionPlan__Share', actionPlan.Id, actionPlan.OwnerId);
+	}
+
+	/**
+	 * Does the user have permission to transfer? We query `UserRecordAccess` to find out.
+	 * @author David Schach
+	 * @return   `Boolean` yes/no
+	 */
+	public Boolean getCanTransfer() {
+		return ActionPlansUtilities.getCanTransfer(actionPlan.Id);
 	}
 }

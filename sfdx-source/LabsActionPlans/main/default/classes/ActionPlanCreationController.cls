@@ -53,7 +53,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Related Record IDs
 	 */
-	public Set<Id> relatedRecordIDs { get; set; }
+	private Set<Id> relatedRecordIDs { get; set; }
 	/**
 	 * Related Object Name (Plural)
 	 */
@@ -88,8 +88,9 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public String subtitle { get; set; }
 
-	public List<APTask__c> apTasks;
-	public List<APTask__c> pendingDeletes;
+	@testVisible
+	private List<APTask__c> apTasks;
+	private List<APTask__c> pendingDeletes;
 
 	private String cloneParam = '0';
 	@testVisible
@@ -113,11 +114,11 @@ public with sharing class ActionPlanCreationController {
 
 		this.apTasks = getAPTasks();
 
-		this.cloneParam = System.currentPageReference().getParameters().get('clone');
+		this.cloneParam = ActionPlansUtilities.getEscapedPageParameter('clone'); //String.escapeSingleQuotes(System.currentPageReference().getParameters().get('clone'));
 
-		this.templateId = ApexPages.currentPage().getParameters().get('templateId');
-		this.refId = ApexPages.currentPage().getParameters().get('refId');
-		this.refType = ApexPages.currentPage().getParameters().get('refType');
+		this.templateId = ActionPlansUtilities.getEscapedPageParameter('templateId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('templateId'));
+		this.refId = ActionPlansUtilities.getEscapedPageParameter('refId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refId'));
+		this.refType = ActionPlansUtilities.getEscapedPageParameter('refType'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refType'));
 
 		if (cloneParam == '1') {
 			initCloneActionPlan();
@@ -138,7 +139,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Initalize controller for editing an Action Plan
 	 */
-	public void initEditActionPlan() {
+	private void initEditActionPlan() {
 		this.hasRelatedObject = this.hasRelatedObject();
 		this.taskIndex = this.calculateAPTaskIndexValue();
 		this.subtitle = this.actionPlan.Name;
@@ -147,7 +148,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Initalize controller for cloning an Action Plan
 	 */
-	public void initCloneActionPlan() {
+	private void initCloneActionPlan() {
 		this.actionPlan.StartDate__c = Date.today();
 		this.actionPlan.SkipWeekends__c = false;
 		this.actionPlan.Name = null;
@@ -220,7 +221,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Initalize controller for creating a new Action Plan
 	 */
-	public void initNewActionPlan() {
+	private void initNewActionPlan() {
 		this.actionPlan.StartDate__c = Date.today();
 		this.actionPlan.SkipWeekends__c = false;
 		if (taskHasRecordType) {
@@ -291,7 +292,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Utility method for checking if we default ownership to parent record owner if we can't edit the field
-	 *
+	 * <br>This could be replaced by a $Setup tag in Visualforce, but our logic may become more complex here
 	 * @return      `Boolean` Is the Custom Setting present, and do we default uneditable assigned user fields to the parent record owner?
 	 */
 	public Boolean getAssignToParentOwner() {
@@ -336,7 +337,7 @@ public with sharing class ActionPlanCreationController {
 	public String refId {
 		get {
 			if (refId == null) {
-				refId = ApexPages.currentPage().getParameters().get('refId');
+				refId = ActionPlansUtilities.getEscapedPageParameter('refId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refId'));
 			}
 			return refId;
 		}
@@ -352,7 +353,7 @@ public with sharing class ActionPlanCreationController {
 				Id shortId = refId.left(15);
 				refType = shortId.getSobjectType().getDescribe().getName();
 			} else if (refId == null) {
-				refType = ApexPages.currentPage().getParameters().get('refType');
+				refType = ActionPlansUtilities.getEscapedPageParameter('refType'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refType'));
 			}
 			return refType;
 		}
@@ -443,7 +444,7 @@ public with sharing class ActionPlanCreationController {
 	 * Saves Action Plan Instance and task. Also creates all due dates for tasks, then redirects to the AP list
 	 * @return `ActionPlan__c` Id
 	 */
-	public Id saveAp() {
+	private Id saveAp() {
 		Id actionPlanId;
 		Id objId;
 		String objName;
@@ -498,14 +499,13 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Save Action Plans for Multiple Related Object Instances.
 	 * <br>Invokes batch process that creates : ActionPlan, ActionPlanTasksTemplate AND Tasks
-	 * @return Pagereference
+	 * @return Pagereference (null or ActionPlansHome with confirmation)
 	 */
-	public PageReference saveMultiple() {
+	@TestVisible
+	private PageReference saveMultiple() {
 		//System.debug('SAVING MULTIPLE');
 		String oName = refType;
-		String oIds = ApexPages.currentPage().getParameters().get('refId');
-		//List<ActionPlan__c> apList = new List<ActionPlan__c>();
-		//List<APTask__c> aptList = new List<APTask__c>();
+		String oIds = ActionPlansUtilities.getEscapedPageParameter('refId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refId'));
 
 		List<Id> oIdsList = new List<Id>();
 		if ((oName != null || oName != '') && (oIds != null || oIds != '')) {
@@ -535,9 +535,11 @@ public with sharing class ActionPlanCreationController {
 	 * <br>Decides if we are assigning to multiple parent records or just one
 	 * @return Pagereference called Method
 	 * @see ActionPlanCreationController.save
+	 * @see ActionPlanCreationController.savePageRef
+	 * @see ActionPlanCreationController.saveMultiple
 	 */
-	public PageReference saveHandler() {
-		String oIds = ApexPages.currentPage().getParameters().get('refId');
+	private PageReference saveHandler() {
+		String oIds = ActionPlansUtilities.getEscapedPageParameter('refId');
 		List<Id> oIdsList = new List<Id>();
 
 		if (oIds != null) {
@@ -552,8 +554,9 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Saves Action Plan Instance and tasks and redirects to that detail page
 	 * @return newPage
+	 * @see ActionPlanCreationController.saveAp
 	 */
-	public PageReference savePageRef() {
+	private PageReference savePageRef() {
 		Id newApId;
 		//String ap_Prefix;
 
@@ -586,9 +589,9 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public PageReference cancel() {
 		String objectType = refType;
-		String objectIds = ApexPages.currentPage().getParameters().get('refId');
-		String retURL = ApexPages.currentPage().getParameters().get('retURL');
-		String paramid = this.actionPlan.Id != null ? this.actionPlan.Id : ApexPages.currentPage().getParameters().get('id');
+		String objectIds = ActionPlansUtilities.getEscapedPageParameter('refId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refId'));
+		String retURL = ActionPlansUtilities.getEscapedPageParameter('retURL'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('retURL'));
+		Id paramid = this.actionPlan.Id != null ? this.actionPlan.Id : (Id) ActionPlansUtilities.getEscapedPageParameter('id');
 		String pageRef;
 		String aPlanListUrl;
 
@@ -767,8 +770,11 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public List<APTask__c> getAPTasks() {
 		if (this.apTasks == null || this.apTasks.size() == 0) {
-			if (templateId == null && ApexPages.currentPage().getParameters().get('templateId') != null) {
-				templateId = ApexPages.currentPage().getParameters().get('templateId');
+			if (templateId == null) {
+				System.debug('templateID is null');
+				System.debug('templateId parameter: ' + ApexPages.currentPage().getParameters().get('templateId'));
+				// && ApexPages.currentPage().getParameters().get('templateId') != null
+				templateId = ActionPlansUtilities.getEscapedPageParameter('templateId');
 			}
 
 			if (templateId != null) {
@@ -879,7 +885,7 @@ public with sharing class ActionPlanCreationController {
 	 * @param actionPlanId Parent `ActionPlan__c` Id
 	 * @return All template tasks
 	 */
-	public static List<APTask__c> retrieveTaskFromExistingActionPlan(Id actionPlanId) {
+	private List<APTask__c> retrieveTaskFromExistingActionPlan(Id actionPlanId) {
 		List<APTask__c> myList = [
 			SELECT
 				Subject__c,
@@ -945,15 +951,16 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Set the Refered object to Create New Action Plan
 	 */
-	public void referedObjectInit() {
+	@TestVisible
+	private void referedObjectInit() {
 		String nameParam = '';
 		String idsParam;
 
 		if (refType != null) {
-			nameParam = String.escapeSingleQuotes(refType);
-			idsParam = String.escapeSingleQuotes(refId);
+			nameParam = refType;
+			idsParam = refId;
 
-			if (idsParam != null && idsParam != '') {
+			if (String.isNotBlank(idsParam)) {
 				List<Id> paramList = parseRelatedIDs(idsParam);
 				this.relatedRecordIDs = new Set<Id>(paramList);
 			}
@@ -962,6 +969,13 @@ public with sharing class ActionPlanCreationController {
 		relatedObjNameList = retrieveNameRelatedRecord(relatedRecordIDs, nameParam);
 	}
 
+	/**
+	 * Take related IDs parameter and put into a list if each is an Id.
+	 * <br>Discard invalid IDs
+	 * @author David Schach
+	 * @param  relatedIDs The page URL parameters
+	 * @return            A list (not set) of all related IDs from the URL
+	 */
 	private List<Id> parseRelatedIDs(String relatedIDs) {
 		List<String> paramList = relatedIDs.deleteWhitespace().split(',');
 		List<Id> toReturn = new List<Id>();
@@ -996,6 +1010,7 @@ public with sharing class ActionPlanCreationController {
 			when 'case' {
 				if (CanTheUser.read('Case')) {
 					for (Case ca : [SELECT Subject, CaseNumber FROM Case WHERE Id IN :relatedRecordIDs]) {
+						//NOPMD
 						nameList.add((ca.Subject != null) ? ca.CaseNumber + ': ' + ca.Subject : ca.CaseNumber);
 					}
 				}
@@ -1003,17 +1018,20 @@ public with sharing class ActionPlanCreationController {
 			when 'contract' {
 				if (CanTheUser.read('Contract')) {
 					for (Contract contr : [SELECT ContractNumber FROM Contract WHERE Id IN :relatedRecordIDs]) {
+						//NOPMD
 						nameList.add(Contract.Name.getDescribe().getLabel() + ': ' + contr.ContractNumber);
 					}
 				}
 			}
 			when else {
-				System.debug('checking perms and querying related record for object ' + relatedObjectName);
+				//System.debug('checking perms and querying related record for object ' + relatedObjectName);
 				if (CanTheUser.read(relatedObjectName)) {
-					for (SObject so : Database.query('SELECT Id, Name FROM ' + relatedObjectName + ' WHERE Id IN :relatedRecordIDs')) {
+					for (SObject so : Database.query('SELECT Id, Name FROM ' + String.escapeSingleQuotes(relatedObjectName) + ' WHERE Id IN :relatedRecordIDs')) {
 						//System.debug('adding record name ' + (String)so.get('Name'));
 						nameList.add((String) so.get('Name'));
 					}
+				} else {
+					nameList.add('Related Record');
 				}
 			}
 		}
@@ -1028,7 +1046,8 @@ public with sharing class ActionPlanCreationController {
 	 * @author David Schach
 	 * @return   The list of related object Names (not labels)
 	 */
-	public List<String> relatedObjNameList {
+	@TestVisible
+	private List<String> relatedObjNameList {
 		get {
 			if (relatedObjNameList == null) {
 				relatedObjNameList = new List<String>();
@@ -1098,8 +1117,8 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Check for cyclically dependent tasks
-	 * @param controllingTask The task we are checking
-	 * @param index The index of the task (for referencing the controllign one)
+	 * @param  controllingTask The task we are checking
+	 * @param  index           The index of the task (for referencing the controllign one)
 	 * @return `Boolean` Does this task have a dependency?
 	 */
 	private Boolean dependantCycle(APTask__c controllingTask, Integer index) {
@@ -1139,7 +1158,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Getter method to return the error message
-	 * @return Error message
+	 * @return `String` Error message
 	 */
 	public String getErrorMsg() {
 		System.debug('ERROR MESSAGE: ' + errorMsg);
@@ -1150,7 +1169,7 @@ public with sharing class ActionPlanCreationController {
 	 * Calculates the highest task index value for Action Plan Tasks
 	 * @return maxIndex
 	 */
-	public Double calculateAPTaskIndexValue() {
+	private Double calculateAPTaskIndexValue() {
 		Double maxIndex = 0;
 		List<AggregateResult> arList = [SELECT MAX(TaskIndex__c) m FROM APTask__c WHERE Action_Plan__c = :this.actionPlan.Id];
 		if (!arList.isEmpty()) {
@@ -1164,7 +1183,7 @@ public with sharing class ActionPlanCreationController {
 	 * Calculates the highest task index value for Action Plan Template Tasks
 	 * @return maxIndex
 	 */
-	public Double calculateAPTTaskIndexValue() {
+	private Double calculateAPTTaskIndexValue() {
 		Double maxIndex = 0;
 		List<AggregateResult> arList = [SELECT MAX(TaskIndex__c) m FROM APTemplateTask__c WHERE Action_Plan_Template__c = :this.templateId];
 		if (!arList.isEmpty()) {
@@ -1175,7 +1194,6 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	private List<SelectOption> relatedObjectOptions;
-
 	/**
 	 * Getter method with the related object options by default.
 	 * @return Picklist of all related objects to Action Plan
@@ -1216,7 +1234,7 @@ public with sharing class ActionPlanCreationController {
 			relatedObjectOptions.sort();
 		}
 		if (relatedObjectOptions.isEmpty()) {
-			relatedObjectOptions.add(new SelectOption(ActionPlansUtilities.namespacePrefix + 'Account__c', 'Account'));
+			relatedObjectOptions.add(new SelectOption('Account__c', 'Account')); // * ActionPlansUtilities.namespacePrefix +
 		}
 		return relatedObjectOptions;
 	}
@@ -1238,7 +1256,7 @@ public with sharing class ActionPlanCreationController {
 	 * @return `PageReference` null
 	 */
 	public PageReference refreshRelatedObjectsLookUp() {
-		relatedFieldName = Apexpages.currentPage().getParameters().get('relatedFieldName');
+		relatedFieldName = ActionPlansUtilities.getEscapedPageParameter('relatedFieldName');
 		return null;
 	}
 

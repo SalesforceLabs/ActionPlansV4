@@ -359,6 +359,58 @@ public without sharing class ActionPlansUtilities {
 	}
 
 	/**
+	 * Utility method to check if the page parameters contain a key, and then return the escaped value.
+	 * <br>Used because PMD wants it, and because XSS is a serious problem
+	 * @author David Schach
+	 * @param  paramKey The page parameter key
+	 * @return          `String` Escaped (single quotes escaped) value for that key, if present. Otherwise, null;
+	 */
+	public static String getEscapedPageParameter(String paramKey) {
+		if (ApexPages.currentPage().getParameters().get(paramKey) != null) {
+			String paramValue = ApexPages.currentPage().getParameters().get(paramKey);
+			return String.escapeSingleQuotes(paramValue);
+		}
+		return null;
+	}
+
+	/**
+	 * Does the user have permission to transfer? We query `UserRecordAccess`.
+	 * @author David Schach
+	 * @return   `Boolean` yes/no
+	 */
+	public static Boolean getCanTransfer(Id recordId) {
+		UserRecordAccess ura = [SELECT RecordId, HasTransferAccess, MaxAccessLevel FROM UserRecordAccess WHERE UserId = :UserInfo.getUserId() AND RecordId = :recordId LIMIT 1];
+		System.debug('CAN TRANSFER? ' + ura);
+		return ura.HasTransferAccess;
+	}
+
+	/**
+	 * We can get all the permissions and info required to see if the user can share the record
+	 * <br>RecordOwner, has Full Access, has ModifyAllData
+	 * @author David Schach
+	 * @param  shareObjectName The Share object name, such as `ActionPlan__Share`
+	 * @param  recordId        The recordId of the record in question
+	 * @return                 Can the user share the record?
+	 */
+	public static Boolean canShareRecord(String shareObjectName, Id recordId, Id recordOwnerId) {
+		Boolean hasModifyAllData;
+		for (PermissionSetAssignment psa : [SELECT PermissionSet.PermissionsModifyAllData FROM PermissionSetAssignment WHERE AssigneeId = :UserInfo.getUserId()]) {
+			if (psa.PermissionSet.PermissionsModifyAllData == true) {
+				hasModifyAllData = true;
+			}
+		}
+
+		Map<String, Schema.SObjectType> tokens = Schema.getGlobalDescribe();
+		if (tokens.containsKey('ActionPlan__Share')) {
+			if (recordOwnerId == UserInfo.getUserId() || hasModifyAllData) {
+				return true;
+			}
+		}
+		//Share does not exist custom object is public read write, or user lacks permissions
+		return false;
+	}
+
+	/**
 	 * Verifies that the user is able to add reminders.
 	 * Checks the existence of a reminder setting field of the user object.
 	 * Mathod can be improved by asking for Reminder Options at Activity settings.
@@ -381,9 +433,12 @@ public without sharing class ActionPlansUtilities {
 		if (checkReminderByDefault == null) {
 			checkReminderByDefault = false;
 			if (getCanDisplayReminder()) {
-				String reminderQuery = 'SELECT Name, UserPreferencesTaskRemindersCheckboxDefault FROM User WHERE Id = \'' + UserInfo.getUserId() + '\'';
-				List<SObject> sList = Database.query(reminderQuery);
-				checkReminderByDefault = (Boolean) sList[0].get('UserPreferencesTaskRemindersCheckboxDefault');
+				//String reminderQuery = 'SELECT Name, UserPreferencesTaskRemindersCheckboxDefault FROM User WHERE Id = \'' + UserInfo.getUserId() + '\'';
+				//List<SObject> sList = Database.query(reminderQuery);
+				//checkReminderByDefault = (Boolean) sList[0].get('UserPreferencesTaskRemindersCheckboxDefault');
+
+				User u = [SELECT Name, UserPreferencesTaskRemindersCheckboxDefault FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1]; //NOPMD
+				checkReminderByDefault = u.UserPreferencesTaskRemindersCheckboxDefault;
 			}
 		}
 		return checkReminderByDefault;
