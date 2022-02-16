@@ -20,8 +20,10 @@ coverage/
 # SOQL Query Results
 **/scripts/soql/query-results
 
-# PMD Cache
+# PMD Files
 .pmdCache
+pmd/deploy.csv
+pmd/pmd.csv
 
 # Logs
 logs
@@ -53,14 +55,28 @@ src
 **/layouts/Global*
 **/layouts/Lead*
 **/layouts/Account*
-**/layouts/Contact*
-**/objects/Account/Account.object-meta.xml
-**/objects/Account/fields/
-**/objects/Account/listViews/
-**/objects/Activity/Activity.object-meta.xml
-**/objects/Contact/Contact.object-meta.xml
-**/objects/Contact/fields/
-**/objects/Contact/listViews/
+**/layouts/Task*
+# **/objects/Account/Account.object-meta.xml
+**/objects/Account/
+!**/Account-Account %28Action Plans%29 Layout.layout-meta.xml
+!**/layouts/Task-Task ActionPlans Layout.layout-meta.xml
+**/objects/Activity/**
+!**objects/Activity/fields/
+**/objects/Contact/**
+**/objects/Contract/**
+**/objects/Case/**
+**/objects/Campaign/**
+#**/objects/Contact/Contact.object-meta.xml
+# **/objects/Contact/fields/
+#**/objects/Contact/listViews/
+!**/*Action*.webLink-meta.xml
+
+# Action Plans Objects
+!**/objects/ActionPlan__c/**
+!**/objects/ActionPlanTemplate__c/**
+!**/objects/APTask__c/**
+!**/objects/APTemplateTask__c/**
+
 
 # Salesforce Metadata
 **Custom_Object***
@@ -70,9 +86,3 @@ src
 **/standardValueSets
 **/Translations
 **/listViews/**
-!**/ActionPlanTemplate__c/listViews
-!**/ActionPlan__c/listViews
-!**/Account-Account %28Action Plans%29 Layout.layout-meta.xml
-dev-tools
-pmd/deploy.csv
-pmd/pmd.csv

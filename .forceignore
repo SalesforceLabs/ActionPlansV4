@@ -25,12 +25,17 @@ sfdx-source/LabsActionPlans/main/default/lwc/jsconfig.json
 **/Translations
 **/settings
 **/lwc
-**/objects/Account/Account.object-meta.xml
-**/objects/Account/fields/
-**/objects/Account/listViews/
-**/objects/Contact/listViews/
-**/objects/Contact/fields/
+**/layouts/Contact*
 **/layouts/Global*
+**/layouts/Lead*
+**/layouts/Account*
+**/layouts/Task*
+!**/Account-Account %28Action Plans%29 Layout.layout-meta.xml
+
+**/objects/Account/**
+**/objects/Contact/**
+# !**objects/Account/webLinks/
+!**/*Action*.webLink-meta.xml
 
 # Prevent org changes from being included in local project
 Admin.profile
@@ -42,7 +47,6 @@ TaskType.standardValueSet
 Lead-Lead Layout.layout
 Account-Account Layout.layout
 Global-Global Layout.layout
-Lead.workflow
 *.profile
 *.recordType
 
