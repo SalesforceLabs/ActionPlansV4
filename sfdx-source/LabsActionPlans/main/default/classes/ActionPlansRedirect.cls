@@ -41,24 +41,76 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 public with sharing class ActionPlansRedirect {
 	private APTask__c actionPlanTask;
 	private APTemplateTask__c actionPlanTemplateTask;
+	private ActionPlan__c actionPlan;
+	private ActionPlanTemplate__c actionPlanTemplate;
 	private Id parentId;
+	private Id recordId;
+	public String objName { get; private set; }
 
 	/**
-	 *  Controller. Gets the SObjectType and returns the correct page to display the record view
+	 * Gets the SObjectType and returns the correct object to display the correct values
 	 * @author David Schach
 	 * @param  controller Standard Controller. Accepts any SObject
 	 */
 	public ActionPlansRedirect(ApexPages.StandardController controller) {
 		Id recordId = controller.getId();
 
-		String objName = recordId.getSObjectType().getDescribe().getLocalName();
-		if (objName.equalsIgnoreCase('APTask__c')) {
-			actionPlanTask = (APTask__c) controller.getRecord();
-			parentId = actionPlanTask.Action_Plan__c;
-		} else if (objName.equalsIgnoreCase('APTemplateTask__c')) {
-			actionPlanTemplateTask = (APTemplateTask__c) controller.getRecord();
-			parentId = actionPlanTemplateTask.Action_Plan_Template__c;
+		this.objName = recordId.getSObjectType().getDescribe().getLocalName().toLowerCase();
+
+		switch on objName {
+			when 'aptask__c' {
+				actionPlanTask = (APTask__c) controller.getRecord();
+				parentId = actionPlanTask.Action_Plan__c;
+			}
+			when 'aptemplatetask__c' {
+				actionPlanTemplateTask = (APTemplateTask__c) controller.getRecord();
+				parentId = actionPlanTemplateTask.Action_Plan_Template__c;
+			}
+			when 'actionplan__c' {
+				actionPlan = (ActionPlan__c) controller.getRecord();
+				parentId = actionPlan.Id;
+			}
+			when 'actionplantemplate__c' {
+				actionPlanTemplate = (ActionPlanTemplate__c) controller.getRecord();
+				parentId = actionPlanTemplate.Id;
+			}
 		}
+	}
+
+	/**
+	 * Update the relevant object adn then call cancel so we go back to the record page
+	 * @author David Schach
+	 * @return   {@see ActionPlansRedirect.cancel}
+	 */
+	public PageReference save() {
+		if (objName.equalsIgnoreCase('ActionPlan__c')) {
+			update actionPlan;
+		}
+		if (objName.equalsIgnoreCase('ActionPlanTemplate__c')) {
+			update actionPlanTemplate;
+		}
+		return cancel();
+	}
+
+	/**
+	 * Go back to view the relevant record
+	 * @author David Schach
+	 * @return   Basic pageReference for the parent record
+	 */
+	public PageReference cancel() {
+		PageReference viewPage;
+		if (objName.equalsIgnoreCase('ActionPlan__c')) {
+			update actionPlan;
+			viewPage = Page.ActionPlanDetail;
+			viewPage.getParameters().put('id', actionPlan.Id);
+		}
+		if (objName.equalsIgnoreCase('ActionPlanTemplate__c')) {
+			update actionPlanTemplate;
+			viewPage = Page.ActionPlanTemplateDetail;
+			viewPage.getParameters().put('id', actionPlanTemplate.Id);
+		}
+		viewPage.setRedirect(true);
+		return viewpage;
 	}
 
 	/**

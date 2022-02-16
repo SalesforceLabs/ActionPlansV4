@@ -36,7 +36,8 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<apex:page id="thePage" tabStyle="ActionPlanTemplate__c" standardController="ActionPlanTemplate__c" extensions="ActionPlanTemplateCreationController" lightningStylesheets="true" docType="html-5.0" contentType="text/html" applyBodyTag="false" action="{!onLoad}">
+<apex:page id="thePage" tabStyle="ActionPlanTemplate__c" standardController="ActionPlanTemplate__c" extensions="ActionPlanTemplateCreationController"
+ lightningStylesheets="true" docType="html-5.0" contentType="text/html" applyBodyTag="false" action="{!onLoad}">
 	<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
 
 	<head>
@@ -112,7 +113,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 				<!-- Tasks Section -->
 				<apex:pageBlockSection title="{!$ObjectType.Task.labelPlural}" columns="2" collapsible="false" id="taskDetails">
-					<apex:inputField value="{!ActionPlanTemplate__c.SkipWeekends__c}" id="skipWeekendCheckbox" onclick="checkSkipWeekend('{!$Component.skipWeekendCheckbox}','{!$Component.taskDetails.skipDayPicklist}');" />
+					<apex:inputField value="{!ActionPlanTemplate__c.SkipWeekends__c}" id="skipWeekendCheckbox" onclick="checkSkipWeekend('{!$Component.skipWeekendCheckbox}','{!$Component.taskDetails.skipDayPicklist}');"
+					/>
 
 					<apex:pageBlockSectionItem rendered="{!taskHasRecordType}">
 						<apex:outputLabel>{!$ObjectType.Task.Label}&nbsp;{!$ObjectType.RecordType.Label}&nbsp;</apex:outputLabel>
@@ -134,7 +136,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							<!-- columnClasses="first,second,third,fourth,fifth,sixth, seventh, eighth" styleClass="taskTable cardTable noBump pullTable" -->
 							<!--  Tasks delete actions  -->
 							<apex:column style="vertical-align: middle" headerValue="" id="columnOne" rendered="{!TemplateWrappers.size > 1 && $ObjectType.APTemplateTask__c.deletable}">
-								<apex:commandLink action="{!removeTemplateTask}" id="deleteLink" immediate="{!wrapTask.isLast}" onclick="if (confirmTaskDeletion('{!$Component.taskTable.dependent}', '{!$Label.ap_Confirm_Tasks_Deletion}')) return false;" oncomplete="showErrors();onLoad();" rendered="{!(wrapTask.task.Id != null && $ObjectType.APTemplateTask__c.deletable) || wrapTask.task.Id == null}"
+								<apex:commandLink action="{!removeTemplateTask}" id="deleteLink" immediate="{!wrapTask.isLast}" onclick="if (confirmTaskDeletion('{!$Component.taskTable.dependent}', '{!$Label.ap_Confirm_Tasks_Deletion}')) return false;"
+								 oncomplete="showErrors();onLoad();" rendered="{!(wrapTask.task.Id != null && $ObjectType.APTemplateTask__c.deletable) || wrapTask.task.Id == null}"
 								 rerender="taskList, pageMessages" status="taskStatus">
 									<apex:image url="{!URLFOR($Resource.ActionPlan_Resources, 'ActionPlans_cross.gif')}" alt="{!$Label.ap_Remove}" title="{!$Label.ap_Remove}" />
 									<apex:param name="remove" value="{!wrapTask.position}" />
@@ -148,7 +151,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 							<!--  Tasks depending status  -->
 							<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.TController__c.label}" rendered="{!TemplateWrappers.size > 1}" styleClass="third">
-								<apex:selectList id="dependent" value="{!wrapTask.task.Dependent__c}" multiselect="false" size="1" style="min-width: 85px" onchange="checkDependent('{!$Component.taskTable.dependent}','{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');" styleClass="selectDepending">
+								<apex:selectList id="dependent" value="{!wrapTask.task.Dependent__c}" multiselect="false" size="1" style="min-width: 85px" onchange="checkDependent('{!$Component.taskTable.dependent}','{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');"
+								 styleClass="selectDepending">
 									<apex:selectOptions value="{!TemplateSubjectItems}" />
 								</apex:selectList>
 								<apex:inputHidden value="{!wrapTask.task.TaskIndex__c}" id="theHiddenInput" />
@@ -165,7 +169,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							<apex:column id="userLookup" headerValue="{!$ObjectType.APTemplateTask__c.fields.User__c.label}">
 								<apex:outputPanel layout="block" id="userPanel" style="z-index:9999;">
 									<apex:inputField value="{!wrapTask.task.User__c}" rendered="{!!lex}" />
-									<c:APLightningLookup field="User__c" sObj="{!wrapTask.task}" sObjType="User" for="{!wrapTask.position}rowuserlookup" required="false" where="AND IsActive = true AND ProfileId != null" rendered="{!lex}" fieldStyle="width:100%;" />
+									<c:APLightningLookup field="User__c" sObj="{!wrapTask.task}" sObjType="User" for="{!wrapTask.position}rowuserlookup" required="false" where="AND IsActive = true AND ProfileId != null"
+									 rendered="{!lex}" fieldStyle="width:100%;" />
 								</apex:outputPanel>
 							</apex:column>
 
@@ -199,7 +204,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 									<a id="reminderNone" onclick="javascript:checkReminder(0);" class="all-none">{!$Label.ap_None}</a>
 								</apex:facet>
 								<apex:outputPanel styleClass="reminderColumn" id="reminderCell" style="vertical-align: middle">
-									<apex:inputCheckbox id="reminder" value="{!wrapTask.task.Reminder__c}" style="float: left; display: inline-block; vertical-align: middle" onclick="javascript:enableDisableReminderPicklist(this, '{!$Component.reminderPickList}');" />
+									<apex:inputCheckbox id="reminder" value="{!wrapTask.task.Reminder__c}" style="float: left; display: inline-block; vertical-align: middle" onclick="javascript:enableDisableReminderPicklist(this, '{!$Component.reminderPickList}');"
+									/>
 									<apex:selectList id="reminderPickList" size="1" value="{!wrapTask.task.Minutes_Reminder__c}" style="float: left" disabled="{!!wrapTask.task.Reminder__c}">
 										<apex:selectOptions value="{!hoursOption}" />
 									</apex:selectList>
@@ -210,7 +216,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								<apex:inputField id="commentPanel" style="width: 250px; display: none" value="{!wrapTask.task.Comments__c}" />
 								<div style="clear: left">
 									(&nbsp;
-									<a id="{!wrapTask.position}commentLink" onclick="toggleComments('{!$Component.commentPanel}', '{!$Component.actionLinks}', '{!$Label.ap_Add}', '{!$Label.ap_Edit}','{!$Label.ap_Close}');" style="text-decoration: underline; clear: left">
+									<a id="{!wrapTask.position}commentLink" onclick="toggleComments('{!$Component.commentPanel}', '{!$Component.actionLinks}', '{!$Label.ap_Add}', '{!$Label.ap_Edit}','{!$Label.ap_Close}');"
+									 style="text-decoration: underline; clear: left">
 										<apex:outputPanel id="actionLinks">
 											<apex:outputText rendered="{!wrapTask.task.Comments__c != null}">{!$Label.ap_Edit}</apex:outputText>
 											<apex:outputText rendered="{!wrapTask.task.Comments__c == null}">{!$Label.ap_Add}</apex:outputText>
@@ -222,7 +229,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					</apex:outputPanel>
 
 					<apex:panelGrid columns="2">
-						<apex:commandLink action="{!addTemplateTask}" id="addLink" immediate="false" onclick="console.log('addclick');" oncomplete="checkReminderPicklists();console.log('add completed');" rendered="{!$ObjectType.APTemplateTask__c.createable}" rerender="taskList, pageMessages" status="taskStatus" style="font-weight: bold">
+						<apex:commandLink action="{!addTemplateTask}" id="addLink" immediate="false" onclick="console.log('addclick');" oncomplete="checkReminderPicklists();console.log('add completed');"
+						 rendered="{!$ObjectType.APTemplateTask__c.createable}" rerender="taskList, pageMessages" status="taskStatus" style="font-weight: bold">
 							<apex:outputText value="{!$Label.ap_AddNewTask}" />
 						</apex:commandLink>
 						<apex:actionStatus id="taskStatus">

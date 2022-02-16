@@ -134,7 +134,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * @return newPage
 	 */
 	public PageReference saveTemplate() {
-		// check for pendingDeletes, if something is pending send it to delete
+		// check for pending Deletes; if something is pending send it to delete
 		if (pendingTemplateDeletes != null) {
 			Database.delete(pendingTemplateDeletes);
 		}

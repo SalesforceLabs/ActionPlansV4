@@ -81,4 +81,45 @@ public class ActionPlansRedirectTest {
 		System.debug('CurrentPage ' + cp.getURL());
 		System.assert(cp.getURL().containsIgnoreCase(apttt.Action_Plan_Template__c));
 	}
+
+	@IsTest
+	private static void actionPlanChangeOwner() {
+		//ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		//ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		ActionPlan__c actionPlan = [SELECT Id FROM ActionPlan__c LIMIT 1];
+		//Test.setCurrentPage(Page.ActionPlanDetail);
+		//ActionPlanDetailController apdcc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
+		Test.setCurrentPage(Page.ActionPlanAPOwnerChange);
+		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlan));
+		PageReference pr = apr.save();
+		System.assert(pr.getURL().containsIgnoreCase(actionPlan.Id), 'Should have put Id in view page URL');
+
+		Test.startTest();
+		Test.setCurrentPage(Page.ActionPlanAPOwnerChange);
+		apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlan));
+		pr = apr.cancel();
+		Test.stopTest();
+		System.assert(pr.getURL().containsIgnoreCase(actionPlan.Id), 'Should have put Id in view page URL');
+	}
+
+	@IsTest
+	private static void actionPlanTemplateChangeOwner() {
+		//ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		//ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		ActionPlanTemplate__c actionPlanTemplate = [SELECT Id FROM ActionPlanTemplate__c LIMIT 1];
+		//Test.setCurrentPage(Page.ActionPlanDetail);
+		//ActionPlanDetailController apdcc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
+		Test.setCurrentPage(Page.ActionPlanAPTOwnerChange);
+		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlanTemplate));
+		PageReference pr = apr.cancel();
+		System.assert(pr.getURL().containsIgnoreCase(actionPlanTemplate.Id), 'Should have put Id in view page URL');
+
+		Test.startTest();
+		Test.setCurrentPage(Page.ActionPlanAPTOwnerChange);
+		apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlanTemplate));
+		pr = apr.save();
+		Test.stopTest();
+
+		System.assert(pr.getURL().containsIgnoreCase(actionPlanTemplate.Id), 'Should have put Id in view page URL');
+	}
 }

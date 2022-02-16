@@ -383,7 +383,7 @@ public with sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 *  Create Action Plan Template
+	 *  Create Action Plan Template and Action Plan Template Tasks
 	 * @author David Schach
 	 * @param  numTasks Number of tasks to create
 	 * @return          `ActionPlanTemplate__c` record

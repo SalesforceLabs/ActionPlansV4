@@ -58,6 +58,9 @@ private class ActionPlanDetailControllerTest {
 		System.currentPageReference().getParameters().put('id', actionPlan.Id);
 		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 
+		apDetailController2.getCanTransfer();
+		apDetailController2.getCanShare();
+
 		Test.stopTest();
 		System.assertNotEquals(null, apDetailController2.hasRecordType);
 	}
@@ -76,6 +79,7 @@ private class ActionPlanDetailControllerTest {
 		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 
 		apDetailController2.getRecordTypeName();
+		System.assertEquals(false, apDetailController2.hasControllingTasks);
 
 		Test.stopTest();
 

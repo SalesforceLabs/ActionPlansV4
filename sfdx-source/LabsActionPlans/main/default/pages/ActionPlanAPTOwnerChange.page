@@ -1,0 +1,20 @@
+<apex:page id="changeAPOwner" standardController="ActionPlanTemplate__c" extensions="ActionPlansRedirect" tabStyle="ActionPlanTemplate__c" lightningStylesheets="true"
+ docType="html-5.0" contentType="text/html">
+	<!-- <c:APSectionHeader sObjType="ActionPlanTemplate__c" subtitle="{!$ObjectType.ActionPlanTemplate__c.label}" title="{!ActionPlanTemplate__c.Name}" /> -->
+	<apex:form>
+		<apex:pageBlock title="{!$Label.ap_Change} {!$Label.ap_Owner}" mode="edit">
+			<apex:pageBlockButtons>
+				<apex:commandButton action="{!save}" value="{!$Label.ap_Save}" />
+				<!-- <apex:commandButton action="{!$Page.ActionPlanDetail}?id={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_Cancel}" /> -->
+				<apex:commandButton action="{!cancel}" value="{!$Label.ap_Cancel}" />
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection collapsible="false" columns="1">
+				<apex:outputField value="{!ActionPlanTemplate__c.OwnerId}" />
+				<apex:pageBlockSectionItem>
+					<apex:outputLabel value="{!$Label.ap_New} {!$Label.ap_Owner}" />
+					<apex:inputField value="{!ActionPlanTemplate__c.OwnerId}" required="true" />
+				</apex:pageBlockSectionItem>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

@@ -48,7 +48,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		apTemplate = [SELECT Id, TaskRecordTypeId__c FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
+		apTemplate = [SELECT Id, TaskRecordTypeId__c, OwnerId FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
 
 		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			System.assertNotEquals(null, apTemplate.TaskRecordTypeID__c);
@@ -69,7 +69,8 @@ private class ActionPlanTemplateDetailCntrlTest {
 			System.assertEquals('', apTemplateDetailController.getRecordTypeName());
 		}
 
-		//apTemplateDetailController.getMaxAPTasks();
+		apTemplateDetailController.getCanTransfer();
+		apTemplateDetailController.getCanShare();
 
 		Test.stopTest();
 

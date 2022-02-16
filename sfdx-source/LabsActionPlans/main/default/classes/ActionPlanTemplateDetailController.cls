@@ -176,4 +176,22 @@ public with sharing class ActionPlanTemplateDetailController {
 		parameters.add(destinationName);
 		return String.format(System.Label.ap_XMLSuccess, parameters);
 	}
+
+	/**
+	 * If we have no share object, we don't need to show a Share button
+	 * @author David Schach
+	 * @return   Does the `ActionPlanTemplate__Share` object exist?
+	 */
+	public Boolean getCanShare() {
+		return ActionPlansUtilities.canShareRecord('ActionPlanTemplate__Share', actionPlanTemplate.Id, actionPlanTemplate.OwnerId);
+	}
+
+	/**
+	 * Does the user have permission to transfer? We query `UserRecordAccess` to find out.
+	 * @author David Schach
+	 * @return   `Boolean` yes/no
+	 */
+	public Boolean getCanTransfer() {
+		return ActionPlansUtilities.getCanTransfer(actionPlanTemplate.Id);
+	}
 }
