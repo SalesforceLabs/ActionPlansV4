@@ -73,7 +73,8 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Actions to perform whenever loading a Visualforce page
 	 * <br>Ensures that Custom Setting is created for the org
-	 * @return   PageReference
+	 * <br>Left as this method in case we want to add certain actions to both Creation Visualforce pages in the future
+	 * @return   PageReference (null)
 	 */
 	public static PageReference onPageLoad() {
 		getCustomSetting();
@@ -86,7 +87,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Check the fieldSet for all active Action Plan relationaship fields (available parent objects)
 	 * @author David Schach
-	 * @return   List of field names
+	 * @return   `List<String>` List of field names
 	 */
 	public static List<String> getCustomRelationshipFields() {
 		if (apCustomRelationshipFields == null) {
@@ -128,8 +129,10 @@ public without sharing class ActionPlansUtilities {
 		return obj.getKeyPrefix();
 	}
 
+	/**
+	 * Memoize objects as we describe them, to save on calls
+	 */
 	private static Map<String, Schema.DescribeSObjectResult> prefixToDescribe;
-
 	/**
 	 * Store a map of object prefixes to describe info so we can fill the `ActionPlan__c` related record fields
 	 * @author David Schach
@@ -148,6 +151,9 @@ public without sharing class ActionPlansUtilities {
 		return prefixToDescribe.get(keyPrefix);
 	}
 
+	/**
+	 * Memoize record IDs so we don't have to keep iterating over them if we already have them
+	 */
 	private static Map<Id, String> recordIdToRecordName;
 	/**
 	 * Give a set of recordIDs and retrrieve the related record names
@@ -308,6 +314,9 @@ public without sharing class ActionPlansUtilities {
 		}
 		return taskRTs;
 	}
+	/**
+	 * Memoized picklist of `Task` Record Types
+	 */
 	private static List<SelectOption> taskRTs;
 
 	/**
@@ -508,10 +517,6 @@ public without sharing class ActionPlansUtilities {
 		if (checkReminderByDefault == null) {
 			checkReminderByDefault = false;
 			if (getCanDisplayReminder()) {
-				//String reminderQuery = 'SELECT Name, UserPreferencesTaskRemindersCheckboxDefault FROM User WHERE Id = \'' + UserInfo.getUserId() + '\'';
-				//List<SObject> sList = Database.query(reminderQuery);
-				//checkReminderByDefault = (Boolean) sList[0].get('UserPreferencesTaskRemindersCheckboxDefault');
-
 				User u = [SELECT Name, UserPreferencesTaskRemindersCheckboxDefault FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1]; //NOPMD
 				checkReminderByDefault = u.UserPreferencesTaskRemindersCheckboxDefault;
 			}
@@ -605,13 +610,11 @@ public without sharing class ActionPlansUtilities {
 			// limits are exhausted then System.HandledException is thrown
 			try {
 				Messaging.reserveSingleEmailCapacity(1);
-
 				orgCanSendEmails = true;
 			} catch (Exception e) {
 				orgCanSendEmails = false;
 			}
 		}
-
 		return orgCanSendEmails;
 	}
 
@@ -619,7 +622,7 @@ public without sharing class ActionPlansUtilities {
 	 * Given a date, give the English day of the week
 	 * @author David Schach
 	 * @param  d The given date
-	 * @return   The day of hte week in English
+	 * @return   `String` The day of hte week in English
 	 */
 	public static String getDayOfWeek(Date d) {
 		Date monday = Date.newInstance(1900, 1, 1);
@@ -630,7 +633,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Map of day of week (as number) to English day
 	 */
-	public static Map<Integer, String> dayOfWeekEnglish = new Map<Integer, String>{ 0 => 'Monday', 1 => 'Tuesday', 2 => 'Wednesday', 3 => 'Thursday', 4 => 'Friday', 5 => 'Saturday', 6 => 'Sunday' };
+	private static Map<Integer, String> dayOfWeekEnglish = new Map<Integer, String>{ 0 => 'Monday', 1 => 'Tuesday', 2 => 'Wednesday', 3 => 'Thursday', 4 => 'Friday', 5 => 'Saturday', 6 => 'Sunday' };
 
 	/**
 	 * Get the Custom Metadata record for the weekend day
