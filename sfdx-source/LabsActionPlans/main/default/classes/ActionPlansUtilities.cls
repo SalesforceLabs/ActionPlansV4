@@ -62,7 +62,7 @@ public without sharing class ActionPlansUtilities {
 		get {
 			if (ActionPlansTestUtilities.forceHasRecordType != null) {
 				return ActionPlansTestUtilities.forceHasRecordType;
-			} else {
+			} else if (taskUsesRecordTypes == null) {
 				ActionPlansTestUtilities.forceHasRecordType = Task.sObjectType.getDescribe().fields.getMap().containsKey('recordtypeid');
 			}
 			return ActionPlansTestUtilities.forceHasRecordType;
@@ -128,6 +128,78 @@ public without sharing class ActionPlansUtilities {
 		return obj.getKeyPrefix();
 	}
 
+	private static Map<String, Schema.DescribeSObjectResult> prefixToDescribe;
+
+	/**
+	 * Store a map of object prefixes to describe info so we can fill the `ActionPlan__c` related record fields
+	 * @author David Schach
+	 * @param  recordId recordId description
+	 * @return          return description
+	 */
+	public static Schema.DescribeSObjectResult getRelatedRecordInfo(Id recordId) {
+		if (prefixToDescribe == null) {
+			prefixToDescribe = new Map<String, Schema.DescribeSObjectResult>();
+		}
+		String recordIdString = (String) recordId;
+		String keyPrefix = recordIdString.left(3);
+		if (!prefixToDescribe.containsKey(keyPrefix)) {
+			prefixToDescribe.put(keyPrefix, recordId.getSobjectType().getDescribe());
+		}
+		return prefixToDescribe.get(keyPrefix);
+	}
+
+	private static Map<Id, String> recordIdToRecordName;
+	/**
+	 * Give a set of recordIDs and retrrieve the related record names
+	 * @author David Schach
+	 * @param  recordIDs Set<Id> of parent records to Action Plans
+	 * @return           Map of RecordID to Record Name (special for Case & Contract)
+	 */
+	public static Map<Id, String> queryRecordIDToRecordName(Set<Id> recordIDs) {
+		if (recordIdToRecordName == null) {
+			recordIdToRecordName = new Map<Id, String>();
+		}
+		Map<String, Set<Id>> mapIDsByObject = new Map<String, Set<Id>>();
+		Set<Id> idsToQuery = new Set<Id>();
+		for (Id recId : recordIDs) {
+			if (recordIdToRecordName.containsKey(recId)) {
+				continue;
+			} else {
+				idsToQuery.add(recId);
+			}
+			String objectName = getRelatedRecordInfo(recId).getName().toLowerCase();
+			if (!mapIDsByObject.containsKey(recId)) {
+				mapIDsByObject.put(objectName, new Set<Id>());
+			}
+			mapIDsByObject.get(objectName).add(recId);
+		}
+
+		for (String objName : mapIDsByObject.keySet()) {
+			switch on objName {
+				when 'case' {
+					for (Case ca : [SELECT Subject, CaseNumber FROM Case WHERE Id IN :mapIDsByObject.get('case')]) {
+						//NOPMD
+						recordIdToRecordName.put(ca.Id, ((ca.Subject != null) ? ca.CaseNumber + ': ' + ca.Subject : ca.CaseNumber));
+					}
+				}
+				when 'contract' {
+					for (Contract contr : [SELECT ContractNumber FROM Contract WHERE Id IN :mapIDsByObject.get('contract')]) {
+						//NOPMD
+						recordIdToRecordName.put(contr.Id, (Contract.Name.getDescribe().getLabel() + ': ' + contr.ContractNumber));
+					}
+				}
+				when else {
+					Set<Id> queryIDs = mapIDsByObject.get(objName); //NOPMD
+					List<SObject> genericQueryResults = Database.query('SELECT Id, Name FROM ' + String.escapeSingleQuotes(objName) + ' WHERE Id IN :queryIDs'); //NOPMD
+					for (SObject so : genericQueryResults) {
+						recordIdToRecordName.put((Id) so.get('Id'), ((String) so.get('Name')));
+					}
+				}
+			}
+		}
+		return recordIdToRecordName;
+	}
+
 	/**
 	 * Lazy load task record types to reduce queries
 	 * @return A list of all Task `RecordType` records
@@ -136,6 +208,7 @@ public without sharing class ActionPlansUtilities {
 		if (taskRecordTypes == null) {
 			String taskRTQuery = 'SELECT Id, IsActive, Name FROM RecordType WHERE SObjectType = \'Task\' AND IsActive = true ORDER BY Name ASC';
 			taskRecordTypes = Database.query(taskRTQuery);
+			System.debug('TASKRECORDTYPES: ' + taskRecordTypes);
 		}
 		return taskRecordTypes;
 	}
@@ -143,7 +216,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Generate Map of Record Type Id to default Task Status
-	 * @return Default Status for each Task `RecordType`
+	 * @return Default Status for each Task `RecordType` Id
 	 */
 	public static Map<Id, String> getTaskRecordTypeStatusDefaultValues() {
 		if (taskRecordTypeStatusDefaultValues == null) {
@@ -204,7 +277,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Find user default recordtype
-	 * @return Default `RecordType` Name
+	 * @return Default `RecordType` Id
 	 */
 	public static String getDefaultTaskRecordTypeId() {
 		String toReturn = null;
@@ -412,9 +485,9 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Verifies that the user is able to add reminders.
-	 * Checks the existence of a reminder setting field of the user object.
-	 * Mathod can be improved by asking for Reminder Options at Activity settings.
-	 * Does not query if the user wants reminders by default
+	 * <br>Checks the existence of a reminder setting field of the user object.
+	 * <br>Mathod can be improved by asking for Reminder Options at Activity settings.
+	 * <br>Does not query if the user wants reminders by default.
 	 * @return if the user has access to reminders
 	 */
 	public static Boolean getCanDisplayReminder() {
@@ -462,23 +535,31 @@ public without sharing class ActionPlansUtilities {
 	}
 	private static String defaultMinutesForReminderTime;
 
+	private static Action_Plans_Settings__c apSettings;
 	/**
 	 * Get the "Default" Custom Setting and return it.
 	 * @return cSetting
 	 */
 	public static Action_Plans_Settings__c getCustomSetting() {
-		Action_Plans_Settings__c instance;
-		instance = Action_Plans_Settings__c.getOrgDefaults();
-		if (instance.Id == null) {
-			instance = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
-			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
-			instance.Default_Object_on_Lead_Conversion__c = 'Contact';
-			instance.Unassigned_Task_Default_to_Owner__c = (Boolean) Action_Plans_Settings__c.Unassigned_Task_Default_to_Owner__c.getDescribe().getDefaultValue();
-			instance.Chatter_Object_Brag__c = (Boolean) Action_Plans_Settings__c.Chatter_Object_Brag__c.getDescribe().getDefaultValue();
-		} else {
-			instance = Action_Plans_Settings__c.getInstance();
+		if (apSettings != null) {
+			return apSettings;
 		}
-		return instance;
+		apSettings = Action_Plans_Settings__c.getOrgDefaults();
+		if (apSettings.Id == null) {
+			apSettings = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
+			apSettings.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
+			apSettings.Default_Object_on_Lead_Conversion__c = 'Contact';
+			apSettings.Unassigned_Task_Default_to_Owner__c = (Boolean) Action_Plans_Settings__c.Unassigned_Task_Default_to_Owner__c.getDescribe().getDefaultValue();
+			apSettings.Chatter_Object_Brag__c = (Boolean) Action_Plans_Settings__c.Chatter_Object_Brag__c.getDescribe().getDefaultValue();
+			try {
+				upsert apSettings;
+			} catch (DMLException e) {
+				update apSettings;
+			}
+		} else {
+			apSettings = Action_Plans_Settings__c.getInstance();
+		}
+		return apSettings;
 	}
 
 	/**
@@ -494,15 +575,17 @@ public without sharing class ActionPlansUtilities {
 	 * Single method to shorten long strings to the dynamically described character length of record name field
 	 * @param subject the long string
 	 * @param maxChars the maximum length allowed for Action Plan Subject
-	 * @return the full string or shortened if longer than max characters
+	 * @return the full string (or shortened if longer than max characters)
 	 */
 	public static String actionPlanSubjectToName(String subject, Integer maxChars) {
-		if (subject == null) {
+		if (String.isBlank(subject)) {
 			System.debug('NULL SUBJECT');
-			return null;
+			return '';
 		}
 		if (subject.trim().length() > maxChars) {
 			return subject.left(maxChars - 3).trim() + '...';
+		} else if (subject.trim().length() < maxChars - 3) {
+			return subject.left(maxChars - 3).trim() + ' - ';
 		}
 		return subject;
 	}

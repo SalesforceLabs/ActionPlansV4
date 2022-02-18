@@ -164,6 +164,41 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
+	private static void testSetTaskRecordType() {
+		ActionPlansTestUtilities.forceHasRecordType = true;
+
+		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
+		//ActionPlanTemplate__c apTemplate = testutil.createNewActionPlanTemplate('contact', 2);
+
+		Test.startTest();
+		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
+		//ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
+		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(new ActionPlanTemplate__c()));
+
+		aptcc.actionPlanTemplate.Name = testutil.createRandomWord('APName');
+		aptcc.actionPlanTemplate.OwnerId = Userinfo.getUserId();
+		aptcc.actionPlanTemplate.TaskRecordTypeID__c = aptcc.getDefaultTaskRecordTypeId();
+		aptcc.actionPlanTemplate.SkipWeekends__c = true;
+		aptcc.actionPlanTemplate.SkipDay__c = 'Start of next week';
+
+		APTemplateTask__c newAPTTask = new APTemplateTask__c();
+		newAPTTask.DaysFromStart__c = 1;
+		newAPTTask.User__c = UserInfo.getUserId();
+		newAPTTask.Type__c = 'Meeting';
+		newAPTTask.Minutes_Reminder__c = '510';
+		aptcc.aptTasks.clear();
+		aptcc.aptTasks.add(newAPTTask);
+
+		aptcc.getTemplateWrappers();
+		PageReference pr = aptcc.saveTemplate();
+		/* ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(aptcc.actionPlanTemplate, apTasks, null, new Set<Id>());
+		 taskBatch.generateActionPlans(); */
+
+		Test.stopTest();
+		System.assertEquals(1, aptcc.getTemplateTaskSize());
+	}
+
+	@IsTest
 	private static void testForceNoRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
 
@@ -175,7 +210,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(5);
 
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
-
+		aptcc.getTemplateWrappers();
 		Test.stopTest();
 
 		System.assertEquals(false, aptcc.taskHasRecordType);

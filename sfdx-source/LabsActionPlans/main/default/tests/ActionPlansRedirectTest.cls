@@ -84,11 +84,7 @@ public class ActionPlansRedirectTest {
 
 	@IsTest
 	private static void actionPlanChangeOwner() {
-		//ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		//ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
 		ActionPlan__c actionPlan = [SELECT Id FROM ActionPlan__c LIMIT 1];
-		//Test.setCurrentPage(Page.ActionPlanDetail);
-		//ActionPlanDetailController apdcc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		Test.setCurrentPage(Page.ActionPlanAPOwnerChange);
 		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlan));
 		PageReference pr = apr.save();
@@ -104,11 +100,7 @@ public class ActionPlansRedirectTest {
 
 	@IsTest
 	private static void actionPlanTemplateChangeOwner() {
-		//ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		//ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
 		ActionPlanTemplate__c actionPlanTemplate = [SELECT Id FROM ActionPlanTemplate__c LIMIT 1];
-		//Test.setCurrentPage(Page.ActionPlanDetail);
-		//ActionPlanDetailController apdcc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		Test.setCurrentPage(Page.ActionPlanAPTOwnerChange);
 		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlanTemplate));
 		PageReference pr = apr.cancel();

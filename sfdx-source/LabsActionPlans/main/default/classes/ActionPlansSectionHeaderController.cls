@@ -100,7 +100,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 			if (sObjectName == tr.getSobjectName()) {
 				if (!tr.getIcons().isEmpty()) {
 					iconDesc.addAll(tr.getIcons());
-				} else {
+				} /* else {
 					if (tr.isCustom() == true) {
 						iconStyle = 'slds-icon-standard-record';
 						iconURL = '/img/icon/t4v35/standard/record_120.png';
@@ -109,17 +109,19 @@ public inherited sharing class ActionPlansSectionHeaderController {
 						iconStyle = 'slds-icon-standard-' + sObjectName.toLowerCase();
 						iconURL = '/img/icon/t4v35/standard/' + sObjectName.toLowerCase() + '_120.png';
 					}
-				}
+				} */
+				break;
 			}
 		}
 		for (Schema.DescribeIconResult ir : iconDesc) {
-			if (ir.getTheme() == 'custom' && !ir.getContentType().startsWith('image/svg')) {
+			/* if (ir.getTheme() == 'custom' && !ir.getContentType().startsWith('image/svg')) {
 				//custom icon thats not an svg
 				iconTag = 'custom';
 				iconURL = ir.getURL();
 				iconStyle = 'slds-icon-standard-record';
 				break;
-			} else if (ir.getWidth() == 120 && ir.getTheme() == 'theme4' && ir.getContentType() == 'image/png') {
+			} else */
+			if (ir.getWidth() == 120 && ir.getTheme() == 'theme4' && ir.getContentType() == 'image/png') {
 				//large lightning icon image
 				if (ir.getURL().contains('/custom/')) {
 					//Icon is from the Custom Sprite

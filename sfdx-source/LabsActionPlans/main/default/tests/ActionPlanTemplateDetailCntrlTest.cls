@@ -78,6 +78,28 @@ private class ActionPlanTemplateDetailCntrlTest {
 	}
 
 	@IsTest
+	private static void testForceRecordType() {
+		ActionPlansTestUtilities.forceHasRecordType = true;
+
+		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
+
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
+
+		apTemplate = [SELECT Id, TaskRecordTypeId__c FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
+		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+
+		Test.startTest();
+
+		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
+
+		Test.stopTest();
+
+		System.assertEquals(true, apTemplateDetailController.taskHasRecordType);
+		System.assertNotEquals(null, apTemplateDetailController.getRecordTypeName());
+	}
+
+	@IsTest
 	private static void testForceNoRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
 
@@ -96,6 +118,24 @@ private class ActionPlanTemplateDetailCntrlTest {
 		Test.stopTest();
 
 		System.assertEquals('', apTemplateDetailController.getRecordTypeName());
+	}
+
+	@IsTest
+	private static void checkNoTasks() {
+		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
+
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(0);
+
+		Test.startTest();
+
+		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
+		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
+
+		Test.stopTest();
+
+		System.assert(apTemplateDetailController.getTemplateTasks().isEmpty());
 	}
 
 	@IsTest

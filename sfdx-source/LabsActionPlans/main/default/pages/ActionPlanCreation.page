@@ -136,7 +136,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<!-- reRender="pageMessages" onclick="setTimeout('disableActions();', 50);" oncomplete="enableActions();" -->
 				</apex:pageBlockButtons>
 
-				<apex:pageBlockSection title="{!$ObjectType.ActionPlanTemplate__c.label}" columns="2" collapsible="false" rendered="{!DisplayTemplateLookup}">
+				<apex:pageBlockSection title="{!$ObjectType.ActionPlanTemplate__c.label}" columns="2" collapsible="false" rendered="{!DisplayTemplateLookup && $ObjectType.ActionPlanTemplate__c.accessible}">
 					<apex:pageBlockSectionItem rendered="{!!lex}">
 						<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" for="templateLookup" />
 						<apex:inputField id="templateLookup" required="false" value="{!ActionPlan__c.Action_Plan_Template__c}" onchange="javascript:reloadActionPlan('{!JSINHTMLENCODE(ActionPlan__c.Action_Plan_Template__c)}', document.getElementById('{!$Component.templateLookup}' + '_lkid').value);">
@@ -187,7 +187,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 										j$(recInfoIdInput).val(recId);
 										j$('[id$=SrchTmpltDrpDwn]').fadeOut();
 										//ID Based Retrieval Instead Of Query to Get Record Details Of The Selected Record
-										result = sforce.connection.retrieve('Name,Id', 'ActionPlanTemplate__c', [recId]);
+										result = sforce.connection.retrieve('Name,Id', '{!NamespacePrefix}ActionPlanTemplate__c', [recId]);
 										j$('#sldsscopediv [id$=searchtemplateinput]').val(result[0].Name);
 										//reloadActionPlan('{!JSINHTMLENCODE(ActionPlan__c.Action_Plan_template__c)}', recId);
 										reloadActionPlan(oldTemplateId, result[0].Id);
@@ -199,8 +199,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 										if (searchKey == '') {
 											j$('#' + key.attr('aria-activedescendant')).hide();
 										}
+										var namespace = "{!NamespacePrefix}";
 										//Querying For Records In Objects Name Matching The Input in The Text Field
-										var queryText = "SELECT Id, Name FROM ActionPlanTemplate__c WHERE Name LIKE '%" + searchKey + "%' ORDER BY Name ASC LIMIT 10";
+										var queryText = "SELECT Id, Name FROM " + namespace + "ActionPlanTemplate__c WHERE Name LIKE '%" + searchKey + "%' ORDER BY Name ASC LIMIT 10";
 										result = sforce.connection.query(queryText);
 										records = result.getArray('records');
 										var searchList = '';
@@ -395,7 +396,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 										<img class="helpOrb" title="{!$ObjectType.APTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
 									</span>
 								</apex:facet>
-								<apex:inputField id="daysFromStart" value="{!wrapTask.apt.DaysFromStart__c}" styleClass="daysInput" style="width: 50%" rendered="{!!wrapTask.apt.IsClosed__c}"
+								<apex:inputField id="daysFromStart" required="true" value="{!wrapTask.apt.DaysFromStart__c}" styleClass="daysInput" style="width: 50%" rendered="{!!wrapTask.apt.IsClosed__c}"
 								/>
 								<apex:outputField value="{!wrapTask.apt.DaysFromStart__c}" styleClass="daysInput" rendered="{!wrapTask.apt.IsClosed__c}" />
 								<apex:inputField id="activityDate" value="{!wrapTask.apt.ActivityDate__c}" rendered="false" />

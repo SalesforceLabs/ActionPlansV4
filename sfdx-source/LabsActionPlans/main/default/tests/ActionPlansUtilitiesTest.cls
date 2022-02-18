@@ -387,6 +387,23 @@ private class ActionPlansUtilitiesTest {
 		System.assert(testUtil.createRandomWord('testword') != testUtil.createRandomWord());
 	}
 
+	@IsTest
+	static void testUtilitiesRecordTypes() {
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
+			if (ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType() != null) {
+				String taskQuery = 'SELECT Id, RecordTypeId FROM Task';
+
+				for (SObject t : Database.query(taskQuery)) {
+					System.debug([SELECT Id, Name FROM RecordType WHERE Id = :(Id) t.get('RecordTypeId')].Name); //NOPMD
+					System.assertNotEquals(ActionPlansUtilities.getDefaultTaskRecordTypeId(), t.get('RecordTypeId'), 'Record Type is default');
+				}
+			}
+			System.assertNotEquals(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
+		} else {
+			System.assertEquals(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
+		}
+	}
+
 	/**
 	 * Helper method to create `APTask__c` record for an `ActionPlan__c`
 	 * @author David Schach

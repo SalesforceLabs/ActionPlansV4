@@ -269,12 +269,27 @@ private class ActionPlanCreationControllerTest {
 		Test.startTest();
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+		apCreateController.save();
+		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+
+		System.assertEquals(0, apCreateController.getCompleted(), 'Action plan task completed count is incorrect');
+
+		Task openTask = [SELECT Id, IsClosed, Status FROM Task LIMIT 1];
+		for (String s : ActionPlansUtilities.getClosedTaskStatuses()) {
+			try {
+				openTask.Status = s;
+				update openTask; //NOPMD
+				break;
+			} catch (Exception e) {
+				continue;
+			}
+		}
+		update openTask;
+		Test.stopTest();
+		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
 		Integer numTasksComplete = apCreateController.getCompleted();
-
-		System.assert(numTasksComplete == 0, 'Action plan task completed count is incorrect');
-
-		Test.stopTest();
+		System.assertEquals(1, numTasksComplete, 'The completed Task should have been reflected in the Action Plan');
 	}
 
 	@IsTest
@@ -617,42 +632,59 @@ private class ActionPlanCreationControllerTest {
 
 	@IsTest
 	private static void testSetTaskRecordType() {
-		Test.startTest();
+		ActionPlansTestUtilities.forceHasRecordType = true;
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-
-		Test.setCurrentPage(Page.ActionPlanCreation);
-
 		ActionPlan__c ap = testutil.createNewActionPlan('contact', 5);
 
+		Test.startTest();
+		Test.setCurrentPage(Page.ActionPlanCreation);
 		ApexPages.currentPage().getParameters().put('id', ap.Id);
-		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(ap));
+		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(new ActionPlan__c()));
 
+		apCreateController.actionPlan.Name = testutil.createRandomWord('APName');
+		apCreateController.actionPlan.StartDate__c = Date.today();
+		apCreateController.actionPlan.OwnerId = Userinfo.getUserId();
 		apCreateController.refreshRelatedObjectsLookUp();
-		apCreateController.actionPlan.TaskRecordTypeID__c = ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType();
+		apCreateController.actionPlan.TaskRecordTypeID__c = apCreateController.getDefaultTaskRecordTypeId();
 		apCreateController.actionPlan.SkipWeekends__c = true;
 		apCreateController.actionPlan.SkipDay__c = 'Start of next week';
-		apCreateController.getTasks();
 
-		System.assert(!apCreateController.getTasks().isEmpty());
+		APTask__c newAPTask = apCreateController.addTask();
+		newAPTask.Subject__c = testutil.createRandomWord('subject');
+		newAPTask.DaysFromStart__c = 1;
+		newAPTask.User__c = UserInfo.getUserId();
+		newAPTask.Type__c = 'Meeting';
+		newAPTask.Priority__c = 'Normal';
+		newAPTask.Minutes_Reminder__c = '510';
+		apCreateController.apTasks.add(newAPTask);
 
 		apCreateController.save();
+		/* ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(apCreateController.actionPlan, apTasks, null, new Set<Id>());
+		 taskBatch.generateActionPlans(); */
 
 		Test.stopTest();
+		APTask__c testAPTask = [SELECT Id, Task_RecordTypeId__c, Action_Plan__c FROM APTask__c LIMIT 1];
+		System.assertNotEquals(null, testAPTask.Task_RecordTypeId__c, 'Even a master record type should have been set');
+		System.assertNotEquals(null, testAPTask.Action_Plan__c, 'The APTask requires an Action Plan');
+	}
 
-		if (ActionPlansUtilities.taskUsesRecordTypes) {
-			if (ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType() != null) {
-				String taskQuery = 'SELECT Id, RecordTypeId FROM Task';
+	@IsTest
+	private static void testForceRecordTypes() {
+		ActionPlansTestUtilities.forceHasRecordType = true;
 
-				for (SObject t : Database.query(taskQuery)) {
-					System.debug([SELECT Id, Name FROM RecordType WHERE Id = :(Id) t.get('RecordTypeId')].Name); //NOPMD
-					System.assertNotEquals(ActionPlansUtilities.getDefaultTaskRecordTypeId(), t.get('RecordTypeId'), 'Record Type is default');
-				}
-			}
-			System.assertNotEquals(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
-		} else {
-			System.assertEquals(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
-		}
+		System.debug('hasrt: ' + ActionPlansUtilities.taskUsesRecordTypes);
+		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
+		ActionPlan__c actionPlan = testutil.createNewActionPlan('contact', 2);
+
+		Test.startTest();
+		Test.setCurrentPage(Page.ActionPlanCreation);
+		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
+		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+
+		Test.stopTest();
+		//System.assertEquals(null, apCreateController.getDefaultTaskRecordTypeId());
+		System.assert(apCreateController.taskHasRecordType);
 	}
 
 	@IsTest

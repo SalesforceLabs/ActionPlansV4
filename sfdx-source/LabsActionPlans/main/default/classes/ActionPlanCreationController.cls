@@ -131,7 +131,7 @@ public with sharing class ActionPlanCreationController {
 		}
 
 		this.canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
-		this.taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
+		//this.taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
 
 		this.relatedFieldName = getRelatedObjectOptions()[0].getValue();
 	}
@@ -207,13 +207,13 @@ public with sharing class ActionPlanCreationController {
 		this.actionPlan.Name = ActionPlansUtilities.actionPlanSubjectToName(actionPlanTemplate.Name);
 		this.actionPlan.Description__c = actionPlanTemplate.Description__c;
 		this.actionPlan.SkipWeekends__c = actionPlanTemplate.SkipWeekends__c;
-		this.actionPlan.SkipDay__c = actionPlanTemplate.SkipDay__c;
+		this.actionPlan.SkipDay__c = actionPlanTemplate.SkipDay__c == null ? '' : actionPlanTemplate.SkipDay__c;
 		this.actionPlan.Action_Plan_Template__c = actionPlanTemplate.Id;
 		this.actionPlan.TaskRecordTypeID__c = actionPlanTemplate.TaskRecordTypeID__c;
 
 		if (visualforceContext) {
 			this.taskIndex = this.calculateAPTTaskIndexValue();
-			this.subtitle = System.Label.ap_New + ' ' + Schema.getGlobalDescribe().get(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c').getDescribe().getLabel();
+			this.subtitle = System.Label.ap_New + ' ' + Schema.getGlobalDescribe().get(getNamespacePrefix() + 'ActionPlan__c').getDescribe().getLabel();
 		}
 		this.apTasks = this.getAPTasks();
 	}
@@ -231,7 +231,7 @@ public with sharing class ActionPlanCreationController {
 			this.hasRelated = true;
 			this.referedObjectInit();
 		}
-		this.subtitle = System.Label.ap_New + ' ' + Schema.getGlobalDescribe().get(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c').getDescribe().getLabel();
+		this.subtitle = System.Label.ap_New + ' ' + Schema.getGlobalDescribe().get(getNamespacePrefix() + 'ActionPlan__c').getDescribe().getLabel();
 	}
 
 	/**
@@ -643,8 +643,9 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Creates a blank `APTask__c` record and adds it to apTasks
+	 * @return the `APTask__c` we are adding
 	 */
-	public void addTask() {
+	public APTask__c addTask() {
 		this.taskIndex++;
 
 		Boolean hasError = false;
@@ -653,6 +654,7 @@ public with sharing class ActionPlanCreationController {
 			parameters.add(String.valueof(ActionPlansUtilities.MAX_APTASKS));
 
 			errorMsg = String.format(System.Label.ap_Errors_TaskLimitError, parameters);
+			return null;
 		} else {
 			APTask__c t = new APTask__c();
 			t.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
@@ -668,6 +670,7 @@ public with sharing class ActionPlanCreationController {
 			if (!hasError) {
 				this.apTasks.add(t);
 			}
+			return t;
 		}
 	}
 
@@ -717,8 +720,8 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * Method that retrieves all AP tasks for a Action Plan
-	 * @return  The `List<ApTaskWrapper>` of AP Task Wrappers
+	 * Method that retrieves all AP tasks for a Action Plan for Visualforce Page
+	 * @return  The `List<ApTaskWrapper>` of AP Task Wrappers for Visualforce Page
 	 */
 	public List<ApTaskWrapper> getTasks() {
 		List<ApTaskWrapper> tasksList = new List<ApTaskWrapper>();
@@ -1234,7 +1237,7 @@ public with sharing class ActionPlanCreationController {
 			relatedObjectOptions.sort();
 		}
 		if (relatedObjectOptions.isEmpty()) {
-			relatedObjectOptions.add(new SelectOption('Account__c', 'Account')); // * ActionPlansUtilities.namespacePrefix +
+			relatedObjectOptions.add(new SelectOption(getNamespacePrefix() + 'Account__c', 'Account'));
 		}
 		return relatedObjectOptions;
 	}
@@ -1322,6 +1325,14 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public List<SelectOption> getHoursOption() {
 		return ActionPlansUtilities.getHoursOption();
+	}
+
+	/**
+	 * Retrieve the Namespace Prefix in case we are in a managed package. Needed for the JavaScript in the page
+	 * @return `String` Namespace Prefix (LabsActionPlans or empty string)
+	 */
+	public String getNamespacePrefix() {
+		return ActionPlansUtilities.namespacePrefix;
 	}
 
 	/**
