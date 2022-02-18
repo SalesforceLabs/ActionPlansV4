@@ -69,10 +69,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 					<apex:outputText value="{!ActionPlan__c.Name}" />
 					<apex:outputText>&nbsp;</apex:outputText>
 					<apex:outputText value="{!$Label.ap_Owner}" />
-					<apex:outputField value="{!ActionPlan__c.Owner.Name}" />
-
-					<apex:outputText value="{!RelatedObjectLabel}" />
-					<apex:outputText>{!relatedRecordName}</apex:outputText>
+					<apex:outputField value="{!ActionPlan__c.OwnerId}" />
+					<apex:outputText value="{!relatedObjectLabel}" />
+					<apex:outputText value="{!relatedRecordName}" />
 					<apex:outputText>&nbsp;</apex:outputText>
 					<apex:outputText value="{!$ObjectType.ActionPlan__c.fields.StartDate__c.label}" />
 					<apex:outputField value="{!ActionPlan__c.StartDate__c}" />
@@ -88,7 +87,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 					<apex:outputText>&nbsp;</apex:outputText>
 					<apex:outputText value="{!$ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.label}" rendered="{!(ActionPlan__c.Action_Plan_Template__c != null)}"
 					/>
-					<apex:outputText rendered="{!(ActionPlan__c.Action_Plan_Template__c != null)}">{!ActionPlan__c.Action_Plan_Template__r.Name}</apex:outputText>
+					<apex:outputText rendered="{!(ActionPlan__c.Action_Plan_Template__c != null)}">
+						{!ActionPlan__c.Action_Plan_Template__r.Name}</apex:outputText>
 					<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.TaskRecordTypeID__c.label}" rendered="{!ActionPlan__c.Action_Plan_Template__c == null && hasRecordType}"
 					/>
 					<apex:outputText value="{!RecordTypeName}" rendered="{!ActionPlan__c.Action_Plan_Template__c == null && hasRecordType}" />

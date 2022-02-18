@@ -310,4 +310,11 @@ public with sharing class ActionPlanDetailController {
 	public Boolean getCanTransfer() {
 		return ActionPlansUtilities.getCanTransfer(actionPlan.Id);
 	}
+
+	public PageReference print() {
+		PageReference pr = Page.ActionPlanPrint;
+		pr.getParameters().put('id', actionPlan.Id);
+		pr.setRedirect(true);
+		return pr;
+	}
 }
