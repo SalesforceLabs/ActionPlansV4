@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @since 2011
  * @group Utilities
  */
-public with sharing class ActionPlansTestUtilities {
+public inherited sharing class ActionPlansTestUtilities {
 	/**
 	 * Used in testing - we force an Error during tests
 	 */
@@ -62,7 +62,7 @@ public with sharing class ActionPlansTestUtilities {
 	/**
 	 * Random words are required for testing, as you will likely run into any word I can insert
 	 * during a test class and produce false test results.
-	 * @return A random work
+	 * @return A random word
 	 */
 	public String createRandomWord() {
 		return createRandomWord('apword');
@@ -83,7 +83,7 @@ public with sharing class ActionPlansTestUtilities {
 	/**
 	 * A random user is useful for testing in order to be sure that you are able to see data across posts regardless of follow status.
 	 * <br> A Permission Set would still be required
-	 * @return A newly-created User
+	 * @return `User` A newly-created User with Modify All Data
 	 */
 	public User createTestUser() {
 		for (Profile p : [SELECT Id, PermissionsModifyAllData, Name FROM Profile WHERE PermissionsModifyAllData = TRUE AND UserType = 'Standard' LIMIT 1]) {
@@ -97,7 +97,7 @@ public with sharing class ActionPlansTestUtilities {
 	/**
 	 * Creates a new User
 	 * @param p Profile (not the Id)
-	 * @return Testuser
+	 * @return `User` Testuser
 	 */
 	public User createTestUser(Profile p) {
 		String namePrefix = this.createRandomWord('un');
@@ -122,7 +122,7 @@ public with sharing class ActionPlansTestUtilities {
 	 * @author David Schach
 	 * @param  testUserId The User ID
 	 * @param  allOrNone  Insert allOrNone, or allow an insert of only successful assingments, failing silently
-	 * @return            The list of `PermissionSetAssignment` records
+	 * @return            `List<PermissionSetAssignment>` The list of `PermissionSetAssignment` records
 	 */
 	public List<PermissionSetAssignment> assignAPPermissionSets(Id testUserId, Boolean allOrNone) {
 		List<PermissionSet> pslist = [SELECT Id FROM PermissionSet WHERE Name LIKE 'Action_Plans%'];
@@ -137,8 +137,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Account SObject With option to insert or just return the record
-	 * @param insertRecord insert the record before returning it?
-	 * @return newaccount
+	 * @param insertRecord Insert the record before returning it?
+	 * @return new `Account`
 	 */
 	public Account createNewAccount(Boolean insertRecord) {
 		Account newAccount = new Account();
@@ -152,8 +152,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Account SObject
-	 * <br>Defaults to inserting before returning
-	 * @return newAccount
+	 * <br>Inserts before returning
+	 * @return inserted `Account`
 	 */
 	public Account createNewAccount() {
 		return createNewAccount(true);
@@ -161,8 +161,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Campaign SObject
-	 * @param insertRecord insert the record before returning it?
-	 * @return newCampaign
+	 * @param insertRecord Insert the record before returning it?
+	 * @return new `Campaign`
 	 */
 	public Campaign createNewCampaign(Boolean insertRecord) {
 		Campaign newCampaign = new Campaign();
@@ -176,8 +176,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Campaign SObject
-	 * Defaults to inserting before returning
-	 * @return newCampaign
+	 * Inserts before returning
+	 * @return inserted `Campaign`
 	 */
 	public Campaign createNewCampaign() {
 		return createNewCampaign(true);
@@ -185,8 +185,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Case SObject
-	 * @param insertRecord insert the record before returning it?
-	 * @return newCase
+	 * @param insertRecord Insert the record before returning it?
+	 * @return new `Case`
 	 */
 	public Case createNewCase(Boolean insertRecord) {
 		Case newCase = new Case();
@@ -201,8 +201,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Case Object
-	 * Defaults to inserting before returning
-	 * @return newCase
+	 * Inserts before returning
+	 * @return inserted `Case`
 	 */
 	public Case createNewCase() {
 		return createNewCase(true);
@@ -210,8 +210,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Contact Object
-	 * @param insertRecord insert the record before returning it?
-	 * @return newContact
+	 * @param insertRecord Insert the record before returning it?
+	 * @return new `Contact`
 	 */
 	public Contact createNewContact(Boolean insertRecord) {
 		Contact newContact = new Contact();
@@ -225,8 +225,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Contact Object
-	 * Defaults to inserting before returning
-	 * @return newContact
+	 * Inserts before returning
+	 * @return inserted `Contact`
 	 */
 	public Contact createNewContact() {
 		return createNewContact(true);
@@ -234,8 +234,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Contract Object
-	 * @param insertRecord insert the record before returning it?
-	 * @return newContract
+	 * @param insertRecord Insert the record before returning it?
+	 * @return inserted `Contract`
 	 */
 	public Contract createNewContract(Boolean insertRecord) {
 		Contract newContract = new Contract();
@@ -251,8 +251,8 @@ public with sharing class ActionPlansTestUtilities {
 	}
 	/**
 	 * Creates a new Contract Object
-	 * Defaults to inserting before returning
-	 * @return newContract
+	 * Inserts before returning
+	 * @return inserted `Contract`
 	 */
 	public Contract createNewContract() {
 		return createNewContract(true);
@@ -260,8 +260,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Lead Object
-	 * @param insertRecord insert the record before returning it?
-	 * @return newLead
+	 * @param insertRecord Insert the record before returning it?
+	 * @return new `Lead`
 	 */
 	public Lead createNewLead(Boolean insertRecord) {
 		Lead newLead = new Lead();
@@ -278,8 +278,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Lead Object
-	 * Defaults to inserting before returning
-	 * @return newLead
+	 * Inserts before returning
+	 * @return inserted `Lead`
 	 */
 	public Lead createNewLead() {
 		return createNewLead(true);
@@ -287,8 +287,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Opportunity Object
-	 * @param insertRecord insert the record before returning it?
-	 * @return newOpportunity
+	 * @param insertRecord Insert the record before returning it?
+	 * @return new `Opportunity`
 	 */
 	public Opportunity createNewOpportunity(Boolean insertRecord) {
 		Opportunity newOpportunity = (Opportunity) Opportunity.sObjectType.newSObject(null, true);
@@ -304,8 +304,8 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Opportunity Object
-	 * Defaults to inserting before returning
-	 * @return newOpportunity
+	 * Inserts before returning
+	 * @return inserted `Opportunity`
 	 */
 	public Opportunity createNewOpportunity() {
 		return createNewOpportunity(true);
@@ -315,28 +315,36 @@ public with sharing class ActionPlansTestUtilities {
 	 * Create Action Plan and APTaskss
 	 * @param relatedObject The Related Object (included field) for the Action Plan
 	 * @param numTasks How many tasks to create for the ActionPlan
-	 * @return newActionPlan
+	 * @return new `ActionPlan__c`
 	 */
 	public ActionPlan__c createNewActionPlan(String relatedObject, Integer numTasks) {
 		ActionPlan__c newActionPlan = new ActionPlan__c();
 		newActionPlan.Name = this.createRandomWord('APName');
 		newActionPlan.StartDate__c = Date.today();
 		newActionPlan.OwnerId = Userinfo.getUserId();
-
-		if ('account'.equalsIgnoreCase(relatedObject)) {
-			newActionPlan.Account__c = this.createNewAccount().Id;
-		} else if ('campaign'.equalsIgnoreCase(relatedObject)) {
-			newActionPlan.Campaign__c = this.createNewCampaign().Id;
-		} else if ('case'.equalsIgnoreCase(relatedObject)) {
-			newActionPlan.Case__c = this.createNewCase().Id;
-		} else if ('contact'.equalsIgnoreCase(relatedObject)) {
-			newActionPlan.Contact__c = this.createNewContact().Id;
-		} else if ('contract'.equalsIgnoreCase(relatedObject)) {
-			newActionPlan.Contract__c = this.createNewContract().Id;
-		} else if ('lead'.equalsIgnoreCase(relatedObject)) {
-			newActionPlan.Lead__c = this.createNewLead().Id;
-		} else if ('opportunity'.equalsIgnoreCase(relatedObject)) {
-			newActionPlan.Opportunity__c = this.createNewOpportunity().Id;
+		String objectLowerCase = relatedObject.toLowerCase();
+		switch on objectLowerCase {
+			when 'account' {
+				newActionPlan.Account__c = this.createNewAccount().Id;
+			}
+			when 'campaign' {
+				newActionPlan.Campaign__c = this.createNewCampaign().Id;
+			}
+			when 'case' {
+				newActionPlan.Case__c = this.createNewCase().Id;
+			}
+			when 'contact' {
+				newActionPlan.Contact__c = this.createNewContact().Id;
+			}
+			when 'contract' {
+				newActionPlan.Contract__c = this.createNewContract().Id;
+			}
+			when 'lead' {
+				newActionPlan.Lead__c = this.createNewLead().Id;
+			}
+			when 'opportunity' {
+				newActionPlan.Opportunity__c = this.createNewOpportunity().Id;
+			}
 		}
 
 		insert newActionPlan;
@@ -357,17 +365,13 @@ public with sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Create Action Plan Task template
-	 * @return newAPTask
-	 */
-	/**
-	 * Create Action Plan Task template
 	 * @author David Schach
 	 * @param  actionPlan The `ActionPlan__c` object
-	 * @param  days      Days from now to start the plan
+	 * @param  days       Days from now to start the plan
 	 * @param  user       The assigned owner
 	 * @param  category   Task Category
 	 * @param  priority   Task Priority
-	 * @return            The created `APTask__c` record
+	 * @return            `APTask__c` The created `APTask__c` record
 	 */
 	public APTask__c createNewActionPlanTask(ActionPlan__c actionPlan, Integer days, User user, String category, String priority) {
 		APTask__c newAPTask = new APTask__c();
@@ -383,10 +387,10 @@ public with sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 *  Create Action Plan Template and Action Plan Template Tasks
+	 * Create Action Plan Template and Action Plan Template Tasks
 	 * @author David Schach
 	 * @param  numTasks Number of tasks to create
-	 * @return          `ActionPlanTemplate__c` record
+	 * @return          `ActionPlanTemplate__c` Action Plan Template
 	 */
 	public ActionPlanTemplate__c createNewActionPlanTemplate(Integer numTasks) {
 		if (numTasks < 0) {
@@ -421,7 +425,7 @@ public with sharing class ActionPlansTestUtilities {
 	 * @param  user       The assigned user for each created task
 	 * @param  category   Task Category
 	 * @param  priority   Task Priority
-	 * @return            The new Action Plan Template Task Template
+	 * @return            `APTemplateTask__c` The new Action Plan Template Task Template
 	 */
 	public APTemplateTask__c createNewActionPlanTemplateTask(ActionPlanTemplate__c apTemplate, Integer days, User user, String category, String priority) {
 		APTemplateTask__c newAPTTask = new APTemplateTask__c();
@@ -444,14 +448,10 @@ public with sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Create Enviroment for BatchProcess
-	 * return apTasksIds
-	 */
-	/**
 	 * Create Environment for Batch Process
 	 * @author David Schach
 	 * @param  relatedObject The parent Object for the created Action Plans
-	 * @return The list of created Action Plan Task IDs
+	 * @return `List<Id>` The list of created Action Plan Task IDs
 	 */
 	public List<Id> batchIds(String relatedObject) {
 		ActionPlan__c ap = this.createNewActionPlan(relatedObject, 0);
