@@ -163,9 +163,11 @@ global without sharing class ActionPlansTriggerHandlers {
 						}
 					}
 				}
+				fillRelatedRecordFields(newRecords);
 				validateActionPlans(newRecords);
 			}
 			when BEFORE_UPDATE {
+				fillRelatedRecordFields(newRecords);
 				validateActionPlans(newRecords);
 			}
 			when AFTER_UPDATE {
@@ -215,6 +217,37 @@ global without sharing class ActionPlansTriggerHandlers {
 		}
 	}
 	/**
+	 * When inserting or updating Action Plan records, fill the text parent object `Related_Object__c` and parent record  `Related_Record__c` fields
+	 * @author David Schach
+	 * @param  newRecords Trigger.new
+	 */
+	private static void fillRelatedRecordFields(List<ActionPlan__c> newRecords) {
+		Set<Id> parentIDs = new Set<Id>();
+		for (ActionPlan__c actionPlan : newRecords) {
+			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
+				if (actionPlan.get(s) != null) {
+					parentIDs.add((Id) actionPlan.get(s));
+					continue;
+				}
+			}
+		}
+		Map<Id, String> relatedNamesMap = new Map<Id, String>();
+		relatedNamesMap.putAll(ActionPlansUtilities.queryRecordIDToRecordName(parentIDs));
+		for (ActionPlan__c ap : newRecords) {
+			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
+				if (ap.get(s) != null) {
+					Id relatedId = (Id) ap.get(s);
+					ap.Related_Record__c = relatedNamesMap.get(relatedId);
+					if (String.isEmpty(ap.Related_Object__c)) {
+						ap.Related_Object__c = ActionPlansUtilities.getRelatedRecordInfo(relatedId).getLabel();
+					}
+					continue;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Handle ActionPlan Tasks
 	 * @author David Schach
 	 * @param  newRecords    Trigger.new
@@ -231,6 +264,9 @@ global without sharing class ActionPlansTriggerHandlers {
 					a.IsClosed__c = ActionPlansUtilities.getClosedTaskStatuses().contains(a.Status__c);
 					if (a.User__c == null) {
 						a.User__c = UserInfo.getUserId();
+					}
+					if(a.DaysFromStart__c == null){
+						a.DaysFromStart__c = 0;
 					}
 				}
 
@@ -378,6 +414,9 @@ global without sharing class ActionPlansTriggerHandlers {
 						a.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
 					} else if (!a.Reminder__c) {
 						a.Minutes_Reminder__c = null;
+					}
+					if(a.DaysFromStart__c == null){
+						a.DaysFromStart__c = 0;
 					}
 				}
 			}
