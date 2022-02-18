@@ -439,6 +439,10 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <pageAccesses>
+        <apexPage>ActionPlanAPOwnerChange</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>ActionPlanCreation</apexPage>
         <enabled>true</enabled>
     </pageAccesses>

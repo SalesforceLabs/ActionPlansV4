@@ -56,33 +56,32 @@ src
 **/layouts/Lead*
 **/layouts/Account*
 **/layouts/Task*
-# **/objects/Account/Account.object-meta.xml
-**/objects/Account/
+
 !**/Account-Account %28Action Plans%29 Layout.layout-meta.xml
-!**/layouts/Task-Task ActionPlans Layout.layout-meta.xml
-**/objects/Activity/**
-!**objects/Activity/fields/
-**/objects/Contact/**
-**/objects/Contract/**
-**/objects/Case/**
-**/objects/Campaign/**
-#**/objects/Contact/Contact.object-meta.xml
-# **/objects/Contact/fields/
-#**/objects/Contact/listViews/
-!**/*Action*.webLink-meta.xml
+!**/Task-Task ActionPlans Layout.layout-meta.xml
+**/objects/Activity
+!**/objects/Activity/fields/TaskAPTask__c.field-meta.xml
+**/objects/Account
+**/objects/Contact
+**/objects/Contract
+**/objects/Case
+**/objects/Campaign
+**/objects/Lead
+**/objects/Opportunity
+!**/*Action_Plan*.webLink-meta.xml
 
 # Action Plans Objects
 !**/objects/ActionPlan__c/**
 !**/objects/ActionPlanTemplate__c/**
 !**/objects/APTask__c/**
 !**/objects/APTemplateTask__c/**
+!**/objects/Weekend_Day__mdt/**
+!**/objects/Action_Plans_Settings__c/**
 
-
-# Salesforce Metadata
-**Custom_Object***
+# Other Salesforce Metadata
+**Custom_Object**
 **/quickActions
-**/profiles/**
+**/profiles
 **/objects/Task/recordTypes
 **/standardValueSets
 **/Translations
-**/listViews/**
