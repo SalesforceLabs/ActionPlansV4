@@ -265,7 +265,7 @@ private class ActionPlanDetailControllerTest {
 	}
 
 	@IsTest
-	static void testPrintButton() {
+	private static void testPrintButton() {
 		PageReference pageRef = Page.ActionPlanDetail;
 		Test.setCurrentPage(pageRef);
 

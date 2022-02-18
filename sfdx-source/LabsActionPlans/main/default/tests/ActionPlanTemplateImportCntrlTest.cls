@@ -150,7 +150,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	static void testBadFields() {
+	private static void testBadFields() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();
@@ -174,7 +174,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	static void testControllingTask() {
+	private static void testControllingTask() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();

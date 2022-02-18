@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @IsTest
 private class ActionPlansPostInstallScriptTest {
 	@isTest
-	static void testInstallScript() {
+	private static void testInstallScript() {
 		ActionPlansPostInstallScript postinstall = new ActionPlansPostInstallScript();
 		Test.testInstall(postinstall, null);
 		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlanTemplate__c]);

@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @IsTest
 private class ActionPlanCreationControllerTest {
 	@TestSetup
-	static void makeData() {
+	private static void makeData() {
 		Action_Plans_Settings__c aps = ActionPlansUtilities.getCustomSetting();
 		aps.Chatter_Object_Brag__c = true;
 		aps.Unassigned_Task_Default_to_Owner__c = true;

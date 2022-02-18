@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @IsTest
 public class ActionPlansRedirectTest {
 	@TestSetup
-	static void makeData() {
+	private static void makeData() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);

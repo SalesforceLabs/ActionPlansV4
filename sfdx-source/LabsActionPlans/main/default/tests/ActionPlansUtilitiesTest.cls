@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @IsTest
 private class ActionPlansUtilitiesTest {
 	@TestSetup
-	static void makeData() {
+	private static void makeData() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
 		aps.Unassigned_Task_Default_to_Owner__c = true;
@@ -388,7 +388,7 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	static void testUtilitiesRecordTypes() {
+	private static void testUtilitiesRecordTypes() {
 		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			if (ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType() != null) {
 				String taskQuery = 'SELECT Id, RecordTypeId FROM Task';

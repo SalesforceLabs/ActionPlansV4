@@ -53,15 +53,15 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		System.currentPageReference().getParameters().put('id', null);
+		ApexPages.currentPage().getParameters().put('id', null);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(new ActionPlanTemplate__c()));
 		aptcc.getTemplateTasks();
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		aptcc.getTemplateTasks();
 
-		System.currentPageReference().getParameters().put('clone', '1');
+		ApexPages.currentPage().getParameters().put('clone', '1');
 		aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		aptcc.getTemplateTasks();
 		aptcc.getTemplateWrappers();
@@ -153,7 +153,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		PageReference cancelPage = aptcc.cancelTemplate();
 
@@ -224,7 +224,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		aptcc.getTemplateTasks();
-		System.currentPageReference().getParameters().put('add ', '1');
+		ApexPages.currentPage().getParameters().put('add ', '1');
 		aptcc.addTemplateTask();
 		Test.stopTest();
 		String errorMsg = aptcc.getErrorMsg();
@@ -239,10 +239,10 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		//aptcc.getTemplateTasks();
-		System.currentPageReference().getParameters().put('add ', '1');
+		ApexPages.currentPage().getParameters().put('add ', '1');
 		aptcc.addTemplateTask();
 
 		Test.stopTest();
@@ -285,10 +285,10 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(4);
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		aptcc.getTemplateTasks();
-		System.currentPageReference().getParameters().put('remove', '1');
+		ApexPages.currentPage().getParameters().put('remove', '1');
 		aptcc.removeTemplateTask();
 
 		Test.stopTest();
@@ -310,7 +310,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		aptcc.getTemplateTasks();
 		System.assertEquals(5, aptcc.aptTasks.size(), 'Should have 5 tasks on the template');
 
-		System.currentPageReference().getParameters().put('remove', '1');
+		ApexPages.currentPage().getParameters().put('remove', '1');
 		aptcc.removeTemplateTask();
 
 		aptcc.saveTemplate();
@@ -330,7 +330,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		List<ActionPlanTemplateCreationController.ApTTaskWrapper> taskList = aptcc.getTemplateWrappers();
 
@@ -357,7 +357,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		}
 		update aptts;
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		List<ActionPlanTemplateCreationController.ApTTaskWrapper> taskList = aptcc.getTemplateWrappers();
 
@@ -440,7 +440,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		newAPTTask3.Priority__c = 'High';
 		newAPTTask3.TaskIndex__c = 2;
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 
 		aptcc.aptTasks = new List<APTemplateTask__c>();
@@ -472,7 +472,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		newAPTTask1.Priority__c = 'High';
 		newAPTTask1.TaskIndex__c = 0;
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 
 		aptcc.aptTasks = new List<APTemplateTask__c>();
@@ -526,7 +526,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		newAPTTask4.Type__c = 'Email';
 		newAPTTask4.Priority__c = 'High';
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 
 		aptcc.aptTasks = new List<APTemplateTask__c>();
@@ -538,7 +538,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		aptcc.checkCycleDependent();
 		System.assert(aptcc.getErrorMsg() != null, 'dependency check failed');
 
-		System.currentPageReference().getParameters().put('remove', '1');
+		ApexPages.currentPage().getParameters().put('remove', '1');
 		aptcc.removeTemplateTask();
 		aptcc.saveTemplate();
 

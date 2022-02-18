@@ -93,8 +93,6 @@ public with sharing class ActionPlanTemplateCreationController {
 				actionPlanTemplate.SkipWeekends__c = apC.SkipWeekends__c;
 				actionPlanTemplate.TaskRecordTypeID__c = apC.TaskRecordTypeID__c;
 
-				//templateId = ApexPages.currentPage().getParameters().get('templateId');
-
 				ApexPages.currentPage().getParameters().put('id', null);
 			}
 		}
@@ -616,7 +614,7 @@ public with sharing class ActionPlanTemplateCreationController {
 				task.Priority__c = task.Priority__c != null ? task.Priority__c : ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(taskRTID);
 				task.Type__c = ActionPlansUtilities.getTaskRecordTypeTypeDefaultValues().get(taskRTID);
 
-				if (System.currentPageReference().getParameters().get('clone') != '1') {
+				if (ApexPages.currentPage().getParameters().get('clone') != '1') {
 					task.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
 				}
 			}

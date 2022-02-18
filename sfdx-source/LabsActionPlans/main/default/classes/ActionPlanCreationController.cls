@@ -114,11 +114,10 @@ public with sharing class ActionPlanCreationController {
 
 		this.apTasks = getAPTasks();
 
-		this.cloneParam = ActionPlansUtilities.getEscapedPageParameter('clone'); //String.escapeSingleQuotes(System.currentPageReference().getParameters().get('clone'));
-
-		this.templateId = ActionPlansUtilities.getEscapedPageParameter('templateId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('templateId'));
-		this.refId = ActionPlansUtilities.getEscapedPageParameter('refId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refId'));
-		this.refType = ActionPlansUtilities.getEscapedPageParameter('refType'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refType'));
+		this.cloneParam = ActionPlansUtilities.getEscapedPageParameter('clone');
+		this.templateId = ActionPlansUtilities.getEscapedPageParameter('templateId');
+		this.refId = ActionPlansUtilities.getEscapedPageParameter('refId');
+		this.refType = ActionPlansUtilities.getEscapedPageParameter('refType');
 
 		if (cloneParam == '1') {
 			initCloneActionPlan();
@@ -131,8 +130,6 @@ public with sharing class ActionPlanCreationController {
 		}
 
 		this.canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
-		//this.taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
-
 		this.relatedFieldName = getRelatedObjectOptions()[0].getValue();
 	}
 
@@ -584,13 +581,13 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * Action that forwards to previous page
+	 * Action that redirects to previous page
 	 * @return PageReference
 	 */
 	public PageReference cancel() {
 		String objectType = refType;
-		String objectIds = ActionPlansUtilities.getEscapedPageParameter('refId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refId'));
-		String retURL = ActionPlansUtilities.getEscapedPageParameter('retURL'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('retURL'));
+		String objectIds = ActionPlansUtilities.getEscapedPageParameter('refId');
+		String retURL = ActionPlansUtilities.getEscapedPageParameter('retURL');
 		Id paramid = this.actionPlan.Id != null ? this.actionPlan.Id : (Id) ActionPlansUtilities.getEscapedPageParameter('id');
 		String pageRef;
 		String aPlanListUrl;
@@ -737,15 +734,15 @@ public with sharing class ActionPlanCreationController {
 			Boolean userRequired = false;
 			Boolean displayLookUp = Schema.sObjectType.APTask__c.fields.User__c.isUpdateable();
 
-			if (apTask.Id == null && apTask.User__c != null) {
+			if (templateId != null && apTask.Id == null && apTask.User__c != null) {
 				displayLookUp = false;
 			}
 
-			// We need to account for the User being filled AND having the option to change it
-			// How can we refer to the template task?
+			//! We need to account for the User being filled AND having the option to change it
+			//! How can we refer to the template task?
 
-			// User is Required if the ap parent id is null and we don't give unassigned to record owner
-			// We always display the lookup (if editable) because we never FORCE the task to be assigned to the record owner
+			//! User is Required if the ap parent id is null and we don't give unassigned to record owner
+			//! We always display the lookup (if editable) because we never FORCE the task to be assigned to the record owner
 
 			/* if (newTaskWrapper == null){
 				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c || actionPlan.get(relatedFieldName) == null; // true if not auto-assigned to record owner. User may have been set via template, but is still required.
@@ -774,9 +771,6 @@ public with sharing class ActionPlanCreationController {
 	public List<APTask__c> getAPTasks() {
 		if (this.apTasks == null || this.apTasks.size() == 0) {
 			if (templateId == null) {
-				System.debug('templateID is null');
-				System.debug('templateId parameter: ' + ApexPages.currentPage().getParameters().get('templateId'));
-				// && ApexPages.currentPage().getParameters().get('templateId') != null
 				templateId = ActionPlansUtilities.getEscapedPageParameter('templateId');
 			}
 
@@ -1013,7 +1007,6 @@ public with sharing class ActionPlanCreationController {
 			when 'case' {
 				if (CanTheUser.read('Case')) {
 					for (Case ca : [SELECT Subject, CaseNumber FROM Case WHERE Id IN :relatedRecordIDs]) {
-						//NOPMD
 						nameList.add((ca.Subject != null) ? ca.CaseNumber + ': ' + ca.Subject : ca.CaseNumber);
 					}
 				}
@@ -1021,7 +1014,6 @@ public with sharing class ActionPlanCreationController {
 			when 'contract' {
 				if (CanTheUser.read('Contract')) {
 					for (Contract contr : [SELECT ContractNumber FROM Contract WHERE Id IN :relatedRecordIDs]) {
-						//NOPMD
 						nameList.add(Contract.Name.getDescribe().getLabel() + ': ' + contr.ContractNumber);
 					}
 				}
