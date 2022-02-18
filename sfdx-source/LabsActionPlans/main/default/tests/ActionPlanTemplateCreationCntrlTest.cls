@@ -190,9 +190,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		aptcc.aptTasks.add(newAPTTask);
 
 		aptcc.getTemplateWrappers();
-		PageReference pr = aptcc.saveTemplate();
-		/* ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(aptcc.actionPlanTemplate, apTasks, null, new Set<Id>());
-		 taskBatch.generateActionPlans(); */
+		aptcc.saveTemplate();
 
 		Test.stopTest();
 		System.assertEquals(1, aptcc.getTemplateTaskSize());
@@ -224,7 +222,6 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(ActionPlansUtilities.MAX_APTASKS + 1);
 
-		//System.currentPageReference().getParameters().put( 'id', apTemplate.Id );
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		aptcc.getTemplateTasks();
 		System.currentPageReference().getParameters().put('add ', '1');

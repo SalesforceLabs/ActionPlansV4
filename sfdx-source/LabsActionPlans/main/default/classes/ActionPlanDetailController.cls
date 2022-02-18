@@ -311,6 +311,11 @@ public with sharing class ActionPlanDetailController {
 		return ActionPlansUtilities.getCanTransfer(actionPlan.Id);
 	}
 
+	/**
+	 * Show the Print page (simple formatting)
+	 * @author David Schach
+	 * @return   ActionPlanPrint page
+	 */
 	public PageReference print() {
 		PageReference pr = Page.ActionPlanPrint;
 		pr.getParameters().put('id', actionPlan.Id);

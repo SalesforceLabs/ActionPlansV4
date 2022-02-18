@@ -177,14 +177,14 @@ public without sharing class ActionPlansUtilities {
 		for (String objName : mapIDsByObject.keySet()) {
 			switch on objName {
 				when 'case' {
-					for (Case ca : [SELECT Subject, CaseNumber FROM Case WHERE Id IN :mapIDsByObject.get('case')]) {
-						//NOPMD
+					List<Case> cases = [SELECT Subject, CaseNumber FROM Case WHERE Id IN :mapIDsByObject.get('case')]; // NOPMD
+					for (Case ca : cases) {
 						recordIdToRecordName.put(ca.Id, ((ca.Subject != null) ? ca.CaseNumber + ': ' + ca.Subject : ca.CaseNumber));
 					}
 				}
 				when 'contract' {
-					for (Contract contr : [SELECT ContractNumber FROM Contract WHERE Id IN :mapIDsByObject.get('contract')]) {
-						//NOPMD
+					List<Contract> contracts = [SELECT ContractNumber FROM Contract WHERE Id IN :mapIDsByObject.get('contract')]; // NOPMD
+					for (Contract contr : contracts) {
 						recordIdToRecordName.put(contr.Id, (Contract.Name.getDescribe().getLabel() + ': ' + contr.ContractNumber));
 					}
 				}
@@ -449,6 +449,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Does the user have permission to transfer? We query `UserRecordAccess`.
 	 * @author David Schach
+	 * @param recordId sample record Id that can be used to find user permission
 	 * @return   `Boolean` yes/no
 	 */
 	public static Boolean getCanTransfer(Id recordId) {
@@ -463,6 +464,7 @@ public without sharing class ActionPlansUtilities {
 	 * @author David Schach
 	 * @param  shareObjectName The Share object name, such as `ActionPlan__Share`
 	 * @param  recordId        The recordId of the record in question
+	 * @param  recordOwnerId   The owner Id because an owner can share even without "Modify all Data"
 	 * @return                 Can the user share the record?
 	 */
 	public static Boolean canShareRecord(String shareObjectName, Id recordId, Id recordOwnerId) {
