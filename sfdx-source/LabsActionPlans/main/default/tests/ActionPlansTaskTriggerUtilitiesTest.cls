@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @IsTest
 private class ActionPlansTaskTriggerUtilitiesTest {
-	static String testClosedStatus;
+	private static String testClosedStatus;
 	/**
 	 * test trigger without skipweekends method for testing Task After Update trigger when updating task to status 'Completed'
 	 */

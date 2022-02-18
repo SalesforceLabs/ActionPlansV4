@@ -102,7 +102,7 @@
 		<language>en_US</language>
 		<protected>true</protected>
 		<shortDescription>Created</shortDescription>
-		<value>created</value>
+		<value>created.</value>
 	</labels>
 	<labels>
 		<fullName>ap_CreatedBy</fullName>

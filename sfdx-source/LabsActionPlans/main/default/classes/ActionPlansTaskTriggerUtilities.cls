@@ -86,7 +86,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 				Database.insert(tasksSendNoEmail, dmlo);
 			}
 
-			update updateApttsList;
+			Database.update(updateApttsList); //NOPMD
 		}
 	}
 
@@ -109,14 +109,15 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			'Controller__r.Subject__c, Controller__c, SendEmail__c,  Controller__r.Name, ' +
 			'Reminder__c, Priority__c, Status__c, Comments__c, Minutes_Reminder__c, Task_RecordTypeId__c' +
 			' FROM APTask__c WHERE Controller__c IN :closedTasks';
+		System.debug('apdependentquery ' + apdependentQuery);
 
-		dependentAptts = Database.query(apdependentQuery);
+		dependentAptts = Database.query(String.escapeSingleQuotes(apdependentQuery));
 		return dependentAptts;
 	}
 
 	/**
-	 * Cycle through list of dependent Action Plans Template Task and create actual tasks
-	 * @param dependentApttList
+	 * Cycle through list of dependent Action Plans Template Task and create `Task` records
+	 * @param dependentApttList The APTasks we check for dependencies before making `Task` records
 	 * @return List of AP Tasks to update
 	 */
 	private static List<APTask__c> populateNewTaskMap(List<APTask__c> dependentApttList) {
@@ -354,7 +355,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			}
 		}
 
-		// before remove check if it exists in the DB; if so, add to pendingDeletes to be deleted on save.
+		// before remove check if it exists in the DB; if so, add to pendingIdsToDelete to be deleted on save.
 		if (apTasks[taskIndex].Id != null) {
 			pendingIdsToDelete.add(apTasks[taskIndex].Id);
 		}

@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @IsTest
 private class ActionPlansUtilitiesTest {
 	@TestSetup
-	static void makeData() {
+	private static void makeData() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
 		aps.Unassigned_Task_Default_to_Owner__c = true;
@@ -385,6 +385,23 @@ private class ActionPlansUtilitiesTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		System.assert(testUtil.createRandomWord('testword') != testUtil.createRandomWord());
+	}
+
+	@IsTest
+	private static void testUtilitiesRecordTypes() {
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
+			if (ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType() != null) {
+				String taskQuery = 'SELECT Id, RecordTypeId FROM Task';
+
+				for (SObject t : Database.query(taskQuery)) {
+					System.debug([SELECT Id, Name FROM RecordType WHERE Id = :(Id) t.get('RecordTypeId')].Name); //NOPMD
+					System.assertNotEquals(ActionPlansUtilities.getDefaultTaskRecordTypeId(), t.get('RecordTypeId'), 'Record Type is default');
+				}
+			}
+			System.assertNotEquals(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
+		} else {
+			System.assertEquals(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
+		}
 	}
 
 	/**

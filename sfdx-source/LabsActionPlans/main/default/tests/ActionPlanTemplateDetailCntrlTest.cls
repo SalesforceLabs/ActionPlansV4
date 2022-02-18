@@ -48,7 +48,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		apTemplate = [SELECT Id, TaskRecordTypeId__c FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
+		apTemplate = [SELECT Id, TaskRecordTypeId__c, OwnerId FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
 
 		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			System.assertNotEquals(null, apTemplate.TaskRecordTypeID__c);
@@ -60,7 +60,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
 		if (apTemplateDetailController.taskHasRecordType) {
@@ -69,11 +69,34 @@ private class ActionPlanTemplateDetailCntrlTest {
 			System.assertEquals('', apTemplateDetailController.getRecordTypeName());
 		}
 
-		//apTemplateDetailController.getMaxAPTasks();
+		apTemplateDetailController.getCanTransfer();
+		apTemplateDetailController.getCanShare();
 
 		Test.stopTest();
 
 		System.assert(!apTemplateDetailController.getTemplateTasks().isEmpty());
+	}
+
+	@IsTest
+	private static void testForceRecordType() {
+		ActionPlansTestUtilities.forceHasRecordType = true;
+
+		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
+
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
+
+		apTemplate = [SELECT Id, TaskRecordTypeId__c FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
+
+		Test.startTest();
+
+		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
+
+		Test.stopTest();
+
+		System.assertEquals(true, apTemplateDetailController.taskHasRecordType);
+		System.assertNotEquals(null, apTemplateDetailController.getRecordTypeName());
 	}
 
 	@IsTest
@@ -86,7 +109,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
 		apTemplate = [SELECT Id, TaskRecordTypeId__c FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 
 		Test.startTest();
 
@@ -98,6 +121,24 @@ private class ActionPlanTemplateDetailCntrlTest {
 	}
 
 	@IsTest
+	private static void checkNoTasks() {
+		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
+
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(0);
+
+		Test.startTest();
+
+		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
+		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
+
+		Test.stopTest();
+
+		System.assert(apTemplateDetailController.getTemplateTasks().isEmpty());
+	}
+
+	@IsTest
 	private static void testDeleteActionPlanTemplate() {
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
 		Test.startTest();
@@ -105,7 +146,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
 		apTemplateDetailController.deleteTemplate();
@@ -148,7 +189,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(3);
 
-		System.currentPageReference().getParameters().put('id', apTemplate.Id);
+		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
 		ActionPlanTemplate__c apTemplate2 = apTemplateDetailController.actionPlanTemplate;

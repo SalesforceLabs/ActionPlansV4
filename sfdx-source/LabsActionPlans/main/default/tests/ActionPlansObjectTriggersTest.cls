@@ -43,10 +43,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @IsTest
 private class ActionPlansObjectTriggersTest {
-	static Action_Plans_Settings__c aps;
+	private static Action_Plans_Settings__c aps;
 
 	@TestSetup
-	static void makeData() {
+	private static void makeData() {
 		aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
 		aps.Default_Object_on_Lead_Conversion__c = 'Contact';

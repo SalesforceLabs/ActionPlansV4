@@ -77,10 +77,10 @@ public with sharing class ActionPlanTemplateCreationController {
 
 		if (ApexPages.currentPage().getParameters().get('clone') == '1') {
 			if (ApexPages.currentPage().getParameters().containsKey('templateId')) {
-				templateId = ApexPages.currentPage().getParameters().get('templateId');
+				templateId = ActionPlansUtilities.getEscapedPageParameter('templateId');
 				//System.debug('we have a template : ' + templateId);
 			} else if (ApexPages.currentPage().getParameters().containsKey('Id') && ApexPages.currentPage().getParameters().get('Id') != null) {
-				templateId = ApexPages.currentPage().getParameters().get('Id');
+				templateId = ActionPlansUtilities.getEscapedPageParameter('Id');
 				//System.debug('using Id parameter : ' + templateId);
 			}
 
@@ -92,8 +92,6 @@ public with sharing class ActionPlanTemplateCreationController {
 				actionPlanTemplate.SkipDay__c = apC.SkipDay__c;
 				actionPlanTemplate.SkipWeekends__c = apC.SkipWeekends__c;
 				actionPlanTemplate.TaskRecordTypeID__c = apC.TaskRecordTypeID__c;
-
-				//templateId = ApexPages.currentPage().getParameters().get('templateId');
 
 				ApexPages.currentPage().getParameters().put('id', null);
 			}
@@ -128,13 +126,13 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Saves Action Plan Template and all tasks, then redirects to the AP template list.
-	 * First check for pending templates for delete, in case that exists then delete those objects.
-	 * Then insert or update the Action Plan Template pending to save and save tasks to the template
+	 * <br>First check for pending templates for delete; in case that exists then delete those objects.
+	 * <br>Then insert or update the Action Plan Template pending to save and save tasks to the template
 	 * and attach relation to Action Plan.
 	 * @return newPage
 	 */
 	public PageReference saveTemplate() {
-		// check for pendingDeletes, if something is pending send it to delete
+		// check for pending Deletes; if something is pending send it to delete
 		if (pendingTemplateDeletes != null) {
 			Database.delete(pendingTemplateDeletes);
 		}
@@ -152,7 +150,7 @@ public with sharing class ActionPlanTemplateCreationController {
 			if (t.Action_Plan_Template__c == null) {
 				t.Action_Plan_Template__c = actionPlanTemplate.Id;
 			}
-			if (t.DaysFromStart__c < 0) {
+			if (t.DaysFromStart__c == null || t.DaysFromStart__c < 0) {
 				t.DaysFromStart__c = 0;
 			}
 			t.DaysFromStart__c = math.abs(t.DaysFromStart__c);
@@ -317,6 +315,33 @@ public with sharing class ActionPlanTemplateCreationController {
 		set;
 	}
 
+	private List<APTemplateTask__c> queryAPTTasks(Id recordId) {
+		return [
+			SELECT
+				Type__c,
+				Subject__c,
+				Priority__c,
+				Dependent__c,
+				Name,
+				User__c,
+				TaskIndex__c,
+				Minutes_Reminder__c,
+				User__r.Name,
+				Id,
+				DaysFromStart__c,
+				CreatedById,
+				Action_Plan_Template__c,
+				TController__c,
+				TController__r.Subject__c,
+				Reminder__c,
+				SendEmail__c,
+				Comments__c
+			FROM APTemplateTask__c
+			WHERE Action_Plan_Template__c = :recordId
+			ORDER BY TaskIndex__c ASC
+		];
+	}
+
 	/**
 	 * Get all tasks related to the Action Template.
 	 * @return aptTasks
@@ -324,30 +349,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	public List<APTemplateTask__c> getTemplateTasks() {
 		if (aptTasks.size() == 0) {
 			if (actionPlanTemplate.Id != null) {
-				aptTasks = [
-					SELECT
-						Type__c,
-						Subject__c,
-						Priority__c,
-						Dependent__c,
-						Name,
-						User__c,
-						TaskIndex__c,
-						Minutes_Reminder__c,
-						User__r.Name,
-						Id,
-						DaysFromStart__c,
-						CreatedById,
-						Action_Plan_Template__c,
-						TController__c,
-						TController__r.Subject__c,
-						Reminder__c,
-						SendEmail__c,
-						Comments__c
-					FROM APTemplateTask__c
-					WHERE Action_Plan_Template__c = :actionPlanTemplate.Id
-					ORDER BY TaskIndex__c ASC
-				];
+				aptTasks = queryAPTTasks(actionPlanTemplate.Id);
 			} else {
 				aptTasks = new List<APTemplateTask__c>();
 				APTemplateTask__c t = new APTemplateTask__c(); //(APTemplateTask__c)APTemplateTask__c.getSObjectType().newSObject(null, true);
@@ -358,31 +360,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 			// clone and clear ids
 			if (ApexPages.currentPage().getParameters().get('clone') == '1') {
-				aptTasks = [
-					SELECT
-						Type__c,
-						Subject__c,
-						Priority__c,
-						Dependent__c,
-						Name,
-						User__c,
-						TaskIndex__c,
-						Minutes_Reminder__c,
-						User__r.Name,
-						Id,
-						DaysFromStart__c,
-						CreatedById,
-						Action_Plan_Template__c,
-						TController__c,
-						TController__r.Subject__c,
-						Reminder__c,
-						SendEmail__c,
-						Comments__c
-					FROM APTemplateTask__c
-					WHERE Action_Plan_Template__c = :templateId
-					ORDER BY TaskIndex__c ASC
-				];
-
+				aptTasks = queryAPTTasks(String.escapeSingleQuotes(templateId));
 				List<APTemplateTask__c> tempTaskList = aptTasks.deepClone(false, false, false);
 				aptTasks.clear();
 				aptTasks = tempTaskList;
@@ -395,7 +373,6 @@ public with sharing class ActionPlanTemplateCreationController {
 				}
 			}
 		}
-
 		return aptTasks;
 	}
 
@@ -637,7 +614,7 @@ public with sharing class ActionPlanTemplateCreationController {
 				task.Priority__c = task.Priority__c != null ? task.Priority__c : ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(taskRTID);
 				task.Type__c = ActionPlansUtilities.getTaskRecordTypeTypeDefaultValues().get(taskRTID);
 
-				if (System.currentPageReference().getParameters().get('clone') != '1') {
+				if (ApexPages.currentPage().getParameters().get('clone') != '1') {
 					task.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
 				}
 			}

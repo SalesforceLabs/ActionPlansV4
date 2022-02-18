@@ -4,5 +4,5 @@
     <active>true</active>
     <errorConditionFormula>ISBLANK(DaysFromStart__c) || DaysFromStart__c  &lt; 0</errorConditionFormula>
     <errorDisplayField>DaysFromStart__c</errorDisplayField>
-    <errorMessage>You must enter a positive value</errorMessage>
+    <errorMessage>You must enter a non-negative value</errorMessage>
 </ValidationRule>

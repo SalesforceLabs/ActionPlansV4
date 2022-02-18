@@ -14,7 +14,7 @@ private class CanTheUserTest {
 	private static List<Account> generateAccounts() {
 		List<Account> accounts = new List<Account>();
 		for (Integer i = 0; i < 2; i++) {
-			accounts.add(new Account());
+			accounts.add(new Account(Name = 'TestAcct'));
 		}
 		return accounts;
 	}
@@ -109,9 +109,9 @@ private class CanTheUserTest {
 		Set<String> fields = new Set<String>{ 'name', 'nonExistingField__c' };
 		Map<String, Boolean> bulkCheck = CanTheUser.bulkFLSAccessible('Account', fields);
 
-		System.assert(bulkCheck.get('name'), 'Expected the name ' + 'field to be accesible on Account');
+		System.assert(bulkCheck.get('name'), 'Expected the name field to be accesible on Account');
 
-		System.assert(!bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c ' + 'field not to be accesible on Account');
+		System.assert(!bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c field not to be accesible on Account');
 	}
 
 	@IsTest
@@ -127,7 +127,7 @@ private class CanTheUserTest {
 	private static void getBulkFLSUpdatableWithAccountPositiveWithNegativeResults() {
 		Set<String> fields = new Set<String>{ 'name', 'nonExistingField__c' };
 		Map<String, Boolean> bulkCheck = CanTheUser.bulkFLSUpdatable('Account', fields);
-		System.assert(bulkCheck.get('name'), 'Expected the name ' + 'field to be accesible on Account');
-		System.assert(!bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c ' + 'field not to be accesible on Account');
+		System.assert(bulkCheck.get('name'), 'Expected the name field to be accesible on Account');
+		System.assert(!bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c field not to be accesible on Account');
 	}
 }

@@ -92,14 +92,14 @@ global without sharing class ActionPlansTriggerHandlers {
 
 				// Query Action Plans to delete in recycle bin
 				String deleteQueryString = 'SELECT Id, Name FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords AND isDeleted = true ALL ROWS';
-				deletePermenantlyApIds = Database.query(deleteQueryString);
+				deletePermenantlyApIds = Database.query(String.escapeSingleQuotes(deleteQueryString));
 
 				if (!deletePermenantlyApIds.isEmpty()) {
 					Database.emptyRecycleBin(deletePermenantlyApIds);
 				}
 
 				deleteQueryString = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords';
-				List<ActionPlan__c> apList = Database.query(deleteQueryString);
+				List<ActionPlan__c> apList = Database.query(String.escapeSingleQuotes(deleteQueryString));
 				for (ActionPlan__c ap : apList) {
 					apIds.add(ap.Id);
 				}
@@ -112,7 +112,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			//Undelete related action plans
 			when AFTER_UNDELETE {
 				String afterUndeleteQuery = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :newRecords ALL ROWS';
-				List<ActionPlan__c> aPs = Database.query(afterUndeleteQuery);
+				List<ActionPlan__c> aPs = Database.query(String.escapeSingleQuotes(afterUndeleteQuery));
 
 				try {
 					if (ActionPlansTestUtilities.forceError) {
@@ -163,9 +163,11 @@ global without sharing class ActionPlansTriggerHandlers {
 						}
 					}
 				}
+				fillRelatedRecordFields(newRecords);
 				validateActionPlans(newRecords);
 			}
 			when BEFORE_UPDATE {
+				fillRelatedRecordFields(newRecords);
 				validateActionPlans(newRecords);
 			}
 			when AFTER_UPDATE {
@@ -215,6 +217,37 @@ global without sharing class ActionPlansTriggerHandlers {
 		}
 	}
 	/**
+	 * When inserting or updating Action Plan records, fill the text parent object `Related_Object__c` and parent record  `Related_Record__c` fields
+	 * @author David Schach
+	 * @param  newRecords Trigger.new
+	 */
+	private static void fillRelatedRecordFields(List<ActionPlan__c> newRecords) {
+		Set<Id> parentIDs = new Set<Id>();
+		for (ActionPlan__c actionPlan : newRecords) {
+			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
+				if (actionPlan.get(s) != null) {
+					parentIDs.add((Id) actionPlan.get(s));
+					continue;
+				}
+			}
+		}
+		Map<Id, String> relatedNamesMap = new Map<Id, String>();
+		relatedNamesMap.putAll(ActionPlansUtilities.queryRecordIDToRecordName(parentIDs));
+		for (ActionPlan__c ap : newRecords) {
+			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
+				if (ap.get(s) != null) {
+					Id relatedId = (Id) ap.get(s);
+					ap.Related_Record__c = relatedNamesMap.get(relatedId);
+					if (String.isEmpty(ap.Related_Object__c)) {
+						ap.Related_Object__c = ActionPlansUtilities.getRelatedRecordInfo(relatedId).getLabel();
+					}
+					continue;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Handle ActionPlan Tasks
 	 * @author David Schach
 	 * @param  newRecords    Trigger.new
@@ -231,6 +264,9 @@ global without sharing class ActionPlansTriggerHandlers {
 					a.IsClosed__c = ActionPlansUtilities.getClosedTaskStatuses().contains(a.Status__c);
 					if (a.User__c == null) {
 						a.User__c = UserInfo.getUserId();
+					}
+					if(a.DaysFromStart__c == null){
+						a.DaysFromStart__c = 0;
 					}
 				}
 
@@ -379,6 +415,9 @@ global without sharing class ActionPlansTriggerHandlers {
 					} else if (!a.Reminder__c) {
 						a.Minutes_Reminder__c = null;
 					}
+					if(a.DaysFromStart__c == null){
+						a.DaysFromStart__c = 0;
+					}
 				}
 			}
 		}
@@ -388,14 +427,38 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @author David Schach
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
-	 * @param  newRecordsMap Trigger.newMap
-	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerhandlerTask(List<Task> newRecords, List<Task> oldRecords, Map<Id, Task> newRecordsMap, Map<Id, Task> oldRecordsMap, System.TriggerOperation triggerEvent) {
-		//System.debug('In Task ' + triggerEvent.name());
-
+	public static void triggerhandlerTask(List<Task> newRecords, List<Task> oldRecords, System.TriggerOperation triggerEvent) {
 		switch on triggerEvent {
+			when BEFORE_INSERT {
+				if (ActionPlansUtilities.taskUsesRecordTypes) {
+					Map<Id, Id> taskTemplateToIntendedRecordTypeId = new Map<Id, Id>();
+					Set<Id> taskTemplateIDs = new Set<Id>();
+					for (Task t : newRecords) {
+						if (t.TaskAPTask__c != null) {
+							taskTemplateIDs.add(t.TaskAPTask__c);
+						}
+					}
+					for (APTask__c aptt : [SELECT Id, Action_Plan__r.TaskRecordTypeID__c FROM APTask__c WHERE Id IN :taskTemplateIDs]) {
+						taskTemplateToIntendedRecordTypeId.put(aptt.Id, aptt.Action_Plan__r.TaskRecordTypeID__c);
+					}
+					for (Task t : newRecords) {
+						/* if (!taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c)) {
+						}
+						if (!ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c))) {
+						} */
+
+						if (
+							t.TaskAPTask__c != null &&
+							taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c) &&
+							ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c))
+						) {
+							t.put('RecordTypeId', taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c));
+						}
+					}
+				}
+			}
 			when AFTER_UPDATE {
 				Map<Id, String> closedTasksMap = new Map<Id, String>();
 				Map<Id, String> inProgressTasksMap = new Map<Id, String>();
@@ -517,34 +580,6 @@ global without sharing class ActionPlansTriggerHandlers {
 						Database.delete([SELECT Id FROM APTask__c WHERE Id IN :finalIds]);
 					} else {
 						ActionPlansTaskTriggerUtilities.deleteAPTasks(finalIds);
-					}
-				}
-			}
-			when BEFORE_INSERT {
-				if (ActionPlansUtilities.taskUsesRecordTypes) {
-					Map<Id, Id> taskTemplateToIntendedRecordTypeId = new Map<Id, Id>();
-					Set<Id> taskTemplateIDs = new Set<Id>();
-					for (Task t : newRecords) {
-						if (t.TaskAPTask__c != null) {
-							taskTemplateIDs.add(t.TaskAPTask__c);
-						}
-					}
-					for (APTask__c aptt : [SELECT Id, Action_Plan__r.TaskRecordTypeID__c FROM APTask__c WHERE Id IN :taskTemplateIDs]) {
-						taskTemplateToIntendedRecordTypeId.put(aptt.Id, aptt.Action_Plan__r.TaskRecordTypeID__c);
-					}
-					for (Task t : newRecords) {
-						/* if (!taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c)) {
-						}
-						if (!ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c))) {
-						} */
-
-						if (
-							t.TaskAPTask__c != null &&
-							taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c) &&
-							ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c))
-						) {
-							t.put('RecordTypeId', taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c));
-						}
 					}
 				}
 			}

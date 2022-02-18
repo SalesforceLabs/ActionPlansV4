@@ -141,12 +141,15 @@ global without sharing class ActionPlanCreateInvocable {
 			}
 
 			Id relatedId = r.relatedRecordID;
-			Schema.SObjectType token = relatedId.getSObjectType();
-			Schema.DescribeSObjectResult sor = token.getDescribe();
+			Schema.DescribeSObjectResult sor = ActionPlansUtilities.getRelatedRecordInfo(relatedId);
 			String relObjName = sor.getName().toLowerCase();
+			String relObjLabel = sor.getLabel();
+			//String relRecordName = ActionPlansUtilities.queryRecordIDToRecordName(new Set<Id>{ relatedId }).get(relatedId);
+
+			ap.Related_Object__c = relObjLabel;
+			//ap.Related_Record__c = relRecordName;
 
 			String namespacePrefix = ActionPlansUtilities.namespacePrefix.toLowerCase();
-
 			String relObjField = relObjName;
 
 			if (!relObjName.endsWithIgnoreCase('__c')) {
@@ -161,6 +164,7 @@ global without sharing class ActionPlanCreateInvocable {
 				continue;
 			}
 			ap.put(relObjField, relatedId);
+
 			actionPlansToInsert.put(r.relatedRecordID, ap);
 		}
 
@@ -358,22 +362,22 @@ global without sharing class ActionPlanCreateInvocable {
 	 * @since 2022
 	 */
 	global class CreateActionPlanRequest {
-		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
 		/**
 		 * The template Id or Name to use. (Name is not unique, so ID is preferred)
 		 */
+		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
 		global String templateNameOrID;
 
-		@InvocableVariable(required=true label='The parent Record ID' description='Must have a relationship named the related record object name from Action Plan object')
 		/**
 		 * The parent Record ID. Must have a relationship named the related record object name from Action Plan object.
 		 */
+		@InvocableVariable(required=true label='The parent Record ID' description='Must have a relationship named the related record object name from Action Plan object')
 		global Id relatedRecordID;
 
-		@InvocableVariable(required=false label='Days from trigger to start Action Plan' description='Defaults to 0, the day the plan is created')
 		/**
 		 * Days from trigger to start Action Plan. Defaults to 0, the day the plan is created.
 		 */
+		@InvocableVariable(required=false label='Days from trigger to start Action Plan' description='Defaults to 0, the day the plan is created')
 		global Integer daysToActionPlanStart;
 	}
 }

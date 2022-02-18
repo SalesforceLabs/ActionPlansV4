@@ -36,8 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	<apex:variable value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" var="lex" />
 	<apex:slds rendered="{!lex}" />
 	<apex:form>
-		<section role="alertdialog" tabindex="0" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt"
-		 aria-modal="true">
+		<section role="alertdialog" tabindex="0" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt" aria-modal="true">
 			<div class="slds-modal__container">
 				<header class="slds-modal__header slds-theme_error slds-theme_alert-texture">
 					<h2 class="slds-text-heading_medium" id="prompt-heading-id">{!$Label.ap_Delete} {!$ObjectType.ActionPlan__c.labelPlural}</h2>
@@ -59,8 +58,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				</div>
 				<footer class="slds-modal__footer slds-theme_default">
 					<apex:commandButton styleClass="slds-button slds-button_neutral" title="Cancel" value="Cancel" action="{!cancel}" immediate="true" />
-					<apex:commandButton styleClass="slds-button slds-button_brand" value="{!$Label.ap_Delete}" title="{!$Label.ap_Delete}" action="{!deleteRecords}"
-					 disabled="{!actionPlansToShow.size == 0}" />
+					<apex:commandButton styleClass="slds-button slds-button_brand" value="{!$Label.ap_Delete}" title="{!$Label.ap_Delete}" action="{!deleteRecords}" disabled="{!actionPlansToShow.size == 0}" />
 				</footer>
 			</div>
 		</section>

@@ -62,6 +62,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				/>
 				<apex:commandButton id="clone" action="{!$Page.ActionPlanTemplateCreation}?clone=1&templateId={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_Clone}"
 				 rendered="{!$ObjectType.ActionPlanTemplate__c.createable}" />
+				<apex:commandButton id="share" action="/p/share/CustomObjectSharingDetail?parentId={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_Sharing}"
+				 rendered="{!$ObjectType.ActionPlanTemplate__c.updateable && canShare}" />
 				<apex:commandButton id="newActionPlan" action="{!$Page.ActionPlanCreation}?templateId={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_New} {!$ObjectType.ActionPlan__c.label}"
 				 rendered="{!$ObjectType.ActionPlan__c.createable}" />
 				<apex:commandButton id="export" action="{!$Page.ActionPlanTemplateExport}?Id={!ActionPlanTemplate__c.Id}" value="{!$Label.ap_Export}" rendered="{!$Permission.Action_Plan_Template_Export}"
@@ -74,9 +76,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<apex:outputLabel value="{!$Label.ap_Owner}" />
 					<apex:outputPanel>
 						<apex:outputField value="{!ActionPlanTemplate__c.OwnerId}" />
-						<apex:outputPanel rendered="{!$ObjectType.ActionPlanTemplate__c.updateable}">
+						<apex:outputPanel rendered="{!$ObjectType.ActionPlanTemplate__c.updateable && canTransfer}">
 							&nbsp;[
-							<apex:outputLink value="/{!ActionPlanTemplate__c.Id}/a?retURL={!$CurrentPage.URL}">{!$Label.ap_Change}</apex:outputLink>]
+							<apex:commandLink action="{!$Page.ActionPlanAPTOwnerChange}?id={!ActionPlanTemplate__c.Id}">{!$Label.ap_Change}</apex:commandLink>
+							<!-- <apex:outputLink value="/{!ActionPlanTemplate__c.Id}/a?retURL={!$CurrentPage.URL}">{!$Label.ap_Change}</apex:outputLink> -->]
 						</apex:outputPanel>
 					</apex:outputPanel>
 				</apex:pageBlockSectionItem>
@@ -161,7 +164,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			</apex:pageBlockSection>
 		</apex:pageBlock>
 	</apex:form>
-	<apex:relatedList list="aptTasks__r" rendered="{!TemplateTasks.size = 0}" />
-	<apex:relatedList list="ActionPlans__r" />
-	<apex:outputField value="{!ActionPlanTemplate__c.TaskRecordTypeID__c}" rendered="false" />
+	<apex:pageBlock title="{!$ObjectType.ActionPlan__c.labelPlural}">
+		<apex:pageBlockTable value="{!ActionPlanTemplate__c.ActionPlans__r}" var="ap">
+			<apex:column headerValue="{!$ObjectType.ActionPlan__c.fields.Name.label}">
+				<apex:outputLink value="/{!ap.id}" target="_blank">{!ap.Name}</apex:outputLink>
+			</apex:column>
+			<apex:column headerValue="{!$ObjectType.ActionPlan__c.fields.Related_Record__c.label}">
+				<apex:outputText value="{!ap.Related_Record__c} ({!ap.Related_Object__c})" />
+			</apex:column>
+			<apex:column value="{!ap.Task_Status_Formula__c}" headerValue="{!$ObjectType.ActionPlan__c.fields.Task_Status_Formula__c.label}" />
+			<apex:column value="{!ap.StartDate__c}" headerValue="{!$ObjectType.ActionPlan__c.fields.StartDate__c.label}" />
+			<apex:column value="{!ap.Description__c}" headerValue="{!$ObjectType.ActionPlan__c.fields.Description__c.label}" />
+		</apex:pageBlockTable>
+	</apex:pageBlock>
 </apex:page>

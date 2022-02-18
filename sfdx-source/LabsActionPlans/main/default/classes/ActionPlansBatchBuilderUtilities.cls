@@ -85,12 +85,10 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			mode = ApEditMode.MODE_EDIT_SINGLE;
 			relActionPlans.add(baseObj);
 		} else {
-			List<String> apRefFields = ActionPlansUtilities.getCustomRelationshipFields();
-
 			// If baseObjId == null, then we are inserting a single or multiple APs
-
+			mode = ApEditMode.MODE_NEW;
+			List<String> apRefFields = ActionPlansUtilities.getCustomRelationshipFields();
 			for (Id relObjId : oIdsLIst) {
-				mode = ApEditMode.MODE_NEW;
 				// iterate over all related IDs
 				ActionPlan__c ap = new ActionPlan__c();
 				ap = baseObj.clone();
@@ -191,8 +189,8 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				} // This Id can be null because we may not have set it in the controller
 
 				if (at.Status__c == null) {
-					if (!String.isBlank(at.Task_RecordTypeId__c) && at.Task_RecordTypeId__c instanceof Id && at.Task_RecordTypeId__c.startsWithIgnoreCase('012')) {
-						at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(at.Task_RecordTypeId__c);
+					if (!String.isBlank(ap.TaskRecordTypeId__c) && ap.TaskRecordTypeId__c instanceof Id && ap.TaskRecordTypeId__c.startsWithIgnoreCase('012')) {
+						at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ap.TaskRecordTypeId__c);
 					} else {
 						if (ActionPlansUtilities.taskUsesRecordTypes) {
 							at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());

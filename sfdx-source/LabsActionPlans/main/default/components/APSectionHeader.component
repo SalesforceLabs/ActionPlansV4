@@ -37,12 +37,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	<apex:attribute name="title" type="String" required="false" default="Record" description="Header title text" />
 	<apex:attribute name="subtitle" type="String" required="false" description="Header subtitle text" />
 	<apex:attribute name="printURL" type="String" required="false" default="" description="printURL URL for classic header" />
+	<apex:attribute name="showPrintLink" type="String" required="false" default="false" description="Do we show the link to print?" />
 
 	<apex:variable var="lex" value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" />
 	<apex:variable var="headersubtitle" value="{!IF(subtitle == null, $ObjectType[sObjType].label, subtitle)}" />
 
 	<apex:outputPanel rendered="{!!lex}" layout="none">
-		<apex:sectionHeader subtitle="{!title}" title="{!headersubtitle}" printUrl="{!printURL}" />
+		<apex:sectionHeader subtitle="{!title}" title="{!headersubtitle}" printUrl="{!if(showPrintLink == 'true', printURL, '')}" />
 	</apex:outputPanel>
 
 	<apex:outputPanel rendered="{!lex}" layout="none">
@@ -79,7 +80,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<div class="slds-page-header__col-actions">
 						<div class="slds-page-header__controls">
 							<div class="slds-page-header__control">
-								<apex:outputLink value="{!printURL}" rendered="{!printURL != null}"> <apex:outputText styleclass="no-print" value="{!$Label.ap_Print}" /></apex:outputLink>
 								<apex:componentBody />
 							</div>
 						</div>

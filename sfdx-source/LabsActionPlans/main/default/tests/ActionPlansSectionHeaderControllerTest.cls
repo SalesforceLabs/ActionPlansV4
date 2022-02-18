@@ -47,17 +47,13 @@ private class ActionPlansSectionHeaderControllerTest {
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
 			shc.objectName = ActionPlansUtilities.namespacePrefix + 'ActionPlan__c';
-			shc.getIsCustom();
+			System.assert(shc.getIsCustom());
 			shc.getObjectIconInfo();
 
+			shc = new ActionPlansSectionHeaderController();
 			shc.objectName = ActionPlansUtilities.namespacePrefix + 'APTask__c';
-			shc.getIsCustom();
+			System.assert(shc.getIsCustom());
 			shc.getObjectIconInfo();
-
-			shc.objectName = 'Account';
-			shc.getIsCustom();
-			shc.getObjectIconInfo();
-			System.assert(!shc.getIsCustom(), 'Account is a standard object');
 		}
 
 	}
@@ -70,9 +66,15 @@ private class ActionPlansSectionHeaderControllerTest {
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
 			shc.objectName = 'CaseComment';
-			shc.getIsCustom();
+
 			shc.getObjectIconInfo();
 			System.assert(!shc.getIsCustom(), 'CaseComment is a standard object');
+
+			shc = new ActionPlansSectionHeaderController();
+			shc.objectName = 'Order';
+			System.assert(!shc.getIsCustom());
+			shc.getObjectIconInfo();
+			System.assert(!shc.getIsCustom(), 'Order is a standard object');
 		}
 
 	}

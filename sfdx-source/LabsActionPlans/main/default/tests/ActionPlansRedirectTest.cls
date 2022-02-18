@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @IsTest
 public class ActionPlansRedirectTest {
 	@TestSetup
-	static void makeData() {
+	private static void makeData() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
@@ -80,5 +80,38 @@ public class ActionPlansRedirectTest {
 		System.assert(!cp.getURL().containsIgnoreCase(apttt.Id));
 		System.debug('CurrentPage ' + cp.getURL());
 		System.assert(cp.getURL().containsIgnoreCase(apttt.Action_Plan_Template__c));
+	}
+
+	@IsTest
+	private static void actionPlanChangeOwner() {
+		ActionPlan__c actionPlan = [SELECT Id FROM ActionPlan__c LIMIT 1];
+		Test.setCurrentPage(Page.ActionPlanAPOwnerChange);
+		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlan));
+		PageReference pr = apr.save();
+		System.assert(pr.getURL().containsIgnoreCase(actionPlan.Id), 'Should have put Id in view page URL');
+
+		Test.startTest();
+		Test.setCurrentPage(Page.ActionPlanAPOwnerChange);
+		apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlan));
+		pr = apr.cancel();
+		Test.stopTest();
+		System.assert(pr.getURL().containsIgnoreCase(actionPlan.Id), 'Should have put Id in view page URL');
+	}
+
+	@IsTest
+	private static void actionPlanTemplateChangeOwner() {
+		ActionPlanTemplate__c actionPlanTemplate = [SELECT Id FROM ActionPlanTemplate__c LIMIT 1];
+		Test.setCurrentPage(Page.ActionPlanAPTOwnerChange);
+		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlanTemplate));
+		PageReference pr = apr.cancel();
+		System.assert(pr.getURL().containsIgnoreCase(actionPlanTemplate.Id), 'Should have put Id in view page URL');
+
+		Test.startTest();
+		Test.setCurrentPage(Page.ActionPlanAPTOwnerChange);
+		apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlanTemplate));
+		pr = apr.save();
+		Test.stopTest();
+
+		System.assert(pr.getURL().containsIgnoreCase(actionPlanTemplate.Id), 'Should have put Id in view page URL');
 	}
 }

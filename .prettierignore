@@ -14,7 +14,7 @@ node_modules/
 *.md
 coverage/
 docs/
-*.*-meta.xml
+*-meta.xml
 data/
 # Exclude project config
 sfdx-project.json
