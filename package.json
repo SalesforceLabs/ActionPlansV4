@@ -3,6 +3,11 @@
 	"private": true,
 	"version": "4.0.0",
 	"description": "Action Plans Salesforce Labs App",
+	"author": "Salesforce Labs",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/salesforcelabs/actionplansv4"
+	},
 	"scripts": {
 		"lint": "npm run lint:lwc && npm run lint:aura",
 		"lint:aura": "eslint **/aura/**",

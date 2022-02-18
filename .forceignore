@@ -29,6 +29,7 @@ sfdx-source/LabsActionPlans/main/default/lwc/jsconfig.json
 **/layouts/Lead*
 **/layouts/Account*
 **/layouts/Task*
+**/objects/Account/*.xml
 !**/Account-Account %28Action Plans%29 Layout.layout-meta.xml
 !**/Task-Task ActionPlans Layout.layout-meta.xml
 
@@ -46,6 +47,7 @@ TaskType.standardValueSet
 Lead-Lead Layout.layout
 Account-Account Layout.layout
 Global-Global Layout.layout
+Account.object
 *.profile
 *.recordType
 

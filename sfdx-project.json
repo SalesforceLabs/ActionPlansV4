@@ -4,7 +4,7 @@
             "path": "sfdx-source/LabsActionPlans",
             "default": true,
             "package": "Action Plans",
-			"versionName": "Version 4.0.0",
+            "versionName": "Version 4.0.0",
             "versionNumber": "4.0.0.NEXT",
             "releaseNotesUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/README.md",
             "unpackagedMetadata": {
@@ -27,6 +27,7 @@
         "ActionPlans": "0Ho5f000000oLlrCAE",
         "Action Plans@4.0.0-5": "04t5f000000pS3CAAU",
         "Action Plans@4.0.0-6": "04t5f000000pS3HAAU",
-        "Action Plans@4.0.0-7": "04t5f000000rJQ0AAM"
+        "Action Plans@4.0.0-7": "04t5f000000rJQ0AAM",
+        "Action Plans@4.0.0-8": "04t5f000000rJQUAA2"
     }
 }
