@@ -83,7 +83,7 @@ public with sharing class ActionPlansRedirect {
 	/**
 	 * Change the relevant record owner, and then call cancel so we go back to the record page
 	 * @author David Schach
-	 * @return   {@see ActionPlansRedirect.cancel}
+	 * @return   {@link ActionPlansRedirect.cancel}
 	 */
 	public PageReference save() {
 		if (objName.equalsIgnoreCase('ActionPlan__c')) {
