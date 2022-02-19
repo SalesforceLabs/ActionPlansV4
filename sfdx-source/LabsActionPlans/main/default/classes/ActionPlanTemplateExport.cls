@@ -209,8 +209,8 @@ public without sharing class ActionPlanTemplateExport {
 	}
 
 	/**
-	 * Method used for sanatizing input for XML document
-	 * @param out `Xmlstreamwriter`
+	 * Method used for sanitizing input for XML document
+	 * @param out `Xmlstreamwriter` the XML string so far
 	 * @param tag `String` XML Tag
 	 * @param content `String` XML content
 	 */
