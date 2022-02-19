@@ -77,7 +77,7 @@ public without sharing class ActionPlansUtilities {
 	 * @return   PageReference (null)
 	 */
 	public static PageReference onPageLoad() {
-		getCustomSetting();
+		checkOrgDefaultCustomSetting(true);
 		return null;
 	}
 
@@ -112,7 +112,6 @@ public without sharing class ActionPlansUtilities {
 			}
 			apCustomRelationshipFields = referenceFieldNames;
 		}
-		//System.debug('Related Fields: ' + apCustomRelationshipFields);
 		return apCustomRelationshipFields;
 	}
 
@@ -214,7 +213,6 @@ public without sharing class ActionPlansUtilities {
 		if (taskRecordTypes == null) {
 			String taskRTQuery = 'SELECT Id, IsActive, Name FROM RecordType WHERE SObjectType = \'Task\' AND IsActive = true ORDER BY Name ASC';
 			taskRecordTypes = Database.query(taskRTQuery);
-			System.debug('TASKRECORDTYPES: ' + taskRecordTypes);
 		}
 		return taskRecordTypes;
 	}
@@ -463,7 +461,6 @@ public without sharing class ActionPlansUtilities {
 	 */
 	public static Boolean getCanTransfer(Id recordId) {
 		UserRecordAccess ura = [SELECT RecordId, HasTransferAccess, MaxAccessLevel FROM UserRecordAccess WHERE UserId = :UserInfo.getUserId() AND RecordId = :recordId LIMIT 1];
-		System.debug('CAN TRANSFER? ' + ura);
 		return ura.HasTransferAccess;
 	}
 
@@ -484,8 +481,8 @@ public without sharing class ActionPlansUtilities {
 			}
 		}
 
-		Map<String, Schema.SObjectType> tokens = Schema.getGlobalDescribe();
-		if (tokens.containsKey('ActionPlan__Share')) {
+		Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+		if (gd.containsKey(shareObjectName)) {
 			if (recordOwnerId == UserInfo.getUserId() || hasModifyAllData) {
 				return true;
 			}
@@ -553,18 +550,31 @@ public without sharing class ActionPlansUtilities {
 		}
 		apSettings = Action_Plans_Settings__c.getOrgDefaults();
 		if (apSettings.Id == null) {
-			apSettings = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
+			apSettings = checkOrgDefaultCustomSetting(false);
+		} else {
+			apSettings = Action_Plans_Settings__c.getInstance();
+		}
+		return apSettings;
+	}
+
+	/**
+	 * Get the Default Custom Setting (Organization level) and insert if specified
+	 * <br>We cannot insert in a Visualforce constructor, but we can in a page OnLoad action
+	 * @author David Schach
+	 * @param  insertIfNull `Boolean` Should we insert the Organization Custom Setting if there isn't one?
+	 * @return              `Action_Plans_Settings__c` The Settings object
+	 */
+	public static Action_Plans_Settings__c checkOrgDefaultCustomSetting(Boolean insertIfNull) {
+		apSettings = Action_Plans_Settings__c.getOrgDefaults();
+		if (apSettings.Id == null) {
+			Action_Plans_Settings__c apSettings = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
 			apSettings.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
 			apSettings.Default_Object_on_Lead_Conversion__c = 'Contact';
 			apSettings.Unassigned_Task_Default_to_Owner__c = (Boolean) Action_Plans_Settings__c.Unassigned_Task_Default_to_Owner__c.getDescribe().getDefaultValue();
 			apSettings.Chatter_Object_Brag__c = (Boolean) Action_Plans_Settings__c.Chatter_Object_Brag__c.getDescribe().getDefaultValue();
-			try {
+			if (insertIfNull) {
 				upsert apSettings;
-			} catch (DMLException e) {
-				update apSettings;
 			}
-		} else {
-			apSettings = Action_Plans_Settings__c.getInstance();
 		}
 		return apSettings;
 	}
@@ -586,14 +596,13 @@ public without sharing class ActionPlansUtilities {
 	 */
 	public static String actionPlanSubjectToName(String subject, Integer maxChars) {
 		if (String.isBlank(subject)) {
-			System.debug('NULL SUBJECT');
 			return '';
 		}
 		if (subject.trim().length() > maxChars) {
 			return subject.left(maxChars - 3).trim() + '...';
-		} else if (subject.trim().length() < maxChars - 3) {
+		} /* else if (subject.trim().length() < maxChars - 3) {
 			return subject.left(maxChars - 3).trim() + ' - ';
-		}
+		} */
 		return subject;
 	}
 
@@ -672,9 +681,6 @@ public without sharing class ActionPlansUtilities {
 			Integer daysToAdjust = cmdt.Days_to_start_of_next_week__c.intValue();
 			addDays = addDays + daysToAdjust;
 		}
-		/* if(addDays != 0){
-			System.debug('Task is now due on a ' + ActionPlansUtilities.getDayOfWeek( dueDate.addDays( addDays ) ));
-		} */
 		return dueDate.addDays(addDays);
 	}
 

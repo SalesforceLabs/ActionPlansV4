@@ -232,6 +232,19 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
+	 * Send Action Plan's Template Name to the Visualforce page
+	 * <br>Because the record has not been saved, the Action Plan Name on initialization is the same as the name of the template
+	 * @author David Schach
+	 * @return `ActionPlan__c.Name` (from `ActionPlan__c.Action_Plan_Template__r.Name`)
+	 */
+	public String getTemplateName() {
+		if (actionPlan.Action_Plan_Template__c != null) {
+			return actionPlan.Name;
+		}
+		return '';
+	}
+
+	/**
 	 * If the Task object has Record Types enabled, return `true`
 	 * @return Does the Task object have Record Types enabled?
 	 */
@@ -412,7 +425,7 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * Action which saves a new Action Plan
+	 * Action that saves a new Action Plan
 	 * @return PageReference
 	 * @see ActionPlanCreationController.saveHandler
 	 */

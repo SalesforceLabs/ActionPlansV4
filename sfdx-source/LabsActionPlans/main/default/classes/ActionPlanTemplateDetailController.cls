@@ -93,7 +93,7 @@ public with sharing class ActionPlanTemplateDetailController {
 	 */
 	public PageReference deleteTemplate() {
 		try {
-			new Safely().doDelete(actionPlanTemplate);
+			delete actionPlanTemplate;
 		} catch (Exception e) {
 			Apexpages.addMessages(e);
 			return null;

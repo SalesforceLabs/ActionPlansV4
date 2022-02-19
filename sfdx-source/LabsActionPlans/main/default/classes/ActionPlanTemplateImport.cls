@@ -414,7 +414,7 @@ public inherited sharing class ActionPlanTemplateImport {
 
 	/**
 	 * Method for decoding strings from XML document
-	 * @param reader
+	 * @param reader Part of the XML string
 	 * @return String
 	 */
 	private String getDecodedString(Xmlstreamreader reader) {

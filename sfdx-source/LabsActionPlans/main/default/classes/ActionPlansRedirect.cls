@@ -45,6 +45,9 @@ public with sharing class ActionPlansRedirect {
 	private ActionPlanTemplate__c actionPlanTemplate;
 	private Id parentId;
 	private Id recordId;
+	/**
+	 * Related object name so this page can work for multiple SObject Types
+	 */
 	public String objName { get; private set; }
 
 	/**
@@ -78,7 +81,7 @@ public with sharing class ActionPlansRedirect {
 	}
 
 	/**
-	 * Update the relevant object adn then call cancel so we go back to the record page
+	 * Change the relevant record owner, and then call cancel so we go back to the record page
 	 * @author David Schach
 	 * @return   {@see ActionPlansRedirect.cancel}
 	 */

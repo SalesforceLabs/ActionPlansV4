@@ -241,9 +241,9 @@ private class ActionPlanCreationControllerTest {
 		System.assert(apCreateController.inVisualforceContext, 'Test should have VF context as true');
 		apCreateController.getTasks();
 		System.assertEquals(apTASKCOUNT, apCreateController.getTasks().size());
-
 		System.assertEquals(conCOUNT, apCreateController.getNameListSize());
 
+		apCreateController.getTemplateName();
 		apCreateController.save();
 
 		Test.stopTest();
