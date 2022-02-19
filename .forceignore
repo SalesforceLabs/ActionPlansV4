@@ -50,6 +50,8 @@ Global-Global Layout.layout
 Account.object
 *.profile
 *.recordType
+*.ProfilePasswordPolicy
+*.ProfileSessionSetting
 
 src
 metadata

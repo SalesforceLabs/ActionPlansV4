@@ -50,6 +50,9 @@ $RECYCLE.BIN/
 # metadata format files
 src
 
+# Test results
+tests
+
 # temporary files
 **/layouts/Contact*
 **/layouts/Global*
