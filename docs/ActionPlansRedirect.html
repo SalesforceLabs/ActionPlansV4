@@ -88,9 +88,6 @@
               <li title="CanTheUser" id="item-CanTheUser" class="nav-item class " onclick="goToLocation('CanTheUser.html');">
                 <a tabindex="1" href="javascript:void(0)">CanTheUser</a>
               </li>
-              <li title="Safely" id="item-Safely" class="nav-item class " onclick="goToLocation('Safely.html');">
-                <a tabindex="1" href="javascript:void(0)">Safely</a>
-              </li>
             </ul>
           </details>
           <details id="Trigger_Handlers" class="group-name">
@@ -223,7 +220,7 @@
                     <th>Name</th>
                     <th>Signature</th>
 
-
+                    <th>Description</th>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
@@ -237,6 +234,9 @@
                     </td>
 
 
+                    <td class="attribute-description">
+
+                    </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
@@ -250,6 +250,9 @@
                     </td>
 
 
+                    <td class="attribute-description">
+
+                    </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
@@ -263,6 +266,9 @@
                     </td>
 
 
+                    <td class="attribute-description">
+
+                    </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
@@ -276,10 +282,13 @@
                     </td>
 
 
+                    <td class="attribute-description">
+
+                    </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansRedirect.cls#L48">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansRedirect.cls#L51">
                         objName
                       </a></td>
                     <td>
@@ -289,6 +298,9 @@
                     </td>
 
 
+                    <td class="attribute-description">
+                      Related object name so this page can work for multiple SObject Types
+                    </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
@@ -302,6 +314,9 @@
                     </td>
 
 
+                    <td class="attribute-description">
+
+                    </td>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
@@ -315,6 +330,9 @@
                     </td>
 
 
+                    <td class="attribute-description">
+
+                    </td>
                   </tr>
                 </table>
             </div>
@@ -335,7 +353,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansRedirect.ActionPlansRedirect">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansRedirect.cls#L55">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansRedirect.cls#L58">
                       ActionPlansRedirect(controller)
                     </a>
                   </h4>
@@ -392,14 +410,14 @@
                     </a>
 
                     <div class="methods-toc__description">
-                      Update the relevant object adn then call cancel so we go back to the record page
+                      Change the relevant record owner, and then call cancel so we go back to the record page
                     </div>
                   </li>
                 </ul>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansRedirect.cancel">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansRedirect.cls#L100">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansRedirect.cls#L103">
                       cancel()
                     </a>
                   </h4>
@@ -429,7 +447,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansRedirect.redirect">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansRedirect.cls#L121">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansRedirect.cls#L124">
                       redirect()
                     </a>
                   </h4>
@@ -459,12 +477,12 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansRedirect.save">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansRedirect.cls#L85">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansRedirect.cls#L88">
                       save()
                     </a>
                   </h4>
                   <div class="method-description">
-                    Update the relevant object adn then call cancel so we go back to the record page
+                    Change the relevant record owner, and then call cancel so we go back to the record page
                   </div>
                   <div class="method-subtitle">
                     Signature
