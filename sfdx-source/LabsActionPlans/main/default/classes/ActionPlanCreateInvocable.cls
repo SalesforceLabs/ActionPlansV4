@@ -53,7 +53,7 @@ global without sharing class ActionPlanCreateInvocable {
 	 * String apTemplateName;
 	 * ActionPlanTemplate__c apTemplate;
 	 * List<SObject> toInsert... // can use any object, such as Account, or the generic SObject class
-	 * List<requests> = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
+	 * List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
 	 * for(SObject a : toInsert){
 	 *     ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
 	 *     req.templateNameOrID = apTemplate.Id;

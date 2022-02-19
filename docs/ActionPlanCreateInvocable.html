@@ -264,7 +264,7 @@
                   <pre class="code-example"><code> String apTemplateName; 
  ActionPlanTemplate__c apTemplate; 
  List&lt;SObject&gt; toInsert... // can use any object, such as Account, or the generic SObject class 
- List&lt;requests&gt; = new List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt;(); 
+ List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt; requests = new List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt;(); 
  for(SObject a : toInsert){ 
      ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest(); 
      req.templateNameOrID = apTemplate.Id; 
