@@ -247,10 +247,10 @@ To call the invocable Apex from a Trigger or Apex class, adapt the following sam
 <code>
 String apTemplateName;
 ActionPlanTemplate__c apTemplate;
-SObject a; // can use any object, such as Account, or the generic SObject class
+List<SObject> toInsert... // can use any object, such as Account, or the generic SObject class
 
 List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
-for(Account a : toInsert){
+for(SObject a : toInsert){
 	ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
 	req.templateNameOrID = apTemplate.Id;
 	req.relatedRecordID = a.Id;

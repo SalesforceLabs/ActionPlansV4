@@ -42,6 +42,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @since 2011
  */
 public without sharing class ActionPlanTemplateExport {
+	/**
+	 * The `ActionPlanTemplate__c` to be exported
+	 */
 	private String templateId;
 
 	/**
@@ -117,9 +120,6 @@ public without sharing class ActionPlanTemplateExport {
 		return doc.Id;
 	}
 
-	/**
-	 *
-	 */
 	/**
 	 * Method to save the XML file to a File (if the user is using Lightning Experience)
 	 * @author David Schach
@@ -209,10 +209,10 @@ public without sharing class ActionPlanTemplateExport {
 	}
 
 	/**
-	 * Method used for sanatizing input for XML document
-	 * @param out
-	 * @param tag
-	 * @param content
+	 * Method used for sanitizing input for XML document
+	 * @param out `Xmlstreamwriter` the XML string so far
+	 * @param tag `String` XML Tag
+	 * @param content `String` XML content
 	 */
 	private void writeElement(Xmlstreamwriter out, String tag, String content) {
 		out.writeStartElement(null, tag, null);

@@ -88,9 +88,6 @@
               <li title="CanTheUser" id="item-CanTheUser" class="nav-item class " onclick="goToLocation('CanTheUser.html');">
                 <a tabindex="1" href="javascript:void(0)">CanTheUser</a>
               </li>
-              <li title="Safely" id="item-Safely" class="nav-item class " onclick="goToLocation('Safely.html');">
-                <a tabindex="1" href="javascript:void(0)">Safely</a>
-              </li>
             </ul>
           </details>
           <details id="Trigger_Handlers" class="group-name">
@@ -227,7 +224,7 @@
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L50">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L53">
                         fileOrDocumentId
                       </a></td>
                     <td>
@@ -243,7 +240,7 @@
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L45">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L48">
                         templateId
                       </a></td>
                     <td>
@@ -254,7 +251,7 @@
 
 
                     <td class="attribute-description">
-
+                      The <code class="code-inline">ActionPlanTemplate__c</code> to be exported
                     </td>
                   </tr>
                 </table>
@@ -276,7 +273,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlanTemplateExport.ActionPlanTemplateExport">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L56">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L59">
                       ActionPlanTemplateExport(templateId)
                     </a>
                   </h4>
@@ -326,6 +323,9 @@
                       saveToContent (name, xml)
                     </a>
 
+                    <div class="methods-toc__description">
+                      Method to save the XML file to a File (if the user is using Lightning Experience)
+                    </div>
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry " href="#ActionPlanTemplateExport.saveToDocument">
@@ -342,7 +342,7 @@
                     </a>
 
                     <div class="methods-toc__description">
-                      Method used for sanatizing input for XML document
+                      Method used for sanitizing input for XML document
                     </div>
                   </li>
                 </ul>
@@ -378,7 +378,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlanTemplateExport.export">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L64">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L67">
                       export()
                     </a>
                   </h4>
@@ -406,6 +406,9 @@
                       saveToContent(name, xml)
                     </a>
                   </h4>
+                  <div class="method-description">
+                    Method to save the XML file to a File (if the user is using Lightning Experience)
+                  </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
@@ -413,11 +416,34 @@
                   <div class="method-signature">
                     private Id saveToContent(String name, String xml)
                   </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">name</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">String</code>
+                  </div>
+                  <div class="param-description">File Name</div>
+                  <div class="param-name">xml</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">String</code>
+                  </div>
+                  <div class="param-description"> The XML of the exported template</div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    <code class="code-inline">ContentDocument</code> Id
+                  </div>
+                  <div class="method-subtitle">
+                    Author
+                  </div>
+                  <div class="method-subtitle-description">
+                    David Schach
+                  </div>
                 </div>
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlanTemplateExport.saveToDocument">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L108">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanTemplateExport.cls#L111">
                       saveToDocument(name, xml)
                     </a>
                   </h4>
@@ -455,7 +481,7 @@
                     </a>
                   </h4>
                   <div class="method-description">
-                    Method used for sanatizing input for XML document
+                    Method used for sanitizing input for XML document
                   </div>
                   <div class="method-subtitle">
                     Signature
@@ -469,14 +495,17 @@
                   <div class="param-type">
                     Type: <code class="code-inline">Xmlstreamwriter</code>
                   </div>
+                  <div class="param-description"><code class="code-inline">Xmlstreamwriter</code> the XML string so far</div>
                   <div class="param-name">tag</div>
                   <div class="param-type">
                     Type: <code class="code-inline">String</code>
                   </div>
+                  <div class="param-description"><code class="code-inline">String</code> XML Tag</div>
                   <div class="param-name">content</div>
                   <div class="param-type">
                     Type: <code class="code-inline">String</code>
                   </div>
+                  <div class="param-description"><code class="code-inline">String</code> XML content</div>
                 </div>
               </div>
             </div>
