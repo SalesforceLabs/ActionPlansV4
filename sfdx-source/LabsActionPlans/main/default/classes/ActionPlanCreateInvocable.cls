@@ -49,6 +49,18 @@ global without sharing class ActionPlanCreateInvocable {
 	 * @param requests Wrapper of `CreateActionPlanRequest`
 	 * @see ActionPlanCreateInvocable.CreateActionPlanRequest
 	 * @return `List<Id>` of the created Action Plans
+	 * @example
+	 * String apTemplateName;
+	 * ActionPlanTemplate__c apTemplate;
+	 * List<SObject> toInsert... // can use any object, such as Account, or the generic SObject class
+	 * List<requests> = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
+	 * for(SObject a : toInsert){
+	 *     ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
+	 *     req.templateNameOrID = apTemplate.Id;
+	 *     req.relatedRecordID = a.Id;
+	 *     req.daysToActionPlanStart = 0;
+	 *     requests.add(req);
+	 * List resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 	 */
 	@InvocableMethod(label='Create Action Plan From Template' description='Takes a Template Name/Id and Record Id and makes an Action Plan for that record.' category='ActionPlans')
 	global static List<Id> makeActionPlanFromTemplate(List<CreateActionPlanRequest> requests) {
