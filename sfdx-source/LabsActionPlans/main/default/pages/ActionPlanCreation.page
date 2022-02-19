@@ -98,15 +98,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		<script type="text/javascript">
 			var __sfdcSessionId = '{!GETSESSIONID()}';
 		</script>
-		<script src="../../soap/ajax/53.0/connection.js" type="text/javascript"></script>
+		<script src="../../soap/ajax/54.0/connection.js" type="text/javascript"></script>
 		<style>
 			input.errorBorder {
 				border: 2px solid #cc0000;
 			}
-
-			/* .slds-scope .slds-input {
-			width:unset;
-		} */
 
 		</style>
 		<apex:variable value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" var="lex" />
@@ -137,7 +133,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				</apex:pageBlockButtons>
 
 				<apex:pageBlockSection title="{!$ObjectType.ActionPlanTemplate__c.label}" columns="2" collapsible="false" rendered="{!DisplayTemplateLookup && $ObjectType.ActionPlanTemplate__c.accessible}">
-					<apex:pageBlockSectionItem rendered="{!!lex}">
+					<apex:pageBlockSectionItem rendered="{!!lex && $ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.updateable}">
 						<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" for="templateLookup" />
 						<apex:inputField id="templateLookup" required="false" value="{!ActionPlan__c.Action_Plan_Template__c}" onchange="javascript:reloadActionPlan('{!JSINHTMLENCODE(ActionPlan__c.Action_Plan_Template__c)}', document.getElementById('{!$Component.templateLookup}' + '_lkid').value);">
 							<script>
@@ -154,7 +150,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							</script>
 						</apex:inputField>
 					</apex:pageBlockSectionItem>
-					<apex:pageBlockSectionItem rendered="{!lex}">
+					<apex:pageBlockSectionItem rendered="{!lex && $ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.updateable}">
 						<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" />
 						<apex:outputPanel layout="none">
 							<div class="slds-scope" id="sldsscopediv">
@@ -233,6 +229,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							<apex:inputhidden value="{!ActionPlan__c.Action_Plan_Template__c}" id="TemplateHiddenInput" />
 						</apex:outputPanel>
 					</apex:pageBlockSectionItem>
+					<apex:outputField rendered="{!!$ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.updateable}" value="{!ActionPlan__c.Action_Plan_Template__c}"
+					/>
 				</apex:pageBlockSection>
 
 				<!-- Information Section -->
@@ -250,10 +248,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<apex:pageBlockSectionItem id="StartDateSection" rendered="{!ActionPlan__c.Completed__c == null || ActionPlan__c.Completed__c == 0}">
 						<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.StartDate__c.label}" for="StartDate" />
 						<apex:inputField id="StartDate" required="true" value="{!ActionPlan__c.StartDate__c}" />
-						<!-- onclick="showAgain();" -->
 					</apex:pageBlockSectionItem>
 
-					<apex:inputField value="{!ActionPlan__c.Action_Plan_Template__c}" rendered="false" />
+					<apex:outputField value="{!ActionPlan__c.Action_Plan_Template__c}" rendered="false" />
+					<apex:outputField value="{!ActionPlan__c.Action_Plan_Template__r.Name}" rendered="false" />
 					<apex:inputField value="{!ActionPlan__c.Description__c}" />
 				</apex:pageBlockSection>
 				<!-- End Information Section -->
@@ -275,7 +273,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<apex:pageBlockSectionItem rendered="{!!hasRelatedObject}">
 						<apex:outputPanel layout="block" styleClass="slds-scope" style="align: right">
 							<apex:selectList id="relatedObjLookup" styleclass="slds-input slds-select resize" value="{!relatedFieldName}" multiselect="false" size="1" style="font-size: 14px"
-							 onchange="refreshRelatedObjectsLookUp(this.value);" required="true">
+							 required="true" onchange="refreshRelatedObjectsLookUp(this.value);j$('[id$=APName]').val('{!templateName}');">
 								<apex:selectOptions value="{!relatedObjectOptions}" />
 							</apex:selectList>
 						</apex:outputPanel>
@@ -297,6 +295,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 									<apex:outputPanel layout="none" rendered="{!lex}">
 										<c:APLightningLookup sObj="{!ActionPlan__c}" field="{!relatedFieldName}" sObjType="{!relatedObjectName}" displayField="{!relatedObjDisplayField}"
 										 required="true" for="{!relatedFieldName}lookup" />
+										<apex:outputPanel rendered="{!ActionPlan__c.Action_Plan_Template__c != null}">
+											<script>
+												//var templateName = '{!ActionPlan__c.Action_Plan_Template__r.Name}';
+												j$('#{!relatedFieldName}lookupsldsscopediv #searchInput').on("parentchange", function (event, relName) {
+													console.log('thing changed');
+													j$('[id$=APName]').val('{!templateName}' + ' - ' + relName);
+												});
+											</script>
+										</apex:outputPanel>
 									</apex:outputPanel>
 									<apex:outputPanel layout="none" rendered="{!!lex}">
 										<apex:inputField id="classicRelated" required="true" value="{!ActionPlan__c[relatedFieldName]}" />
@@ -381,7 +388,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 							<!--  Dependent task  -->
 							<apex:column headerValue="{!$ObjectType.APTask__c.fields.Controller__c.label}" rendered="{!Tasks.Size > 1}" styleClass="third">
-								<apex:selectList id="dependent" value="{!wrapTask.apt.Dependent__c}" multiselect="false" size="1" style="min-width: 85px" onchange="javascript:checkDependent('{!$Component.taskTable.dependent}','{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');"
+								<apex:selectList id="dependent" value="{!wrapTask.apt.Dependent__c}" multiselect="false" size="1" style="min-width: 85px" onchange="javascript:checkDependent('{!$Component.taskTable.dependent}','{!JSINHTMLENCODE($Label.ap_ItselfDependencyError)})','{!JSINHTMLENCODE($Label.ap_Errors_Cyclic_Dependency_Found)}');"
 								 styleClass="selectDepending" disabled="{!wrapTask.apt.IsClosed__c}">
 									<apex:selectOptions value="{!SubjectItems}" />
 								</apex:selectList>
@@ -420,7 +427,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 									</apex:outputPanel>
 
 									<apex:outputPanel rendered="{!!$ObjectType.APTask__c.fields.User__c.updateable && wrapTask.apt.User__c == null}" id="userDisplayPanel">
-										<apex:outputPanel layout="none" rendered="{!!$Setup.Action_Plans_Settings__c.Unassigned_Task_Default_to_Owner__c}" id="userNameDisplay">[&nbsp;
+										<apex:outputPanel layout="none" rendered="{!!AssignToParentOwner}" id="userNameDisplay">[&nbsp;
 											<apex:outputField value="{!wrapTask.apt.User__c}" />&nbsp;]</apex:outputPanel>
 										<apex:outputText rendered="{!AssignToParentOwner}" id="recordOwnerPlaceholder">[&nbsp;{!$Label.ap_RecordOwner}&nbsp;]</apex:outputText>
 									</apex:outputPanel>

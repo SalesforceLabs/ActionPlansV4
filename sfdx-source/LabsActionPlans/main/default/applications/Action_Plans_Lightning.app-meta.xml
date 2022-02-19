@@ -10,11 +10,13 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Action Plans</label>
     <navType>Standard</navType>
     <tabs>standard-home</tabs>
     <tabs>Action_Plans_Home</tabs>
     <tabs>ActionPlan__c</tabs>
     <tabs>ActionPlanTemplate__c</tabs>
+    <tabs>standard-report</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

@@ -76,10 +76,6 @@
         <apexClass>CanTheUser</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>Safely</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>Weekend_Day__mdt</name>
@@ -232,11 +228,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ActionPlanTemplate__c.ImportId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ActionPlanTemplate__c.SkipDay__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -256,7 +247,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ActionPlan__c.Action_Plan_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>

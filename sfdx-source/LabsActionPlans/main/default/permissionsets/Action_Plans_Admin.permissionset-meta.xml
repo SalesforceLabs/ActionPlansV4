@@ -172,14 +172,6 @@
         <apexClass>CanTheUserTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>Safely</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>SafelyTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>Weekend_Day__mdt</name>

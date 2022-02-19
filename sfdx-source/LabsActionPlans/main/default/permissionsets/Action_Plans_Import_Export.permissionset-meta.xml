@@ -9,22 +9,6 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>ActionPlanCreateInvocable</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlanCreationController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlanDetailController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlanTemplateCreationController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ActionPlanTemplateDetailController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -41,62 +25,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ActionPlansBatchBuilder</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansBatchBuilderUtilities</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansBatchDelete</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansBatchTaskBuilder</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansCreateMultipleAPsExtension</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansDeleteMultipleAPExtension</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansRedirect</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansSectionHeaderController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansTaskTriggerUtilities</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansTriggerHandlers</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ActionPlansUtilities</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>CanTheUser</apexClass>
+    <customPermissions>
         <enabled>true</enabled>
-    </classAccesses>
-    <customMetadataTypeAccesses>
-        <enabled>true</enabled>
-        <name>Weekend_Day__mdt</name>
-    </customMetadataTypeAccesses>
-    <customSettingAccesses>
-        <enabled>true</enabled>
-        <name>Action_Plans_Settings__c</name>
-    </customSettingAccesses>
-    <description>Permissions to create Action Plan Templates for others to use</description>
+        <name>Action_Plan_Template_Export</name>
+    </customPermissions>
+    <description>Special permissions for exporting templates and importing them</description>
     <fieldPermissions>
         <editable>true</editable>
         <field>APTemplateTask__c.Comments__c</field>
@@ -183,11 +119,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>Action Plans Template Creator</label>
+    <label>Action Plans Import/Export</label>
     <objectPermissions>
         <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>APTemplateTask__c</object>
@@ -195,30 +131,13 @@
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>ActionPlanTemplate__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>Document</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <pageAccesses>
-        <apexPage>ActionPlanAPTOwnerChange</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>ActionPlanTemplateCreation</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
     <pageAccesses>
         <apexPage>ActionPlanTemplateDetail</apexPage>
         <enabled>true</enabled>
@@ -232,27 +151,15 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>ActionPlanTemplateTaskOverride</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>ActionPlansHome</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabSettings>
         <tab>ActionPlanTemplate__c</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>Action_Plans_Home</tab>
-        <visibility>Visible</visibility>
+        <visibility>Available</visibility>
     </tabSettings>
     <tabSettings>
         <tab>Action_Plans_Template_Import</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>standard-Document</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>
