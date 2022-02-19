@@ -1,6 +1,6 @@
 {
 	"orgName": "Action Plans",
-	"edition": "Enterprise",
+	"edition": "Developer",
 	"hasSampleData": true,
 	"description": "Scratch org for Action Plans",
 	"features": ["EnableSetPasswordInApi"],

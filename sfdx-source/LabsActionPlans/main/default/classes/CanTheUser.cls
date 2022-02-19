@@ -10,7 +10,6 @@
  * @see https://github.com/codefriar/CanTheUser
  * @see https://github.com/trailheadapps/apex-recipes
  * @see CanTheUserTest
- * @see Safely
  * @author {@link [Codefriar](https://github.com/codefriar)}
  * @since 2021
  * @group Security
