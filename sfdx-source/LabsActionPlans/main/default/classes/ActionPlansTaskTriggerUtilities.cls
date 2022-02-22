@@ -40,8 +40,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * Set to WITHOUT sharing because this is only called from a trigger handler
- * @since 2011
- * @author David Schach
+ * @since 2022
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Trigger Handlers
  */
 public without sharing class ActionPlansTaskTriggerUtilities {

@@ -41,8 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * Controller for ActionPlan Create and ActionPlan Edit screens (the same page overrides both actions)
  * @group Visualforce
  * @author Rodrigo Birriel
- * @author David Schach
- * @since 2011
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @see ActionPlanCreateInvocable
  */
 public with sharing class ActionPlanCreationController {
@@ -98,7 +98,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Constructor for ActionPlan Create/Edit Page
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  stdController `ActionPlan__c` standard controller
 	 */
 	public ActionPlanCreationController(ApexPages.StandardController stdController) {
@@ -172,7 +172,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Initalize controller for creating a new Action Plan from a template
 	 * <br>Used so we can instantiate this controller from Invocable Apex
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param visualforceContext Are we in Visualforce context?
 	 */
 	private void initNewActionPlanFromTemplate(Boolean visualforceContext) {
@@ -181,7 +181,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * initNewActionPlanFromTemplate description
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  visualforceContext visualforceContext description
 	 * @param  apt                apt description
 	 */
@@ -234,7 +234,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Send Action Plan's Template Name to the Visualforce page
 	 * <br>Because the record has not been saved, the Action Plan Name on initialization is the same as the name of the template
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return `ActionPlan__c.Name` (from `ActionPlan__c.Action_Plan_Template__r.Name`)
 	 */
 	public String getTemplateName() {
@@ -259,8 +259,8 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * Get the specific lookup field used by this Aciton Plan
-	 * @author David Schach
+	 * Get the specific lookup field used by this Action Plan
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   The field Name
 	 */
 	public String relatedFieldName {
@@ -311,7 +311,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Based on the related object name, we display a field from that object as the related record
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  objectName SObject Name
 	 * @return            The display field
 	 */
@@ -982,7 +982,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Take related IDs parameter and put into a list if each is an Id.
 	 * <br>Discard invalid IDs
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  relatedIDs The page URL parameters
 	 * @return            A list (not set) of all related IDs from the URL
 	 */
@@ -1051,7 +1051,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * We need a list of parent RECORD names when showing all the parents when we mass-create action plans
 	 * <br>This initializes the list, and then divides it into three parts for three columns on the page.
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   The list of related object Names (not labels)
 	 */
 	@TestVisible
@@ -1082,7 +1082,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * The size of the list of related objects available as parents to the Action Plan
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   The picklist size
 	 */
 	public Integer getNameListSize() {
@@ -1344,7 +1344,7 @@ public with sharing class ActionPlanCreationController {
 	 * Wrapper Class for AP Task SObject
 	 * @author Rodrigo Birriel
 	 * @since 08/01/2010
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @since 4/2022
 	 */
 	public class ApTaskWrapper {

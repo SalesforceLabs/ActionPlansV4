@@ -39,7 +39,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Extension for `Action Plan Template` Create/Edit page
- * @since 2011
+ * @since v3
+ * @author Rodrigo Birriel
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Visualforce
  */
 public with sharing class ActionPlanTemplateCreationController {
@@ -569,7 +571,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * Inner Wrapper Class for Action Plan Template Tasks
 	 * @author Matias Menafra
 	 * @date 08/08/2010
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @date 05/2021
 	 */
 	public class ApTTaskWrapper {

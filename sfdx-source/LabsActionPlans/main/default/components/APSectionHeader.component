@@ -40,10 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	<apex:attribute name="showPrintLink" type="String" required="false" default="false" description="Do we show the link to print?" />
 
 	<apex:variable var="lex" value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" />
-	<apex:variable var="headersubtitle" value="{!IF(subtitle == null, $ObjectType[sObjType].label, subtitle)}" />
 
 	<apex:outputPanel rendered="{!!lex}" layout="none">
-		<apex:sectionHeader subtitle="{!title}" title="{!headersubtitle}" printUrl="{!if(showPrintLink == 'true', printURL, '')}" />
+		<apex:sectionHeader subtitle="{!title}" title="{!subtitle}" printUrl="{!if(showPrintLink == 'true', printURL, '')}" />
 	</apex:outputPanel>
 
 	<apex:outputPanel rendered="{!lex}" layout="none">
@@ -56,7 +55,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 						<div class="slds-media">
 							<div class="slds-media__figure">
 								<span class="slds-icon_container {!ObjectIconInfo['iconStyle']}" title="{!$ObjectType[sObjType].label}">
-									<!-- <img src="{!lexicon}" class="slds-icon slds-page-header__icon" aria-hidden="true" /> -->
 									<apex:image url="{!lexicon}" styleClass="slds-icon slds-page-header__icon" html-aria-hidden="true" />
 									<span class="slds-assistive-text">{!$ObjectType[sObjType].label}</span>
 								</span>
@@ -72,7 +70,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 									</div>
 								</div>
 								<p class="slds-page-header__name-meta">
-									<apex:outputText value="{!headersubtitle}" />
+									<apex:outputText value="{!subtitle}" />
 								</p>
 							</div>
 						</div>

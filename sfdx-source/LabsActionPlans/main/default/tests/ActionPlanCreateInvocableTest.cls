@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Test class for Invocable Apex class
  * @since 2022
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Invocable
  */
 @IsTest

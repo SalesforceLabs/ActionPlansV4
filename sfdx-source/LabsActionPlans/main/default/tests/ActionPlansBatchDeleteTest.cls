@@ -38,6 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Test class for Batch Delete class
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Batch Apex
  */
 @IsTest

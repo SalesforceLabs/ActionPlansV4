@@ -38,6 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Tests for `ActionPlan__c` Create/Edit Visualforce Extension
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Visualforce
  */
 @IsTest

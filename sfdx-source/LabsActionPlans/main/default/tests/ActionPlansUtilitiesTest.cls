@@ -33,7 +33,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @group Utilities
  * @see ActionPlansUtilities
  */
@@ -151,7 +152,7 @@ private class ActionPlansUtilitiesTest {
 
 	/**
 	 * Pass in any object and create an Action Plan for that object
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  objectName The object name
 	 * @return            Success at creating tasks for the Action Plan
 	 */
@@ -406,7 +407,7 @@ private class ActionPlansUtilitiesTest {
 
 	/**
 	 * Helper method to create `APTask__c` record for an `ActionPlan__c`
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  ap The parent Action Plan
 	 * @return    The test Action Plan Task
 	 */

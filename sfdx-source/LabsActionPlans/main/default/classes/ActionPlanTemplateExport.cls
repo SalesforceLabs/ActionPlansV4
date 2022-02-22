@@ -39,6 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Helper class to do the work for creating XML for a given Action Plan Template
  * @group Import Export
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2011
  */
 public without sharing class ActionPlanTemplateExport {
@@ -122,7 +123,7 @@ public without sharing class ActionPlanTemplateExport {
 
 	/**
 	 * Method to save the XML file to a File (if the user is using Lightning Experience)
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  name File Name
 	 * @param  xml  The XML of the exported template
 	 * @return      `ContentDocument` Id

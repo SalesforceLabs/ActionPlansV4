@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * @group Invocable
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
  */
 global without sharing class ActionPlanCreateInvocable {
@@ -370,7 +370,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 	/**
 	 * Wrapper class for ActionPlan Request for invocable Apex.
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @since 2022
 	 */
 	global class CreateActionPlanRequest {

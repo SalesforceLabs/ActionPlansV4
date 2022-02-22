@@ -38,8 +38,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Batch Utilities class
+ * @author Rodrigo Birriel
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Utilities
- * @since 2011
+ * @since v3
  * @see ActionPlanCreateInvocable
  * @see ActionPlanCreationController
  * @see ActionPlansBatchBuilder
@@ -118,7 +120,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Generate Action Plans from parameters passed to this class
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   the `Id` of the first created `ActionPlan__c`
 	 */
 	public Id generateActionPlans() {
@@ -469,7 +471,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Given a parentID and the name of an Action Plan, make the `FeedItem` post body
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  recID  Parent ID
 	 * @param  apName Action Plan Name
 	 * @return        `FeedItem.Body`

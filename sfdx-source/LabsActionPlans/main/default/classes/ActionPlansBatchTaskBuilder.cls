@@ -39,7 +39,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * When we have more than one task to create, run it in batch context for higher limits
- * @since 2011
+ * @author Rodrigo Birriel
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since v3
  * @group Batch Apex
  */
 public without sharing class ActionPlansBatchTaskBuilder implements Database.Batchable<SObject>, Database.Stateful {

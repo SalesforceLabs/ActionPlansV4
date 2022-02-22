@@ -38,8 +38,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Test class for importing Action Plan Template XML
+ *
  * @group Visualforce
- * @since 2011
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @see ActionPlanTemplateImportController
  */
 @IsTest

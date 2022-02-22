@@ -39,14 +39,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Trigger Handler class to manage all triggers. Methods for managed objects are here, as well as a method that any other object can use to enable it to be linked to Action Plans.
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
  * @group Trigger Handlers
+ * @see ActionPlansTaskTriggerUtilities
  */
 global without sharing class ActionPlansTriggerHandlers {
 	/**
 	 * Global so that if in managed package, this method is the only one available
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  sObjectName the name of the sObject
 	 */
 	global static void actionPlansSObjectTriggerHandler(String sObjectName) {
@@ -55,7 +56,7 @@ global without sharing class ActionPlansTriggerHandlers {
 
 	/**
 	 * Handle SObjects with related Action Plans when those sObject records are deleted and undeleted
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
 	 * @param  newRecordsMap Trigger.newMap
@@ -129,7 +130,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 	/**
 	 * Actions to take on ActionPlan DML
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
 	 * @param  newRecordsMap Trigger.newMap
@@ -218,7 +219,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 	/**
 	 * When inserting or updating Action Plan records, fill the text parent object `Related_Object__c` and parent record  `Related_Record__c` fields
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords Trigger.new
 	 */
 	private static void fillRelatedRecordFields(List<ActionPlan__c> newRecords) {
@@ -249,7 +250,7 @@ global without sharing class ActionPlansTriggerHandlers {
 
 	/**
 	 * Handle ActionPlan Tasks
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
 	 * @param  newRecordsMap Trigger.newMap
@@ -332,7 +333,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 	/**
 	 * Handle ActionPlan Templates
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
 	 * @param  oldRecordsMap Trigger.oldMap
@@ -369,7 +370,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 	/**
 	 * Handle Action Plan Template Tasks
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
 	 * @param  oldRecordsMap Trigger.oldMap
@@ -424,7 +425,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 	/**
 	 * Trigger handler for Task records when they are inserted, updated, or deleted
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
 	 * @param  triggerEvent  Trigger context
@@ -588,7 +589,7 @@ global without sharing class ActionPlansTriggerHandlers {
 
 	/**
 	 * Handle ActionPlans related to Leads after conversion
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
 	 * @param  newRecordsMap Trigger.newMap
@@ -641,7 +642,7 @@ global without sharing class ActionPlansTriggerHandlers {
 
 	/**
 	 * Handle Account-related Action Plans on delete and undelete (of the Account)
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
 	 * @param  newRecordsMap Trigger.newMap
@@ -721,7 +722,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	}
 	/**
 	 * Validate that 1 and only 1 custom reference field is filled
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  actionPlans Trigger records to validate
 	 */
 	private static void validateActionPlans(List<ActionPlan__c> actionPlans) {

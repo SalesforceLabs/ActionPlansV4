@@ -38,7 +38,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Called from ActionPlanTemplateImportController - can probably be rolled into that class, but it's doing fine here.
- * @since 2011
+ * @since 2022
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Import Export
  * @see ActionPlanTemplateImportController
  */

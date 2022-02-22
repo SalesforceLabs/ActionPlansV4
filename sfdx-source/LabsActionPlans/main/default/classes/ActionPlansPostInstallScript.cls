@@ -37,13 +37,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Install sample data on first installation
  * @since 2022
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Utilities
  */
 global class ActionPlansPostInstallScript implements InstallHandler {
 	/**
 	 * Script torun when the managed package is installed
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  context Is this a new install, an upgrade, or a push (from the developer)?
 	 */
 	global void onInstall(InstallContext context) {

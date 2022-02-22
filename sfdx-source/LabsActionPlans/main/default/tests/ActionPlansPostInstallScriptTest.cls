@@ -34,6 +34,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Test for PostInstallScript Utility
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @see ActionPlansPostInstallScript
  * @group Utilities
  */

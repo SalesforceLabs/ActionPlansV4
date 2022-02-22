@@ -35,7 +35,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Visualforce controller for a redirect page to allow override of object actions
- * @since 2011
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @group Visualforce
  */
 public with sharing class ActionPlansRedirect {
@@ -52,7 +53,7 @@ public with sharing class ActionPlansRedirect {
 
 	/**
 	 * Gets the SObjectType and returns the correct object to display the correct values
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  controller Standard Controller. Accepts any SObject
 	 */
 	public ActionPlansRedirect(ApexPages.StandardController controller) {
@@ -82,7 +83,7 @@ public with sharing class ActionPlansRedirect {
 
 	/**
 	 * Change the relevant record owner, and then call cancel so we go back to the record page
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   {@link ActionPlansRedirect.cancel}
 	 */
 	public PageReference save() {
@@ -97,7 +98,7 @@ public with sharing class ActionPlansRedirect {
 
 	/**
 	 * Go back to view the relevant record
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   Basic pageReference for the parent record
 	 */
 	public PageReference cancel() {
@@ -118,7 +119,7 @@ public with sharing class ActionPlansRedirect {
 
 	/**
 	 * Show the view page for either the Action Plan or the Action Plan Template
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   PageReference by recordId ('/' + parentId)
 	 */
 	public Pagereference redirect() {

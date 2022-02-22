@@ -34,6 +34,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Test for Redirect Visualforce Controller
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @group Visualforce
  */
 @IsTest

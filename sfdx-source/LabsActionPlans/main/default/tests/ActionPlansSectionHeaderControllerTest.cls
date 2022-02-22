@@ -34,34 +34,71 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Test class for Section Header Visualforce Controller
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @group Visualforce
  */
 @IsTest
 private class ActionPlansSectionHeaderControllerTest {
-	@IsTest
-	private static void testObjectTabDescribe() {
+	@TestSetup
+	static void makeData() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		User u = testUtil.createTestUser();
+		testUtil.assignAPPermissionSets(u.Id, false);
+	}
+
+	@IsTest
+	private static void testObjectIconQuery() {
+		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
 
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
 			shc.objectName = ActionPlansUtilities.namespacePrefix + 'ActionPlan__c';
-			System.assert(shc.getIsCustom());
-			shc.getObjectIconInfo();
+			Map<String, String> iconInfo = shc.getObjectIconInfo();
+			System.assert(iconInfo.get('iconStyle').containsIgnoreCase('custom'));
 
+			shc.objectName = ActionPlansUtilities.namespacePrefix + 'Action_Plans_Template_Import';
+			iconInfo = shc.getObjectIconInfo();
+			System.assert(iconInfo.get('iconStyle').containsIgnoreCase('custom'));
+
+			shc.objectName = 'standard-Account';
+			iconInfo = shc.getObjectIconInfo();
+			System.assert(!iconInfo.get('iconTag').containsIgnoreCase('No Lightning Icon Found'));
+
+			shc.objectName = 'BogusObjectName__y';
+			iconInfo = shc.getObjectIconInfo();
+			System.assert(iconInfo.get('iconTag').containsIgnoreCase('No Lightning Icon Found'));
+		}
+	}
+
+	/* @IsTest
+	private static void testObjectTabDescribePositive() {
+		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
+
+		System.runAs(u) {
+			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
+			shc.objectName = ActionPlansUtilities.namespacePrefix + 'ActionPlan__c';
+			shc.getObjectIconInfo();
+			System.assert(shc.getIsCustom(), 'ActionPlan is a custom object');
+		}
+	}
+
+	@IsTest
+	private static void testObjectTabDescribeNegative() {
+		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
+
+		System.runAs(u) {
+			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
 			shc = new ActionPlansSectionHeaderController();
 			shc.objectName = ActionPlansUtilities.namespacePrefix + 'APTask__c';
-			System.assert(shc.getIsCustom());
 			shc.getObjectIconInfo();
+			System.assert(shc.getIsCustom(), 'APTask is a custom object');
 		}
-
 	}
 
 	@IsTest
 	private static void testObjectTabDescribeNotInApplication() {
-		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		User u = testUtil.createTestUser();
+		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
 
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
@@ -72,17 +109,14 @@ private class ActionPlansSectionHeaderControllerTest {
 
 			shc = new ActionPlansSectionHeaderController();
 			shc.objectName = 'Order';
-			System.assert(!shc.getIsCustom());
 			shc.getObjectIconInfo();
 			System.assert(!shc.getIsCustom(), 'Order is a standard object');
 		}
-
 	}
 
 	@IsTest
 	private static void testNullObject() {
-		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		User u = testUtil.createTestUser();
+		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
 
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
@@ -93,5 +127,5 @@ private class ActionPlansSectionHeaderControllerTest {
 			System.assertEquals('No Lightning Icon Found', nullIconTag, 'Should have reached null section of header controller');
 		}
 
-	}
+	} */
 }

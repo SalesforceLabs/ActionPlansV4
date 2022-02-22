@@ -167,10 +167,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							</apex:column>
 
 							<apex:column id="userLookup" headerValue="{!$ObjectType.APTemplateTask__c.fields.User__c.label}">
-								<apex:outputPanel layout="block" id="userPanel" style="z-index:9999;">
+
+								<apex:outputPanel layout="block" id="userPanel" style="z-index:9999;" rendered="{!$ObjectType.APTemplateTask__c.fields.User__c.updateable}">
 									<apex:inputField value="{!wrapTask.task.User__c}" rendered="{!!lex}" />
 									<c:APLightningLookup field="User__c" sObj="{!wrapTask.task}" sObjType="User" for="{!wrapTask.position}rowuserlookup" required="false" where="AND IsActive = true AND ProfileId != null"
 									 rendered="{!lex}" fieldStyle="width:100%;" />
+								</apex:outputPanel>
+								<apex:outputPanel layout="block" id="readonlyuserPanel" rendered="{!!$ObjectType.APTemplateTask__c.fields.User__c.updateable}">
+									<apex:outputText rendered="{!$Setup.Action_Plans_Settings__c.Unassigned_Task_Default_to_Owner__c}">
+										[&nbsp;{!$Label.ap_RecordOwner}&nbsp;]
+									</apex:outputText>
 								</apex:outputPanel>
 							</apex:column>
 

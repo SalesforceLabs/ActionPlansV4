@@ -38,7 +38,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Batch delete class. This can probably be done in a different way. And we can certainly switch from sending an email to using a platform event.
- * @since 2011
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @group Batch Apex
  */
 public inherited sharing class ActionPlansBatchDelete implements Database.Batchable<SObject>, Database.Stateful {
@@ -54,8 +55,8 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 
 	/**
 	 * Use the start method to collect the records or objects to be passed to the interface method execute
-	 * @param  bc
-	 * @return    queried records
+	 * @param  bc `BatchableContext`
+	 * @return    `Database.QueryLocator` queried records
 	 */
 	public Database.QueryLocator start(Database.BatchableContext bc) {
 		String soql = 'SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds';
@@ -95,9 +96,9 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 	}
 
 	/**
-	 * Tiven actionplanIDs, delete these Action Plans AND their open Tasks
-	 * @author David Schach
-	 * @param  relActionPlansIds Action Plan IDs
+	 * Given actionplanIDs, delete these Action Plans AND their open Tasks
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @param  relActionPlansIds `ActionPlan__c` IDs
 	 */
 	private void deleteActionPlans(Set<Id> relActionPlansIds) {
 		List<ActionPlan__c> relActionPlans = [SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds LIMIT :ActionPlansUtilities.MAX_APTODELETE];
@@ -115,9 +116,9 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 
 	/**
 	 * Create an Email body from an Exception
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  e `Exception`
-	 * @return   Email body
+	 * @return   `String` Email body
 	 */
 	private String makeEmailBody(Exception e) {
 		String emailBody = '';

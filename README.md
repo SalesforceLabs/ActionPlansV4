@@ -114,7 +114,7 @@ Assign the appropriate Permission Set(s) to each user who will need to use Actio
 - `Action Plans Admin:` Full permissions for Action Plans, Action Plan Templates, AP Tasks and APT Task Templates.
 - `Action Plans Template Creator:` Full permissions for Action Plan Templates and AP Template Tasks. No Action Plan access.
 - `Action Plans Creator:` Read, Create, Edit, Delete for Action Plans and AP Tasks. Read-only for Action Plan Templates and APT Task Templates.
-- `Action Plans Import/Export:` Access to export and import Aciton Plan Template records. View the appropriate button for export and tab for import.
+- `Action Plans Import/Export:` Access to export and import Action Plan Template records. View the appropriate button for export and tab for import.
 - `Action Plans User:` Read-only for Action Plans and AP Tasks.
 
 Uses for each Permission Set:
@@ -239,7 +239,7 @@ Create an Account and set `Type` to any value that starts with 'Customer'
 
 It is recommended NOT to check the Recursion box when creating a Process Builder to work with Action Plans.
 
-It is also recommended NOT to use Process Builder at all!
+**It is also recommended NOT to use Process Builder at all!**
 
 ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png)
 
