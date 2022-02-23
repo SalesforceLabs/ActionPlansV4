@@ -301,15 +301,6 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * Utility method for checking if we default ownership to parent record owner if we can't edit the field
-	 * <br>This could be replaced by a $Setup tag in Visualforce, but our logic may become more complex here
-	 * @return      `Boolean` Is the Custom Setting present, and do we default uneditable assigned user fields to the parent record owner?
-	 */
-	public Boolean getAssignToParentOwner() {
-		return mySettings.Unassigned_Task_Default_to_Owner__c;
-	}
-
-	/**
 	 * Based on the related object name, we display a field from that object as the related record
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  objectName SObject Name
@@ -744,27 +735,15 @@ public with sharing class ActionPlanCreationController {
 				newTaskWrapper = this.mapTasksListBkp.get(apTask.Id);
 			}
 
-			Boolean userRequired = false;
-			Boolean displayLookUp = Schema.sObjectType.APTask__c.fields.User__c.isUpdateable();
+			Boolean userReadOnly = false;
 
-			if (templateId != null && apTask.Id == null && apTask.User__c != null) {
-				displayLookUp = false;
+			if (templateId != null && apTask.User__c != null) {
+				userReadOnly = true;
 			}
 
-			//! We need to account for the User being filled AND having the option to change it
-			//! How can we refer to the template task?
+			//Boolean assignToOwner = mySettings == null || mySettings.Unassigned_Task_Assigned_to_Owner__c;
 
-			//! User is Required if the ap parent id is null and we don't give unassigned to record owner
-			//! We always display the lookup (if editable) because we never FORCE the task to be assigned to the record owner
-
-			/* if (newTaskWrapper == null){
-				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c || actionPlan.get(relatedFieldName) == null; // true if not auto-assigned to record owner. User may have been set via template, but is still required.
-			} else { // editing existing task
-				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c;
-			} */
-			userRequired = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c;
-
-			ApTaskWrapper apTWrapper = new ApTaskWrapper(apTask, i, displayLookup, userRequired, actionPlan.TaskRecordTypeID__c);
+			ApTaskWrapper apTWrapper = new ApTaskWrapper(apTask, i, userReadOnly, actionPlan.TaskRecordTypeID__c);
 			tasksList.add(apTWrapper);
 			if (String.isNotBlank(apTask.Id)) {
 				this.mapTasksListBkp.put(apTask.Id, apTWrapper);
@@ -820,16 +799,9 @@ public with sharing class ActionPlanCreationController {
 					//Read the Custom Settings in order to asign the User to that Task
 					if (aptTask.User__c != null) {
 						t.User__c = aptTask.User__c;
-					} else if (aptTask.User__c == null && (!mySettings.Unassigned_Task_Default_to_Owner__c)) {
+					} /* else if (aptTask.User__c == null && (!mySettings.Unassigned_Task_Assigned_to_Owner__c)) {
 						t.User__c = UserInfo.getUserId();
-					}
-					/* else if( aptTask.User__c == null && ( mySettings != null &&  mySettings.Unassigned_Task_Default_to_Owner__c ) ) {
-						userId = null;
-					}
-					else if( aptTask.User__c == null && mySettings == null ){
-						userId = UserInfo.getUserId();
 					} */
-
 					t.Type__c = aptTask.Type__c;
 					t.Subject__c = aptTask.Subject__c;
 					t.Priority__c = aptTask.Priority__c;
@@ -1364,29 +1336,31 @@ public with sharing class ActionPlanCreationController {
 		 */
 		public Boolean isLast { get; set; }
 		/**
-		 * Should we display the lookup?
+		 * Can we display the lookup?
+		 * <br>User may be set via template, or running user may not have edit permission
 		 */
-		public Boolean displayLookUp { get; set; }
+		public Boolean userReadOnly { get; set; }
 		/**
-		 * Is the User lookup required?
+		 * Does blank User field default to parent owner?
+		 * <br>Could that make the User lookup required?
 		 */
-		public Boolean userRequired { get; set; }
+		public Boolean assignToOwner { get; set; }
 
 		/**
-		 * Constructor
+		 * Constructor for wrapper to display related `APTask__c` records on `ActionPlan__c` create/edit page
 		 *
-		 * @param apTask     Action Plan Task Template
-		 * @param pos        Position (in the list of AP Tasks) on the Page
-		 * @param looKp      Should the User lookup (for assignment) be displayed?
-		 * @param userReq    Should the assigned user field be required?
-		 * @param apTaskRTId The Record Type of the Task eventually to be created
+		 * @param apTask          Action Plan Task record
+		 * @param position        Position (in the list of AP Tasks) on the Page
+		 * @param userReadOnly    Should the User lookup (for assignment) NOT be displayed?
+		 * @param apTaskRTId      The Record Type of the Task eventually to be created
 		 */
-		public ApTaskWrapper(APTask__c apTask, Integer pos, Boolean looKp, Boolean userReq, Id apTaskRTId) {
-			apt = apTask;
-			position = pos;
-			isLast = false;
-			displayLookUp = looKp;
-			userRequired = userReq;
+		public ApTaskWrapper(APTask__c apTask, Integer position, Boolean userReadOnly, Id apTaskRTId) {
+			this.apt = apTask;
+			this.position = position;
+			this.isLast = false;
+			this.userReadOnly = userReadOnly;
+
+			this.assignToOwner = ActionPlansUtilities.getCustomSetting().Unassigned_Task_Assigned_to_Owner__c;
 
 			Id taskRTID = null;
 			if (ActionPlansUtilities.taskUsesRecordTypes) {
@@ -1405,9 +1379,64 @@ public with sharing class ActionPlanCreationController {
 				apt.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
 			}
 
-			if (apt.User__c == null && displayLookUp && userRequired) {
+			/* if (apt.User__c == null && !assignToOwner) {
 				apt.User__c = UserInfo.getUserId();
+			} */
+		}
+
+		/**
+		 * Defines if we set the `APTask__c` Assigned To field to required
+		 * @author David Schach
+		 * @return   `Boolean` Should the field be required?
+		 */
+		public Boolean userRequired {
+			get {
+				if (userRequired == null) {
+					getUserRender();
+				}
+				return userRequired;
 			}
+			set;
+		}
+
+		/**
+		 * Logic for determining how to show the Assigned To field for the AP Task
+		 * <br>If we show the UserLookup, set the UserRequired property to determine if the field is required
+		 * @author David Schach
+		 * @return   `String` UserReadOnly, UserLookup, OwnerPlaceholder
+		 */
+		public String getUserRender() {
+			userRequired = false;
+			if (userReadOnly) {
+				return 'UserReadOnly';
+			}
+			Boolean canEdit = Schema.sObjectType.APTask__c.fields.User__c.isUpdateable();
+			/* if (apt.Id != null) {
+				userRequired = true;
+			} */
+
+			if (!assignToOwner) {
+				if (!canEdit) {
+					apt.User__c = UserInfo.getUserId();
+					return 'UserReadOnly';
+				} else if (apt.Id != null && canEdit) {
+					userRequired = true;
+					return 'UserLookup';
+				} else if (apt.Id != null) {
+					return 'UserReadOnly';
+				}
+				userRequired = true;
+				return 'UserLookup';
+			} else if (assignToOwner) {
+				if (apt.User__c == null || !canEdit) {
+					return 'OwnerPlaceholder';
+				} else if (apt.User__c != null) {
+					return 'UserLookup';
+				}
+				return 'UserLookup';
+			}
+			userRequired = true;
+			return 'UserLookup';
 		}
 	}
 }

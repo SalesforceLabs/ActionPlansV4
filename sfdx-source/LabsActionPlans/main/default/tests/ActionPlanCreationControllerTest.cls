@@ -47,7 +47,7 @@ private class ActionPlanCreationControllerTest {
 	private static void makeData() {
 		Action_Plans_Settings__c aps = ActionPlansUtilities.getCustomSetting();
 		aps.Chatter_Object_Brag__c = true;
-		aps.Unassigned_Task_Default_to_Owner__c = true;
+		aps.Unassigned_Task_Assigned_to_Owner__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {
@@ -116,7 +116,6 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.getHoursOption();
 		apCreateController.getDisplayTemplateLookup();
 		apCreateController.getRecordTypeName();
-		apCreateController.getAssignToParentOwner();
 
 		apCreateController.relatedFieldName = ActionPlansUtilities.namespacePrefix + 'Contract__c';
 		apCreateController.relatedFieldName = ActionPlansUtilities.namespacePrefix + 'Case__c';

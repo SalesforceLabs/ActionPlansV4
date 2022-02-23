@@ -363,7 +363,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	 *
 	 * @param ap           `ActionPlan__c`
 	 * @param relObjOwners Map of Id to record owner
-	 * @param apTaskUser   the current record user
+	 * @param apTaskUser   The current record user
 	 * @return             `Id` related OwnerID
 	 */
 	public static Id getAPTaskTemplateUser(ActionPlan__c ap, Map<Id, Id> relObjOwners, Id apTaskUser) {
@@ -371,7 +371,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			return apTaskUser;
 		}
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
-		if (!mySettings.Unassigned_Task_Default_to_Owner__c) {
+		if (!mySettings.Unassigned_Task_Assigned_to_Owner__c) {
 			//System.debug('Assigning task to current user');
 			return UserInfo.getUserId();
 		}

@@ -44,7 +44,7 @@ private class ActionPlansUtilitiesTest {
 	private static void makeData() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
-		aps.Unassigned_Task_Default_to_Owner__c = true;
+		aps.Unassigned_Task_Assigned_to_Owner__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {

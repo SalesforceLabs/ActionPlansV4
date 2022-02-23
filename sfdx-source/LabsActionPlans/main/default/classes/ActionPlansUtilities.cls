@@ -575,7 +575,7 @@ public without sharing class ActionPlansUtilities {
 			Action_Plans_Settings__c apSettings = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
 			apSettings.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
 			apSettings.Default_Object_on_Lead_Conversion__c = 'Contact';
-			apSettings.Unassigned_Task_Default_to_Owner__c = (Boolean) Action_Plans_Settings__c.Unassigned_Task_Default_to_Owner__c.getDescribe().getDefaultValue();
+			apSettings.Unassigned_Task_Assigned_to_Owner__c = (Boolean) Action_Plans_Settings__c.Unassigned_Task_Assigned_to_Owner__c.getDescribe().getDefaultValue();
 			apSettings.Chatter_Object_Brag__c = (Boolean) Action_Plans_Settings__c.Chatter_Object_Brag__c.getDescribe().getDefaultValue();
 			if (insertIfNull) {
 				upsert apSettings;
