@@ -1,4 +1,4 @@
-# UNMANAGED for use with develoepr edition or sandbox
+# UNMANAGED for use with scratch org
 
 # Install scriptecho "Cleaning previous scratch org..."
 echo "Cleaning previous scratch org..."
