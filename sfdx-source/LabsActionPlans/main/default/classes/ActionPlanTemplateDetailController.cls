@@ -180,6 +180,7 @@ public with sharing class ActionPlanTemplateDetailController {
 
 	/**
 	 * If we have no share object, we don't need to show a Share button
+	 * <br>Also validate user permission to share
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   Does the `ActionPlanTemplate__Share` object exist?
 	 */

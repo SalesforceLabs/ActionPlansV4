@@ -56,11 +56,6 @@ public without sharing class ActionPlansUtilities {
 	public static final Id MASTER_RECORD_TYPE_ID = '012000000000000AAA'; //NOPMD
 
 	/**
-	 * Used during testing to "fool" the org into thinking that it has Task record types
-	 */
-	//public static Boolean forceHasRecordType;
-
-	/**
 	 * Allows us to force the environment variable checking if Task has a Record Type for testing (forcing NO record type,). Increases code coverage.
 	 */
 	public static final Boolean taskUsesRecordTypes {
@@ -141,8 +136,8 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Store a map of object prefixes to describe info so we can fill the `ActionPlan__c` related record fields
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @param  recordId recordId description
-	 * @return          return description
+	 * @param  recordId related record Id
+	 * @return          `Schema.DescribeSObjectResult` so we can get info about the related record
 	 */
 	public static Schema.DescribeSObjectResult getRelatedRecordInfo(Id recordId) {
 		if (prefixToDescribe == null) {
@@ -489,11 +484,15 @@ public without sharing class ActionPlansUtilities {
 
 		Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
 		if (gd.containsKey(shareObjectName)) {
+			UserRecordAccess ura = [SELECT RecordId, HasAllAccess FROM UserRecordAccess WHERE UserId = :UserInfo.getUserId() AND RecordId = :recordId];
+			if (ura.HasAllAccess) {
+				return true;
+			}
 			if (recordOwnerId == UserInfo.getUserId() || hasModifyAllData) {
 				return true;
 			}
 		}
-		//Share does not exist custom object is public read write, or user lacks permissions
+		//Share does not exist, custom object is public read write, or user lacks permissions
 		return false;
 	}
 
@@ -578,8 +577,8 @@ public without sharing class ActionPlansUtilities {
 			apSettings.Default_Object_on_Lead_Conversion__c = 'Contact';
 			apSettings.Unassigned_Task_Assigned_to_Owner__c = (Boolean) Action_Plans_Settings__c.Unassigned_Task_Assigned_to_Owner__c.getDescribe().getDefaultValue();
 			apSettings.Chatter_Object_Brag__c = (Boolean) Action_Plans_Settings__c.Chatter_Object_Brag__c.getDescribe().getDefaultValue();
-			if (insertIfNull) {
-				upsert apSettings;
+			if (insertIfNull && CanTheUser.ups(new Action_Plans_Settings__c())) {
+				upsert apSettings; //NOPMD
 			}
 		}
 		return apSettings;
@@ -653,7 +652,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Get the Custom Metadata record for the weekend day
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @param  developerName Of day (Saturday, Sunday, etc)
+	 * @param  developerName English day (Saturday, Sunday, etc)
 	 * @return               Custom Metadata
 	 */
 	public static Weekend_Day__mdt getWeekendDay(String developerName) {

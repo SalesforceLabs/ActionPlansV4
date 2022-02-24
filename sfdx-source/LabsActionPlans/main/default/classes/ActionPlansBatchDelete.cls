@@ -82,7 +82,7 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 			}
 		} catch (Exception e) {
 			AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email, ExtendedStatus FROM AsyncApexJob WHERE Id = :bc.getJobId()];
-			// If there were any errors Send an email to the Apex job's submitter
+			// If there were any errors, send an email to the Apex job's submitter
 			// notifying of job completion
 			Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
 			String[] toAddresses = new List<String>{ a.CreatedBy.Email };
@@ -133,7 +133,6 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 	/**
 	 * No need to do anything at the finish
 	 */
-	@SuppressWarnings('PMD')
-	public void finish(Database.BatchableContext bc) {
-	}
+	// prettier-ignore
+	public void finish(Database.BatchableContext bc) {} //NOPMD
 }

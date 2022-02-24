@@ -37,10 +37,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * Tests for `ActionPlan__c` Create/Edit wrapper class
+ * Tests for `ActionPlanCreationController.ApTaskWrapper` Create/Edit wrapper class
  * @author {@link [David Schach](https://github.com/dschach)}
  * @group Visualforce
  * @since 2022
+ * @see ActionPlanCreationController.ApTaskWrapper
+ * @see ActionPlanCreationController
  */
 @IsTest
 private class ActionPlanCreationTaskWrapperTest {
@@ -81,28 +83,7 @@ private class ActionPlanCreationTaskWrapperTest {
 		}
 	}
 
-	/* @IsTest
-	private static void templateAssignedTasks() {
-		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(4);
-		List<APTemplateTask__c> apttasks = [SELECT Id, User__c FROM APTemplateTask__c];
-		for (APTemplateTask__c aptt : apttasks) {
-			aptt.User__c = UserInfo.getUserId();
-		}
-		update apttasks;
-
-		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
-		aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
-		aptcc.getTemplateTasks();
-	} */
-
 	private static ActionPlanCreationController doTemplateCreateEdit() {
-		/* User u;
-		System.runAs(new User(Id = UserInfo.getUserId())) {
-			u = new ActionPlansTestUtilities().createAdminUser();
-		}
-		System.runAs(u) { */
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		Account a = testUtil.createNewAccount();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(4);
@@ -144,7 +125,6 @@ private class ActionPlanCreationTaskWrapperTest {
 		}
 
 		return apCreateController;
-		/* } */
 	}
 
 	@IsTest

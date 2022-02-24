@@ -456,8 +456,7 @@ public inherited sharing class ActionPlansTestUtilities {
 		newAPTTask.Minutes_Reminder__c = '510';
 		newAPTTask.Comments__c = 'Comment here';
 
-		// TODO : Include making some sort of TaskIndex value when making these tasks
-
+		// TODO : Include making TaskIndex value when making these tasks
 		return newAPTTask;
 	}
 
@@ -525,32 +524,5 @@ public inherited sharing class ActionPlansTestUtilities {
 			}
 		}
 		return notdefaultRecordTypeId;
-	}
-
-	/**
-	 * Should we show debug statements for Visualforce parameters when testing?
-	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @param  prefix True/False
-	 */
-	public static Boolean showDebugParameters = false;
-
-	/**
-	 *  Utility method for debugging Visualforce page parameters
-	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @param  prefix The line prefix for the debug statement
-	 */
-	public static void debugParameters(String prefix) {
-		if (showDebugParameters = false || !Test.isRunningTest()) {
-			return;
-		}
-		// We will hit an error if this is called outside Visualforce, so to be safe...
-		try {
-			Map<String, String> pageParams = ApexPages.currentPage().getParameters();
-			for (String s : ApexPages.currentPage().getParameters().keyset()) {
-				System.debug(prefix + ' debug parameters: ' + s + ' - ' + pageParams.get(s));
-			}
-		} catch (Exception e) {
-			return;
-		}
 	}
 }

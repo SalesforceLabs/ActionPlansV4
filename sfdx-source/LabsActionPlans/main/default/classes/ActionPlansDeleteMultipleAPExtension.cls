@@ -78,7 +78,6 @@ public with sharing class ActionPlansDeleteMultipleAPExtension {
 
 		if (actionPlansToShow.isEmpty()) {
 			return null;
-			//return standardController.cancel();
 		}
 
 		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();
@@ -94,7 +93,6 @@ public with sharing class ActionPlansDeleteMultipleAPExtension {
 			newPage.getParameters().put('message', confirmation);
 			newPage.getParameters().put('severity', 'error');
 		}
-
 		return newPage;
 	}
 }

@@ -434,9 +434,6 @@ public with sharing class ActionPlanCreationController {
 			}
 		} catch (Exception e) {
 			Apexpages.addMessages(e);
-			if (Test.isRunningTest()) {
-				throw e;
-			}
 			return null;
 		}
 
@@ -445,7 +442,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Saves Action Plan Instance and task. Also creates all due dates for tasks, then redirects to the AP list
-	 * @return `ActionPlan__c` Id
+	 * @return `Id` Action Plan Id
 	 */
 	private Id saveAp() {
 		Id actionPlanId;
@@ -506,16 +503,15 @@ public with sharing class ActionPlanCreationController {
 	 */
 	@TestVisible
 	private PageReference saveMultiple() {
-		//System.debug('SAVING MULTIPLE');
 		String oName = refType;
-		String oIds = ActionPlansUtilities.getEscapedPageParameter('refId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refId'));
+		String oIds = ActionPlansUtilities.getEscapedPageParameter('refId');
 
 		List<Id> oIdsList = new List<Id>();
 		if ((oName != null || oName != '') && (oIds != null || oIds != '')) {
 			try {
 				oIdsList = parseRelatedIDs(oIds);
 				Set<Id> parentIDs = new Set<Id>(oIdsList);
-				//Now for each inserted AP we should run through tasks and create them
+				//For each inserted AP we should run through tasks and create them
 				ActionPlansBatchBuilder taskBatch = new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, oName, parentIDs);
 				Database.ExecuteBatch(taskBatch);
 			} catch (Exception e) {
@@ -646,7 +642,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Creates a blank `APTask__c` record and adds it to apTasks
-	 * @return the `APTask__c` we are adding
+	 * @return The `APTask__c` we are adding
 	 */
 	public APTask__c addTask() {
 		this.taskIndex++;
@@ -843,7 +839,7 @@ public with sharing class ActionPlanCreationController {
 				this.apTasks.add(t);
 			}
 
-			// Clone. Clear ids.
+			// Clone. Clear Ids.
 			if (cloneParam == '1') {
 				List<APTask__c> tC = this.apTasks.deepClone(false);
 				this.apTasks.clear();
@@ -953,7 +949,7 @@ public with sharing class ActionPlanCreationController {
 	 * <br>Discard invalid IDs
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  relatedIDs The page URL parameters
-	 * @return            A list (not set) of all related IDs from the URL
+	 * @return `List<Id>` A list (not set) of all related IDs from the URL
 	 */
 	private List<Id> parseRelatedIDs(String relatedIDs) {
 		List<String> paramList = relatedIDs.deleteWhitespace().split(',');
@@ -1019,7 +1015,7 @@ public with sharing class ActionPlanCreationController {
 	 * We need a list of parent RECORD names when showing all the parents when we mass-create action plans
 	 * <br>This initializes the list, and then divides it into three parts for three columns on the page.
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   The list of related object Names (not labels)
+	 * @return The list of related object Names (not labels)
 	 */
 	@TestVisible
 	private List<String> relatedObjNameList {
@@ -1056,13 +1052,22 @@ public with sharing class ActionPlanCreationController {
 		return relatedObjNameList.size();
 	}
 
-	public List<String> relatedRecordsOne { get; private set; } //NOPMD
-	public List<String> relatedRecordsTwo { get; private set; } //NOPMD
-	public List<String> relatedRecordsThree { get; private set; } //NOPMD
+	/**
+	 * Column one of related records
+	 */
+	public List<String> relatedRecordsOne { get; private set; }
+	/**
+	 * Column two of related records
+	 */
+	public List<String> relatedRecordsTwo { get; private set; }
+	/**
+	 * Column three of related records
+	 */
+	public List<String> relatedRecordsThree { get; private set; }
 
 	/**
 	 * Checks if Action Plan Tasks has cyclic dependency.
-	 * @return True if there is a cyclic dependency
+	 * @return `Boolean` True if there is a cyclic dependency
 	 */
 	public Boolean checkCycleDependent() {
 		this.errorMsg = null;
@@ -1176,7 +1181,6 @@ public with sharing class ActionPlanCreationController {
 	public List<SelectOption> getRelatedObjectOptions() {
 		if (relatedObjectOptions == null) {
 			relatedObjectOptions = new List<SelectOption>();
-			//Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
 
 			// Describe the fieldSet so we can make sure that we only add SelectOptions for desired records
 			Schema.FieldSet fs = Schema.SObjectType.ActionPlan__c.fieldSets.Related_Objects;
@@ -1185,7 +1189,6 @@ public with sharing class ActionPlanCreationController {
 			Set<String> activityEnabledObjects = findActivityEnabledObjects();
 
 			for (Schema.FieldSetMember fsm : fs.getFields()) {
-				//System.debug('Field Set field ' + fsm.getFieldPath());
 				String s = fsm.getFieldPath();
 				System.debug('FieldPath to related record: ' + s);
 				Schema.DisplayType dt = fsm.getType();
@@ -1215,7 +1218,6 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	private Set<String> findActivityEnabledObjects() {
-		//Set<Schema.SObjectType> objectsWithActivitiesEnabled = new Set<Schema.SObjectType>();
 		Set<String> relatedToObjects = new Set<String>();
 		for (Schema.SObjectType objectType : Task.WhatId.getDescribe().getReferenceTo()) {
 			relatedToObjects.add(objectType.getDescribe().getName());
@@ -1360,7 +1362,6 @@ public with sharing class ActionPlanCreationController {
 			this.position = position;
 			this.isLast = false;
 			this.userReadOnly = userReadOnly;
-
 			this.assignToOwner = ActionPlansUtilities.getCustomSetting().Unassigned_Task_Assigned_to_Owner__c;
 
 			Id taskRTID = null;
@@ -1379,10 +1380,6 @@ public with sharing class ActionPlanCreationController {
 				apt.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
 				apt.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
 			}
-
-			/* if (apt.User__c == null && !assignToOwner) {
-				apt.User__c = UserInfo.getUserId();
-			} */
 		}
 
 		/**
@@ -1412,9 +1409,6 @@ public with sharing class ActionPlanCreationController {
 				return 'UserReadOnly';
 			}
 			Boolean canEdit = Schema.sObjectType.APTask__c.fields.User__c.isUpdateable();
-			/* if (apt.Id != null) {
-				userRequired = true;
-			} */
 
 			if (!assignToOwner) {
 				if (!canEdit) {
@@ -1436,8 +1430,6 @@ public with sharing class ActionPlanCreationController {
 				}
 				return 'UserLookup';
 			}
-			/* userRequired = true;
-			 return 'UserLookup'; */
 		}
 	}
 }

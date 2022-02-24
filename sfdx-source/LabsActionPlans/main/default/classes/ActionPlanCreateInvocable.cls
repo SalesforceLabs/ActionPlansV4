@@ -172,7 +172,6 @@ global without sharing class ActionPlanCreateInvocable {
 			} else if (actionPlanFields.contains(relObjField)) {
 				relObjField = relObjField;
 			} else {
-				//System.debug('Field not present. ' + relObjField);
 				continue;
 			}
 			ap.put(relObjField, relatedId);
@@ -190,7 +189,6 @@ global without sharing class ActionPlanCreateInvocable {
 
 		for (CreateActionPlanRequest r : requests) {
 			if (!actionPlansToInsert.containsKey(r.relatedRecordID)) {
-				System.debug('PROBLEM: Did not create Action Plan.');
 				continue;
 			}
 

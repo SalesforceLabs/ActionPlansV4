@@ -84,7 +84,7 @@ public with sharing class ActionPlansRedirect {
 	/**
 	 * Change the relevant record owner, and then call cancel so we go back to the record page
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   {@link ActionPlansRedirect.cancel}
+	 * @return {@link ActionPlansRedirect.cancel}
 	 */
 	public PageReference save() {
 		if (objName.equalsIgnoreCase('ActionPlan__c')) {
@@ -99,7 +99,7 @@ public with sharing class ActionPlansRedirect {
 	/**
 	 * Go back to view the relevant record
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   Basic pageReference for the parent record
+	 * @return   `PageReference` for the parent record
 	 */
 	public PageReference cancel() {
 		PageReference viewPage;
@@ -120,7 +120,7 @@ public with sharing class ActionPlansRedirect {
 	/**
 	 * Show the view page for either the Action Plan or the Action Plan Template
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   PageReference by recordId ('/' + parentId)
+	 * @return   `PageReference` by recordId ('/' + parentId)
 	 */
 	public Pagereference redirect() {
 		Pagereference pr = new Pagereference('/' + parentId);

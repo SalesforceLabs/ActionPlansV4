@@ -302,7 +302,7 @@ public with sharing class ActionPlanDetailController {
 	 * @return   Does the `ActionPlan__Share` object exist?
 	 */
 	public Boolean getCanShare() {
-		return ActionPlansUtilities.canShareRecord('ActionPlan__Share', actionPlan.Id, actionPlan.OwnerId);
+		return ActionPlansUtilities.canShareRecord(ActionPlansUtilities.namespacePrefix + 'ActionPlan__Share', actionPlan.Id, actionPlan.OwnerId);
 	}
 
 	/**

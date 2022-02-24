@@ -656,7 +656,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			when BEFORE_DELETE {
 				Set<Id> oldRecordIDs = oldRecordsMap.keyset();
 
-				// GET Action Plans to delete in recycle bin
+				// Get Action Plans to delete in recycle bin
 				List<ActionPlan__c> deletePermenantlyAPIds = [
 					SELECT Id
 					FROM ActionPlan__c

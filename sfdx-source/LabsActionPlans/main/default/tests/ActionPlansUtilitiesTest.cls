@@ -53,18 +53,6 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testDebugParameters() {
-		Test.setCurrentPage(Page.ActionPlanCreation);
-		Test.startTest();
-		ActionPlanCreationController apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
-		ActionPlansTestUtilities.showDebugParameters = true;
-		ActionPlansTestUtilities.debugParameters('testDebugParameters');
-		apcc.getErrorMsg();
-		Test.stopTest();
-		System.assert(true, 'Technically cheating here.');
-	}
-
-	@IsTest
 	private static void testSaveMethod() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
@@ -297,8 +285,6 @@ private class ActionPlansUtilitiesTest {
 
 	@IsTest
 	private static void doChatterPost() {
-		ActionPlansTestUtilities.showDebugParameters = false;
-
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getInstance();
 		if (!aps.Chatter_Object_Brag__c) {
 			aps.Chatter_Object_Brag__c = true;

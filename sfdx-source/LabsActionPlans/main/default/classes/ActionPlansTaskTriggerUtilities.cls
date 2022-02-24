@@ -53,7 +53,6 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	 * Initialize the functionalities to create all dependent Tasks
 	 * @param cTasks Map of Tasks by Id
 	 */
-	//@future
 	public static void initDependentTaskWork(Map<Id, String> cTasks) {
 		tasksSendEmail = new List<Task>();
 		tasksSendNoEmail = new List<Task>();
@@ -67,9 +66,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			//Get all dependent APTasks
 			List<APTask__c> dependentAptts = queryDependentAPTaskTemplates(closedTasks);
 
-			//Create actual Task Map
-			// * Method that returns an unused variable should be checked
-			List<APTask__c> updList = populateNewTaskMap(dependentAptts); //NOPMD
+			//Upsert dependent APTasks
+			upsertDependentAPTasks(dependentAptts); //NOPMD
 
 			//Finally, create all New Tasks and Send DMLOption Emails
 			List<APTask__c> updateApttsList = populateUpdateApttsList(dependentAptts);
@@ -120,8 +118,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	 * @param dependentApttList The APTasks we check for dependencies before making `Task` records
 	 * @return List of AP Tasks to update
 	 */
-	private static List<APTask__c> populateNewTaskMap(List<APTask__c> dependentApttList) {
-		List<APTask__c> updList = new List<APTask__c>();
+	private static void upsertDependentAPTasks(List<APTask__c> dependentApttList) {
+		List<APTask__c> apTasksToUpsert = new List<APTask__c>();
 		Task auxTask;
 
 		Map<Id, Task> taskMap = new Map<Id, Task>();
@@ -152,7 +150,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 				auxTask.Status = defaultStatus;
 				dependentAptt.Status__c = defaultStatus;
-				updList.add(dependentAptt);
+				apTasksToUpsert.add(dependentAptt);
 			}
 
 			// create due date, calculate the due date of the tasks for skip weekends feature
@@ -167,11 +165,10 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			}
 		} // end for loop
 
-		if (!updList.isEmpty()) {
+		if (!apTasksToUpsert.isEmpty()) {
 			// no permission checks because trigger handlers should run in system mode
-			upsert updList;
+			upsert apTasksToUpsert;
 		}
-		return updList;
 	}
 
 	/**
@@ -368,8 +365,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			//Get all dependent APTask
 			List<APTask__c> dependentAptts = queryDependentAPTaskTemplates(closedTasks);
 
-			//Create actual Task Map
-			List<APTask__c> updList = populateNewTaskMap(dependentAptts); //NOPMD
+			//Upsert dependent APTasks
+			upsertDependentAPTasks(dependentAptts); //NOPMD
 
 			//Finally, Create all New Tasks and Send DMLOption Emails
 			List<APTask__c> updateApttsList = populateUpdateApttsList(dependentAptts); //NOPMD
@@ -397,9 +394,6 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	public static void actionsOnTaskBeforeDelete(Set<Id> cTasks) {
 		tasksSendEmail = new List<Task>();
 		tasksSendNoEmail = new List<Task>();
-
-		// Uncommenting this so we surface our errors
-		//try{
 
 		Map<Id, APTask__c> apIdToAPTemplateMap = new Map<Id, APTask__c>();
 		List<APTask__c> lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTask__c WHERE Id IN :cTasks];

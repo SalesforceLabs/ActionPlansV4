@@ -317,6 +317,12 @@ public with sharing class ActionPlanTemplateCreationController {
 		set;
 	}
 
+	/**
+	 * Single query for ActionPlan Template Tasks
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @param  recordId `APTemplate__c` Id
+	 * @return          `List<APTemplateTask__c>` The related APTemplate Tasks
+	 */
 	private List<APTemplateTask__c> queryAPTTasks(Id recordId) {
 		return [
 			SELECT
@@ -346,7 +352,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Get all tasks related to the Action Template.
-	 * @return aptTasks
+	 * @return `List<APTemplateTask__c>` ActionPlan Template Tasks
 	 */
 	public List<APTemplateTask__c> getTemplateTasks() {
 		if (aptTasks.size() == 0) {
@@ -354,9 +360,9 @@ public with sharing class ActionPlanTemplateCreationController {
 				aptTasks = queryAPTTasks(actionPlanTemplate.Id);
 			} else {
 				aptTasks = new List<APTemplateTask__c>();
-				APTemplateTask__c t = new APTemplateTask__c(); //(APTemplateTask__c)APTemplateTask__c.getSObjectType().newSObject(null, true);
+				APTemplateTask__c t = new APTemplateTask__c();
 				t.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
-				t.Priority__c = ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(actionPlanTemplate.TaskRecordTypeID__c); //(String)Task.Priority.getDescribe().getDefaultValue();
+				t.Priority__c = ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(actionPlanTemplate.TaskRecordTypeID__c);
 				aptTasks.add(t);
 			}
 
@@ -537,8 +543,9 @@ public with sharing class ActionPlanTemplateCreationController {
 	 */
 	private List<SelectOption> taskTypes;
 	/**
-	 * Generate a picklist of Task.Type
-	 * @return Picklist of `TaskType`
+	 * Generate a picklist of Task Type
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @return Picklist of `Task.Type`
 	 */
 	public List<SelectOption> getTaskTypes() {
 		if (taskTypes == null) {
@@ -550,6 +557,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	private List<SelectOption> taskPriorities;
 	/**
 	 * Generate picklist of Task Priorities
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Picklist of `Task.Priority`
 	 */
 	public List<SelectOption> getTaskPriorities() {

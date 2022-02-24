@@ -63,6 +63,7 @@ public without sharing class ActionPlanTemplateExport {
 
 	/**
 	 * Method in charge of handling the export task related to a Action Plan Template
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return `ContentDocument` or `Document` Id
 	 */
 	public Id export() {
@@ -103,7 +104,8 @@ public without sharing class ActionPlanTemplateExport {
 	}
 
 	/**
-	 * Method in charge of saving document in personal folder for later retrievel
+	 * Method to save document in personal folder for later retrievel
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param name
 	 * @param xml
 	 * @return doc
@@ -117,7 +119,6 @@ public without sharing class ActionPlanTemplateExport {
 		doc.FolderId = UserInfo.getUserId();
 
 		insert doc;
-
 		return doc.Id;
 	}
 

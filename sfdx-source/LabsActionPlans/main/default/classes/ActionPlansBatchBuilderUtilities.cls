@@ -372,11 +372,8 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 		}
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
 		if (!mySettings.Unassigned_Task_Assigned_to_Owner__c) {
-			//System.debug('Assigning task to current user');
 			return UserInfo.getUserId();
 		}
-		//Id relatedOwnerId = getRelatedRecordOwnerId(ap, relObjOwners);
-		//System.debug('assigning to related record owner ' + relatedOwnerId);
 		return getRelatedRecordOwnerId(ap, relObjOwners);
 	}
 
