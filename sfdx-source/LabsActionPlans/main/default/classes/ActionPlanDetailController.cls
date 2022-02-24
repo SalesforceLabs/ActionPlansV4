@@ -44,6 +44,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @since 2022
  */
 public with sharing class ActionPlanDetailController {
+	/**
+	 * The Action Plan
+	 */
 	private ActionPlan__c actionPlan;
 	/**
 	 * Does the org have Record Types enabled for Task SObject

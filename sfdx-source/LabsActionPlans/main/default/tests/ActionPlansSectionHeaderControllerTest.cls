@@ -48,30 +48,6 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	private static void testObjectIconQuery() {
-		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
-
-		System.runAs(u) {
-			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
-			shc.objectName = ActionPlansUtilities.namespacePrefix + 'ActionPlan__c';
-			Map<String, String> iconInfo = shc.getObjectIconInfo();
-			System.assert(iconInfo.get('iconStyle').containsIgnoreCase('custom'));
-
-			shc.objectName = ActionPlansUtilities.namespacePrefix + 'Action_Plans_Template_Import';
-			iconInfo = shc.getObjectIconInfo();
-			System.assert(iconInfo.get('iconStyle').containsIgnoreCase('custom'));
-
-			shc.objectName = 'standard-Account';
-			iconInfo = shc.getObjectIconInfo();
-			System.assert(!iconInfo.get('iconTag').containsIgnoreCase('No Lightning Icon Found'));
-
-			shc.objectName = 'BogusObjectName__y';
-			iconInfo = shc.getObjectIconInfo();
-			System.assert(iconInfo.get('iconTag').containsIgnoreCase('No Lightning Icon Found'));
-		}
-	}
-
-	/* @IsTest
 	private static void testObjectTabDescribePositive() {
 		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
 
@@ -80,6 +56,11 @@ private class ActionPlansSectionHeaderControllerTest {
 			shc.objectName = ActionPlansUtilities.namespacePrefix + 'ActionPlan__c';
 			shc.getObjectIconInfo();
 			System.assert(shc.getIsCustom(), 'ActionPlan is a custom object');
+
+			shc = new ActionPlansSectionHeaderController();
+			shc.objectName = 'Account';
+			shc.getObjectIconInfo();
+			System.assert(!shc.getIsCustom(), 'Account is a standard object');
 		}
 	}
 
@@ -89,10 +70,16 @@ private class ActionPlansSectionHeaderControllerTest {
 
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
+			shc.objectName = 'CaseComment';
+			shc.getObjectIconInfo();
+			System.assert(!shc.getIsCustom(), 'CaseComment is a standard object');
+
 			shc = new ActionPlansSectionHeaderController();
 			shc.objectName = ActionPlansUtilities.namespacePrefix + 'APTask__c';
 			shc.getObjectIconInfo();
 			System.assert(shc.getIsCustom(), 'APTask is a custom object');
+			Map<String, String> iconInfo = shc.getObjectIconInfo();
+			System.assertEquals(iconInfo.get('iconTag'), 'No Lightning Icon Found', 'Should not be a tab/icon for APTask');
 		}
 	}
 
@@ -102,15 +89,9 @@ private class ActionPlansSectionHeaderControllerTest {
 
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
-			shc.objectName = 'CaseComment';
-
+			shc.objectName = 'Contract';
 			shc.getObjectIconInfo();
-			System.assert(!shc.getIsCustom(), 'CaseComment is a standard object');
-
-			shc = new ActionPlansSectionHeaderController();
-			shc.objectName = 'Order';
-			shc.getObjectIconInfo();
-			System.assert(!shc.getIsCustom(), 'Order is a standard object');
+			System.assert(!shc.getIsCustom(), 'Contract is a standard object');
 		}
 	}
 
@@ -127,5 +108,5 @@ private class ActionPlansSectionHeaderControllerTest {
 			System.assertEquals('No Lightning Icon Found', nullIconTag, 'Should have reached null section of header controller');
 		}
 
-	} */
+	}
 }

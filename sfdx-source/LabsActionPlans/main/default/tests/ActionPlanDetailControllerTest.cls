@@ -52,6 +52,7 @@ private class ActionPlanDetailControllerTest {
 
 		ApexPages.currentPage().getParameters().put('id', null);
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
+		System.assertEquals(0, apDetailController.getCompleted());
 		System.assert(apDetailController.getActionPlanTasks().isEmpty(), 'New Action Plan has no tasks');
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
@@ -121,6 +122,23 @@ private class ActionPlanDetailControllerTest {
 	}
 
 	@IsTest
+	private static void checkDependentTasks() {
+		PageReference pageRef = Page.ActionPlanDetail;
+		Test.setCurrentPage(pageRef);
+		Test.startTest();
+
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3);
+		List<APTask__c> apTasks = [SELECT Id, Controller__c FROM APTask__c];
+		apTasks[1].Controller__c = apTasks[0].Id;
+		update apTasks;
+
+		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
+		Test.stopTest();
+		System.assert(apDetailController.hasControllingTasks);
+	}
+
+	@IsTest
 	private static void checkActionPlanTemplateVersion() {
 		PageReference pageRef = Page.ActionPlanDetail;
 		Test.setCurrentPage(pageRef);
@@ -175,7 +193,7 @@ private class ActionPlanDetailControllerTest {
 	}
 
 	@IsTest
-	private static void checkGetrelatedRecordName() {
+	private static void checkGetRelatedRecordName() {
 		PageReference pageRef = Page.ActionPlanDetail;
 		Test.setCurrentPage(pageRef);
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();

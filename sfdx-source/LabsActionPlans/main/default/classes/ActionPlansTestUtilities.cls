@@ -125,7 +125,7 @@ public inherited sharing class ActionPlansTestUtilities {
 	 **/
 	public User createAdminUser() {
 		User u = createTestUser();
-		assignAPPermissionSets(u.Id, false);
+		assignAPPermissionSets(u.Id, true);
 		return u;
 	}
 
@@ -137,9 +137,11 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * @return            `List<PermissionSetAssignment>` The list of `PermissionSetAssignment` records
 	 */
 	public List<PermissionSetAssignment> assignAPPermissionSets(Id testUserId, Boolean allOrNone) {
-		List<PermissionSet> pslist = [SELECT Id FROM PermissionSet WHERE Name LIKE 'Action_Plans%'];
+		System.debug('Namespace: ' + ActionPlansUtilities.namespacePrefix);
+		List<PermissionSet> pslist = [SELECT Id, Label FROM PermissionSet WHERE Name LIKE '%Action_Plans%'];
 		List<PermissionSetAssignment> psalist = new List<PermissionSetAssignment>();
 		for (PermissionSet ps : pslist) {
+			System.debug('Adding Permission Set ' + ps.Label);
 			psalist.add(new PermissionSetAssignment(AssigneeId = testUserId, PermissionSetId = ps.Id));
 		}
 		Database.insert(psalist, allOrNone);

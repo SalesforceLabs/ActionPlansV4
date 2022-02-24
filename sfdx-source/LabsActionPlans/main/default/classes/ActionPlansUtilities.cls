@@ -99,8 +99,9 @@ public without sharing class ActionPlansUtilities {
 			List<String> referenceFieldNames = new List<String>();
 
 			Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.ActionPlan__c.fields.getMap();
-
+			System.debug('Iterating over fieldset');
 			for (String s : fieldMap.keyset()) {
+				System.debug('Checking field ' + s);
 				if (s.containsIgnoreCase('.')) {
 					continue;
 				}
@@ -110,7 +111,7 @@ public without sharing class ActionPlansUtilities {
 					String relatedObjectName = dfr.getReferenceTo()[0].getDescribe().getName();
 
 					if (!relatedObjectName.startsWithIgnoreCase(namespacePrefix + 'ActionPlan')) {
-						//System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
+						System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
 						referenceFieldNames.add(s);
 					}
 				}

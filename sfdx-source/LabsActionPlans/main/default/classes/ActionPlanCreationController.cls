@@ -110,6 +110,10 @@ public with sharing class ActionPlanCreationController {
 		this.hasRelatedObject = false;
 		this.relatedRecordIDs = new Set<Id>();
 		this.mapTasksListBkp = new Map<Id, ApTaskWrapper>();
+
+		if (!Test.isRunningTest()) {
+			stdController.addFields(ActionPlansUtilities.getCustomRelationshipFields());
+		}
 		this.actionPlan = (ActionPlan__c) stdController.getRecord();
 
 		this.apTasks = getAPTasks();
@@ -265,6 +269,7 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public String relatedFieldName {
 		get {
+			// should not be null, as is set in controller, but here for completeness.
 			if (relatedFieldName == null) {
 				relatedFieldName = getRelatedObjectOptions()[0].getValue();
 			}
@@ -288,16 +293,14 @@ public with sharing class ActionPlanCreationController {
 		}
 	}
 
-	private Action_Plans_Settings__c mySettings {
-		get {
-			System.debug('mySettings ' + mySettings);
-			if (mySettings == null) {
-				mySettings = ActionPlansUtilities.getCustomSetting();
-			}
-			System.debug('mysettings: ' + mySettings);
-			return mySettings;
-		}
-		private set;
+	/**
+	 * Get a list of all relationship fields to avoid SOQL error for unqueried fields
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @return   `List<String>` Relationship fields from AcitonPlansUtilities
+	 * @see ActionPlansUtilities.getCustomRelationshipFields
+	 */
+	public List<String> getAllRelationshipFields() {
+		return ActionPlansUtilities.getCustomRelationshipFields();
 	}
 
 	/**
@@ -384,8 +387,13 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public Boolean hasRelatedObject() {
 		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
-			if (actionPlan.get(f) != null) {
-				return true;
+			try {
+				System.debug('Evaluate AP field ' + f + ' with value ' + actionPlan.get(f));
+				if (actionPlan.get(f) != null) {
+					return true;
+				}
+			} catch (SObjectException e) {
+				continue;
 			}
 		}
 		return false;
@@ -404,13 +412,7 @@ public with sharing class ActionPlanCreationController {
 			}
 			//do not delete completed tasks
 			tasksToDelete = [SELECT Id FROM Task WHERE TaskAPTask__c IN :deleteApttIds AND IsClosed = FALSE];
-			/* if(CanTheUser.destroy('Task') ){
-				delete tasksToDelete;
-			} */
 			Database.delete(tasksToDelete);
-			/* if(CanTheUser.destroy('APTask__c')){
-				delete pendingDeletes;
-			} */
 			Database.delete(pendingDeletes);
 		}
 	}
@@ -474,7 +476,7 @@ public with sharing class ActionPlanCreationController {
 			parentIDs.addAll(oIdsList);
 
 			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()) {
-				Database.ExecuteBatch(new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, objName, parentIDs));
+				Database.executeBatch(new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, objName, parentIDs));
 			} else {
 				System.debug('Running batch builder utilities');
 				ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(this.actionPlan, this.apTasks, objName, parentIDs);
@@ -741,8 +743,6 @@ public with sharing class ActionPlanCreationController {
 				userReadOnly = true;
 			}
 
-			//Boolean assignToOwner = mySettings == null || mySettings.Unassigned_Task_Assigned_to_Owner__c;
-
 			ApTaskWrapper apTWrapper = new ApTaskWrapper(apTask, i, userReadOnly, actionPlan.TaskRecordTypeID__c);
 			tasksList.add(apTWrapper);
 			if (String.isNotBlank(apTask.Id)) {
@@ -799,16 +799,13 @@ public with sharing class ActionPlanCreationController {
 					//Read the Custom Settings in order to asign the User to that Task
 					if (aptTask.User__c != null) {
 						t.User__c = aptTask.User__c;
-					} /* else if (aptTask.User__c == null && (!mySettings.Unassigned_Task_Assigned_to_Owner__c)) {
-						t.User__c = UserInfo.getUserId();
-					} */
+					}
 					t.Type__c = aptTask.Type__c;
 					t.Subject__c = aptTask.Subject__c;
 					t.Priority__c = aptTask.Priority__c;
 					t.Dependent__c = aptTask.Dependent__c;
 					t.TaskIndex__c = aptTask.TaskIndex__c;
 					t.DaysFromStart__c = aptTask.DaysFromStart__c;
-					//t.User__c = userId;
 					t.Reminder__c = aptTask.Reminder__c;
 
 					if (aptTask.Reminder__c && String.isBlank(aptTask.Minutes_Reminder__c)) {
@@ -1017,8 +1014,6 @@ public with sharing class ActionPlanCreationController {
 		}
 		return nameList;
 	}
-
-	private Map<Id, String> relatedObjectNameMap = new Map<Id, String>();
 
 	/**
 	 * We need a list of parent RECORD names when showing all the parents when we mass-create action plans
@@ -1242,6 +1237,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Find user default task recordtype
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return default task record type Id
 	 */
 	@testVisible
@@ -1251,6 +1247,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Convert Record Type Id to Record Type Name for the Action Plan's Tasks
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Task Record Type Name for the current Action Plan
 	 */
 	public String getRecordTypeName() {
@@ -1266,6 +1263,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Generate picklist of Task Record Types
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Picklist of `Task.RecordType` options
 	 */
 	public List<SelectOption> getTaskRTPicklistValues() {
@@ -1275,6 +1273,7 @@ public with sharing class ActionPlanCreationController {
 	private List<SelectOption> taskTypes;
 	/**
 	 * Generate picklist of Task Types
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Picklist of `Task.Type`
 	 */
 	public List<SelectOption> getTaskTypes() {
@@ -1287,6 +1286,7 @@ public with sharing class ActionPlanCreationController {
 	private List<SelectOption> taskPriorities;
 	/**
 	 * Generate picklist of Task Priorities
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Picklist of `Task.Priority`
 	 */
 	public List<SelectOption> getTaskPriorities() {
@@ -1306,6 +1306,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Retrieve the Namespace Prefix in case we are in a managed package. Needed for the JavaScript in the page
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return `String` Namespace Prefix (LabsActionPlans or empty string)
 	 */
 	public String getNamespacePrefix() {
@@ -1386,7 +1387,7 @@ public with sharing class ActionPlanCreationController {
 
 		/**
 		 * Defines if we set the `APTask__c` Assigned To field to required
-		 * @author David Schach
+		 * @author {@link [David Schach](https://github.com/dschach)}
 		 * @return   `Boolean` Should the field be required?
 		 */
 		public Boolean userRequired {
@@ -1402,7 +1403,7 @@ public with sharing class ActionPlanCreationController {
 		/**
 		 * Logic for determining how to show the Assigned To field for the AP Task
 		 * <br>If we show the UserLookup, set the UserRequired property to determine if the field is required
-		 * @author David Schach
+		 * @author {@link [David Schach](https://github.com/dschach)}
 		 * @return   `String` UserReadOnly, UserLookup, OwnerPlaceholder
 		 */
 		public String getUserRender() {
@@ -1427,7 +1428,7 @@ public with sharing class ActionPlanCreationController {
 				}
 				userRequired = true;
 				return 'UserLookup';
-			} else if (assignToOwner) {
+			} else {
 				if (apt.User__c == null || !canEdit) {
 					return 'OwnerPlaceholder';
 				} else if (apt.User__c != null) {
@@ -1435,8 +1436,8 @@ public with sharing class ActionPlanCreationController {
 				}
 				return 'UserLookup';
 			}
-			userRequired = true;
-			return 'UserLookup';
+			/* userRequired = true;
+			 return 'UserLookup'; */
 		}
 	}
 }

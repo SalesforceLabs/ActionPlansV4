@@ -544,6 +544,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<span class="pbError">{!$Label.ap_Errors_Review_Errors}</span>
 				</div>
 			</apex:pageBlock>
+			<apex:repeat value="{!AllRelationshipFields}" var="a">
+				<apex:inputField value="{!ActionPlan__c[a]}" rendered="false" />
+			</apex:repeat>
+			<apex:inputField value="{!ActionPlan__c.TaskRecordTypeID__c}" rendered="false" />
 		</apex:form>
 	</body>
 
