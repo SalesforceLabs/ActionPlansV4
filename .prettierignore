@@ -18,5 +18,4 @@ docs/
 data/
 # Exclude project config
 sfdx-project.json
-sfdx-project-unmanaged.json
 dependencies.json

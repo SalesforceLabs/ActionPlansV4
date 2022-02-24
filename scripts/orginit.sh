@@ -1,15 +1,25 @@
+# UNMANAGED for use with develoepr edition or sandbox
+
+# Install scriptecho "Cleaning previous scratch org..."
 echo "Cleaning previous scratch org..."
 sfdx force:org:delete -p -u ActionPlans
 
+echo "Clearing namespace"
+sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-project.json
+
 echo "Creating new scratch org"
-sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s
+sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -d 7
 
 # For use with developer edition or sandbox
-# sfdx force:source:deploy -p sfdx-source/LabsActionPlans
+#echo "Pushing source..."
+#sfdx force:source:deploy -p sfdx-source/LabsActionPlans
 
-# For use with namespaced scratch org in package development process
-echo "Pushing metadata"
+# For use with namespaced scratch org n package development process
+echo "Pushing unmanaged metadata"
 sfdx force:source:push
+
+echo "Deploy unpackaged metadata"
+sfdx force:source:deploy -p sfdx-source/unpackaged
 
 echo "Assigning permission set"
 sfdx force:user:permset:assign -n Action_Plans_Admin
