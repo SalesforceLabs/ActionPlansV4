@@ -4,6 +4,7 @@
             "path": "sfdx-source/LabsActionPlans",
             "default": true,
             "package": "Action Plans",
+			"versionName": "4.0.0",
             "versionNumber": "4.0.0.NEXT",
             "releaseNotesUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/README.md",
             "unpackagedMetadata": {
