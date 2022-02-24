@@ -51,7 +51,7 @@ $RECYCLE.BIN/
 src
 
 # Test results
-tests
+testresults
 
 # temporary files
 **/layouts/Contact*
