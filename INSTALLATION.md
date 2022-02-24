@@ -6,6 +6,8 @@ Follow these instructions to deploy Action Plans to your org.
 
 [AppExchange](#appexchange-managed-package---recommended): The managed package is the best way to go - it will let you upgrade seamlessly as features are added.
 
+[Installing the App Using a Scratch Org](#installing-the-app-using-a-scratch-org): Fast and easy way to work with this app in a scratch org
+
 [Installing the app using a Developer Edition Org or a Sandbox](#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org): Useful when tackling Trailhead Badges or if you want the app deployed to a more permanent environment than a scratch org.
 
 [Optional installation instructions](#optional-installation-instructions): Installing sample Action Plan Template
@@ -19,7 +21,7 @@ Follow these instructions to deploy Action Plans to your org.
 
 1. Set up your environment. Follow the steps in the [Quick Start: Lightning Web Components](https://trailhead.salesforce.com/content/learn/projects/quick-start-lightning-web-components/) Trailhead project. The steps include:
 
-    - Enable Dev Hub in your Trailhead Playground
+    - Enable Dev Hub in your Trailhead Playground or hub org
     - Install Salesforce CLI
     - Install Visual Studio Code
     - Install the Visual Studio Code Salesforce extensions
