@@ -38,20 +38,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Controller for import page
+ *
  * @group Visualforce
- * @since 2011
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @see ActionPlanTemplateImport
  */
 public with sharing class ActionPlanTemplateImportController {
 	/**
 	 * The attachment to be used to hold imported xml
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   Attachment
 	 */
 	public Attachment attachment { get; set; }
 
 	/**
-	 * Constructor
+	 * Constructor initializes the attachment we will temporarilyuse to hold the imported XML
 	 */
 	public ActionPlanTemplateImportController() {
 		this.attachment = new Attachment();

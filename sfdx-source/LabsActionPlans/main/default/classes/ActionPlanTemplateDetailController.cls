@@ -38,8 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 /**
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Visualforce
- * @since 2011
+ * @since 2022
  */
 public with sharing class ActionPlanTemplateDetailController {
 	@TestVisible
@@ -179,16 +180,17 @@ public with sharing class ActionPlanTemplateDetailController {
 
 	/**
 	 * If we have no share object, we don't need to show a Share button
-	 * @author David Schach
+	 * <br>Also validate user permission to share
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   Does the `ActionPlanTemplate__Share` object exist?
 	 */
 	public Boolean getCanShare() {
-		return ActionPlansUtilities.canShareRecord('ActionPlanTemplate__Share', actionPlanTemplate.Id, actionPlanTemplate.OwnerId);
+		return ActionPlansUtilities.canShareRecord(ActionPlansUtilities.namespacePrefix + 'ActionPlanTemplate__Share', actionPlanTemplate.Id, actionPlanTemplate.OwnerId);
 	}
 
 	/**
 	 * Does the user have permission to transfer? We query `UserRecordAccess` to find out.
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   `Boolean` yes/no
 	 */
 	public Boolean getCanTransfer() {

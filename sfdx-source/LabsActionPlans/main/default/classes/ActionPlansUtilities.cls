@@ -35,9 +35,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * Utilities class - mostly describe methods and constants
- * @since 2011
+ * @since 2022
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Utilities
- * @see ActionPlansUtilitiesTest
  */
 public without sharing class ActionPlansUtilities {
 	/**
@@ -86,7 +86,7 @@ public without sharing class ActionPlansUtilities {
 	private static List<String> apCustomRelationshipFields;
 	/**
 	 * Check the fieldSet for all active Action Plan relationaship fields (available parent objects)
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   `List<String>` List of field names
 	 */
 	public static List<String> getCustomRelationshipFields() {
@@ -94,8 +94,9 @@ public without sharing class ActionPlansUtilities {
 			List<String> referenceFieldNames = new List<String>();
 
 			Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.ActionPlan__c.fields.getMap();
-
+			System.debug('Iterating over fieldset');
 			for (String s : fieldMap.keyset()) {
+				System.debug('Checking field ' + s);
 				if (s.containsIgnoreCase('.')) {
 					continue;
 				}
@@ -105,7 +106,7 @@ public without sharing class ActionPlansUtilities {
 					String relatedObjectName = dfr.getReferenceTo()[0].getDescribe().getName();
 
 					if (!relatedObjectName.startsWithIgnoreCase(namespacePrefix + 'ActionPlan')) {
-						//System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
+						System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
 						referenceFieldNames.add(s);
 					}
 				}
@@ -134,9 +135,9 @@ public without sharing class ActionPlansUtilities {
 	private static Map<String, Schema.DescribeSObjectResult> prefixToDescribe;
 	/**
 	 * Store a map of object prefixes to describe info so we can fill the `ActionPlan__c` related record fields
-	 * @author David Schach
-	 * @param  recordId recordId description
-	 * @return          return description
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @param  recordId related record Id
+	 * @return          `Schema.DescribeSObjectResult` so we can get info about the related record
 	 */
 	public static Schema.DescribeSObjectResult getRelatedRecordInfo(Id recordId) {
 		if (prefixToDescribe == null) {
@@ -156,7 +157,7 @@ public without sharing class ActionPlansUtilities {
 	private static Map<Id, String> recordIdToRecordName;
 	/**
 	 * Give a set of recordIDs and retrrieve the related record names
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  recordIDs Set<Id> of parent records to Action Plans
 	 * @return           Map of RecordID to Record Name (special for Case & Contract)
 	 */
@@ -339,7 +340,7 @@ public without sharing class ActionPlansUtilities {
 	private static Set<String> closedTaskStatuses;
 	/**
 	 * Set of all `Task` Status values that are Closed
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   Set of closed `Task` Statuses
 	 */
 	public static Set<String> getClosedTaskStatuses() {
@@ -354,7 +355,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * For a given object/field, generate a Visualforce Picklist
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  objectname      Object Nams
 	 * @param  fieldname       Field Name
 	 * @param  requireValue    We can provide the option of not selecting the value by default
@@ -441,7 +442,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Utility method to check if the page parameters contain a key, and then return the escaped value.
 	 * <br>Used because PMD wants it, and because XSS is a serious problem
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  paramKey The page parameter key
 	 * @return          `String` Escaped (single quotes escaped) value for that key, if present. Otherwise, null;
 	 */
@@ -455,7 +456,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Does the user have permission to transfer? We query `UserRecordAccess`.
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param recordId sample record Id that can be used to find user permission
 	 * @return   `Boolean` yes/no
 	 */
@@ -467,7 +468,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * We can get all the permissions and info required to see if the user can share the record
 	 * <br>RecordOwner, has Full Access, has ModifyAllData
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  shareObjectName The Share object name, such as `ActionPlan__Share`
 	 * @param  recordId        The recordId of the record in question
 	 * @param  recordOwnerId   The owner Id because an owner can share even without "Modify all Data"
@@ -483,11 +484,15 @@ public without sharing class ActionPlansUtilities {
 
 		Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
 		if (gd.containsKey(shareObjectName)) {
+			UserRecordAccess ura = [SELECT RecordId, HasAllAccess FROM UserRecordAccess WHERE UserId = :UserInfo.getUserId() AND RecordId = :recordId];
+			if (ura.HasAllAccess) {
+				return true;
+			}
 			if (recordOwnerId == UserInfo.getUserId() || hasModifyAllData) {
 				return true;
 			}
 		}
-		//Share does not exist custom object is public read write, or user lacks permissions
+		//Share does not exist, custom object is public read write, or user lacks permissions
 		return false;
 	}
 
@@ -560,7 +565,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Get the Default Custom Setting (Organization level) and insert if specified
 	 * <br>We cannot insert in a Visualforce constructor, but we can in a page OnLoad action
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  insertIfNull `Boolean` Should we insert the Organization Custom Setting if there isn't one?
 	 * @return              `Action_Plans_Settings__c` The Settings object
 	 */
@@ -570,10 +575,10 @@ public without sharing class ActionPlansUtilities {
 			Action_Plans_Settings__c apSettings = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
 			apSettings.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
 			apSettings.Default_Object_on_Lead_Conversion__c = 'Contact';
-			apSettings.Unassigned_Task_Default_to_Owner__c = (Boolean) Action_Plans_Settings__c.Unassigned_Task_Default_to_Owner__c.getDescribe().getDefaultValue();
+			apSettings.Unassigned_Task_Assigned_to_Owner__c = (Boolean) Action_Plans_Settings__c.Unassigned_Task_Assigned_to_Owner__c.getDescribe().getDefaultValue();
 			apSettings.Chatter_Object_Brag__c = (Boolean) Action_Plans_Settings__c.Chatter_Object_Brag__c.getDescribe().getDefaultValue();
-			if (insertIfNull) {
-				upsert apSettings;
+			if (insertIfNull && CanTheUser.ups(new Action_Plans_Settings__c())) {
+				upsert apSettings; //NOPMD
 			}
 		}
 		return apSettings;
@@ -629,7 +634,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Given a date, give the English day of the week
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  d The given date
 	 * @return   `String` The day of hte week in English
 	 */
@@ -646,8 +651,8 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Get the Custom Metadata record for the weekend day
-	 * @author David Schach
-	 * @param  developerName Of day (Saturday, Sunday, etc)
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @param  developerName English day (Saturday, Sunday, etc)
 	 * @return               Custom Metadata
 	 */
 	public static Weekend_Day__mdt getWeekendDay(String developerName) {

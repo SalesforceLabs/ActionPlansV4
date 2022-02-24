@@ -34,6 +34,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Test for PostInstallScript Utility
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @see ActionPlansPostInstallScript
  * @group Utilities
  */
@@ -44,7 +46,7 @@ private class ActionPlansPostInstallScriptTest {
 		ActionPlansPostInstallScript postinstall = new ActionPlansPostInstallScript();
 		Test.testInstall(postinstall, null);
 		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlanTemplate__c]);
-		System.assertEquals(true, Action_Plans_Settings__c.getInstance().Unassigned_Task_Default_to_Owner__c);
+		System.assertEquals(true, Action_Plans_Settings__c.getInstance().Unassigned_Task_Assigned_to_Owner__c);
 		Test.testInstall(postinstall, new Version(4, 0), false);
 		Test.testInstall(postinstall, new Version(4, 0), true);
 	}

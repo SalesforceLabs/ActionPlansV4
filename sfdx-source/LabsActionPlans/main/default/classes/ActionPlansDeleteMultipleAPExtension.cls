@@ -42,12 +42,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Controller for page to mass-delete using a set controller.
  * <br>Validates using CanTheUser to ensure user permissions
- * @author {@link [Andrew Fawcett](https://github.com/andyinthecloud)}
- * @author {@link [Kevin Poorman](https://github.com/codefriar)}
+ * @author {@link [Andrew Fawcett](https://github.com/afawcett)}
  * @author {@link [David Schach](https://github.com/dschach)}
  * @group Visualforce
- * @since 2011
- * @see ActionPlansDeleteMultipleAPExtTest
+ * @since 2022
+ * @see {@link [Salesforce StackExchange](https://salesforce.stackexchange.com/a/4141/59)}
  * @see CanTheUser
  */
 public with sharing class ActionPlansDeleteMultipleAPExtension {
@@ -59,7 +58,7 @@ public with sharing class ActionPlansDeleteMultipleAPExtension {
 	public List<ActionPlan__c> actionPlansToShow { get; private set; }
 	/**
 	 * Constructor for page showing Action Plans we want to delete
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  stdController `ActionPlan__c` standard controller
 	 */
 	public ActionPlansDeleteMultipleAPExtension(ApexPages.StandardSetController stdController) {
@@ -70,7 +69,7 @@ public with sharing class ActionPlansDeleteMultipleAPExtension {
 
 	/**
 	 * Page Redirect on delete
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   PageReference with success/error message
 	 */
 	public PageReference deleteRecords() {
@@ -79,7 +78,6 @@ public with sharing class ActionPlansDeleteMultipleAPExtension {
 
 		if (actionPlansToShow.isEmpty()) {
 			return null;
-			//return standardController.cancel();
 		}
 
 		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();
@@ -95,7 +93,6 @@ public with sharing class ActionPlansDeleteMultipleAPExtension {
 			newPage.getParameters().put('message', confirmation);
 			newPage.getParameters().put('severity', 'error');
 		}
-
 		return newPage;
 	}
 }

@@ -37,7 +37,11 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
+ * Tests for ActionPlanTemplateDetailController
  * @group Visualforce
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
+ * @see ActionPlanTemplateDetailController
  */
 @IsTest
 private class ActionPlanTemplateDetailCntrlTest {

@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Tests for trigger handlers
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Trigger Handlers
  */
 @IsTest

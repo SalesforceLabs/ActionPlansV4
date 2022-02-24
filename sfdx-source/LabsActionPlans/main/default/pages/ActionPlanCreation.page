@@ -418,23 +418,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 									</span>
 								</apex:facet>
 								<apex:outputPanel id="userEditPanel" layout="block" rendered="{!!wrapTask.apt.IsClosed__c}">
-									<apex:outputPanel rendered="{!$ObjectType.APTask__c.fields.User__c.updateable && wrapTask.displayLookup}" id="userLookupPanel" style="z-index: 9999">
-										<apex:inputField required="{!wrapTask.userRequired}" value="{!wrapTask.apt.User__c}" rendered="{!!lex}" id="classicLookup" />
+									<apex:outputPanel rendered="{!wrapTask.UserRender == 'UserLookup'}" id="userLookupPanel" style="z-index: 9999">
+										<apex:inputField required="{!wrapTask.UserRequired}" value="{!wrapTask.apt.User__c}" rendered="{!!lex}" id="classicLookup" />
 										<c:APLightningLookup field="User__c" sObj="{!wrapTask.apt}" sObjType="User" for="{!wrapTask.position}rowuserlookup" where="AND IsActive = true AND ProfileId != null"
-										 fieldStyle="width:100%" required="false" rendered="{!lex}" id="lexLookup" recordname="{!IF(wrapTask.apt.User__c != null, wrapTask.apt.User__r.Name, '')}"
+										 fieldStyle="width:100%" required="{!wrapTask.UserRequired}" rendered="{!lex}" id="lexLookup" recordname="{!IF(wrapTask.apt.User__c != null, wrapTask.apt.User__r.Name, '')}"
 										/>
-										<!-- <apex:inputField required="{!wrapTask.userRequired}" value="{!wrapTask.apt.User__c}"  id="classicLookup" /> -->
+									</apex:outputPanel>
+									<apex:outputPanel rendered="{!wrapTask.UserRender == 'UserReadOnly'}" id="userDisplayPanel" layout="none">[&nbsp;
+										<apex:outputField value="{!wrapTask.apt.User__c}" id="userNameDisplay" />&nbsp;]
 									</apex:outputPanel>
 
-									<apex:outputPanel rendered="{!!$ObjectType.APTask__c.fields.User__c.updateable && wrapTask.apt.User__c == null}" id="userDisplayPanel">
-										<apex:outputPanel layout="none" rendered="{!!AssignToParentOwner}" id="userNameDisplay">[&nbsp;
-											<apex:outputField value="{!wrapTask.apt.User__c}" />&nbsp;]</apex:outputPanel>
-										<apex:outputText rendered="{!AssignToParentOwner}" id="recordOwnerPlaceholder">[&nbsp;{!$Label.ap_RecordOwner}&nbsp;]</apex:outputText>
-									</apex:outputPanel>
-									<apex:outputField rendered="{!!$ObjectType.APTask__c.fields.User__c.updateable && wrapTask.apt.User__c != null}" value="{!wrapTask.apt.User__c}"
-									 id="userDisplayField" />
+									<apex:outputText rendered="{!wrapTask.UserRender == 'OwnerPlaceholder'}" id="recordOwnerPlaceholder">[&nbsp;{!$Label.ap_RecordOwner}&nbsp;]</apex:outputText>
 								</apex:outputPanel>
-
 								<apex:outputField value="{!wrapTask.apt.User__c}" rendered="{!wrapTask.apt.IsClosed__c}" />
 							</apex:column>
 
@@ -549,6 +544,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<span class="pbError">{!$Label.ap_Errors_Review_Errors}</span>
 				</div>
 			</apex:pageBlock>
+			<apex:repeat value="{!AllRelationshipFields}" var="a">
+				<apex:inputField value="{!ActionPlan__c[a]}" rendered="false" />
+			</apex:repeat>
+			<apex:inputField value="{!ActionPlan__c.TaskRecordTypeID__c}" rendered="false" />
 		</apex:form>
 	</body>
 

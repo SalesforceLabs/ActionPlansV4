@@ -38,23 +38,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 /**
- * @author David Schach
+ * @author Rodrigo Birriel
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Visualforce
- * @since 2011
- * @see ActionPlanDetailControllerTest
+ * @since 2022
  */
 public with sharing class ActionPlanDetailController {
+	/**
+	 * The Action Plan
+	 */
 	private ActionPlan__c actionPlan;
 	/**
 	 * Does the org have Record Types enabled for Task SObject
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Yes/No
 	 */
 	public Boolean hasRecordType { get; set; }
 
 	/**
 	 * Does the user have reminders enabled? If not, do not shrae the reminder option
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Yes/No
 	 */
 	public Boolean canDisplayReminder { get; private set; }
@@ -103,7 +106,7 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * Display ControllingTasks column only if there are controlling tasks
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   `Boolean` is the Controller__c field populated for any Action Plan Tasks?
 	 */
 	public Boolean hasControllingTasks {
@@ -295,16 +298,16 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * If we have no share object, we don't need to show a Share button
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   Does the `ActionPlan__Share` object exist?
 	 */
 	public Boolean getCanShare() {
-		return ActionPlansUtilities.canShareRecord('ActionPlan__Share', actionPlan.Id, actionPlan.OwnerId);
+		return ActionPlansUtilities.canShareRecord(ActionPlansUtilities.namespacePrefix + 'ActionPlan__Share', actionPlan.Id, actionPlan.OwnerId);
 	}
 
 	/**
 	 * Does the user have permission to transfer? We query `UserRecordAccess` to find out.
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   `Boolean` yes/no
 	 */
 	public Boolean getCanTransfer() {
@@ -313,7 +316,7 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * Show the Print page (simple formatting)
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   ActionPlanPrint page
 	 */
 	public PageReference print() {

@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * @group Invocable
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
  */
 global without sharing class ActionPlanCreateInvocable {
@@ -172,7 +172,6 @@ global without sharing class ActionPlanCreateInvocable {
 			} else if (actionPlanFields.contains(relObjField)) {
 				relObjField = relObjField;
 			} else {
-				//System.debug('Field not present. ' + relObjField);
 				continue;
 			}
 			ap.put(relObjField, relatedId);
@@ -190,7 +189,6 @@ global without sharing class ActionPlanCreateInvocable {
 
 		for (CreateActionPlanRequest r : requests) {
 			if (!actionPlansToInsert.containsKey(r.relatedRecordID)) {
-				System.debug('PROBLEM: Did not create Action Plan.');
 				continue;
 			}
 
@@ -205,9 +203,9 @@ global without sharing class ActionPlanCreateInvocable {
 				//Read the Custom Settings in order to asign the User to that Task
 				if (aptTask.User__c != null) {
 					userId = aptTask.User__c;
-				} else if (aptTask.User__c == null && (mySettings != null && !mySettings.Unassigned_Task_Default_to_Owner__c)) {
+				} else if (aptTask.User__c == null && (mySettings != null && !mySettings.Unassigned_Task_Assigned_to_Owner__c)) {
 					userId = UserInfo.getUserId();
-				} else if (aptTask.User__c == null && (mySettings != null && mySettings.Unassigned_Task_Default_to_Owner__c)) {
+				} else if (aptTask.User__c == null && (mySettings != null && mySettings.Unassigned_Task_Assigned_to_Owner__c)) {
 					userId = relatedObjectOwners.get(relatedId);
 				}
 
@@ -370,7 +368,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 	/**
 	 * Wrapper class for ActionPlan Request for invocable Apex.
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @since 2022
 	 */
 	global class CreateActionPlanRequest {

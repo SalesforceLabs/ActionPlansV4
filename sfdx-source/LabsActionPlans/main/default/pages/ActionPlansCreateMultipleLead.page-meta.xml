@@ -4,5 +4,5 @@
     <availableInTouch>true</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
     <description>List button to replace JavaScript buttons</description>
-    <label>ActionPlans CreateMultiple Leads</label>
+    <label>ActionPlans CreateMultiple Lead</label>
 </ApexPage>

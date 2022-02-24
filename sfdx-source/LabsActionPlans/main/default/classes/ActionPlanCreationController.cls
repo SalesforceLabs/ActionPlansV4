@@ -41,8 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * Controller for ActionPlan Create and ActionPlan Edit screens (the same page overrides both actions)
  * @group Visualforce
  * @author Rodrigo Birriel
- * @author David Schach
- * @since 2011
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @see ActionPlanCreateInvocable
  */
 public with sharing class ActionPlanCreationController {
@@ -98,7 +98,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Constructor for ActionPlan Create/Edit Page
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  stdController `ActionPlan__c` standard controller
 	 */
 	public ActionPlanCreationController(ApexPages.StandardController stdController) {
@@ -110,6 +110,10 @@ public with sharing class ActionPlanCreationController {
 		this.hasRelatedObject = false;
 		this.relatedRecordIDs = new Set<Id>();
 		this.mapTasksListBkp = new Map<Id, ApTaskWrapper>();
+
+		if (!Test.isRunningTest()) {
+			stdController.addFields(ActionPlansUtilities.getCustomRelationshipFields());
+		}
 		this.actionPlan = (ActionPlan__c) stdController.getRecord();
 
 		this.apTasks = getAPTasks();
@@ -172,7 +176,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Initalize controller for creating a new Action Plan from a template
 	 * <br>Used so we can instantiate this controller from Invocable Apex
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param visualforceContext Are we in Visualforce context?
 	 */
 	private void initNewActionPlanFromTemplate(Boolean visualforceContext) {
@@ -181,7 +185,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * initNewActionPlanFromTemplate description
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  visualforceContext visualforceContext description
 	 * @param  apt                apt description
 	 */
@@ -234,7 +238,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Send Action Plan's Template Name to the Visualforce page
 	 * <br>Because the record has not been saved, the Action Plan Name on initialization is the same as the name of the template
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return `ActionPlan__c.Name` (from `ActionPlan__c.Action_Plan_Template__r.Name`)
 	 */
 	public String getTemplateName() {
@@ -259,12 +263,13 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * Get the specific lookup field used by this Aciton Plan
-	 * @author David Schach
+	 * Get the specific lookup field used by this Action Plan
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   The field Name
 	 */
 	public String relatedFieldName {
 		get {
+			// should not be null, as is set in controller, but here for completeness.
 			if (relatedFieldName == null) {
 				relatedFieldName = getRelatedObjectOptions()[0].getValue();
 			}
@@ -288,30 +293,19 @@ public with sharing class ActionPlanCreationController {
 		}
 	}
 
-	private Action_Plans_Settings__c mySettings {
-		get {
-			System.debug('mySettings ' + mySettings);
-			if (mySettings == null) {
-				mySettings = ActionPlansUtilities.getCustomSetting();
-			}
-			System.debug('mysettings: ' + mySettings);
-			return mySettings;
-		}
-		private set;
-	}
-
 	/**
-	 * Utility method for checking if we default ownership to parent record owner if we can't edit the field
-	 * <br>This could be replaced by a $Setup tag in Visualforce, but our logic may become more complex here
-	 * @return      `Boolean` Is the Custom Setting present, and do we default uneditable assigned user fields to the parent record owner?
+	 * Get a list of all relationship fields to avoid SOQL error for unqueried fields
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @return   `List<String>` Relationship fields from AcitonPlansUtilities
+	 * @see ActionPlansUtilities.getCustomRelationshipFields
 	 */
-	public Boolean getAssignToParentOwner() {
-		return mySettings.Unassigned_Task_Default_to_Owner__c;
+	public List<String> getAllRelationshipFields() {
+		return ActionPlansUtilities.getCustomRelationshipFields();
 	}
 
 	/**
 	 * Based on the related object name, we display a field from that object as the related record
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  objectName SObject Name
 	 * @return            The display field
 	 */
@@ -393,8 +387,13 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public Boolean hasRelatedObject() {
 		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
-			if (actionPlan.get(f) != null) {
-				return true;
+			try {
+				System.debug('Evaluate AP field ' + f + ' with value ' + actionPlan.get(f));
+				if (actionPlan.get(f) != null) {
+					return true;
+				}
+			} catch (SObjectException e) {
+				continue;
 			}
 		}
 		return false;
@@ -413,13 +412,7 @@ public with sharing class ActionPlanCreationController {
 			}
 			//do not delete completed tasks
 			tasksToDelete = [SELECT Id FROM Task WHERE TaskAPTask__c IN :deleteApttIds AND IsClosed = FALSE];
-			/* if(CanTheUser.destroy('Task') ){
-				delete tasksToDelete;
-			} */
 			Database.delete(tasksToDelete);
-			/* if(CanTheUser.destroy('APTask__c')){
-				delete pendingDeletes;
-			} */
 			Database.delete(pendingDeletes);
 		}
 	}
@@ -441,9 +434,6 @@ public with sharing class ActionPlanCreationController {
 			}
 		} catch (Exception e) {
 			Apexpages.addMessages(e);
-			if (Test.isRunningTest()) {
-				throw e;
-			}
 			return null;
 		}
 
@@ -452,7 +442,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Saves Action Plan Instance and task. Also creates all due dates for tasks, then redirects to the AP list
-	 * @return `ActionPlan__c` Id
+	 * @return `Id` Action Plan Id
 	 */
 	private Id saveAp() {
 		Id actionPlanId;
@@ -483,7 +473,7 @@ public with sharing class ActionPlanCreationController {
 			parentIDs.addAll(oIdsList);
 
 			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()) {
-				Database.ExecuteBatch(new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, objName, parentIDs));
+				Database.executeBatch(new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, objName, parentIDs));
 			} else {
 				System.debug('Running batch builder utilities');
 				ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(this.actionPlan, this.apTasks, objName, parentIDs);
@@ -513,16 +503,15 @@ public with sharing class ActionPlanCreationController {
 	 */
 	@TestVisible
 	private PageReference saveMultiple() {
-		//System.debug('SAVING MULTIPLE');
 		String oName = refType;
-		String oIds = ActionPlansUtilities.getEscapedPageParameter('refId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refId'));
+		String oIds = ActionPlansUtilities.getEscapedPageParameter('refId');
 
 		List<Id> oIdsList = new List<Id>();
 		if ((oName != null || oName != '') && (oIds != null || oIds != '')) {
 			try {
 				oIdsList = parseRelatedIDs(oIds);
 				Set<Id> parentIDs = new Set<Id>(oIdsList);
-				//Now for each inserted AP we should run through tasks and create them
+				//For each inserted AP we should run through tasks and create them
 				ActionPlansBatchBuilder taskBatch = new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, oName, parentIDs);
 				Database.ExecuteBatch(taskBatch);
 			} catch (Exception e) {
@@ -653,7 +642,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Creates a blank `APTask__c` record and adds it to apTasks
-	 * @return the `APTask__c` we are adding
+	 * @return The `APTask__c` we are adding
 	 */
 	public APTask__c addTask() {
 		this.taskIndex++;
@@ -744,27 +733,13 @@ public with sharing class ActionPlanCreationController {
 				newTaskWrapper = this.mapTasksListBkp.get(apTask.Id);
 			}
 
-			Boolean userRequired = false;
-			Boolean displayLookUp = Schema.sObjectType.APTask__c.fields.User__c.isUpdateable();
+			Boolean userReadOnly = false;
 
-			if (templateId != null && apTask.Id == null && apTask.User__c != null) {
-				displayLookUp = false;
+			if (templateId != null && apTask.User__c != null) {
+				userReadOnly = true;
 			}
 
-			//! We need to account for the User being filled AND having the option to change it
-			//! How can we refer to the template task?
-
-			//! User is Required if the ap parent id is null and we don't give unassigned to record owner
-			//! We always display the lookup (if editable) because we never FORCE the task to be assigned to the record owner
-
-			/* if (newTaskWrapper == null){
-				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c || actionPlan.get(relatedFieldName) == null; // true if not auto-assigned to record owner. User may have been set via template, but is still required.
-			} else { // editing existing task
-				userRequired    = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c;
-			} */
-			userRequired = mySettings == null || !mySettings.Unassigned_Task_Default_to_Owner__c;
-
-			ApTaskWrapper apTWrapper = new ApTaskWrapper(apTask, i, displayLookup, userRequired, actionPlan.TaskRecordTypeID__c);
+			ApTaskWrapper apTWrapper = new ApTaskWrapper(apTask, i, userReadOnly, actionPlan.TaskRecordTypeID__c);
 			tasksList.add(apTWrapper);
 			if (String.isNotBlank(apTask.Id)) {
 				this.mapTasksListBkp.put(apTask.Id, apTWrapper);
@@ -820,23 +795,13 @@ public with sharing class ActionPlanCreationController {
 					//Read the Custom Settings in order to asign the User to that Task
 					if (aptTask.User__c != null) {
 						t.User__c = aptTask.User__c;
-					} else if (aptTask.User__c == null && (!mySettings.Unassigned_Task_Default_to_Owner__c)) {
-						t.User__c = UserInfo.getUserId();
 					}
-					/* else if( aptTask.User__c == null && ( mySettings != null &&  mySettings.Unassigned_Task_Default_to_Owner__c ) ) {
-						userId = null;
-					}
-					else if( aptTask.User__c == null && mySettings == null ){
-						userId = UserInfo.getUserId();
-					} */
-
 					t.Type__c = aptTask.Type__c;
 					t.Subject__c = aptTask.Subject__c;
 					t.Priority__c = aptTask.Priority__c;
 					t.Dependent__c = aptTask.Dependent__c;
 					t.TaskIndex__c = aptTask.TaskIndex__c;
 					t.DaysFromStart__c = aptTask.DaysFromStart__c;
-					//t.User__c = userId;
 					t.Reminder__c = aptTask.Reminder__c;
 
 					if (aptTask.Reminder__c && String.isBlank(aptTask.Minutes_Reminder__c)) {
@@ -874,7 +839,7 @@ public with sharing class ActionPlanCreationController {
 				this.apTasks.add(t);
 			}
 
-			// Clone. Clear ids.
+			// Clone. Clear Ids.
 			if (cloneParam == '1') {
 				List<APTask__c> tC = this.apTasks.deepClone(false);
 				this.apTasks.clear();
@@ -982,9 +947,9 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Take related IDs parameter and put into a list if each is an Id.
 	 * <br>Discard invalid IDs
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  relatedIDs The page URL parameters
-	 * @return            A list (not set) of all related IDs from the URL
+	 * @return `List<Id>` A list (not set) of all related IDs from the URL
 	 */
 	private List<Id> parseRelatedIDs(String relatedIDs) {
 		List<String> paramList = relatedIDs.deleteWhitespace().split(',');
@@ -1046,13 +1011,11 @@ public with sharing class ActionPlanCreationController {
 		return nameList;
 	}
 
-	private Map<Id, String> relatedObjectNameMap = new Map<Id, String>();
-
 	/**
 	 * We need a list of parent RECORD names when showing all the parents when we mass-create action plans
 	 * <br>This initializes the list, and then divides it into three parts for three columns on the page.
-	 * @author David Schach
-	 * @return   The list of related object Names (not labels)
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @return The list of related object Names (not labels)
 	 */
 	@TestVisible
 	private List<String> relatedObjNameList {
@@ -1082,20 +1045,29 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * The size of the list of related objects available as parents to the Action Plan
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   The picklist size
 	 */
 	public Integer getNameListSize() {
 		return relatedObjNameList.size();
 	}
 
-	public List<String> relatedRecordsOne { get; private set; } //NOPMD
-	public List<String> relatedRecordsTwo { get; private set; } //NOPMD
-	public List<String> relatedRecordsThree { get; private set; } //NOPMD
+	/**
+	 * Column one of related records
+	 */
+	public List<String> relatedRecordsOne { get; private set; }
+	/**
+	 * Column two of related records
+	 */
+	public List<String> relatedRecordsTwo { get; private set; }
+	/**
+	 * Column three of related records
+	 */
+	public List<String> relatedRecordsThree { get; private set; }
 
 	/**
 	 * Checks if Action Plan Tasks has cyclic dependency.
-	 * @return True if there is a cyclic dependency
+	 * @return `Boolean` True if there is a cyclic dependency
 	 */
 	public Boolean checkCycleDependent() {
 		this.errorMsg = null;
@@ -1209,7 +1181,6 @@ public with sharing class ActionPlanCreationController {
 	public List<SelectOption> getRelatedObjectOptions() {
 		if (relatedObjectOptions == null) {
 			relatedObjectOptions = new List<SelectOption>();
-			//Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
 
 			// Describe the fieldSet so we can make sure that we only add SelectOptions for desired records
 			Schema.FieldSet fs = Schema.SObjectType.ActionPlan__c.fieldSets.Related_Objects;
@@ -1218,7 +1189,6 @@ public with sharing class ActionPlanCreationController {
 			Set<String> activityEnabledObjects = findActivityEnabledObjects();
 
 			for (Schema.FieldSetMember fsm : fs.getFields()) {
-				//System.debug('Field Set field ' + fsm.getFieldPath());
 				String s = fsm.getFieldPath();
 				System.debug('FieldPath to related record: ' + s);
 				Schema.DisplayType dt = fsm.getType();
@@ -1248,7 +1218,6 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	private Set<String> findActivityEnabledObjects() {
-		//Set<Schema.SObjectType> objectsWithActivitiesEnabled = new Set<Schema.SObjectType>();
 		Set<String> relatedToObjects = new Set<String>();
 		for (Schema.SObjectType objectType : Task.WhatId.getDescribe().getReferenceTo()) {
 			relatedToObjects.add(objectType.getDescribe().getName());
@@ -1270,6 +1239,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Find user default task recordtype
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return default task record type Id
 	 */
 	@testVisible
@@ -1279,6 +1249,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Convert Record Type Id to Record Type Name for the Action Plan's Tasks
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Task Record Type Name for the current Action Plan
 	 */
 	public String getRecordTypeName() {
@@ -1294,6 +1265,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Generate picklist of Task Record Types
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Picklist of `Task.RecordType` options
 	 */
 	public List<SelectOption> getTaskRTPicklistValues() {
@@ -1303,6 +1275,7 @@ public with sharing class ActionPlanCreationController {
 	private List<SelectOption> taskTypes;
 	/**
 	 * Generate picklist of Task Types
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Picklist of `Task.Type`
 	 */
 	public List<SelectOption> getTaskTypes() {
@@ -1315,6 +1288,7 @@ public with sharing class ActionPlanCreationController {
 	private List<SelectOption> taskPriorities;
 	/**
 	 * Generate picklist of Task Priorities
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Picklist of `Task.Priority`
 	 */
 	public List<SelectOption> getTaskPriorities() {
@@ -1334,6 +1308,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Retrieve the Namespace Prefix in case we are in a managed package. Needed for the JavaScript in the page
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return `String` Namespace Prefix (LabsActionPlans or empty string)
 	 */
 	public String getNamespacePrefix() {
@@ -1344,7 +1319,7 @@ public with sharing class ActionPlanCreationController {
 	 * Wrapper Class for AP Task SObject
 	 * @author Rodrigo Birriel
 	 * @since 08/01/2010
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @since 4/2022
 	 */
 	public class ApTaskWrapper {
@@ -1364,29 +1339,30 @@ public with sharing class ActionPlanCreationController {
 		 */
 		public Boolean isLast { get; set; }
 		/**
-		 * Should we display the lookup?
+		 * Can we display the lookup?
+		 * <br>User may be set via template, or running user may not have edit permission
 		 */
-		public Boolean displayLookUp { get; set; }
+		public Boolean userReadOnly { get; set; }
 		/**
-		 * Is the User lookup required?
+		 * Does blank User field default to parent owner?
+		 * <br>Could that make the User lookup required?
 		 */
-		public Boolean userRequired { get; set; }
+		public Boolean assignToOwner { get; set; }
 
 		/**
-		 * Constructor
+		 * Constructor for wrapper to display related `APTask__c` records on `ActionPlan__c` create/edit page
 		 *
-		 * @param apTask     Action Plan Task Template
-		 * @param pos        Position (in the list of AP Tasks) on the Page
-		 * @param looKp      Should the User lookup (for assignment) be displayed?
-		 * @param userReq    Should the assigned user field be required?
-		 * @param apTaskRTId The Record Type of the Task eventually to be created
+		 * @param apTask          Action Plan Task record
+		 * @param position        Position (in the list of AP Tasks) on the Page
+		 * @param userReadOnly    Should the User lookup (for assignment) NOT be displayed?
+		 * @param apTaskRTId      The Record Type of the Task eventually to be created
 		 */
-		public ApTaskWrapper(APTask__c apTask, Integer pos, Boolean looKp, Boolean userReq, Id apTaskRTId) {
-			apt = apTask;
-			position = pos;
-			isLast = false;
-			displayLookUp = looKp;
-			userRequired = userReq;
+		public ApTaskWrapper(APTask__c apTask, Integer position, Boolean userReadOnly, Id apTaskRTId) {
+			this.apt = apTask;
+			this.position = position;
+			this.isLast = false;
+			this.userReadOnly = userReadOnly;
+			this.assignToOwner = ActionPlansUtilities.getCustomSetting().Unassigned_Task_Assigned_to_Owner__c;
 
 			Id taskRTID = null;
 			if (ActionPlansUtilities.taskUsesRecordTypes) {
@@ -1404,9 +1380,55 @@ public with sharing class ActionPlanCreationController {
 				apt.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
 				apt.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
 			}
+		}
 
-			if (apt.User__c == null && displayLookUp && userRequired) {
-				apt.User__c = UserInfo.getUserId();
+		/**
+		 * Defines if we set the `APTask__c` Assigned To field to required
+		 * @author {@link [David Schach](https://github.com/dschach)}
+		 * @return   `Boolean` Should the field be required?
+		 */
+		public Boolean userRequired {
+			get {
+				if (userRequired == null) {
+					getUserRender();
+				}
+				return userRequired;
+			}
+			set;
+		}
+
+		/**
+		 * Logic for determining how to show the Assigned To field for the AP Task
+		 * <br>If we show the UserLookup, set the UserRequired property to determine if the field is required
+		 * @author {@link [David Schach](https://github.com/dschach)}
+		 * @return   `String` UserReadOnly, UserLookup, OwnerPlaceholder
+		 */
+		public String getUserRender() {
+			userRequired = false;
+			if (userReadOnly) {
+				return 'UserReadOnly';
+			}
+			Boolean canEdit = Schema.sObjectType.APTask__c.fields.User__c.isUpdateable();
+
+			if (!assignToOwner) {
+				if (!canEdit) {
+					apt.User__c = UserInfo.getUserId();
+					return 'UserReadOnly';
+				} else if (apt.Id != null && canEdit) {
+					userRequired = true;
+					return 'UserLookup';
+				} else if (apt.Id != null) {
+					return 'UserReadOnly';
+				}
+				userRequired = true;
+				return 'UserLookup';
+			} else {
+				if (apt.User__c == null || !canEdit) {
+					return 'OwnerPlaceholder';
+				} else if (apt.User__c != null) {
+					return 'UserLookup';
+				}
+				return 'UserLookup';
 			}
 		}
 	}

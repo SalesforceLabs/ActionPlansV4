@@ -33,7 +33,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @group Utilities
  * @see ActionPlansUtilities
  */
@@ -43,24 +44,12 @@ private class ActionPlansUtilitiesTest {
 	private static void makeData() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
-		aps.Unassigned_Task_Default_to_Owner__c = true;
+		aps.Unassigned_Task_Assigned_to_Owner__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {
 			update aps;
 		}
-	}
-
-	@IsTest
-	private static void testDebugParameters() {
-		Test.setCurrentPage(Page.ActionPlanCreation);
-		Test.startTest();
-		ActionPlanCreationController apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
-		ActionPlansTestUtilities.showDebugParameters = true;
-		ActionPlansTestUtilities.debugParameters('testDebugParameters');
-		apcc.getErrorMsg();
-		Test.stopTest();
-		System.assert(true, 'Technically cheating here.');
 	}
 
 	@IsTest
@@ -151,7 +140,7 @@ private class ActionPlansUtilitiesTest {
 
 	/**
 	 * Pass in any object and create an Action Plan for that object
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  objectName The object name
 	 * @return            Success at creating tasks for the Action Plan
 	 */
@@ -296,8 +285,6 @@ private class ActionPlansUtilitiesTest {
 
 	@IsTest
 	private static void doChatterPost() {
-		ActionPlansTestUtilities.showDebugParameters = false;
-
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getInstance();
 		if (!aps.Chatter_Object_Brag__c) {
 			aps.Chatter_Object_Brag__c = true;
@@ -406,7 +393,7 @@ private class ActionPlansUtilitiesTest {
 
 	/**
 	 * Helper method to create `APTask__c` record for an `ActionPlan__c`
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  ap The parent Action Plan
 	 * @return    The test Action Plan Task
 	 */

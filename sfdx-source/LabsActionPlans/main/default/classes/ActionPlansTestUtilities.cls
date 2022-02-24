@@ -35,12 +35,12 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 */
 
 /**
  * Utilities for Tests
- * @since 2011
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @group Utilities
  */
 public inherited sharing class ActionPlansTestUtilities {
@@ -82,6 +82,8 @@ public inherited sharing class ActionPlansTestUtilities {
 
 	/**
 	 * A random user is useful for testing in order to be sure that you are able to see data across posts regardless of follow status.
+	 * <br>If we find a profile, INSERT the user and return it.
+	 * <br>If we find no profile, return null;
 	 * <br> A Permission Set would still be required
 	 * @return `User` A newly-created User with Modify All Data
 	 */
@@ -91,7 +93,7 @@ public inherited sharing class ActionPlansTestUtilities {
 				return this.createTestUser(p);
 			}
 		}
-		return new User();
+		return null;
 	}
 
 	/**
@@ -118,16 +120,28 @@ public inherited sharing class ActionPlansTestUtilities {
 	}
 
 	/**
+	 * Create an ActionPlans Admin user, plus all other permissions, for full ability to access certain tests.
+	 * @return `User` an admin user with all Action Plans permission sets
+	 **/
+	public User createAdminUser() {
+		User u = createTestUser();
+		assignAPPermissionSets(u.Id, true);
+		return u;
+	}
+
+	/**
 	 * Assign a permissionSet to a user (via UserId)
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  testUserId The User ID
 	 * @param  allOrNone  Insert allOrNone, or allow an insert of only successful assingments, failing silently
 	 * @return            `List<PermissionSetAssignment>` The list of `PermissionSetAssignment` records
 	 */
 	public List<PermissionSetAssignment> assignAPPermissionSets(Id testUserId, Boolean allOrNone) {
-		List<PermissionSet> pslist = [SELECT Id FROM PermissionSet WHERE Name LIKE 'Action_Plans%'];
+		System.debug('Namespace: ' + ActionPlansUtilities.namespacePrefix);
+		List<PermissionSet> pslist = [SELECT Id, Label FROM PermissionSet WHERE Name LIKE '%Action_Plans%'];
 		List<PermissionSetAssignment> psalist = new List<PermissionSetAssignment>();
 		for (PermissionSet ps : pslist) {
+			System.debug('Adding Permission Set ' + ps.Label);
 			psalist.add(new PermissionSetAssignment(AssigneeId = testUserId, PermissionSetId = ps.Id));
 		}
 		Database.insert(psalist, allOrNone);
@@ -365,7 +379,7 @@ public inherited sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Create Action Plan Task template
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  actionPlan The `ActionPlan__c` object
 	 * @param  days       Days from now to start the plan
 	 * @param  user       The assigned owner
@@ -388,7 +402,7 @@ public inherited sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Create Action Plan Template and Action Plan Template Tasks
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  numTasks Number of tasks to create
 	 * @return          `ActionPlanTemplate__c` Action Plan Template
 	 */
@@ -419,7 +433,7 @@ public inherited sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Create Action Plan Template Task Template
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  apTemplate The parent ActionPlanTemplate__c object
 	 * @param  days       Days from now to start Action Plan
 	 * @param  user       The assigned user for each created task
@@ -442,14 +456,13 @@ public inherited sharing class ActionPlansTestUtilities {
 		newAPTTask.Minutes_Reminder__c = '510';
 		newAPTTask.Comments__c = 'Comment here';
 
-		// TODO : Include making some sort of TaskIndex value when making these tasks
-
+		// TODO : Include making TaskIndex value when making these tasks
 		return newAPTTask;
 	}
 
 	/**
 	 * Create Environment for Batch Process
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  relatedObject The parent Object for the created Action Plans
 	 * @return `List<Id>` The list of created Action Plan Task IDs
 	 */
@@ -492,7 +505,7 @@ public inherited sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Find a non-default Task Record Type
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   The `Id` of a non-default `Task` Record Type for the running user
 	 */
 	public static Id getNonDefaultAvailableTaskRecordType() {
@@ -511,32 +524,5 @@ public inherited sharing class ActionPlansTestUtilities {
 			}
 		}
 		return notdefaultRecordTypeId;
-	}
-
-	/**
-	 * Should we show debug statements for Visualforce parameters when testing?
-	 * @author David Schach
-	 * @param  prefix True/False
-	 */
-	public static Boolean showDebugParameters = false;
-
-	/**
-	 *  Utility method for debugging Visualforce page parameters
-	 * @author David Schach
-	 * @param  prefix The line prefix for the debug statement
-	 */
-	public static void debugParameters(String prefix) {
-		if (showDebugParameters = false || !Test.isRunningTest()) {
-			return;
-		}
-		// We will hit an error if this is called outside Visualforce, so to be safe...
-		try {
-			Map<String, String> pageParams = ApexPages.currentPage().getParameters();
-			for (String s : ApexPages.currentPage().getParameters().keyset()) {
-				System.debug(prefix + ' debug parameters: ' + s + ' - ' + pageParams.get(s));
-			}
-		} catch (Exception e) {
-			return;
-		}
 	}
 }

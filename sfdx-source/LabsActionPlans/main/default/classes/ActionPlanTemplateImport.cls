@@ -38,7 +38,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Called from ActionPlanTemplateImportController - can probably be rolled into that class, but it's doing fine here.
- * @since 2011
+ * @since 2022
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Import Export
  * @see ActionPlanTemplateImportController
  */
@@ -137,7 +138,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	}
 
 	/**
-	 * Method for handling importing of a Action Plan Template Object
+	 * Handle importing of a Action Plan Template Object
 	 * @param xml import file
 	 * @return apTemplate
 	 */
@@ -159,7 +160,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	}
 
 	/**
-	 * Method for handling importing of Action Plan Template Task Objects
+	 * Handle importing of Action Plan Template Task Objects
 	 * @param xml import file
 	 * @param apTemplateId Action Plan Template Id
 	 */
@@ -178,7 +179,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	}
 
 	/**
-	 * Method in charge of parsing meta data from XMl document
+	 * Parse metadata from XMl document
 	 * @param reader
 	 * @exception ImportException
 	 * @return correctMetaData
@@ -234,7 +235,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	}
 
 	/**
-	 * Method in charge of parsing data from XMl document to create a Action Plan Template Object
+	 * Parse data from XMl document to create a Action Plan Template Object
 	 * @param reader
 	 * @return The created Action Plan Template
 	 */
@@ -287,7 +288,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	}
 
 	/**
-	 * Method in charge of parsing data from XMl document to create a Template Task Object
+	 * Parse data from XMl document to create a Template Task Object
 	 * @param reader       XML reader
 	 * @param apTemplateId template Id
 	 */
@@ -401,7 +402,6 @@ public inherited sharing class ActionPlanTemplateImport {
 					Id auxRefId = auxOldTask.TController__c;
 					//get dependent task
 					APTemplateTask__c auxRefTask = this.newTasks.get(auxRefId);
-
 					//Update task reference
 					auxNewTask.TController__c = auxRefTask.Id;
 				}

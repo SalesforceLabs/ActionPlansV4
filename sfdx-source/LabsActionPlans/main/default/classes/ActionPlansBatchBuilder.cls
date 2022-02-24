@@ -40,7 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Batch for creating Action Plans
  * <br>Stateful because we may be making a LOT of Action Plans and we want to maintain state in the Utilities class
- * @since 2011
+ * @author Rodrigo Birriel
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @group Batch Apex
  */
 public inherited sharing class ActionPlansBatchBuilder implements Database.Batchable<SObject>, Database.Stateful {

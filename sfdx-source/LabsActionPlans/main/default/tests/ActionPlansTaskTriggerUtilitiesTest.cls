@@ -37,7 +37,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @group Trigger Handlers
  */
 @IsTest

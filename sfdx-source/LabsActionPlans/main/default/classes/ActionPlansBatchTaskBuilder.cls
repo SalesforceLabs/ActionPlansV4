@@ -39,7 +39,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * When we have more than one task to create, run it in batch context for higher limits
- * @since 2011
+ * @author Rodrigo Birriel
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since v3
  * @group Batch Apex
  */
 public without sharing class ActionPlansBatchTaskBuilder implements Database.Batchable<SObject>, Database.Stateful {
@@ -56,9 +58,6 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 		this.aptIds = apttIds;
 	}
 
-	/**
-	 *
-	 */
 	/**
 	 * QueryLocator: Select the List of `APTask__c`.
 	 * @author Salesforce labs
@@ -77,7 +76,6 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 		}
 
 		soql += ' Controller__c FROM APTask__c WHERE Id IN :aptIds';
-		//System.debug('soql query: ' + soql);
 
 		return Database.getQueryLocator(soql);
 	}
@@ -119,16 +117,13 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 				t.ReminderDateTime = Datetime.newInstance(apTask.ActivityDate__c.year(), apTask.ActivityDate__c.month(), apTask.ActivityDate__c.day(), 0, 0, 0);
 				t.ReminderDateTime = t.ReminderDateTime.addMinutes(Integer.valueOf(apTask.Minutes_Reminder__c));
 			}
-
-			//link to Action Plan's Related To Object
-
 			ActionPlan__c ap = apTask.Action_Plan__r;
 
+			//link to Action Plan's Related To Object
 			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
 				String f = s;
 				if (!f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') && !f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') && ap.get(f) != null) {
 					t.WhatId = (Id) ap.get(f);
-					System.debug('set WhatId in batch');
 					break;
 				}
 			}
@@ -137,8 +132,6 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 				t.WhoId = apTask.Action_Plan__r.Contact__c;
 			} else if (apTask.Action_Plan__r.Lead__c != null) {
 				t.WhoId = apTask.Action_Plan__r.Lead__c;
-			} else {
-				System.debug('failed to set who/what id');
 			}
 
 			t.Type = apTask.Type__c;

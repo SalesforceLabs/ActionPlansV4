@@ -37,13 +37,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Install sample data on first installation
  * @since 2022
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Utilities
  */
 global class ActionPlansPostInstallScript implements InstallHandler {
 	/**
 	 * Script torun when the managed package is installed
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  context Is this a new install, an upgrade, or a push (from the developer)?
 	 */
 	global void onInstall(InstallContext context) {
@@ -51,7 +51,7 @@ global class ActionPlansPostInstallScript implements InstallHandler {
 			Action_Plans_Settings__c instance = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
 			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
 			instance.Default_Object_on_Lead_Conversion__c = Schema.Contact.SObjectType.getDescribe().getName();
-			instance.Unassigned_Task_Default_to_Owner__c = true;
+			instance.Unassigned_Task_Assigned_to_Owner__c = true;
 			instance.Chatter_Object_Brag__c = false;
 			upsert instance;
 

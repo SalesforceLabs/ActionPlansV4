@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Test class for Invocable Apex class
  * @since 2022
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Invocable
  */
 @IsTest
@@ -51,7 +51,7 @@ private class ActionPlanCreateInvocableTest {
 	private static void relatedAccount() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = true;
-		aps.Unassigned_Task_Default_to_Owner__c = true;
+		aps.Unassigned_Task_Assigned_to_Owner__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {
@@ -93,7 +93,7 @@ private class ActionPlanCreateInvocableTest {
 	private static void relatedContact() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = false;
-		aps.Unassigned_Task_Default_to_Owner__c = false;
+		aps.Unassigned_Task_Assigned_to_Owner__c = false;
 		try {
 			upsert aps;
 		} catch (Exception e) {
@@ -272,7 +272,7 @@ private class ActionPlanCreateInvocableTest {
 
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
 		aps.Chatter_Object_Brag__c = false;
-		aps.Unassigned_Task_Default_to_Owner__c = true;
+		aps.Unassigned_Task_Assigned_to_Owner__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {

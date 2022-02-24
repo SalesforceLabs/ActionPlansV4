@@ -4,5 +4,5 @@
     <availableInTouch>true</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
     <description>Redirect AP Task page to the Action Plan</description>
-    <label>ActionPlanTaskOverride</label>
+    <label>Action Plan Task Override</label>
 </ApexPage>

@@ -111,16 +111,17 @@ Action Plans includes two shareable objects: `Action Plan` and `Action Plan Temp
 ## Use Permission Sets For Security
 
 Assign the appropriate Permission Set(s) to each user who will need to use Action Plans:
-
 - `Action Plans Admin:` Full permissions for Action Plans, Action Plan Templates, AP Tasks and APT Task Templates.
 - `Action Plans Template Creator:` Full permissions for Action Plan Templates and AP Template Tasks. No Action Plan access.
 - `Action Plans Creator:` Read, Create, Edit, Delete for Action Plans and AP Tasks. Read-only for Action Plan Templates and APT Task Templates.
+- `Action Plans Import/Export:` Access to export and import Action Plan Template records. View the appropriate button for export and tab for import.
 - `Action Plans User:` Read-only for Action Plans and AP Tasks.
 
 Uses for each Permission Set:
 -   Some users may require visibility into the Action Plans related to those Tasks. These users need the `Action Plans User` Permission Set. It gives Read-only access to Action Plan.
 -   Some users may need to create Action Plans from Templates but not edit the templates themselves. The `Action Plans Creator` Permission Set gives read-only access to Action Plan Templates, and Read, Create, Edit, and Delete access to Action Plans.
 -   Users who can create and edit Action Plan Templates require the `Action Plans Template Creator` Permission Set. This includes permission to Read, Create, Edit, and Delete all Action Plan Templates only. It does not include any Action Plan or Task permissions. If these users require Action Plan access, other Permission Sets should be used as well. A custom permission allows exporting of Action Plan Templates.
+-   Intended more as an add-on for `Action Plans Template Creator`, the `Action Plans Import/Export` permission set allows the viewing of the Export button on Template detail pages and to the Import tab. 
 -   `Action Plans Admin` includes Modify All permissions for all four Action Plan objects (Action Plan, Action Plan Task Template, Action Plan Template, and Action Plan Template Task Template). A custom permission allows exporting Action Plan Templates.
 
 Note: The Apex used in Flows or via triggers does not require special permissions to run.
@@ -134,9 +135,9 @@ Note: The Apex used in Flows or via triggers does not require special permission
 1.  Add the field to the `Related Objects` fieldset on Action Plan.
 1.  The related object will now be available for selection when creating a new Action Plan and relating it to an object.
 1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts:
-
-    <pre>ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );</pre>
-
+    ```
+	ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );
+	```
 ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanFieldSet.png)
 ## Adding a New Custom Object Action Plan button to the Action Plan object
 
@@ -223,19 +224,22 @@ Days from trigger to start Action Plan is optional (and defaults to 0). The firs
 
 ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/FlowAction.png)
 ### (Optional) Sample Action Plan Template for Account onboarding, run the following
-	```
-	sfdx force:apex:execute -f ./data/sample-data.apex
-	```
+	
+```
+sfdx force:apex:execute -f ./data/sample-data.apex
+```
 
 To use this Template with the included Flow, see the `Create Action Plan From Template` Apex Action in the `New Customer Onboarding Activities` Flow
 
- ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/FlowActionVariables.png)
+ ![Set input variables for the Flow action](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/FlowActionVariables.png)
 
 Create an Account and set `Type` to any value that starts with 'Customer'
 
 ## Process Builder
 
 It is recommended NOT to check the Recursion box when creating a Process Builder to work with Action Plans.
+
+**It is also recommended NOT to use Process Builder at all!**
 
 ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png)
 
@@ -260,9 +264,9 @@ List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(reques
 
 ## ActionPlanCreateInvocable.CreateActionPlanRequest class
 Variables:
-- `String templateNameOrID` (required) Name is not unique, so ID is preferred
-- `Id relatedRecordID` (required) Must have a relationship field named the related record object name from Action Plan object
-- `Integer daysToActionPlanStart` (not required) Defaults to 0, the day the plan is created
+- String `templateNameOrID` (required) Name is not unique, so ID is preferred
+- Id `relatedRecordID` (required) Must have a relationship field named the related record object name from Action Plan object
+- Integer `daysToActionPlanStart` (not required) Defaults to 0, the day the plan is created
 
 # Share Your Templates and Discover Best Practices using Template Export and Template Import
 
@@ -283,7 +287,9 @@ Sharing the file is easy. Email the file to whomever you want to share it with. 
 
 ## Best Practices: How to Import
 
-Import is also simple. Navigate to the "Import Template" tab. Select the file you want to import using "Browse" and once you’ve found it click on "Import Template."![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanTemplate-import-2.png)
+Import is also simple. Navigate to the "Import Template" tab. Select the file you want to import using "Browse" and once you’ve found it click on "Import Template."
+
+![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanTemplate-import-2.png)
 
 ## (Optional) Sample Action Plan Template Import
 

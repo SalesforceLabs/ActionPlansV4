@@ -38,6 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Tests for `ActionPlan__c` Create/Edit Visualforce Extension
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Visualforce
  */
 @IsTest
@@ -46,7 +47,7 @@ private class ActionPlanCreationControllerTest {
 	private static void makeData() {
 		Action_Plans_Settings__c aps = ActionPlansUtilities.getCustomSetting();
 		aps.Chatter_Object_Brag__c = true;
-		aps.Unassigned_Task_Default_to_Owner__c = true;
+		aps.Unassigned_Task_Assigned_to_Owner__c = true;
 		try {
 			upsert aps;
 		} catch (Exception e) {
@@ -66,10 +67,25 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.onLoad();
 		System.assertEquals(0, apCreateController.getCompleted(), 'New AP should have no completed tasks');
 		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
+		apCreateController.getAllRelationshipFields();
+		System.assertEquals('', apCreateController.getTemplateName());
 
-		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+		//apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.relatedObjectId();
 		apCreateController.save();
+		Test.stopTest();
+	}
+
+	@IsTest
+	private static void newAPWithoutTasks() {
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 0);
+
+		Test.startTest();
+		Test.setCurrentPage(Page.ActionPlanCreation);
+		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+		apCreateController.onLoad();
+
 		Test.stopTest();
 	}
 
@@ -80,6 +96,7 @@ private class ActionPlanCreationControllerTest {
 
 		ApexPages.currentPage().getParameters().put('id', null);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(new ActionPlan__c()));
+		System.assertEquals(0, apCreateController.getCompleted());
 		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -115,7 +132,6 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.getHoursOption();
 		apCreateController.getDisplayTemplateLookup();
 		apCreateController.getRecordTypeName();
-		apCreateController.getAssignToParentOwner();
 
 		apCreateController.relatedFieldName = ActionPlansUtilities.namespacePrefix + 'Contract__c';
 		apCreateController.relatedFieldName = ActionPlansUtilities.namespacePrefix + 'Case__c';
@@ -255,7 +271,6 @@ private class ActionPlanCreationControllerTest {
 		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL], 'Should have linked Action Plan to contact');
 
 		System.assertEquals(conCOUNT * apTASKCOUNT, [SELECT COUNT() FROM APTask__c], 'Not enough Action Plan Tasks created');
-
 		System.assertEquals(conCOUNT * apTASKCOUNT, [SELECT COUNT() FROM Task], 'Wrong number of Tasks created');
 	}
 
@@ -287,9 +302,7 @@ private class ActionPlanCreationControllerTest {
 		update openTask;
 		Test.stopTest();
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
-
-		Integer numTasksComplete = apCreateController.getCompleted();
-		System.assertEquals(1, numTasksComplete, 'The completed Task should have been reflected in the Action Plan');
+		System.assertEquals(1, apCreateController.getCompleted(), 'The completed Task should have been reflected in the Action Plan');
 	}
 
 	@IsTest
@@ -310,12 +323,7 @@ private class ActionPlanCreationControllerTest {
 		}
 		update apts;
 
-		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
-
-		Integer numTasksComplete = apCreateController.getCompleted();
-
-		System.assert(numTasksComplete == 0, 'Action plan task completed is incorrect');
-
+		//ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		Test.stopTest();
 
 		for (APTask__c a : [SELECT Id, Name FROM APTask__c]) {
@@ -405,9 +413,8 @@ private class ActionPlanCreationControllerTest {
 
 		List<ActionPlanCreationController.ApTaskWrapper> apTaskList = apCreateController.getTasks();
 
-		System.assert(!apTaskList.isEmpty(), 'Action plan task list is empty');
-
 		Test.stopTest();
+		System.assert(!apTaskList.isEmpty(), 'Action plan task list is empty');
 	}
 
 	@IsTest

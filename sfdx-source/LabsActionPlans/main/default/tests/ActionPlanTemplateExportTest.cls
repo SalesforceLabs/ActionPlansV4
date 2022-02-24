@@ -1,6 +1,6 @@
 /**
- * Action Plans v4
- * @author David Schach
+ * Tests for Template Export
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
  * @group Import Export
  * @see ActionPlanTemplateExport

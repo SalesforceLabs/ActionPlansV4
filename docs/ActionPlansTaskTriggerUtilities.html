@@ -210,7 +210,7 @@
 
               <div class="class-signature">
                 public without sharing class ActionPlansTaskTriggerUtilities
-              </div><br />David Schach<br />2011
+              </div><br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />2022
             </div>
             <div class="subsection properties ActionPlansTaskTriggerUtilities">
               <h3 class="subsection-title properties">ActionPlansTaskTriggerUtilities Properties</h2>
@@ -313,15 +313,6 @@
                     </div>
                   </li>
                   <li class="method private">
-                    <a class="methods-toc__entry " href="#ActionPlansTaskTriggerUtilities.populateNewTaskMap">
-                      populateNewTaskMap (dependentApttList)
-                    </a>
-
-                    <div class="methods-toc__description">
-                      Cycle through list of dependent Action Plans Template Task and create <code class="code-inline">Task</code> records
-                    </div>
-                  </li>
-                  <li class="method private">
                     <a class="methods-toc__entry " href="#ActionPlansTaskTriggerUtilities.populateUpdateApttsList">
                       populateUpdateApttsList (dependentApttList)
                     </a>
@@ -357,11 +348,20 @@
                       Update APTasks status as passed into method
                     </div>
                   </li>
+                  <li class="method private">
+                    <a class="methods-toc__entry " href="#ActionPlansTaskTriggerUtilities.upsertDependentAPTasks">
+                      upsertDependentAPTasks (dependentApttList)
+                    </a>
+
+                    <div class="methods-toc__description">
+                      Cycle through list of dependent Action Plans Template Task and create <code class="code-inline">Task</code> records
+                    </div>
+                  </li>
                 </ul>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.actionsOnTaskBeforeDelete">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L397">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L394">
                       actionsOnTaskBeforeDelete(cTasks)
                     </a>
                   </h4>
@@ -385,7 +385,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.deleteAPTasks">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L302">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L299">
                       deleteAPTasks(aPTasks)
                     </a>
                   </h4>
@@ -409,7 +409,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.deleteTasks">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L316">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L313">
                       deleteTasks(apttIds)
                     </a>
                   </h4>
@@ -432,7 +432,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.generateDependentTasksAndReset">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L327">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L324">
                       generateDependentTasksAndReset(apTasks, taskIndexToDelete)
                     </a>
                   </h4>
@@ -461,7 +461,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.initDependentTaskWork">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L57">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L56">
                       initDependentTaskWork(cTasks)
                     </a>
                   </h4>
@@ -471,7 +471,7 @@
                   <div class="method-subtitle">
                     Signature
                   </div>
-                  <div class="method-annotations">@future</div>
+
                   <div class="method-signature">
                     public static void initDependentTaskWork(Map&lt;Id, String&gt; cTasks)
                   </div>
@@ -483,39 +483,9 @@
                   <div class="param-description">Map of Tasks by Id</div>
                 </div>
                 <div class="method private">
-                  <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.populateNewTaskMap">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L123">
-                      populateNewTaskMap(dependentApttList)
-                    </a>
-                  </h4>
-                  <div class="method-description">
-                    Cycle through list of dependent Action Plans Template Task and create <code class="code-inline">Task</code> records
-                  </div>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-
-                  <div class="method-signature">
-                    private static List&lt;APTask__c&gt; populateNewTaskMap(List&lt;APTask__c&gt; dependentApttList)
-                  </div>
-                  <div class="method-subtitle">Parameters</div>
-                  <div class="param-name">dependentApttList</div>
-                  <div class="param-type">
-                    Type: <code class="code-inline">List&lt;APTask__c&gt;</code>
-                  </div>
-                  <div class="param-description">The APTasks we check for dependencies before making <code class="code-inline">Task</code> records</div>
-                  <div class="method-subtitle">
-                    Returns
-                  </div>
-                  <div class="method-subtitle-description">
-                    List of AP Tasks to update
-                  </div>
-                </div>
-                <div class="method private">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.populateUpdateApttsList">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L182">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L179">
                       populateUpdateApttsList(dependentApttList)
                     </a>
                   </h4>
@@ -544,7 +514,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.queryDependentAPTaskTemplates">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L101">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L99">
                       queryDependentAPTaskTemplates(closedTasks)
                     </a>
                   </h4>
@@ -562,7 +532,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.updateActionPlansTemplateTaskStatus">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L275">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L272">
                       updateActionPlansTemplateTaskStatus(cTasks)
                     </a>
                   </h4>
@@ -586,7 +556,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.updateAPTasksStatus">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L285">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L282">
                       updateAPTasksStatus(cTasks)
                     </a>
                   </h4>
@@ -606,6 +576,36 @@
                     Type: <code class="code-inline">Map&lt;Id, String&gt;</code>
                   </div>
                   <div class="param-description">Map of ActionPlan Tasks by Id</div>
+                </div>
+                <div class="method private">
+                  <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.upsertDependentAPTasks">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L121">
+                      upsertDependentAPTasks(dependentApttList)
+                    </a>
+                  </h4>
+                  <div class="method-description">
+                    Cycle through list of dependent Action Plans Template Task and create <code class="code-inline">Task</code> records
+                  </div>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    private static void upsertDependentAPTasks(List&lt;APTask__c&gt; dependentApttList)
+                  </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">dependentApttList</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">List&lt;APTask__c&gt;</code>
+                  </div>
+                  <div class="param-description">The APTasks we check for dependencies before making <code class="code-inline">Task</code> records</div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    List of AP Tasks to update
+                  </div>
                 </div>
               </div>
             </div>

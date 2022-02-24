@@ -37,9 +37,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * Visualforce extension to create multiple Aciton Plans (one per selected record)
+ * Visualforce extension to create multiple Action Plans (one per selected record)
  * <br>Invoked via a button on a list view
- * @since 2011
+ * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
  * @group Visualforce
  */
 public with sharing class ActionPlansCreateMultipleAPsExtension {
@@ -63,7 +64,7 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 
 	/**
 	 * Go to the page that shows the ActionPlan creation screen to customize the plan for each selected record
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   The Action Plan creation page
 	 */
 	public PageReference doRedirect() {

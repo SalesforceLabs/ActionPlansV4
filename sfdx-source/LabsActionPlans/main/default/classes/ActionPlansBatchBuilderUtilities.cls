@@ -38,8 +38,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Batch Utilities class
+ * @author Rodrigo Birriel
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @group Utilities
- * @since 2011
+ * @since v3
  * @see ActionPlanCreateInvocable
  * @see ActionPlanCreationController
  * @see ActionPlansBatchBuilder
@@ -118,7 +120,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Generate Action Plans from parameters passed to this class
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   the `Id` of the first created `ActionPlan__c`
 	 */
 	public Id generateActionPlans() {
@@ -361,7 +363,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	 *
 	 * @param ap           `ActionPlan__c`
 	 * @param relObjOwners Map of Id to record owner
-	 * @param apTaskUser   the current record user
+	 * @param apTaskUser   The current record user
 	 * @return             `Id` related OwnerID
 	 */
 	public static Id getAPTaskTemplateUser(ActionPlan__c ap, Map<Id, Id> relObjOwners, Id apTaskUser) {
@@ -369,12 +371,9 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			return apTaskUser;
 		}
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
-		if (!mySettings.Unassigned_Task_Default_to_Owner__c) {
-			//System.debug('Assigning task to current user');
+		if (!mySettings.Unassigned_Task_Assigned_to_Owner__c) {
 			return UserInfo.getUserId();
 		}
-		//Id relatedOwnerId = getRelatedRecordOwnerId(ap, relObjOwners);
-		//System.debug('assigning to related record owner ' + relatedOwnerId);
 		return getRelatedRecordOwnerId(ap, relObjOwners);
 	}
 
@@ -469,7 +468,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Given a parentID and the name of an Action Plan, make the `FeedItem` post body
-	 * @author David Schach
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  recID  Parent ID
 	 * @param  apName Action Plan Name
 	 * @return        `FeedItem.Body`

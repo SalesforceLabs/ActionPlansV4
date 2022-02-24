@@ -35,8 +35,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Controller for the Section Header at the top of every VF page.
  * <br>Determines the icon for the page object
+ * <br>Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
  * @since 2022
- * @author David Schach
+ * @author {@link [David Schach](https://github.com/dschach)}\
+ * @author {@link [Cricketlang](https://salesforce.stackexchange.com/users/12582/cricketlang)}
+ * @see {@link https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon}
  * @group Visualforce
  */
 public inherited sharing class ActionPlansSectionHeaderController {
@@ -104,7 +107,6 @@ public inherited sharing class ActionPlansSectionHeaderController {
 					if (tr.isCustom() == true) {
 						iconStyle = 'slds-icon-standard-record';
 						iconURL = '/img/icon/t4v35/standard/record_120.png';
-						//iconTag = 'custom'; // Do we need to add this?
 					} else {
 						iconStyle = 'slds-icon-standard-' + sObjectName.toLowerCase();
 						iconURL = '/img/icon/t4v35/standard/' + sObjectName.toLowerCase() + '_120.png';

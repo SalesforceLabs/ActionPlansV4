@@ -4,5 +4,5 @@
     <availableInTouch>true</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
     <description>List views of Action Plans and Action Plan Templates with tabs</description>
-    <label>ActionPlans Home</label>
+    <label>Action Plans Home</label>
 </ApexPage>
