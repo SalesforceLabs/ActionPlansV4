@@ -143,10 +143,6 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void cloneActionPlan() {
-	}
-
-	@IsTest
 	private static void testActionPlanSave() {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
