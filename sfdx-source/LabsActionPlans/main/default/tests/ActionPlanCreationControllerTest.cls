@@ -85,8 +85,8 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.onLoad();
-
 		Test.stopTest();
+		System.assert(apCreateController.getTasks().isEmpty());
 	}
 
 	@IsTest
@@ -96,6 +96,7 @@ private class ActionPlanCreationControllerTest {
 
 		ApexPages.currentPage().getParameters().put('id', null);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(new ActionPlan__c()));
+		apCreateController.onLoad();
 		System.assertEquals(0, apCreateController.getCompleted());
 		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 

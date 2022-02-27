@@ -116,7 +116,6 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	/**
 	 * Cycle through list of dependent Action Plans Template Task and create `Task` records
 	 * @param dependentApttList The APTasks we check for dependencies before making `Task` records
-	 * @return List of AP Tasks to update
 	 */
 	private static void upsertDependentAPTasks(List<APTask__c> dependentApttList) {
 		List<APTask__c> apTasksToUpsert = new List<APTask__c>();
