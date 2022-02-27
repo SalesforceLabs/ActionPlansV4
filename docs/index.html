@@ -202,6 +202,10 @@
               background-color: rgb(238, 238, 238);
             }
 
+            .hljs {
+              background: rgb(238, 238, 238);
+            }
+
             .readmeimage {
               max-width: 800px;
               width: 100%;
@@ -209,9 +213,9 @@
           </style>
           <h1><a href="https://github.com/salesforcelabs/actionplansv4">About Action Plans</a></h1>
           <h2 class="code-line"><a id="Action_Plans_Installation_and_Setup_3"></a>Action Plans Installation and Setup</h2>
-          <h3 class="code-line"><a id="AppExchangehttpsgithubcomSalesforceLabsActionPlansV4blobmainINSTALLATIONmdappexchangemanagedpackagerecommended_5"></a><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#appexchange-managed-package---recommended">AppExchange</a></h3>
-          <h3 class="code-line"><a id="Scratch_OrghttpsgithubcomSalesforceLabsActionPlansV4blobmainINSTALLATIONmdinstallingtheappusingascratchorgfastmethod_7"></a><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-scratch-org-fast-method">Scratch Org</a></h3>
-          <h3 class="code-line"><a id="Developer_Edition__SandboxhttpsgithubcomSalesforceLabsActionPlansV4blobmainINSTALLATIONmdinstallingtheappusingadevelopereditionorgoryourownsandboxorglinebyline_9"></a><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org-line-by-line">Developer Edition / Sandbox</a></h3>
+          <h3 class="code-line"><a id="AppExchange"></a><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#appexchange-managed-package---recommended">AppExchange</a></h3>
+          <h3 class="code-line"><a id="Scratch_Org"></a><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-scratch-org">Scratch Org</a></h3>
+          <h3 class="code-line"><a id="Developer_Edition__Sandbox"></a><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org">Developer Edition / Sandbox</a></h3>
           <h1 class="code-line"><a id="About_Action_Plans_11"></a>About Action Plans</h1>
           <p>Action Plans helps your organization encapsulate best practices into easily sharable, reusable task templates.</p>
           <p>You can create Action Plans for the following objects:</p>
@@ -318,11 +322,10 @@
               <p>The related object will now be available for selection when creating a new Action Plan and relating it to an object.</p>
             </li>
             <li>
-              <p>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts:</p>
-              <p>&lt;pre&gt;ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( ‘Custom_Object__c’ );&lt;/pre&gt;</p>
+              <p>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts:</p> <pre><code>ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( ‘Custom_Object__c’ )</code></pre>
             </li>
           </ol>
-          <p><img src="readme_images/ActionPlanFieldSet.png" alt="" class="readmeimage"></p>
+          <p><img src="assets/ActionPlanFieldSet.png" alt="" class="readmeimage"></p>
           <h2><a id="Adding_a_New_Custom_Object_Action_Plan_button_to_the_Action_Plan_object_133"></a>Adding a New Custom Object Action Plan button to the Action Plan object</h2>
           <p>While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this will be in a future release… safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page layout:</p>
           <ol>
@@ -337,7 +340,7 @@
           <h1><a id="Create_a_Template_148"></a>Create a Template</h1>
           <p>Now you’re ready to create your first template. Navigate to the Action Plans Templates tab. Click on the “New Action Plan Template” button.</p>
           <p>The template screen looks like this:</p>
-          <p><img src="readme_images/Template-Creation.png" alt="" class="readmeimage"></p>
+          <p><img src="assets/Template-Creation.png" alt="" class="readmeimage"></p>
           <ol>
             <li>
               <p>Name - Template Name.</p>
@@ -405,39 +408,40 @@
           <ol>
             <li>
               <p>Navigate to an Accounts list view. Select the Accounts for which you want to create Action Plans. Click on the “Create Account Action Plans” button.</p>
-              <p><img src="readme_images/Select-Accounts.png" alt="" class="readmeimage"></p>
+              <p><img src="assets/Select-Accounts.png" alt="" class="readmeimage"></p>
             </li>
             <li>
-              <p>Select the template you want to use by typing the name on the lookup and clicking on it.<br> <img src="readme_images/Choose-template-step1.png" alt="" class="readmeimage"> </p>
+              <p>Select the template you want to use by typing the name on the lookup and clicking on it.<br> <img src="assets/Choose-template-step1.png" alt="" class="readmeimage"> </p>
             </li>
             <li>
-              <p>Enter the information specific to this plan. Note that the Accounts you selected earlier are visible.<br> <img src="readme_images/Choose-template-step2.png" alt="" class="readmeimage"> </p>
+              <p>Enter the information specific to this plan. Note that the Accounts you selected earlier are visible.<br> <img src="assets/Choose-template-step2.png" alt="" class="readmeimage"> </p>
             </li>
             <li>
               <p>Save the Action Plan.<br> Note: Action Plan creation is handled by a batch process. It can take a couple of minutes to be able to view all created records.</p>
-              <p><img src="readme_images/ActionPlan-Detail.png" alt="" class="readmeimage"></p>
+              <p><img src="assets/ActionPlan-Detail.png" alt="" class="readmeimage"></p>
             </li>
             <li>
               <p>Verify the Action Plan and the tasks.</p>
             </li>
             <li>
               <p>Complete the first task on the Action Plan.<br> Note that the Action Plan is now in the correct related list and that this Account has one open activity and one closed activity. The third activity in the template is dependent and will be created only when its controlling task is complete.</p>
-              <p><img src="readme_images/AccountActionPlan-Detail.png" alt="" class="readmeimage"></p>
+              <p><img src="assets/AccountActionPlan-Detail.png" alt="" class="readmeimage"></p>
             </li>
           </ol>
           <h1><a id="Automate_Action_Plan_Creation_209"></a>Automate Action Plan Creation</h1>
           <h2><a id="Flow_211"></a>Flow</h2>
           <p>Action Plans includes an Invocable Apex class that can be included in a Flow. The Record ID of the triggering record is required, as is the Id OR the Name of the desired template.<br> Days from trigger to start Action Plan is optional (and defaults to 0). The first task will be due the number of days (specified on the template) from the start date. This date may fall on a weekend, though task due dates can be moved to avoid weekends if set on the template.</p>
-          <p><img src="readme_images/FlowAction.png" alt="" class="readmeimage"></p>
+          <p><img src="assets/FlowAction.png" alt="" class="readmeimage"></p>
           <h3><a id="Optional_Sample_Action_Plan_Template_for_Account_onboarding_run_the_following_217"></a>(Optional) Sample Action Plan Template for Account onboarding, run the following</h3><pre><code>sfdx force:apex:execute -f ./data/sample-data.apex</code></pre>
           <p>To use this Template with the included Flow, see the <code>Create Action Plan From Template</code> Apex Action in the <code>New Customer Onboarding Activities</code> Flow</p>
-          <p><img src="readme_images/FlowActionVariables.png" alt="" class="readmeimage"></p>
+          <p><img src="assets/FlowActionVariables.png" alt="" class="readmeimage"></p>
           <p>Create an Account and set <code>Type</code> to any value that starts with ‘Customer’</p>
           <h2><a id="Process_Builder_228"></a>Process Builder</h2>
           <p>It is recommended NOT to check the Recursion box when creating a Process Builder to work with Action Plans.</p>
-          <p><img src="readme_images/ProcessBuilder.png" alt="" class="readmeimage"></p>
+          <p><strong>It is also recommended NOT to use Process Builder at all!</strong></p>
+          <p><img src="assets/ProcessBuilder.png" alt="" class="readmeimage"></p>
           <h2><a id="Apex_234"></a>Apex</h2>
-          <p>To call the invocable Apex from a Trigger or Apex class, adapt the following sample code:</p><pre><code>String apTemplateName;<br>ActionPlanTemplate__c apTemplate;<br>List<SObject> toInsert... // can use any object, such as Account, or the generic SObject class<br>List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();<br>for(SObject a : toInsert){<br>    ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();<br>    req.templateNameOrID = apTemplate.Id;<br>    req.relatedRecordID = a.Id;<br>    req.daysToActionPlanStart = 0;<br>    requests.add(req);<br>}<br>List resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);<br></code></pre>
+          <p>To call the invocable Apex from a Trigger or Apex class, adapt the following sample code:</p><pre><code>String apTemplateName;<br>ActionPlanTemplate__c apTemplate;<br>List<SObject> toInsert... /* can use any object, such as Account, or the generic SObject class */<br>List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();<br>for(SObject a : toInsert){<br>    ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();<br>    req.templateNameOrID = apTemplate.Id;<br>    req.relatedRecordID = a.Id;<br>    req.daysToActionPlanStart = 0;<br>    requests.add(req);<br>}<br>List resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);<br></code></pre>
           <h2><a id="ActionPlanCreateInvocableCreateActionPlanRequest_class_254"></a>ActionPlanCreateInvocable.CreateActionPlanRequest class</h2>
           <p>Variables:</p>
           <ul>
@@ -449,12 +453,12 @@
           <p>Action Plans supports the sharing and discovery of best practices using Template Export and Template Import.</p>
           <h2><a id="How_to_Share_Your_Template_264"></a>How to Share Your Template</h2>
           <p>Export is simple. Navigate to the Template you wish to export. Click on the “Export” button.</p>
-          <p><img src="readme_images/ActionPlanTemplate-import-1.png" alt="" class="readmeimage"></p>
+          <p><img src="assets/ActionPlanTemplate-import-1.png" alt="" class="readmeimage"></p>
           <p>Export creates a simple XML file containing template header and task information. It also includes information about who created the template.<br> Note: It does not include user information or sensitive data about what objects you might use this template with.</p>
           <p>If you are using Lightning Experience, the exported file is in your Files tab, in your private files library. If you are still using Salesforce Classic, it is in your Documents tab, in your private documents folder.</p>
           <p>Sharing the file is easy. Email the file to whomever you want to share it with. Do you want to share it with a broader audience? Contact the file to Salesforce Labs at @salesforcelabs.</p>
           <h2><a id="Best_Practices_How_to_Import_277"></a>Best Practices: How to Import</h2>
-          <p>Import is also simple. Navigate to the “Import Template” tab. Select the file you want to import using “Browse” and once you’ve found it click on “Import Template.”<img src="readme_images/ActionPlanTemplate-import-2.png" alt="" class="readmeimage"></p>
+          <p>Import is also simple. Navigate to the “Import Template” tab. Select the file you want to import using “Browse” and once you’ve found it click on “Import Template.”<img src="assets/ActionPlanTemplate-import-2.png" alt="" class="readmeimage"></p>
           <h2><a id="Optional_Sample_Action_Plan_Template_Import_281"></a>(Optional) Sample Action Plan Template Import</h2>
           <p>This repository also includes a sample Action Plan Template file, which you can import on the appropriate tab (<code>https://&lt;yourinstance&gt;.lightning.force.com/lightning/n/Action_Plans_Template_Import</code>) in the org, <a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20Trade%20Show%20follow%20up.xml">Trade show follow up</a>. You may download the file from GitHub, or you can find it in your SFDX project in the <code>data</code> folder.</p>
         </td>
