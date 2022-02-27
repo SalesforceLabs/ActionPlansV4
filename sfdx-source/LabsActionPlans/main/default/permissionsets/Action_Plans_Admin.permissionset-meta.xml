@@ -69,11 +69,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ActionPlansBatchBuilder</apexClass>
+        <apexClass>ActionPlansQueueableBuilder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ActionPlansBatchBuilderTest</apexClass>
+        <apexClass>ActionPlansQueueableBuilderTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

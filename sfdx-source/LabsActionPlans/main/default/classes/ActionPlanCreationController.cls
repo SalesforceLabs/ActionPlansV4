@@ -481,7 +481,7 @@ public with sharing class ActionPlanCreationController {
 			parentIDs.addAll(oIdsList);
 
 			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()) {
-				Database.executeBatch(new ActionPlansBatchBuilder(actionPlan, this.apTasks, objName, parentIDs));
+				System.enqueueJob(new ActionPlansQueueableBuilder(actionPlan, this.apTasks, objName, parentIDs));
 			} else {
 				System.debug('Running batch builder utilities');
 				System.debug('Account value ' + actionPlan.Account__c);
@@ -512,17 +512,18 @@ public with sharing class ActionPlanCreationController {
 	 */
 	@TestVisible
 	private PageReference saveMultiple() {
-		String oName = refType;
 		String oIds = ActionPlansUtilities.getEscapedPageParameter('refId');
 
 		List<Id> oIdsList = new List<Id>();
-		if ((oName != null || oName != '') && (oIds != null || oIds != '')) {
+		if ((refType != null || refType != '') && (oIds != null || oIds != '')) {
 			try {
 				oIdsList = parseRelatedIDs(oIds);
 				Set<Id> parentIDs = new Set<Id>(oIdsList);
 				//For each inserted AP we should run through tasks and create them
-				ActionPlansBatchBuilder taskBatch = new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, oName, parentIDs);
-				Database.ExecuteBatch(taskBatch);
+				//ActionPlansQueueableBuilder taskBatch = new ActionPlansQueueableBuilder(this.actionPlan, this.apTasks, refType, parentIDs);
+				//Database.executeBatch(taskBatch);
+				ActionPlansQueueableBuilder taskQueue = new ActionPlansQueueableBuilder(this.actionPlan, this.apTasks, refType, parentIDs);
+				System.enqueueJob(taskQueue);
 			} catch (Exception e) {
 				Apexpages.addMessages(e);
 				errorMsg = e.getMessage();
@@ -551,7 +552,7 @@ public with sharing class ActionPlanCreationController {
 		List<Id> oIdsList = new List<Id>();
 
 		if (oIds != null) {
-			oIdsList = parseRelatedIDs(oIds); // oIds.deleteWhitespace().split(',');
+			oIdsList = parseRelatedIDs(oIds);
 			System.debug('oidslist: ' + oIdsList);
 			return (oIdsList.size() > 1) ? this.saveMultiple() : this.savePageRef();
 		} else {
@@ -742,13 +743,7 @@ public with sharing class ActionPlanCreationController {
 				newTaskWrapper = this.mapTasksListBkp.get(apTask.Id);
 			}
 
-			Boolean userReadOnly = false;
-
-			if (templateId != null && apTask.User__c != null) {
-				userReadOnly = true;
-			}
-
-			ApTaskWrapper apTWrapper = new ApTaskWrapper(apTask, i, userReadOnly, actionPlan.TaskRecordTypeID__c);
+			ApTaskWrapper apTWrapper = new ApTaskWrapper(actionPlan, apTask, i, actionPlan.TaskRecordTypeID__c);
 			tasksList.add(apTWrapper);
 			if (String.isNotBlank(apTask.Id)) {
 				this.mapTasksListBkp.put(apTask.Id, apTWrapper);
@@ -1231,7 +1226,6 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Get all available WhatId and WhoId objects
-	 *
 	 * @return  `Set<String>` Objects that Task can use in WhoId or WhatId
 	 */
 	private Set<String> findActivityEnabledObjects() {
@@ -1347,6 +1341,10 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public class ApTaskWrapper {
 		/**
+		 * Action Plan in wrapper
+		 */
+		private ActionPlan__c ap;
+		/**
 		 * Action Plan Task in wrapper
 		 * @return   The Action Plan task
 		 */
@@ -1362,11 +1360,6 @@ public with sharing class ActionPlanCreationController {
 		 */
 		public Boolean isLast { get; set; }
 		/**
-		 * Can we display the lookup?
-		 * <br>User may be set via template, or running user may not have edit permission
-		 */
-		public Boolean userReadOnly { get; set; }
-		/**
 		 * Does blank User field default to parent owner?
 		 * <br>Could that make the User lookup required?
 		 */
@@ -1374,17 +1367,16 @@ public with sharing class ActionPlanCreationController {
 
 		/**
 		 * Constructor for wrapper to display related `APTask__c` records on `ActionPlan__c` create/edit page
-		 *
+		 * @param ap              Action Plan record
 		 * @param apTask          Action Plan Task record
 		 * @param position        Position (in the list of AP Tasks) on the Page
-		 * @param userReadOnly    Should the User lookup (for assignment) NOT be displayed?
 		 * @param apTaskRTId      The Record Type of the Task eventually to be created
 		 */
-		public ApTaskWrapper(APTask__c apTask, Integer position, Boolean userReadOnly, Id apTaskRTId) {
+		public ApTaskWrapper(ActionPlan__c ap, APTask__c apTask, Integer position, Id apTaskRTId) {
+			this.ap = ap;
 			this.apt = apTask;
 			this.position = position;
 			this.isLast = false;
-			this.userReadOnly = userReadOnly;
 			this.assignToOwner = ActionPlansUtilities.getCustomSetting().Unassigned_Task_Assigned_to_Owner__c;
 
 			Id taskRTID = null;
@@ -1427,11 +1419,16 @@ public with sharing class ActionPlanCreationController {
 		 * @return   `String` UserReadOnly, UserLookup, OwnerPlaceholder
 		 */
 		public String getUserRender() {
-			userRequired = false;
-			if (userReadOnly) {
+			Id templateId = ActionPlansUtilities.getEscapedPageParameter('templateId');
+
+			if (templateId != null && apt.User__c != null) {
 				return 'UserReadOnly';
+			} else if (templateId == null && ap.Id == null) {
+				return 'UserLookup';
 			}
+
 			Boolean canEdit = Schema.sObjectType.APTask__c.fields.User__c.isUpdateable();
+			userRequired = false;
 
 			if (!assignToOwner) {
 				if (!canEdit) {

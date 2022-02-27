@@ -37,12 +37,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * \Test for Action Plans Batch Builder
+ * \Test for Action Plans Queue Builder
  * @author {@link [David Schach](https://github.com/dschach)}
- * @group Batch Apex
+ * @group Queue Apex
  */
 @IsTest
-private class ActionPlansBatchBuilderTest {
+private class ActionPlansQueueableBuilderTest {
 	@TestSetup
 	private static void makeData() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
@@ -55,7 +55,7 @@ private class ActionPlansBatchBuilderTest {
 	}
 
 	@IsTest
-	private static void runBatchAccount() {
+	private static void runQueueAccount() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
@@ -107,17 +107,17 @@ private class ActionPlansBatchBuilderTest {
 		oIdsList.add(ac.Id);
 		oIdsList.add(ac1.Id);
 
-		ActionPlansBatchBuilder testBatch = new ActionPlansBatchBuilder(ap, apTasks, 'Account', oIdsList);
-		ID batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansQueueableBuilder testQueue = new ActionPlansQueueableBuilder(ap, apTasks, 'Account', oIdsList);
+		Id queueID = System.enqueueJob(testQueue);
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
-		System.AssertEquals('Completed', a.status);
-		System.AssertEquals(0, a.NumberOfErrors);
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :queueId];
+		System.assertEquals('Completed', a.status);
+		System.assertEquals(0, a.NumberOfErrors);
 	}
 
 	@IsTest
-	private static void runBatchContact() {
+	private static void runQueueContact() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
@@ -168,17 +168,17 @@ private class ActionPlansBatchBuilderTest {
 		oIdsList.add(op.Id);
 		oIdsList.add(op2.Id);
 
-		ActionPlansBatchBuilder testBatch = new ActionPlansBatchBuilder(ap, apTasks, 'Contact', oIdsList);
-		ID batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansQueueableBuilder testQueue = new ActionPlansQueueableBuilder(ap, apTasks, 'Contact', oIdsList);
+		Id queueID = System.enqueueJob(testQueue);
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
-		System.AssertEquals('Completed', a.status);
-		System.AssertEquals(0, a.NumberOfErrors);
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :queueId];
+		System.assertEquals('Completed', a.status);
+		System.assertEquals(0, a.NumberOfErrors);
 	}
 
 	@IsTest
-	private static void runBatchOpportunity() {
+	private static void runQueueOpportunity() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
@@ -232,17 +232,17 @@ private class ActionPlansBatchBuilderTest {
 		oIdsList.add(op.Id);
 		oIdsList.add(op2.Id);
 
-		ActionPlansBatchBuilder testBatch = new ActionPlansBatchBuilder(ap, apTasks, 'Opportunity', oIdsList);
-		ID batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansQueueableBuilder testQueue = new ActionPlansQueueableBuilder(ap, apTasks, 'Opportunity', oIdsList);
+		Id queueID = System.enqueueJob(testQueue);
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
-		System.AssertEquals('Completed', a.status);
-		System.AssertEquals(0, a.NumberOfErrors);
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :queueId];
+		System.assertEquals('Completed', a.status);
+		System.assertEquals(0, a.NumberOfErrors);
 	}
 
 	@IsTest
-	private static void runBatchException() {
+	private static void runQueueException() {
 		ActionPlansTestUtilities.forceError = true;
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
@@ -297,13 +297,13 @@ private class ActionPlansBatchBuilderTest {
 		oIdsList.add(op.Id);
 		oIdsList.add(op2.Id);
 
-		ActionPlansBatchBuilder testBatch = new ActionPlansBatchBuilder(ap, apTasks, 'Opportunity', oIdsList);
-		ID batchID = Database.executeBatch(testBatch, 20);
+		ActionPlansQueueableBuilder testQueue = new ActionPlansQueueableBuilder(ap, apTasks, 'Opportunity', oIdsList);
+		Id queueID = System.enqueueJob(testQueue);
 
 		Test.stopTest();
 
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :batchId];
-		System.AssertEquals('Completed', a.status);
-		System.AssertEquals(0, a.NumberOfErrors);
+		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :queueId];
+		System.assertEquals('Completed', a.status);
+		System.assertEquals(0, a.NumberOfErrors);
 	}
 }

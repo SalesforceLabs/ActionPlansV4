@@ -106,8 +106,9 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				if (!apIds.isEmpty()) {
-					ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
-					Database.ExecuteBatch(aPBatch);
+					deleteActionPlans(apIds);
+					//ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
+					//Database.ExecuteBatch(aPBatch);
 				}
 			}
 			//Undelete related action plans
@@ -678,8 +679,9 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				if (!apIds.isEmpty()) {
-					ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
-					Database.executeBatch(aPBatch);
+					deleteActionPlans(apIds);
+					//ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
+					//Database.executeBatch(aPBatch);
 				}
 			}
 			//Undelete related action plans
@@ -741,7 +743,6 @@ global without sharing class ActionPlansTriggerHandlers {
 
 	/**
 	 * Though the object name should match the field name, we get the name of the related object
-	 *
 	 * @param recordId The related record Id
 	 * @return         The name of the filled Relationship field object name
 	 */
@@ -779,5 +780,25 @@ global without sharing class ActionPlansTriggerHandlers {
 			allowTasksMap.put(apt.Id, apt.Controller__c == null || !openStatuses.contains(apt.Controller__r.Status__c));
 		}
 		return allowTasksMap;
+	}
+
+	/**
+	 * Given actionplanIDs, delete these Action Plans AND their open Tasks
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @param  relActionPlansIds `ActionPlan__c` IDs
+	 */
+	@future
+	private static void deleteActionPlans(Set<Id> relActionPlansIds) {
+		List<ActionPlan__c> relActionPlans = [SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds];
+		Map<Id, APTask__c> relTaskTemplateMap = new Map<Id, APTask__c>([SELECT Id FROM APTask__c WHERE Action_Plan__c IN :relActionPlansIds]);
+		List<Task> relTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__c IN :relTaskTemplateMap.keySet()];
+
+		if (!relActionPlans.isEmpty()) {
+			List<Database.DeleteResult> results = Database.delete(relActionPlans, false); //NOPMD
+		}
+
+		if (!relTaskList.isEmpty()) {
+			List<Database.DeleteResult> results = Database.delete(relTaskList, false); //NOPMD
+		}
 	}
 }

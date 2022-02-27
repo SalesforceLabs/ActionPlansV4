@@ -39,7 +39,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Test class for Batch Delete class
  * @author {@link [David Schach](https://github.com/dschach)}
- * @group Batch Apex
+ * @deprecated Planned deletion after full functionality using only future method established
+ * @group Asynchronous
  */
 @IsTest
 private class ActionPlansBatchDeleteTest {

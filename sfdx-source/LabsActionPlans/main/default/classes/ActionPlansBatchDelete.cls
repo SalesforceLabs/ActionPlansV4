@@ -39,8 +39,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Batch delete class. This can probably be done in a different way. And we can certainly switch from sending an email to using a platform event.
  * @author {@link [David Schach](https://github.com/dschach)}
+ * @deprecated Planned deletion after full functionality using only future method established
  * @since 2022
- * @group Batch Apex
+ * @group Asynchronous
  */
 public inherited sharing class ActionPlansBatchDelete implements Database.Batchable<SObject>, Database.Stateful {
 	private Set<Id> relActionPlansIds;
@@ -55,12 +56,11 @@ public inherited sharing class ActionPlansBatchDelete implements Database.Batcha
 
 	/**
 	 * Use the start method to collect the records or objects to be passed to the interface method execute
-	 * @param  bc `BatchableContext`
+	 * @param  bc BatchableContext
 	 * @return    `Database.QueryLocator` queried records
 	 */
 	public Database.QueryLocator start(Database.BatchableContext bc) {
-		String soql = 'SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds';
-		return Database.getQueryLocator(soql);
+		return Database.getQueryLocator([SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds]);
 	}
 
 	/**

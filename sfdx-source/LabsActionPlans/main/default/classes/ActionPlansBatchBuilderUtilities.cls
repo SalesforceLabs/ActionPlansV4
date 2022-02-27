@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @since v3
  * @see ActionPlanCreateInvocable
  * @see ActionPlanCreationController
- * @see ActionPlansBatchBuilder
+ * @see ActionPlansQueueableBuilder
  */
 public inherited sharing class ActionPlansBatchBuilderUtilities {
 	private List<APTask__c> baseAPTaskList { get; set; }
@@ -70,7 +70,6 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Constructor
-	 *
 	 * @param baseObj      ActionPlan object
 	 * @param aPTListparam Action Plan Task Template records
 	 * @param refType      Related object Name
@@ -114,11 +113,18 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Iterable method for batch
-	 *
 	 * @param bc    BatchableContext automatically passed
 	 * @return      `Iterable<sObject>`
 	 */
 	public Iterable<sObject> getObjects(Database.BatchableContext bc) {
+		return relActionPlans;
+	}
+
+	/**
+	 * Send Action Plan records to queueable
+	 * @return      `List<ActionPlan__c>`
+	 */
+	public List<ActionPlan__c> getObjects() {
 		return relActionPlans;
 	}
 
@@ -212,11 +218,8 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 					at.ActivityDate__c = null;
 				} else {
 					at.Controller__c = null;
-
 					//set dependency taskId to none if none was selected
-					if (at.Dependent__c == null) {
-						at.Dependent__c = 'None';
-					}
+					at.Dependent__c = 'None';
 
 					// create due date, calculate the due date of the tasks for skip weekends feature
 					if (ap.SkipWeekends__c == true && ap.SkipDay__c != null) {
@@ -262,8 +265,6 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				t.isReminderSet = false;
 			}
 
-			//APTask__c apt = mapAP.get(refAPTask.Id);
-
 			if (mapIDAP.containsKey(refAPTask.Action_Plan__c)) {
 				apAux = mapIDAP.get(refAPTask.Action_Plan__c);
 				System.debug('apAux from mapIDAP ' + apAux);
@@ -275,19 +276,31 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 			Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.ActionPlan__c.fields.getMap();
 
-			Boolean setWho = true;
-			//link to Action Plan's Related To Object
-			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
-				String relatedObject = fieldMap.get(s).getDescribe().getReferenceTo()[0].getDescribe().getName();
-				if (relatedObject.equalsIgnoreCase(relatedObjectName)) {
-					t.WhatId = (Id) apAux.get(s);
-					setWho = false;
-					System.debug('Do not set what. Set who');
-					break;
-				} else {
-					System.debug('No match on ' + s);
-				}
-				/* System.debug('iterating on field ' + s);
+			Boolean setWhat = true;
+			if (apAux.Contact__c != null) {
+				System.debug('setting whoId to Contact');
+				t.WhoId = apAux.Contact__c;
+				setWhat = false;
+			} else if (apAux.Lead__c != null) {
+				System.debug('setting whoId to Lead');
+				t.WhoId = apAux.Lead__c;
+				setWhat = false;
+			} else {
+				System.debug('We do not set whoId');
+			}
+
+			if (setWhat) {
+				//link to Action Plan's Related To Object
+				for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
+					String relatedObject = fieldMap.get(s).getDescribe().getReferenceTo()[0].getDescribe().getName();
+					if (relatedObject.equalsIgnoreCase(relatedObjectName)) {
+						t.WhatId = (Id) apAux.get(s);
+						System.debug('Do not set what. Set who');
+						break;
+					} else {
+						System.debug('No match on ' + s);
+					}
+					/* System.debug('iterating on field ' + s);
 				System.debug(' with value ' + apAux?.get(s));
 				if (!s.endsWithIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') && !s.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') && apAux?.get(s) != null) {
 					t.WhatId = (Id) apAux.get(s);
@@ -295,16 +308,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 					System.debug('Do not set what. Set who');
 					break;
 				} */
-			}
-
-			if (apAux.Contact__c != null && setWho) {
-				System.debug('setting whoId to Contact');
-				t.WhoId = apAux.Contact__c;
-			} else if (apAux.Lead__c != null && setWho) {
-				System.debug('setting whoId to Lead');
-				t.WhoId = apAux.Lead__c;
-			} else {
-				System.debug('We do not set whoId');
+				}
 			}
 
 			t.Type = refAPTask.Type__c;
@@ -328,6 +332,8 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				//only update dependant tasks that are already created
 				if (t.Id != null) {
 					this.myTasksWithOutEmail.add(t);
+				} else {
+					System.debug('Unhandled task situation.');
 				}
 			}
 		}
@@ -376,7 +382,6 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Read the Action Plan and see the custom setting to determine who should own the AP Tasks
-	 *
 	 * @param ap           `ActionPlan__c`
 	 * @param relObjOwners Map of Id to record owner
 	 * @param apTaskUser   The current record user
@@ -396,13 +401,11 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Given an Action Plan, looking in its relationship fields, find the owner of the related record from the map of records and owners
-	 *
 	 * @param ap           `ActionPlan__c`
 	 * @param relObjOwners Map of related object `ID` to` OwnerId`
 	 * @return             The related record `OwnerId`
 	 */
 	public static Id getRelatedRecordOwnerId(ActionPlan__c ap, Map<Id, Id> relObjOwners) {
-		Id ownerValue;
 		Id objId;
 
 		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
@@ -413,8 +416,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 		}
 
 		if (relObjOwners.containsKey(objId)) {
-			ownerValue = relObjOwners.get(objId);
-			return ownerValue;
+			return relObjOwners.get(objId);
 		} else {
 			return null;
 		}

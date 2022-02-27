@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Test for Batch Task Builder Apex
  * @author {@link [David Schach](https://github.com/dschach)}
- * @group Batch Apex
+ * @group Asynchronous
  */
 @IsTest
 private class ActionPlansBatchTaskBuilderTest {

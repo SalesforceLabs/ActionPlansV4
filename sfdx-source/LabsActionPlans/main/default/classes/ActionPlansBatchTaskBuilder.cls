@@ -42,25 +42,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @author Rodrigo Birriel
  * @author {@link [David Schach](https://github.com/dschach)}
  * @since v3
- * @group Batch Apex
+ * @group Asynchronous
  */
 public without sharing class ActionPlansBatchTaskBuilder implements Database.Batchable<SObject>, Database.Stateful {
-	private List<APTask__c> apTasks { get; set; }
-	private List<Id> aptIds { get; set; }
-	private List<Task> myTasksWithOutEmail { get; set; }
-	private List<Task> myTasksWithEmail { get; set; }
-
 	/**
-	 * Constructor
-	 * @param apttIds List of` ActionPlansTemplateTaskTemplate` IDs
+	 * The list of `APTask__c` Ids passed to this class
 	 */
-	public ActionPlansBatchTaskBuilder(List<Id> apttIds) {
-		this.aptIds = apttIds;
+	private List<Id> aptIds;
+	/**
+	 * Constructor accepts APTask IDs
+	 * @param taskIDs List of `APTask__c` IDs
+	 */
+	public ActionPlansBatchTaskBuilder(List<Id> taskIDs) {
+		aptIds = taskIDs;
 	}
 
 	/**
 	 * QueryLocator: Select the List of `APTask__c`.
-	 * @author Salesforce labs
 	 * @param  bc BatchableContext for start method
 	 * @return    `Database.QueryLocator`
 	 */
@@ -82,22 +80,21 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 
 	/**
 	 * Eecute this method multiple times, by default on batches of 200 records
-	 *
-	 * @param bc    `Database.BatchableContext`
+	 * @param bc    BatchableContext
 	 * @param data  The list of SObjects to act on
 	 */
 	public void execute(Database.BatchableContext bc, List<SObject> data) {
-		this.myTasksWithEmail = new List<Task>();
-		this.myTasksWithOutEmail = new List<Task>();
-		this.apTasks = new List<APTask__c>();
+		List<Task> myTasksWithEmail = new List<Task>();
+		List<Task> myTasksWithOutEmail = new List<Task>();
+		List<APTask__c> apTasks = new List<APTask__c>();
 
 		for (SObject obj : data) {
 			APTask__c oneData = (APTask__c) obj;
-			this.apTasks.add(oneData);
+			apTasks.add(oneData);
 		}
 
 		//Now run this magic!
-		for (APTask__c apTask : this.apTasks) {
+		for (APTask__c apTask : apTasks) {
 			// check if task exists already
 			Task t = new Task();
 			t.Subject = apTask.Subject__c;
@@ -139,9 +136,9 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 
 			if (apTask.Dependent__c == null || apTask.Dependent__c == 'None') {
 				if (apTask.SendEmail__c == true) {
-					this.myTasksWithEmail.add(t);
+					myTasksWithEmail.add(t);
 				} else {
-					this.myTasksWithOutEmail.add(t);
+					myTasksWithOutEmail.add(t);
 				}
 			}
 		}
@@ -149,20 +146,19 @@ public without sharing class ActionPlansBatchTaskBuilder implements Database.Bat
 		Database.DMLOptions dmlo = new Database.DMLOptions();
 		Database.DMLOptions dmlo2 = new Database.DMLOptions();
 
-		if (this.myTasksWithEmail.size() > 0) {
+		if (myTasksWithEmail.size() > 0) {
 			dmlo.EmailHeader.triggerUserEmail = true;
-			Database.insert(this.myTasksWithEmail, dmlo);
+			Database.insert(myTasksWithEmail, dmlo);
 		}
 
-		if (this.myTasksWithOutEmail.size() > 0) {
+		if (myTasksWithOutEmail.size() > 0) {
 			dmlo2.EmailHeader.triggerUserEmail = false;
-			Database.insert(this.myTasksWithOutEmail, dmlo2);
+			Database.insert(myTasksWithOutEmail, dmlo2);
 		}
 	}
 
 	/**
 	 * Required finish method - we could do something here like send a platform event or notify the user that the batch is complete
-	 * @author Salesforce Labs
 	 * @param  bc BatchableContext
 	 */
 	// prettier-ignore
