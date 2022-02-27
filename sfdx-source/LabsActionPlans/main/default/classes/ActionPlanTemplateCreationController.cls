@@ -601,7 +601,6 @@ public with sharing class ActionPlanTemplateCreationController {
 
 		/**
 		 * Constructor for ActionPlan Template Task Wrapper
-		 *
 		 * @param apTask      Action Plan Template Task
 		 * @param pos         Position/Index
 		 * @param apTTaskRTId The RecordType of the related Task

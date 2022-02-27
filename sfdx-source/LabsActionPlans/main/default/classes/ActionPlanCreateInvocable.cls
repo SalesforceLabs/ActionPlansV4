@@ -45,7 +45,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 global without sharing class ActionPlanCreateInvocable {
 	/**
 	 * Invocable Apex for creating Action Plans from a template, a parent ID, and days from now to start the task due dates
-	 *
 	 * @param requests Wrapper of `CreateActionPlanRequest`
 	 * @see ActionPlanCreateInvocable.CreateActionPlanRequest
 	 * @return `List<Id>` of the created Action Plans

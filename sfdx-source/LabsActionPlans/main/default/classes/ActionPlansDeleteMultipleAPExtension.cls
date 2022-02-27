@@ -64,7 +64,7 @@ public with sharing class ActionPlansDeleteMultipleAPExtension {
 	public ActionPlansDeleteMultipleAPExtension(ApexPages.StandardSetController stdController) {
 		this.standardController = stdController;
 		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();
-		actionPlansToShow = [SELECT Id, Name FROM ActionPlan__c WHERE Id IN :selected];
+		actionPlansToShow = [SELECT Id, Name, Related_Record__c FROM ActionPlan__c WHERE Id IN :selected];
 	}
 
 	/**

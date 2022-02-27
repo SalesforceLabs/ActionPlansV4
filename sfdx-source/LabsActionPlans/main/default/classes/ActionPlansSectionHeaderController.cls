@@ -98,10 +98,8 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	/***
 	 * Explores the schema of the soject passed in and finds lightning icon style and image url for sObject
 	 * If nothing is found, defaults to the custom icon
-	 *
 	 * Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
 	 * Thanks to https://salesforce.stackexchange.com/users/12582/cricketlang
-	 *
 	 * @param   sObjectName           The sObject to find the icon for
 	 * @return  Map of properties about the icon to be consumed by the front end. Returns values for keys: iconStyle,iconURL
 	 */

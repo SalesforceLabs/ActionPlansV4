@@ -191,7 +191,6 @@ public with sharing class ActionPlanDetailController {
 
 		/**
 		 * Constructor for the task wrapper
-		 *
 		 * @param aptParam    Action Plan Task Template
 		 * @param taskIdParam TaskId (for the standard object `Task`)
 		 */
