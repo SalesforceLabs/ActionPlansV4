@@ -298,10 +298,10 @@ public with sharing class ActionPlanDetailController {
 	/**
 	 * If we have no share object, we don't need to show a Share button
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   Does the `ActionPlan__Share` object exist?
+	 * @return   Does the user have permission to share this Action Plan?
 	 */
 	public Boolean getCanShare() {
-		return ActionPlansUtilities.canShareRecord(ActionPlansUtilities.namespacePrefix + 'ActionPlan__Share', actionPlan.Id, actionPlan.OwnerId);
+		return ActionPlansUtilities.canShareRecord(actionPlan.Id, actionPlan.OwnerId);
 	}
 
 	/**

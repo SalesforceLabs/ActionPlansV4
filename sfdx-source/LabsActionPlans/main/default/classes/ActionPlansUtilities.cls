@@ -469,22 +469,23 @@ public without sharing class ActionPlansUtilities {
 	 * We can get all the permissions and info required to see if the user can share the record
 	 * <br>RecordOwner, has Full Access, has ModifyAllData
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @param  shareObjectName The Share object name, such as `ActionPlan__Share`
 	 * @param  recordId        The recordId of the record in question
 	 * @param  recordOwnerId   The owner Id because an owner can share even without "Modify all Data"
 	 * @return                 Can the user share the record?
 	 */
-	public static Boolean canShareRecord(String shareObjectName, Id recordId, Id recordOwnerId) {
-		Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
-		if (gd.containsKey(shareObjectName)) {
+	public static Boolean canShareRecord(Id recordId, Id recordOwnerId) {
+		try {
 			UserRecordAccess ura = [SELECT RecordId, HasAllAccess FROM UserRecordAccess WHERE UserId = :UserInfo.getUserId() AND RecordId = :recordId];
 			if (ura.HasAllAccess) {
 				return true;
 			}
-			if (recordOwnerId == UserInfo.getUserId()) {
-				return true;
-			}
+		} catch (Exception e) {
+			return false;
 		}
+		if (recordOwnerId == UserInfo.getUserId()) {
+			return true;
+		}
+
 		//Share does not exist, custom object is public read write, or user lacks permissions
 		return false;
 	}

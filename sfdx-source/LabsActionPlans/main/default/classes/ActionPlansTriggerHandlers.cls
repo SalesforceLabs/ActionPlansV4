@@ -444,11 +444,6 @@ global without sharing class ActionPlansTriggerHandlers {
 						taskTemplateToIntendedRecordTypeId.put(aptt.Id, aptt.Action_Plan__r.TaskRecordTypeID__c);
 					}
 					for (Task t : newRecords) {
-						/* if (!taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c)) {
-						}
-						if (!ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c))) {
-						} */
-
 						if (
 							t.TaskAPTask__c != null &&
 							taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c) &&
