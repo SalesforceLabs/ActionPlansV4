@@ -225,11 +225,11 @@
                   <tr class="property ">
                     <td class="attribute-name">
                       <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L48">
-                        dependentAptts
+                        dependentApts
                       </a></td>
                     <td>
                       <div class="attribute-signature">
-                        private static List&lt;APTask__c&gt; dependentAptts
+                        private static List&lt;APTask__c&gt; dependentApts
                       </div>
                     </td>
 
@@ -314,7 +314,7 @@
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry " href="#ActionPlansTaskTriggerUtilities.populateUpdateApttsList">
-                      populateUpdateApttsList (dependentApttList)
+                      populateUpdateApttsList (dependentAptList)
                     </a>
 
                     <div class="methods-toc__description">
@@ -336,7 +336,7 @@
                     </a>
 
                     <div class="methods-toc__description">
-                      Update associated aptt of task to match status
+                      Update associated Action Plan Task of task to match status
                     </div>
                   </li>
                   <li class="method public">
@@ -350,18 +350,18 @@
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry " href="#ActionPlansTaskTriggerUtilities.upsertDependentAPTasks">
-                      upsertDependentAPTasks (dependentApttList)
+                      upsertDependentAPTasks (dependentAptList)
                     </a>
 
                     <div class="methods-toc__description">
-                      Cycle through list of dependent Action Plans Template Task and create <code class="code-inline">Task</code> records
+                      Cycle through list of dependent Action Plans Tasks and create <code class="code-inline">Task</code> records
                     </div>
                   </li>
                 </ul>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.actionsOnTaskBeforeDelete">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L393">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L392">
                       actionsOnTaskBeforeDelete(cTasks)
                     </a>
                   </h4>
@@ -486,7 +486,7 @@
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.populateUpdateApttsList">
 
                     <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L178">
-                      populateUpdateApttsList(dependentApttList)
+                      populateUpdateApttsList(dependentAptList)
                     </a>
                   </h4>
                   <div class="method-description">
@@ -497,10 +497,10 @@
                   </div>
 
                   <div class="method-signature">
-                    private static List&lt;APTask__c&gt; populateUpdateApttsList(List&lt;APTask__c&gt; dependentApttList)
+                    private static List&lt;APTask__c&gt; populateUpdateApttsList(List&lt;APTask__c&gt; dependentAptList)
                   </div>
                   <div class="method-subtitle">Parameters</div>
-                  <div class="param-name">dependentApttList</div>
+                  <div class="param-name">dependentAptList</div>
                   <div class="param-type">
                     Type: <code class="code-inline">List&lt;APTask__c&gt;</code>
                   </div>
@@ -537,7 +537,7 @@
                     </a>
                   </h4>
                   <div class="method-description">
-                    Update associated aptt of task to match status
+                    Update associated Action Plan Task of task to match status
                   </div>
                   <div class="method-subtitle">
                     Signature
@@ -581,21 +581,21 @@
                   <h4 class="method-title " id="ActionPlansTaskTriggerUtilities.upsertDependentAPTasks">
 
                     <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L120">
-                      upsertDependentAPTasks(dependentApttList)
+                      upsertDependentAPTasks(dependentAptList)
                     </a>
                   </h4>
                   <div class="method-description">
-                    Cycle through list of dependent Action Plans Template Task and create <code class="code-inline">Task</code> records
+                    Cycle through list of dependent Action Plans Tasks and create <code class="code-inline">Task</code> records
                   </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
 
                   <div class="method-signature">
-                    private static void upsertDependentAPTasks(List&lt;APTask__c&gt; dependentApttList)
+                    private static void upsertDependentAPTasks(List&lt;APTask__c&gt; dependentAptList)
                   </div>
                   <div class="method-subtitle">Parameters</div>
-                  <div class="param-name">dependentApttList</div>
+                  <div class="param-name">dependentAptList</div>
                   <div class="param-type">
                     Type: <code class="code-inline">List&lt;APTask__c&gt;</code>
                   </div>

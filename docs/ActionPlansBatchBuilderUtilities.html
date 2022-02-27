@@ -445,7 +445,7 @@
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansBatchBuilderUtilities.generateObjectFeeds">
-                      generateObjectFeeds (objIds)
+                      generateObjectFeeds (recIDs)
                     </a>
 
                     <div class="methods-toc__description">
@@ -499,7 +499,7 @@
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansBatchBuilderUtilities.retrieveOwnersDataRelatedObject">
-                      retrieveOwnersDataRelatedObject (relatedRecordIDs, relatedObjectName)
+                      retrieveOwnersDataRelatedObject (relatedRecordIDs)
                     </a>
 
                     <div class="methods-toc__description">
@@ -540,8 +540,8 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.generateObjectFeeds">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L449">
-                      generateObjectFeeds(objIds)
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L455">
+                      generateObjectFeeds(recIDs)
                     </a>
                   </h4>
                   <div class="method-description">
@@ -552,10 +552,10 @@
                   </div>
 
                   <div class="method-signature">
-                    public static void generateObjectFeeds(Set&lt;Id&gt; objIds)
+                    public static void generateObjectFeeds(Set&lt;Id&gt; recIDs)
                   </div>
                   <div class="method-subtitle">Parameters</div>
-                  <div class="param-name">objIds</div>
+                  <div class="param-name">recIDs</div>
                   <div class="param-type">
                     Type: <code class="code-inline">Set&lt;Id&gt;</code>
                   </div>
@@ -664,7 +664,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.getPostObjectBody">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L493">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L499">
                       getPostObjectBody(recID, apName)
                     </a>
                   </h4>
@@ -740,8 +740,8 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.retrieveOwnersDataRelatedObject">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L431">
-                      retrieveOwnersDataRelatedObject(relatedRecordIDs, relatedObjectName)
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L430">
+                      retrieveOwnersDataRelatedObject(relatedRecordIDs)
                     </a>
                   </h4>
                   <div class="method-description">
@@ -752,24 +752,19 @@
                   </div>
 
                   <div class="method-signature">
-                    public static Map&lt;Id, Id&gt; retrieveOwnersDataRelatedObject(Set&lt;Id&gt; relatedRecordIDs, String relatedObjectName)
+                    public static Map&lt;Id, Id&gt; retrieveOwnersDataRelatedObject(Set&lt;Id&gt; relatedRecordIDs)
                   </div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">relatedRecordIDs</div>
                   <div class="param-type">
                     Type: <code class="code-inline">Set&lt;Id&gt;</code>
                   </div>
-                  <div class="param-description"> list of sobjects&#39; id</div>
-                  <div class="param-name">relatedObjectName</div>
-                  <div class="param-type">
-                    Type: <code class="code-inline">String</code>
-                  </div>
-                  <div class="param-description"> The name of the related object</div>
+                  <div class="param-description"> list of sobject Ids</div>
                   <div class="method-subtitle">
                     Returns
                   </div>
                   <div class="method-subtitle-description">
-                    Map of record Id to Owner Id
+                    <code class="code-inline">Map&lt;Id, Id&gt;</code> Map of record Id to Owner Id
                   </div>
                 </div>
               </div>

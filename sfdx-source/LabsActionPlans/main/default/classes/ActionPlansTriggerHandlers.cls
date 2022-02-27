@@ -219,7 +219,7 @@ global without sharing class ActionPlansTriggerHandlers {
 		}
 	}
 	/**
-	 * When inserting or updating Action Plan records, fill the text parent object `Related_Object__c` and parent record  `Related_Record__c` fields
+	 * When inserting or updating Action Plan records, fill the text parent object `Related Object` and parent record  `Related Record` fields
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords Trigger.new
 	 */
@@ -316,7 +316,9 @@ global without sharing class ActionPlansTriggerHandlers {
 				try {
 					Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :oldRecordsMap.keyset() AND IsClosed = FALSE]);
 				} catch (Exception e) {
-					System.debug('Error when deleting Tasks related to APTaskTemplate');
+					for (APTask__c a : oldRecords) {
+						a.addError('Error when deleting Task related to APTaskTemplate: ' + e.getMessage());
+					}
 				}
 			}
 			when AFTER_UNDELETE {

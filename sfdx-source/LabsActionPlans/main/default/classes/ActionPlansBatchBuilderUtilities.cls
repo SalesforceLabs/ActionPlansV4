@@ -147,7 +147,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 		this.myTasksWithOutEmail = new List<Task>();
 		this.relAPTaskList = new List<APTask__c>();
 
-		Map<Id, Id> objectOwnersMap = retrieveOwnersDataRelatedObject(this.relatedRecordIDs, this.relatedObjectName);
+		Map<Id, Id> objectOwnersMap = retrieveOwnersDataRelatedObject(this.relatedRecordIDs);
 		//insert Action Plans to DB
 		upsert relActionPlans;
 
@@ -424,18 +424,24 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Retrieve the owner list from the related object.
-	 * @param relatedRecordIDs		list of sobjects' id
-	 * @param relatedObjectName     The name of the related object
-	 * @return Map of record Id to Owner Id
+	 * @param relatedRecordIDs		list of sobject Ids
+	 * @return `Map<Id, Id>` Map of record Id to Owner Id
 	 */
-	public static Map<Id, Id> retrieveOwnersDataRelatedObject(Set<Id> relatedRecordIDs, String relatedObjectName) {
+	public static Map<Id, Id> retrieveOwnersDataRelatedObject(Set<Id> relatedRecordIDs) {
 		Map<Id, Id> relatedObjOwners = new Map<Id, Id>();
+		if (relatedRecordIDs.isEmpty()) {
+			return relatedObjOwners;
+		}
+		List<Id> recordIdList = new List<Id>(relatedRecordIDs);
+		Id recId = recordIdList[0];
+		String objectName = recId.getSobjectType().getDescribe().getName();
+
 		String queryRetrieveOwnerIds;
 
 		if (!relatedRecordIDs.isEmpty()) {
-			queryRetrieveOwnerIds = 'SELECT Id, OwnerId FROM ' + String.escapeSingleQuotes(relatedObjectName) + ' WHERE Id IN :relatedRecordIDs';
+			queryRetrieveOwnerIds = 'SELECT Id, OwnerId FROM ' + objectName + ' WHERE Id IN :relatedRecordIDs';
 
-			for (SObject obj : Database.query(queryRetrieveOwnerIds)) {
+			for (SObject obj : Database.query(String.escapeSingleQuotes(queryRetrieveOwnerIds))) {
 				relatedObjOwners.put((Id) (obj.get('Id')), (Id) (obj.get('OwnerId')));
 			}
 		}
@@ -444,13 +450,13 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 
 	/**
 	 * Generate New `FeedItems` for multiple Action Plans
-	 * @param objIds Set of IDs of records for which we may make Chatter posts
+	 * @param recIDs Set of IDs of records for which we may make Chatter posts
 	 */
-	public static void generateObjectFeeds(Set<Id> objIds) {
+	public static void generateObjectFeeds(Set<Id> recIDs) {
 		List<SObject> chatterPosts = new List<SObject>();
 
 		List<String> apRefFields = ActionPlansUtilities.getCustomRelationshipFields();
-		String apQuery = 'SELECT Id, Name, ' + String.join(apRefFields, ', ') + ' FROM ActionPlan__c WHERE Id IN :objIds';
+		String apQuery = 'SELECT Id, Name, ' + String.join(apRefFields, ', ') + ' FROM ActionPlan__c WHERE Id IN :recIDs';
 
 		if (!Schema.getGlobalDescribe().containsKey('feeditem')) {
 			return;
@@ -458,13 +464,13 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 		for (SObject so : Database.query(String.escapeSingleQuotes(apQuery))) {
 			ActionPlan__c ap = (ActionPlan__c) so;
 
-			Id objId;
+			Id recId;
 			Boolean chatterEnabled;
 
 			for (String f : apRefFields) {
 				if (ap.get(f) != null) {
-					objId = (Id) ap.get(f);
-					chatterEnabled = objId.getSObjectType().getDescribe().isFeedEnabled();
+					recId = (Id) ap.get(f);
+					chatterEnabled = recId.getSObjectType().getDescribe().isFeedEnabled();
 					break;
 				}
 			}
@@ -473,8 +479,8 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				SObjectType token = Schema.getGlobalDescribe().get('FeedItem');
 				SObject newPost = token.newSObject();
 				newPost.put('Type', 'TextPost');
-				newPost.put('ParentId', objId);
-				newPost.put('Body', getPostObjectBody(objId, (String) ap.get('Name')));
+				newPost.put('ParentId', recId);
+				newPost.put('Body', getPostObjectBody(recId, (String) ap.get('Name')));
 
 				chatterPosts.add(newPost);
 			}

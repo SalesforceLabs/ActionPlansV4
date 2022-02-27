@@ -117,7 +117,6 @@ global without sharing class ActionPlanCreateInvocable {
 		}
 
 		Set<Id> relatedIDs = new Set<Id>();
-		String relatedObjectName = requests[0].relatedRecordID.getSObjectType().getDescribe().getName();
 
 		for (CreateActionPlanRequest r : requests) {
 			relatedIDs.add(r.relatedRecordID);
@@ -127,7 +126,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
 
-		Map<Id, Id> relatedObjectOwners = ActionPlansBatchBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs, relatedObjectName);
+		Map<Id, Id> relatedObjectOwners = ActionPlansBatchBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs);
 
 		Set<String> actionPlanFields = Schema.SObjectType.ActionPlan__c.fields.getMap().keyset();
 

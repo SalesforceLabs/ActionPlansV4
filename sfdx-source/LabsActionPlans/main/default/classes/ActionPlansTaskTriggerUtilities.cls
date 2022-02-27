@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Trigger Handlers
  */
 public without sharing class ActionPlansTaskTriggerUtilities {
-	private static List<APTask__c> dependentAptts = new List<APTask__c>();
+	private static List<APTask__c> dependentApts = new List<APTask__c>();
 	private static List<Task> tasksSendEmail = new List<Task>();
 	private static List<Task> tasksSendNoEmail = new List<Task>();
 
@@ -64,13 +64,13 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			updateActionPlansTemplateTaskStatus(cTasks);
 
 			//Get all dependent APTasks
-			List<APTask__c> dependentAptts = queryDependentAPTaskTemplates(closedTasks);
+			List<APTask__c> dependentApts = queryDependentAPTaskTemplates(closedTasks);
 
 			//Upsert dependent APTasks
-			upsertDependentAPTasks(dependentAptts); //NOPMD
+			upsertDependentAPTasks(dependentApts); //NOPMD
 
 			//Finally, create all New Tasks and Send DMLOption Emails
-			List<APTask__c> updateApttsList = populateUpdateApttsList(dependentAptts);
+			List<APTask__c> updateAptsList = populateUpdateApttsList(dependentApts);
 
 			Database.DMLOptions dmlo = new Database.DMLOptions();
 
@@ -84,7 +84,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 				Database.insert(tasksSendNoEmail, dmlo);
 			}
 
-			Database.update(updateApttsList); //NOPMD
+			Database.update(updateAptsList); //NOPMD
 		}
 	}
 
@@ -109,58 +109,58 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			' FROM APTask__c WHERE Controller__c IN :closedTasks';
 		System.debug('apdependentquery ' + apdependentQuery);
 
-		dependentAptts = Database.query(String.escapeSingleQuotes(apdependentQuery));
-		return dependentAptts;
+		dependentApts = Database.query(String.escapeSingleQuotes(apdependentQuery));
+		return dependentApts;
 	}
 
 	/**
-	 * Cycle through list of dependent Action Plans Template Task and create `Task` records
-	 * @param dependentApttList The APTasks we check for dependencies before making `Task` records
+	 * Cycle through list of dependent Action Plans Tasks and create `Task` records
+	 * @param dependentAptList The APTasks we check for dependencies before making `Task` records
 	 */
-	private static void upsertDependentAPTasks(List<APTask__c> dependentApttList) {
+	private static void upsertDependentAPTasks(List<APTask__c> dependentAptList) {
 		List<APTask__c> apTasksToUpsert = new List<APTask__c>();
 		Task auxTask;
 
 		Map<Id, Task> taskMap = new Map<Id, Task>();
-		for (Task t : [SELECT Id, TaskAPTask__c FROM Task WHERE TaskAPTask__c = :dependentApttList]) {
+		for (Task t : [SELECT Id, TaskAPTask__c FROM Task WHERE TaskAPTask__c = :dependentAptList]) {
 			taskMap.put(t.TaskAPTask__c, t);
 		}
 
-		for (APTask__c dependentAptt : dependentApttList) {
+		for (APTask__c dependentApt : dependentAptList) {
 			//Create the new task and template
 			//check if the task was already created
-			if (taskMap.containsKey(dependentAptt.Id)) {
-				auxTask = taskMap.get(dependentAptt.Id);
+			if (taskMap.containsKey(dependentApt.Id)) {
+				auxTask = taskMap.get(dependentApt.Id);
 			} else {
 				auxTask = new Task();
 			}
 
-			auxTask.Subject = dependentAptt.Subject__c;
-			auxTask.Priority = dependentAptt.Priority__c;
-			auxTask.OwnerId = dependentAptt.User__c;
-			auxTask.Type = dependentAptt.Type__c;
-			auxTask.TaskAPTask__c = dependentAptt.Id;
+			auxTask.Subject = dependentApt.Subject__c;
+			auxTask.Priority = dependentApt.Priority__c;
+			auxTask.OwnerId = dependentApt.User__c;
+			auxTask.Type = dependentApt.Type__c;
+			auxTask.TaskAPTask__c = dependentApt.Id;
 			if (ActionPlansUtilities.taskUsesRecordTypes) {
-				auxTask.put('RecordTypeId', dependentAptt.Task_RecordTypeId__c);
+				auxTask.put('RecordTypeId', dependentApt.Task_RecordTypeId__c);
 			}
 
-			if (dependentAptt.Status__c == null) {
+			if (dependentApt.Status__c == null) {
 				String defaultStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
 
 				auxTask.Status = defaultStatus;
-				dependentAptt.Status__c = defaultStatus;
-				apTasksToUpsert.add(dependentAptt);
+				dependentApt.Status__c = defaultStatus;
+				apTasksToUpsert.add(dependentApt);
 			}
 
 			// create due date, calculate the due date of the tasks for skip weekends feature
-			if (dependentAptt.Action_Plan__r.SkipWeekends__c == true && dependentAptt.Action_Plan__r.SkipDay__c != null) {
-				dependentAptt.ActivityDate__c = ActionPlansUtilities.adjustTaskDueDate(
-					dependentAptt.Action_Plan__r.StartDate__c,
-					dependentAptt.DaysFromStart__c.intValue(),
-					dependentAptt.Action_Plan__r.SkipDay__c
+			if (dependentApt.Action_Plan__r.SkipWeekends__c == true && dependentApt.Action_Plan__r.SkipDay__c != null) {
+				dependentApt.ActivityDate__c = ActionPlansUtilities.adjustTaskDueDate(
+					dependentApt.Action_Plan__r.StartDate__c,
+					dependentApt.DaysFromStart__c.intValue(),
+					dependentApt.Action_Plan__r.SkipDay__c
 				);
 			} else {
-				dependentAptt.ActivityDate__c = dependentAptt.Action_Plan__r.StartDate__c.addDays(dependentAptt.DaysFromStart__c.intValue());
+				dependentApt.ActivityDate__c = dependentApt.Action_Plan__r.StartDate__c.addDays(dependentApt.DaysFromStart__c.intValue());
 			}
 		} // end for loop
 
@@ -172,60 +172,60 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Cycle through list of dependent Action Plans Template Task and create tasks
-	 * @param dependentApttList
+	 * @param dependentAptList
 	 * @return the list of dependent Action Plan Tasks we just updated
 	 */
-	private static List<APTask__c> populateUpdateApttsList(List<APTask__c> dependentApttList) {
-		List<APTask__c> updateApttsList = new List<APTask__c>();
+	private static List<APTask__c> populateUpdateApttsList(List<APTask__c> dependentAptList) {
+		List<APTask__c> updateAptsList = new List<APTask__c>();
 
 		Set<Id> apIDs = new Set<Id>();
 		Set<Id> controllingIDs = new Set<Id>();
-		for (APTask__c dAptt : dependentApttList) {
-			apIDs.add(dAptt.Action_Plan__c);
-			controllingIDs.add(dAptt.Controller__c);
+		for (APTask__c dApt : dependentAptList) {
+			apIDs.add(dApt.Action_Plan__c);
+			controllingIDs.add(dApt.Controller__c);
 		}
 
 		Map<Id, APTask__c> controllingTasks = new Map<Id, APTask__c>([SELECT Id, ActivityDate__c FROM APTask__c WHERE Id IN :controllingIDs]);
 
 		Map<Id, Task> taskMap = new Map<Id, Task>();
-		for (Task t : [SELECT Id, TaskAPTask__c FROM Task WHERE TaskAPTask__c = :dependentApttList]) {
+		for (Task t : [SELECT Id, TaskAPTask__c FROM Task WHERE TaskAPTask__c = :dependentAptList]) {
 			taskMap.put(t.TaskAPTask__c, t);
 		}
 
-		for (APTask__c dependentAptt : dependentApttList) {
+		for (APTask__c dependentApt : dependentAptList) {
 			Task t2 = new Task();
 			//Create the new task and template
-			if (taskMap.containsKey(dependentAptt.Id)) {
-				t2 = taskMap.get(dependentAptt.Id);
+			if (taskMap.containsKey(dependentApt.Id)) {
+				t2 = taskMap.get(dependentApt.Id);
 			}
 
-			t2.Subject = dependentAptt.Subject__c;
-			t2.Priority = dependentAptt.Priority__c;
-			t2.OwnerId = dependentAptt.User__c;
-			t2.TaskAPTask__c = dependentAptt.Id;
+			t2.Subject = dependentApt.Subject__c;
+			t2.Priority = dependentApt.Priority__c;
+			t2.OwnerId = dependentApt.User__c;
+			t2.TaskAPTask__c = dependentApt.Id;
 			if (ActionPlansUtilities.taskUsesRecordTypes) {
-				t2.put('RecordTypeId', dependentAptt.Task_RecordTypeId__c);
+				t2.put('RecordTypeId', dependentApt.Task_RecordTypeId__c);
 			}
 
 			Date d = Date.today();
-			if (dependentAptt.Controller__c != null && controllingTasks.containsKey(dependentAptt.Controller__c) && controllingTasks.get(dependentAptt.Controller__c).ActivityDate__c != null) {
-				d = controllingTasks.get(dependentAptt.Controller__c).ActivityDate__c;
+			if (dependentApt.Controller__c != null && controllingTasks.containsKey(dependentApt.Controller__c) && controllingTasks.get(dependentApt.Controller__c).ActivityDate__c != null) {
+				d = controllingTasks.get(dependentApt.Controller__c).ActivityDate__c;
 			}
 
-			dependentAptt.ActivityDate__c = d.addDays(dependentAptt.DaysFromStart__c.intValue());
+			dependentApt.ActivityDate__c = d.addDays(dependentApt.DaysFromStart__c.intValue());
 
-			if (dependentAptt.Comments__c != null) {
-				t2.Description = dependentAptt.Comments__c;
+			if (dependentApt.Comments__c != null) {
+				t2.Description = dependentApt.Comments__c;
 			}
 
 			//set reminder based on user's default reminder setting
-			if (dependentAptt.Reminder__c) {
-				t2.isReminderSet = dependentAptt.Reminder__c;
-				t2.ReminderDateTime = datetime.newInstance(dependentAptt.ActivityDate__c.year(), dependentAptt.ActivityDate__c.month(), dependentAptt.ActivityDate__c.day(), 0, 0, 0);
-				t2.ReminderDateTime = t2.ReminderDateTime.addMinutes(Integer.valueOf(dependentAptt.Minutes_Reminder__c));
+			if (dependentApt.Reminder__c) {
+				t2.isReminderSet = dependentApt.Reminder__c;
+				t2.ReminderDateTime = datetime.newInstance(dependentApt.ActivityDate__c.year(), dependentApt.ActivityDate__c.month(), dependentApt.ActivityDate__c.day(), 0, 0, 0);
+				t2.ReminderDateTime = t2.ReminderDateTime.addMinutes(Integer.valueOf(dependentApt.Minutes_Reminder__c));
 			}
 
-			ActionPlan__c ap = dependentAptt.Action_Plan__r;
+			ActionPlan__c ap = dependentApt.Action_Plan__r;
 
 			Boolean setWho = true;
 			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
@@ -237,35 +237,35 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 				}
 			}
 
-			if (dependentAptt.Action_Plan__r.Contact__c != null && setWho) {
-				t2.WhoId = dependentAptt.Action_Plan__r.Contact__c;
-			} else if (dependentAptt.Action_Plan__r.Lead__c != null && setWho) {
-				t2.WhoId = dependentAptt.Action_Plan__r.Lead__c;
+			if (dependentApt.Action_Plan__r.Contact__c != null && setWho) {
+				t2.WhoId = dependentApt.Action_Plan__r.Contact__c;
+			} else if (dependentApt.Action_Plan__r.Lead__c != null && setWho) {
+				t2.WhoId = dependentApt.Action_Plan__r.Lead__c;
 			} else if (setWho) {
 				System.debug('FAILED to set who');
 			}
 
-			t2.Type = dependentAptt.Type__c;
+			t2.Type = dependentApt.Type__c;
 
 			String defaultStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
 			t2.Status = defaultStatus;
 
-			t2.ActivityDate = dependentAptt.ActivityDate__c;
+			t2.ActivityDate = dependentApt.ActivityDate__c;
 
-			updateApttsList.add(dependentAptt);
+			updateAptsList.add(dependentApt);
 
 			//populate the list to send emails or not.
-			if (dependentAptt.SendEmail__c) {
+			if (dependentApt.SendEmail__c) {
 				tasksSendEmail.add(t2);
 			} else {
 				tasksSendNoEmail.add(t2);
 			}
 		}
-		return updateApttsList;
+		return updateAptsList;
 	}
 
 	/**
-	 * Update associated aptt of task to match status
+	 * Update associated Action Plan Task of task to match status
 	 * @param cTasks map of ActionPlan Tasks by Id
 	 */
 	private static void updateActionPlansTemplateTaskStatus(Map<Id, String> cTasks) {
@@ -283,8 +283,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			//Update all APTasks
 			List<APTask__c> updateApttList = [SELECT Id, Status__c FROM APTask__c WHERE Id IN :cTasks.keyset()];
 
-			for (APTask__c aptt : updateApttList) {
-				aptt.Status__c = cTasks.get(aptt.Id);
+			for (APTask__c apt : updateApttList) {
+				apt.Status__c = cTasks.get(apt.Id);
 			}
 
 			update updateApttList;
@@ -362,13 +362,13 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 		if (!closedTasks.isEmpty()) {
 			//Get all dependent APTask
-			List<APTask__c> dependentAptts = queryDependentAPTaskTemplates(closedTasks);
+			List<APTask__c> dependentApts = queryDependentAPTaskTemplates(closedTasks);
 
 			//Upsert dependent APTasks
-			upsertDependentAPTasks(dependentAptts); //NOPMD
+			upsertDependentAPTasks(dependentApts); //NOPMD
 
 			//Finally, Create all New Tasks and Send DMLOption Emails
-			List<APTask__c> updateApttsList = populateUpdateApttsList(dependentAptts); //NOPMD
+			List<APTask__c> updateAptsList = populateUpdateApttsList(dependentApts); //NOPMD
 
 			Database.DMLOptions dmlo = new Database.DMLOptions();
 
@@ -382,7 +382,6 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 				Database.insert(tasksSendNoEmail, dmlo);
 			}
 		}
-
 		update apTasks;
 	}
 
@@ -398,18 +397,18 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 		List<APTask__c> lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTask__c WHERE Id IN :cTasks];
 
 		//create a map with : (APTaskId, APTaskTemplate)
-		for (APTask__c aptt : lAPT) {
-			apIdToAPTemplateMap.put(aptt.Action_Plan__c, aptt);
+		for (APTask__c apt : lAPT) {
+			apIdToAPTemplateMap.put(apt.Action_Plan__c, apt);
 		}
 
 		/* Map<Id, List<APTask__c>> apTasksByActionPlan = new Map<Id, List<APTask__c>>();
-			for(APTask__c aptt : lAPT){
-				if( !apTasksByActionPlan.containsKey(aptt.Action_Plan__c)){
-					apTasksByActionPlan.put(aptt.Action_Plan__c, new List<APTask__c>);
+			for(APTask__c apt : lAPT){
+				if( !apTasksByActionPlan.containsKey(apt.Action_Plan__c)){
+					apTasksByActionPlan.put(apt.Action_Plan__c, new List<APTask__c>);
 				}
-				List<APTask__c> aptList = apTasksByActionPlan.get(aptt.Action_Plan__c);
-				aptList.add(aptt);
-				apTasksByActionPlan.put(aptt.Action_Plan__c, aptList);
+				List<APTask__c> aptList = apTasksByActionPlan.get(apt.Action_Plan__c);
+				aptList.add(apt);
+				apTasksByActionPlan.put(apt.Action_Plan__c, aptList);
 			} */
 
 		/* List<APTask__c> tmp_lAPT;
