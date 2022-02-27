@@ -61,7 +61,7 @@ public with sharing class ActionPlanTemplateImportController {
 
 	/**
 	 * Action that initiates the Import process
-	 * @return PageReference
+	 * @return `PageReference`
 	 * @see ActionPlanTemplateImport
 	 */
 	public PageReference importTemplate() {

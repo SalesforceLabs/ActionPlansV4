@@ -90,16 +90,20 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			// If baseObjId == null, then we are inserting a single or multiple APs
 			mode = ApEditMode.MODE_NEW;
 			List<String> apRefFields = ActionPlansUtilities.getCustomRelationshipFields();
+			Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.ActionPlan__c.fields.getMap();
+
 			for (Id relObjId : oIdsLIst) {
 				// iterate over all related IDs
 				ActionPlan__c ap = new ActionPlan__c();
 				ap = baseObj.clone();
 
 				for (String s : apRefFields) {
-					if (s.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + refType) || (s.removeEndIgnoreCase('__c').equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + refType))) {
+					String relatedObject = fieldMap.get(s).getDescribe().getReferenceTo()[0].getDescribe().getName();
+					if (relatedObject.equalsIgnoreCase(refType)) {
 						System.debug('match on related object type ' + s);
 						ap.put(s, relObjId);
-						break;
+					} else {
+						System.debug('No match on ' + s);
 					}
 				}
 				//add Action Plan to list that will be inserted later and referenced by ActionPlanTasks
@@ -125,7 +129,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	 */
 	public Id generateActionPlans() {
 		List<APTask__c> aptList = new List<APTask__c>();
-		List<Id> aptTOTALListId = new List<Id>();
+		//List<Id> aptTOTALListId = new List<Id>();
 		Map<Id, APTask__c> mapAP = new Map<Id, APTask__c>();
 		Map<Id, ActionPlan__c> mapIDAP = new Map<Id, ActionPlan__c>();
 		ActionPlan__c apAux;
@@ -184,7 +188,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 					continue;
 				}
 
-				aptTOTALListId.add(at.Id);
+				//aptTOTALListId.add(at.Id);
 
 				if (at.Action_Plan__c == null && ap.Id != null) {
 					at.Action_Plan__c = ap.Id;
@@ -258,27 +262,39 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				t.isReminderSet = false;
 			}
 
-			APTask__c apt = mapAP?.get(refAPTask.Id);
+			//APTask__c apt = mapAP.get(refAPTask.Id);
 
-			if (apt != null) {
-				apAux = mapIDAP.get(apt.Action_Plan__c);
+			if (mapIDAP.containsKey(refAPTask.Action_Plan__c)) {
+				apAux = mapIDAP.get(refAPTask.Action_Plan__c);
+				System.debug('apAux from mapIDAP ' + apAux);
 			}
 
 			if (apAux == null) {
 				apAux = refAPTask.Action_Plan__r;
 			}
 
+			Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.ActionPlan__c.fields.getMap();
+
 			Boolean setWho = true;
 			//link to Action Plan's Related To Object
 			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
-				String f = s;
-				System.debug('iterating on field ' + f);
-				if (!f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') && !f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') && apAux.get(f) != null) {
-					t.WhatId = (Id) apAux.get(f);
+				String relatedObject = fieldMap.get(s).getDescribe().getReferenceTo()[0].getDescribe().getName();
+				if (relatedObject.equalsIgnoreCase(relatedObjectName)) {
+					t.WhatId = (Id) apAux.get(s);
 					setWho = false;
 					System.debug('Do not set what. Set who');
 					break;
+				} else {
+					System.debug('No match on ' + s);
 				}
+				/* System.debug('iterating on field ' + s);
+				System.debug(' with value ' + apAux?.get(s));
+				if (!s.endsWithIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') && !s.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') && apAux?.get(s) != null) {
+					t.WhatId = (Id) apAux.get(s);
+					setWho = false;
+					System.debug('Do not set what. Set who');
+					break;
+				} */
 			}
 
 			if (apAux.Contact__c != null && setWho) {
@@ -365,6 +381,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	 * @param relObjOwners Map of Id to record owner
 	 * @param apTaskUser   The current record user
 	 * @return             `Id` related OwnerID
+	 * @see getRelatedRecordOwnerId
 	 */
 	public static Id getAPTaskTemplateUser(ActionPlan__c ap, Map<Id, Id> relObjOwners, Id apTaskUser) {
 		if (String.isNotBlank(apTaskUser)) {
@@ -451,12 +468,10 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 			}
 
 			if (chatterEnabled) {
-				//FeedItem newPost = new FeedItem();
-
 				SObjectType token = Schema.getGlobalDescribe().get('FeedItem');
 				SObject newPost = token.newSObject();
 				newPost.put('Type', 'TextPost');
-				newPost.put('ParentId', objId); // m_oppty is an instance of an Opportunity object
+				newPost.put('ParentId', objId);
 				newPost.put('Body', getPostObjectBody(objId, (String) ap.get('Name')));
 
 				chatterPosts.add(newPost);

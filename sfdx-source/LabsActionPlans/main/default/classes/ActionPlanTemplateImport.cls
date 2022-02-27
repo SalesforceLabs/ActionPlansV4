@@ -60,7 +60,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	 * for then inserting into the system.
 	 * @param document Attachment record
 	 * @exception ImportException
-	 * @return String
+	 * @return `String`
 	 */
 	public String processImportedDocument(Attachment document) {
 		String xml;
@@ -140,7 +140,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	/**
 	 * Handle importing of a Action Plan Template Object
 	 * @param xml import file
-	 * @return apTemplate
+	 * @return `ActionPlanTemplate__c` apTemplate
 	 */
 	private ActionPlanTemplate__c importAPTemplate(String xml) {
 		ActionPlanTemplate__c apTemplate = new ActionPlanTemplate__c();
@@ -182,7 +182,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	 * Parse metadata from XMl document
 	 * @param reader
 	 * @exception ImportException
-	 * @return correctMetaData
+	 * @return `Boolean` correctMetaData
 	 */
 	private Boolean parseMetaData(Xmlstreamreader reader) {
 		Boolean correctMetaData = true;
@@ -237,7 +237,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	/**
 	 * Parse data from XMl document to create a Action Plan Template Object
 	 * @param reader
-	 * @return The created Action Plan Template
+	 * @return `ActionPlanTemplate__c` The created Action Plan Template
 	 */
 	private ActionPlanTemplate__c parseTemplate(Xmlstreamreader reader) {
 		ActionPlanTemplate__c apTemplateAux = new ActionPlanTemplate__c();
@@ -384,7 +384,7 @@ public inherited sharing class ActionPlanTemplateImport {
 
 	/**
 	 * Method in charge of re-building dependent tasks for imported Action Plans Template
-	 * @return updatedTasks
+	 * @return `List<APTemplateTask__c>` updatedTasks
 	 */
 	private List<APTemplateTask__c> setupDependentTasks() {
 		//list for returning updated tasks

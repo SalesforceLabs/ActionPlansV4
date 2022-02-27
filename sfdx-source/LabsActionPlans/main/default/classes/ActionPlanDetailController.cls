@@ -88,7 +88,7 @@ public with sharing class ActionPlanDetailController {
 			return null;
 		}
 
-		String retURL = '/' + ActionPlansUtilities.namespacePrefix + ActionPlansUtilities.getObjectKeyPrefix(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c') + '/o';
+		String retURL = '/' + ActionPlansUtilities.getObjectKeyPrefix(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c') + '/o';
 
 		Boolean hasTemplateIdParam = ApexPages.currentPage().getParameters().containsKey('templateId');
 		Boolean hasRetURLParam = ApexPages.currentPage().getParameters().containsKey('retURL');

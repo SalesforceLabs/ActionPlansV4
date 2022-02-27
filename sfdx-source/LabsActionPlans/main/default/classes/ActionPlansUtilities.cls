@@ -475,20 +475,13 @@ public without sharing class ActionPlansUtilities {
 	 * @return                 Can the user share the record?
 	 */
 	public static Boolean canShareRecord(String shareObjectName, Id recordId, Id recordOwnerId) {
-		Boolean hasModifyAllData;
-		for (PermissionSetAssignment psa : [SELECT PermissionSet.PermissionsModifyAllData FROM PermissionSetAssignment WHERE AssigneeId = :UserInfo.getUserId()]) {
-			if (psa.PermissionSet.PermissionsModifyAllData == true) {
-				hasModifyAllData = true;
-			}
-		}
-
 		Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
 		if (gd.containsKey(shareObjectName)) {
 			UserRecordAccess ura = [SELECT RecordId, HasAllAccess FROM UserRecordAccess WHERE UserId = :UserInfo.getUserId() AND RecordId = :recordId];
 			if (ura.HasAllAccess) {
 				return true;
 			}
-			if (recordOwnerId == UserInfo.getUserId() || hasModifyAllData) {
+			if (recordOwnerId == UserInfo.getUserId()) {
 				return true;
 			}
 		}

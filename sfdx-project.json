@@ -8,11 +8,6 @@
             "versionNumber": "4.0.0.NEXT",
 			"ancestorVersion": "4.0.0",
             "releaseNotesUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/README.md",
-			"apexTestAccess": {
-               "permissionSets": [
-                   "Action_Plans_Admin"
-               ]
-			},
 			"definitionFile": "config/project-scratch-def.json",
             "versionDescription": "Welcome to the new Action Plans from Salesforce Labs",
             "postInstallScript": "ActionPlansPostInstallScript",
@@ -23,7 +18,7 @@
         }
     ],
     "name": "Action Plans",
-    "namespace": "LabsActionPlans",
+    "namespace": "",
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "54.0",
     "packageAliases": {

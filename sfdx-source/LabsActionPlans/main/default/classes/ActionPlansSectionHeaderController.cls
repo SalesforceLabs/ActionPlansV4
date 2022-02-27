@@ -44,10 +44,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 public inherited sharing class ActionPlansSectionHeaderController {
 	/**
-	 * The object for the Section Header
-	 * @return The object Name
+	 * The object name for the Section Header
 	 */
-	public String objectName { get; set; }
+	public String objectName {
+		get {
+			if (orgObject == null) {
+				Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+				String withNamespace = (ActionPlansUtilities.namespacePrefix + objectName).toLowerCase();
+				if (gd.containsKey(withNamespace)) {
+					orgObject = withNamespace;
+				} else {
+					orgObject = objectName;
+				}
+			}
+			return orgObject;
+		}
+		set;
+	}
+
+	/**
+	 * String to hold actual used object in case of namespaced app
+	 */
+	private String orgObject;
 
 	/**
 	 * Map of Icon attribute and value

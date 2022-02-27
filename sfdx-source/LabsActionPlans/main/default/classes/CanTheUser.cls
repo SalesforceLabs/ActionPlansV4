@@ -94,7 +94,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * create the specified object
 	 * @param obj Object type to check create permissions on
 	 * @return `Boolean`
@@ -106,7 +106,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * create the specified object
 	 * @param  objs list of objects. Only the first will be checked. (logically, a list is of uniform type
 	 * and, and if the user can create one)
@@ -117,7 +117,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * create the specified object
 	 * @param String Object type to check create permissions on
 	 * @return `Boolean`
@@ -129,7 +129,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * read / access the specified object
 	 * @param obj object type to check read permissions on
 	 * @return `Boolean`
@@ -141,7 +141,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * read / access the specified objects
 	 * @param obj object type to check read permissions on
 	 * @return `Boolean`
@@ -153,7 +153,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * read the specified object
 	 * @param String Object type to check read permissions on
 	 * @return `Boolean`
@@ -165,7 +165,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * edit / update the specified object
 	 * @param obj object type to check edit permissions on
 	 * @return `Boolean`
@@ -177,7 +177,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * edit / update the specified objects
 	 * @param obj object type to check edit permissions on
 	 * @return `Boolean`
@@ -187,7 +187,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * edit the specified object
 	 * @param String Object type to check edit permissions on
 	 * @return `Boolean`
@@ -199,7 +199,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * upsert (insert and update) the specified objects
 	 * @param obj object type to check edit permissions on
 	 * @return `Boolean`
@@ -211,7 +211,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * edit / update the specified objects
 	 * @param obj object type to check upsert permissions on
 	 * @return `Boolean`
@@ -222,7 +222,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * upsert the specified object
 	 * @param String Object type to check upsert permissions on
 	 * @return `Boolean`
@@ -234,7 +234,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * delete/destroy the specified object
 	 * @param obj object type to check destroy permissions on
 	 * @return `Boolean`
@@ -246,7 +246,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * delete the specified object
 	 * @param String Object type to check delete permissions on
 	 * @return `Boolean`
@@ -256,7 +256,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 * convenience api for determining if the running user can
+	 * Convenience API for determining if the running user can
 	 * delete the specified object
 	 * @param String Object type to check create permissions on
 	 * @return `Boolean`
@@ -273,6 +273,7 @@ public inherited sharing class CanTheUser {
 	 * @param obj the object in question, in string form
 	 * @param field the field in question in SObjectField form
 	 * @return `Boolean`
+	 * @see getFLSForFieldOnObject
 	 * @example
 	 * System.debug(CanTheUser.flsAccessible('Account', 'Name'));
 	 **/
@@ -281,7 +282,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 *  bulk form of flsAccessible
+	 * bulk form of flsAccessible
 	 * @param obj    Obj name on which to check
 	 * @param fields Set of Fields to check for accessibility.
 	 * @return      `Map<String, Boolean>`
@@ -303,6 +304,7 @@ public inherited sharing class CanTheUser {
 	 * @param obj the string version of an object name
 	 * @param field the field to check
 	 * @return `Boolean`
+	 * @see getFLSForFieldOnObject
 	 * @example
 	 * System.debug(CanTheUser.flsUpdatable('Account', 'Name'));
 	 **/
@@ -328,7 +330,7 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 *     Abstracted method for retrieving or calculating
+	 * Abstracted method for retrieving or calculating
 	 * (memoization) of the FLS for a given field on a given object.
 	 * @param obj       String version of object name to check
 	 * @param field     String version of the field to check

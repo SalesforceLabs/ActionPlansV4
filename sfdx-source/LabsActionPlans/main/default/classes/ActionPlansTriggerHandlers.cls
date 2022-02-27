@@ -66,7 +66,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 */
 	// prettier-ignore
 	public static void actionPlansSObjectTriggerHandler(List<SObject> newRecords, List<SObject> oldRecords, Map<Id, SObject> newRecordsMap, Map<Id, SObject> oldRecordsMap, System.TriggerOperation triggerEvent, String sObjectName) {
-		//System.debug('In ' + sObjectName + ' ' + triggerEvent.name());
+		
 
 		String relationshipName = null;
 
@@ -276,7 +276,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				Schema.DescribeSObjectResult aptDescribe = apttype.getDescribe();
 				String aptObjectName = aptDescribe.getName();
 				String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix(aptObjectName);
-				//System.debug('prefix for ' + aptObjectName + ' is ' + aptPrefix);
+				
 
 				for (APTask__c apt : newRecords) {
 					if (
@@ -378,7 +378,6 @@ global without sharing class ActionPlansTriggerHandlers {
 	 */
 	// prettier-ignore
 	public static void triggerhandlerActionPlanTemplateTask(List<APTemplateTask__c> newRecords, List<APTemplateTask__c> oldRecords, Map<Id, APTemplateTask__c> oldRecordsMap, System.TriggerOperation triggerEvent) {
-		//System.debug('In APTemplateTask__c ' + triggerEvent.name());
 
 		switch on triggerEvent {
 			when BEFORE_INSERT, BEFORE_UPDATE {
@@ -387,7 +386,6 @@ global without sharing class ActionPlansTriggerHandlers {
 				Schema.DescribeSObjectResult apttDescribe = aptttype.getDescribe();
 				String apttObjectName = apttDescribe.getName();
 				String apttPrefix = ActionPlansUtilities.getObjectKeyPrefix(apttObjectName);
-				//System.debug('prefix for ' + apttObjectName + ' is ' + apttPrefix);
 				for (APTemplateTask__c aptt : newRecords) {
 					if (
 						aptt.Name == null ||
@@ -608,9 +606,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					apMap.put(ap.Lead__c, ap);
 				}
 
-				Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
-				//System.debug('mySettings ' + mySettings);
-				String destinationObject = mysettings.Default_Object_on_Lead_Conversion__c;
+				String destinationObject = ActionPlansUtilities.getCustomSetting().Default_Object_on_Lead_Conversion__c;
 				if (destinationObject != null) {
 					destinationObject = destinationObject.toLowerCase();
 				}
@@ -634,7 +630,6 @@ global without sharing class ActionPlansTriggerHandlers {
 						toUpdate.add(ap);
 					}
 				}
-				//System.debug('APs to Update pre-update: ' + toUpdate);
 				update toUpdate;
 			}
 		}

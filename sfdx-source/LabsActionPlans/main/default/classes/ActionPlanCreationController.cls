@@ -112,7 +112,7 @@ public with sharing class ActionPlanCreationController {
 		this.mapTasksListBkp = new Map<Id, ApTaskWrapper>();
 
 		if (!Test.isRunningTest()) {
-			stdController.addFields(ActionPlansUtilities.getCustomRelationshipFields());
+			stdController.addFields(getAllRelationshipFields());
 		}
 		this.actionPlan = (ActionPlan__c) stdController.getRecord();
 
@@ -142,7 +142,7 @@ public with sharing class ActionPlanCreationController {
 	 */
 	private void initEditActionPlan() {
 		this.hasRelatedObject = this.hasRelatedObject();
-		this.taskIndex = this.calculateAPTaskIndexValue();
+		this.taskIndex = this.calculteMaxTaskIndex();
 		this.subtitle = this.actionPlan.Name;
 	}
 
@@ -150,11 +150,6 @@ public with sharing class ActionPlanCreationController {
 	 * Initalize controller for cloning an Action Plan
 	 */
 	private void initCloneActionPlan() {
-		this.actionPlan.StartDate__c = Date.today();
-		this.actionPlan.SkipWeekends__c = false;
-		this.actionPlan.Name = null;
-		this.subtitle = this.actionPlan.Name;
-
 		List<APTask__c> tC = this.apTasks.deepClone(false, true);
 
 		this.apTasks.clear();
@@ -164,10 +159,20 @@ public with sharing class ActionPlanCreationController {
 		for (APTask__c t : this.apTasks) {
 			t.Action_Plan__c = null;
 		}
+		String templateName = actionPlan.Action_Plan_Template__r.Name;
 
-		for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
-			this.actionPlan.put(s, null);
+		if (templateName != null) {
+			actionPlan.Name = templateName;
+		} else {
+			actionPlan.Name = null;
 		}
+		this.actionPlan.Id = null;
+		this.actionPlan.StartDate__c = Date.today();
+		for (String s : getAllRelationshipFields()) {
+			actionPlan.put(s, null);
+		}
+
+		this.subtitle = System.Label.ap_Clone + ' ' + Schema.getGlobalDescribe().get(getNamespacePrefix() + 'ActionPlan__c').getDescribe().getLabel();
 
 		this.hasRelatedObject = false;
 		this.hasRelated = false;
@@ -213,7 +218,7 @@ public with sharing class ActionPlanCreationController {
 		this.actionPlan.TaskRecordTypeID__c = actionPlanTemplate.TaskRecordTypeID__c;
 
 		if (visualforceContext) {
-			this.taskIndex = this.calculateAPTTaskIndexValue();
+			this.taskIndex = this.calculteMaxTemplateTaskIndex();
 			this.subtitle = System.Label.ap_New + ' ' + Schema.getGlobalDescribe().get(getNamespacePrefix() + 'ActionPlan__c').getDescribe().getLabel();
 		}
 		this.apTasks = this.getAPTasks();
@@ -293,6 +298,7 @@ public with sharing class ActionPlanCreationController {
 		}
 	}
 
+	private List<String> relationshipFields;
 	/**
 	 * Get a list of all relationship fields to avoid SOQL error for unqueried fields
 	 * @author {@link [David Schach](https://github.com/dschach)}
@@ -300,7 +306,10 @@ public with sharing class ActionPlanCreationController {
 	 * @see ActionPlansUtilities.getCustomRelationshipFields
 	 */
 	public List<String> getAllRelationshipFields() {
-		return ActionPlansUtilities.getCustomRelationshipFields();
+		if (relationshipFields == null) {
+			relationshipFields = ActionPlansUtilities.getCustomRelationshipFields();
+		}
+		return relationshipFields;
 	}
 
 	/**
@@ -329,9 +338,6 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public PageReference onLoad() {
 		ActionPlansUtilities.onPageLoad();
-		if (getTasks().isEmpty()) {
-			addTask();
-		}
 		return null;
 	}
 
@@ -371,7 +377,7 @@ public with sharing class ActionPlanCreationController {
 	@testVisible
 	private Id relatedObjectId() {
 		Id currentId;
-		for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
+		for (String s : getAllRelationshipFields()) {
 			if (actionPlan.get(s) != null) {
 				currentId = (Id) actionPlan.get(s);
 				break;
@@ -386,7 +392,7 @@ public with sharing class ActionPlanCreationController {
 	 * @return Is a relationship field filled?
 	 */
 	public Boolean hasRelatedObject() {
-		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
+		for (String f : getAllRelationshipFields()) {
 			try {
 				System.debug('Evaluate AP field ' + f + ' with value ' + actionPlan.get(f));
 				if (actionPlan.get(f) != null) {
@@ -450,11 +456,13 @@ public with sharing class ActionPlanCreationController {
 		String objName;
 		List<Id> oIdsList = new List<Id>();
 		if (refId == null) {
-			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
+			for (String s : getAllRelationshipFields()) {
 				if (actionPlan.get(s) != null) {
 					objId = (Id) actionPlan.get(s);
+					System.debug('objId: ' + objId);
 					Schema.DescribeSObjectResult dsr = objId.getSObjectType().getDescribe();
 					objName = dsr.getName();
+					System.debug('saveAP objName = ' + objName);
 					break;
 				}
 			}
@@ -473,10 +481,11 @@ public with sharing class ActionPlanCreationController {
 			parentIDs.addAll(oIdsList);
 
 			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()) {
-				Database.executeBatch(new ActionPlansBatchBuilder(this.actionPlan, this.apTasks, objName, parentIDs));
+				Database.executeBatch(new ActionPlansBatchBuilder(actionPlan, this.apTasks, objName, parentIDs));
 			} else {
 				System.debug('Running batch builder utilities');
-				ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(this.actionPlan, this.apTasks, objName, parentIDs);
+				System.debug('Account value ' + actionPlan.Account__c);
+				ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(actionPlan, this.apTasks, objName, parentIDs);
 				actionPlanId = taskBatch.generateActionPlans();
 			}
 		}
@@ -574,7 +583,7 @@ public with sharing class ActionPlanCreationController {
 		} else {
 			PageReference newPage = Page.ActionPlansHome;
 
-			String confirmation = actionPlan.Name + ' ' + System.Label.ap_Created;
+			String confirmation = this.actionPlan.Name + ' ' + System.Label.ap_Created;
 			newPage.getParameters().put('message', confirmation);
 			newPage.getParameters().put('severity', 'success');
 			newPage.setRedirect(true);
@@ -757,7 +766,7 @@ public with sharing class ActionPlanCreationController {
 	 * @return Action Plan Tasks
 	 */
 	public List<APTask__c> getAPTasks() {
-		if (this.apTasks == null || this.apTasks.size() == 0) {
+		if (this.apTasks == null || this.apTasks.isEmpty()) {
 			if (templateId == null) {
 				templateId = ActionPlansUtilities.getEscapedPageParameter('templateId');
 			}
@@ -840,7 +849,7 @@ public with sharing class ActionPlanCreationController {
 			}
 
 			// Clone. Clear Ids.
-			if (cloneParam == '1') {
+			/* if (cloneParam == '1') {
 				List<APTask__c> tC = this.apTasks.deepClone(false);
 				this.apTasks.clear();
 				this.apTasks = tC;
@@ -849,7 +858,7 @@ public with sharing class ActionPlanCreationController {
 				for (APTask__c t : this.apTasks) {
 					t.Action_Plan__c = null;
 				}
-			}
+			} */
 		}
 
 		return this.apTasks;
@@ -886,7 +895,8 @@ public with sharing class ActionPlanCreationController {
 				TaskIndex__c,
 				Time_Reminder__c,
 				Task_RecordTypeId__c,
-				IsClosed__c
+				IsClosed__c,
+				Action_Plan__r.Name
 			FROM APTask__c
 			WHERE Action_Plan__c = :actionPlanId
 			ORDER BY TaskIndex__c ASC
@@ -925,6 +935,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Set the Refered object to Create New Action Plan
+	 * @see retrieveNameRelatedRecord
 	 */
 	@TestVisible
 	private void referedObjectInit() {
@@ -1149,7 +1160,7 @@ public with sharing class ActionPlanCreationController {
 	 * Calculates the highest task index value for Action Plan Tasks
 	 * @return maxIndex
 	 */
-	private Double calculateAPTaskIndexValue() {
+	private Double calculteMaxTaskIndex() {
 		Double maxIndex = 0;
 		List<AggregateResult> arList = [SELECT MAX(TaskIndex__c) m FROM APTask__c WHERE Action_Plan__c = :this.actionPlan.Id];
 		if (!arList.isEmpty()) {
@@ -1163,7 +1174,7 @@ public with sharing class ActionPlanCreationController {
 	 * Calculates the highest task index value for Action Plan Template Tasks
 	 * @return maxIndex
 	 */
-	private Double calculateAPTTaskIndexValue() {
+	private Double calculteMaxTemplateTaskIndex() {
 		Double maxIndex = 0;
 		List<AggregateResult> arList = [SELECT MAX(TaskIndex__c) m FROM APTemplateTask__c WHERE Action_Plan_Template__c = :this.templateId];
 		if (!arList.isEmpty()) {
@@ -1177,6 +1188,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Getter method with the related object options by default.
 	 * @return Picklist of all related objects to Action Plan
+	 * @see findActivityEnabledObjects
 	 */
 	public List<SelectOption> getRelatedObjectOptions() {
 		if (relatedObjectOptions == null) {
@@ -1217,6 +1229,11 @@ public with sharing class ActionPlanCreationController {
 		return relatedObjectOptions;
 	}
 
+	/**
+	 * Get all available WhatId and WhoId objects
+	 *
+	 * @return  `Set<String>` Objects that Task can use in WhoId or WhatId
+	 */
 	private Set<String> findActivityEnabledObjects() {
 		Set<String> relatedToObjects = new Set<String>();
 		for (Schema.SObjectType objectType : Task.WhatId.getDescribe().getReferenceTo()) {
@@ -1231,6 +1248,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Refresh the related object lookup field.
 	 * @return `PageReference` null
+	 * @see ActionPlansUtilities.getEscapedPageParameter
 	 */
 	public PageReference refreshRelatedObjectsLookUp() {
 		relatedFieldName = ActionPlansUtilities.getEscapedPageParameter('relatedFieldName');
@@ -1241,6 +1259,7 @@ public with sharing class ActionPlanCreationController {
 	 * Find user default task recordtype
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return default task record type Id
+	 * @see ActionPlansUtilities.getDefaultTaskRecordTypeId
 	 */
 	@testVisible
 	private Id getDefaultTaskRecordTypeId() {
@@ -1267,6 +1286,7 @@ public with sharing class ActionPlanCreationController {
 	 * Generate picklist of Task Record Types
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Picklist of `Task.RecordType` options
+	 * @see ActionPlansUtilities.getTaskRTPicklistValues
 	 */
 	public List<SelectOption> getTaskRTPicklistValues() {
 		return ActionPlansUtilities.getTaskRTPicklistValues();
@@ -1277,6 +1297,7 @@ public with sharing class ActionPlanCreationController {
 	 * Generate picklist of Task Types
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return Picklist of `Task.Type`
+	 * @see ActionPlansUtilities.getFieldOptions
 	 */
 	public List<SelectOption> getTaskTypes() {
 		if (taskTypes == null) {
@@ -1301,6 +1322,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Generate picklist of available task due times
 	 * @return   picklist of 30-minute intervals
+	 * @see ActionPlansUtilities.getHoursOption
 	 */
 	public List<SelectOption> getHoursOption() {
 		return ActionPlansUtilities.getHoursOption();
@@ -1310,6 +1332,7 @@ public with sharing class ActionPlanCreationController {
 	 * Retrieve the Namespace Prefix in case we are in a managed package. Needed for the JavaScript in the page
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return `String` Namespace Prefix (LabsActionPlans or empty string)
+	 * @see ActionPlansUtilities.namespacePrefix
 	 */
 	public String getNamespacePrefix() {
 		return ActionPlansUtilities.namespacePrefix;

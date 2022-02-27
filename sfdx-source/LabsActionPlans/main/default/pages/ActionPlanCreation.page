@@ -125,11 +125,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				<apex:pageBlockButtons id="buttons">
 					<apex:commandButton id="save" value="{!$Label.ap_Save}" action="{!save}" status="taskStatus" rendered="{!$ObjectType.ActionPlan__c.updateable}"
 					/>
-					<!--  onclick="setTimeout('disableActions();', 50);" -->
 					<apex:commandButton id="saveandnew" value="{!$Label.ap_SaveAndNew}" action="{!saveAndNew}" rendered="{!$ObjectType.ActionPlan__c.updateable}"
 					/>
 					<apex:commandButton id="cancel" value="{!$Label.ap_Cancel}" action="{!cancel}" immediate="true" />
-					<!-- reRender="pageMessages" onclick="setTimeout('disableActions();', 50);" oncomplete="enableActions();" -->
 				</apex:pageBlockButtons>
 
 				<apex:pageBlockSection title="{!$ObjectType.ActionPlanTemplate__c.label}" columns="2" collapsible="false" rendered="{!DisplayTemplateLookup && $ObjectType.ActionPlanTemplate__c.accessible}">
@@ -297,9 +295,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 										 required="true" for="{!relatedFieldName}lookup" />
 										<apex:outputPanel rendered="{!ActionPlan__c.Action_Plan_Template__c != null}">
 											<script>
-												//var templateName = '{!ActionPlan__c.Action_Plan_Template__r.Name}';
 												j$('#{!relatedFieldName}lookupsldsscopediv #searchInput').on("parentchange", function (event, relName) {
-													console.log('thing changed');
 													j$('[id$=APName]').val('{!templateName}' + ' - ' + relName);
 												});
 											</script>
@@ -544,7 +540,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<span class="pbError">{!$Label.ap_Errors_Review_Errors}</span>
 				</div>
 			</apex:pageBlock>
-			<apex:repeat value="{!AllRelationshipFields}" var="a">
+			<apex:repeat value="{!AllRelationshipFields}" var="a" id="fieldsetrepeat">
 				<apex:inputField value="{!ActionPlan__c[a]}" rendered="false" />
 			</apex:repeat>
 			<apex:inputField value="{!ActionPlan__c.TaskRecordTypeID__c}" rendered="false" />
