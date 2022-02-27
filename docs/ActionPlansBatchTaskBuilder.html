@@ -37,20 +37,20 @@
           <a class="nav-header" id="home" href="javascript:void(0)" onclick="goToLocation('index.html');">
             Home
           </a>
-          <details id="Batch_Apex" class="group-name">
-            <summary id="header-Batch_Apex" class="nav-header">
-              <span>Batch Apex</span>
+          <details id="Asynchronous" class="group-name">
+            <summary id="header-Asynchronous" class="nav-header">
+              <span>Asynchronous</span>
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansBatchBuilder" id="item-ActionPlansBatchBuilder" class="nav-item class " onclick="goToLocation('ActionPlansBatchBuilder.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchBuilder</a>
-              </li>
               <li title="ActionPlansBatchDelete" id="item-ActionPlansBatchDelete" class="nav-item class " onclick="goToLocation('ActionPlansBatchDelete.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchDelete</a>
               </li>
               <li title="ActionPlansBatchTaskBuilder" id="item-ActionPlansBatchTaskBuilder" class="nav-item class " onclick="goToLocation('ActionPlansBatchTaskBuilder.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchTaskBuilder</a>
+              </li>
+              <li title="ActionPlansQueueableBuilder" id="item-ActionPlansQueueableBuilder" class="nav-item class " onclick="goToLocation('ActionPlansQueueableBuilder.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilder</a>
               </li>
             </ul>
           </details>
@@ -220,24 +220,11 @@
                     <th>Name</th>
                     <th>Signature</th>
 
-
+                    <th>Description</th>
                   </tr>
                   <tr class="property ">
                     <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L48">
-                        apTasks
-                      </a></td>
-                    <td>
-                      <div class="attribute-signature">
-                        private List&lt;APTask__c&gt; apTasks
-                      </div>
-                    </td>
-
-
-                  </tr>
-                  <tr class="property ">
-                    <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L49">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L51">
                         aptIds
                       </a></td>
                     <td>
@@ -247,32 +234,9 @@
                     </td>
 
 
-                  </tr>
-                  <tr class="property ">
-                    <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L51">
-                        myTasksWithEmail
-                      </a></td>
-                    <td>
-                      <div class="attribute-signature">
-                        private List&lt;Task&gt; myTasksWithEmail
-                      </div>
+                    <td class="attribute-description">
+                      The list of <code class="code-inline">APTask__c</code> Ids passed to this class
                     </td>
-
-
-                  </tr>
-                  <tr class="property ">
-                    <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L50">
-                        myTasksWithOutEmail
-                      </a></td>
-                    <td>
-                      <div class="attribute-signature">
-                        private List&lt;Task&gt; myTasksWithOutEmail
-                      </div>
-                    </td>
-
-
                   </tr>
                 </table>
             </div>
@@ -282,37 +246,37 @@
                 <ul class="methods-toc">
                   <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansBatchTaskBuilder.ActionPlansBatchTaskBuilder">
-                      ActionPlansBatchTaskBuilder (apttIds)
+                      ActionPlansBatchTaskBuilder (taskIDs)
                     </a>
 
                     <div class="methods-toc__description">
-                      Constructor
+                      Constructor accepts APTask IDs
                     </div>
                   </li>
                 </ul>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchTaskBuilder.ActionPlansBatchTaskBuilder">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L57">
-                      ActionPlansBatchTaskBuilder(apttIds)
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L56">
+                      ActionPlansBatchTaskBuilder(taskIDs)
                     </a>
                   </h4>
                   <div class="method-description">
-                    Constructor
+                    Constructor accepts APTask IDs
                   </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
 
                   <div class="method-signature">
-                    public ActionPlansBatchTaskBuilder(List&lt;Id&gt; apttIds)
+                    public ActionPlansBatchTaskBuilder(List&lt;Id&gt; taskIDs)
                   </div>
                   <div class="method-subtitle">Parameters</div>
-                  <div class="param-name">apttIds</div>
+                  <div class="param-name">taskIDs</div>
                   <div class="param-type">
                     Type: <code class="code-inline">List&lt;Id&gt;</code>
                   </div>
-                  <div class="param-description">List of<code class="code-inline"> ActionPlansTemplateTaskTemplate</code> IDs</div>
+                  <div class="param-description">List of <code class="code-inline">APTask__c</code> IDs</div>
                 </div>
               </div>
             </div>
@@ -351,7 +315,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchTaskBuilder.execute">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L89">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L86">
                       execute(bc, data)
                     </a>
                   </h4>
@@ -370,7 +334,7 @@
                   <div class="param-type">
                     Type: <code class="code-inline">Database.BatchableContext</code>
                   </div>
-                  <div class="param-description"> <code class="code-inline">Database.BatchableContext</code></div>
+                  <div class="param-description"> BatchableContext</div>
                   <div class="param-name">data</div>
                   <div class="param-type">
                     Type: <code class="code-inline">List&lt;SObject&gt;</code>
@@ -380,7 +344,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchTaskBuilder.finish">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L169">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L165">
                       finish(bc)
                     </a>
                   </h4>
@@ -400,17 +364,11 @@
                     Type: <code class="code-inline">Database.BatchableContext</code>
                   </div>
                   <div class="param-description">BatchableContext</div>
-                  <div class="method-subtitle">
-                    Author
-                  </div>
-                  <div class="method-subtitle-description">
-                    Salesforce Labs
-                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchTaskBuilder.start">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L67">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchTaskBuilder.cls#L65">
                       start(bc)
                     </a>
                   </h4>
@@ -435,12 +393,6 @@
                   </div>
                   <div class="method-subtitle-description">
                     <code class="code-inline">Database.QueryLocator</code>
-                  </div>
-                  <div class="method-subtitle">
-                    Author
-                  </div>
-                  <div class="method-subtitle-description">
-                    Salesforce labs
                   </div>
                 </div>
               </div>

@@ -37,20 +37,20 @@
           <a class="nav-header" id="home" href="javascript:void(0)" onclick="goToLocation('index.html');">
             Home
           </a>
-          <details id="Batch_Apex" class="group-name">
-            <summary id="header-Batch_Apex" class="nav-header">
-              <span>Batch Apex</span>
+          <details id="Asynchronous" class="group-name">
+            <summary id="header-Asynchronous" class="nav-header">
+              <span>Asynchronous</span>
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansBatchBuilder" id="item-ActionPlansBatchBuilder" class="nav-item class " onclick="goToLocation('ActionPlansBatchBuilder.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchBuilder</a>
-              </li>
               <li title="ActionPlansBatchDelete" id="item-ActionPlansBatchDelete" class="nav-item class " onclick="goToLocation('ActionPlansBatchDelete.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchDelete</a>
               </li>
               <li title="ActionPlansBatchTaskBuilder" id="item-ActionPlansBatchTaskBuilder" class="nav-item class " onclick="goToLocation('ActionPlansBatchTaskBuilder.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchTaskBuilder</a>
+              </li>
+              <li title="ActionPlansQueueableBuilder" id="item-ActionPlansQueueableBuilder" class="nav-item class " onclick="goToLocation('ActionPlansQueueableBuilder.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilder</a>
               </li>
             </ul>
           </details>
@@ -215,7 +215,7 @@
                 See
               </div>
               <div class="class-subtitle-description">
-                <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreateInvocable.html')">ActionPlanCreateInvocable</a>, <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreationController.html')">ActionPlanCreationController</a>, <a href="javascript:void(0)" onclick="goToLocation('ActionPlansBatchBuilder.html')">ActionPlansBatchBuilder</a>
+                <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreateInvocable.html')">ActionPlanCreateInvocable</a>, <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreationController.html')">ActionPlanCreationController</a>, <a href="javascript:void(0)" onclick="goToLocation('ActionPlansQueueableBuilder.html')">ActionPlansQueueableBuilder</a>
               </div><br />Rodrigo Birriel <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />v3
             </div>
             <div class="subsection properties ActionPlansBatchBuilderUtilities">
@@ -392,7 +392,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.ActionPlansBatchBuilderUtilities">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L79">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L78">
                       ActionPlansBatchBuilderUtilities(baseObj, aPTListparam, refType, oIdsLIst)
                     </a>
                   </h4>
@@ -471,6 +471,15 @@
                     </div>
                   </li>
                   <li class="method public">
+                    <a class="methods-toc__entry " href="#ActionPlansBatchBuilderUtilities.getObjects_1">
+                      getObjects ()
+                    </a>
+
+                    <div class="methods-toc__description">
+                      Send Action Plan records to queueable
+                    </div>
+                  </li>
+                  <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansBatchBuilderUtilities.getPostObjectBody">
                       getPostObjectBody (recID, apName)
                     </a>
@@ -501,7 +510,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.generateActionPlans">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L130">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L136">
                       generateActionPlans()
                     </a>
                   </h4>
@@ -531,7 +540,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.generateObjectFeeds">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L447">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L449">
                       generateObjectFeeds(objIds)
                     </a>
                   </h4>
@@ -555,7 +564,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.getAPTaskTemplateUser">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L386">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L391">
                       getAPTaskTemplateUser(ap, relObjOwners, apTaskUser)
                     </a>
                   </h4>
@@ -601,7 +610,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.getObjects">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L121">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L119">
                       getObjects(bc)
                     </a>
                   </h4>
@@ -629,9 +638,33 @@
                   </div>
                 </div>
                 <div class="method public">
+                  <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.getObjects_1">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L127">
+                      getObjects()
+                    </a>
+                  </h4>
+                  <div class="method-description">
+                    Send Action Plan records to queueable
+                  </div>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+
+                  <div class="method-signature">
+                    public List&lt;ActionPlan__c&gt; getObjects()
+                  </div>
+                  <div class="method-subtitle">
+                    Returns
+                  </div>
+                  <div class="method-subtitle-description">
+                    <code class="code-inline">List&lt;ActionPlan__c&gt;</code>
+                  </div>
+                </div>
+                <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.getPostObjectBody">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L491">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L493">
                       getPostObjectBody(recID, apName)
                     </a>
                   </h4>
@@ -672,7 +705,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.getRelatedRecordOwnerId">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L404">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L408">
                       getRelatedRecordOwnerId(ap, relObjOwners)
                     </a>
                   </h4>
@@ -707,7 +740,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansBatchBuilderUtilities.retrieveOwnersDataRelatedObject">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L429">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilderUtilities.cls#L431">
                       retrieveOwnersDataRelatedObject(relatedRecordIDs, relatedObjectName)
                     </a>
                   </h4>

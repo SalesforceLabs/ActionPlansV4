@@ -37,20 +37,20 @@
           <a class="nav-header" id="home" href="javascript:void(0)" onclick="goToLocation('index.html');">
             Home
           </a>
-          <details id="Batch_Apex" class="group-name">
-            <summary id="header-Batch_Apex" class="nav-header">
-              <span>Batch Apex</span>
+          <details id="Asynchronous" class="group-name">
+            <summary id="header-Asynchronous" class="nav-header">
+              <span>Asynchronous</span>
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansBatchBuilder" id="item-ActionPlansBatchBuilder" class="nav-item class " onclick="goToLocation('ActionPlansBatchBuilder.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchBuilder</a>
-              </li>
               <li title="ActionPlansBatchDelete" id="item-ActionPlansBatchDelete" class="nav-item class " onclick="goToLocation('ActionPlansBatchDelete.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchDelete</a>
               </li>
               <li title="ActionPlansBatchTaskBuilder" id="item-ActionPlansBatchTaskBuilder" class="nav-item class " onclick="goToLocation('ActionPlansBatchTaskBuilder.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchTaskBuilder</a>
+              </li>
+              <li title="ActionPlansQueueableBuilder" id="item-ActionPlansQueueableBuilder" class="nav-item class " onclick="goToLocation('ActionPlansQueueableBuilder.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilder</a>
               </li>
             </ul>
           </details>
@@ -248,8 +248,8 @@
           <p>Change these setting by editing Action Plan Settings, and updating values at either the organization level, profile levels, or user levels.</p>
           <p>Navigate to Setup &gt; Develop &gt; Custom Settings. Click on ‘Manage’ next to <code>Action Plans Settings</code>. Click the ‘New’ button near ‘Default Organizational Level Value’. Check the values that you want to enable.</p>
           <ul>
-            <li><code>Enable Chatter Post</code> places a post in the related record’s Chatter Feed (if Chatter is enabled for that object). If unchecked, Action Plans does not create a Feed Post.;</li>
-            <li><code>Unassigned Task Defaults to Record Owner</code> ensures that Action Plan Template tasks with a blank ‘Assigned To’ field go to the related record’s owner. If unchecked, tasks with a blank ‘Assigned To’ field are assigned to the running user. Tasks can be assigned to specific people on Action Plan Templates, which overrides this setting.</li>
+            <li><code>Enable Chatter Post</code> places a post in the related record's Chatter Feed (if Chatter is enabled for that object). If unchecked, Action Plans does not create a Feed Post.</li>
+            <li><code>Unassigned Task Defaults to Record Owner</code> ensures that Action Plan Template tasks with a blank ‘Assigned To’ field go to the related record's owner. If unchecked, tasks with a blank ‘Assigned To’ field are assigned to the running user. Tasks can be assigned to specific people on Action Plan Templates, which overrides this setting.</li>
             <li><code>Default Object on Lead Conversion</code> specifies that if an Action Plan is related to a Lead, whether the Action Plan should be moved to the converted Account, Contact, or Opportunity when the Lead is converted. The default is Contact.</li>
             <li><code>Action Plans Business Hours ID</code> and <code>Use Business Hours</code> are reserved for future functionality.</li>
           </ul>
@@ -288,7 +288,7 @@
             <li>If you want anyone to be able to create and see plans and their templates, use Public Read/Write for Action Plan and Action Plan Template.</li>
             <li>If you want anyone to be able to see Action Plans and Templates without being able to change them, select “Public Read Only.”</li>
             <li>If your Org-Wide Default sharing settings are set to Private for Action Plan or Action Plan Template, you may need to implement custom automation to share Action Plan records with the appropriate people. You may do this via Apex sharing, or you may use other automation, to assign ownership of the Action Plan itself to the related record owner or any desired user.</li>
-            <li>To use Action Plans, most users require access only to <code>Tasks</code>. They can be assigned Tasks without knowing that these Tasks are part of an Action Plan. Any changes they make to a Task’s Status will be reflected in the related Action Plan Task Template record automatically. No Permission Set is required.</li>
+            <li>To use Action Plans, most users require access only to <code>Tasks</code>. They can be assigned Tasks without knowing that these Tasks are part of an Action Plan. Any changes they make to a Task's Status will be reflected in the related Action Plan Task Template record automatically. No Permission Set is required.</li>
           </ul>
           <h2><a id="Use_Permission_Sets_For_Security_103"></a>Use Permission Sets For Security</h2>
           <p>Assign the appropriate Permission Set(s) to each user who will need to use Action Plans:</p>
@@ -322,7 +322,7 @@
               <p>The related object will now be available for selection when creating a new Action Plan and relating it to an object.</p>
             </li>
             <li>
-              <p>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts:</p> <pre><code>ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( ‘Custom_Object__c’ )</code></pre>
+              <p>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts:</p> <pre><code>ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( '&lt;Custom_Object&gt;__c' )</code></pre>
             </li>
           </ol>
           <p><img src="assets/ActionPlanFieldSet.png" alt="" class="readmeimage"></p>
@@ -338,7 +338,7 @@
           <h2><a id="To_Stop_Using_an_Object_with_Action_Plans_144"></a>To Stop Using an Object with Action Plans</h2>
           <p>If you want, for example, not to allow relating Action Plans to Contracts, remove the Contract field from the Action Plan Related Objects fieldset.<br> There is no need to delete the field from the Action Plan object.</p>
           <h1><a id="Create_a_Template_148"></a>Create a Template</h1>
-          <p>Now you’re ready to create your first template. Navigate to the Action Plans Templates tab. Click on the “New Action Plan Template” button.</p>
+          <p>Now you're ready to create your first template. Navigate to the Action Plans Templates tab. Click on the “New Action Plan Template” button.</p>
           <p>The template screen looks like this:</p>
           <p><img src="assets/Template-Creation.png" alt="" class="readmeimage"></p>
           <ol>
@@ -363,7 +363,7 @@
             <li>
               <p>Days After- This value determines the due date of the task.</p>
               <ul>
-                <li>For tasks with no dependency, the task’s due date will be offset from the plan start date.</li>
+                <li>For tasks with no dependency, the task's due date will be offset from the plan start date.</li>
                 <li>For tasks with a dependency, the due date will be offset from the expected due date of the task on which it depends.</li>
               </ul>
             </li>
@@ -383,10 +383,10 @@
               <p>Reminder – This check box will define the default behaviour for reminders when applying the template to create an Action plan .</p>
             </li>
             <li>
-              <p>If it’s left unchecked, in the Action Plan Creation page the reminders will be initially disabled</p>
+              <p>If it's left unchecked, in the Action Plan Creation page the reminders will be initially disabled</p>
             </li>
             <li>
-              <p>If it’s checked the reminders will be available.</p>
+              <p>If it's checked, the reminders will be available.</p>
               <ul>
                 <li>User Reminder settings: Go Personal Setup &gt; My Personal Information &gt; Reminders, if the option “By default, set reminder on Tasks to:” is checked then the selected time will be the default option for task template reminders.</li>
                 <li>User setting for Activity Object : Go App Setup&gt; Feature Settings &gt; Sales &gt; Activity Settings, If “Enable Activity Reminders” is not checked, then reminders column will not be displayed in the Action Plan creation page.</li>
@@ -435,7 +435,7 @@
           <h3><a id="Optional_Sample_Action_Plan_Template_for_Account_onboarding_run_the_following_217"></a>(Optional) Sample Action Plan Template for Account onboarding, run the following</h3><pre><code>sfdx force:apex:execute -f ./data/sample-data.apex</code></pre>
           <p>To use this Template with the included Flow, see the <code>Create Action Plan From Template</code> Apex Action in the <code>New Customer Onboarding Activities</code> Flow</p>
           <p><img src="assets/FlowActionVariables.png" alt="" class="readmeimage"></p>
-          <p>Create an Account and set <code>Type</code> to any value that starts with ‘Customer’</p>
+          <p>Create an Account and set <code>Type</code> to any value that starts with "Customer"</p>
           <h2><a id="Process_Builder_228"></a>Process Builder</h2>
           <p>It is recommended NOT to check the Recursion box when creating a Process Builder to work with Action Plans.</p>
           <p><strong>It is also recommended NOT to use Process Builder at all!</strong></p>
@@ -458,7 +458,7 @@
           <p>If you are using Lightning Experience, the exported file is in your Files tab, in your private files library. If you are still using Salesforce Classic, it is in your Documents tab, in your private documents folder.</p>
           <p>Sharing the file is easy. Email the file to whomever you want to share it with. Do you want to share it with a broader audience? Contact the file to Salesforce Labs at @salesforcelabs.</p>
           <h2><a id="Best_Practices_How_to_Import_277"></a>Best Practices: How to Import</h2>
-          <p>Import is also simple. Navigate to the “Import Template” tab. Select the file you want to import using “Browse” and once you’ve found it click on “Import Template.”<img src="assets/ActionPlanTemplate-import-2.png" alt="" class="readmeimage"></p>
+          <p>Import is also simple. Navigate to the “Import Template” tab. Select the file you want to import using “Browse” and once you've found it click on “Import Template.”<img src="assets/ActionPlanTemplate-import-2.png" alt="" class="readmeimage"></p>
           <h2><a id="Optional_Sample_Action_Plan_Template_Import_281"></a>(Optional) Sample Action Plan Template Import</h2>
           <p>This repository also includes a sample Action Plan Template file, which you can import on the appropriate tab (<code>https://&lt;yourinstance&gt;.lightning.force.com/lightning/n/Action_Plans_Template_Import</code>) in the org, <a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20Trade%20Show%20follow%20up.xml">Trade show follow up</a>. You may download the file from GitHub, or you can find it in your SFDX project in the <code>data</code> folder.</p>
         </td>

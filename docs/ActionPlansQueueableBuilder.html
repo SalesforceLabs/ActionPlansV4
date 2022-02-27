@@ -37,20 +37,20 @@
           <a class="nav-header" id="home" href="javascript:void(0)" onclick="goToLocation('index.html');">
             Home
           </a>
-          <details id="Batch_Apex" class="group-name">
-            <summary id="header-Batch_Apex" class="nav-header">
-              <span>Batch Apex</span>
+          <details id="Asynchronous" class="group-name">
+            <summary id="header-Asynchronous" class="nav-header">
+              <span>Asynchronous</span>
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansBatchBuilder" id="item-ActionPlansBatchBuilder" class="nav-item class " onclick="goToLocation('ActionPlansBatchBuilder.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchBuilder</a>
-              </li>
               <li title="ActionPlansBatchDelete" id="item-ActionPlansBatchDelete" class="nav-item class " onclick="goToLocation('ActionPlansBatchDelete.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchDelete</a>
               </li>
               <li title="ActionPlansBatchTaskBuilder" id="item-ActionPlansBatchTaskBuilder" class="nav-item class " onclick="goToLocation('ActionPlansBatchTaskBuilder.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchTaskBuilder</a>
+              </li>
+              <li title="ActionPlansQueueableBuilder" id="item-ActionPlansQueueableBuilder" class="nav-item class " onclick="goToLocation('ActionPlansQueueableBuilder.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilder</a>
               </li>
             </ul>
           </details>
@@ -193,32 +193,70 @@
 
           <div class="section">
 
-            <h2 class="class-title top-level-type" id="ActionPlansBatchBuilder">
+            <h2 class="class-title top-level-type" id="ActionPlansQueueableBuilder">
 
-              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilder.cls#L48">
-                ActionPlansBatchBuilder
+              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L46">
+                ActionPlansQueueableBuilder
               </a>
             </h2>
             <div class="class-container">
 
               <div class="class-description">
-                Batch for creating Action Plans <br>Stateful because we may be making a LOT of Action Plans and we want to maintain state in the Utilities class
+                Queueable Apex for creating Action Plans
               </div>
               <div class="class-subtitle">
                 Signature
               </div>
 
               <div class="class-signature">
-                public inherited sharing class ActionPlansBatchBuilder implements Database.Batchable&lt;SObject&gt;, Database.Stateful
-              </div><br />Rodrigo Birriel <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />2022
+                public inherited sharing class ActionPlansQueueableBuilder implements Queueable
+              </div><br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />2022
+            </div>
+            <div class="subsection properties ActionPlansQueueableBuilder">
+              <h3 class="subsection-title properties">ActionPlansQueueableBuilder Properties</h2>
+                <table class="attributes-table properties">
+
+                  <tr>
+                    <th>Name</th>
+                    <th>Signature</th>
+
+
+                  </tr>
+                  <tr class="property ">
+                    <td class="attribute-name">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L48">
+                        actionPlans
+                      </a></td>
+                    <td>
+                      <div class="attribute-signature">
+                        private List&lt;ActionPlan__c&gt; actionPlans
+                      </div>
+                    </td>
+
+
+                  </tr>
+                  <tr class="property ">
+                    <td class="attribute-name">
+                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L47">
+                        taskBatch
+                      </a></td>
+                    <td>
+                      <div class="attribute-signature">
+                        private ActionPlansBatchBuilderUtilities taskBatch
+                      </div>
+                    </td>
+
+
+                  </tr>
+                </table>
             </div>
             <div class="subsection methods">
-              <h3 class="subsection-title methods">ActionPlansBatchBuilder Constructors</h3>
+              <h3 class="subsection-title methods">ActionPlansQueueableBuilder Constructors</h3>
               <div class="methods-container">
                 <ul class="methods-toc">
                   <li class="method public">
-                    <a class="methods-toc__entry " href="#ActionPlansBatchBuilder.ActionPlansBatchBuilder">
-                      ActionPlansBatchBuilder (baseObj, aPTList, refType, oIdsSet)
+                    <a class="methods-toc__entry " href="#ActionPlansQueueableBuilder.ActionPlansQueueableBuilder">
+                      ActionPlansQueueableBuilder (baseObj, aPTList, refType, oIdsSet)
                     </a>
 
                     <div class="methods-toc__description">
@@ -227,10 +265,10 @@
                   </li>
                 </ul>
                 <div class="method public">
-                  <h4 class="method-title " id="ActionPlansBatchBuilder.ActionPlansBatchBuilder">
+                  <h4 class="method-title " id="ActionPlansQueueableBuilder.ActionPlansQueueableBuilder">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilder.cls#L58">
-                      ActionPlansBatchBuilder(baseObj, aPTList, refType, oIdsSet)
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L57">
+                      ActionPlansQueueableBuilder(baseObj, aPTList, refType, oIdsSet)
                     </a>
                   </h4>
                   <div class="method-description">
@@ -241,7 +279,7 @@
                   </div>
 
                   <div class="method-signature">
-                    public ActionPlansBatchBuilder(ActionPlan__c baseObj, List&lt;APTask__c&gt; aPTList, String refType, Set&lt;Id&gt; oIdsSet)
+                    public ActionPlansQueueableBuilder(ActionPlan__c baseObj, List&lt;APTask__c&gt; aPTList, String refType, Set&lt;Id&gt; oIdsSet)
                   </div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">baseObj</div>
@@ -268,111 +306,42 @@
               </div>
             </div>
             <div class="subsection methods">
-              <h3 class="subsection-title methods">ActionPlansBatchBuilder Methods</h3>
+              <h3 class="subsection-title methods">ActionPlansQueueableBuilder Methods</h3>
               <div class="methods-container">
                 <ul class="methods-toc">
                   <li class="method public">
-                    <a class="methods-toc__entry " href="#ActionPlansBatchBuilder.execute">
-                      execute (bc, data)
+                    <a class="methods-toc__entry " href="#ActionPlansQueueableBuilder.execute">
+                      execute (qc)
                     </a>
 
                     <div class="methods-toc__description">
-                      Batch execute method
-                    </div>
-                  </li>
-                  <li class="method public">
-                    <a class="methods-toc__entry " href="#ActionPlansBatchBuilder.finish">
-                      finish (bc)
-                    </a>
-
-                    <div class="methods-toc__description">
-                      Batch finish method. Do nothing.
-                    </div>
-                  </li>
-                  <li class="method public">
-                    <a class="methods-toc__entry " href="#ActionPlansBatchBuilder.start">
-                      start (bc)
-                    </a>
-
-                    <div class="methods-toc__description">
-                      Use the start method to collect the records or objects to be passed to the interface method execute
+                      Instead of a batch, we use queuable because it&#39;s more simple than Batch Apex
                     </div>
                   </li>
                 </ul>
                 <div class="method public">
-                  <h4 class="method-title " id="ActionPlansBatchBuilder.execute">
+                  <h4 class="method-title " id="ActionPlansQueueableBuilder.execute">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilder.cls#L76">
-                      execute(bc, data)
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L66">
+                      execute(qc)
                     </a>
                   </h4>
                   <div class="method-description">
-                    Batch execute method
+                    Instead of a batch, we use queuable because it&#39;s more simple than Batch Apex
                   </div>
                   <div class="method-subtitle">
                     Signature
                   </div>
 
                   <div class="method-signature">
-                    public void execute(Database.BatchableContext bc, List&lt;SObject&gt; data)
+                    public void execute(QueueableContext qc)
                   </div>
                   <div class="method-subtitle">Parameters</div>
-                  <div class="param-name">bc</div>
+                  <div class="param-name">qc</div>
                   <div class="param-type">
-                    Type: <code class="code-inline">Database.BatchableContext</code>
+                    Type: <code class="code-inline">QueueableContext</code>
                   </div>
-                  <div class="param-name">data</div>
-                  <div class="param-type">
-                    Type: <code class="code-inline">List&lt;SObject&gt;</code>
-                  </div>
-                </div>
-                <div class="method public">
-                  <h4 class="method-title " id="ActionPlansBatchBuilder.finish">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilder.cls#L103">
-                      finish(bc)
-                    </a>
-                  </h4>
-                  <div class="method-description">
-                    Batch finish method. Do nothing.
-                  </div>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-
-                  <div class="method-signature">
-                    public void finish(Database.BatchableContext bc)
-                  </div>
-                </div>
-                <div class="method public">
-                  <h4 class="method-title " id="ActionPlansBatchBuilder.start">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBatchBuilder.cls#L67">
-                      start(bc)
-                    </a>
-                  </h4>
-                  <div class="method-description">
-                    Use the start method to collect the records or objects to be passed to the interface method execute
-                  </div>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-
-                  <div class="method-signature">
-                    public Iterable&lt;sObject&gt; start(Database.BatchableContext bc)
-                  </div>
-                  <div class="method-subtitle">Parameters</div>
-                  <div class="param-name">bc</div>
-                  <div class="param-type">
-                    Type: <code class="code-inline">Database.BatchableContext</code>
-                  </div>
-                  <div class="param-description">BatchableContext</div>
-                  <div class="method-subtitle">
-                    Returns
-                  </div>
-                  <div class="method-subtitle-description">
-                    Iterable
-                  </div>
+                  <div class="param-description"><code class="code-inline">QueueableContext</code> (note not <code class="code-inline">BatchableContext</code> which is in Batch Apex)</div>
                 </div>
               </div>
             </div>
