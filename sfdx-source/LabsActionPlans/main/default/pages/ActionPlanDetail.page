@@ -73,7 +73,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				/>
 				<apex:commandButton id="share" action="/p/share/CustomObjectSharingDetail?parentId={!ActionPlan__c.Id}" value="{!$Label.ap_Sharing}" rendered="{!$ObjectType.ActionPlan__c.updateable && canShare}"
 				/>
-				<apex:commandButton action="{!print}" value="{!$Label.ap_Print}" />
 			</apex:pageBlockButtons>
 			<!-- END PAGE BUTTTONS -->
 

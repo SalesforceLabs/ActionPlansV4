@@ -312,16 +312,4 @@ public with sharing class ActionPlanDetailController {
 	public Boolean getCanTransfer() {
 		return ActionPlansUtilities.getCanTransfer(actionPlan.Id);
 	}
-
-	/**
-	 * Show the Print page (simple formatting)
-	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   ActionPlanPrint page
-	 */
-	public PageReference print() {
-		PageReference pr = Page.ActionPlanPrint;
-		pr.getParameters().put('id', actionPlan.Id);
-		pr.setRedirect(true);
-		return pr;
-	}
 }
