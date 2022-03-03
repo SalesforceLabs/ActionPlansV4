@@ -49,6 +49,7 @@ $RECYCLE.BIN/
 
 # metadata format files
 src
+mdconverted
 
 # Test results
 testresults

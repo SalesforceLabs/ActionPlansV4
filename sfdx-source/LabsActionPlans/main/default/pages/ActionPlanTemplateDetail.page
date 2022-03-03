@@ -38,10 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <apex:page id="thePage" tabStyle="ActionPlanTemplate__c" standardController="ActionPlanTemplate__c" extensions="ActionPlanTemplateDetailController"
  lightningStylesheets="true" docType="html-5.0" contentType="text/html">
-	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
-	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_Utilities.js')}" />
-	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_DisplayScripts.js')}" />
-	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery.tablesorter.min.js')}" />
+	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
+	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/ActionPlans_Scripts.js')}" />
+	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery.tablesorter.min.js')}" />
 	<script type="text/javascript">
 		var j$ = jQuery.noConflict();
 		j$(document).ready(function () {

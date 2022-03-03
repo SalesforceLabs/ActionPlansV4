@@ -37,7 +37,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <apex:page lightningStylesheets="true" docType="html-5.0" title="ActionPlansHome" contentType="text/html" tabStyle="Action_Plans_Home__tab">
-	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
+	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
 	<script type="text/javascript">
 		var notAPTAccessible = {!!$ObjectType.ActionPlanTemplate__c.accessible};
 		var notAPAccessible = {!!$ObjectType.ActionPlan__c.accessible};
@@ -74,7 +74,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 			//Hide active tab content
 			j$('div.slds-tabs_default__content').addClass('slds-hide');
-			j$("#tab-default-" + tabIndex).removeClass("slds-hide");
+			j$('#tab-default-' + tabIndex).removeClass('slds-hide');
 
 			//Activate actual tab
 			j$('#tab-default-li-' + tabIndex).addClass('slds-is-active');

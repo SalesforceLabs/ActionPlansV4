@@ -50,9 +50,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		<meta http-equiv="x-ua-compatible" content="ie=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/jquery-3.6.0.min.js')}" />
-		<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_Utilities.js')}" />
-		<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'scripts/ActionPlan_EditScripts.js')}" />
+		<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
+		<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/ActionPlans_Scripts.js')}" />
 		<script>
 			var j$ = jQuery.noConflict();
 			j$(document).ready(function () {
