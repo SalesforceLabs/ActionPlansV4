@@ -142,7 +142,7 @@ public inherited sharing class CanTheUser {
 
 	/**
 	 * Convenience API for determining if the running user can
-	 * read / access the specified objects
+	 * read/access the specified objects
 	 * @param obj object type to check read permissions on
 	 * @return `Boolean`
 	 * @example
@@ -154,7 +154,7 @@ public inherited sharing class CanTheUser {
 
 	/**
 	 * Convenience API for determining if the running user can
-	 * read the specified object
+	 * read/access the specified object
 	 * @param String Object type to check read permissions on
 	 * @return `Boolean`
 	 * @example
@@ -166,7 +166,7 @@ public inherited sharing class CanTheUser {
 
 	/**
 	 * Convenience API for determining if the running user can
-	 * edit / update the specified object
+	 * edit/update the specified object
 	 * @param obj object type to check edit permissions on
 	 * @return `Boolean`
 	 * @example
@@ -178,7 +178,7 @@ public inherited sharing class CanTheUser {
 
 	/**
 	 * Convenience API for determining if the running user can
-	 * edit / update the specified objects
+	 * edit/update the specified objects
 	 * @param obj object type to check edit permissions on
 	 * @return `Boolean`
 	 **/
@@ -188,7 +188,7 @@ public inherited sharing class CanTheUser {
 
 	/**
 	 * Convenience API for determining if the running user can
-	 * edit the specified object
+	 * edit/update the specified object
 	 * @param String Object type to check edit permissions on
 	 * @return `Boolean`
 	 * @example
@@ -212,7 +212,7 @@ public inherited sharing class CanTheUser {
 
 	/**
 	 * Convenience API for determining if the running user can
-	 * edit / update the specified objects
+	 * edit/update the specified objects
 	 * @param obj object type to check upsert permissions on
 	 * @return `Boolean`
 	 * @example
@@ -247,7 +247,7 @@ public inherited sharing class CanTheUser {
 
 	/**
 	 * Convenience API for determining if the running user can
-	 * delete the specified object
+	 * delete/destroy the specified object
 	 * @param String Object type to check delete permissions on
 	 * @return `Boolean`
 	 **/
@@ -270,8 +270,8 @@ public inherited sharing class CanTheUser {
 	/**
 	 * public static method to determine if a given field on a given
 	 * object is Accessible (readable)
-	 * @param obj the object in question, in string form
-	 * @param field the field in question in SObjectField form
+	 * @param obj the object in question, in `String` form (object name)
+	 * @param field the field in question in `String` form (field name)
 	 * @return `Boolean`
 	 * @see getFLSForFieldOnObject
 	 * @example
@@ -285,7 +285,7 @@ public inherited sharing class CanTheUser {
 	 * bulk form of flsAccessible
 	 * @param obj    Obj name on which to check
 	 * @param fields Set of Fields to check for accessibility.
-	 * @return      `Map<String, Boolean>`
+	 * @return      `Map<String, Boolean>` (FieldName, true/false)
 	 * @example
 	 * String[] fields = new String[]{'Name', 'ShippingStreet'};
 	 * System.debug(CanTheUser.bulkFLSAccessible('Account', fields));
@@ -313,10 +313,10 @@ public inherited sharing class CanTheUser {
 	}
 
 	/**
-	 *  bulk form of flsUpdatable call
+	 * bulk form of flsUpdatable call
 	 * @param obj    Name of the object
 	 * @param fields Set of Field names to check
-	 * @return      `Map<String, Boolean>` (FieldName, true)
+	 * @return      `Map<String, Boolean>` (FieldName, true/false)
 	 * @example
 	 * String[] fields = new String[]{'Name', 'ShippingStreet'};
 	 * System.debug(CanTheUser.bulkFLSUpdatable('Account', fields));
