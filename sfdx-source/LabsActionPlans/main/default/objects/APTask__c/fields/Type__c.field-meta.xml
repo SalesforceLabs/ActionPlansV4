@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
 	<label>Type</label>
+	<description>Task Type</description>
 	<required>false</required>
 	<trackTrending>false</trackTrending>
 	<type>Picklist</type>

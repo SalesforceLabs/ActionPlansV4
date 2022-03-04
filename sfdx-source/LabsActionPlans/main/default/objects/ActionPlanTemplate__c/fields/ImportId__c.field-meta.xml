@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<caseSensitive>true</caseSensitive>
 	<externalId>true</externalId>
+	<description>Used when importing an Action Plan Template via XML. Not needed for templates created in this org.</description>
 	<label>ImportId</label>
 	<length>18</length>
 	<required>false</required>

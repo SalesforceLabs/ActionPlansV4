@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
 	<label>Subject</label>
+	<description>Task Subject</description>
 	<length>255</length>
 	<required>true</required>
 	<trackTrending>false</trackTrending>

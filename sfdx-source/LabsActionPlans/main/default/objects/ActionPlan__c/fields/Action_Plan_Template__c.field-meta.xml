@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<deleteConstraint>SetNull</deleteConstraint>
 	<externalId>false</externalId>
+	<description>If the Action Plan was created from a Template, it is related via this field</description>
 	<label>Action Plan Template</label>
 	<referenceTo>ActionPlanTemplate__c</referenceTo>
 	<relationshipLabel>Action Plans</relationshipLabel>

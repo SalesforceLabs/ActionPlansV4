@@ -3,7 +3,7 @@
 	<fullName>IsClosed__c</fullName>
 	<businessStatus>Active</businessStatus>
 	<defaultValue>false</defaultValue>
-	<description>Set via trigger. Used in VIsualforce ActionPlanDetail page logic</description>
+	<description>Set via trigger. Used in Visualforce ActionPlanDetail page logic</description>
 	<externalId>false</externalId>
 	<inlineHelpText>True if the task status is one of the closed statuses in this org</inlineHelpText>
 	<label>Closed</label>

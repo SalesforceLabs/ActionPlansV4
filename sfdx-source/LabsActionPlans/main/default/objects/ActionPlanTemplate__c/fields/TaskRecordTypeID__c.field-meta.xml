@@ -3,6 +3,7 @@
 	<fullName>TaskRecordTypeID__c</fullName>
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
+	<description>The Record Type Id (not label) of the Tasks for this Action Plan</description>
 	<label>Tasks Record Type</label>
 	<length>18</length>
 	<required>false</required>

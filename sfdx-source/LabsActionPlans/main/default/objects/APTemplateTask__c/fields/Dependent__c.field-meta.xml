@@ -3,6 +3,7 @@
 	<fullName>Dependent__c</fullName>
 	<businessStatus>Active</businessStatus>
 	<defaultValue>&quot;None&quot;</defaultValue>
+	<description>The TaskIndex of the controlling task</description>
 	<externalId>false</externalId>
 	<label>Dependent</label>
 	<length>255</length>

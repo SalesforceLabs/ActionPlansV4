@@ -6,6 +6,7 @@
 	<inlineHelpText>Minutes after midnight to show Task reminder</inlineHelpText>
 	<label>Minutes Reminder</label>
 	<length>4</length>
+	<description>Minutes after midnight to show Task reminder. Not shown to user - use the Time_Reminder formula instead.</description>
 	<required>false</required>
 	<trackTrending>false</trackTrending>
 	<type>Text</type>

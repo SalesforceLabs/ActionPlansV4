@@ -5,6 +5,7 @@
 	<deleteConstraint>SetNull</deleteConstraint>
 	<externalId>false</externalId>
 	<label>Account</label>
+	<description>Related Account</description>
 	<referenceTo>Account</referenceTo>
 	<relationshipLabel>Action Plans</relationshipLabel>
 	<relationshipName>Action_Plans</relationshipName>

@@ -4,10 +4,11 @@
 	<businessStatus>Active</businessStatus>
 	<deleteConstraint>SetNull</deleteConstraint>
 	<externalId>false</externalId>
-	<inlineHelpText>If this field is not required, leaving it blank will assign the task to the related record owner.</inlineHelpText>
+	<inlineHelpText>If this field is not required (and the custom setting is set to assign to the related record owner), leaving it blank will assign the task to the related record owner.</inlineHelpText>
 	<label>Assigned To</label>
 	<referenceTo>User</referenceTo>
 	<relationshipName>APTasks</relationshipName>
+	<description>The User who will be assigned the created Task.</description>
 	<required>false</required>
 	<trackTrending>false</trackTrending>
 	<type>Lookup</type>

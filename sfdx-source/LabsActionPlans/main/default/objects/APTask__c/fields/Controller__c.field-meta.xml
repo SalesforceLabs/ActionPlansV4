@@ -5,6 +5,7 @@
 	<deleteConstraint>SetNull</deleteConstraint>
 	<externalId>false</externalId>
 	<label>Controlling Task</label>
+	<description>The controlling task</description>
 	<referenceTo>APTask__c</referenceTo>
 	<relationshipName>Dependent_AP_Tasks</relationshipName>
 	<required>false</required>

@@ -6,6 +6,7 @@
 	<externalId>false</externalId>
 	<label>Contract</label>
 	<referenceTo>Contract</referenceTo>
+	<description>Related Contract</description>
 	<relationshipLabel>Action Plans</relationshipLabel>
 	<relationshipName>Action_Plans</relationshipName>
 	<required>false</required>

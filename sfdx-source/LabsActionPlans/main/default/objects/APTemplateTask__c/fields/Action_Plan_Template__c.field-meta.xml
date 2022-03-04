@@ -5,6 +5,7 @@
     <externalId>false</externalId>
     <label>Action Plan Template</label>
     <referenceTo>ActionPlanTemplate__c</referenceTo>
+	<description>The parent Action Plan Template</description>
     <relationshipLabel>Action Plan Template Tasks</relationshipLabel>
     <relationshipName>aptTasks</relationshipName>
     <relationshipOrder>0</relationshipOrder>

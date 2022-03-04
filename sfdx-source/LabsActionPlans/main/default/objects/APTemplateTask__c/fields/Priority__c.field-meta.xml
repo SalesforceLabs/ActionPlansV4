@@ -5,6 +5,7 @@
 	<externalId>false</externalId>
 	<label>Priority</label>
 	<required>false</required>
+	<description>Task Priority</description>
 	<trackTrending>false</trackTrending>
 	<type>Picklist</type>
 	<valueSet>

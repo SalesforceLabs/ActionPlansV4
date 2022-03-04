@@ -3,6 +3,7 @@
 	<fullName>Comments__c</fullName>
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
+	<description>Text to be copied to Task Description</description>
 	<label>Comments</label>
 	<length>32000</length>
 	<trackTrending>false</trackTrending>
