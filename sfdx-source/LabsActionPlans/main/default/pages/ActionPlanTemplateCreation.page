@@ -159,15 +159,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 							<apex:column>
 								<apex:facet name="header">
-									{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.label}
-									<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
+									<span>
+										{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.label}
+										<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
+									</span>
 								</apex:facet>
 								<apex:inputField value="{!wrapTask.task.DaysFromStart__c}" required="true" id="daysInput" style="width: 50%" />
 							</apex:column>
 
 							<apex:column id="userLookup">
-								<apex:facet name="header">{!$ObjectType.APTemplateTask__c.fields.User__c.label}
-									<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.User__c.inlineHelpText}" src="/s.gif" />
+								<apex:facet name="header">
+									<span>{!$ObjectType.APTemplateTask__c.fields.User__c.label}
+										<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.User__c.inlineHelpText}" src="/s.gif" />
+									</span>
 								</apex:facet>
 								<apex:outputPanel layout="block" id="userPanel" style="z-index:9999;">
 									<apex:inputField value="{!wrapTask.task.User__c}" rendered="{!!lex}" />

@@ -113,17 +113,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
 						</apex:facet>
 					</apex:column>
-
-					<apex:column headerValue="{!$ObjectType.APTask__c.fields.User__c.label}" styleClass="assigned_to_field" style="vertical-align: middle">
+					<apex:column id="userLookup">
+						<apex:facet name="header">
+							{!$ObjectType.APTemplateTask__c.fields.User__c.label}
+							<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.User__c.inlineHelpText}" src="/s.gif" />
+						</apex:facet>
 						<apex:outputField value="{!task.User__c}" />
 					</apex:column>
-
 					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Type__c.label}" value="{!task.Type__c}" style="vertical-align: middle" />
 					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Priority__c.label}" value="{!task.Priority__c}" style="vertical-align: middle"
 					/>
 					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.SendEmail__c.label}" value="{!task.SendEmail__c}" style="vertical-align: middle"
 					/>
-
 					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Reminder__c.label}" style="vertical-align: middle" rendered="{!canDisplayReminder}">
 						<apex:outputPanel layout="block" style="vertical-align: middle">
 							<apex:outputField value="{!task.Reminder__c}" rendered="{!!task.Reminder__c}" />
