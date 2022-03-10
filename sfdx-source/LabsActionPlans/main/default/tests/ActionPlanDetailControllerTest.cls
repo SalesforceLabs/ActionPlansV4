@@ -52,7 +52,7 @@ private class ActionPlanDetailControllerTest {
 
 		ApexPages.currentPage().getParameters().put('id', null);
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
-		System.assertEquals(0, apDetailController.getCompleted());
+		System.assertEquals(0, ActionPlansTestUtilities.getCompleted(null), 'New AP should have no completed tasks');
 		System.assert(apDetailController.getActionPlanTasks().isEmpty(), 'New Action Plan has no tasks');
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
@@ -99,24 +99,6 @@ private class ActionPlanDetailControllerTest {
 
 		//Checks to see that list of tasks is not empty
 		System.assert(apTasks.isEmpty(), 'task list is empty');
-
-		Test.stopTest();
-	}
-
-	@IsTest
-	private static void checkCompletedTasks() {
-		PageReference pageRef = Page.ActionPlanDetail;
-		Test.setCurrentPage(pageRef);
-		Test.startTest();
-
-		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3);
-
-		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
-		Integer completedTasks = apDetailController.getCompleted();
-
-		//verifies number of completed tasks
-		System.assertEquals(0, completedTasks);
 
 		Test.stopTest();
 	}

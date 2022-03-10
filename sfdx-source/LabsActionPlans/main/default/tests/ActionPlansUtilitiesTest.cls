@@ -111,11 +111,24 @@ private class ActionPlansUtilitiesTest {
 	@IsTest
 	private static void testAccount() {
 		System.assert(testObject('Account'));
+		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
+		Test.startTest();
+		delete [SELECT Id FROM Account];
+		Test.stopTest();
+		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Action Plan with Account');
 	}
 
 	@IsTest
 	private static void testContact() {
 		System.assert(testObject('Contact'));
+		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
+		Test.startTest();
+		Account a = [SELECT Id FROM Account];
+		delete a;
+		Test.stopTest();
+		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Contact Action Plan with Account');
+		undelete a;
+		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Contact Action Plan with Account');
 	}
 
 	@IsTest
@@ -150,8 +163,6 @@ private class ActionPlansUtilitiesTest {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apt = testutil.createNewActionPlanTemplate(5);
 
-		Test.startTest();
-
 		ActionPlan__c ap = testutil.createNewActionPlan(objectName, 3);
 
 		ApexPages.currentPage().getParameters().put('refType', objectName);
@@ -166,7 +177,7 @@ private class ActionPlansUtilitiesTest {
 		apcc.apTasks = apcc.getAPTasks();
 
 		apcc.save();
-		Test.stopTest();
+
 		Boolean hasAPTasks = !apcc.apTasks.isEmpty();
 
 		return hasAPTasks;

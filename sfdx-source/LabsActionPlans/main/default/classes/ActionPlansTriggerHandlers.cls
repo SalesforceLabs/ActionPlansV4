@@ -106,9 +106,11 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				if (!apIds.isEmpty()) {
-					deleteActionPlans(apIds);
-					//ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
-					//Database.ExecuteBatch(aPBatch);
+					if(System.isFuture() || System.isBatch()){
+						deleteActionPlans(apIds);
+					} else {
+						futureDeleteActionPlans(apIds);
+					}
 				}
 			}
 			//Undelete related action plans
@@ -264,15 +266,18 @@ global without sharing class ActionPlansTriggerHandlers {
 			when BEFORE_INSERT, BEFORE_UPDATE {
 				for (APTask__c a : newRecords) {
 					a.IsClosed__c = ActionPlansUtilities.getClosedTaskStatuses().contains(a.Status__c);
-					if (a.User__c == null) {
+					a.User__c = a.User__c == null ? UserInfo.getUserId() : a.User__c;
+					/* if (a.User__c == null) {
 						a.User__c = UserInfo.getUserId();
-					}
-					if(a.DaysFromStart__c == null){
+					} */
+					a.DaysFromStart__c = a.DaysFromStart__c == null ? 0 : a.DaysFromStart__c;
+					/* if(a.DaysFromStart__c == null){
 						a.DaysFromStart__c = 0;
-					}
-					if(String.isBlank(a.Dependent__c)){
+					} */
+					a.Dependent__c = (String.isBlank(a.Dependent__c)) ? 'None' : a.Dependent__c;
+					/* if(String.isBlank(a.Dependent__c)){
 						a.Dependent__c = 'None';
-					}
+					} */
 				}
 
 				Set<Id> apIDs = new Set<Id>();
@@ -679,9 +684,11 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				if (!apIds.isEmpty()) {
-					deleteActionPlans(apIds);
-					//ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
-					//Database.executeBatch(aPBatch);
+					if(System.isFuture() || System.isBatch()){
+						deleteActionPlans(apIds);
+					} else {
+						futureDeleteActionPlans(apIds);
+					}
 				}
 			}
 			//Undelete related action plans
@@ -788,7 +795,6 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  relActionPlansIds `ActionPlan__c` IDs
 	 */
-	@future
 	private static void deleteActionPlans(Set<Id> relActionPlansIds) {
 		List<ActionPlan__c> relActionPlans = [SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds];
 		Map<Id, APTask__c> relTaskTemplateMap = new Map<Id, APTask__c>([SELECT Id FROM APTask__c WHERE Action_Plan__c IN :relActionPlansIds]);
@@ -801,5 +807,15 @@ global without sharing class ActionPlansTriggerHandlers {
 		if (!relTaskList.isEmpty()) {
 			List<Database.DeleteResult> results = Database.delete(relTaskList, false); //NOPMD
 		}
+	}
+
+	/**
+	 * Given actionplanIDs, delete these Action Plans AND their open Tasks in future context
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @param  relActionPlansIds `ActionPlan__c` IDs
+	 */
+	@future
+	private static void futureDeleteActionPlans(Set<Id> relActionPlansIds) {
+		deleteActionPlans(relActionPlansIds);
 	}
 }

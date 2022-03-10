@@ -65,7 +65,7 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.onLoad();
-		System.assertEquals(0, apCreateController.getCompleted(), 'New AP should have no completed tasks');
+		System.assertEquals(0, ActionPlansTestUtilities.getCompleted(actionPlan.Id), 'New AP should have no completed tasks');
 		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 		apCreateController.getAllRelationshipFields();
 		System.assertEquals('', apCreateController.getTemplateName());
@@ -97,7 +97,7 @@ private class ActionPlanCreationControllerTest {
 		ApexPages.currentPage().getParameters().put('id', null);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(new ActionPlan__c()));
 		apCreateController.onLoad();
-		System.assertEquals(0, apCreateController.getCompleted());
+		System.assertEquals(0, ActionPlansTestUtilities.getCompleted(apCreateController.actionPlan.Id), 'New AP should have no completed tasks');
 		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -293,8 +293,7 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.save();
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
-		System.assertEquals(0, apCreateController.getCompleted(), 'Action plan task completed count is incorrect');
-
+		System.assertEquals(0, ActionPlansTestUtilities.getCompleted(actionPlan.Id), 'New AP should have no completed tasks');
 		Task openTask = [SELECT Id, IsClosed, Status FROM Task LIMIT 1];
 		for (String s : ActionPlansUtilities.getClosedTaskStatuses()) {
 			try {
@@ -308,7 +307,7 @@ private class ActionPlanCreationControllerTest {
 		update openTask;
 		Test.stopTest();
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
-		System.assertEquals(1, apCreateController.getCompleted(), 'The completed Task should have been reflected in the Action Plan');
+		System.assertEquals(1, ActionPlansTestUtilities.getCompleted(actionPlan.Id), 'The completed Task should have been reflected in the Action Plan');
 	}
 
 	@IsTest

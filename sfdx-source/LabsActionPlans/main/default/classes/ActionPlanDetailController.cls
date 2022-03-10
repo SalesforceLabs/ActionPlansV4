@@ -201,20 +201,6 @@ public with sharing class ActionPlanDetailController {
 	}
 
 	/**
-	 * Returns number of completed tasks for this Action Plan
-	 * @return Number of completed tasks
-	 */
-	public Integer getCompleted() {
-		if (actionPlan.Id == null) {
-			return 0;
-		}
-
-		List<APTask__c> ts = [SELECT Id FROM APTask__c WHERE Status__c IN :ActionPlansUtilities.getClosedTaskStatuses() AND ActivityDate__c != NULL AND Action_Plan__c = :actionPlan.Id];
-
-		return (ts != null) ? ts.size() : 0;
-	}
-
-	/**
 	 * Checks if Action Plan Template has been changed since the creation of the Action Plan.
 	 * @return Was the AP's template modified after the Action Plan was created?
 	 */

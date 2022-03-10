@@ -70,13 +70,13 @@ public inherited sharing class ActionPlansTestUtilities {
 	/**
 	 * Make a random `String` with a specific prefix and a random `Integer`
 	 * @param  prefix The prefix
-	 * @return        the random word
+	 * @return       `String` The random word
 	 * @example
 	 * createRandomWord('test');
 	 * test123456
 	 */
 	public String createRandomWord(String prefix) {
-		String ret = prefix + math.rint(math.random() * 100000);
+		String ret = prefix + math.rint(math.random() * 10000000);
 		return ret;
 	}
 
@@ -97,7 +97,7 @@ public inherited sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Creates a new User
+	 * Creates a new User with a specific profile
 	 * @param p Profile (not the Id)
 	 * @return `User` Testuser
 	 */
@@ -348,7 +348,11 @@ public inherited sharing class ActionPlansTestUtilities {
 				newActionPlan.Case__c = this.createNewCase().Id;
 			}
 			when 'contact' {
-				newActionPlan.Contact__c = this.createNewContact().Id;
+				Account a = this.createNewAccount();
+				Contact c = this.createNewContact(false);
+				c.AccountId = a.Id;
+				insert c;
+				newActionPlan.Contact__c = c.Id;
 			}
 			when 'contract' {
 				newActionPlan.Contract__c = this.createNewContract().Id;
@@ -363,7 +367,6 @@ public inherited sharing class ActionPlansTestUtilities {
 
 		insert newActionPlan;
 
-		//APTask__c auxTask = new APTask__c();
 		User user = this.createTestUser();
 
 		List<APTask__c> apttToInsert = new List<APTask__c>();
@@ -524,5 +527,17 @@ public inherited sharing class ActionPlansTestUtilities {
 			}
 		}
 		return notdefaultRecordTypeId;
+	}
+
+	/**
+	 * Retrieves number of completed tasks (that have an activity date)
+	 * @param actionPlanId Id of Action Plan so we can query closed/completed Tasks
+	 * @return `Integer` Count of completed tasks for this Action Plan
+	 */
+	public static Integer getCompleted(Id actionPlanId) {
+		if (actionPlanId == null) {
+			return 0;
+		}
+		return [SELECT COUNT() FROM APTask__c WHERE Status__c IN :ActionPlansUtilities.getClosedTaskStatuses() AND ActivityDate__c != NULL AND Action_Plan__c = :actionPlanId];
 	}
 }

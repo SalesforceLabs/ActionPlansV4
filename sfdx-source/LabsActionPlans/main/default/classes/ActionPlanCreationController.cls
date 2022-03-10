@@ -641,18 +641,6 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
-	 * Retrieves number of completed tasks
-	 * @return Integer
-	 */
-	public Integer getCompleted() {
-		if (actionPlan.Id == null) {
-			return 0;
-		}
-
-		return [SELECT COUNT() FROM APTask__c WHERE Status__c IN :ActionPlansUtilities.getClosedTaskStatuses() AND ActivityDate__c != NULL AND Action_Plan__c = :actionPlan.Id];
-	}
-
-	/**
 	 * Creates a blank `APTask__c` record and adds it to apTasks
 	 * @return The `APTask__c` we are adding
 	 */
@@ -1365,7 +1353,7 @@ public with sharing class ActionPlanCreationController {
 		 * Does blank User field default to parent owner?
 		 * <br>Could that make the User lookup required?
 		 */
-		public Boolean assignToOwner { get; set; }
+		private Boolean assignToOwner { get; set; }
 
 		/**
 		 * Constructor for wrapper to display related `APTask__c` records on `ActionPlan__c` create/edit page
