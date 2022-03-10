@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @author Rodrigo Birriel
  * @author {@link [David Schach](https://github.com/dschach)}
  * @since v3
+ * @deprecated Appears never to have been used
  * @group Asynchronous
  */
 public without sharing class ActionPlansBatchTaskBuilder implements Database.Batchable<SObject>, Database.Stateful {

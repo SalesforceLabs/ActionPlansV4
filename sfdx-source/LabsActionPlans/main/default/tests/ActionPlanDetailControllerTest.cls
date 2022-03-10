@@ -59,7 +59,7 @@ private class ActionPlanDetailControllerTest {
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
-
+		System.assertEquals('Account', apDetailController2.getRelatedObjectLabel());
 		apDetailController2.getCanTransfer();
 		apDetailController2.getCanShare();
 
@@ -203,6 +203,7 @@ private class ActionPlanDetailControllerTest {
 		ActionPlanDetailController apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		String recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
+		System.assertEquals('Account', apdc.getRelatedObjectLabel());
 
 		actionPlan = testUtil.createNewActionPlan('campaign', 0);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
@@ -221,6 +222,7 @@ private class ActionPlanDetailControllerTest {
 		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
+		System.assertEquals('Contact', apdc.getRelatedObjectLabel());
 
 		actionPlan = testUtil.createNewActionPlan('contract', 0);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);

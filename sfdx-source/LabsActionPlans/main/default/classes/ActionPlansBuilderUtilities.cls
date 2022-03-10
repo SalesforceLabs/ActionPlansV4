@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @see ActionPlanCreationController
  * @see ActionPlansQueueableBuilder
  */
-public inherited sharing class ActionPlansBatchBuilderUtilities {
+public inherited sharing class ActionPlansBuilderUtilities {
 	private List<APTask__c> baseAPTaskList { get; set; }
 
 	private List<ActionPlan__c> relActionPlans { get; set; }
@@ -75,7 +75,7 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	 * @param refType      Related object Name
 	 * @param oIdsLIst     Parent IDs
 	 */
-	public ActionPlansBatchBuilderUtilities(ActionPlan__c baseObj, List<APTask__c> aPTListparam, String refType, Set<Id> oIdsLIst) {
+	public ActionPlansBuilderUtilities(ActionPlan__c baseObj, List<APTask__c> aPTListparam, String refType, Set<Id> oIdsLIst) {
 		this.baseAPTaskList = aPTListparam;
 		this.relActionPlans = new List<ActionPlan__c>();
 		this.relatedObjectName = refType;
@@ -112,30 +112,12 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 	}
 
 	/**
-	 * Iterable method for batch
-	 * @param bc    BatchableContext automatically passed
-	 * @return      `Iterable<sObject>`
-	 */
-	public Iterable<sObject> getObjects(Database.BatchableContext bc) {
-		return relActionPlans;
-	}
-
-	/**
-	 * Send Action Plan records to queueable
-	 * @return      `List<ActionPlan__c>`
-	 */
-	public List<ActionPlan__c> getObjects() {
-		return relActionPlans;
-	}
-
-	/**
 	 * Generate Action Plans from parameters passed to this class
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   the `Id` of the first created `ActionPlan__c`
+	 * @return   `Id` of the first created `ActionPlan__c`
 	 */
 	public Id generateActionPlans() {
 		List<APTask__c> aptList = new List<APTask__c>();
-		//List<Id> aptTOTALListId = new List<Id>();
 		Map<Id, APTask__c> mapAP = new Map<Id, APTask__c>();
 		Map<Id, ActionPlan__c> mapIDAP = new Map<Id, ActionPlan__c>();
 		ActionPlan__c apAux;
@@ -193,8 +175,6 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 				if (at.Action_Plan__c != null && at.Action_Plan__c != ap.Id) {
 					continue;
 				}
-
-				//aptTOTALListId.add(at.Id);
 
 				if (at.Action_Plan__c == null && ap.Id != null) {
 					at.Action_Plan__c = ap.Id;
@@ -301,19 +281,11 @@ public inherited sharing class ActionPlansBatchBuilderUtilities {
 					String relatedObject = fieldMap.get(s).getDescribe().getReferenceTo()[0].getDescribe().getName();
 					if (relatedObject.equalsIgnoreCase(relatedObjectName)) {
 						t.WhatId = (Id) apAux.get(s);
-						System.debug('Do not set what. Set who');
+						System.debug('Relate WhatId to ' + relatedObject);
 						break;
 					} else {
 						System.debug('No match on ' + s);
 					}
-					/* System.debug('iterating on field ' + s);
-				System.debug(' with value ' + apAux?.get(s));
-				if (!s.endsWithIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') && !s.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') && apAux?.get(s) != null) {
-					t.WhatId = (Id) apAux.get(s);
-					setWho = false;
-					System.debug('Do not set what. Set who');
-					break;
-				} */
 				}
 			}
 

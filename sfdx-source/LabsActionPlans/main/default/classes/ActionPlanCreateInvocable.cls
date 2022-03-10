@@ -126,7 +126,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
 
-		Map<Id, Id> relatedObjectOwners = ActionPlansBatchBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs);
+		Map<Id, Id> relatedObjectOwners = ActionPlansBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs);
 
 		Set<String> actionPlanFields = Schema.SObjectType.ActionPlan__c.fields.getMap().keyset();
 
@@ -354,7 +354,7 @@ global without sharing class ActionPlanCreateInvocable {
 		}
 
 		if (mySettings != null && mySettings.Chatter_Object_Brag__c) {
-			ActionPlansBatchBuilderUtilities.generateObjectFeeds(relObjectIDs);
+			ActionPlansBuilderUtilities.generateObjectFeeds(relObjectIDs);
 		}
 
 		for (CreateActionPlanRequest request : requests) {

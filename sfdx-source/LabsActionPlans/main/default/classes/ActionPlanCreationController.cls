@@ -157,6 +157,7 @@ public with sharing class ActionPlanCreationController {
 
 		// clear task relations
 		for (APTask__c t : this.apTasks) {
+			t.IsClosed__c = false;
 			t.Action_Plan__c = null;
 		}
 		String templateName = actionPlan.Action_Plan_Template__r.Name;
@@ -430,9 +431,6 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public PageReference save() {
 		PageReference pageRef = null;
-		if (!this.actionPlan.SkipWeekends__c) {
-			this.actionPlan.SkipDay__c = null;
-		}
 
 		try {
 			if (!this.checkCycleDependent()) {
@@ -450,7 +448,7 @@ public with sharing class ActionPlanCreationController {
 	 * Saves Action Plan Instance and task. Also creates all due dates for tasks, then redirects to the AP list
 	 * @return `Id` Action Plan Id
 	 */
-	private Id saveAp() {
+	private Id saveSingleAP() {
 		Id actionPlanId;
 		Id objId;
 		String objName;
@@ -462,7 +460,7 @@ public with sharing class ActionPlanCreationController {
 					System.debug('objId: ' + objId);
 					Schema.DescribeSObjectResult dsr = objId.getSObjectType().getDescribe();
 					objName = dsr.getName();
-					System.debug('saveAP objName = ' + objName);
+					System.debug('saveSingleAP objName = ' + objName);
 					break;
 				}
 			}
@@ -471,6 +469,7 @@ public with sharing class ActionPlanCreationController {
 		} else {
 			objName = refType;
 			oIdsList = parseRelatedIDs(refId);
+			System.debug('objName : ' + objName + ' with IDs ' + refId);
 		}
 
 		//check for pendingDeletes
@@ -485,8 +484,8 @@ public with sharing class ActionPlanCreationController {
 			} else {
 				System.debug('Running batch builder utilities');
 				System.debug('Account value ' + actionPlan.Account__c);
-				ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(actionPlan, this.apTasks, objName, parentIDs);
-				actionPlanId = taskBatch.generateActionPlans();
+				ActionPlansBuilderUtilities buildUtil = new ActionPlansBuilderUtilities(actionPlan, this.apTasks, objName, parentIDs);
+				actionPlanId = buildUtil.generateActionPlans();
 			}
 		}
 		return actionPlanId;
@@ -497,7 +496,7 @@ public with sharing class ActionPlanCreationController {
 	 * @return newPage
 	 */
 	public PageReference saveAndNew() {
-		saveAp();
+		save();
 
 		PageReference newPage = Page.ActionPlanCreation;
 		newPage.setRedirect(true);
@@ -511,7 +510,7 @@ public with sharing class ActionPlanCreationController {
 	 * @return Pagereference (null or ActionPlansHome with confirmation)
 	 */
 	@TestVisible
-	private PageReference saveMultiple() {
+	private PageReference saveMultipleAP() {
 		String oIds = ActionPlansUtilities.getEscapedPageParameter('refId');
 
 		List<Id> oIdsList = new List<Id>();
@@ -545,16 +544,19 @@ public with sharing class ActionPlanCreationController {
 	 * @return Pagereference called Method
 	 * @see ActionPlanCreationController.save
 	 * @see ActionPlanCreationController.savePageRef
-	 * @see ActionPlanCreationController.saveMultiple
+	 * @see ActionPlanCreationController.saveMultipleAP
 	 */
 	private PageReference saveHandler() {
+		if (!this.actionPlan.SkipWeekends__c) {
+			this.actionPlan.SkipDay__c = null;
+		}
 		String oIds = ActionPlansUtilities.getEscapedPageParameter('refId');
 		List<Id> oIdsList = new List<Id>();
 
 		if (oIds != null) {
 			oIdsList = parseRelatedIDs(oIds);
 			System.debug('oidslist: ' + oIdsList);
-			return (oIdsList.size() > 1) ? this.saveMultiple() : this.savePageRef();
+			return (oIdsList.size() > 1) ? this.saveMultipleAP() : this.savePageRef();
 		} else {
 			return this.savePageRef();
 		}
@@ -563,14 +565,14 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Saves Action Plan Instance and tasks and redirects to that detail page
 	 * @return newPage
-	 * @see ActionPlanCreationController.saveAp
+	 * @see ActionPlanCreationController.saveSingleAP
 	 */
 	private PageReference savePageRef() {
 		Id newApId;
 		//String ap_Prefix;
 
 		try {
-			newApId = saveAp();
+			newApId = saveSingleAP();
 		} catch (DmlException e) {
 			System.debug('savePageRef_dmlexception ' + e.getMessage());
 			Apexpages.addMessages(e);

@@ -145,17 +145,16 @@ private class ActionPlanCreationControllerTest {
 
 	@IsTest
 	private static void testActionPlanSave() {
-		Test.setCurrentPage(Page.ActionPlanCreation);
+		ActionPlan__c ap = new ActionPlansTestUtilities().createNewActionPlan('contact', 3);
 
-		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testUtil.createNewActionPlan('contact', 3);
 		Contact contact = [SELECT Id FROM Contact LIMIT 1];
 
+		Test.startTest();
+
+		Test.setCurrentPage(Page.ActionPlanCreation);
 		ApexPages.currentPage().getParameters().put('id', ap.Id);
 		ApexPages.currentPage().getParameters().put('refId', contact.Id);
 		ApexPages.currentPage().getParameters().put('refType', 'Contact');
-
-		Test.startTest();
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(ap));
 
@@ -163,9 +162,15 @@ private class ActionPlanCreationControllerTest {
 
 		apCreateController.save();
 
+		System.assertEquals(3, [SELECT COUNT() FROM Task]);
+
+		APTask__c aptEmail = [SELECT Id, SendEmail__c FROM APTask__c LIMIT 1];
+		aptEmail.SendEmail__c = true;
+		update aptEmail;
+
 		Test.setCurrentPage(Page.ActionPlanCreation);
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(ap));
-
+		apCreateController.getTasks();
 		apCreateController.actionPlan.SkipWeekends__c = true;
 		apCreateController.actionPlan.SkipDay__c = 'End of previous week';
 
@@ -392,6 +397,7 @@ private class ActionPlanCreationControllerTest {
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
 		apCreateController.getTasks();
+		apCreateController.getTasks()[0].apt.SendEmail__c = true;
 		apCreateController.removeTask();
 		apCreateController.save();
 
@@ -666,11 +672,7 @@ private class ActionPlanCreationControllerTest {
 		newAPTask.Priority__c = 'Normal';
 		newAPTask.Minutes_Reminder__c = '510';
 		apCreateController.apTasks.add(newAPTask);
-
 		apCreateController.save();
-		/* ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(apCreateController.actionPlan, apTasks, null, new Set<Id>());
-		 taskBatch.generateActionPlans(); */
-
 		Test.stopTest();
 		APTask__c testAPTask = [SELECT Id, Task_RecordTypeId__c, Action_Plan__c FROM APTask__c LIMIT 1];
 		System.assertNotEquals(null, testAPTask.Task_RecordTypeId__c, 'Even a master record type should have been set');

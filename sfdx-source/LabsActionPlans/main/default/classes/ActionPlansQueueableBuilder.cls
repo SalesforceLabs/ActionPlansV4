@@ -44,8 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Asynchronous
  */
 public inherited sharing class ActionPlansQueueableBuilder implements Queueable {
-	private ActionPlansBatchBuilderUtilities taskBatch;
-	private List<ActionPlan__c> actionPlans;
+	private ActionPlansBuilderUtilities builtUtil;
 
 	/**
 	 * Constructor
@@ -55,8 +54,7 @@ public inherited sharing class ActionPlansQueueableBuilder implements Queueable 
 	 * @param oIdsSet IDs of related parents
 	 */
 	public ActionPlansQueueableBuilder(ActionPlan__c baseObj, List<APTask__c> aPTList, String refType, Set<Id> oIdsSet) {
-		this.taskBatch = new ActionPlansBatchBuilderUtilities(baseObj, aPTList, refType, oIdsSet);
-		this.actionPlans = taskBatch.getObjects();
+		this.builtUtil = new ActionPlansBuilderUtilities(baseObj, aPTList, refType, oIdsSet);
 	}
 
 	/**
@@ -65,7 +63,7 @@ public inherited sharing class ActionPlansQueueableBuilder implements Queueable 
 	 */
 	public void execute(QueueableContext qc) {
 		try {
-			this.taskBatch.generateActionPlans();
+			this.builtUtil.generateActionPlans();
 			if (ActionPlansTestUtilities.forceError) {
 				// A way to force an error without trying to create an SObject record
 				String str = null;

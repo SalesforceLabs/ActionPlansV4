@@ -270,6 +270,9 @@ global without sharing class ActionPlansTriggerHandlers {
 					if(a.DaysFromStart__c == null){
 						a.DaysFromStart__c = 0;
 					}
+					if(String.isBlank(a.Dependent__c)){
+						a.Dependent__c = 'None';
+					}
 				}
 
 				Set<Id> apIDs = new Set<Id>();
@@ -718,6 +721,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * Validate that 1 and only 1 custom reference field is filled
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  actionPlans Trigger records to validate
+	 * @see ActionPlansBatchDelete
 	 */
 	private static void validateActionPlans(List<ActionPlan__c> actionPlans) {
 		List<String> actionPlanReferenceFields = ActionPlansUtilities.getCustomRelationshipFields();
