@@ -34,7 +34,7 @@ You can create Action Plans for the following objects:
 
 ## Getting Help
 
-Action Plans is unsupported. For community assistance with Action Plans, please visit [Salesforce Trailblazer Community](https://trailblazers.salesforce.com/). To submit ideas or issues, please visit [Action Plans on Github](https://github.com/SalesforceLabs/ActionPlans).
+Action Plans is unsupported. For community assistance with Action Plans, please visit [Salesforce Trailblazer Community](https://trailblazers.salesforce.com/). To submit ideas or issues, please visit [Action Plans on Github](https://github.com/SalesforceLabs/ActionPlansv4).
 
 ## Community
 
