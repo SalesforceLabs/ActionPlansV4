@@ -113,6 +113,9 @@
               <li title="ActionPlansBatchBuilderUtilities" id="item-ActionPlansBatchBuilderUtilities" class="nav-item class public" onclick="goToLocation('ActionPlansBatchBuilderUtilities.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansBatchBuilderUtilities</a>
               </li>
+              <li title="ActionPlansBuilderUtilities" id="item-ActionPlansBuilderUtilities" class="nav-item class public" onclick="goToLocation('ActionPlansBuilderUtilities.html');">
+                <a tabindex="1" href="javascript:void(0)">ActionPlansBuilderUtilities</a>
+              </li>
               <li title="ActionPlansPostInstallScript" id="item-ActionPlansPostInstallScript" class="nav-item class global" onclick="goToLocation('ActionPlansPostInstallScript.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansPostInstallScript</a>
               </li>
@@ -265,6 +268,15 @@
 
                     <div class="methods-toc__description">
                       When inserting or updating Action Plan records, fill the text parent object <code class="code-inline">Related Object</code> and parent record <code class="code-inline">Related Record</code> fields
+                    </div>
+                  </li>
+                  <li class="method private">
+                    <a class="methods-toc__entry " href="#ActionPlansTriggerHandlers.futureDeleteActionPlans">
+                      futureDeleteActionPlans (relActionPlansIds)
+                    </a>
+
+                    <div class="methods-toc__description">
+                      Given actionplanIDs, delete these Action Plans AND their open Tasks in future context
                     </div>
                   </li>
                   <li class="method private">
@@ -437,7 +449,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.allowChangeParentStatus">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L772">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L783">
                       allowChangeParentStatus(apTaskTemplateIds)
                     </a>
                   </h4>
@@ -467,7 +479,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.deleteActionPlans">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L788">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L798">
                       deleteActionPlans(relActionPlansIds)
                     </a>
                   </h4>
@@ -477,7 +489,7 @@
                   <div class="method-subtitle">
                     Signature
                   </div>
-                  <div class="method-annotations">@future</div>
+
                   <div class="method-signature">
                     private static void deleteActionPlans(Set&lt;Id&gt; relActionPlansIds)
                   </div>
@@ -497,7 +509,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.fillRelatedRecordFields">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L226">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L228">
                       fillRelatedRecordFields(newRecords)
                     </a>
                   </h4>
@@ -525,9 +537,39 @@
                   </div>
                 </div>
                 <div class="method private">
+                  <h4 class="method-title " id="ActionPlansTriggerHandlers.futureDeleteActionPlans">
+
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L818">
+                      futureDeleteActionPlans(relActionPlansIds)
+                    </a>
+                  </h4>
+                  <div class="method-description">
+                    Given actionplanIDs, delete these Action Plans AND their open Tasks in future context
+                  </div>
+                  <div class="method-subtitle">
+                    Signature
+                  </div>
+                  <div class="method-annotations">@future</div>
+                  <div class="method-signature">
+                    private static void futureDeleteActionPlans(Set&lt;Id&gt; relActionPlansIds)
+                  </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">relActionPlansIds</div>
+                  <div class="param-type">
+                    Type: <code class="code-inline">Set&lt;Id&gt;</code>
+                  </div>
+                  <div class="param-description"><code class="code-inline">ActionPlan__c</code> IDs</div>
+                  <div class="method-subtitle">
+                    Author
+                  </div>
+                  <div class="method-subtitle-description">
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
+                  </div>
+                </div>
+                <div class="method private">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.getRelationshipName">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L746">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L757">
                       getRelationshipName(recordId)
                     </a>
                   </h4>
@@ -557,7 +599,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlan">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L142">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L144">
                       triggerhandlerActionPlan(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -607,7 +649,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlanAccount">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L646">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L654">
                       triggerhandlerActionPlanAccount(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -657,7 +699,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlanLead">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L595">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L603">
                       triggerhandlerActionPlanLead(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -707,7 +749,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlanTask">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L262">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L264">
                       triggerhandlerActionPlanTask(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -757,7 +799,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlanTemplate">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L346">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L354">
                       triggerhandlerActionPlanTemplate(newRecords, oldRecords, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -802,7 +844,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerActionPlanTemplateTask">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L383">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L391">
                       triggerhandlerActionPlanTemplateTask(newRecords, oldRecords, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -847,7 +889,7 @@
                 <div class="method public">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.triggerhandlerTask">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L434">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L442">
                       triggerhandlerTask(newRecords, oldRecords, triggerEvent)
                     </a>
                   </h4>
@@ -887,7 +929,7 @@
                 <div class="method private">
                   <h4 class="method-title " id="ActionPlansTriggerHandlers.validateActionPlans">
 
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L722">
+                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L733">
                       validateActionPlans(actionPlans)
                     </a>
                   </h4>
@@ -907,6 +949,12 @@
                     Type: <code class="code-inline">List&lt;ActionPlan__c&gt;</code>
                   </div>
                   <div class="param-description">Trigger records to validate</div>
+                  <div class="method-subtitle">
+                    See
+                  </div>
+                  <div class="method-subtitle-description">
+                    <a href="javascript:void(0)" onclick="goToLocation('ActionPlansBatchDelete.html')">ActionPlansBatchDelete</a>
+                  </div>
                   <div class="method-subtitle">
                     Author
                   </div>
