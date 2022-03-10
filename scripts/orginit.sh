@@ -10,10 +10,6 @@ sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-proje
 echo "Creating new scratch org"
 sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -c -n -d 7
 
-# For use with developer edition or sandbox
-#echo "Pushing source..."
-#sfdx force:source:deploy -p sfdx-source/LabsActionPlans
-
 # For use with namespaced scratch org n package development process
 echo "Pushing unmanaged metadata"
 sfdx force:source:push
@@ -33,5 +29,6 @@ sfdx force:apex:execute -f ./data/sample-data.apex
 
 # To install sample Flow and other metadata
 # sfdx force:source:deploy -p sfdx-source/unmanaged
+
 echo "opening org"
 sfdx force:org:open

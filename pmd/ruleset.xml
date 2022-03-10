@@ -177,9 +177,9 @@
 		<priority>4</priority>
 	</rule>
 
-	<rule ref="category/apex/security.xml/ApexCRUDViolation" message="Validate CRUD permission before SOQL/DML operation">
+	<!-- <rule ref="category/apex/security.xml/ApexCRUDViolation" message="Validate CRUD permission before SOQL/DML operation">
 		<priority>4</priority>
-	</rule>
+	</rule> -->
 
 	<rule ref="category/apex/security.xml/ApexDangerousMethods" message="Calling potentially dangerous method">
 		<priority>3</priority>
