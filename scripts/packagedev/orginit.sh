@@ -8,7 +8,7 @@ echo "Clearing namespace"
 sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-project.json
 
 echo "Creating new scratch org"
-sfdx force:org:create --definitionfile config/project-scratch-def.json --setalias ActionPlans --setdefaultusername --nonamespace --durationdays 7 --noancestors
+sfdx force:org:create --definitionfile config/project-scratch-def.json --setalias ActionPlans --nonamespace --setdefaultusername --durationdays 7 --noancestors
 
 # For use with namespaced scratch org n package development process
 echo "Pushing unmanaged metadata"
@@ -28,7 +28,7 @@ echo "Loading sample data"
 sfdx force:apex:execute -f ./data/sample-data.apex
 
 # To install sample Flow and other metadata
-# sfdx force:source:deploy -p sfdx-source/unmanaged
+sfdx force:source:deploy -p sfdx-source/unmanaged
 
 echo "opening org"
 sfdx force:org:open
