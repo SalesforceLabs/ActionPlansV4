@@ -8,7 +8,7 @@ echo "Clearing namespace"
 sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-project.json
 
 echo "Creating new scratch org"
-sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -c -n -d 7
+sfdx force:org:create --definitionfile config/project-scratch-def.json --setalias ActionPlans --setdefaultusername --nonamespace --durationdays 7 --noancestors
 
 # For use with namespaced scratch org n package development process
 echo "Pushing unmanaged metadata"

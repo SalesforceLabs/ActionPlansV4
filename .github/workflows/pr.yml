@@ -29,7 +29,7 @@ jobs:
 
       # Run PMD scan
       - name: 'Run PMD scan'
-        run: ~/pmd/bin/run.sh pmd -d sfdx-source/LabsActionPlans -R pmd/deployRules.xml -f text --cache .pmdCache -min 2
+        run: ~/pmd/bin/run.sh pmd -d sfdx-source/LabsActionPlans -R pmd/deployRules.xml -f text --cache .pmdCache --min 2
 
       # Install Salesforce CLI
       - name: 'Install Salesforce CLI'
@@ -62,7 +62,7 @@ jobs:
 
       # Create scratch org
       - name: 'Create scratch org'
-        run: sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -d 1 -w 20
+        run: sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -d 1 -w 20 --noancestors
 
       # Deploy source to scratch org
       - name: 'Push source to scratch org'
