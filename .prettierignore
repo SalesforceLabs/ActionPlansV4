@@ -7,11 +7,12 @@
 .vscode
 
 data/
-scripts/
+scripts/soql/**
 node_modules/
 *.md
 coverage/
-docs/assets/
+docs/assets/*
+!docs/*
 *-meta.xml
 data/
 **/staticresources/ActionPlan_Resources/js/jquery*
