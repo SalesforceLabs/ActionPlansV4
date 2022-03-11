@@ -45,15 +45,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ActionPlansBatchBuilderUtilities</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansBatchDelete</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionPlansBatchTaskBuilder</apexClass>
+        <apexClass>ActionPlansBuilderUtilities</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

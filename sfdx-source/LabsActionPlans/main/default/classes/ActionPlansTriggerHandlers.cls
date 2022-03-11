@@ -193,7 +193,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			//Execution when an Action Plan is deleted: delete all asociated Tasks
 			when BEFORE_DELETE {
 				Set<Id> taskIds = new Set<Id>();
-				if (!System.isBatch() && !System.isFuture()) {
+				if (!System.isBatch() && !System.isFuture() && !System.isQueueable()) {
 					// if action plan is deleted, delete all tasks associated with it
 					for (Task ap : [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__r.Action_Plan__c IN :oldRecordsMap.keyset()]) {
 						taskIds.add(ap.Id);
@@ -581,7 +581,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				if (!finalIds.isEmpty()) {
-					if (System.isBatch() || System.isFuture()) {
+					if (System.isBatch() || System.isFuture() || System.isQueueable()) {
 						Database.delete([SELECT Id FROM APTask__c WHERE Id IN :finalIds]);
 					} else {
 						ActionPlansTaskTriggerUtilities.deleteAPTasks(finalIds);
@@ -728,7 +728,6 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * Validate that 1 and only 1 custom reference field is filled
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  actionPlans Trigger records to validate
-	 * @see ActionPlansBatchDelete
 	 */
 	private static void validateActionPlans(List<ActionPlan__c> actionPlans) {
 		List<String> actionPlanReferenceFields = ActionPlansUtilities.getCustomRelationshipFields();

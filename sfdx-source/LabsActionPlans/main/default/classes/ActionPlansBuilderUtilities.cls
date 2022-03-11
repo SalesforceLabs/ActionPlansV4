@@ -37,7 +37,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * Batch Utilities class
+ * Builder Utilities class
  * @author Rodrigo Birriel
  * @author {@link [David Schach](https://github.com/dschach)}
  * @group Utilities

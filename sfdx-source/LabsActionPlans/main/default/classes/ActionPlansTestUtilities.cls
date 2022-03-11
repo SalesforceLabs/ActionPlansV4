@@ -464,12 +464,12 @@ public inherited sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Create Environment for Batch Process
+	 * Create Environment for Queueable Process
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  relatedObject The parent Object for the created Action Plans
 	 * @return `List<Id>` The list of created Action Plan Task IDs
 	 */
-	public List<Id> batchIds(String relatedObject) {
+	/* public List<Id> batchIds(String relatedObject) {
 		ActionPlan__c ap = this.createNewActionPlan(relatedObject, 0);
 		List<Id> apTasksIds = new List<Id>();
 
@@ -504,7 +504,7 @@ public inherited sharing class ActionPlansTestUtilities {
 		apTasksIds.add(at.Id);
 
 		return apTasksIds;
-	}
+	} */
 
 	/**
 	 * Find a non-default Task Record Type

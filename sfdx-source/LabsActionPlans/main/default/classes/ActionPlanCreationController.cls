@@ -482,7 +482,7 @@ public with sharing class ActionPlanCreationController {
 			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()) {
 				System.enqueueJob(new ActionPlansQueueableBuilder(actionPlan, this.apTasks, objName, parentIDs));
 			} else {
-				System.debug('Running batch builder utilities');
+				System.debug('Running builder utilities');
 				System.debug('Account value ' + actionPlan.Account__c);
 				ActionPlansBuilderUtilities buildUtil = new ActionPlansBuilderUtilities(actionPlan, this.apTasks, objName, parentIDs);
 				actionPlanId = buildUtil.generateActionPlans();
@@ -506,7 +506,7 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Save Action Plans for Multiple Related Object Instances.
-	 * <br>Invokes batch process that creates : ActionPlan, ActionPlanTasksTemplate AND Tasks
+	 * <br>Invokes queueable process that creates : ActionPlan, ActionPlanTasksTemplate AND Tasks
 	 * @return Pagereference (null or ActionPlansHome with confirmation)
 	 */
 	@TestVisible
@@ -519,8 +519,6 @@ public with sharing class ActionPlanCreationController {
 				oIdsList = parseRelatedIDs(oIds);
 				Set<Id> parentIDs = new Set<Id>(oIdsList);
 				//For each inserted AP we should run through tasks and create them
-				//ActionPlansQueueableBuilder taskBatch = new ActionPlansQueueableBuilder(this.actionPlan, this.apTasks, refType, parentIDs);
-				//Database.executeBatch(taskBatch);
 				ActionPlansQueueableBuilder taskQueue = new ActionPlansQueueableBuilder(this.actionPlan, this.apTasks, refType, parentIDs);
 				System.enqueueJob(taskQueue);
 			} catch (Exception e) {

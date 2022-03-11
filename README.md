@@ -204,7 +204,7 @@ If your org uses Task Record Types, you must specify which Record Type to use fo
 	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Choose-template-step2.png)
 
 1. Save the Action Plan.
-    Note: Action Plan creation is handled by a batch process. It can take a couple of minutes to be able to view all created records.
+    Note: Action Plan creation is handled by a queueable (asynchronous) process. It can take a couple of minutes to be able to view all created records.
 
     ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlan-Detail.png)
 

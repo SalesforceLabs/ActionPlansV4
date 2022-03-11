@@ -371,17 +371,14 @@ private class ActionPlansUtilitiesTest {
 		System.assertEquals(ActionPlansTestUtilities.standardObjects.size(), [SELECT COUNT() FROM ActionPlan__c]);
 	}
 
-	@IsTest
+	/* @IsTest
 	private static void testbatchIds() {
-		ActionPlansTestUtilities apTestUtil = new ActionPlansTestUtilities();
-
-		System.assert(apTestUtil.batchIds('account') != null);
-	}
+		System.assert(new ActionPlansTestUtilities().batchIds('account') != null);
+	} */
 
 	@IsTest
 	private static void testRandomWord() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-
 		System.assert(testUtil.createRandomWord('testword') != testUtil.createRandomWord());
 	}
 
