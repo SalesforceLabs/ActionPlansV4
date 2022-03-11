@@ -27,8 +27,9 @@
 		"prettier:apex:local": "prettier --apex-standalone-parser built-in --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
 		"prettier:verify:apex:local": "prettier --apex-standalone-parser built-in --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
 		"postinstall": "husky install",
-		"scratchorg": ". scripts/orginit.sh",
-		"packagedev": ". scripts/orginit-managed.sh",
+		"blankorg": ". scripts/packagedev/blankorg.sh",
+		"scratchorg": ". scripts/packagedev/orginit.sh",
+		"packagedev": ". scripts/packagedev/orginit-managed.sh",
 		"prepare": "husky install",
 		"pre-commit": "lint-staged"
 	},
