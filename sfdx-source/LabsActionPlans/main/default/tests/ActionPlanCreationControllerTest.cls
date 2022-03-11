@@ -663,7 +663,8 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.actionPlan.SkipWeekends__c = true;
 		apCreateController.actionPlan.SkipDay__c = 'Start of next week';
 
-		APTask__c newAPTask = apCreateController.addTask();
+		apCreateController.addTask();
+		APTask__c newAPTask = apCreateController.addedTask;
 		newAPTask.Subject__c = testutil.createRandomWord('subject');
 		newAPTask.DaysFromStart__c = 1;
 		newAPTask.User__c = UserInfo.getUserId();

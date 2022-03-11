@@ -95,6 +95,8 @@ public with sharing class ActionPlanCreationController {
 	private String cloneParam = '0';
 	@testVisible
 	private Boolean inVisualforceContext = false;
+	@testVisible
+	private APTask__c addedTask;
 
 	/**
 	 * Constructor for ActionPlan Create/Edit Page
@@ -640,9 +642,10 @@ public with sharing class ActionPlanCreationController {
 
 	/**
 	 * Creates a blank `APTask__c` record and adds it to apTasks
-	 * @return The `APTask__c` we are adding
+	 * <br>Sets addedTask to the `APTask__c`
+	 * @return `PageReference` but we return null for a page refresh
 	 */
-	public APTask__c addTask() {
+	public PageReference addTask() {
 		this.taskIndex++;
 
 		Boolean hasError = false;
@@ -667,14 +670,16 @@ public with sharing class ActionPlanCreationController {
 			if (!hasError) {
 				this.apTasks.add(t);
 			}
-			return t;
+			this.addedTask = t;
 		}
+		return null;
 	}
 
 	/**
 	 * Action for removing a existing Action Plan Task
+	 * @return `PageReference` null to refresh current page
 	 */
-	public void removeTask() {
+	public PageReference removeTask() {
 		if (ApexPages.currentPage().getParameters().get('remove') != null) {
 			Integer taskIndex = Integer.valueOf(ApexPages.currentPage().getParameters().get('remove'));
 
@@ -714,6 +719,7 @@ public with sharing class ActionPlanCreationController {
 				errorMsg = null;
 			}
 		}
+		return null;
 	}
 
 	/**
