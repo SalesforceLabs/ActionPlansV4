@@ -11,7 +11,7 @@ scripts/
 node_modules/
 *.md
 coverage/
-docs/
+docs/assets/
 *-meta.xml
 data/
 **/staticresources/ActionPlan_Resources/js/jquery*

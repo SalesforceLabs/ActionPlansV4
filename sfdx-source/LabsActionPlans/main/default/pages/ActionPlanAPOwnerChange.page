@@ -1,5 +1,4 @@
-<apex:page id="changeAPOwner" standardController="ActionPlan__c" extensions="ActionPlansRedirect" tabStyle="ActionPlan__c" lightningStylesheets="true"
- docType="html-5.0" contentType="text/html">
+<apex:page id="changeAPOwner" standardController="ActionPlan__c" extensions="ActionPlansRedirect" tabStyle="ActionPlan__c" lightningStylesheets="true" docType="html-5.0" contentType="text/html">
 	<!-- <c:APSectionHeader sObjType="ActionPlan__c" subtitle="{!$ObjectType.ActionPlan__c.label}" title="{!ActionPlan__c.Name}" /> -->
 	<apex:form>
 		<apex:pageBlock title="{!$Label.ap_Change} {!$Label.ap_Owner}" mode="edit">

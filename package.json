@@ -12,12 +12,13 @@
 		"lint": "npm run lint:lwc && npm run lint:aura",
 		"lint:aura": "eslint **/aura/**",
 		"lint:lwc": "eslint **/lwc/**",
+		"docs-cleanup": ". scripts/packagedev/docscleanup.sh",
 		"test": "npm run test:unit",
 		"test:unit": "sfdx-lwc-jest",
 		"test:unit:watch": "sfdx-lwc-jest --watch",
 		"test:unit:debug": "sfdx-lwc-jest --debug",
 		"test:unit:coverage": "sfdx-lwc-jest --coverage",
-		"prettier": "prettier --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
+		"prettier": "prettier --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\" \"docs/*.html\"",
 		"prettier:verify": "prettier --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
 		"apex:local:start": "node node_modules/prettier-plugin-apex/bin/start-apex-server.js",
 		"apex:local:stop": "node node_modules/prettier-plugin-apex/bin/stop-apex-server.js",
@@ -54,6 +55,10 @@
 		],
 		"sfdx-source/**/{aura,lwc}/**": [
 			"eslint"
+		],
+		"docs/*.html": [
+			"sed -i '' 's|(<h3 class=\"subsection-title properties\">.*?)</h2>|$1</h3>|g'",
+			"prettier --write --tab-width 2"
 		]
 	}
 }

@@ -88,8 +88,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	<apex:outputPanel layout="block" id="APTabs">
 		<div class="slds-scope">
-			<c:APMessage severity="{!$CurrentPage.parameters.severity}" message="{!$CurrentPage.parameters.message}" rendered="{!$CurrentPage.parameters.message != null}"
-			/>
+			<c:APMessage severity="{!$CurrentPage.parameters.severity}" message="{!$CurrentPage.parameters.message}" rendered="{!$CurrentPage.parameters.message != null}" />
 
 			<article class="slds-card">
 				<div class="slds-card__body slds-card__body_inner">
@@ -99,14 +98,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<div class="slds-tabs_default">
 						<ul class="slds-tabs_default__nav" role="tablist">
 							<li class="slds-tabs_default__item slds-is-active" title="{!$ObjectType.ActionPlan__c.LabelPlural}" role="presentation" id="tab-default-li-1">
-								<a class="slds-tabs_default__link" href="#" onclick="showAPTab(1);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1"
-								 id="actionPlansTab">
+								<a class="slds-tabs_default__link" href="#" onclick="showAPTab(1);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1" id="actionPlansTab">
 									<apex:outputText value="{!$ObjectType.ActionPlan__c.LabelPlural}" />
 								</a>
 							</li>
 							<li class="slds-tabs_default__item" title="{!$ObjectType.ActionPlanTemplate__c.LabelPlural}" role="presentation" id="tab-default-li-2">
-								<a class="slds-tabs_default__link" href="#" onclick="showAPTab(2);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-2"
-								 id="actionPlanTemplatesTab">
+								<a class="slds-tabs_default__link" href="#" onclick="showAPTab(2);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-2" id="actionPlanTemplatesTab">
 									<apex:outputText value="{!$ObjectType.ActionPlanTemplate__c.LabelPlural}" />
 								</a>
 							</li>

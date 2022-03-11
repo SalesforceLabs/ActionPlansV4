@@ -36,8 +36,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<apex:page id="thePage" tabStyle="ActionPlan__c" standardController="ActionPlan__c" extensions="ActionPlanDetailController" lightningStylesheets="true"
- docType="html-5.0" contentType="text/html">
+<apex:page id="thePage" tabStyle="ActionPlan__c" standardController="ActionPlan__c" extensions="ActionPlanDetailController" lightningStylesheets="true" docType="html-5.0" contentType="text/html">
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/ActionPlans_Scripts.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery.tablesorter.min.js')}" />
@@ -55,7 +54,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				display: none !important;
 			}
 		}
-
 	</style>
 
 	<c:APSectionHeader sObjType="ActionPlan__c" subtitle="{!$ObjectType.ActionPlan__c.label}" title="{!ActionPlan__c.Name}" />
@@ -64,14 +62,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		<apex:pageBlock id="detailBlock" mode="detail">
 			<!-- PAGE BUTTONS -->
 			<apex:pageBlockButtons id="buttons" location="top">
-				<apex:commandButton id="edit" action="{!$Page.ActionPlanCreation}?id={!ActionPlan__c.Id}&retURL={!$CurrentPage.URL}" value="{!$Label.ap_Edit}"
-				 rendered="{!$ObjectType.ActionPlan__c.updateable}" />
-				<apex:commandButton id="delete" action="{!deletePlan}" value="{!$Label.ap_Delete}" onclick="return confirm('{!$Label.ap_AreYouSureAsk}');" rendered="{!$ObjectType.ActionPlan__c.deletable}"
-				/>
-				<apex:commandButton id="clone" action="{!$Page.ActionPlanCreation}?clone=1&Id={!ActionPlan__c.Id}" value="{!$Label.ap_Clone}" rendered="{!$ObjectType.ActionPlan__c.createable}"
-				/>
-				<apex:commandButton id="share" action="/p/share/CustomObjectSharingDetail?parentId={!ActionPlan__c.Id}" value="{!$Label.ap_Sharing}" rendered="{!$ObjectType.ActionPlan__c.updateable && canShare}"
-				/>
+				<apex:commandButton
+					id="edit"
+					action="{!$Page.ActionPlanCreation}?id={!ActionPlan__c.Id}&retURL={!$CurrentPage.URL}"
+					value="{!$Label.ap_Edit}"
+					rendered="{!$ObjectType.ActionPlan__c.updateable}" />
+				<apex:commandButton id="delete" action="{!deletePlan}" value="{!$Label.ap_Delete}" onclick="return confirm('{!$Label.ap_AreYouSureAsk}');" rendered="{!$ObjectType.ActionPlan__c.deletable}" />
+				<apex:commandButton id="clone" action="{!$Page.ActionPlanCreation}?clone=1&Id={!ActionPlan__c.Id}" value="{!$Label.ap_Clone}" rendered="{!$ObjectType.ActionPlan__c.createable}" />
+				<apex:commandButton
+					id="share"
+					action="/p/share/CustomObjectSharingDetail?parentId={!ActionPlan__c.Id}"
+					value="{!$Label.ap_Sharing}"
+					rendered="{!$ObjectType.ActionPlan__c.updateable && canShare}" />
 			</apex:pageBlockButtons>
 			<!-- END PAGE BUTTTONS -->
 
@@ -113,8 +115,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 						<apex:outputField value="{!ActionPlan__c.Action_Plan_Template__c}" />
 						<apex:outputPanel rendered="{!Version == true}">
 							<br />
-							<span style="color: #cc0000" class="no-print">
-								<strong>{!$Label.ap_Note}:</strong> {!$Label.ap_APModifyError}</span>
+							<span style="color: #cc0000" class="no-print"> <strong>{!$Label.ap_Note}:</strong> {!$Label.ap_APModifyError}</span>
 						</apex:outputPanel>
 					</apex:outputPanel>
 				</apex:pageBlockSectionItem>
@@ -157,18 +158,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					</apex:column>
 					<apex:column value="{!wrap.apt.DaysFromStart__c}" style="vertical-align: middle">
 						<apex:facet name="header">
-							<span style="vertical-align: top">{!$ObjectType.APTask__c.fields.DaysFromStart__c.label}
+							<span style="vertical-align: top"
+								>{!$ObjectType.APTask__c.fields.DaysFromStart__c.label}
 								<img class="helpOrb" title="{!$ObjectType.APTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
 							</span>
 						</apex:facet>
 					</apex:column>
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.ActivityDate__c.label}" style="vertical-align: middle">
 						<span style="color: #cc0000">
-							<apex:outputField value="{!wrap.apt.ActivityDate__c}" rendered="{!wrap.apt.ActivityDate__c != null && wrap.apt.ActivityDate__c < TODAY() && wrap.apt.IsClosed__c == false}"
-							/>
+							<apex:outputField value="{!wrap.apt.ActivityDate__c}" rendered="{!wrap.apt.ActivityDate__c != null && wrap.apt.ActivityDate__c < TODAY() && wrap.apt.IsClosed__c == false}" />
 						</span>
-						<apex:outputField value="{!wrap.apt.ActivityDate__c}" rendered="{!wrap.apt.ActivityDate__c = null || wrap.apt.ActivityDate__c >= TODAY() || wrap.apt.IsClosed__c == true}"
-						/>
+						<apex:outputField value="{!wrap.apt.ActivityDate__c}" rendered="{!wrap.apt.ActivityDate__c = null || wrap.apt.ActivityDate__c >= TODAY() || wrap.apt.IsClosed__c == true}" />
 					</apex:column>
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.User__c.label}" styleClass="assigned_to_field" style="vertical-align: middle">
 						<apex:outputField value="{!wrap.apt.User__c}" />
@@ -176,8 +176,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.Type__c.label}" value="{!wrap.apt.Type__c}" style="vertical-align: middle" />
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.Priority__c.label}" value="{!wrap.apt.Priority__c}" style="vertical-align: middle" />
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.Status__c.label}" value="{!wrap.apt.Status__c}" style="vertical-align: middle" />
-					<apex:column headerValue="{!$ObjectType.APTask__c.fields.SendEmail__c.label}" value="{!wrap.apt.SendEmail__c}" style="vertical-align: middle"
-					/>
+					<apex:column headerValue="{!$ObjectType.APTask__c.fields.SendEmail__c.label}" value="{!wrap.apt.SendEmail__c}" style="vertical-align: middle" />
 
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.Reminder__c.label}" style="vertical-align: middle" rendered="{!canDisplayReminder}">
 						<apex:outputPanel layout="block">
