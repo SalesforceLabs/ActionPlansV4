@@ -37,7 +37,7 @@ engine:
     - '${workspaceFolder}/doc-assets/readme/ActionPlanTemplate-import-1.png'
     - '${workspaceFolder}/doc-assets/readme/ActionPlanTemplate-import-2.png'
     - '${workspaceFolder}/doc-assets/index.css'
-  #  - "${workspaceFolder}/documentation/meme.jpg"
+    - '${workspaceFolder}/doc-assets/highlight.css'
   port: 8088
 docblock:
   alignItems: true

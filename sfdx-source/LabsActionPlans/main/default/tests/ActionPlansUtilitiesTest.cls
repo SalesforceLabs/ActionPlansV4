@@ -57,9 +57,12 @@ private class ActionPlansUtilitiesTest {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
 
+		User testUser = testutil.createTestUser();
+
 		List<APTask__c> aptList = new List<APTask__c>();
 		for (Integer i = 0; i < 3; i++) {
-			aptList.add(makeAppTask(ap));
+			//aptList.add(makeAppTask(ap));
+			aptList.add(testutil.createNewActionPlanTask(ap, i + 1, testUser.Id, null, null));
 		}
 		insert aptList;
 
@@ -86,9 +89,12 @@ private class ActionPlansUtilitiesTest {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
 
+		User testUser = testutil.createTestUser();
+
 		List<APTask__c> aptList = new List<APTask__c>();
 		for (Integer i = 0; i < 3; i++) {
-			aptList.add(makeAppTask(ap));
+			//aptList.add(makeAppTask(ap));
+			aptList.add(testutil.createNewActionPlanTask(ap, i + 1, testUser.Id, null, null));
 		}
 		insert aptList;
 
@@ -294,8 +300,7 @@ private class ActionPlansUtilitiesTest {
 		}
 	}
 
-	@IsTest
-	private static void doChatterPost() {
+	private static void doChatterPost(List<String> objectNames) {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getInstance();
 		if (!aps.Chatter_Object_Brag__c) {
 			aps.Chatter_Object_Brag__c = true;
@@ -303,11 +308,23 @@ private class ActionPlansUtilitiesTest {
 		}
 		System.assert(aps.Chatter_Object_Brag__c);
 
-		Test.startTest();
-
-		Test.setCurrentPage(Page.ActionPlanCreation);
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		for (String k : ActionPlansTestUtilities.standardObjects) {
+
+		ActionPlanTemplate__c apt = testutil.createNewActionPlanTemplate(5);
+		for (APTemplateTask__c aptt : apt.aptTasks__r) {
+			aptt.User__c = null;
+		}
+		update apt.aptTasks__r; //NOPMD
+
+		apt.TaskRecordTypeID__c = ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType();
+		apt.SkipWeekends__c = true;
+		apt.SkipDay__c = 'End of previous week';
+
+		update apt; //NOPMD
+
+		Test.startTest();
+		for (String k : objectNames) {
+			Test.setCurrentPage(Page.ActionPlanCreation);
 			switch on k {
 				when 'account' {
 					Account a = testutil.createNewAccount();
@@ -339,18 +356,6 @@ private class ActionPlansUtilitiesTest {
 				}
 			}
 
-			ActionPlanTemplate__c apt = testutil.createNewActionPlanTemplate(5);
-			for (APTemplateTask__c aptt : apt.aptTasks__r) {
-				aptt.User__c = null;
-			}
-			update apt.aptTasks__r; //NOPMD
-
-			apt.TaskRecordTypeID__c = ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType();
-			apt.SkipWeekends__c = true;
-			apt.SkipDay__c = 'End of previous week';
-
-			update apt; //NOPMD
-
 			ApexPages.currentPage().getParameters().put('id', null);
 
 			ApexPages.currentPage().getParameters().put('templateId', apt.Id);
@@ -367,14 +372,22 @@ private class ActionPlansUtilitiesTest {
 		}
 
 		Test.stopTest();
-
-		System.assertEquals(ActionPlansTestUtilities.standardObjects.size(), [SELECT COUNT() FROM ActionPlan__c]);
 	}
 
-	/* @IsTest
-	private static void testbatchIds() {
-		System.assert(new ActionPlansTestUtilities().batchIds('account') != null);
-	} */
+	@IsTest
+	private static void doChatterPostPart1() {
+		List<String> objectNames = new List<String>{ 'account', 'lead', 'contact' };
+		doChatterPost(objectNames);
+		System.debug([SELECT Id, Account__c, Lead__c, Contact__c, Action_Plan_Template__r.Name FROM ActionPlan__c]);
+		System.assertEquals(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c]);
+	}
+
+	@IsTest
+	private static void doChatterPostPart2() {
+		List<String> objectNames = new List<String>{ 'contract', 'case', 'campaign', 'opportunity' };
+		doChatterPost(objectNames);
+		System.assertEquals(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c]);
+	}
 
 	@IsTest
 	private static void testRandomWord() {

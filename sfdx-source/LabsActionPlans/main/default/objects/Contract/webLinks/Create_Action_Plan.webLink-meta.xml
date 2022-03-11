@@ -8,5 +8,5 @@
     <masterLabel>Create Action Plan</masterLabel>
     <openType>replace</openType>
     <protected>false</protected>
-    <url>{!URLFOR(  $Action.ActionPlan__c.New, null, [refType=&quot;Contract&quot;, refId=Contract.Id])}</url>
+    <url>{!URLFOR($Action.ActionPlan__c.New, null, [refType=&quot;Contract&quot;, refId=Contract.Id])}</url>
 </WebLink>

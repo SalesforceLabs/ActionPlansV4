@@ -49,7 +49,7 @@ private class ActionPlansSectionHeaderControllerTest {
 
 	@IsTest
 	private static void testObjectTabDescribePositive() {
-		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
+		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' AND IsActive = TRUE LIMIT 1];
 
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
@@ -66,7 +66,7 @@ private class ActionPlansSectionHeaderControllerTest {
 
 	@IsTest
 	private static void testObjectTabDescribeNegative() {
-		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
+		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' LIMIT 1];
 
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
@@ -85,7 +85,7 @@ private class ActionPlansSectionHeaderControllerTest {
 
 	@IsTest
 	private static void testObjectTabDescribeNotInApplication() {
-		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
+		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' LIMIT 1];
 
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
@@ -97,7 +97,7 @@ private class ActionPlansSectionHeaderControllerTest {
 
 	@IsTest
 	private static void testNullObject() {
-		User u = [SELECT Id FROM User WHERE Email = 'test@test.com' LIMIT 1];
+		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' LIMIT 1];
 
 		System.runAs(u) {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();

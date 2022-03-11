@@ -12,9 +12,6 @@
             "versionDescription": "Welcome to the new Action Plans from Salesforce Labs",
             "postInstallScript": "ActionPlansPostInstallScript",
             "postInstallUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md"
-        },
-        {
-            "path": "sfdx-source/unpackaged"
         }
     ],
     "name": "Action Plans",
@@ -25,10 +22,6 @@
         "Action Plans": "0Ho5f000000oLlrCAE",
         "ActionPlans": "0Ho5f000000oLlrCAE",
         "Action Plans@4.0.0-6": "04t5f000000pS3HAAU",
-        "Action Plans@4.0.0-7": "04t5f000000rJQ0AAM",
-        "Action Plans@4.0.0-8": "04t5f000000rJQUAA2",
-        "Action Plans@4.0.0-10": "04t5f000000rJVFAA2",
-        "Action Plans@4.0.0-11": "04t5f000000rJZRAA2",
-        "Action Plans@4.0.0-12": "04t5f000000rJZWAA2"
+        "Action Plans@4.0.0-15": "04t5f000000rJfLAAU"
     }
 }

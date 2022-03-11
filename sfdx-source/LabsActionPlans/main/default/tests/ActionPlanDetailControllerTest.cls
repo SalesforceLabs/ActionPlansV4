@@ -52,6 +52,7 @@ private class ActionPlanDetailControllerTest {
 
 		ApexPages.currentPage().getParameters().put('id', null);
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
+		apDetailController.onLoad();
 		System.assertEquals(0, ActionPlansTestUtilities.getCompleted(null), 'New AP should have no completed tasks');
 		System.assert(apDetailController.getActionPlanTasks().isEmpty(), 'New Action Plan has no tasks');
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -62,9 +63,12 @@ private class ActionPlanDetailControllerTest {
 		System.assertEquals('Account', apDetailController2.getRelatedObjectLabel());
 		apDetailController2.getCanTransfer();
 		apDetailController2.getCanShare();
+		System.assertNotEquals(null, apDetailController2.hasRecordType);
+
+		ActionPlanDetailController apDetailController3 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 
 		Test.stopTest();
-		System.assertNotEquals(null, apDetailController2.hasRecordType);
+		System.assertNotEquals(0, apDetailController3.getActionPlanTasks().size());
 	}
 
 	@IsTest
@@ -116,6 +120,7 @@ private class ActionPlanDetailControllerTest {
 		update apTasks;
 
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
+		apDetailController.getActionPlanTasks();
 		Test.stopTest();
 		System.assert(apDetailController.hasControllingTasks);
 	}

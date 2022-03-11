@@ -44,7 +44,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @group Visualforce
  */
 public with sharing class ActionPlansCreateMultipleAPsExtension {
-	private ApexPages.StandardSetController standardController;
+	/**
+	 * The standard set controller. Not much use besides allowing the page to show on a list view and letting us cancel the action with a system-generated redirect
+	 */
+	private ApexPages.StandardSetController stdSetCntrlr;
 
 	/**
 	 * All the selected records from the list view
@@ -52,12 +55,13 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 	public String objIDs { get; private set; }
 
 	/**
-	 * Controller
-	 * @param standardController Standard Controller - used only for Cancel standard action
+	 * Constructor
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @param stdSetController Standard Set Controller - used only for Cancel standard action
 	 */
-	public ActionPlansCreateMultipleAPsExtension(ApexPages.StandardSetController standardController) {
-		this.standardController = standardController;
-		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();
+	public ActionPlansCreateMultipleAPsExtension(ApexPages.StandardSetController stdSetController) {
+		this.stdSetCntrlr = stdSetController;
+		Set<Id> selected = new Map<Id, SObject>(stdSetController.getSelected()).keySet();
 		List<Id> objIDsList = new List<Id>(selected);
 		objIDs = String.join(objIDsList, ',');
 	}
@@ -65,7 +69,7 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 	/**
 	 * Go to the page that shows the ActionPlan creation screen to customize the plan for each selected record
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   The Action Plan creation page
+	 * @return   `PageReference` The Action Plan creation page
 	 */
 	public PageReference doRedirect() {
 		if (String.isBlank(objIDs)) {
@@ -73,7 +77,7 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 		}
 
 		if (!CanTheUser.create(new ActionPlan__c())) {
-			return standardcontroller.cancel();
+			return stdSetCntrlr.cancel();
 		}
 
 		Pagereference pageRef = Page.ActionPlanCreation;

@@ -9,5 +9,5 @@
     <openType>replace</openType>
     <protected>false</protected>
     <requireRowSelection>false</requireRowSelection>
-    <url>{!URLFOR(  $Action.ActionPlan__c.New, null, [refType=&quot;Campaign&quot;, refId=Campaign.Id])}</url>
+    <url>{!URLFOR($Action.ActionPlan__c.New, null, [refType=&quot;Campaign&quot;, refId=Campaign.Id])}</url>
 </WebLink>

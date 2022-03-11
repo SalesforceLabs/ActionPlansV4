@@ -37,9 +37,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
- * \Test for Action Plans Queue Builder
+ * Test for Action Plans Queueable Builder
  * @author {@link [David Schach](https://github.com/dschach)}
  * @group Queue Apex
+ * @see ActionPlansQueuableBuilder
  */
 @IsTest
 private class ActionPlansQueueableBuilderTest {
@@ -55,106 +56,36 @@ private class ActionPlansQueueableBuilderTest {
 	}
 
 	@IsTest
-	private static void runQueueAccount() {
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-
-		Test.startTest();
-
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 2);
-		ap.Name = 'check_undelete';
-		List<APTask__c> apTasks = new List<APTask__c>();
-		User u = testutil.createTestUser();
-
-		APTask__c at = new APTask__c();
-		at.Action_Plan__c = ap.Id;
-		at.Dependent__c = 'None';
-		at.DaysFromStart__c = 2.0;
-		at.User__c = u.Id;
-		at.SendEmail__c = false;
-		at.Subject__c = 'Test ';
-		at.Type__c = 'Email';
-		at.Priority__c = 'Low';
-		at.Comments__c = 'Test';
-		at.Reminder__c = true;
-		at.Minutes_Reminder__c = '510';
-		insert at;
-		apTasks.add(at);
-
-		at = new APTask__c();
-		at.Action_Plan__c = ap.Id;
-		at.Dependent__c = 'None';
-		at.DaysFromStart__c = 2.0;
-		at.User__c = u.Id;
-		at.SendEmail__c = true;
-		at.Subject__c = 'Test ';
-		at.Type__c = 'Email';
-		at.Priority__c = 'Low';
-		at.Comments__c = 'Test';
-		at.Reminder__c = true;
-		at.Minutes_Reminder__c = '510';
-		insert at;
-		apTasks.add(at);
-
-		Account ac = new Account();
-		ac.Name = 'Doe';
-		insert ac;
-
-		Account ac1 = new Account();
-		ac1.Name = 'Doe';
-		insert ac1;
-
-		Set<Id> oIdsList = new Set<Id>();
-		oIdsList.add(ac.Id);
-		oIdsList.add(ac1.Id);
-
-		ActionPlansQueueableBuilder testQueue = new ActionPlansQueueableBuilder(ap, apTasks, 'Account', oIdsList);
-		Id queueID = System.enqueueJob(testQueue);
-		Test.stopTest();
-
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :queueId];
-		System.assertEquals('Completed', a.status);
-		System.assertEquals(0, a.NumberOfErrors);
-	}
-
-	@IsTest
 	private static void runQueueContact() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
 
-		ActionPlan__c ap = testutil.createNewActionPlan('contact', 2);
-		List<APTask__c> apTasks = new List<APTask__c>();
-		User u = testutil.createTestUser();
-
-		APTask__c at = new APTask__c();
-		at.Action_Plan__c = ap.Id;
-		at.Dependent__c = 'None';
-		at.DaysFromStart__c = 2.0;
-		at.User__c = u.Id;
-		at.SendEmail__c = false;
-		at.Subject__c = 'Test ';
-		at.Type__c = 'Email';
-		at.Priority__c = 'Low';
-		at.Comments__c = 'Test';
-		at.Reminder__c = true;
-		at.Minutes_Reminder__c = '510';
-		insert at;
-		apTasks.add(at);
-
-		at = new APTask__c();
-		at.Action_Plan__c = ap.Id;
-		at.Dependent__c = 'None';
-		at.DaysFromStart__c = 2.0;
-		at.User__c = u.Id;
-		at.SendEmail__c = true;
-		at.Subject__c = 'Test ';
-		at.Type__c = 'Email';
-		at.Priority__c = 'Low';
-		at.Comments__c = 'Test';
-		at.Reminder__c = true;
-		at.Minutes_Reminder__c = '510';
-		insert at;
-		apTasks.add(at);
+		ActionPlan__c ap = testutil.createNewActionPlan('contact', 5);
+		List<APTask__c> apTasks = [
+			SELECT
+				Action_Plan__c,
+				ActivityDate__c,
+				Comments__c,
+				Controller__c,
+				DaysFromStart__c,
+				Dependent__c,
+				Id,
+				IsClosed__c,
+				Minutes_Reminder__c,
+				Name,
+				Priority__c,
+				Reminder__c,
+				SendEmail__c,
+				Status__c,
+				Subject__c,
+				TaskIndex__c,
+				Task_RecordTypeId__c,
+				Time_Reminder__c,
+				Type__c,
+				User__c
+			FROM APTask__c
+		];
 
 		Contact op = new Contact();
 		op.LastName = 'Doe';
@@ -178,108 +109,14 @@ private class ActionPlansQueueableBuilderTest {
 	}
 
 	@IsTest
-	private static void runQueueOpportunity() {
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-
-		Test.startTest();
-
-		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 2);
-		List<APTask__c> apTasks = new List<APTask__c>();
-
-		APTask__c at = new APTask__c();
-		at.Action_Plan__c = ap.Id;
-		at.Dependent__c = 'None';
-		at.DaysFromStart__c = 2.0;
-		at.User__c = testutil.createTestUser().Id;
-		at.SendEmail__c = false;
-		at.Subject__c = 'Test ';
-		at.Type__c = 'Email';
-		at.Priority__c = 'Low';
-		at.Comments__c = 'Test';
-		at.Reminder__c = true;
-		at.Minutes_Reminder__c = '510';
-		insert at;
-		apTasks.add(at);
-
-		at = new APTask__c();
-		at.Action_Plan__c = ap.Id;
-		at.Dependent__c = 'None';
-		at.DaysFromStart__c = 2.0;
-		at.User__c = testutil.createTestUser().Id;
-		at.SendEmail__c = true;
-		at.Subject__c = 'Test ';
-		at.Type__c = 'Email';
-		at.Priority__c = 'Low';
-		at.Comments__c = 'Test';
-		at.Reminder__c = true;
-		at.Minutes_Reminder__c = '510';
-		insert at;
-		apTasks.add(at);
-
-		Opportunity op = new Opportunity();
-		op.Name = 'Op1';
-		op.StageName = 'Won';
-		op.CloseDate = Date.today();
-		insert op;
-
-		Opportunity op2 = new Opportunity();
-		op2.Name = 'Op2';
-		op2.StageName = 'Won';
-		op2.CloseDate = Date.today();
-		insert op2;
-
-		Set<Id> oIdsList = new Set<Id>();
-		oIdsList.add(op.Id);
-		oIdsList.add(op2.Id);
-
-		ActionPlansQueueableBuilder testQueue = new ActionPlansQueueableBuilder(ap, apTasks, 'Opportunity', oIdsList);
-		Id queueID = System.enqueueJob(testQueue);
-		Test.stopTest();
-
-		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :queueId];
-		System.assertEquals('Completed', a.status);
-		System.assertEquals(0, a.NumberOfErrors);
-	}
-
-	@IsTest
 	private static void runQueueException() {
 		ActionPlansTestUtilities.forceError = true;
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
 		Test.startTest();
 
-		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 2);
+		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 5);
 		List<APTask__c> apTasks = new List<APTask__c>();
-
-		APTask__c at = new APTask__c();
-		at.Action_Plan__c = ap.Id;
-		at.Dependent__c = 'None';
-		at.DaysFromStart__c = 2.0;
-		at.User__c = testutil.createTestUser().Id;
-		at.SendEmail__c = false;
-		at.Subject__c = 'Test ';
-		at.Type__c = 'Email';
-		at.Priority__c = 'Low';
-		at.Comments__c = 'Test';
-		at.Reminder__c = true;
-		at.Minutes_Reminder__c = '510';
-		insert at;
-		apTasks.add(at);
-
-		at = new APTask__c();
-		at.Action_Plan__c = ap.Id;
-		at.Dependent__c = 'None';
-		at.DaysFromStart__c = 2.0;
-		at.User__c = testutil.createTestUser().Id;
-		at.SendEmail__c = true;
-		at.Subject__c = 'Test ';
-		at.Type__c = 'Email';
-		at.Priority__c = 'Low';
-		at.Comments__c = 'Test';
-		at.Reminder__c = true;
-		at.Minutes_Reminder__c = '510';
-		insert at;
-		apTasks.add(at);
 
 		Opportunity op = new Opportunity();
 		op.Name = 'Op1';

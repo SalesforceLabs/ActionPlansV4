@@ -314,9 +314,9 @@ private class ActionPlanCreateInvocableTest {
 		System.assertNotEquals(null, resultIDs);
 		System.assertEquals(1, resultIDs.size());
 		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
-		for (Task t : [SELECT Id, ActivityDate FROM Task]) {
+		/* for (Task t : [SELECT Id, ActivityDate FROM Task]) {
 			System.debug('Task is due on ' + t.ActivityDate + ' which is a ' + ActionPlansUtilities.getDayOfWeek(t.ActivityDate));
-		}
+		} */
 		System.assertEquals(0, [SELECT COUNT() FROM Task WHERE ActivityDate = :upcomingWeekendDay]);
 	}
 

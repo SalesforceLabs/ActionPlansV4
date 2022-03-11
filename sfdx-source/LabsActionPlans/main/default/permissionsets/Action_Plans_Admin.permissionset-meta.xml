@@ -210,22 +210,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>APTask__c.Priority__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>APTask__c.Reminder__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>APTask__c.SendEmail__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>APTask__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

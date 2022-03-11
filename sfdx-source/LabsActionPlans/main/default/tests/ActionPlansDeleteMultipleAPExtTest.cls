@@ -45,8 +45,13 @@ private class ActionPlansDeleteMultipleAPExtTest {
 	private static final Integer APS_TO_CREATE = 100;
 
 	@testSetup
-	private static void setupdata() {
+	private static void datasetup() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		User testUser;
+		User currentUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+		System.runAs(currentUser) {
+			testUser = testUtil.createAdminUser();
+		}
 
 		List<ActionPlan__c> apToInsert = new List<ActionPlan__c>();
 		List<APTask__c> apttToInsert = new List<APTask__c>();
@@ -65,14 +70,7 @@ private class ActionPlansDeleteMultipleAPExtTest {
 
 		for (ActionPlan__c newActionPlan : apToInsert) {
 			for (Integer j = 0; j < 5; j++) {
-				APTask__c newAPTask = new APTask__c();
-				newAPTask.Subject__c = testUtil.createRandomWord();
-				newAPTask.DaysFromStart__c = j + 1;
-				newAPTask.Action_Plan__c = newActionPlan.Id;
-				newAPTask.User__c = UserInfo.getUserId();
-				newAPTask.Type__c = 'Call';
-				newAPTask.Priority__c = (String) Task.Priority.getDescribe().getDefaultValue();
-				newAPTask.Minutes_Reminder__c = '510';
+				APTask__c newAPTask = testUtil.createNewActionPlanTask(newActionPlan, j + 1, testUser.Id, null, null);
 				apttToInsert.add(newAPTask);
 			}
 		}
@@ -112,29 +110,34 @@ private class ActionPlansDeleteMultipleAPExtTest {
 
 	@IsTest
 	private static void noDeletePermission() {
-		Id pId = [SELECT Id FROM Profile WHERE Name = 'Minimum Access - Salesforce'].Id;
-		User minAccessUser = new User(
-			profileId = pId,
-			LastName = 'last',
-			Email = 'Testuser@test.example.com',
-			Username = 'Testuser@test.example.com' + Crypto.getRandomInteger(),
-			CompanyName = 'TEST',
-			Title = 'title',
-			Alias = 'alias',
-			TimeZoneSidKey = 'America/Los_Angeles',
-			EmailEncodingKey = 'UTF-8',
-			LanguageLocaleKey = 'en_US',
-			LocaleSidKey = 'en_US'
-		);
-		insert minAccessUser;
+		User minAccessUser;
 
-		PermissionSet ps = new PermissionSet(Label = 'testPermSet', Name = 'testPermSet');
-		insert ps;
-		ObjectPermissions op = new ObjectPermissions(ParentId = ps.Id, SobjectType = ActionPlansUtilities.namespacePrefix + 'ActionPlan__c');
-		op.PermissionsRead = true;
-		op.PermissionsViewAllRecords = true;
-		insert op;
-		insert new PermissionSetAssignment(PermissionSetId = ps.Id, AssigneeId = minAccessUser.Id);
+		User currentUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+		System.runAs(currentUser) {
+			Id pId = [SELECT Id FROM Profile WHERE Name = 'Minimum Access - Salesforce'].Id;
+			minAccessUser = new User(
+				profileId = pId,
+				LastName = 'last',
+				Email = 'Testuser@test.example.com',
+				Username = 'Testuser@test.example.com' + Crypto.getRandomInteger(),
+				CompanyName = 'TEST',
+				Title = 'title',
+				Alias = 'alias',
+				TimeZoneSidKey = 'America/Los_Angeles',
+				EmailEncodingKey = 'UTF-8',
+				LanguageLocaleKey = 'en_US',
+				LocaleSidKey = 'en_US'
+			);
+			insert minAccessUser;
+
+			PermissionSet ps = new PermissionSet(Label = 'testPermSet', Name = 'testPermSet');
+			insert ps;
+			ObjectPermissions op = new ObjectPermissions(ParentId = ps.Id, SobjectType = ActionPlansUtilities.namespacePrefix + 'ActionPlan__c');
+			op.PermissionsRead = true;
+			op.PermissionsViewAllRecords = true;
+			insert op;
+			insert new PermissionSetAssignment(PermissionSetId = ps.Id, AssigneeId = minAccessUser.Id);
+		}
 
 		System.runAs(minAccessUser) {
 			List<ActionPlan__c> listActionPlan = [SELECT Id, Name FROM ActionPlan__c];

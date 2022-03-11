@@ -66,15 +66,22 @@ public with sharing class ActionPlanTemplateDetailController {
 	 */
 	public ActionPlanTemplateDetailController(ApexPages.StandardController stdController) {
 		actionPlanTemplate = (ActionPlanTemplate__c) stdController.getRecord();
-
 		taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
-
 		canDisplayReminder = ActionPlansUtilities.getCanDisplayReminder();
 	}
 
 	/**
+	 * Action on page load to ensure custom setting is created
+	 * @return   `PageReference` null (required for page actions method)
+	 */
+	public PageReference onLoad() {
+		ActionPlansUtilities.onPageLoad();
+		return null;
+	}
+
+	/**
 	 * Convert Record Type Id to Record Type Name
-	 * @return Record Type Name
+	 * @return `String` Record Type Name
 	 */
 	public String getRecordTypeName() {
 		String toReturn = '';
@@ -89,8 +96,8 @@ public with sharing class ActionPlanTemplateDetailController {
 	}
 
 	/**
-	 * Call method deleteTemplate()
-	 * @return PageReference
+	 * Delete the template
+	 * @return `PageReference`
 	 */
 	public PageReference deleteTemplate() {
 		try {
@@ -108,8 +115,8 @@ public with sharing class ActionPlanTemplateDetailController {
 	}
 
 	/**
-	 * Call method getTemplateTasks()
-	 * @return List<APTemplateTask__c>
+	 * Query Template Tasks
+	 * @return `List<APTemplateTask__c>` The Template Tasks
 	 */
 	public List<APTemplateTask__c> getTemplateTasks() {
 		return [
@@ -148,7 +155,7 @@ public with sharing class ActionPlanTemplateDetailController {
 
 	/**
 	 * Determine the export success message based on LEX vs Classic
-	 * @return      The success message
+	 * @return      `String` The success message
 	 */
 	public String getSuccessMessage() {
 		Boolean isLex = ActionPlansUtilities.getIsLex();
@@ -182,7 +189,7 @@ public with sharing class ActionPlanTemplateDetailController {
 	 * If we have no share object, we don't need to show a Share button
 	 * <br>Also validate user permission to share
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   Does the user have permission to share this Action Plan Tmplate?
+	 * @return   `Boolean` Does the user have permission to share this Action Plan Tmplate?
 	 */
 	public Boolean getCanShare() {
 		return ActionPlansUtilities.canShareRecord(actionPlanTemplate.Id, actionPlanTemplate.OwnerId);

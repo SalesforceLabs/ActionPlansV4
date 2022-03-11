@@ -59,6 +59,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		List<Task> apTaskList = new List<Task>();
 		List<APTask__c> apttList = new List<APTask__c>();
 
+		Id defaultRTID = ActionPlansUtilities.getDefaultTaskRecordTypeId();
+		String atStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(defaultRTID);
+
 		for (Integer i = 0; i < 4; i++) {
 			APTask__c at = new APTask__c();
 			at.Action_Plan__c = ap.Id;
@@ -72,6 +75,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			at.Type__c = 'Email';
 			at.Priority__c = 'Low';
 			at.Controller__c = (i > 0) ? apttList[i - 1].Id : null;
+			at.Status__c = atStatus;
 			insert at; //NOPMD
 			apttList.add(at);
 			apTTaskIds.add(at.Id);
@@ -114,6 +118,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		List<Task> apTask = new List<Task>();
 		List<APTask__c> aptt = new List<APTask__c>();
 
+		Id defaultRTID = ActionPlansUtilities.getDefaultTaskRecordTypeId();
+		String atStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(defaultRTID);
+
 		Test.startTest();
 		for (Integer i = 0; i < 4; i++) {
 			APTask__c at = new APTask__c();
@@ -127,6 +134,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			at.Comments__c = 'My Comment';
 			at.Reminder__c = true;
 			at.Controller__c = (i > 0) ? aptt[i - 1].Id : null;
+			at.Status__c = atStatus;
 			insert at; //NOPMD
 			aptt.add(at);
 			apTTaskIds.add(at.Id);
@@ -163,6 +171,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		List<Task> apTask = new List<Task>();
 		List<APTask__c> aptt = new List<APTask__c>();
 
+		Id defaultRTID = ActionPlansUtilities.getDefaultTaskRecordTypeId();
+		String atStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(defaultRTID);
+
 		Test.startTest();
 		for (Integer i = 0; i < 4; i++) {
 			APTask__c at = new APTask__c();
@@ -177,6 +188,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			at.Reminder__c = true;
 			at.Minutes_Reminder__c = '510';
 			at.Controller__c = (i > 0) ? aptt[i - 1].Id : null;
+			at.Status__c = atStatus;
 			insert at; //NOPMD
 			aptt.add(at);
 			apTTaskIds.add(at.Id);
@@ -328,6 +340,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			at.Type__c = 'Email';
 			at.Priority__c = 'Low';
 			at.Controller__c = (i > 0) ? aptt[i - 1].Id : null;
+			Id defaultRTID = ActionPlansUtilities.getDefaultTaskRecordTypeId();
+			at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(defaultRTID);
 			insert at; //NOPMD
 			aptt.add(at);
 			apTTaskIds.add(at.Id);
@@ -366,6 +380,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		ActionPlan__c ap = testUtil.createNewActionPlan('account', 0);
 
 		Id testUserId = testUtil.createTestUser().Id;
+		Id defaultRTID = ActionPlansUtilities.getDefaultTaskRecordTypeId();
+		String atStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(defaultRTID);
 
 		//Task Template 1
 		APTask__c at = new APTask__c();
@@ -377,6 +393,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		at.Priority__c = 'Low';
 		at.Controller__c = null;
 		at.TaskIndex__c = 0;
+		at.Status__c = atStatus;
 		insert at;
 		//Task Template 2
 		APTask__c at2 = new APTask__c();
@@ -390,6 +407,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		at2.Controller__c = at.Id;
 		at2.Dependent__c = '0';
 		at2.TaskIndex__c = 1;
+		at2.Status__c = atStatus;
 		insert at2;
 
 		//create task for task template 1

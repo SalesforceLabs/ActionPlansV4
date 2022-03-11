@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**
  * Builder Utilities class
- * @author Rodrigo Birriel
+ * @author {@link [Rodrigo Birriel](https://www.linkedin.com/in/rbirriel)}
  * @author {@link [David Schach](https://github.com/dschach)}
  * @group Utilities
  * @since v3
@@ -99,10 +99,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 				for (String s : apRefFields) {
 					String relatedObject = fieldMap.get(s).getDescribe().getReferenceTo()[0].getDescribe().getName();
 					if (relatedObject.equalsIgnoreCase(refType)) {
-						System.debug('match on related object type ' + s);
 						ap.put(s, relObjId);
-					} else {
-						System.debug('No match on ' + s);
 					}
 				}
 				//add Action Plan to list that will be inserted later and referenced by ActionPlanTasks
@@ -146,7 +143,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 					nt.Action_Plan__c = ap.Id;
 					nt.Name = t.Id == null ? ActionPlansUtilities.actionPlanSubjectToName(t.Subject__c, taskTemplateNameLength) : nt.Name;
-					nt.DaysFromStart__c = (nt.DaysFromStart__c < 0) ? 0 : nt.DaysFromStart__c;
+					nt.DaysFromStart__c = (nt.DaysFromStart__c == null || nt.DaysFromStart__c < 0) ? 0 : nt.DaysFromStart__c;
 					nt.User__c = getAPTaskTemplateUser(ap, objectOwnersMap, nt.User__c);
 					aptList.add(nt);
 				}
@@ -160,7 +157,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 				mapIDAP.put(ap.Id, ap);
 
 				for (APTask__c t : this.baseAPTaskList) {
-					t.DaysFromStart__c = (t.DaysFromStart__c < 0) ? 0 : t.DaysFromStart__c;
+					t.DaysFromStart__c = (t.DaysFromStart__c == null || t.DaysFromStart__c < 0) ? 0 : t.DaysFromStart__c;
 					t.Name = t.Id == null ? ActionPlansUtilities.actionPlanSubjectToName(t.Subject__c, taskTemplateNameLength) : t.Name;
 					t.User__c = getAPTaskTemplateUser(ap, objectOwnersMap, t.User__c);
 				}
@@ -169,6 +166,8 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		}
 
 		List<APTask__c> aptsToUpsert = new List<APTask__c>();
+
+		String defaultTaskStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
 
 		for (ActionPlan__c ap : relActionPlans) {
 			for (APTask__c at : aptList) {
@@ -184,11 +183,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 					if (!String.isBlank(ap.TaskRecordTypeId__c) && ap.TaskRecordTypeId__c instanceof Id && ap.TaskRecordTypeId__c.startsWithIgnoreCase('012')) {
 						at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ap.TaskRecordTypeId__c);
 					} else {
-						if (ActionPlansUtilities.taskUsesRecordTypes) {
-							at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
-						} else {
-							at.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(null);
-						}
+						at.Status__c = defaultTaskStatus;
 					}
 				}
 
@@ -233,7 +228,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			t.Type = refAPTask.Type__c;
 			t.TaskAPTask__c = refAPTask.Id;
 
-			if (refAPTask.Comments__c != null) {
+			if (String.isNotEmpty(refAPTask.Comments__c)) {
 				t.Description = refAPTask.Comments__c;
 			}
 
@@ -253,7 +248,6 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 			if (mapIDAP.containsKey(refAPTask.Action_Plan__c)) {
 				apAux = mapIDAP.get(refAPTask.Action_Plan__c);
-				System.debug('apAux from mapIDAP ' + apAux);
 			}
 
 			if (apAux == null) {
@@ -264,15 +258,11 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 			Boolean setWhat = true;
 			if (apAux.Contact__c != null) {
-				System.debug('setting whoId to Contact');
 				t.WhoId = apAux.Contact__c;
 				setWhat = false;
 			} else if (apAux.Lead__c != null) {
-				System.debug('setting whoId to Lead');
 				t.WhoId = apAux.Lead__c;
 				setWhat = false;
-			} else {
-				System.debug('We do not set whoId');
 			}
 
 			if (setWhat) {
@@ -281,10 +271,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 					String relatedObject = fieldMap.get(s).getDescribe().getReferenceTo()[0].getDescribe().getName();
 					if (relatedObject.equalsIgnoreCase(relatedObjectName)) {
 						t.WhatId = (Id) apAux.get(s);
-						System.debug('Relate WhatId to ' + relatedObject);
 						break;
-					} else {
-						System.debug('No match on ' + s);
 					}
 				}
 			}
@@ -303,8 +290,6 @@ public inherited sharing class ActionPlansBuilderUtilities {
 				//only update dependant tasks that are already created
 				if (t.Id != null) {
 					this.myTasksWithOutEmail.add(t);
-				} else {
-					System.debug('Unhandled task situation.');
 				}
 			}
 		}
@@ -353,28 +338,29 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 	/**
 	 * Read the Action Plan and see the custom setting to determine who should own the AP Tasks
-	 * @param ap           `ActionPlan__c`
-	 * @param relObjOwners Map of Id to record owner
-	 * @param apTaskUser   The current record user
-	 * @return             `Id` related OwnerID
-	 * @see getRelatedRecordOwnerId
+	 * @param ap           The `ActionPlan__c`
+	 * @param relObjOwners Map of `Id` to record `OwnerId`
+	 * @param apTaskUser   The record user Id
+	 * @return             `Id` The `APTask__c` assigned user
+	 * @see ActionPlansBuilderUtilities.getRelatedRecordOwnerId
 	 */
 	public static Id getAPTaskTemplateUser(ActionPlan__c ap, Map<Id, Id> relObjOwners, Id apTaskUser) {
 		if (String.isNotBlank(apTaskUser)) {
 			return apTaskUser;
 		}
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
-		if (!mySettings.Unassigned_Task_Assigned_to_Owner__c) {
+		if (mySettings.Unassigned_Task_Assigned_to_Owner__c) {
+			return getRelatedRecordOwnerId(ap, relObjOwners);
+		} else {
 			return UserInfo.getUserId();
 		}
-		return getRelatedRecordOwnerId(ap, relObjOwners);
 	}
 
 	/**
 	 * Given an Action Plan, looking in its relationship fields, find the owner of the related record from the map of records and owners
 	 * @param ap           `ActionPlan__c`
-	 * @param relObjOwners Map of related object `ID` to` OwnerId`
-	 * @return             The related record `OwnerId`
+	 * @param relObjOwners Map of related object `Id` to `OwnerId`
+	 * @return             `Id` The related record `OwnerId`
 	 */
 	public static Id getRelatedRecordOwnerId(ActionPlan__c ap, Map<Id, Id> relObjOwners) {
 		Id objId;
@@ -395,8 +381,8 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 	/**
 	 * Retrieve the owner list from the related object.
-	 * @param relatedRecordIDs		list of sobject Ids
-	 * @return `Map<Id, Id>` Map of record Id to Owner Id
+	 * @param relatedRecordIDs	List of sobject Ids
+	 * @return                  `Map<Id, Id>` Map of record Id to Owner Id
 	 */
 	public static Map<Id, Id> retrieveOwnersDataRelatedObject(Set<Id> relatedRecordIDs) {
 		Map<Id, Id> relatedObjOwners = new Map<Id, Id>();
@@ -424,14 +410,15 @@ public inherited sharing class ActionPlansBuilderUtilities {
 	 * @param recIDs Set of IDs of records for which we may make Chatter posts
 	 */
 	public static void generateObjectFeeds(Set<Id> recIDs) {
+		if (!Schema.getGlobalDescribe().containsKey('feeditem')) {
+			return;
+		}
+
 		List<SObject> chatterPosts = new List<SObject>();
 
 		List<String> apRefFields = ActionPlansUtilities.getCustomRelationshipFields();
 		String apQuery = 'SELECT Id, Name, ' + String.join(apRefFields, ', ') + ' FROM ActionPlan__c WHERE Id IN :recIDs';
 
-		if (!Schema.getGlobalDescribe().containsKey('feeditem')) {
-			return;
-		}
 		for (SObject so : Database.query(String.escapeSingleQuotes(apQuery))) {
 			ActionPlan__c ap = (ActionPlan__c) so;
 
@@ -465,7 +452,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  recID  Parent ID
 	 * @param  apName Action Plan Name
-	 * @return        `FeedItem.Body`
+	 * @return        `String` The `FeedItem` Body
 	 */
 	public static String getPostObjectBody(Id recID, String apName) {
 		String objName = recID.getSObjectType().getDescribe().getLabel();

@@ -72,7 +72,7 @@ testresults
 **/objects/Campaign
 **/objects/Lead
 **/objects/Opportunity
-!**/*Action_Plan*.webLink-meta.xml
+!**/webLinks/**
 
 # Action Plans Objects
 !**/objects/ActionPlan__c/**
@@ -89,4 +89,3 @@ testresults
 **/objects/Task/recordTypes
 **/standardValueSets
 **/Translations
-mdconverted

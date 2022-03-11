@@ -14,9 +14,6 @@ sfdx force:org:create --definitionfile config/project-scratch-def.json --setalia
 echo "Pushing unmanaged metadata"
 sfdx force:source:push
 
-echo "Deploy unpackaged metadata"
-sfdx force:source:deploy -p sfdx-source/unpackaged
-
 echo "Assigning permission set"
 sfdx force:user:permset:assign -n Action_Plans_Admin
 
@@ -27,8 +24,11 @@ sfdx force:user:permset:assign -n Action_Plans_Admin
 echo "Loading sample data"
 sfdx force:apex:execute -f ./data/sample-data.apex
 
+echo "Deploy unpackaged metadata"
+sfdx force:source:deploy -p sfdx-source/unpackaged --tracksource
+
 # To install sample Flow and other metadata
-sfdx force:source:deploy -p sfdx-source/unmanaged
+sfdx force:source:deploy -p sfdx-source/unmanaged --tracksource
 
 echo "opening org"
 sfdx force:org:open

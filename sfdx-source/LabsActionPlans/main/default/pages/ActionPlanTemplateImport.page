@@ -36,16 +36,14 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<apex:page id="importTemplate" tabStyle="Action_Plans_Template_Import__tab" controller="ActionPlanTemplateImportController" lightningStylesheets="true"
- docType="html-5.0" contentType="text/html">
+<apex:page id="importTemplate" tabStyle="Action_Plans_Template_Import__tab" controller="ActionPlanTemplateImportController" lightningStylesheets="true" docType="html-5.0" contentType="text/html">
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
 	<script>
 		var j$ = jQuery.noConflict();
 	</script>
 
 	<c:APSectionHeader title="{!$ObjectType.ActionPlanTemplate__c.label}" subtitle="{!$Label.ap_Import}" sObjType="ActionPlanTemplate__c" />
-	<apex:pageMessage title="{!$Label.ap_Errors_InsufficientPrivileges}" severity="error" rendered="{!!$ObjectType.ActionPlanTemplate__c.createable}"
-	/>
+	<apex:pageMessage title="{!$Label.ap_Errors_InsufficientPrivileges}" severity="error" rendered="{!!$ObjectType.ActionPlanTemplate__c.createable}" />
 	<apex:form id="theForm" onSubmit="return fileUpload.verify();">
 		<apex:pageBlock id="pageBlock" title="{!$Label.ap_Import}" rendered="{!$ObjectType.ActionPlanTemplate__c.createable}">
 			<apex:pageBlockSection id="blockSection" columns="1" collapsible="false">
@@ -54,8 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				<br />
 				<apex:inputFile id="fileInput" value="{!attachment.body}" filename="{!attachment.name}" />
 				<br />
-				<apex:commandButton id="btnImport" value="{!$Label.ap_Import}" action="{!importTemplate}" disabled="{!!$ObjectType.ActionPlanTemplate__c.createable}"
-				/>
+				<apex:commandButton id="btnImport" value="{!$Label.ap_Import}" action="{!importTemplate}" disabled="{!!$ObjectType.ActionPlanTemplate__c.createable}" />
 				<apex:pageMessages id="errorMsgs" />
 				<apex:messages id="errorMsg" style="color: white" />
 				<div id="errors" style="color: red"></div>

@@ -1,6 +1,6 @@
 <!--
 Action Plans v4
-David Schach 2021
+David Schach 2022
 
 BSD 3-Clause License
 
@@ -46,7 +46,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	</apex:outputPanel>
 
 	<apex:outputPanel rendered="{!lex}" layout="none">
-		<apex:variable var="lexicon" value="{!ObjectIconInfo['iconURL']}" />
 		<apex:slds />
 		<div class="slds-scope">
 			<div class="slds-page-header">
@@ -55,7 +54,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 						<div class="slds-media">
 							<div class="slds-media__figure">
 								<span class="slds-icon_container {!ObjectIconInfo['iconStyle']}" title="{!$ObjectType[sObjType].label}">
-									<apex:image url="{!lexicon}" styleClass="slds-icon slds-page-header__icon" html-aria-hidden="true" />
+									<apex:image url="{!ObjectIconInfo['iconURL']}" styleClass="slds-icon slds-page-header__icon" html-aria-hidden="true" />
 									<span class="slds-assistive-text">{!$ObjectType[sObjType].label}</span>
 								</span>
 							</div>
