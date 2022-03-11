@@ -29,7 +29,7 @@ jobs:
 
       # Run PMD scan
       - name: 'Run PMD scan'
-        run: ~/pmd/bin/run.sh pmd -d sfdx-source/LabsActionPlans -R pmd/deployRules.xml -f text --cache .pmdCache --min 2
+        run: ~/pmd/bin/run.sh pmd -d sfdx-source/LabsActionPlans -R pmd/deployRules.xml -f text --cache .pmdCache --minimum-priority 2
 
       # Install Salesforce CLI
       - name: 'Install Salesforce CLI'
