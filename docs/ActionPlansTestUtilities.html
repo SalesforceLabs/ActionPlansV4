@@ -43,9 +43,6 @@
             </summary>
             <ul>
               <!-- menu items -->
-              <li title="ActionPlansBatchTaskBuilder" id="item-ActionPlansBatchTaskBuilder" class="nav-item class public" onclick="goToLocation('ActionPlansBatchTaskBuilder.html');">
-                <a tabindex="1" href="javascript:void(0)">ActionPlansBatchTaskBuilder</a>
-              </li>
               <li title="ActionPlansQueueableBuilder" id="item-ActionPlansQueueableBuilder" class="nav-item class public" onclick="goToLocation('ActionPlansQueueableBuilder.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilder</a>
               </li>
@@ -283,15 +280,6 @@
                     </div>
                   </li>
                   <li class="method public">
-                    <a class="methods-toc__entry " href="#ActionPlansTestUtilities.batchIds">
-                      batchIds (relatedObject)
-                    </a>
-
-                    <div class="methods-toc__description">
-                      Create Environment for Batch Process
-                    </div>
-                  </li>
-                  <li class="method public">
                     <a class="methods-toc__entry " href="#ActionPlansTestUtilities.createAdminUser">
                       createAdminUser ()
                     </a>
@@ -513,7 +501,7 @@
                     </a>
 
                     <div class="methods-toc__description">
-                      Find a non-default Task Record Type
+                      Create Environment for Queueable Process
                     </div>
                   </li>
                 </ul>
@@ -550,42 +538,6 @@
                   </div>
                   <div class="method-subtitle-description">
                     <code class="code-inline">List&lt;PermissionSetAssignment&gt;</code> The list of <code class="code-inline">PermissionSetAssignment</code> records
-                  </div>
-                  <div class="method-subtitle">
-                    Author
-                  </div>
-                  <div class="method-subtitle-description">
-                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
-                  </div>
-                </div>
-                <div class="method public">
-                  <h4 class="method-title " id="ActionPlansTestUtilities.batchIds">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L472">
-                      batchIds(relatedObject)
-                    </a>
-                  </h4>
-                  <div class="method-description">
-                    Create Environment for Batch Process
-                  </div>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
-
-                  <div class="method-signature">
-                    public List&lt;Id&gt; batchIds(String relatedObject)
-                  </div>
-                  <div class="method-subtitle">Parameters</div>
-                  <div class="param-name">relatedObject</div>
-                  <div class="param-type">
-                    Type: <code class="code-inline">String</code>
-                  </div>
-                  <div class="param-description">The parent Object for the created Action Plans</div>
-                  <div class="method-subtitle">
-                    Returns
-                  </div>
-                  <div class="method-subtitle-description">
-                    <code class="code-inline">List&lt;Id&gt;</code> The list of created Action Plan Task IDs
                   </div>
                   <div class="method-subtitle">
                     Author
@@ -1330,7 +1282,7 @@
                     </a>
                   </h4>
                   <div class="method-description">
-                    Find a non-default Task Record Type
+                    Create Environment for Queueable Process
                   </div>
                   <div class="method-subtitle">
                     Signature
@@ -1339,11 +1291,14 @@
                   <div class="method-signature">
                     public static Id getNonDefaultAvailableTaskRecordType()
                   </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">relatedObject</div>
+                  <div class="param-description">The parent Object for the created Action Plans</div>
                   <div class="method-subtitle">
                     Returns
                   </div>
                   <div class="method-subtitle-description">
-                    The <code class="code-inline">Id</code> of a non-default <code class="code-inline">Task</code> Record Type for the running user
+                    <code class="code-inline">List&lt;Id&gt;</code> The list of created Action Plan Task IDs
                   </div>
                   <div class="method-subtitle">
                     Author
