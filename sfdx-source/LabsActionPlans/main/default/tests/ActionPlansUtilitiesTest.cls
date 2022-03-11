@@ -53,15 +53,15 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testSaveMethod() {
+	private static void testSaveSingle() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
 
-		List<APTask__c> aptl = new List<APTask__c>();
+		List<APTask__c> aptList = new List<APTask__c>();
 		for (Integer i = 0; i < 3; i++) {
-			aptl.add(makeAppTask(ap));
+			aptList.add(makeAppTask(ap));
 		}
-		insert aptl;
+		insert aptList;
 
 		Test.startTest();
 
@@ -69,7 +69,7 @@ private class ActionPlansUtilitiesTest {
 		ApexPages.currentPage().getParameters().put('refId', ap.Account__c);
 
 		ActionPlanCreationController apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
-		apcc.apTasks = aptl;
+		apcc.apTasks = aptList;
 
 		System.assert(apcc.hasRelatedObject(), 'Should be a related object Account');
 
@@ -86,11 +86,11 @@ private class ActionPlansUtilitiesTest {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
 
-		List<APTask__c> aptl = new List<APTask__c>();
+		List<APTask__c> aptList = new List<APTask__c>();
 		for (Integer i = 0; i < 3; i++) {
-			aptl.add(makeAppTask(ap));
+			aptList.add(makeAppTask(ap));
 		}
-		insert aptl;
+		insert aptList;
 
 		Test.startTest();
 
@@ -101,8 +101,8 @@ private class ActionPlansUtilitiesTest {
 		ApexPages.currentPage().getParameters().put('refType', 'Account');
 		ApexPages.currentPage().getParameters().put('refId', ap.Account__c);
 		ActionPlanCreationController apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
-		apcc.apTasks = aptl;
-		apcc.saveMultiple();
+		apcc.apTasks = aptList;
+		apcc.saveMultipleAP();
 		Test.stopTest();
 		ActionPlan__c rap = [SELECT Id, Account__c FROM ActionPlan__c WHERE Id = :ap.Id];
 		System.assert(rap.Account__c == ap.Account__c);
@@ -111,11 +111,24 @@ private class ActionPlansUtilitiesTest {
 	@IsTest
 	private static void testAccount() {
 		System.assert(testObject('Account'));
+		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
+		Test.startTest();
+		delete [SELECT Id FROM Account];
+		Test.stopTest();
+		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Action Plan with Account');
 	}
 
 	@IsTest
 	private static void testContact() {
 		System.assert(testObject('Contact'));
+		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
+		Test.startTest();
+		Account a = [SELECT Id FROM Account];
+		delete a;
+		Test.stopTest();
+		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Contact Action Plan with Account');
+		undelete a;
+		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Contact Action Plan with Account');
 	}
 
 	@IsTest
@@ -150,8 +163,6 @@ private class ActionPlansUtilitiesTest {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apt = testutil.createNewActionPlanTemplate(5);
 
-		Test.startTest();
-
 		ActionPlan__c ap = testutil.createNewActionPlan(objectName, 3);
 
 		ApexPages.currentPage().getParameters().put('refType', objectName);
@@ -166,7 +177,7 @@ private class ActionPlansUtilitiesTest {
 		apcc.apTasks = apcc.getAPTasks();
 
 		apcc.save();
-		Test.stopTest();
+
 		Boolean hasAPTasks = !apcc.apTasks.isEmpty();
 
 		return hasAPTasks;
@@ -360,17 +371,14 @@ private class ActionPlansUtilitiesTest {
 		System.assertEquals(ActionPlansTestUtilities.standardObjects.size(), [SELECT COUNT() FROM ActionPlan__c]);
 	}
 
-	@IsTest
+	/* @IsTest
 	private static void testbatchIds() {
-		ActionPlansTestUtilities apTestUtil = new ActionPlansTestUtilities();
-
-		System.assert(apTestUtil.batchIds('account') != null);
-	}
+		System.assert(new ActionPlansTestUtilities().batchIds('account') != null);
+	} */
 
 	@IsTest
 	private static void testRandomWord() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-
 		System.assert(testUtil.createRandomWord('testword') != testUtil.createRandomWord());
 	}
 

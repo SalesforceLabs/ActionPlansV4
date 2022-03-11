@@ -182,10 +182,10 @@ public with sharing class ActionPlanTemplateDetailController {
 	 * If we have no share object, we don't need to show a Share button
 	 * <br>Also validate user permission to share
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   Does the `ActionPlanTemplate__Share` object exist?
+	 * @return   Does the user have permission to share this Action Plan Tmplate?
 	 */
 	public Boolean getCanShare() {
-		return ActionPlansUtilities.canShareRecord(ActionPlansUtilities.namespacePrefix + 'ActionPlanTemplate__Share', actionPlanTemplate.Id, actionPlanTemplate.OwnerId);
+		return ActionPlansUtilities.canShareRecord(actionPlanTemplate.Id, actionPlanTemplate.OwnerId);
 	}
 
 	/**

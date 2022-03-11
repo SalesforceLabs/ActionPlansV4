@@ -3,6 +3,7 @@
 	<fullName>Task_RecordTypeId__c</fullName>
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
+	<description>Formula for setting the Record Type of the created Task</description>
 	<formula>Action_Plan__r.TaskRecordTypeID__c</formula>
 	<formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
 	<label>Tasks Record Type Id</label>

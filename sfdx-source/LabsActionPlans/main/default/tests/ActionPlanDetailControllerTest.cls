@@ -52,14 +52,14 @@ private class ActionPlanDetailControllerTest {
 
 		ApexPages.currentPage().getParameters().put('id', null);
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
-		System.assertEquals(0, apDetailController.getCompleted());
+		System.assertEquals(0, ActionPlansTestUtilities.getCompleted(null), 'New AP should have no completed tasks');
 		System.assert(apDetailController.getActionPlanTasks().isEmpty(), 'New Action Plan has no tasks');
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
-
+		System.assertEquals('Account', apDetailController2.getRelatedObjectLabel());
 		apDetailController2.getCanTransfer();
 		apDetailController2.getCanShare();
 
@@ -69,7 +69,7 @@ private class ActionPlanDetailControllerTest {
 
 	@IsTest
 	private static void checkTasks() {
-		PageReference pageRef = Page.ActionPlanPrint;
+		PageReference pageRef = Page.ActionPlanDetail;
 		Test.setCurrentPage(pageRef);
 		Test.startTest();
 
@@ -87,7 +87,7 @@ private class ActionPlanDetailControllerTest {
 
 	@IsTest
 	private static void checkNoTasks() {
-		PageReference pageRef = Page.ActionPlanPrint;
+		PageReference pageRef = Page.ActionPlanDetail;
 		Test.setCurrentPage(pageRef);
 		Test.startTest();
 
@@ -99,24 +99,6 @@ private class ActionPlanDetailControllerTest {
 
 		//Checks to see that list of tasks is not empty
 		System.assert(apTasks.isEmpty(), 'task list is empty');
-
-		Test.stopTest();
-	}
-
-	@IsTest
-	private static void checkCompletedTasks() {
-		PageReference pageRef = Page.ActionPlanDetail;
-		Test.setCurrentPage(pageRef);
-		Test.startTest();
-
-		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3);
-
-		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
-		Integer completedTasks = apDetailController.getCompleted();
-
-		//verifies number of completed tasks
-		System.assertEquals(0, completedTasks);
 
 		Test.stopTest();
 	}
@@ -203,6 +185,7 @@ private class ActionPlanDetailControllerTest {
 		ActionPlanDetailController apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		String recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
+		System.assertEquals('Account', apdc.getRelatedObjectLabel());
 
 		actionPlan = testUtil.createNewActionPlan('campaign', 0);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
@@ -221,6 +204,7 @@ private class ActionPlanDetailControllerTest {
 		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
+		System.assertEquals('Contact', apdc.getRelatedObjectLabel());
 
 		actionPlan = testUtil.createNewActionPlan('contract', 0);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
@@ -281,54 +265,5 @@ private class ActionPlanDetailControllerTest {
 
 		System.assertEquals(false, apDetailController2.hasRecordType);
 		System.assertEquals('', apDetailController2.getRecordTypeName());
-	}
-
-	@IsTest
-	private static void testPrintButton() {
-		PageReference pageRef = Page.ActionPlanDetail;
-		Test.setCurrentPage(pageRef);
-
-		Test.startTest();
-
-		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2);
-
-		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
-		ApexPages.StandardController sc = new ApexPages.StandardController(actionPlan);
-		ActionPlanDetailController apDetailController = new ActionPlanDetailController(sc);
-		PageReference printPage = apDetailController.print();
-
-		String urlVal = printPage.getURL();
-
-		Test.stopTest();
-
-		System.assert(urlVal.containsIgnoreCase(actionPlan.Id));
-		System.assert(urlVal.containsIgnoreCase('Print'));
-		sc.cancel();
-		urlVal = ApexPages.currentPage().getURL();
-		System.assert(urlVal.containsIgnoreCase(actionPlan.Id));
-		System.assert(urlVal.containsIgnoreCase('Detail'));
-	}
-
-	@IsTest
-	private static void printConstructorTests() {
-		Test.setCurrentPage(Page.ActionPlanPrint);
-
-		Test.startTest();
-
-		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(new ActionPlan__c()));
-		System.assert(apDetailController.getActionPlanTasks().isEmpty(), 'New Action Plan has no tasks');
-		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
-
-		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
-
-		apDetailController2.getRecordTypeName();
-		System.assertEquals(false, apDetailController2.hasControllingTasks);
-
-		Test.stopTest();
-
-		System.assertEquals([SELECT Name FROM Account LIMIT 1].Name, apDetailController2.getrelatedRecordName());
-		System.assertEquals('Account', apDetailController2.getRelatedObjectLabel());
 	}
 }

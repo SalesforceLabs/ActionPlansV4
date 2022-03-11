@@ -48,6 +48,10 @@ Lead-Lead Layout.layout
 Account-Account Layout.layout
 Global-Global Layout.layout
 Account.object
+Contact.object
+Case.object
+Lead.object
+Opportunity.object
 *.profile
 *.recordType
 *.ProfilePasswordPolicy

@@ -277,10 +277,6 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>ActionPlanPrint</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>ActionPlanTaskOverride</apexPage>
         <enabled>true</enabled>
     </pageAccesses>

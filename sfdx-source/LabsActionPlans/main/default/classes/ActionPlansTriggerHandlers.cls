@@ -66,7 +66,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 */
 	// prettier-ignore
 	public static void actionPlansSObjectTriggerHandler(List<SObject> newRecords, List<SObject> oldRecords, Map<Id, SObject> newRecordsMap, Map<Id, SObject> oldRecordsMap, System.TriggerOperation triggerEvent, String sObjectName) {
-		//System.debug('In ' + sObjectName + ' ' + triggerEvent.name());
+		
 
 		String relationshipName = null;
 
@@ -106,8 +106,11 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				if (!apIds.isEmpty()) {
-					ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
-					Database.ExecuteBatch(aPBatch);
+					if(System.isFuture() || System.isBatch()){
+						deleteActionPlans(apIds);
+					} else {
+						futureDeleteActionPlans(apIds);
+					}
 				}
 			}
 			//Undelete related action plans
@@ -190,7 +193,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			//Execution when an Action Plan is deleted: delete all asociated Tasks
 			when BEFORE_DELETE {
 				Set<Id> taskIds = new Set<Id>();
-				if (!System.isBatch() && !System.isFuture()) {
+				if (!System.isBatch() && !System.isFuture() && !System.isQueueable()) {
 					// if action plan is deleted, delete all tasks associated with it
 					for (Task ap : [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__r.Action_Plan__c IN :oldRecordsMap.keyset()]) {
 						taskIds.add(ap.Id);
@@ -218,7 +221,7 @@ global without sharing class ActionPlansTriggerHandlers {
 		}
 	}
 	/**
-	 * When inserting or updating Action Plan records, fill the text parent object `Related_Object__c` and parent record  `Related_Record__c` fields
+	 * When inserting or updating Action Plan records, fill the text parent object `Related Object` and parent record  `Related Record` fields
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  newRecords Trigger.new
 	 */
@@ -263,12 +266,18 @@ global without sharing class ActionPlansTriggerHandlers {
 			when BEFORE_INSERT, BEFORE_UPDATE {
 				for (APTask__c a : newRecords) {
 					a.IsClosed__c = ActionPlansUtilities.getClosedTaskStatuses().contains(a.Status__c);
-					if (a.User__c == null) {
+					a.User__c = a.User__c == null ? UserInfo.getUserId() : a.User__c;
+					/* if (a.User__c == null) {
 						a.User__c = UserInfo.getUserId();
-					}
-					if(a.DaysFromStart__c == null){
+					} */
+					a.DaysFromStart__c = a.DaysFromStart__c == null ? 0 : a.DaysFromStart__c;
+					/* if(a.DaysFromStart__c == null){
 						a.DaysFromStart__c = 0;
-					}
+					} */
+					a.Dependent__c = (String.isBlank(a.Dependent__c)) ? 'None' : a.Dependent__c;
+					/* if(String.isBlank(a.Dependent__c)){
+						a.Dependent__c = 'None';
+					} */
 				}
 
 				Set<Id> apIDs = new Set<Id>();
@@ -276,7 +285,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				Schema.DescribeSObjectResult aptDescribe = apttype.getDescribe();
 				String aptObjectName = aptDescribe.getName();
 				String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix(aptObjectName);
-				//System.debug('prefix for ' + aptObjectName + ' is ' + aptPrefix);
+				
 
 				for (APTask__c apt : newRecords) {
 					if (
@@ -315,7 +324,9 @@ global without sharing class ActionPlansTriggerHandlers {
 				try {
 					Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :oldRecordsMap.keyset() AND IsClosed = FALSE]);
 				} catch (Exception e) {
-					System.debug('Error when deleting Tasks related to APTaskTemplate');
+					for (APTask__c a : oldRecords) {
+						a.addError('Error when deleting Task related to APTaskTemplate: ' + e.getMessage());
+					}
 				}
 			}
 			when AFTER_UNDELETE {
@@ -378,7 +389,6 @@ global without sharing class ActionPlansTriggerHandlers {
 	 */
 	// prettier-ignore
 	public static void triggerhandlerActionPlanTemplateTask(List<APTemplateTask__c> newRecords, List<APTemplateTask__c> oldRecords, Map<Id, APTemplateTask__c> oldRecordsMap, System.TriggerOperation triggerEvent) {
-		//System.debug('In APTemplateTask__c ' + triggerEvent.name());
 
 		switch on triggerEvent {
 			when BEFORE_INSERT, BEFORE_UPDATE {
@@ -387,7 +397,6 @@ global without sharing class ActionPlansTriggerHandlers {
 				Schema.DescribeSObjectResult apttDescribe = aptttype.getDescribe();
 				String apttObjectName = apttDescribe.getName();
 				String apttPrefix = ActionPlansUtilities.getObjectKeyPrefix(apttObjectName);
-				//System.debug('prefix for ' + apttObjectName + ' is ' + apttPrefix);
 				for (APTemplateTask__c aptt : newRecords) {
 					if (
 						aptt.Name == null ||
@@ -445,11 +454,6 @@ global without sharing class ActionPlansTriggerHandlers {
 						taskTemplateToIntendedRecordTypeId.put(aptt.Id, aptt.Action_Plan__r.TaskRecordTypeID__c);
 					}
 					for (Task t : newRecords) {
-						/* if (!taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c)) {
-						}
-						if (!ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().containsKey(taskTemplateToIntendedRecordTypeId.get(t.TaskAPTask__c))) {
-						} */
-
 						if (
 							t.TaskAPTask__c != null &&
 							taskTemplateToIntendedRecordTypeId.containsKey(t.TaskAPTask__c) &&
@@ -577,7 +581,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				if (!finalIds.isEmpty()) {
-					if (System.isBatch() || System.isFuture()) {
+					if (System.isBatch() || System.isFuture() || System.isQueueable()) {
 						Database.delete([SELECT Id FROM APTask__c WHERE Id IN :finalIds]);
 					} else {
 						ActionPlansTaskTriggerUtilities.deleteAPTasks(finalIds);
@@ -608,9 +612,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					apMap.put(ap.Lead__c, ap);
 				}
 
-				Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
-				//System.debug('mySettings ' + mySettings);
-				String destinationObject = mysettings.Default_Object_on_Lead_Conversion__c;
+				String destinationObject = ActionPlansUtilities.getCustomSetting().Default_Object_on_Lead_Conversion__c;
 				if (destinationObject != null) {
 					destinationObject = destinationObject.toLowerCase();
 				}
@@ -634,7 +636,6 @@ global without sharing class ActionPlansTriggerHandlers {
 						toUpdate.add(ap);
 					}
 				}
-				//System.debug('APs to Update pre-update: ' + toUpdate);
 				update toUpdate;
 			}
 		}
@@ -683,8 +684,11 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				if (!apIds.isEmpty()) {
-					ActionPlansBatchDelete aPBatch = new ActionPlansBatchDelete(apIds);
-					Database.executeBatch(aPBatch);
+					if(System.isFuture() || System.isBatch()){
+						deleteActionPlans(apIds);
+					} else {
+						futureDeleteActionPlans(apIds);
+					}
 				}
 			}
 			//Undelete related action plans
@@ -746,7 +750,6 @@ global without sharing class ActionPlansTriggerHandlers {
 
 	/**
 	 * Though the object name should match the field name, we get the name of the related object
-	 *
 	 * @param recordId The related record Id
 	 * @return         The name of the filled Relationship field object name
 	 */
@@ -784,5 +787,34 @@ global without sharing class ActionPlansTriggerHandlers {
 			allowTasksMap.put(apt.Id, apt.Controller__c == null || !openStatuses.contains(apt.Controller__r.Status__c));
 		}
 		return allowTasksMap;
+	}
+
+	/**
+	 * Given actionplanIDs, delete these Action Plans AND their open Tasks
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @param  relActionPlansIds `ActionPlan__c` IDs
+	 */
+	private static void deleteActionPlans(Set<Id> relActionPlansIds) {
+		List<ActionPlan__c> relActionPlans = [SELECT Id FROM ActionPlan__c WHERE Id IN :relActionPlansIds];
+		Map<Id, APTask__c> relTaskTemplateMap = new Map<Id, APTask__c>([SELECT Id FROM APTask__c WHERE Action_Plan__c IN :relActionPlansIds]);
+		List<Task> relTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__c IN :relTaskTemplateMap.keySet()];
+
+		if (!relActionPlans.isEmpty()) {
+			List<Database.DeleteResult> results = Database.delete(relActionPlans, false); //NOPMD
+		}
+
+		if (!relTaskList.isEmpty()) {
+			List<Database.DeleteResult> results = Database.delete(relTaskList, false); //NOPMD
+		}
+	}
+
+	/**
+	 * Given actionplanIDs, delete these Action Plans AND their open Tasks in future context
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @param  relActionPlansIds `ActionPlan__c` IDs
+	 */
+	@future
+	private static void futureDeleteActionPlans(Set<Id> relActionPlansIds) {
+		deleteActionPlans(relActionPlansIds);
 	}
 }

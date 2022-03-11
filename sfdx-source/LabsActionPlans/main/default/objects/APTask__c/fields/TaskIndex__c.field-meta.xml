@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
 	<label>Task Index</label>
+	<description>The order in which to display the AP Tasks on a page</description>
 	<precision>18</precision>
 	<required>false</required>
 	<scale>0</scale>

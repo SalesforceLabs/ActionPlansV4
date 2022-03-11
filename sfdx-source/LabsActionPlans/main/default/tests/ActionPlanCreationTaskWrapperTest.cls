@@ -186,7 +186,7 @@ private class ActionPlanCreationTaskWrapperTest {
 		System.runAs(u) {
 			System.assert(Schema.sObjectType.APTask__c.fields.User__c.isUpdateable());
 			ActionPlanCreationController apCreateController = doEditActionPlan();
-			System.assertEquals(0, apCreateController.getCompleted(), 'New AP should have no completed tasks');
+			System.assertEquals(0, ActionPlansTestUtilities.getCompleted(apCreateController.actionPlan.Id), 'New AP should have no completed tasks');
 			System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 		}
 	}
@@ -207,7 +207,7 @@ private class ActionPlanCreationTaskWrapperTest {
 		System.runAs(u) {
 			System.assert(Schema.sObjectType.APTask__c.fields.User__c.isUpdateable());
 			ActionPlanCreationController apCreateController = doEditActionPlan();
-			System.assertEquals(0, apCreateController.getCompleted(), 'New AP should have no completed tasks');
+			System.assertEquals(0, ActionPlansTestUtilities.getCompleted(apCreateController.actionPlan.Id), 'New AP should have no completed tasks');
 			System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 		}
 	}

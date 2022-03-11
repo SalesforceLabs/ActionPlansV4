@@ -45,7 +45,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 global without sharing class ActionPlanCreateInvocable {
 	/**
 	 * Invocable Apex for creating Action Plans from a template, a parent ID, and days from now to start the task due dates
-	 *
 	 * @param requests Wrapper of `CreateActionPlanRequest`
 	 * @see ActionPlanCreateInvocable.CreateActionPlanRequest
 	 * @return `List<Id>` of the created Action Plans
@@ -118,7 +117,6 @@ global without sharing class ActionPlanCreateInvocable {
 		}
 
 		Set<Id> relatedIDs = new Set<Id>();
-		String relatedObjectName = requests[0].relatedRecordID.getSObjectType().getDescribe().getName();
 
 		for (CreateActionPlanRequest r : requests) {
 			relatedIDs.add(r.relatedRecordID);
@@ -128,7 +126,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
 
-		Map<Id, Id> relatedObjectOwners = ActionPlansBatchBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs, relatedObjectName);
+		Map<Id, Id> relatedObjectOwners = ActionPlansBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs);
 
 		Set<String> actionPlanFields = Schema.SObjectType.ActionPlan__c.fields.getMap().keyset();
 
@@ -356,7 +354,7 @@ global without sharing class ActionPlanCreateInvocable {
 		}
 
 		if (mySettings != null && mySettings.Chatter_Object_Brag__c) {
-			ActionPlansBatchBuilderUtilities.generateObjectFeeds(relObjectIDs);
+			ActionPlansBuilderUtilities.generateObjectFeeds(relObjectIDs);
 		}
 
 		for (CreateActionPlanRequest request : requests) {

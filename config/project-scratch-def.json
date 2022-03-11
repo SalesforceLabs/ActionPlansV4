@@ -2,14 +2,11 @@
 	"orgName": "Action Plans",
 	"edition": "Developer",
 	"hasSampleData": true,
-	"description": "Scratch org for Action Plans",
+	"description": "Developer Edition Scratch org for Action Plans",
 	"features": ["EnableSetPasswordInApi"],
 	"settings": {
 		"lightningExperienceSettings": {
 			"enableS1DesktopEnabled": true
-		},
-		"chatterSettings": {
-			"enableChatter": true
 		}
 	}
 }

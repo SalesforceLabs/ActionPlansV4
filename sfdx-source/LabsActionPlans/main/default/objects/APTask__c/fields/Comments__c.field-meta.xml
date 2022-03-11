@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
 	<label>Comments</label>
+	<description>Text to be copied to Task Description</description>
 	<length>32000</length>
 	<trackTrending>false</trackTrending>
 	<type>LongTextArea</type>

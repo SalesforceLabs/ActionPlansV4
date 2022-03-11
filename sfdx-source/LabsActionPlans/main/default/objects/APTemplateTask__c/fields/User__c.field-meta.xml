@@ -8,6 +8,7 @@
 	<label>Assigned To</label>
 	<referenceTo>User</referenceTo>
 	<relationshipName>APTTasks</relationshipName>
+	<description>The User who will be assigned the created Task.</description>
 	<required>false</required>
 	<trackTrending>false</trackTrending>
 	<type>Lookup</type>

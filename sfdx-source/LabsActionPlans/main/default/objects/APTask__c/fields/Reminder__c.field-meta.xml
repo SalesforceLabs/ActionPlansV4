@@ -3,6 +3,7 @@
 	<fullName>Reminder__c</fullName>
 	<businessStatus>Active</businessStatus>
 	<defaultValue>false</defaultValue>
+	<description>Should a reminder pop-up be set?</description>
 	<externalId>false</externalId>
 	<label>Reminder</label>
 	<trackTrending>false</trackTrending>

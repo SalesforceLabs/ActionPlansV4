@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
 	<fieldManageability>SubscriberControlled</fieldManageability>
+	<description>This allows, for example, pulling Saturday 1 day to Friday, or if Sunday is a weekday, pulling Saturday 2 days to Thursday</description>
 	<inlineHelpText>Days to move backwards if a task falls on this weekend day so that the task due date is on the last weekday of the prior week</inlineHelpText>
 	<label>Days from end of previous week</label>
 	<precision>1</precision>

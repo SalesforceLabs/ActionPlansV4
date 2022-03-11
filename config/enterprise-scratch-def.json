@@ -1,0 +1,12 @@
+{
+	"orgName": "Action Plans",
+	"edition": "Enterprise",
+	"hasSampleData": true,
+	"description": "Enterprise Edition Scratch org for Action Plans",
+	"features": ["EnableSetPasswordInApi"],
+	"settings": {
+		"lightningExperienceSettings": {
+			"enableS1DesktopEnabled": true
+		}
+	}
+}

@@ -8,7 +8,7 @@ engine:
   title: Action Plans code documentation
   subtitle: Documentation for <a target="_blank" rel="noopener noreferrer" href="https://github.com/SalesforceLabs/ActionPlansV4">Action Plans</a>
   sortOrder: alpha
-  cleanDir: false
+  cleanDir: true
   showTOCSnippets: true
   scope:
     - global
@@ -24,6 +24,18 @@ engine:
     - '${workspaceFolder}/doc-assets/logo.png'
     - '${workspaceFolder}/doc-assets/favicon.png'
     - '${workspaceFolder}/doc-assets/icon.png'
+    - '${workspaceFolder}/doc-assets/readme/ActionPlanFieldSet.png'
+    - '${workspaceFolder}/doc-assets/readme/Template-Creation.png'
+    - '${workspaceFolder}/doc-assets/readme/Select-Accounts.png'
+    - '${workspaceFolder}/doc-assets/readme/Choose-template-step1.png'
+    - '${workspaceFolder}/doc-assets/readme/Choose-template-step2.png'
+    - '${workspaceFolder}/doc-assets/readme/ActionPlan-Detail.png'
+    - '${workspaceFolder}/doc-assets/readme/AccountActionPlan-Detail.png'
+    - '${workspaceFolder}/doc-assets/readme/FlowAction.png'
+    - '${workspaceFolder}/doc-assets/readme/FlowActionVariables.png'
+    - '${workspaceFolder}/doc-assets/readme/ProcessBuilder.png'
+    - '${workspaceFolder}/doc-assets/readme/ActionPlanTemplate-import-1.png'
+    - '${workspaceFolder}/doc-assets/readme/ActionPlanTemplate-import-2.png'
     - '${workspaceFolder}/doc-assets/index.css'
   #  - "${workspaceFolder}/documentation/meme.jpg"
   port: 8088

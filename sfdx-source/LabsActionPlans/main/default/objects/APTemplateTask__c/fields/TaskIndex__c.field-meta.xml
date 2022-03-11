@@ -5,6 +5,7 @@
 	<externalId>false</externalId>
 	<label>Task Index</label>
 	<precision>18</precision>
+	<description>The order in which to display the AP Tasks on a page</description>
 	<required>false</required>
 	<scale>0</scale>
 	<trackTrending>false</trackTrending>

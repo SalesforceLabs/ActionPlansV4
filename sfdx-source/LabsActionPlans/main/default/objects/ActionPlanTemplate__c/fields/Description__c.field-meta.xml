@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
 	<label>Description</label>
+	<description>The template description</description>
 	<required>false</required>
 	<trackTrending>false</trackTrending>
 	<type>TextArea</type>

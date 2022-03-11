@@ -65,7 +65,7 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.onLoad();
-		System.assertEquals(0, apCreateController.getCompleted(), 'New AP should have no completed tasks');
+		System.assertEquals(0, ActionPlansTestUtilities.getCompleted(actionPlan.Id), 'New AP should have no completed tasks');
 		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 		apCreateController.getAllRelationshipFields();
 		System.assertEquals('', apCreateController.getTemplateName());
@@ -85,8 +85,8 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.onLoad();
-
 		Test.stopTest();
+		System.assert(apCreateController.getTasks().isEmpty());
 	}
 
 	@IsTest
@@ -96,7 +96,8 @@ private class ActionPlanCreationControllerTest {
 
 		ApexPages.currentPage().getParameters().put('id', null);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(new ActionPlan__c()));
-		System.assertEquals(0, apCreateController.getCompleted());
+		apCreateController.onLoad();
+		System.assertEquals(0, ActionPlansTestUtilities.getCompleted(apCreateController.actionPlan.Id), 'New AP should have no completed tasks');
 		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -144,17 +145,16 @@ private class ActionPlanCreationControllerTest {
 
 	@IsTest
 	private static void testActionPlanSave() {
-		Test.setCurrentPage(Page.ActionPlanCreation);
+		ActionPlan__c ap = new ActionPlansTestUtilities().createNewActionPlan('contact', 3);
 
-		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testUtil.createNewActionPlan('contact', 3);
 		Contact contact = [SELECT Id FROM Contact LIMIT 1];
 
+		Test.startTest();
+
+		Test.setCurrentPage(Page.ActionPlanCreation);
 		ApexPages.currentPage().getParameters().put('id', ap.Id);
 		ApexPages.currentPage().getParameters().put('refId', contact.Id);
 		ApexPages.currentPage().getParameters().put('refType', 'Contact');
-
-		Test.startTest();
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(ap));
 
@@ -162,9 +162,15 @@ private class ActionPlanCreationControllerTest {
 
 		apCreateController.save();
 
+		System.assertEquals(3, [SELECT COUNT() FROM Task]);
+
+		APTask__c aptEmail = [SELECT Id, SendEmail__c FROM APTask__c LIMIT 1];
+		aptEmail.SendEmail__c = true;
+		update aptEmail;
+
 		Test.setCurrentPage(Page.ActionPlanCreation);
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(ap));
-
+		apCreateController.getTasks();
 		apCreateController.actionPlan.SkipWeekends__c = true;
 		apCreateController.actionPlan.SkipDay__c = 'End of previous week';
 
@@ -287,8 +293,7 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.save();
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
-		System.assertEquals(0, apCreateController.getCompleted(), 'Action plan task completed count is incorrect');
-
+		System.assertEquals(0, ActionPlansTestUtilities.getCompleted(actionPlan.Id), 'New AP should have no completed tasks');
 		Task openTask = [SELECT Id, IsClosed, Status FROM Task LIMIT 1];
 		for (String s : ActionPlansUtilities.getClosedTaskStatuses()) {
 			try {
@@ -302,7 +307,7 @@ private class ActionPlanCreationControllerTest {
 		update openTask;
 		Test.stopTest();
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
-		System.assertEquals(1, apCreateController.getCompleted(), 'The completed Task should have been reflected in the Action Plan');
+		System.assertEquals(1, ActionPlansTestUtilities.getCompleted(actionPlan.Id), 'The completed Task should have been reflected in the Action Plan');
 	}
 
 	@IsTest
@@ -391,6 +396,7 @@ private class ActionPlanCreationControllerTest {
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
 		apCreateController.getTasks();
+		apCreateController.getTasks()[0].apt.SendEmail__c = true;
 		apCreateController.removeTask();
 		apCreateController.save();
 
@@ -657,7 +663,8 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.actionPlan.SkipWeekends__c = true;
 		apCreateController.actionPlan.SkipDay__c = 'Start of next week';
 
-		APTask__c newAPTask = apCreateController.addTask();
+		apCreateController.addTask();
+		APTask__c newAPTask = apCreateController.addedTask;
 		newAPTask.Subject__c = testutil.createRandomWord('subject');
 		newAPTask.DaysFromStart__c = 1;
 		newAPTask.User__c = UserInfo.getUserId();
@@ -665,11 +672,7 @@ private class ActionPlanCreationControllerTest {
 		newAPTask.Priority__c = 'Normal';
 		newAPTask.Minutes_Reminder__c = '510';
 		apCreateController.apTasks.add(newAPTask);
-
 		apCreateController.save();
-		/* ActionPlansBatchBuilderUtilities taskBatch = new ActionPlansBatchBuilderUtilities(apCreateController.actionPlan, apTasks, null, new Set<Id>());
-		 taskBatch.generateActionPlans(); */
-
 		Test.stopTest();
 		APTask__c testAPTask = [SELECT Id, Task_RecordTypeId__c, Action_Plan__c FROM APTask__c LIMIT 1];
 		System.assertNotEquals(null, testAPTask.Task_RecordTypeId__c, 'Even a master record type should have been set');

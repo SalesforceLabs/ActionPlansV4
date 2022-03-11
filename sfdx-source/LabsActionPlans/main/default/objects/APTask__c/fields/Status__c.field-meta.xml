@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
 	<fullName>Status__c</fullName>
 	<businessStatus>Active</businessStatus>
+	<description>Initial Task Status. Depends on Record Type, so is unrestricted picklist.</description>
 	<externalId>false</externalId>
 	<label>Status</label>
 	<required>false</required>

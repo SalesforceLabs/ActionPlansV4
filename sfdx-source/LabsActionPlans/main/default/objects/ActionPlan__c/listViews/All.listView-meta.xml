@@ -3,6 +3,8 @@
     <fullName>All</fullName>
     <columns>NAME</columns>
     <columns>Task_Status_Formula__c</columns>
+    <columns>Related_Object__c</columns>
+    <columns>Related_Record__c</columns>
     <columns>Action_Plan_Template__c</columns>
     <columns>Plan_Progress__c</columns>
     <filterScope>Everything</filterScope>

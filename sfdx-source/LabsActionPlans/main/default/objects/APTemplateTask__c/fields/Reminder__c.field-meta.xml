@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<defaultValue>false</defaultValue>
 	<externalId>false</externalId>
+	<description>Should a reminder pop-up be set?</description>
 	<label>Reminder</label>
 	<trackTrending>false</trackTrending>
 	<type>Checkbox</type>

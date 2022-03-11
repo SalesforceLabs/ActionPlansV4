@@ -44,10 +44,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 public inherited sharing class ActionPlansSectionHeaderController {
 	/**
-	 * The object for the Section Header
-	 * @return The object Name
+	 * The object name for the Section Header
 	 */
-	public String objectName { get; set; }
+	public String objectName {
+		get {
+			if (orgObject == null) {
+				Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+				String withNamespace = (ActionPlansUtilities.namespacePrefix + objectName).toLowerCase();
+				if (gd.containsKey(withNamespace)) {
+					orgObject = withNamespace;
+				} else {
+					orgObject = objectName;
+				}
+			}
+			return orgObject;
+		}
+		set;
+	}
+
+	/**
+	 * String to hold actual used object in case of namespaced app
+	 */
+	private String orgObject;
 
 	/**
 	 * Map of Icon attribute and value
@@ -80,10 +98,8 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	/***
 	 * Explores the schema of the soject passed in and finds lightning icon style and image url for sObject
 	 * If nothing is found, defaults to the custom icon
-	 *
 	 * Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
 	 * Thanks to https://salesforce.stackexchange.com/users/12582/cricketlang
-	 *
 	 * @param   sObjectName           The sObject to find the icon for
 	 * @return  Map of properties about the icon to be consumed by the front end. Returns values for keys: iconStyle,iconURL
 	 */

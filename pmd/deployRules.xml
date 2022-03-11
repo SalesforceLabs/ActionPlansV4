@@ -26,7 +26,7 @@
 	<rule ref="category/apex/design.xml/ExcessivePublicCount" message="This class has too many public methods and attributes">
 		<priority>3</priority>
 		<properties>
-			<property name="minimum" value="25" />
+			<property name="minimum" value="50" />
 		</properties>
 	</rule>
 
@@ -242,12 +242,15 @@
 	<!-- <rule ref="category/apex/codestyle.xml/FieldDeclarationsShouldBeAtStart"/> -->
 
 	<!-- ERROR_PRONE -->
-	<!-- <rule ref="category/apex/documentation.xml/ApexDoc" message="Document classes, methods, and properties that are public or global.">
+	<rule ref="category/apex/documentation.xml/ApexDoc" message="Document classes, methods, and properties that are public or global.">
 		<priority>3</priority>
 		<properties>
 			<property name="reportMissingDescription" value="false"></property>
+			<property name="reportPrivate" value="false"></property>
+			<property name="reportProtected" value="true"></property>
+			<property name="reportProperty" value="false"></property>
 		</properties>
-	</rule> -->
+	</rule>
 
 	<!-- CLARITY / BEST PRACTICES -->
 	<!-- <rule ref="category/apex/bestpractices.xml/DebugsShouldUseLoggingLevel">

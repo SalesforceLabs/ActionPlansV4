@@ -6,7 +6,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>APModifyError</shortDescription>
-        <value>Action Plan Template has been modified since this Plan creation.</value>
+        <value>Action Plan Template has been modified since this Action Plan creation.</value>
     </labels>
     <labels>
         <fullName>ap_Add</fullName>
@@ -86,7 +86,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>APCreationConfirmation</shortDescription>
-        <value>Action Plan creation is handled by a batch process. It can take a couple of minutes to be able to view all created records.</value>
+        <value>Action Plan creation is handled by a background process. It can take a couple of minutes to be able to view all created records.</value>
     </labels>
     <labels>
         <fullName>ap_ConfirmationofDeletion</fullName>

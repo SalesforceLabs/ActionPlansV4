@@ -88,7 +88,7 @@ public with sharing class ActionPlanDetailController {
 			return null;
 		}
 
-		String retURL = '/' + ActionPlansUtilities.namespacePrefix + ActionPlansUtilities.getObjectKeyPrefix(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c') + '/o';
+		String retURL = '/' + ActionPlansUtilities.getObjectKeyPrefix(ActionPlansUtilities.namespacePrefix + 'ActionPlan__c') + '/o';
 
 		Boolean hasTemplateIdParam = ApexPages.currentPage().getParameters().containsKey('templateId');
 		Boolean hasRetURLParam = ApexPages.currentPage().getParameters().containsKey('retURL');
@@ -191,7 +191,6 @@ public with sharing class ActionPlanDetailController {
 
 		/**
 		 * Constructor for the task wrapper
-		 *
 		 * @param aptParam    Action Plan Task Template
 		 * @param taskIdParam TaskId (for the standard object `Task`)
 		 */
@@ -199,20 +198,6 @@ public with sharing class ActionPlanDetailController {
 			this.apt = aptParam;
 			this.taskId = taskIdParam;
 		}
-	}
-
-	/**
-	 * Returns number of completed tasks for this Action Plan
-	 * @return Number of completed tasks
-	 */
-	public Integer getCompleted() {
-		if (actionPlan.Id == null) {
-			return 0;
-		}
-
-		List<APTask__c> ts = [SELECT Id FROM APTask__c WHERE Status__c IN :ActionPlansUtilities.getClosedTaskStatuses() AND ActivityDate__c != NULL AND Action_Plan__c = :actionPlan.Id];
-
-		return (ts != null) ? ts.size() : 0;
 	}
 
 	/**
@@ -299,10 +284,10 @@ public with sharing class ActionPlanDetailController {
 	/**
 	 * If we have no share object, we don't need to show a Share button
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   Does the `ActionPlan__Share` object exist?
+	 * @return   Does the user have permission to share this Action Plan?
 	 */
 	public Boolean getCanShare() {
-		return ActionPlansUtilities.canShareRecord(ActionPlansUtilities.namespacePrefix + 'ActionPlan__Share', actionPlan.Id, actionPlan.OwnerId);
+		return ActionPlansUtilities.canShareRecord(actionPlan.Id, actionPlan.OwnerId);
 	}
 
 	/**
@@ -312,17 +297,5 @@ public with sharing class ActionPlanDetailController {
 	 */
 	public Boolean getCanTransfer() {
 		return ActionPlansUtilities.getCanTransfer(actionPlan.Id);
-	}
-
-	/**
-	 * Show the Print page (simple formatting)
-	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   ActionPlanPrint page
-	 */
-	public PageReference print() {
-		PageReference pr = Page.ActionPlanPrint;
-		pr.getParameters().put('id', actionPlan.Id);
-		pr.setRedirect(true);
-		return pr;
 	}
 }

@@ -3,6 +3,7 @@
 	<fullName>ActivityDate__c</fullName>
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
+	<description>The Due Date for this AP Task - will be copied to the Task Due Date</description>
 	<label>Due Date</label>
 	<required>false</required>
 	<trackTrending>false</trackTrending>

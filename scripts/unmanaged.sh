@@ -1,14 +1,9 @@
-# UNMANAGED for use with develoepr edition or sandbox
+# UNMANAGED for use with developer edition or playground
 
-# Install script
-echo "Cleaning previous scratch org..."
-sfdx force:org:delete -p -u ActionPlans
-echo ""
+echo "Clearing namespace"
+sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-project.json
 
-echo "Create a scratch org"
-sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -d 7
-
-# For use with developer edition or sandbox
+# For use with developer edition or playground
 echo "Pushing source..."
 sfdx force:source:deploy -p sfdx-source/LabsActionPlans
 
@@ -25,6 +20,10 @@ sfdx force:apex:execute -f ./data/sample-data.apex
 # To install sample Flow and other metadata
 echo "deploying a sample Flow"
 sfdx force:source:deploy -p sfdx-source/unmanaged
+
+# To install sample Flow and other metadata
+echo "deploying two page layouts"
+sfdx force:source:deploy -p sfdx-source/unpackaged
 
 echo "opening org..."
 sfdx force:org:open

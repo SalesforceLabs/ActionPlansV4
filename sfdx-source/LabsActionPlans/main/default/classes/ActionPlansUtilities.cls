@@ -58,7 +58,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Allows us to force the environment variable checking if Task has a Record Type for testing (forcing NO record type,). Increases code coverage.
 	 */
-	public static final Boolean taskUsesRecordTypes {
+	public static Boolean taskUsesRecordTypes {
 		get {
 			if (ActionPlansTestUtilities.forceHasRecordType != null) {
 				return ActionPlansTestUtilities.forceHasRecordType;
@@ -74,7 +74,7 @@ public without sharing class ActionPlansUtilities {
 	 * Actions to perform whenever loading a Visualforce page
 	 * <br>Ensures that Custom Setting is created for the org
 	 * <br>Left as this method in case we want to add certain actions to both Creation Visualforce pages in the future
-	 * @return   PageReference (null)
+	 * @return   `PageReference` (null)
 	 */
 	public static PageReference onPageLoad() {
 		checkOrgDefaultCustomSetting(true);
@@ -83,6 +83,9 @@ public without sharing class ActionPlansUtilities {
 
 	// Section to describe ActionPlan object to make custom relationship fields dynamic
 
+	/**
+	 * Memoized list of Action Plan custom relationship fields
+	 */
 	private static List<String> apCustomRelationshipFields;
 	/**
 	 * Check the fieldSet for all active Action Plan relationaship fields (available parent objects)
@@ -118,8 +121,8 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Get prefix of sObject
-	 * @param objName
-	 * @return obj.getKeyPrefix()
+	 * @param objName SObject Name
+	 * @return `String` obj.getKeyPrefix()
 	 * @example
 	 * ActionPlansUtilities.getObjetKeyPrefix('Account');
 	 * (returns '001')
@@ -159,7 +162,7 @@ public without sharing class ActionPlansUtilities {
 	 * Give a set of recordIDs and retrrieve the related record names
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  recordIDs Set<Id> of parent records to Action Plans
-	 * @return           Map of RecordID to Record Name (special for Case & Contract)
+	 * @return           `Map<Id, String>` Map of RecordID to Record Name (special for Case & Contract)
 	 */
 	public static Map<Id, String> queryRecordIDToRecordName(Set<Id> recordIDs) {
 		if (recordIdToRecordName == null) {
@@ -208,7 +211,8 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Lazy load task record types to reduce queries
-	 * @return A list of all Task `RecordType` records
+	 * <br>We use SObject so this works in orgs without Record Types for Tasks
+	 * @return `List<SObject>` A list of all Task `RecordType` records
 	 */
 	private static List<SObject> getTaskRecordTypes() {
 		if (taskRecordTypes == null) {
@@ -237,6 +241,9 @@ public without sharing class ActionPlansUtilities {
 		}
 		return taskRecordTypeStatusDefaultValues;
 	}
+	/**
+	 * Memoized map of `RecordTypeId` to default `Task Status`
+	 */
 	private static Map<Id, String> taskRecordTypeStatusDefaultValues;
 
 	/**
@@ -258,6 +265,9 @@ public without sharing class ActionPlansUtilities {
 		}
 		return taskRecordTypeTypeDefaultValues;
 	}
+	/**
+	 * Memoized map of `RecordTypeId` to default `Task Type`
+	 */
 	private static Map<Id, String> taskRecordTypeTypeDefaultValues;
 
 	/**
@@ -278,11 +288,14 @@ public without sharing class ActionPlansUtilities {
 		}
 		return taskRecordTypePriorityDefaultValues;
 	}
+	/**
+	 * Memoized map of `RecordTypeId` to default `Task Priority`
+	 */
 	private static Map<Id, String> taskRecordTypePriorityDefaultValues;
 
 	/**
 	 * Find user default recordtype
-	 * @return Default `RecordType` Id
+	 * @return `String` Default RecordType Id
 	 */
 	public static String getDefaultTaskRecordTypeId() {
 		String toReturn = null;
@@ -300,8 +313,8 @@ public without sharing class ActionPlansUtilities {
 	}
 
 	/**
-	 * Generate picklist of `Task.RecordType`
-	 * @return Visualforce Picklist
+	 * Generate picklist of `Task RecordType`
+	 * @return `List<SelectOption>` Visualforce Picklist
 	 */
 	public static List<SelectOption> getTaskRTPicklistValues() {
 		if (taskRTs == null) {
@@ -320,7 +333,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Lazy load open task statuses
-	 * @return All Open `Task` Status values
+	 * @return All Open `Task Status` values
 	 */
 	public static Set<String> getOpenTaskStatuses() {
 		if (openTaskStatuses == null) {
@@ -331,11 +344,13 @@ public without sharing class ActionPlansUtilities {
 		}
 		return openTaskStatuses;
 	}
+	/**
+	 * Memoized open Task statuses
+	 */
 	private static Set<String> openTaskStatuses;
 
 	/**
-	 * Find all closed Task statuses
-	 * @return List of completed statuses
+	 * Memoized closed Task statuses
 	 */
 	private static Set<String> closedTaskStatuses;
 	/**
@@ -359,7 +374,7 @@ public without sharing class ActionPlansUtilities {
 	 * @param  objectname      Object Nams
 	 * @param  fieldname       Field Name
 	 * @param  requireValue    We can provide the option of not selecting the value by default
-	 * @return                 Picklist
+	 * @return                 `List<SelectOption>` Picklist for a field
 	 */
 	public static List<SelectOption> getFieldOptions(String objectname, String fieldname, Boolean requireValue) {
 		if (requireValue == null) {
@@ -383,7 +398,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Set the Hours for select box of Reminder Time
-	 * @return options
+	 * @return `List<SelectOption>` Hours/time options
 	 */
 	public static List<SelectOption> getHoursOption() {
 		List<SelectOption> options = new List<SelectOption>();
@@ -469,29 +484,23 @@ public without sharing class ActionPlansUtilities {
 	 * We can get all the permissions and info required to see if the user can share the record
 	 * <br>RecordOwner, has Full Access, has ModifyAllData
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @param  shareObjectName The Share object name, such as `ActionPlan__Share`
 	 * @param  recordId        The recordId of the record in question
 	 * @param  recordOwnerId   The owner Id because an owner can share even without "Modify all Data"
 	 * @return                 Can the user share the record?
 	 */
-	public static Boolean canShareRecord(String shareObjectName, Id recordId, Id recordOwnerId) {
-		Boolean hasModifyAllData;
-		for (PermissionSetAssignment psa : [SELECT PermissionSet.PermissionsModifyAllData FROM PermissionSetAssignment WHERE AssigneeId = :UserInfo.getUserId()]) {
-			if (psa.PermissionSet.PermissionsModifyAllData == true) {
-				hasModifyAllData = true;
-			}
-		}
-
-		Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
-		if (gd.containsKey(shareObjectName)) {
+	public static Boolean canShareRecord(Id recordId, Id recordOwnerId) {
+		try {
 			UserRecordAccess ura = [SELECT RecordId, HasAllAccess FROM UserRecordAccess WHERE UserId = :UserInfo.getUserId() AND RecordId = :recordId];
 			if (ura.HasAllAccess) {
 				return true;
 			}
-			if (recordOwnerId == UserInfo.getUserId() || hasModifyAllData) {
-				return true;
-			}
+		} catch (Exception e) {
+			return false;
 		}
+		if (recordOwnerId == UserInfo.getUserId()) {
+			return true;
+		}
+
 		//Share does not exist, custom object is public read write, or user lacks permissions
 		return false;
 	}
@@ -544,10 +553,13 @@ public without sharing class ActionPlansUtilities {
 	}
 	private static String defaultMinutesForReminderTime;
 
+	/**
+	 * Memoized Action_Plans_Settings__c record (organization or instance)
+	 */
 	private static Action_Plans_Settings__c apSettings;
 	/**
 	 * Get the "Default" Custom Setting and return it.
-	 * @return cSetting
+	 * @return `Action_Plans_Settings__c` cSetting
 	 */
 	public static Action_Plans_Settings__c getCustomSetting() {
 		if (apSettings != null) {
@@ -587,7 +599,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Single method to shorten long strings to the hard-coded 80 character length of record name field
 	 * @param subject the long string
-	 * @return the full string or shortened if longer than 80 characters
+	 * @return `String` the full string or shortened if longer than 80 characters
 	 */
 	public static String actionPlanSubjectToName(String subject) {
 		return actionPlanSubjectToName(subject, 80);
@@ -653,7 +665,7 @@ public without sharing class ActionPlansUtilities {
 	 * Get the Custom Metadata record for the weekend day
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  developerName English day (Saturday, Sunday, etc)
-	 * @return               Custom Metadata
+	 * @return               `Weekend_Day__mdt` Custom Metadata
 	 */
 	public static Weekend_Day__mdt getWeekendDay(String developerName) {
 		return Weekend_Day__mdt.getInstance(developerName);
@@ -664,7 +676,7 @@ public without sharing class ActionPlansUtilities {
 	 * @param actionPlanStartDate the start date of the action plan
 	 * @param taskDaysFromStart the days after the initial date that the task will be due
 	 * @param apSkipDay Start or End (determines how to handle weekend day)
-	 * @return the new task due date
+	 * @return `Date` the new task due date
 	 */
 	public static Date adjustTaskDueDate(Date actionPlanStartDate, Integer taskDaysFromStart, String apSkipDay) {
 		Date dueDate = actionPlanStartDate.addDays(taskDaysFromStart);
@@ -691,7 +703,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Detect user theme
-	 * @return Are we in Lightning Experience?
+	 * @return `Boolean` Are we in Lightning Experience?
 	 */
 	public static Boolean getIsLex() {
 		return (UserInfo.getUiThemeDisplayed().containsIgnoreCase('theme4'));
@@ -699,7 +711,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 *  Check if we are in a managed package - if so, return the namespace prefix
-	 * @return The namespace prefix
+	 * @return `String` The namespace prefix
 	 */
 	public static String namespacePrefix {
 		get {
@@ -709,6 +721,6 @@ public without sharing class ActionPlansUtilities {
 			}
 			return namespacePrefix;
 		}
-		private set;
+		set;
 	}
 }

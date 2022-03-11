@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<deleteConstraint>SetNull</deleteConstraint>
 	<externalId>false</externalId>
+	<description>Related Contact</description>
 	<label>Contact</label>
 	<referenceTo>Contact</referenceTo>
 	<relationshipLabel>Action Plans</relationshipLabel>

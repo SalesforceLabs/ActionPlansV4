@@ -34,7 +34,7 @@ You can create Action Plans for the following objects:
 
 ## Getting Help
 
-Action Plans is unsupported. For community assistance with Action Plans, please visit [Salesforce Trailblazer Community](https://trailblazers.salesforce.com/). To submit ideas or issues, please visit [Action Plans on Github](https://github.com/SalesforceLabs/ActionPlans).
+Action Plans is unsupported. For community assistance with Action Plans, please visit [Salesforce Trailblazer Community](https://trailblazers.salesforce.com/). To submit ideas or issues, please visit [Action Plans on Github](https://github.com/SalesforceLabs/ActionPlansv4).
 
 ## Community
 
@@ -57,7 +57,7 @@ Getting started is easy. For each object, you need to add a button to the list v
  Change these setting by editing Action Plan Settings, and updating values at either the organization level, profile levels, or user levels.
 
 Navigate to Setup > Develop > Custom Settings. Click on 'Manage' next to `Action Plans Settings`. Click the 'New' button near 'Default Organizational Level Value'. Check the values that you want to enable.
-- `Enable Chatter Post` places a post in the related record's Chatter Feed (if Chatter is enabled for that object). If unchecked, Action Plans does not create a Feed Post.;
+- `Enable Chatter Post` places a post in the related record's Chatter Feed (if Chatter is enabled for that object). If unchecked, Action Plans does not create a Feed Post.
 - `Unassigned Task Defaults to Record Owner` ensures that Action Plan Template tasks with a blank 'Assigned To' field go to the related record's owner. If unchecked, tasks with a blank 'Assigned To' field are assigned to the running user. Tasks can be assigned to specific people on Action Plan Templates, which overrides this setting.
 - `Default Object on Lead Conversion` specifies that if an Action Plan is related to a Lead, whether the Action Plan should be moved to the converted Account, Contact, or Opportunity when the Lead is converted. The default is Contact.
 - `Action Plans Business Hours ID` and `Use Business Hours` are reserved for future functionality.
@@ -121,7 +121,7 @@ Uses for each Permission Set:
 -   Some users may require visibility into the Action Plans related to those Tasks. These users need the `Action Plans User` Permission Set. It gives Read-only access to Action Plan.
 -   Some users may need to create Action Plans from Templates but not edit the templates themselves. The `Action Plans Creator` Permission Set gives read-only access to Action Plan Templates, and Read, Create, Edit, and Delete access to Action Plans.
 -   Users who can create and edit Action Plan Templates require the `Action Plans Template Creator` Permission Set. This includes permission to Read, Create, Edit, and Delete all Action Plan Templates only. It does not include any Action Plan or Task permissions. If these users require Action Plan access, other Permission Sets should be used as well. A custom permission allows exporting of Action Plan Templates.
--   Intended more as an add-on for `Action Plans Template Creator`, the `Action Plans Import/Export` permission set allows the viewing of the Export button on Template detail pages and to the Import tab. 
+-   Intended as an add-on for `Action Plans Template Creator`, the `Action Plans Import/Export` permission set allows the viewing of the Export button on Template detail pages and to the Import tab. 
 -   `Action Plans Admin` includes Modify All permissions for all four Action Plan objects (Action Plan, Action Plan Task Template, Action Plan Template, and Action Plan Template Task Template). A custom permission allows exporting Action Plan Templates.
 
 Note: The Apex used in Flows or via triggers does not require special permissions to run.
@@ -204,7 +204,7 @@ If your org uses Task Record Types, you must specify which Record Type to use fo
 	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Choose-template-step2.png)
 
 1. Save the Action Plan.
-    Note: Action Plan creation is handled by a batch process. It can take a couple of minutes to be able to view all created records.
+    Note: Action Plan creation is handled by a queueable (asynchronous) process. It can take a couple of minutes to be able to view all created records.
 
     ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlan-Detail.png)
 

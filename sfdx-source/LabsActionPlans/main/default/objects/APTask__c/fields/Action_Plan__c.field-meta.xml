@@ -4,6 +4,7 @@
 	<businessStatus>Active</businessStatus>
 	<externalId>false</externalId>
 	<label>Action Plan</label>
+	<description>The parent Action Plan</description>
 	<referenceTo>ActionPlan__c</referenceTo>
 	<relationshipName>apTasks1</relationshipName>
 	<relationshipOrder>0</relationshipOrder>

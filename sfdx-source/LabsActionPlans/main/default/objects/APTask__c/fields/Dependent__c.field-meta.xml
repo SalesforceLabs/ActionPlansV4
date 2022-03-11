@@ -6,6 +6,7 @@
 	<externalId>false</externalId>
 	<label>Dependent</label>
 	<length>255</length>
+	<description>The TaskIndex of the controlling task</description>
 	<required>false</required>
 	<trackTrending>false</trackTrending>
 	<type>Text</type>

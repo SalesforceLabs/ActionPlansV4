@@ -2,8 +2,6 @@
 # More information: https://prettier.io/docs/en/ignore.html
 #
 
-**/staticresources/**
-!**/staticresources/ActionPlan_Resources/scripts/
 .localdevserver
 .sfdx
 .vscode
@@ -16,7 +14,8 @@ coverage/
 docs/
 *-meta.xml
 data/
+**/staticresources/ActionPlan_Resources/js/jquery*
+
 # Exclude project config
 sfdx-project.json
-sfdx-project-unmanaged.json
 dependencies.json

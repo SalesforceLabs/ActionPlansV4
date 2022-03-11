@@ -6,6 +6,7 @@
 	<externalId>false</externalId>
 	<label>Case</label>
 	<referenceTo>Case</referenceTo>
+	<description>Related Case</description>
 	<relationshipLabel>Action Plans</relationshipLabel>
 	<relationshipName>Action_Plans</relationshipName>
 	<required>false</required>

@@ -5,7 +5,7 @@
     <description>Completed tasks vs total tasks</description>
     <externalId>false</externalId>
     <formula>IF(Total__c != 0,
-Completed__c / Total__c,
+(Completed__c) / Total__c,
 0)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Plan Progress</label>
