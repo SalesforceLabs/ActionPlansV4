@@ -246,7 +246,7 @@ It is recommended NOT to check the Recursion box when creating a Process Builder
 ## Apex
 
 To call the invocable Apex from a Trigger or Apex class, adapt the following sample code:
-```
+```apex
 String apTemplateName;
 ActionPlanTemplate__c apTemplate;
 List<SObject> toInsert... // can use any object, such as Account, or the generic SObject class
