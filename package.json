@@ -12,7 +12,7 @@
 		"lint": "npm run lint:lwc && npm run lint:aura",
 		"lint:aura": "eslint **/aura/**",
 		"lint:lwc": "eslint **/lwc/**",
-		"docs-cleanup": ". scripts/packagedev/docscleanup.sh",
+		"docs-cleanup": ". doc-assets/docscleanup.sh",
 		"test": "npm run test:unit",
 		"test:unit": "sfdx-lwc-jest",
 		"test:unit:watch": "sfdx-lwc-jest --watch",
