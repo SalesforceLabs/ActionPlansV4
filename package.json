@@ -26,7 +26,7 @@
 		"pmd:scan:csv": "$HOME/pmd/bin/run.sh pmd -d sfdx-source -R pmd/ruleset.xml -f csv -r pmd/pmd.csv --cache .pmdCache --short-names",
 		"prettier:apex:local": "prettier --apex-standalone-parser built-in --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
 		"prettier:verify:apex:local": "prettier --apex-standalone-parser built-in --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
-		"prettier:docs": ". doc-assets/docscleanup.sh",
+		"prettier:docs": ". doc-assets/docscleanup.sh | prettier --write \"docs/*.html\"",
 		"postinstall": "husky install",
 		"blankorg": ". scripts/packagedev/blankorg.sh",
 		"scratchorg": ". scripts/packagedev/orginit.sh",
