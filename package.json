@@ -12,14 +12,13 @@
 		"lint": "npm run lint:lwc && npm run lint:aura",
 		"lint:aura": "eslint **/aura/**",
 		"lint:lwc": "eslint **/lwc/**",
-		"docs-cleanup": ". doc-assets/docscleanup.sh",
 		"test": "npm run test:unit",
 		"test:unit": "sfdx-lwc-jest",
 		"test:unit:watch": "sfdx-lwc-jest --watch",
 		"test:unit:debug": "sfdx-lwc-jest --debug",
 		"test:unit:coverage": "sfdx-lwc-jest --coverage",
 		"prettier": "prettier --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\" \"docs/*.html\"",
-		"prettier:verify": "prettier --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
+		"prettier:verify": "prettier --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\" \"docs/*.html\"",
 		"apex:local:start": "node node_modules/prettier-plugin-apex/bin/start-apex-server.js",
 		"apex:local:stop": "node node_modules/prettier-plugin-apex/bin/stop-apex-server.js",
 		"apex:test:local": "rm testresults/* && sfdx force:apex:test:run -l RunLocalTests -d testresults -r human -c",
@@ -27,6 +26,7 @@
 		"pmd:scan:csv": "$HOME/pmd/bin/run.sh pmd -d sfdx-source -R pmd/ruleset.xml -f csv -r pmd/pmd.csv --cache .pmdCache --short-names",
 		"prettier:apex:local": "prettier --apex-standalone-parser built-in --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
 		"prettier:verify:apex:local": "prettier --apex-standalone-parser built-in --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
+		"prettier:docs": ". doc-assets/docscleanup.sh",
 		"postinstall": "husky install",
 		"blankorg": ". scripts/packagedev/blankorg.sh",
 		"scratchorg": ". scripts/packagedev/orginit.sh",
@@ -57,7 +57,7 @@
 			"eslint"
 		],
 		"docs/*.html": [
-			". doc-assets/docscleanup.sh",
+			"sed -i '' 's|<h3 class=\"subsection-title properties\">\\([^/]*\\)</h2>|<h3 class=\"subsection-title properties\">\\1</h3>|g'",
 			"prettier --write --tab-width 2"
 		]
 	}
