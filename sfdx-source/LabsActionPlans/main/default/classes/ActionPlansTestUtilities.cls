@@ -464,49 +464,6 @@ public inherited sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Create Environment for Queueable Process
-	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @param  relatedObject The parent Object for the created Action Plans
-	 * @return `List<Id>` The list of created Action Plan Task IDs
-	 */
-	/* public List<Id> batchIds(String relatedObject) {
-		ActionPlan__c ap = this.createNewActionPlan(relatedObject, 0);
-		List<Id> apTasksIds = new List<Id>();
-
-		APTask__c at = new APTask__c();
-		at.Action_Plan__c = ap.Id;
-		at.Dependent__c = 'None';
-		at.DaysFromStart__c = 2.0;
-		at.User__c = this.createTestUser().Id;
-		at.SendEmail__c = false;
-		at.Subject__c = 'Test ';
-		at.Type__c = 'Email';
-		at.Priority__c = 'Low';
-		at.Comments__c = 'Test';
-		at.Reminder__c = true;
-		at.Minutes_Reminder__c = '510';
-		insert at;
-		apTasksIds.add(at.Id);
-
-		at = new APTask__c();
-		at.Action_Plan__c = ap.Id;
-		at.Dependent__c = 'None';
-		at.DaysFromStart__c = 2.0;
-		at.User__c = this.createTestUser().Id;
-		at.SendEmail__c = true;
-		at.Subject__c = 'Test ';
-		at.Type__c = 'Email';
-		at.Priority__c = 'Low';
-		at.Comments__c = 'Test';
-		at.Reminder__c = true;
-		at.Minutes_Reminder__c = '510';
-		insert at;
-		apTasksIds.add(at.Id);
-
-		return apTasksIds;
-	} */
-
-	/**
 	 * Find a non-default Task Record Type
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   The `Id` of a non-default `Task` Record Type for the running user

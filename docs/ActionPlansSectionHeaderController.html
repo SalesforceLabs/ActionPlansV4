@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <title>Action Plans code documentation</title>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <script type="module" src="./assets/index.js"></script>
     <script type="module" src="./assets/search-idx.js"></script>
     <script type="module" src="./assets/search.js"></script>
@@ -17,26 +16,19 @@
 
   <body>
     <div id="side-bar">
-
       <div id="logo-container">
-        <div class="title">
-          Action Plans code documentation
-        </div>
+        <div class="title">Action Plans code documentation</div>
         <img src="assets/logo.png" />
-        <div class="subtitle">
-          Documentation for <a target="_blank" rel="noopener noreferrer" href="https://github.com/SalesforceLabs/ActionPlansV4">Action Plans</a>
-        </div>
+        <div class="subtitle">Documentation for <a target="_blank" rel="noopener noreferrer" href="https://github.com/SalesforceLabs/ActionPlansV4">Action Plans</a></div>
       </div>
       <div id="search-wrapper">
         <div class="search-icon"></div>
-        <input id="search-input" type="text" autocomplete="off" placeholder="Search...">
+        <input id="search-input" type="text" autocomplete="off" placeholder="Search..." />
       </div>
       <ul id="search-results" class=""></ul>
       <div class="navbar">
         <nav role="navigation">
-          <a class="nav-header" id="home" href="javascript:void(0)" onclick="goToLocation('index.html');">
-            Home
-          </a>
+          <a class="nav-header" id="home" href="javascript:void(0)" onclick="goToLocation('index.html');"> Home </a>
           <details id="Asynchronous" class="group-name">
             <summary id="header-Asynchronous" class="nav-header">
               <span>Asynchronous</span>
@@ -130,25 +122,49 @@
               <li title="ActionPlanDetailController" id="item-ActionPlanDetailController" class="nav-item class public" onclick="goToLocation('ActionPlanDetailController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlanDetailController</a>
               </li>
-              <li title="ActionPlanTemplateCreationController" id="item-ActionPlanTemplateCreationController" class="nav-item class public" onclick="goToLocation('ActionPlanTemplateCreationController.html');">
+              <li
+                title="ActionPlanTemplateCreationController"
+                id="item-ActionPlanTemplateCreationController"
+                class="nav-item class public"
+                onclick="goToLocation('ActionPlanTemplateCreationController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateCreationController</a>
               </li>
-              <li title="ActionPlanTemplateDetailController" id="item-ActionPlanTemplateDetailController" class="nav-item class public" onclick="goToLocation('ActionPlanTemplateDetailController.html');">
+              <li
+                title="ActionPlanTemplateDetailController"
+                id="item-ActionPlanTemplateDetailController"
+                class="nav-item class public"
+                onclick="goToLocation('ActionPlanTemplateDetailController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateDetailController</a>
               </li>
-              <li title="ActionPlanTemplateImportController" id="item-ActionPlanTemplateImportController" class="nav-item class public" onclick="goToLocation('ActionPlanTemplateImportController.html');">
+              <li
+                title="ActionPlanTemplateImportController"
+                id="item-ActionPlanTemplateImportController"
+                class="nav-item class public"
+                onclick="goToLocation('ActionPlanTemplateImportController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlanTemplateImportController</a>
               </li>
-              <li title="ActionPlansCreateMultipleAPsExtension" id="item-ActionPlansCreateMultipleAPsExtension" class="nav-item class public" onclick="goToLocation('ActionPlansCreateMultipleAPsExtension.html');">
+              <li
+                title="ActionPlansCreateMultipleAPsExtension"
+                id="item-ActionPlansCreateMultipleAPsExtension"
+                class="nav-item class public"
+                onclick="goToLocation('ActionPlansCreateMultipleAPsExtension.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansCreateMultipleAPsExtension</a>
               </li>
-              <li title="ActionPlansDeleteMultipleAPExtension" id="item-ActionPlansDeleteMultipleAPExtension" class="nav-item class public" onclick="goToLocation('ActionPlansDeleteMultipleAPExtension.html');">
+              <li
+                title="ActionPlansDeleteMultipleAPExtension"
+                id="item-ActionPlansDeleteMultipleAPExtension"
+                class="nav-item class public"
+                onclick="goToLocation('ActionPlansDeleteMultipleAPExtension.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansDeleteMultipleAPExtension</a>
               </li>
               <li title="ActionPlansRedirect" id="item-ActionPlansRedirect" class="nav-item class public" onclick="goToLocation('ActionPlansRedirect.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirect</a>
               </li>
-              <li title="ActionPlansSectionHeaderController" id="item-ActionPlansSectionHeaderController" class="nav-item class public" onclick="goToLocation('ActionPlansSectionHeaderController.html');">
+              <li
+                title="ActionPlansSectionHeaderController"
+                id="item-ActionPlansSectionHeaderController"
+                class="nav-item class public"
+                onclick="goToLocation('ActionPlansSectionHeaderController.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansSectionHeaderController</a>
               </li>
             </ul>
@@ -159,269 +175,212 @@
     <table id="content">
       <tr>
         <td class="scoping-panel">
-          Show: <input type="checkbox" checked="true" id="cbx-all" onclick="toggleAllScopes(this.checked);" />
-          <label for="cbx-all">All</label>&nbsp;&nbsp;
+          Show: <input type="checkbox" checked="true" id="cbx-all" onclick="toggleAllScopes(this.checked);" /> <label for="cbx-all">All</label>&nbsp;&nbsp;
           <input type="checkbox" checked="true" id="cbx-global" onclick="toggleScope('global', this.checked);" />
-          <label for="cbx-global">
-            global
-          </label>&nbsp;&nbsp;<input type="checkbox" checked="true" id="cbx-public" onclick="toggleScope('public', this.checked);" />
-          <label for="cbx-public">
-            public
-          </label>&nbsp;&nbsp;<input type="checkbox" checked="true" id="cbx-protected" onclick="toggleScope('protected', this.checked);" />
-          <label for="cbx-protected">
-            protected
-          </label>&nbsp;&nbsp;<input type="checkbox" checked="true" id="cbx-private" onclick="toggleScope('private', this.checked);" />
-          <label for="cbx-private">
-            private
-          </label>&nbsp;&nbsp;<input type="checkbox" checked="true" id="cbx-webservice" onclick="toggleScope('webservice', this.checked);" />
-          <label for="cbx-webservice">
-            webService
-          </label>&nbsp;&nbsp;<input type="checkbox" checked="true" id="cbx-testmethod" onclick="toggleScope('testmethod', this.checked);" />
-          <label for="cbx-testmethod">
-            testMethod
-          </label>
+          <label for="cbx-global"> global </label>&nbsp;&nbsp;<input type="checkbox" checked="true" id="cbx-public" onclick="toggleScope('public', this.checked);" />
+          <label for="cbx-public"> public </label>&nbsp;&nbsp;<input type="checkbox" checked="true" id="cbx-protected" onclick="toggleScope('protected', this.checked);" />
+          <label for="cbx-protected"> protected </label>&nbsp;&nbsp;<input type="checkbox" checked="true" id="cbx-private" onclick="toggleScope('private', this.checked);" />
+          <label for="cbx-private"> private </label>&nbsp;&nbsp;<input type="checkbox" checked="true" id="cbx-webservice" onclick="toggleScope('webservice', this.checked);" />
+          <label for="cbx-webservice"> webService </label>&nbsp;&nbsp;<input type="checkbox" checked="true" id="cbx-testmethod" onclick="toggleScope('testmethod', this.checked);" />
+          <label for="cbx-testmethod"> testMethod </label>
         </td>
       </tr>
       <tr>
         <td class="doc-page">
-
           <div class="section">
-
             <h2 class="class-title top-level-type" id="ActionPlansSectionHeaderController">
-
-              <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L45">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Go to source"
+                class="source-link"
+                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L45">
                 ActionPlansSectionHeaderController
               </a>
             </h2>
             <div class="class-container">
-
               <div class="class-description">
-                Controller for the Section Header at the top of every VF page. <br>Determines the icon for the page object <br>Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
+                Controller for the Section Header at the top of every VF page. <br />Determines the icon for the page object <br />Code adapted from
+                https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
               </div>
-              <div class="class-subtitle">
-                Signature
-              </div>
+              <div class="class-subtitle">Signature</div>
 
-              <div class="class-signature">
-                public inherited sharing class ActionPlansSectionHeaderController
-              </div>
-              <div class="class-subtitle">
-                See
-              </div>
+              <div class="class-signature">public inherited sharing class ActionPlansSectionHeaderController</div>
+              <div class="class-subtitle">See</div>
               <div class="class-subtitle-description">
                 <span title="A valid link could not be created with this identifier.">{@link https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon}</span>
-              </div><br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>\ <a target="_blank" rel="noopener noreferrer" href="https://salesforce.stackexchange.com/users/12582/cricketlang">Cricketlang</a><br />2022
+              </div>
+              <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>\
+              <a target="_blank" rel="noopener noreferrer" href="https://salesforce.stackexchange.com/users/12582/cricketlang">Cricketlang</a><br />2022
             </div>
             <div class="subsection properties ActionPlansSectionHeaderController">
-              <h3 class="subsection-title properties">ActionPlansSectionHeaderController Properties</h2>
-                <table class="attributes-table properties">
+              <h3 class="subsection-title properties">ActionPlansSectionHeaderController Properties</h3>
+              <table class="attributes-table properties">
+                <tr>
+                  <th>Name</th>
+                  <th>Signature</th>
 
-                  <tr>
-                    <th>Name</th>
-                    <th>Signature</th>
+                  <th>Description</th>
+                </tr>
+                <tr class="property public">
+                  <td class="attribute-name">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L49">
+                      objectName
+                    </a>
+                  </td>
+                  <td>
+                    <div class="attribute-signature">public String objectName</div>
+                  </td>
 
-                    <th>Description</th>
-                  </tr>
-                  <tr class="property public">
-                    <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L49">
-                        objectName
-                      </a></td>
-                    <td>
-                      <div class="attribute-signature">
-                        public String objectName
-                      </div>
-                    </td>
+                  <td class="attribute-description">The object name for the Section Header</td>
+                </tr>
+                <tr class="property private">
+                  <td class="attribute-name">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L68">
+                      orgObject
+                    </a>
+                  </td>
+                  <td>
+                    <div class="attribute-signature">private String orgObject</div>
+                  </td>
 
-
-                    <td class="attribute-description">
-                      The object name for the Section Header
-                    </td>
-                  </tr>
-                  <tr class="property private">
-                    <td class="attribute-name">
-                      <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L68">
-                        orgObject
-                      </a></td>
-                    <td>
-                      <div class="attribute-signature">
-                        private String orgObject
-                      </div>
-                    </td>
-
-
-                    <td class="attribute-description">
-                      String to hold actual used object in case of namespaced app
-                    </td>
-                  </tr>
-                </table>
+                  <td class="attribute-description">String to hold actual used object in case of namespaced app</td>
+                </tr>
+              </table>
             </div>
             <div class="subsection methods">
               <h3 class="subsection-title methods">ActionPlansSectionHeaderController Methods</h3>
               <div class="methods-container">
                 <ul class="methods-toc">
                   <li class="method public">
-                    <a class="methods-toc__entry " href="#ActionPlansSectionHeaderController.getIsCustom">
-                      getIsCustom ()
-                    </a>
+                    <a class="methods-toc__entry" href="#ActionPlansSectionHeaderController.getIsCustom"> getIsCustom () </a>
 
-                    <div class="methods-toc__description">
-                      Is this a custom object?
-                    </div>
+                    <div class="methods-toc__description">Is this a custom object?</div>
                   </li>
                   <li class="method public">
-                    <a class="methods-toc__entry " href="#ActionPlansSectionHeaderController.getObjectIconInfo">
-                      getObjectIconInfo ()
-                    </a>
+                    <a class="methods-toc__entry" href="#ActionPlansSectionHeaderController.getObjectIconInfo"> getObjectIconInfo () </a>
 
-                    <div class="methods-toc__description">
-                      Map of Icon attribute and value
-                    </div>
+                    <div class="methods-toc__description">Map of Icon attribute and value</div>
                   </li>
                   <li class="method private">
-                    <a class="methods-toc__entry " href="#ActionPlansSectionHeaderController.isCustom">
-                      isCustom (sObjectName)
-                    </a>
+                    <a class="methods-toc__entry" href="#ActionPlansSectionHeaderController.isCustom"> isCustom (sObjectName) </a>
 
-                    <div class="methods-toc__description">
-                      Given an object name, return if it is a custom object
-                    </div>
+                    <div class="methods-toc__description">Given an object name, return if it is a custom object</div>
                   </li>
                   <li class="method private">
-                    <a class="methods-toc__entry " href="#ActionPlansSectionHeaderController.retrieveIconForObject">
-                      retrieveIconForObject (sObjectName)
-                    </a>
+                    <a class="methods-toc__entry" href="#ActionPlansSectionHeaderController.retrieveIconForObject"> retrieveIconForObject (sObjectName) </a>
 
                     <div class="methods-toc__description">
-                      Explores the schema of the soject passed in and finds lightning icon style and image url for sObject If nothing is found, defaults to the custom icon Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon Thanks to https://salesforce.stackexchange.com/users/12582/cricketlang
+                      Explores the schema of the soject passed in and finds lightning icon style and image url for sObject If nothing is found, defaults to the custom icon Code adapted from
+                      https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon Thanks to https://salesforce.stackexchange.com/users/12582/cricketlang
                     </div>
                   </li>
                 </ul>
                 <div class="method public">
-                  <h4 class="method-title " id="ActionPlansSectionHeaderController.getIsCustom">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L82">
+                  <h4 class="method-title" id="ActionPlansSectionHeaderController.getIsCustom">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L82">
                       getIsCustom()
                     </a>
                   </h4>
-                  <div class="method-description">
-                    Is this a custom object?
-                  </div>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
+                  <div class="method-description">Is this a custom object?</div>
+                  <div class="method-subtitle">Signature</div>
 
-                  <div class="method-signature">
-                    public Boolean getIsCustom()
-                  </div>
-                  <div class="method-subtitle">
-                    Returns
-                  </div>
-                  <div class="method-subtitle-description">
-                    true if custom object
-                  </div>
+                  <div class="method-signature">public Boolean getIsCustom()</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description">true if custom object</div>
                 </div>
                 <div class="method public">
-                  <h4 class="method-title " id="ActionPlansSectionHeaderController.getObjectIconInfo">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L74">
+                  <h4 class="method-title" id="ActionPlansSectionHeaderController.getObjectIconInfo">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L74">
                       getObjectIconInfo()
                     </a>
                   </h4>
-                  <div class="method-description">
-                    Map of Icon attribute and value
-                  </div>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
+                  <div class="method-description">Map of Icon attribute and value</div>
+                  <div class="method-subtitle">Signature</div>
 
-                  <div class="method-signature">
-                    public Map&lt;String, String&gt; getObjectIconInfo()
-                  </div>
-                  <div class="method-subtitle">
-                    Returns
-                  </div>
-                  <div class="method-subtitle-description">
-                    Key-value pairs
-                  </div>
+                  <div class="method-signature">public Map&lt;String, String&gt; getObjectIconInfo()</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description">Key-value pairs</div>
                 </div>
                 <div class="method private">
-                  <h4 class="method-title " id="ActionPlansSectionHeaderController.isCustom">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L91">
+                  <h4 class="method-title" id="ActionPlansSectionHeaderController.isCustom">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L91">
                       isCustom(sObjectName)
                     </a>
                   </h4>
-                  <div class="method-description">
-                    Given an object name, return if it is a custom object
-                  </div>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
+                  <div class="method-description">Given an object name, return if it is a custom object</div>
+                  <div class="method-subtitle">Signature</div>
 
-                  <div class="method-signature">
-                    private Boolean isCustom(String sObjectName)
-                  </div>
+                  <div class="method-signature">private Boolean isCustom(String sObjectName)</div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">sObjectName</div>
-                  <div class="param-type">
-                    Type: <code class="code-inline">String</code>
-                  </div>
+                  <div class="param-type">Type: <code class="code-inline">String</code></div>
                   <div class="param-description">The name of the SObject</div>
-                  <div class="method-subtitle">
-                    Returns
-                  </div>
-                  <div class="method-subtitle-description">
-                    Is this object a custom object?
-                  </div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description">Is this object a custom object?</div>
                 </div>
                 <div class="method private">
-                  <h4 class="method-title " id="ActionPlansSectionHeaderController.retrieveIconForObject">
-
-                    <a target="_blank" rel="noopener noreferrer" title="Go to source" class="source-link" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L106">
+                  <h4 class="method-title" id="ActionPlansSectionHeaderController.retrieveIconForObject">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L106">
                       retrieveIconForObject(sObjectName)
                     </a>
                   </h4>
                   <div class="method-description">
-                    Explores the schema of the soject passed in and finds lightning icon style and image url for sObject If nothing is found, defaults to the custom icon Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon Thanks to https://salesforce.stackexchange.com/users/12582/cricketlang
+                    Explores the schema of the soject passed in and finds lightning icon style and image url for sObject If nothing is found, defaults to the custom icon Code adapted from
+                    https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon Thanks to https://salesforce.stackexchange.com/users/12582/cricketlang
                   </div>
-                  <div class="method-subtitle">
-                    Signature
-                  </div>
+                  <div class="method-subtitle">Signature</div>
 
-                  <div class="method-signature">
-                    private Map&lt;String, String&gt; retrieveIconForObject(String sObjectName)
-                  </div>
+                  <div class="method-signature">private Map&lt;String, String&gt; retrieveIconForObject(String sObjectName)</div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">sObjectName</div>
-                  <div class="param-type">
-                    Type: <code class="code-inline">String</code>
-                  </div>
-                  <div class="param-description"> The sObject to find the icon for</div>
-                  <div class="method-subtitle">
-                    Returns
-                  </div>
-                  <div class="method-subtitle-description">
-                    Map of properties about the icon to be consumed by the front end. Returns values for keys: iconStyle,iconURL
-                  </div>
+                  <div class="param-type">Type: <code class="code-inline">String</code></div>
+                  <div class="param-description">The sObject to find the icon for</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description">Map of properties about the icon to be consumed by the front end. Returns values for keys: iconStyle,iconURL</div>
                 </div>
               </div>
             </div>
           </div>
-
         </td>
       </tr>
       <tr>
         <td class="footer">
-
           <div>
-            <a href="https://github.com/no-stack-dub-sack/apexdox-vs-code" target="_blank" rel="noopener noreferrer">
-              Powered By ApexDox VS Code
-            </a>
+            <a href="https://github.com/no-stack-dub-sack/apexdox-vs-code" target="_blank" rel="noopener noreferrer"> Powered By ApexDox VS Code </a>
           </div>
         </td>
       </tr>
     </table>
   </body>
-
 </html>

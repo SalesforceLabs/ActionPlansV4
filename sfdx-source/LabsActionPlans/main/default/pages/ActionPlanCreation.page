@@ -36,515 +36,590 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<apex:page id="thePage" tabStyle="ActionPlan__c" standardController="ActionPlan__c" extensions="ActionPlanCreationController" lightningStylesheets="true"
- docType="html-5.0" contentType="text/html" applyBodyTag="false" action="{!onLoad}">
+<apex:page
+	id="thePage"
+	tabStyle="ActionPlan__c"
+	standardController="ActionPlan__c"
+	extensions="ActionPlanCreationController"
+	lightningStylesheets="true"
+	docType="html-5.0"
+	contentType="text/html"
+	applyBodyTag="false"
+	action="{!onLoad}">
 	<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+		<head>
+			<title>
+				<apex:outputText value="{!$ObjectType.ActionPlan__c.label} - {!$Label.ap_New}" rendered="{!ActionPlan__c.Id == null}" /> <apex:outputText value="{!ActionPlan__c.Name} - {!$Label.ap_Edit}"
+				rendered="{!ActionPlan__c.Id != null}" />
+			</title>
+			<meta charset="utf-8" />
+			<meta http-equiv="x-ua-compatible" content="ie=edge" />
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<head>
-		<title>
-			<apex:outputText value="{!$ObjectType.ActionPlan__c.label} - {!$Label.ap_New}" rendered="{!ActionPlan__c.Id == null}" />
-			<apex:outputText value="{!ActionPlan__c.Name} - {!$Label.ap_Edit}" rendered="{!ActionPlan__c.Id != null}" />
-		</title>
-		<meta charset="utf-8" />
-		<meta http-equiv="x-ua-compatible" content="ie=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
+			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/ActionPlans_Scripts.js')}" />
+			<script>
+				var j$ = jQuery.noConflict();
+				j$(function () {
+					console.log('onready');
+					checkSkipWeekend(j$('[id$=skipWeekendCheckbox]').attr('id'), j$('[id$=skipDayPicklist]').attr('id'));
+					checkAllDependent('{!$Label.ap_ItselfDependencyError}', '{!$Label.ap_Errors_Cyclic_Dependency_Found}');
+					j$('.helpOrb').css({ width: '12px', height: '12px' });
+					showErrors();
+					initSelectors();
+					j$('td [Id*=taskTable]').css('vertical-align', 'middle');
+					checkReminderPicklists();
+				});
 
-		<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
-		<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/ActionPlans_Scripts.js')}" />
-		<script>
-			var j$ = jQuery.noConflict();
-			j$(function () {
-				console.log('onready');
-				checkSkipWeekend(j$('[id$=skipWeekendCheckbox]').attr('id'), j$('[id$=skipDayPicklist]').attr('id'));
-				checkAllDependent('{!$Label.ap_ItselfDependencyError}', '{!$Label.ap_Errors_Cyclic_Dependency_Found}');
-				j$('.helpOrb').css({ width: '12px', height: '12px' });
-				showErrors();
-				initSelectors();
-				j$('td [Id*=taskTable]').css('vertical-align', 'middle');
-				checkReminderPicklists();
-			});
-
-			function setSelectWidth() {
-				var yardstick = j$('<select><option>' + j$(this).val() + '</option></select>');
-				if (j$(this).val() == null) {
-					// prettier-ignore
-					var labelNone = "{!$Label.ap_None}";
-					yardstick = '<select><option>' + '--' + labelNone + '--' + '</option></select>';
+				function setSelectWidth() {
+					var yardstick = j$('<select><option>' + j$(this).val() + '</option></select>');
+					if (j$(this).val() == null) {
+						// prettier-ignore
+						var labelNone = "{!$Label.ap_None}";
+						yardstick = '<select><option>' + '--' + labelNone + '--' + '</option></select>';
+					}
+					yardstick.css({ display: 'none' }).appendTo('body');
+					var fudge = 1.03; // need a little more to avoid clipping for some reason
+					j$(this).width(fudge * yardstick.width());
+					yardstick.remove();
 				}
-				yardstick.css({ display: 'none' }).appendTo('body');
-				var fudge = 1.03; // need a little more to avoid clipping for some reason
-				j$(this).width(fudge * yardstick.width());
-				yardstick.remove();
-			}
 
-			function initSelectors() {
-				j$('[Id$=relatedObjLookup]')
-					.each(function () {
-						setSelectWidth.apply(this);
-					})
-					.on('change', function () {
-						setSelectWidth.apply(this);
-					});
-				j$('.resize')
-					.each(function () {
-						setSelectWidth.apply(this);
-					})
-					.on('change', function () {
-						setSelectWidth.apply(this);
-					});
-			}
-		</script>
-		<script type="text/javascript">
-			var __sfdcSessionId = '{!GETSESSIONID()}';
-		</script>
-		<script src="../../soap/ajax/54.0/connection.js" type="text/javascript"></script>
-		<style>
-			input.errorBorder {
-				border: 2px solid #cc0000;
-			}
+				function initSelectors() {
+					j$('[Id$=relatedObjLookup]')
+						.each(function () {
+							setSelectWidth.apply(this);
+						})
+						.on('change', function () {
+							setSelectWidth.apply(this);
+						});
+					j$('.resize')
+						.each(function () {
+							setSelectWidth.apply(this);
+						})
+						.on('change', function () {
+							setSelectWidth.apply(this);
+						});
+				}
+			</script>
+			<script type="text/javascript">
+				var __sfdcSessionId = '{!GETSESSIONID()}';
+			</script>
+			<script src="../../soap/ajax/54.0/connection.js" type="text/javascript"></script>
+			<style>
+				input.errorBorder {
+					border: 2px solid #cc0000;
+				}
+			</style>
+			<apex:variable value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" var="lex" />
+			<apex:slds rendered="{!lex}" />
+		</head>
 
-		</style>
-		<apex:variable value="{!$User.UIThemeDisplayed == 'Theme4d' || $User.UIThemeDisplayed == 'Theme4u'}" var="lex" />
-		<apex:slds rendered="{!lex}" />
-	</head>
+		<body>
+			<c:APSectionHeader sObjType="ActionPlan__c" subtitle="{!$ObjectType.ActionPlan__c.label}" title="{!subtitle}" />
 
-	<body>
-		<c:APSectionHeader sObjType="ActionPlan__c" subtitle="{!$ObjectType.ActionPlan__c.label}" title="{!subtitle}" />
+			<apex:pageMessages id="pageMessages" />
+			<apex:form id="apForm" html-novalidate="novalidate">
+				<apex:actionFunction name="refreshRelatedObjectsLookUp" action="{!refreshRelatedObjectsLookUp}" immediate="true" status="lookStatus" rerender="lookupSectionOutPanel, pageMessages">
+					<apex:param name="relatedFieldName" value="" />
+				</apex:actionFunction>
 
-		<apex:pageMessages id="pageMessages" />
-		<apex:form id="apForm" html-novalidate="novalidate">
-			<apex:actionFunction name="refreshRelatedObjectsLookUp" action="{!refreshRelatedObjectsLookUp}" immediate="true" status="lookStatus" rerender="lookupSectionOutPanel, pageMessages">
-				<apex:param name="relatedFieldName" value="" />
-			</apex:actionFunction>
+				<input type="hidden" class="hidden_refID" value="{!RefId}" />
+				<input type="hidden" class="hidden_refOBjtype" value="{!refType}" />
 
-			<input type="hidden" class="hidden_refID" value="{!RefId}" />
-			<input type="hidden" class="hidden_refOBjtype" value="{!refType}" />
+				<apex:pageBlock id="editBlock" mode="edit">
+					<apex:pageBlockButtons id="buttons">
+						<apex:commandButton id="save" value="{!$Label.ap_Save}" action="{!save}" status="taskStatus" rendered="{!$ObjectType.ActionPlan__c.updateable}" />
+						<apex:commandButton id="saveandnew" value="{!$Label.ap_SaveAndNew}" action="{!saveAndNew}" rendered="{!$ObjectType.ActionPlan__c.updateable}" />
+						<apex:commandButton id="cancel" value="{!$Label.ap_Cancel}" action="{!cancel}" immediate="true" />
+					</apex:pageBlockButtons>
 
-			<apex:pageBlock id="editBlock" mode="edit">
-				<apex:pageBlockButtons id="buttons">
-					<apex:commandButton id="save" value="{!$Label.ap_Save}" action="{!save}" status="taskStatus" rendered="{!$ObjectType.ActionPlan__c.updateable}"
-					/>
-					<apex:commandButton id="saveandnew" value="{!$Label.ap_SaveAndNew}" action="{!saveAndNew}" rendered="{!$ObjectType.ActionPlan__c.updateable}"
-					/>
-					<apex:commandButton id="cancel" value="{!$Label.ap_Cancel}" action="{!cancel}" immediate="true" />
-				</apex:pageBlockButtons>
-
-				<apex:pageBlockSection title="{!$ObjectType.ActionPlanTemplate__c.label}" columns="2" collapsible="false" rendered="{!DisplayTemplateLookup && $ObjectType.ActionPlanTemplate__c.accessible}">
-					<apex:pageBlockSectionItem rendered="{!!lex && $ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.updateable}">
-						<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" for="templateLookup" />
-						<apex:inputField id="templateLookup" required="false" value="{!ActionPlan__c.Action_Plan_Template__c}" onchange="javascript:reloadActionPlan('{!JSINHTMLENCODE(ActionPlan__c.Action_Plan_Template__c)}', document.getElementById('{!$Component.templateLookup}' + '_lkid').value);">
-							<script>
-								var templateLKP_path = '{!$Component.templateLookup}';
-								var fieldId = templateLKP_path + '_lkid';
-								if (document.getElementById(fieldId) != null && document.getElementById(fieldId).type == 'hidden') {
-									var selectedTmplId = document.getElementById(fieldId).value;
-									reloadActionPlan('{!JSENCODE($CurrentPage.Parameters.TemplateId)}', selectedTmplId);
-								} else {
-									if (document.getElementById(fieldId).type == 'select-one') {
-										document.getElementById(fieldId).selectedIndex = 0;
+					<apex:pageBlockSection title="{!$ObjectType.ActionPlanTemplate__c.label}" columns="2" collapsible="false" rendered="{!DisplayTemplateLookup && $ObjectType.ActionPlanTemplate__c.accessible}">
+						<apex:pageBlockSectionItem rendered="{!!lex && $ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.updateable}">
+							<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" for="templateLookup" />
+							<apex:inputField
+								id="templateLookup"
+								required="false"
+								value="{!ActionPlan__c.Action_Plan_Template__c}"
+								onchange="javascript:reloadActionPlan('{!JSINHTMLENCODE(ActionPlan__c.Action_Plan_Template__c)}', document.getElementById('{!$Component.templateLookup}' + '_lkid').value);">
+								<script>
+									var templateLKP_path = '{!$Component.templateLookup}';
+									var fieldId = templateLKP_path + '_lkid';
+									if (document.getElementById(fieldId) != null && document.getElementById(fieldId).type == 'hidden') {
+										var selectedTmplId = document.getElementById(fieldId).value;
+										reloadActionPlan('{!JSENCODE($CurrentPage.Parameters.TemplateId)}', selectedTmplId);
+									} else {
+										if (document.getElementById(fieldId).type == 'select-one') {
+											document.getElementById(fieldId).selectedIndex = 0;
+										}
 									}
-								}
-							</script>
-						</apex:inputField>
-					</apex:pageBlockSectionItem>
-					<apex:pageBlockSectionItem rendered="{!lex && $ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.updateable}">
-						<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" />
-						<apex:outputPanel layout="none">
-							<div class="slds-scope" id="sldsscopediv">
-								<div class="slds-combobox_container" id="searchInputContainer">
-									<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox"
-									 style="">
-										<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
-											<apex:inputField id="searchtemplateinput" styleclass="slds-input slds-combobox__input" type="text" html-autocomplete="off" onkeyup="LightningLookupScripts.searchRecords(j$(this));"
-											 html-aria-autocomplete="list" html-role="combobox" html-aria-expanded="true" html-aria-controls="SrchTmpltDrpDwn" html-placeholder="{!$Label.ap_Search}"
-											 html-aria-activedescendant="SrchTmpltDrpDwn" required="false" value="{!ActionPlan__c.Action_Plan_Template__c}">
-											</apex:inputField>
-										</div>
-										<div id="SrchTmpltDrpDwn" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid datePicker" role="listbox" style="display: none">
-											<ul class="slds-listbox slds-listbox_vertical" role="presentation" id="searchResultsUL"></ul>
+								</script>
+							</apex:inputField>
+						</apex:pageBlockSectionItem>
+						<apex:pageBlockSectionItem rendered="{!lex && $ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.updateable}">
+							<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" />
+							<apex:outputPanel layout="none">
+								<div class="slds-scope" id="sldsscopediv">
+									<div class="slds-combobox_container" id="searchInputContainer">
+										<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox" style="">
+											<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+												<apex:inputField
+													id="searchtemplateinput"
+													styleclass="slds-input slds-combobox__input"
+													type="text"
+													html-autocomplete="off"
+													onkeyup="LightningLookupScripts.searchRecords(j$(this));"
+													html-aria-autocomplete="list"
+													html-role="combobox"
+													html-aria-expanded="true"
+													html-aria-controls="SrchTmpltDrpDwn"
+													html-placeholder="{!$Label.ap_Search}"
+													html-aria-activedescendant="SrchTmpltDrpDwn"
+													required="false"
+													value="{!ActionPlan__c.Action_Plan_Template__c}">
+												</apex:inputField>
+											</div>
+											<div id="SrchTmpltDrpDwn" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid datePicker" role="listbox" style="display: none">
+												<ul class="slds-listbox slds-listbox_vertical" role="presentation" id="searchResultsUL"></ul>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 
-							<script>
-								function checkinput() {
-									j$('[id$=searchtemplateinput_lkwgt]').hide();
-								}
-								LightningLookupScripts = {
-									//Function To Get Template Record's Details on Record Click
-									recInfo: function (recId) {
-										//j$('[id$=TemplateHiddenInput]').val(recId);
-										var recInfoIdInput = document.getElementById('{!$Component.TemplateHiddenInput}');
-										var oldTemplateId = j$(recInfoIdInput).val();
-										j$(recInfoIdInput).val(recId);
-										j$('[id$=SrchTmpltDrpDwn]').fadeOut();
-										//ID Based Retrieval Instead Of Query to Get Record Details Of The Selected Record
-										result = sforce.connection.retrieve('Name,Id', '{!NamespacePrefix}ActionPlanTemplate__c', [recId]);
-										j$('#sldsscopediv [id$=searchtemplateinput]').val(result[0].Name);
-										//reloadActionPlan('{!JSINHTMLENCODE(ActionPlan__c.Action_Plan_template__c)}', recId);
-										reloadActionPlan(oldTemplateId, result[0].Id);
-									},
-									searchRecords: function (key) {
-										j$('#' + key.attr('aria-activedescendant')).show();
-										//Grabbing The Input Field Value
-										var searchKey = key.val();
-										if (searchKey == '') {
-											j$('#' + key.attr('aria-activedescendant')).hide();
-										}
-										var namespace = "{!NamespacePrefix}";
-										//Querying For Records In Objects Name Matching The Input in The Text Field
-										var queryText = "SELECT Id, Name FROM " + namespace + "ActionPlanTemplate__c WHERE Name LIKE '%" + searchKey + "%' ORDER BY Name ASC LIMIT 10";
-										result = sforce.connection.query(queryText);
-										records = result.getArray('records');
-										var searchList = '';
-										//Creating List Elements Based on Query Results
-										if (records.length > 0) {
-											for (var i = 0; i < records.length; i++) {
-												//List Elements With Onclick and ID Attributes
-												var objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/custom-sprite/svg/symbols.svg#custom39")}';
-												searchList +=
-													'<li onclick="LightningLookupScripts.recInfo(\'' +
-													records[i].Id +
-													'\');" class="slds-lookup__item"><a id="' +
-													records[i].Id +
-													'" href="#" role="option"><svg aria-hidden="true" class="slds-icon slds-icon-custom-custom39 slds-icon_small">' +
-													'<use xlink:href="' +
-													objectIcon +
-													'"></use></svg>' +
-													records[i].Name +
-													'</a></li>';
+								<script>
+									function checkinput() {
+										j$('[id$=searchtemplateinput_lkwgt]').hide();
+									}
+									LightningLookupScripts = {
+										//Function To Get Template Record's Details on Record Click
+										recInfo: function (recId) {
+											//j$('[id$=TemplateHiddenInput]').val(recId);
+											var recInfoIdInput = document.getElementById('{!$Component.TemplateHiddenInput}');
+											var oldTemplateId = j$(recInfoIdInput).val();
+											j$(recInfoIdInput).val(recId);
+											j$('[id$=SrchTmpltDrpDwn]').fadeOut();
+											//ID Based Retrieval Instead Of Query to Get Record Details Of The Selected Record
+											result = sforce.connection.retrieve('Name,Id', '{!NamespacePrefix}ActionPlanTemplate__c', [recId]);
+											j$('#sldsscopediv [id$=searchtemplateinput]').val(result[0].Name);
+											//reloadActionPlan('{!JSINHTMLENCODE(ActionPlan__c.Action_Plan_template__c)}', recId);
+											reloadActionPlan(oldTemplateId, result[0].Id);
+										},
+										searchRecords: function (key) {
+											j$('#' + key.attr('aria-activedescendant')).show();
+											//Grabbing The Input Field Value
+											var searchKey = key.val();
+											if (searchKey == '') {
+												j$('#' + key.attr('aria-activedescendant')).hide();
 											}
-										} else {
-											searchList += '<li class="slds-lookup__item">No Records Found</li>';
+											var namespace = '{!NamespacePrefix}';
+											//Querying For Records In Objects Name Matching The Input in The Text Field
+											var queryText = 'SELECT Id, Name FROM ' + namespace + "ActionPlanTemplate__c WHERE Name LIKE '%" + searchKey + "%' ORDER BY Name ASC LIMIT 10";
+											result = sforce.connection.query(queryText);
+											records = result.getArray('records');
+											var searchList = '';
+											//Creating List Elements Based on Query Results
+											if (records.length > 0) {
+												for (var i = 0; i < records.length; i++) {
+													//List Elements With Onclick and ID Attributes
+													var objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/custom-sprite/svg/symbols.svg#custom39")}';
+													searchList +=
+														'<li onclick="LightningLookupScripts.recInfo(\'' +
+														records[i].Id +
+														'\');" class="slds-lookup__item"><a id="' +
+														records[i].Id +
+														'" href="#" role="option"><svg aria-hidden="true" class="slds-icon slds-icon-custom-custom39 slds-icon_small">' +
+														'<use xlink:href="' +
+														objectIcon +
+														'"></use></svg>' +
+														records[i].Name +
+														'</a></li>';
+												}
+											} else {
+												searchList += '<li class="slds-lookup__item">No Records Found</li>';
+											}
+											j$('[id$=searchResultsUL]').html(searchList);
 										}
-										j$('[id$=searchResultsUL]').html(searchList);
-									}
-								};
-								checkinput();
-							</script>
-							<apex:inputhidden value="{!ActionPlan__c.Action_Plan_Template__c}" id="TemplateHiddenInput" />
-						</apex:outputPanel>
-					</apex:pageBlockSectionItem>
-					<apex:outputField rendered="{!!$ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.updateable}" value="{!ActionPlan__c.Action_Plan_Template__c}"
-					/>
-				</apex:pageBlockSection>
-
-				<!-- Information Section -->
-				<apex:pageBlockSection id="informationSection" title="{!$Label.ap_Information}" columns="2" collapsible="false">
-					<apex:pageBlockSectionItem id="nameSectionItem">
-						<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.Name.label}" for="Name" />
-						<apex:inputField value="{!ActionPlan__c.Name}" id="APName" required="true" />
-					</apex:pageBlockSectionItem>
-
-					<apex:pageBlockSectionItem id="StartDateReadonlySection" rendered="{!ActionPlan__c.Completed__c != null && ActionPlan__c.Completed__c > 0}">
-						<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.StartDate__c.label}" for="StartDateReadonly" />
-						<apex:outputField id="StartDateReadonly" value="{!ActionPlan__c.StartDate__c}" />
-					</apex:pageBlockSectionItem>
-
-					<apex:pageBlockSectionItem id="StartDateSection" rendered="{!ActionPlan__c.Completed__c == null || ActionPlan__c.Completed__c == 0}">
-						<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.StartDate__c.label}" for="StartDate" />
-						<apex:inputField id="StartDate" required="true" value="{!ActionPlan__c.StartDate__c}" />
-					</apex:pageBlockSectionItem>
-
-					<apex:outputField value="{!ActionPlan__c.Action_Plan_Template__c}" rendered="false" />
-					<apex:outputField value="{!ActionPlan__c.Action_Plan_Template__r.Name}" rendered="false" />
-					<apex:inputField value="{!ActionPlan__c.Description__c}" />
-				</apex:pageBlockSection>
-				<!-- End Information Section -->
-
-				<!--  Start Related Section -->
-				<apex:pageBlockSection id="RelatedSection" title="{!relatedObjLabelPlural} ({!nameListSize})" columns="3" rendered="{!hasRelated}" collapsible="false">
-					<apex:dataList value="{!relatedRecordsOne}" var="objName">
-						<apex:outputText value="{!objName}" />
-					</apex:dataList>
-					<apex:dataList value="{!relatedRecordsTwo}" var="objName">
-						<apex:outputText value="{!objName}" />
-					</apex:dataList>
-					<apex:dataList value="{!relatedRecordsThree}" var="objName">
-						<apex:outputText value="{!objName}" />
-					</apex:dataList>
-				</apex:pageBlockSection>
-
-				<apex:pageBlockSection id="LookupSection" title="{!$Label.ap_RelatedObject}" columns="2" rendered="{!!hasRelated}" collapsible="false">
-					<apex:pageBlockSectionItem rendered="{!!hasRelatedObject}">
-						<apex:outputPanel layout="block" styleClass="slds-scope" style="align: right">
-							<apex:selectList id="relatedObjLookup" styleclass="slds-input slds-select resize" value="{!relatedFieldName}" multiselect="false" size="1" style="font-size: 14px"
-							 required="true" onchange="refreshRelatedObjectsLookUp(this.value);j$('[id$=APName]').val('{!templateName}');">
-								<apex:selectOptions value="{!relatedObjectOptions}" />
-							</apex:selectList>
-						</apex:outputPanel>
-
-						<apex:actionStatus id="lookStatus">
-							<apex:facet name="start">
-								<div class="slds-scope">
-									<div class="slds-spinner_container slds-is-fixed" style="position: fixed">
-										<div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
-											<span class="slds-assistive-text">Loading</span>
-											<div class="slds-spinner__dot-a"></div>
-											<div class="slds-spinner__dot-b"></div>
-										</div>
-									</div>
-								</div>
-							</apex:facet>
-							<apex:facet name="stop">
-								<apex:outputPanel layout="block" rendered="{!!hasRelatedObject}" id="lookupSectionOutPanel">
-									<apex:outputPanel layout="none" rendered="{!lex}">
-										<c:APLightningLookup sObj="{!ActionPlan__c}" field="{!relatedFieldName}" sObjType="{!relatedObjectName}" displayField="{!relatedObjDisplayField}"
-										 required="true" for="{!relatedFieldName}lookup" />
-										<apex:outputPanel rendered="{!ActionPlan__c.Action_Plan_Template__c != null}">
-											<script>
-												j$('#{!relatedFieldName}lookupsldsscopediv #searchInput').on("parentchange", function (event, relName) {
-													j$('[id$=APName]').val('{!templateName}' + ' - ' + relName);
-												});
-											</script>
-										</apex:outputPanel>
-									</apex:outputPanel>
-									<apex:outputPanel layout="none" rendered="{!!lex}">
-										<apex:inputField id="classicRelated" required="true" value="{!ActionPlan__c[relatedFieldName]}" />
-									</apex:outputPanel>
-								</apex:outputPanel>
-							</apex:facet>
-						</apex:actionStatus>
-					</apex:pageBlockSectionItem>
-					<apex:repeat value="{!$ObjectType.ActionPlan__c.FieldSets.Related_Objects}" var="f">
-						<apex:outputField value="{!ActionPlan__c[f.FieldPath]}" rendered="{!(ActionPlan__c[f.FieldPath] != null && hasRelatedObject)}" />
-						<apex:outputField value="{!ActionPlan__c[f.FieldPath]}" rendered="false" />
-					</apex:repeat>
-
-					<apex:pageBlockSectionItem rendered="{!ActionPlan__c.Action_Plan_Template__c != null && ActionPlan__c.Id != null}">
-						<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" />
-						<apex:outputPanel>
-							<apex:outputField value="{!ActionPlan__c.Action_Plan_Template__c}" />
-							<apex:outputPanel rendered="{!ActionPlan__c.CreatedDate < ActionPlan__c.Action_Plan_Template__r.LastModifiedDate}">
-								<br />
-								<span style="color: #cc0000" class="no-print">
-									<strong>{!$Label.ap_Note}:</strong> {!$Label.ap_APModifyError}</span>
+									};
+									checkinput();
+								</script>
+								<apex:inputhidden value="{!ActionPlan__c.Action_Plan_Template__c}" id="TemplateHiddenInput" />
 							</apex:outputPanel>
-						</apex:outputPanel>
-					</apex:pageBlockSectionItem>
-				</apex:pageBlockSection>
-				<!--  End Related Section -->
+						</apex:pageBlockSectionItem>
+						<apex:outputField rendered="{!!$ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.updateable}" value="{!ActionPlan__c.Action_Plan_Template__c}" />
+					</apex:pageBlockSection>
 
-				<apex:pageBlockSection title="{!$ObjectType.Task.labelPlural}" columns="2" collapsible="false" id="taskDetails">
-					<!-- <apex:inputField value="{!ActionPlan__c.SkipWeekends__c}" id="skipWeekendCheckbox" onclick="checkSkipWeekend('{!$Component.skipWeekendCheckbox}','{!$Component.taskDetails.skipDayPicklist}');" />-->
-					<apex:pageBlockSectionItem>
-						<apex:outputPanel layout="none">
-							<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.SkipWeekends__c.label}" />
-							<img class="helpOrb" title="{!$ObjectType.ActionPlan__c.fields.SkipWeekends__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
-						</apex:outputPanel>
-						<apex:inputField value="{!ActionPlan__c.SkipWeekends__c}" id="skipWeekendCheckbox" onclick="checkSkipWeekend('{!$Component.skipWeekendCheckbox}','{!$Component.taskDetails.skipDayPicklist}');"
-						/>
-					</apex:pageBlockSectionItem>
+					<!-- Information Section -->
+					<apex:pageBlockSection id="informationSection" title="{!$Label.ap_Information}" columns="2" collapsible="false">
+						<apex:pageBlockSectionItem id="nameSectionItem">
+							<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.Name.label}" for="Name" />
+							<apex:inputField value="{!ActionPlan__c.Name}" id="APName" required="true" />
+						</apex:pageBlockSectionItem>
 
-					<apex:pageBlockSectionItem rendered="{!taskHasRecordType}">
-						<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.TaskRecordTypeID__c.label}" />
-						<apex:outputPanel styleClass="slds-scope">
-							<apex:actionRegion>
-								<apex:selectList value="{!ActionPlan__c.TaskRecordTypeID__c}" rendered="{!ActionPlan__c.Id == null}" styleclass="slds-input slds-select resize"
-								 multiselect="false" size="1" style="font-size: 14px; width: unset" required="true">
-									<apex:actionSupport event="onchange" reRender="taskSection" />
-									<apex:selectOptions value="{!TaskRTPicklistValues}" />
+						<apex:pageBlockSectionItem id="StartDateReadonlySection" rendered="{!ActionPlan__c.Completed__c != null && ActionPlan__c.Completed__c > 0}">
+							<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.StartDate__c.label}" for="StartDateReadonly" />
+							<apex:outputField id="StartDateReadonly" value="{!ActionPlan__c.StartDate__c}" />
+						</apex:pageBlockSectionItem>
+
+						<apex:pageBlockSectionItem id="StartDateSection" rendered="{!ActionPlan__c.Completed__c == null || ActionPlan__c.Completed__c == 0}">
+							<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.StartDate__c.label}" for="StartDate" />
+							<apex:inputField id="StartDate" required="true" value="{!ActionPlan__c.StartDate__c}" />
+						</apex:pageBlockSectionItem>
+
+						<apex:outputField value="{!ActionPlan__c.Action_Plan_Template__c}" rendered="false" />
+						<apex:outputField value="{!ActionPlan__c.Action_Plan_Template__r.Name}" rendered="false" />
+						<apex:inputField value="{!ActionPlan__c.Description__c}" />
+					</apex:pageBlockSection>
+					<!-- End Information Section -->
+
+					<!--  Start Related Section -->
+					<apex:pageBlockSection id="RelatedSection" title="{!relatedObjLabelPlural} ({!nameListSize})" columns="3" rendered="{!hasRelated}" collapsible="false">
+						<apex:dataList value="{!relatedRecordsOne}" var="objName">
+							<apex:outputText value="{!objName}" />
+						</apex:dataList>
+						<apex:dataList value="{!relatedRecordsTwo}" var="objName">
+							<apex:outputText value="{!objName}" />
+						</apex:dataList>
+						<apex:dataList value="{!relatedRecordsThree}" var="objName">
+							<apex:outputText value="{!objName}" />
+						</apex:dataList>
+					</apex:pageBlockSection>
+
+					<apex:pageBlockSection id="LookupSection" title="{!$Label.ap_RelatedObject}" columns="2" rendered="{!!hasRelated}" collapsible="false">
+						<apex:pageBlockSectionItem rendered="{!!hasRelatedObject}">
+							<apex:outputPanel layout="block" styleClass="slds-scope" style="align: right">
+								<apex:selectList
+									id="relatedObjLookup"
+									styleclass="slds-input slds-select resize"
+									value="{!relatedFieldName}"
+									multiselect="false"
+									size="1"
+									style="font-size: 14px"
+									required="true"
+									onchange="refreshRelatedObjectsLookUp(this.value);j$('[id$=APName]').val('{!templateName}');">
+									<apex:selectOptions value="{!relatedObjectOptions}" />
 								</apex:selectList>
-							</apex:actionRegion>
-							<apex:outputText value="{!recordTypeName}" rendered="{!ActionPlan__c.Id != null}" />
-						</apex:outputPanel>
-					</apex:pageBlockSectionItem>
-					<apex:pageBlockSectionItem rendered="{!!taskHasRecordType}" />
+							</apex:outputPanel>
 
-					<apex:pageBlockSectionItem>
-						<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.SkipDay__c.label}" />
-						<apex:outputPanel layout="block" styleClass="slds-scope">
-							<apex:inputField id="skipDayPicklist" value="{!ActionPlan__c.SkipDay__c}" styleclass="slds-input slds-select" style="font-size: 14px; width: unset"
-							/>
-						</apex:outputPanel>
-					</apex:pageBlockSectionItem>
-				</apex:pageBlockSection>
-				<!-- Tasks Section -->
-				<apex:pageBlockSection id="taskSection" columns="1" collapsible="false">
-					<apex:outputPanel id="taskList" styleClass="slds-scope">
-						<apex:pageBlockTable value="{!Tasks}" var="wrapTask" id="taskTable" style="table-layout: auto; width: 100%; vertical-align: middle" rules="all">
-							<!-- columnClasses="first,second,third,fourth,fifth,sixth,septh,eight,ninth,tenth" styleClass="taskTable cardTable noBump pullTable" -->
-							<!--  Tasks delete actions  -->
-							<apex:column style="max-width: 20px; vertical-align: middle" headerValue="" id="columnOne" rendered="{!Tasks.size > 1}">
-								<apex:commandLink rerender="taskTable, pageMessages" immediate="{!wrapTask.isLast}" status="taskStatus" action="{!removeTask}" rendered="{! (!wrapTask.apt.IsClosed__c &&  $ObjectType.APTask__c.deletable ) || wrapTask.apt.Id == null }"
-								 onclick="if (confirmTaskDeletion('{!$Component.taskTable.dependent}','{!$Label.ap_Confirm_Tasks_Deletion}')) {return false;}" oncomplete="showErrors(); checkReminderPicklists(); ">
-									<apex:image url="{!URLFOR($Resource.ActionPlan_Resources, 'ActionPlans_cross.gif')}" alt="{!$Label.ap_Remove}" title="{!$Label.ap_Remove}" />
-									<apex:param name="remove" value="{!wrapTask.position}" />
-								</apex:commandLink>
-							</apex:column>
-
-							<!--  Task subject  -->
-							<apex:column headerValue="{!$ObjectType.APTask__c.fields.Subject__c.label}" style="padding-right: 10px">
-								<apex:inputField required="true" value="{!wrapTask.apt.Subject__c}" styleClass="slds-scope slds-input" rendered="{!!wrapTask.apt.IsClosed__c}"
-								 style="width: 100%" />
-								<apex:outputField value="{!wrapTask.apt.Subject__c}" rendered="{!wrapTask.apt.IsClosed__c}" />
-							</apex:column>
-
-							<!--  Dependent task  -->
-							<apex:column headerValue="{!$ObjectType.APTask__c.fields.Controller__c.label}" rendered="{!Tasks.Size > 1}" styleClass="third">
-								<apex:selectList id="dependent" value="{!wrapTask.apt.Dependent__c}" multiselect="false" size="1" style="min-width: 85px" onchange="javascript:checkDependent('{!$Component.taskTable.dependent}','{!JSINHTMLENCODE($Label.ap_ItselfDependencyError)})','{!JSINHTMLENCODE($Label.ap_Errors_Cyclic_Dependency_Found)}');"
-								 styleClass="selectDepending" disabled="{!wrapTask.apt.IsClosed__c}">
-									<apex:selectOptions value="{!SubjectItems}" />
-								</apex:selectList>
-								<apex:inputHidden value="{!wrapTask.apt.TaskIndex__c}" id="theHiddenInput" />
-							</apex:column>
-
-							<!--  Task Days After  -->
-							<apex:column>
-								<apex:facet name="header">
-									<span>
-										{!$ObjectType.APTask__c.fields.DaysFromStart__c.label}
-										<img class="helpOrb" title="{!$ObjectType.APTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
-									</span>
-								</apex:facet>
-								<apex:inputField id="daysFromStart" required="true" value="{!wrapTask.apt.DaysFromStart__c}" styleClass="daysInput" style="width: 50%" rendered="{!!wrapTask.apt.IsClosed__c}"
-								/>
-								<apex:outputField value="{!wrapTask.apt.DaysFromStart__c}" styleClass="daysInput" rendered="{!wrapTask.apt.IsClosed__c}" />
-								<apex:inputField id="activityDate" value="{!wrapTask.apt.ActivityDate__c}" rendered="false" />
-							</apex:column>
-
-							<!--  Tasks Assigned To  -->
-							<apex:column>
-								<apex:facet name="header">
-									<span>
-										{!$ObjectType.APTask__c.fields.User__c.label}
-										<img class="helpOrb" title="{!$ObjectType.APTask__c.fields.User__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
-									</span>
-								</apex:facet>
-								<apex:outputPanel id="userEditPanel" layout="block" rendered="{!!wrapTask.apt.IsClosed__c}">
-									<apex:outputPanel rendered="{!wrapTask.UserRender == 'UserLookup'}" id="userLookupPanel" style="z-index: 9999">
-										<apex:inputField required="{!wrapTask.UserRequired}" value="{!wrapTask.apt.User__c}" rendered="{!!lex}" id="classicLookup" />
-										<c:APLightningLookup field="User__c" sObj="{!wrapTask.apt}" sObjType="User" for="{!wrapTask.position}rowuserlookup" where="AND IsActive = true AND ProfileId != null"
-										 fieldStyle="width:100%" required="{!wrapTask.UserRequired}" rendered="{!lex}" id="lexLookup" recordname="{!IF(wrapTask.apt.User__c != null, wrapTask.apt.User__r.Name, '')}"
-										/>
-									</apex:outputPanel>
-									<apex:outputPanel rendered="{!wrapTask.UserRender == 'UserReadOnly'}" id="userDisplayPanel" layout="none">[&nbsp;
-										<apex:outputField value="{!wrapTask.apt.User__c}" id="userNameDisplay" />&nbsp;]
-									</apex:outputPanel>
-
-									<apex:outputText rendered="{!wrapTask.UserRender == 'OwnerPlaceholder'}" id="recordOwnerPlaceholder">[&nbsp;{!$Label.ap_RecordOwner}&nbsp;]</apex:outputText>
-								</apex:outputPanel>
-								<apex:outputField value="{!wrapTask.apt.User__c}" rendered="{!wrapTask.apt.IsClosed__c}" />
-							</apex:column>
-
-							<!--  Tasks type  -->
-							<apex:column headerValue="{!$ObjectType.Task.fields.Type.label}" rendered="{!$ObjectType.Task.fields.Type.accessible}">
-								<apex:selectList value="{!wrapTask.apt.Type__c}" size="1" rendered="{!!wrapTask.apt.IsClosed__c && $ObjectType.APTask__c.fields.Type__c.updateable}"
-								 styleclass="slds-input slds-select">
-									<apex:selectOptions value="{!TaskTypes}" />
-								</apex:selectList>
-								<apex:outputField value="{!wrapTask.apt.Type__c}" rendered="{!wrapTask.apt.IsClosed__c || !$ObjectType.APTask__c.fields.Type__c.updateable}"
-								/>
-							</apex:column>
-
-							<!--  Tasks priority  -->
-							<apex:column headerValue="{!$ObjectType.APTask__c.fields.Priority__c.label}">
-								<apex:selectList required="true" value="{!wrapTask.apt.Priority__c}" size="1" rendered="{!!wrapTask.apt.IsClosed__c && $ObjectType.APTask__c.fields.Priority__c.updateable}"
-								 styleclass="slds-input slds-select">
-									<apex:selectOptions value="{!TaskPriorities}" />
-								</apex:selectList>
-								<apex:outputField value="{!wrapTask.apt.Priority__c}" rendered="{!wrapTask.apt.IsClosed__c || !$ObjectType.APTask__c.fields.Priority__c.updateable}"
-								/>
-							</apex:column>
-
-							<!--  Tasks status  -->
-							<apex:column headerValue="{!$ObjectType.APTask__c.fields.Status__c.label}" style="vertical-align: middle">
-								<apex:outputField value="{!wrapTask.apt.Status__c}" />
-							</apex:column>
-
-							<!--  Tasks send Email  -->
-							<apex:column>
-								<apex:facet name="header">
-									{!$ObjectType.APTask__c.fields.SendEmail__c.label}
-									<br />
-									<a id="all" onclick="javascript:checkEmail(1);" class="all-none">{!$Label.ap_All}</a> |
-									<a id="none" onclick="javascript:checkEmail(0);" class="all-none">{!$Label.ap_None}</a>
-								</apex:facet>
-								<apex:inputCheckbox id="sendEmailCheckbox" value="{!wrapTask.apt.SendEmail__c}" disabled="{!wrapTask.apt.IsClosed__c}" />
-							</apex:column>
-
-							<!--  Tasks reminder settings  -->
-							<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle" id="reminderCol">
-								<apex:facet name="header">{!$ObjectType.APTask__c.fields.Reminder__c.label}
-									<br />
-									<a id="reminderAll" onclick="javascript:checkReminder(1);" class="all-none">{!$Label.ap_All}</a> |
-									<a id="reminderNone" onclick="javascript:checkReminder(0);" class="all-none">{!$Label.ap_None}</a>
-								</apex:facet>
-								<apex:outputPanel styleClass="reminderColumn" style="vertical-align: middle" id="reminderCell">
-									<apex:inputCheckbox id="reminder" value="{!wrapTask.apt.Reminder__c}" style="float: left; display: inline-block; vertical-align: middle" onclick="javascript:enableDisableReminderPicklist(this, '{!$Component.reminderPickList}');"
-									 disabled="{!wrapTask.apt.IsClosed__c}" />
-									<apex:selectList id="reminderPickList" size="1" value="{!wrapTask.apt.Minutes_Reminder__c}" style="float: left" rendered="{!!wrapTask.apt.IsClosed__c}"
-									 disabled="{!!wrapTask.apt.Reminder__c}">
-										<apex:selectOptions value="{!hoursOption}" />
-									</apex:selectList>
-									<apex:outputText value="{!wrapTask.apt.Time_Reminder__c}" rendered="{!wrapTask.apt.IsClosed__c && wrapTask.apt.Reminder__c}" />
-								</apex:outputPanel>
-							</apex:column>
-
-							<!--  Tasks comments  -->
-							<apex:column headerValue="{!$ObjectType.APTask__c.fields.Comments__c.label}" style="vertical-align: middle">
-								<apex:outputPanel rendered="{!!wrapTask.apt.IsClosed__c}" layout="none">
-									<apex:inputField id="commentPanel" style="width: 250px; display: none" value="{!wrapTask.apt.Comments__c}" /> (&nbsp;
-									<a id="{!wrapTask.position}commentLink" onclick="toggleComments('{!$Component.commentPanel}', '{!$Component.actionLinks}', '{!$Label.ap_Add}', '{!$Label.ap_Edit}','{!$Label.ap_Close}');"
-									 style="text-decoration: underline">
-										<apex:outputPanel id="actionLinks">
-											<apex:outputText rendered="{!wrapTask.apt.Comments__c != null}">{!$Label.ap_Edit}</apex:outputText>
-											<apex:outputText rendered="{!wrapTask.apt.Comments__c == null}">{!$Label.ap_Add}</apex:outputText>
-										</apex:outputPanel>
-									</a>&nbsp;)
-								</apex:outputPanel>
-								<apex:outputPanel rendered="{!wrapTask.apt.IsClosed__c}" layout="none">
-									<apex:outputPanel id="closedCommentPanel" style="display: none" onclick="toggleVisibility('{!$Component.closedCommentPanel}');">
-										<apex:outputField value="{!wrapTask.apt.Comments__c}" />
-										<br />
-									</apex:outputPanel>
-
-									<apex:outputPanel rendered="{!wrapTask.apt.Comments__c != null}" onclick="toggleVisibility('{!$Component.closedCommentPanel}');">
-										(&nbsp;
-										<apex:outputText style="text-decoration: underline" value="..." />&nbsp;)
-									</apex:outputPanel>
-								</apex:outputPanel>
-							</apex:column>
-						</apex:pageBlockTable>
-					</apex:outputPanel>
-
-					<apex:panelGrid columns="2" id="linkpanelgrid" style="margin-bottom: 160px">
-						<apex:commandLink action="{!addTask}" style="font-weight: bold" id="addnewtasklink" rerender="taskTable, pageMessages" status="taskStatus" oncomplete="showErrors();checkAllDependent('{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');checkReminderPicklists();"
-						 rendered="{!$ObjectType.APTask__c.createable}">
-							<apex:outputText value="{!$Label.ap_AddNewTask}" />
-						</apex:commandLink>
-						<apex:actionStatus id="taskStatus">
-							<apex:facet name="start">
-								<div class="slds-scope">
-									<div class="slds-spinner_container slds-is-fixed" style="position: fixed">
-										<div role="status" class="slds-spinner slds-spinner_large slds-spinner_brand">
-											<span class="slds-assistive-text">Loading</span>
-											<div class="slds-spinner__dot-a"></div>
-											<div class="slds-spinner__dot-b"></div>
+							<apex:actionStatus id="lookStatus">
+								<apex:facet name="start">
+									<div class="slds-scope">
+										<div class="slds-spinner_container slds-is-fixed" style="position: fixed">
+											<div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+												<span class="slds-assistive-text">Loading</span>
+												<div class="slds-spinner__dot-a"></div>
+												<div class="slds-spinner__dot-b"></div>
+											</div>
 										</div>
 									</div>
-								</div>
-							</apex:facet>
-							<apex:facet name="stop">
-								<apex:outputText value="{!$Label.ap_Error}: {!ErrorMsg}" styleClass="errorMessage" rendered="{!(ErrorMsg != null)}" style="color: #cc0000 !important"
-								/>
-							</apex:facet>
-						</apex:actionStatus>
-					</apex:panelGrid>
-				</apex:pageBlockSection>
-				<!-- End Tasks Section -->
+								</apex:facet>
+								<apex:facet name="stop">
+									<apex:outputPanel layout="block" rendered="{!!hasRelatedObject}" id="lookupSectionOutPanel">
+										<apex:outputPanel layout="none" rendered="{!lex}">
+											<c:APLightningLookup
+												sObj="{!ActionPlan__c}"
+												field="{!relatedFieldName}"
+												sObjType="{!relatedObjectName}"
+												displayField="{!relatedObjDisplayField}"
+												required="true"
+												for="{!relatedFieldName}lookup" />
+											<apex:outputPanel rendered="{!ActionPlan__c.Action_Plan_Template__c != null}">
+												<script>
+													j$('#{!relatedFieldName}lookupsldsscopediv #searchInput').on('parentchange', function (event, relName) {
+														j$('[id$=APName]').val('{!templateName}' + ' - ' + relName);
+													});
+												</script>
+											</apex:outputPanel>
+										</apex:outputPanel>
+										<apex:outputPanel layout="none" rendered="{!!lex}">
+											<apex:inputField id="classicRelated" required="true" value="{!ActionPlan__c[relatedFieldName]}" />
+										</apex:outputPanel>
+									</apex:outputPanel>
+								</apex:facet>
+							</apex:actionStatus>
+						</apex:pageBlockSectionItem>
+						<apex:repeat value="{!$ObjectType.ActionPlan__c.FieldSets.Related_Objects}" var="f">
+							<apex:outputField value="{!ActionPlan__c[f.FieldPath]}" rendered="{!(ActionPlan__c[f.FieldPath] != null && hasRelatedObject)}" />
+							<apex:outputField value="{!ActionPlan__c[f.FieldPath]}" rendered="false" />
+						</apex:repeat>
 
-				<div id="error" style="text-align: center">
-					<span class="pbError">{!$Label.ap_Errors_Review_Errors}</span>
-				</div>
-			</apex:pageBlock>
-			<apex:repeat value="{!AllRelationshipFields}" var="a" id="fieldsetrepeat">
-				<apex:inputField value="{!ActionPlan__c[a]}" rendered="false" />
-			</apex:repeat>
-			<apex:inputField value="{!ActionPlan__c.TaskRecordTypeID__c}" rendered="false" />
-		</apex:form>
-	</body>
+						<apex:pageBlockSectionItem rendered="{!ActionPlan__c.Action_Plan_Template__c != null && ActionPlan__c.Id != null}">
+							<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" />
+							<apex:outputPanel>
+								<apex:outputField value="{!ActionPlan__c.Action_Plan_Template__c}" />
+								<apex:outputPanel rendered="{!ActionPlan__c.CreatedDate < ActionPlan__c.Action_Plan_Template__r.LastModifiedDate}">
+									<br />
+									<span style="color: #cc0000" class="no-print"> <strong>{!$Label.ap_Note}:</strong> {!$Label.ap_APModifyError}</span>
+								</apex:outputPanel>
+							</apex:outputPanel>
+						</apex:pageBlockSectionItem>
+					</apex:pageBlockSection>
+					<!--  End Related Section -->
 
+					<apex:pageBlockSection title="{!$ObjectType.Task.labelPlural}" columns="2" collapsible="false" id="taskDetails">
+						<!-- <apex:inputField value="{!ActionPlan__c.SkipWeekends__c}" id="skipWeekendCheckbox" onclick="checkSkipWeekend('{!$Component.skipWeekendCheckbox}','{!$Component.taskDetails.skipDayPicklist}');" />-->
+						<apex:pageBlockSectionItem>
+							<apex:outputPanel layout="none">
+								<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.SkipWeekends__c.label}" />
+								<img class="helpOrb" title="{!$ObjectType.ActionPlan__c.fields.SkipWeekends__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
+							</apex:outputPanel>
+							<apex:inputField
+								value="{!ActionPlan__c.SkipWeekends__c}"
+								id="skipWeekendCheckbox"
+								onclick="checkSkipWeekend('{!$Component.skipWeekendCheckbox}','{!$Component.taskDetails.skipDayPicklist}');" />
+						</apex:pageBlockSectionItem>
+
+						<apex:pageBlockSectionItem rendered="{!taskHasRecordType}">
+							<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.TaskRecordTypeID__c.label}" />
+							<apex:outputPanel styleClass="slds-scope">
+								<apex:actionRegion>
+									<apex:selectList
+										value="{!ActionPlan__c.TaskRecordTypeID__c}"
+										rendered="{!ActionPlan__c.Id == null}"
+										styleclass="slds-input slds-select resize"
+										multiselect="false"
+										size="1"
+										style="font-size: 14px; width: unset"
+										required="true">
+										<apex:actionSupport event="onchange" reRender="taskSection" />
+										<apex:selectOptions value="{!TaskRTPicklistValues}" />
+									</apex:selectList>
+								</apex:actionRegion>
+								<apex:outputText value="{!recordTypeName}" rendered="{!ActionPlan__c.Id != null}" />
+							</apex:outputPanel>
+						</apex:pageBlockSectionItem>
+						<apex:pageBlockSectionItem rendered="{!!taskHasRecordType}" />
+
+						<apex:pageBlockSectionItem>
+							<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.SkipDay__c.label}" />
+							<apex:outputPanel layout="block" styleClass="slds-scope">
+								<apex:inputField id="skipDayPicklist" value="{!ActionPlan__c.SkipDay__c}" styleclass="slds-input slds-select" style="font-size: 14px; width: unset" />
+							</apex:outputPanel>
+						</apex:pageBlockSectionItem>
+					</apex:pageBlockSection>
+					<!-- Tasks Section -->
+					<apex:pageBlockSection id="taskSection" columns="1" collapsible="false">
+						<apex:outputPanel id="taskList" styleClass="slds-scope">
+							<apex:pageBlockTable value="{!Tasks}" var="wrapTask" id="taskTable" style="table-layout: auto; width: 100%; vertical-align: middle" rules="all">
+								<!-- columnClasses="first,second,third,fourth,fifth,sixth,septh,eight,ninth,tenth" styleClass="taskTable cardTable noBump pullTable" -->
+								<!--  Tasks delete actions  -->
+								<apex:column style="max-width: 20px; vertical-align: middle" headerValue="" id="columnOne" rendered="{!Tasks.size > 1}">
+									<apex:commandLink
+										rerender="taskTable, pageMessages"
+										immediate="{!wrapTask.isLast}"
+										status="taskStatus"
+										action="{!removeTask}"
+										rendered="{! (!wrapTask.apt.IsClosed__c &&  $ObjectType.APTask__c.deletable ) || wrapTask.apt.Id == null }"
+										onclick="if (confirmTaskDeletion('{!$Component.taskTable.dependent}','{!$Label.ap_Confirm_Tasks_Deletion}')) {return false;}"
+										oncomplete="showErrors(); checkReminderPicklists(); ">
+										<apex:image url="{!URLFOR($Resource.ActionPlan_Resources, 'ActionPlans_cross.gif')}" alt="{!$Label.ap_Remove}" title="{!$Label.ap_Remove}" />
+										<apex:param name="remove" value="{!wrapTask.position}" />
+									</apex:commandLink>
+								</apex:column>
+
+								<!--  Task subject  -->
+								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Subject__c.label}" style="padding-right: 10px">
+									<apex:inputField required="true" value="{!wrapTask.apt.Subject__c}" styleClass="slds-scope slds-input" rendered="{!!wrapTask.apt.IsClosed__c}" style="width: 100%" />
+									<apex:outputField value="{!wrapTask.apt.Subject__c}" rendered="{!wrapTask.apt.IsClosed__c}" />
+								</apex:column>
+
+								<!--  Dependent task  -->
+								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Controller__c.label}" rendered="{!Tasks.Size > 1}" styleClass="third">
+									<apex:selectList
+										id="dependent"
+										value="{!wrapTask.apt.Dependent__c}"
+										multiselect="false"
+										size="1"
+										style="min-width: 85px"
+										onchange="javascript:checkDependent('{!$Component.taskTable.dependent}','{!JSINHTMLENCODE($Label.ap_ItselfDependencyError)})','{!JSINHTMLENCODE($Label.ap_Errors_Cyclic_Dependency_Found)}');"
+										styleClass="selectDepending"
+										disabled="{!wrapTask.apt.IsClosed__c}">
+										<apex:selectOptions value="{!SubjectItems}" />
+									</apex:selectList>
+									<apex:inputHidden value="{!wrapTask.apt.TaskIndex__c}" id="theHiddenInput" />
+								</apex:column>
+
+								<!--  Task Days After  -->
+								<apex:column>
+									<apex:facet name="header">
+										<span>
+											{!$ObjectType.APTask__c.fields.DaysFromStart__c.label}
+											<img class="helpOrb" title="{!$ObjectType.APTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
+										</span>
+									</apex:facet>
+									<apex:inputField id="daysFromStart" required="true" value="{!wrapTask.apt.DaysFromStart__c}" styleClass="daysInput" style="width: 50%" rendered="{!!wrapTask.apt.IsClosed__c}" />
+									<apex:outputField value="{!wrapTask.apt.DaysFromStart__c}" styleClass="daysInput" rendered="{!wrapTask.apt.IsClosed__c}" />
+									<apex:inputField id="activityDate" value="{!wrapTask.apt.ActivityDate__c}" rendered="false" />
+								</apex:column>
+
+								<!--  Tasks Assigned To  -->
+								<apex:column>
+									<apex:facet name="header">
+										<span>
+											{!$ObjectType.APTask__c.fields.User__c.label}
+											<img class="helpOrb" title="{!$ObjectType.APTask__c.fields.User__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
+										</span>
+									</apex:facet>
+									<apex:outputPanel id="userEditPanel" layout="block" rendered="{!!wrapTask.apt.IsClosed__c}">
+										<apex:outputPanel rendered="{!wrapTask.UserRender == 'UserLookup'}" id="userLookupPanel" style="z-index: 9999">
+											<apex:inputField required="{!wrapTask.UserRequired}" value="{!wrapTask.apt.User__c}" rendered="{!!lex}" id="classicLookup" />
+											<c:APLightningLookup
+												field="User__c"
+												sObj="{!wrapTask.apt}"
+												sObjType="User"
+												for="{!wrapTask.position}rowuserlookup"
+												where="AND IsActive = true AND ProfileId != null"
+												fieldStyle="width:100%"
+												required="{!wrapTask.UserRequired}"
+												rendered="{!lex}"
+												id="lexLookup"
+												recordname="{!IF(wrapTask.apt.User__c != null, wrapTask.apt.User__r.Name, '')}" />
+										</apex:outputPanel>
+										<apex:outputPanel rendered="{!wrapTask.UserRender == 'UserReadOnly'}" id="userDisplayPanel" layout="none"
+											>[&nbsp; <apex:outputField value="{!wrapTask.apt.User__c}" id="userNameDisplay" />&nbsp;]
+										</apex:outputPanel>
+
+										<apex:outputText rendered="{!wrapTask.UserRender == 'OwnerPlaceholder'}" id="recordOwnerPlaceholder">[&nbsp;{!$Label.ap_RecordOwner}&nbsp;]</apex:outputText>
+									</apex:outputPanel>
+									<apex:outputField value="{!wrapTask.apt.User__c}" rendered="{!wrapTask.apt.IsClosed__c}" />
+								</apex:column>
+
+								<!--  Tasks type  -->
+								<apex:column headerValue="{!$ObjectType.Task.fields.Type.label}" rendered="{!$ObjectType.Task.fields.Type.accessible}">
+									<apex:selectList
+										value="{!wrapTask.apt.Type__c}"
+										size="1"
+										rendered="{!!wrapTask.apt.IsClosed__c && $ObjectType.APTask__c.fields.Type__c.updateable}"
+										styleclass="slds-input slds-select">
+										<apex:selectOptions value="{!TaskTypes}" />
+									</apex:selectList>
+									<apex:outputField value="{!wrapTask.apt.Type__c}" rendered="{!wrapTask.apt.IsClosed__c || !$ObjectType.APTask__c.fields.Type__c.updateable}" />
+								</apex:column>
+
+								<!--  Tasks priority  -->
+								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Priority__c.label}">
+									<apex:selectList
+										required="true"
+										value="{!wrapTask.apt.Priority__c}"
+										size="1"
+										rendered="{!!wrapTask.apt.IsClosed__c && $ObjectType.APTask__c.fields.Priority__c.updateable}"
+										styleclass="slds-input slds-select">
+										<apex:selectOptions value="{!TaskPriorities}" />
+									</apex:selectList>
+									<apex:outputField value="{!wrapTask.apt.Priority__c}" rendered="{!wrapTask.apt.IsClosed__c || !$ObjectType.APTask__c.fields.Priority__c.updateable}" />
+								</apex:column>
+
+								<!--  Tasks status  -->
+								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Status__c.label}" style="vertical-align: middle">
+									<apex:outputField value="{!wrapTask.apt.Status__c}" />
+								</apex:column>
+
+								<!--  Tasks send Email  -->
+								<apex:column>
+									<apex:facet name="header">
+										{!$ObjectType.APTask__c.fields.SendEmail__c.label}
+										<br />
+										<a id="all" onclick="javascript:checkEmail(1);" class="all-none">{!$Label.ap_All}</a> |
+										<a id="none" onclick="javascript:checkEmail(0);" class="all-none">{!$Label.ap_None}</a>
+									</apex:facet>
+									<apex:inputCheckbox id="sendEmailCheckbox" value="{!wrapTask.apt.SendEmail__c}" disabled="{!wrapTask.apt.IsClosed__c}" />
+								</apex:column>
+
+								<!--  Tasks reminder settings  -->
+								<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle" id="reminderCol">
+									<apex:facet name="header"
+										>{!$ObjectType.APTask__c.fields.Reminder__c.label}
+										<br />
+										<a id="reminderAll" onclick="javascript:checkReminder(1);" class="all-none">{!$Label.ap_All}</a> |
+										<a id="reminderNone" onclick="javascript:checkReminder(0);" class="all-none">{!$Label.ap_None}</a>
+									</apex:facet>
+									<apex:outputPanel styleClass="reminderColumn" style="vertical-align: middle" id="reminderCell">
+										<apex:inputCheckbox
+											id="reminder"
+											value="{!wrapTask.apt.Reminder__c}"
+											style="float: left; display: inline-block; vertical-align: middle"
+											onclick="javascript:enableDisableReminderPicklist(this, '{!$Component.reminderPickList}');"
+											disabled="{!wrapTask.apt.IsClosed__c}" />
+										<apex:selectList
+											id="reminderPickList"
+											size="1"
+											value="{!wrapTask.apt.Minutes_Reminder__c}"
+											style="float: left"
+											rendered="{!!wrapTask.apt.IsClosed__c}"
+											disabled="{!!wrapTask.apt.Reminder__c}">
+											<apex:selectOptions value="{!hoursOption}" />
+										</apex:selectList>
+										<apex:outputText value="{!wrapTask.apt.Time_Reminder__c}" rendered="{!wrapTask.apt.IsClosed__c && wrapTask.apt.Reminder__c}" />
+									</apex:outputPanel>
+								</apex:column>
+
+								<!--  Tasks comments  -->
+								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Comments__c.label}" style="vertical-align: middle">
+									<apex:outputPanel rendered="{!!wrapTask.apt.IsClosed__c}" layout="none">
+										<apex:inputField id="commentPanel" style="width: 250px; display: none" value="{!wrapTask.apt.Comments__c}" /> (&nbsp;
+										<a
+											id="{!wrapTask.position}commentLink"
+											onclick="toggleComments('{!$Component.commentPanel}', '{!$Component.actionLinks}', '{!$Label.ap_Add}', '{!$Label.ap_Edit}','{!$Label.ap_Close}');"
+											style="text-decoration: underline">
+											<apex:outputPanel id="actionLinks">
+												<apex:outputText rendered="{!wrapTask.apt.Comments__c != null}">{!$Label.ap_Edit}</apex:outputText>
+												<apex:outputText rendered="{!wrapTask.apt.Comments__c == null}">{!$Label.ap_Add}</apex:outputText>
+											</apex:outputPanel> </a
+										>&nbsp;)
+									</apex:outputPanel>
+									<apex:outputPanel rendered="{!wrapTask.apt.IsClosed__c}" layout="none">
+										<apex:outputPanel id="closedCommentPanel" style="display: none" onclick="toggleVisibility('{!$Component.closedCommentPanel}');">
+											<apex:outputField value="{!wrapTask.apt.Comments__c}" />
+											<br />
+										</apex:outputPanel>
+
+										<apex:outputPanel rendered="{!wrapTask.apt.Comments__c != null}" onclick="toggleVisibility('{!$Component.closedCommentPanel}');">
+											(&nbsp;
+											<apex:outputText style="text-decoration: underline" value="..." />&nbsp;)
+										</apex:outputPanel>
+									</apex:outputPanel>
+								</apex:column>
+							</apex:pageBlockTable>
+						</apex:outputPanel>
+
+						<apex:panelGrid columns="2" id="linkpanelgrid" style="margin-bottom: 160px">
+							<apex:commandLink
+								action="{!addTask}"
+								style="font-weight: bold"
+								id="addnewtasklink"
+								rerender="taskTable, pageMessages"
+								status="taskStatus"
+								oncomplete="showErrors();checkAllDependent('{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');checkReminderPicklists();"
+								rendered="{!$ObjectType.APTask__c.createable}">
+								<apex:outputText value="{!$Label.ap_AddNewTask}" />
+							</apex:commandLink>
+							<apex:actionStatus id="taskStatus">
+								<apex:facet name="start">
+									<div class="slds-scope">
+										<div class="slds-spinner_container slds-is-fixed" style="position: fixed">
+											<div role="status" class="slds-spinner slds-spinner_large slds-spinner_brand">
+												<span class="slds-assistive-text">Loading</span>
+												<div class="slds-spinner__dot-a"></div>
+												<div class="slds-spinner__dot-b"></div>
+											</div>
+										</div>
+									</div>
+								</apex:facet>
+								<apex:facet name="stop">
+									<apex:outputText value="{!$Label.ap_Error}: {!ErrorMsg}" styleClass="errorMessage" rendered="{!(ErrorMsg != null)}" style="color: #cc0000 !important" />
+								</apex:facet>
+							</apex:actionStatus>
+						</apex:panelGrid>
+					</apex:pageBlockSection>
+					<!-- End Tasks Section -->
+
+					<div id="error" style="text-align: center">
+						<span class="pbError">{!$Label.ap_Errors_Review_Errors}</span>
+					</div>
+				</apex:pageBlock>
+				<apex:repeat value="{!AllRelationshipFields}" var="a" id="fieldsetrepeat">
+					<apex:inputField value="{!ActionPlan__c[a]}" rendered="false" />
+				</apex:repeat>
+				<apex:inputField value="{!ActionPlan__c.TaskRecordTypeID__c}" rendered="false" />
+			</apex:form>
+		</body>
 	</html>
 </apex:page>

@@ -159,7 +159,7 @@ public without sharing class ActionPlansUtilities {
 	 */
 	private static Map<Id, String> recordIdToRecordName;
 	/**
-	 * Give a set of recordIDs and retrrieve the related record names
+	 * Give a set of recordIDs and retrieve the related record names
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  recordIDs Set<Id> of parent records to Action Plans
 	 * @return           `Map<Id, String>` Map of RecordID to Record Name (special for Case & Contract)
