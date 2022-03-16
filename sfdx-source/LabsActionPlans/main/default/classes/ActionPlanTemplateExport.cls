@@ -108,7 +108,7 @@ public without sharing class ActionPlanTemplateExport {
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param name
 	 * @param xml
-	 * @return doc
+	 * @return `Id` of the new `Document`
 	 */
 	@TestVisible
 	private Id saveToDocument(String name, String xml) {
@@ -127,7 +127,7 @@ public without sharing class ActionPlanTemplateExport {
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  name File Name
 	 * @param  xml  The XML of the exported template
-	 * @return      `ContentDocument` Id
+	 * @return      `Id` of the new `ContentDocument`
 	 */
 	@TestVisible
 	private Id saveToContent(String name, String xml) {
@@ -146,7 +146,7 @@ public without sharing class ActionPlanTemplateExport {
 	/**
 	 * Method to compile XML document for a given Action Plan Template and child tasks
 	 * @param target
-	 * @return The XML
+	 * @return `String` The XML
 	 */
 	@TestVisible
 	private String buildXmlString(ActionPlanTemplate__c target) {

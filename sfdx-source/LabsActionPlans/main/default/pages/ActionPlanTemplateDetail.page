@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	extensions="ActionPlanTemplateDetailController"
 	lightningStylesheets="true"
 	docType="html-5.0"
+	action="{!onLoad}"
 	contentType="text/html">
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/ActionPlans_Scripts.js')}" />

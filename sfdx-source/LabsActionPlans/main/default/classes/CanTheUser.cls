@@ -273,7 +273,7 @@ public inherited sharing class CanTheUser {
 	 * @param obj the object in question, in `String` form (object name)
 	 * @param field the field in question in `String` form (field name)
 	 * @return `Boolean`
-	 * @see getFLSForFieldOnObject
+	 * @see CanTheUser.getFLSForFieldOnObject
 	 * @example
 	 * System.debug(CanTheUser.flsAccessible('Account', 'Name'));
 	 **/
@@ -304,7 +304,7 @@ public inherited sharing class CanTheUser {
 	 * @param obj the string version of an object name
 	 * @param field the field to check
 	 * @return `Boolean`
-	 * @see getFLSForFieldOnObject
+	 * @see CanTheUser.getFLSForFieldOnObject
 	 * @example
 	 * System.debug(CanTheUser.flsUpdatable('Account', 'Name'));
 	 **/

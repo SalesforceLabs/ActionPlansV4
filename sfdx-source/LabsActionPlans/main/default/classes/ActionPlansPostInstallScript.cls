@@ -50,7 +50,7 @@ global class ActionPlansPostInstallScript implements InstallHandler {
 		if (context.previousVersion() == null) {
 			Action_Plans_Settings__c instance = new Action_Plans_Settings__c(SetupOwnerId = UserInfo.getOrganizationId());
 			instance.Action_Plans_Business_Hours_ID__c = [SELECT Id FROM BusinessHours WHERE IsDefault = TRUE][0].Id;
-			instance.Default_Object_on_Lead_Conversion__c = Schema.Contact.SObjectType.getDescribe().getName();
+			instance.Default_Object_on_Lead_Conversion__c = 'Contact';
 			instance.Unassigned_Task_Assigned_to_Owner__c = (Boolean) Action_Plans_Settings__c.Unassigned_Task_Assigned_to_Owner__c.getDescribe().getDefaultValue();
 			instance.Chatter_Object_Brag__c = (Boolean) Action_Plans_Settings__c.Chatter_Object_Brag__c.getDescribe().getDefaultValue();
 			upsert instance;

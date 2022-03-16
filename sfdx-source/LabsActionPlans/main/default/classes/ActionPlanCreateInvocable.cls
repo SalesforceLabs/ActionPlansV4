@@ -59,7 +59,7 @@ global without sharing class ActionPlanCreateInvocable {
 	 *     req.relatedRecordID = a.Id;
 	 *     req.daysToActionPlanStart = 0;
 	 *     requests.add(req);
-	 * List resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
+	 * List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 	 */
 	@InvocableMethod(label='Create Action Plan From Template' description='Takes a Template Name/Id and Record Id and makes an Action Plan for that record.' category='ActionPlans')
 	global static List<Id> makeActionPlanFromTemplate(List<CreateActionPlanRequest> requests) {
@@ -126,7 +126,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
 
-		Map<Id, Id> relatedObjectOwners = ActionPlansBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs);
+		Map<Id, Id> relObjectOwners = ActionPlansBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs);
 
 		Set<String> actionPlanFields = Schema.SObjectType.ActionPlan__c.fields.getMap().keyset();
 
@@ -154,10 +154,8 @@ global without sharing class ActionPlanCreateInvocable {
 			Schema.DescribeSObjectResult sor = ActionPlansUtilities.getRelatedRecordInfo(relatedId);
 			String relObjName = sor.getName().toLowerCase();
 			String relObjLabel = sor.getLabel();
-			//String relRecordName = ActionPlansUtilities.queryRecordIDToRecordName(new Set<Id>{ relatedId }).get(relatedId);
 
 			ap.Related_Object__c = relObjLabel;
-			//ap.Related_Record__c = relRecordName;
 
 			String namespacePrefix = ActionPlansUtilities.namespacePrefix.toLowerCase();
 			String relObjField = relObjName;
@@ -194,27 +192,15 @@ global without sharing class ActionPlanCreateInvocable {
 
 			ActionPlanTemplate__c actionPlanTemplate = templateNameOrIdToTemplate.get(r.templateNameOrID);
 
-			Id relatedId = r.relatedRecordID;
-
 			for (APTemplateTask__c aptTask : actionPlanTemplate.aptTasks__r) {
-				Id userId;
-				//Read the Custom Settings in order to asign the User to that Task
-				if (aptTask.User__c != null) {
-					userId = aptTask.User__c;
-				} else if (aptTask.User__c == null && (mySettings != null && !mySettings.Unassigned_Task_Assigned_to_Owner__c)) {
-					userId = UserInfo.getUserId();
-				} else if (aptTask.User__c == null && (mySettings != null && mySettings.Unassigned_Task_Assigned_to_Owner__c)) {
-					userId = relatedObjectOwners.get(relatedId);
-				}
-
 				APTask__c apTask = new APTask__c();
+				apTask.User__c = ActionPlansBuilderUtilities.getAPTaskTemplateUser(ap, relObjectOwners, aptTask.User__c);
 				apTask.Type__c = aptTask.Type__c;
 				apTask.Subject__c = aptTask.Subject__c;
 				apTask.Priority__c = aptTask.Priority__c;
 				apTask.Dependent__c = aptTask.Dependent__c;
 				apTask.TaskIndex__c = aptTask.TaskIndex__c;
 				apTask.DaysFromStart__c = aptTask.DaysFromStart__c;
-				apTask.User__c = userId;
 				apTask.Comments__c = aptTask.Comments__c;
 				apTask.Reminder__c = aptTask.Reminder__c;
 				apTask.Minutes_Reminder__c = aptTask.Minutes_Reminder__c;
@@ -245,7 +231,7 @@ global without sharing class ActionPlanCreateInvocable {
 			}
 		}
 
-		insert planTaskIndexToTask.values();
+		Database.insert(planTaskIndexToTask.values());
 
 		// Now we have to update with the controlling/dependent task IDs
 
@@ -371,12 +357,6 @@ global without sharing class ActionPlanCreateInvocable {
 	 */
 	global class CreateActionPlanRequest {
 		/**
-		 * The template Id or Name to use. (Name is not unique, so ID is preferred)
-		 */
-		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
-		global String templateNameOrID;
-
-		/**
 		 * The parent Record ID. Must have a relationship named the related record object name from Action Plan object.
 		 */
 		@InvocableVariable(required=true label='The parent Record ID' description='Must have a relationship named the related record object name from Action Plan object')
@@ -387,5 +367,11 @@ global without sharing class ActionPlanCreateInvocable {
 		 */
 		@InvocableVariable(required=false label='Days from trigger to start Action Plan' description='Defaults to 0, the day the plan is created')
 		global Integer daysToActionPlanStart;
+
+		/**
+		 * The template Id or Name to use. (Name is not unique, so ID is preferred)
+		 */
+		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
+		global String templateNameOrID;
 	}
 }

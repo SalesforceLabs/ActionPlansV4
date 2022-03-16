@@ -35,12 +35,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Controller for the Section Header at the top of every VF page.
  * <br>Determines the icon for the page object
- * <br>Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
+ * <br>Code adapted from {@link [StackExchange](https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon)}
  * @since 2022
- * @author {@link [David Schach](https://github.com/dschach)}\
+ * @author {@link [David Schach](https://github.com/dschach)}
  * @author {@link [Cricketlang](https://salesforce.stackexchange.com/users/12582/cricketlang)}
- * @see {@link https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon}
+ * @see https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
  * @group Visualforce
+ * @example
+ * <div class="slds-media__figure">
+ *   <span class="slds-icon_container {!ObjectIconInfo['iconStyle']}" title="{!$ObjectType[sObjType].label}">
+ *     <apex:image url="{!ObjectIconInfo['iconURL']}" styleClass="slds-icon slds-page-header__icon" html-aria-hidden="true" />
+ *     <span class="slds-assistive-text">{!$ObjectType[sObjType].label}</span>
+ *   </span>
+ * </div>
  */
 public inherited sharing class ActionPlansSectionHeaderController {
 	/**
@@ -69,7 +76,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 
 	/**
 	 * Map of Icon attribute and value
-	 * @return Key-value pairs
+	 * @return `Map<String, String>` Key-value pairs
 	 */
 	public Map<String, String> getObjectIconInfo() {
 		return retrieveIconForObject(objectName);
@@ -77,7 +84,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 
 	/**
 	 * Is this a custom object?
-	 * @return true if custom object
+	 * @return `Boolean` true if custom object
 	 */
 	public Boolean getIsCustom() {
 		return isCustom(objectName);
@@ -86,7 +93,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	/**
 	 * Given an object name, return if it is a custom object
 	 * @param sObjectName The name of the SObject
-	 * @return Is this object a custom object?
+	 * @return `Boolean` Is this object a custom object?
 	 */
 	private Boolean isCustom(String sObjectName) {
 		if (sObjectName == null) {
@@ -101,7 +108,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	 * Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
 	 * Thanks to https://salesforce.stackexchange.com/users/12582/cricketlang
 	 * @param   sObjectName           The sObject to find the icon for
-	 * @return  Map of properties about the icon to be consumed by the front end. Returns values for keys: iconStyle,iconURL
+	 * @return  `Map<String, String>` Map of properties about the icon to be consumed by the front end. Returns values for keys: iconStyle,iconURL
 	 */
 	private Map<String, String> retrieveIconForObject(String sObjectName) {
 		String iconStyle;
@@ -117,28 +124,11 @@ public inherited sharing class ActionPlansSectionHeaderController {
 		}
 		for (Schema.DescribeTabResult tr : tabDesc) {
 			if (sObjectName == tr.getSobjectName()) {
-				if (!tr.getIcons().isEmpty()) {
-					iconDesc.addAll(tr.getIcons());
-				} /* else {
-					if (tr.isCustom() == true) {
-						iconStyle = 'slds-icon-standard-record';
-						iconURL = '/img/icon/t4v35/standard/record_120.png';
-					} else {
-						iconStyle = 'slds-icon-standard-' + sObjectName.toLowerCase();
-						iconURL = '/img/icon/t4v35/standard/' + sObjectName.toLowerCase() + '_120.png';
-					}
-				} */
+				iconDesc.addAll(tr.getIcons());
 				break;
 			}
 		}
 		for (Schema.DescribeIconResult ir : iconDesc) {
-			/* if (ir.getTheme() == 'custom' && !ir.getContentType().startsWith('image/svg')) {
-				//custom icon thats not an svg
-				iconTag = 'custom';
-				iconURL = ir.getURL();
-				iconStyle = 'slds-icon-standard-record';
-				break;
-			} else */
 			if (ir.getWidth() == 120 && ir.getTheme() == 'theme4' && ir.getContentType() == 'image/png') {
 				//large lightning icon image
 				if (ir.getURL().contains('/custom/')) {

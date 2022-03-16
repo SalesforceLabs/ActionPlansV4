@@ -53,7 +53,7 @@ public with sharing class ActionPlanTemplateImportController {
 	public Attachment attachment { get; set; }
 
 	/**
-	 * Constructor initializes the attachment we will temporarilyuse to hold the imported XML
+	 * Controller Constructor initializes the attachment we will temporarily use to hold the imported XML
 	 */
 	public ActionPlanTemplateImportController() {
 		this.attachment = new Attachment();
@@ -61,7 +61,7 @@ public with sharing class ActionPlanTemplateImportController {
 
 	/**
 	 * Action that initiates the Import process
-	 * @return `PageReference`
+	 * @return `PageReference` ActionPlanTemplateDetail
 	 * @see ActionPlanTemplateImport
 	 */
 	public PageReference importTemplate() {

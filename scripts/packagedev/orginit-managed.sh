@@ -12,7 +12,8 @@ echo "Pushing managed metadata"
 sfdx force:source:push
 
 echo "Deploy unpackaged metadata"
-sfdx force:source:deploy -p sfdx-source/unpackaged
+sfdx force:source:deploy -p sfdx-source/unpackaged --tracksource
+sfdx force:source:deploy -p sfdx-source/unmanagedExtension --tracksource
 
 echo "Assigning permission set"
 sfdx force:user:permset:assign -n Action_Plans_Admin
@@ -25,8 +26,8 @@ echo "Clearing namespace"
 sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-project.json
 
 # To install sample Flow and other metadata
-echo "Installing sample flow"
-sfdx force:source:deploy -p sfdx-source/unmanagedExtension
+#echo "Installing sample flow"
+#sfdx force:source:deploy -p sfdx-source/unmanagedExtension
 
 echo "opening org"
 sfdx force:org:open

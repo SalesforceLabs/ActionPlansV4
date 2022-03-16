@@ -399,9 +399,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<apex:pageBlockSection id="taskSection" columns="1" collapsible="false">
 						<apex:outputPanel id="taskList" styleClass="slds-scope">
 							<apex:pageBlockTable value="{!Tasks}" var="wrapTask" id="taskTable" style="table-layout: auto; width: 100%; vertical-align: middle" rules="all">
-								<!-- columnClasses="first,second,third,fourth,fifth,sixth,septh,eight,ninth,tenth" styleClass="taskTable cardTable noBump pullTable" -->
 								<!--  Tasks delete actions  -->
-								<apex:column style="max-width: 20px; vertical-align: middle" headerValue="" id="columnOne" rendered="{!Tasks.size > 1}">
+								<apex:column style="max-width: 20px" headerValue="" id="columnOne" rendered="{!Tasks.size > 1}">
 									<apex:commandLink
 										rerender="taskTable, pageMessages"
 										immediate="{!wrapTask.isLast}"
@@ -451,7 +450,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								</apex:column>
 
 								<!--  Tasks Assigned To  -->
-								<apex:column>
+								<apex:column style="vertical-align: middle">
 									<apex:facet name="header">
 										<span>
 											{!$ObjectType.APTask__c.fields.User__c.label}
@@ -483,7 +482,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								</apex:column>
 
 								<!--  Tasks type  -->
-								<apex:column headerValue="{!$ObjectType.Task.fields.Type.label}" rendered="{!$ObjectType.Task.fields.Type.accessible}">
+								<apex:column headerValue="{!$ObjectType.Task.fields.Type.label}" rendered="{!$ObjectType.Task.fields.Type.accessible}" style="vertical-align: middle">
 									<apex:selectList
 										value="{!wrapTask.apt.Type__c}"
 										size="1"
@@ -495,7 +494,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								</apex:column>
 
 								<!--  Tasks priority  -->
-								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Priority__c.label}">
+								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Priority__c.label}" style="vertical-align: middle">
 									<apex:selectList
 										required="true"
 										value="{!wrapTask.apt.Priority__c}"
@@ -513,16 +512,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								</apex:column>
 
 								<!--  Tasks send Email  -->
-								<apex:column>
+								<apex:column style="vertical-align: middle">
 									<apex:facet name="header">
 										{!$ObjectType.APTask__c.fields.SendEmail__c.label}
 										<br />
 										<a id="all" onclick="javascript:checkEmail(1);" class="all-none">{!$Label.ap_All}</a> |
 										<a id="none" onclick="javascript:checkEmail(0);" class="all-none">{!$Label.ap_None}</a>
 									</apex:facet>
-									<apex:inputCheckbox id="sendEmailCheckbox" value="{!wrapTask.apt.SendEmail__c}" disabled="{!wrapTask.apt.IsClosed__c}" />
+									<apex:inputCheckbox id="sendEmailCheckbox" value="{!wrapTask.apt.SendEmail__c}" disabled="{!wrapTask.apt.IsClosed__c}" style="vertical-align: middle" />
 								</apex:column>
-
 								<!--  Tasks reminder settings  -->
 								<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle" id="reminderCol">
 									<apex:facet name="header"
@@ -544,7 +542,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 											value="{!wrapTask.apt.Minutes_Reminder__c}"
 											style="float: left"
 											rendered="{!!wrapTask.apt.IsClosed__c}"
-											disabled="{!!wrapTask.apt.Reminder__c}">
+											disabled="{!!wrapTask.apt.Reminder__c || wrapTask.apt.IsClosed__c}">
 											<apex:selectOptions value="{!hoursOption}" />
 										</apex:selectList>
 										<apex:outputText value="{!wrapTask.apt.Time_Reminder__c}" rendered="{!wrapTask.apt.IsClosed__c && wrapTask.apt.Reminder__c}" />
@@ -587,7 +585,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								id="addnewtasklink"
 								rerender="taskTable, pageMessages"
 								status="taskStatus"
-								oncomplete="showErrors();checkAllDependent('{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');checkReminderPicklists();"
+								onclick="disableActions();"
+								oncomplete="enableActions();showErrors();checkAllDependent('{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');checkReminderPicklists();"
 								rendered="{!$ObjectType.APTask__c.createable}">
 								<apex:outputText value="{!$Label.ap_AddNewTask}" />
 							</apex:commandLink>

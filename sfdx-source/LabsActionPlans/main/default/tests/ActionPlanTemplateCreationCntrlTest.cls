@@ -116,21 +116,24 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apt));
 		Test.startTest();
 
-		aptcc.pendingTemplateDeletes = new List<APTemplateTask__c>();
-		aptcc.pendingTemplateDeletes.add(testutil.createNewActionPlanTemplateTask(apt, 3, tUser, 'Email', 'High'));
-		insert aptcc.pendingTemplateDeletes;
-		aptcc.aptTasks.add(testutil.createNewActionPlanTemplateTask(apt, 3, null, 'Email', 'High'));
-		aptcc.aptTasks.add(testutil.createNewActionPlanTemplateTask(apt, 3, tUser, 'Email', 'High'));
+		aptcc.pendingTemplateTaskDeletes = new List<APTemplateTask__c>();
+		aptcc.pendingTemplateTaskDeletes.add(testutil.createNewActionPlanTemplateTask(apt, 3, tUser.Id, 'Email', 'High'));
+		insert aptcc.pendingTemplateTaskDeletes;
+		aptcc.aptTasks.add(testutil.createNewActionPlanTemplateTask(apt, 4, null, null, null));
+		aptcc.aptTasks.add(testutil.createNewActionPlanTemplateTask(apt, 5, tUser.Id, 'Email', 'High'));
 		aptcc.aptTasks.get(0).Dependent__c = '1';
 
 		aptcc.saveTemplate();
 
-		System.assert(!aptcc.pendingTemplateDeletes.isEmpty());
+		System.assert(!aptcc.pendingTemplateTaskDeletes.isEmpty());
 
 		//Enter Task Catch()
-		aptcc.pendingTemplateDeletes = new List<APTemplateTask__c>();
+		aptcc.pendingTemplateTaskDeletes = new List<APTemplateTask__c>();
 		aptcc.aptTasks.clear();
-		aptcc.aptTasks.add(new APTemplateTask__c(DaysFromStart__c = -3));
+		APTemplateTask__c aptt = testutil.createNewActionPlanTemplateTask(apt, 5, null, null, null);
+		aptt.DaysFromStart__c = -3;
+		aptcc.aptTasks.add(aptt);
+		//aptcc.aptTasks.add(new APTemplateTask__c(DaysFromStart__c = -3));
 		aptcc.saveTemplate();
 
 		System.assert(!aptcc.aptTasks.isEmpty());
@@ -138,9 +141,8 @@ private class ActionPlanTemplateCreationCntrlTest {
 		//Enter APT Catch()
 		aptcc.actionPlanTemplate = null;
 		aptcc.saveTemplate();
-		System.assert(!aptcc.aptTasks.isEmpty());
-
 		Test.stopTest();
+		System.assert(!aptcc.aptTasks.isEmpty());
 	}
 
 	@IsTest

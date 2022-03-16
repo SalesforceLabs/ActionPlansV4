@@ -63,9 +63,12 @@ public without sharing class ActionPlansUtilities {
 			if (ActionPlansTestUtilities.forceHasRecordType != null) {
 				return ActionPlansTestUtilities.forceHasRecordType;
 			} else if (taskUsesRecordTypes == null) {
-				ActionPlansTestUtilities.forceHasRecordType = Task.sObjectType.getDescribe().fields.getMap().containsKey('recordtypeid');
+				//ActionPlansTestUtilities.forceHasRecordType = Task.sObjectType.getDescribe().fields.getMap().containsKey('recordtypeid');
+				String taskRTQuery = 'SELECT COUNT() FROM RecordType WHERE SObjectType = \'Task\' AND IsActive = TRUE';
+				ActionPlansTestUtilities.forceHasRecordType = Database.countQuery(taskRTQuery) > 0;
+				taskUsesRecordTypes = ActionPlansTestUtilities.forceHasRecordType;
 			}
-			return ActionPlansTestUtilities.forceHasRecordType;
+			return taskUsesRecordTypes;
 		}
 		set;
 	}
@@ -97,9 +100,9 @@ public without sharing class ActionPlansUtilities {
 			List<String> referenceFieldNames = new List<String>();
 
 			Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.ActionPlan__c.fields.getMap();
-			System.debug('Iterating over fieldset');
+			//System.debug('Iterating over fieldset');
 			for (String s : fieldMap.keyset()) {
-				System.debug('Checking field ' + s);
+				//System.debug('Checking field ' + s);
 				if (s.containsIgnoreCase('.')) {
 					continue;
 				}
@@ -109,7 +112,7 @@ public without sharing class ActionPlansUtilities {
 					String relatedObjectName = dfr.getReferenceTo()[0].getDescribe().getName();
 
 					if (!relatedObjectName.startsWithIgnoreCase(namespacePrefix + 'ActionPlan')) {
-						System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
+						//System.debug('Relationship field to ' + relatedObjectName + ' is ' + s);
 						referenceFieldNames.add(s);
 					}
 				}
@@ -210,6 +213,10 @@ public without sharing class ActionPlansUtilities {
 	}
 
 	/**
+	 * Queried list of RecordType records. Kept as SObject in case the org does not use Task Record Types
+	 */
+	private static List<SObject> taskRecordTypes;
+	/**
 	 * Lazy load task record types to reduce queries
 	 * <br>We use SObject so this works in orgs without Record Types for Tasks
 	 * @return `List<SObject>` A list of all Task `RecordType` records
@@ -221,34 +228,49 @@ public without sharing class ActionPlansUtilities {
 		}
 		return taskRecordTypes;
 	}
-	private static List<SObject> taskRecordTypes;
 
 	/**
+	 * Describe `Task.Status` only once
+	 */
+	private static String taskStatusDefaultValue = (String) Task.Status.getDescribe().getDefaultValue();
+	/**
+	 * Memoized map of `RecordTypeId` to default `Task Status`
+	 */
+	private static Map<Id, String> taskRecordTypeStatusDefaultValues;
+	/**
 	 * Generate Map of Record Type Id to default Task Status
-	 * @return Default Status for each Task `RecordType` Id
+	 * @return `Map<Id, String>` Default Status for each Task `RecordType` Id
 	 */
 	public static Map<Id, String> getTaskRecordTypeStatusDefaultValues() {
 		if (taskRecordTypeStatusDefaultValues == null) {
 			taskRecordTypeStatusDefaultValues = new Map<Id, String>();
+			//System.debug('ActionPlansUtilities.taskUsesRecordTypes' + ActionPlansUtilities.taskUsesRecordTypes);
 			if (ActionPlansUtilities.taskUsesRecordTypes) {
 				for (SObject rt : getTaskRecordTypes()) {
 					Task t = (Task) Task.sObjectType.newSObject((Id) rt.get('Id'), true);
 					taskRecordTypeStatusDefaultValues.put((Id) rt.get('Id'), t.Status);
 				}
 			} else {
-				taskRecordTypeStatusDefaultValues.put(null, (String) Task.Status.getDescribe().getDefaultValue());
+				taskRecordTypeStatusDefaultValues.put(null, taskStatusDefaultValue);
+				taskRecordTypeStatusDefaultValues.put(MASTER_RECORD_TYPE_ID, taskStatusDefaultValue);
 			}
 		}
+		taskRecordTypeStatusDefaultValues.put(null, taskStatusDefaultValue);
+		taskRecordTypeStatusDefaultValues.put(MASTER_RECORD_TYPE_ID, taskStatusDefaultValue);
 		return taskRecordTypeStatusDefaultValues;
 	}
-	/**
-	 * Memoized map of `RecordTypeId` to default `Task Status`
-	 */
-	private static Map<Id, String> taskRecordTypeStatusDefaultValues;
 
 	/**
+	 * Describe `Task.Type` only once
+	 */
+	private static String taskTypeDefaultValue = (String) Task.Type.getDescribe().getDefaultValue();
+	/**
+	 * Memoized map of `RecordTypeId` to default `Task Type`
+	 */
+	private static Map<Id, String> taskRecordTypeTypeDefaultValues;
+	/**
 	 * Generate Map of Record Type Id to default Task Type
-	 * @return Map of `RecordTypeId` to default `Task Type`
+	 * @return `Map<Id, String>` Map of `RecordTypeId` to default `Task Type`
 	 */
 	public static Map<Id, String> getTaskRecordTypeTypeDefaultValues() {
 		if (taskRecordTypeTypeDefaultValues == null) {
@@ -259,20 +281,26 @@ public without sharing class ActionPlansUtilities {
 					taskRecordTypeTypeDefaultValues.put((Id) rt.get('Id'), t.Type);
 				}
 			} else {
-				Task t = (Task) Task.sObjectType.newSObject(null, true);
-				taskRecordTypeTypeDefaultValues.put(null, t.Type);
+				taskRecordTypeTypeDefaultValues.put(null, taskTypeDefaultValue);
+				taskRecordTypeTypeDefaultValues.put(MASTER_RECORD_TYPE_ID, taskTypeDefaultValue);
 			}
 		}
+		taskRecordTypeTypeDefaultValues.put(null, taskTypeDefaultValue);
+		taskRecordTypeTypeDefaultValues.put(MASTER_RECORD_TYPE_ID, taskTypeDefaultValue);
 		return taskRecordTypeTypeDefaultValues;
 	}
-	/**
-	 * Memoized map of `RecordTypeId` to default `Task Type`
-	 */
-	private static Map<Id, String> taskRecordTypeTypeDefaultValues;
 
 	/**
+	 * Describe `Task.Priority` only once
+	 */
+	private static String taskPriorityDefaultValue = (String) Task.Priority.getDescribe().getDefaultValue();
+	/**
+	 * Memoized map of `RecordTypeId` to default `Task Priority`
+	 */
+	private static Map<Id, String> taskRecordTypePriorityDefaultValues;
+	/**
 	 * Generate default Task Priority picklist
-	 * @return Map of `RecordTypeId` to default `Task Priority`
+	 * @return `Map<Id, String>` Map of `RecordTypeId` to default `Task Priority`
 	 */
 	public static Map<Id, String> getTaskRecordTypePriorityDefaultValues() {
 		if (taskRecordTypePriorityDefaultValues == null) {
@@ -283,15 +311,16 @@ public without sharing class ActionPlansUtilities {
 					taskRecordTypePriorityDefaultValues.put((Id) rt.get('Id'), t.Priority);
 				}
 			} else {
-				taskRecordTypePriorityDefaultValues.put(null, (String) Task.Priority.getDescribe().getDefaultValue());
+				//System.debug('Task does not use record types');
+				taskRecordTypePriorityDefaultValues.put(null, taskPriorityDefaultValue);
+				taskRecordTypePriorityDefaultValues.put(MASTER_RECORD_TYPE_ID, taskPriorityDefaultValue);
 			}
 		}
+		taskRecordTypePriorityDefaultValues.put(null, taskPriorityDefaultValue);
+		taskRecordTypePriorityDefaultValues.put(MASTER_RECORD_TYPE_ID, taskPriorityDefaultValue);
+
 		return taskRecordTypePriorityDefaultValues;
 	}
-	/**
-	 * Memoized map of `RecordTypeId` to default `Task Priority`
-	 */
-	private static Map<Id, String> taskRecordTypePriorityDefaultValues;
 
 	/**
 	 * Find user default recordtype
@@ -333,7 +362,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Lazy load open task statuses
-	 * @return All Open `Task Status` values
+	 * @return `Set<String>` All Open `Task Status` values
 	 */
 	public static Set<String> getOpenTaskStatuses() {
 		if (openTaskStatuses == null) {
@@ -356,7 +385,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Set of all `Task` Status values that are Closed
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   Set of closed `Task` Statuses
+	 * @return   `Set<String>` Set of closed `Task` Statuses
 	 */
 	public static Set<String> getClosedTaskStatuses() {
 		if (closedTaskStatuses == null) {
@@ -486,7 +515,7 @@ public without sharing class ActionPlansUtilities {
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  recordId        The recordId of the record in question
 	 * @param  recordOwnerId   The owner Id because an owner can share even without "Modify all Data"
-	 * @return                 Can the user share the record?
+	 * @return                 `Boolean` Can the user share the record?
 	 */
 	public static Boolean canShareRecord(Id recordId, Id recordOwnerId) {
 		try {
@@ -510,7 +539,7 @@ public without sharing class ActionPlansUtilities {
 	 * <br>Checks the existence of a reminder setting field of the user object.
 	 * <br>Mathod can be improved by asking for Reminder Options at Activity settings.
 	 * <br>Does not query if the user wants reminders by default.
-	 * @return if the user has access to reminders
+	 * @return `Boolean` if the user has access to reminders
 	 */
 	public static Boolean getCanDisplayReminder() {
 		if (canDisplayReminder == null) {
@@ -522,7 +551,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Check user preferences for whether to show task reminders by default
-	 * @return Boolean if Task reminder checkbox should be checked by default (this will override default value)
+	 * @return `Boolean` if Task reminder checkbox should be checked by default (this will override default value)
 	 */
 	public static Boolean getCheckReminderByDefault() {
 		if (checkReminderByDefault == null) {
@@ -609,7 +638,7 @@ public without sharing class ActionPlansUtilities {
 	 * Single method to shorten long strings to the dynamically described character length of record name field
 	 * @param subject the long string
 	 * @param maxChars the maximum length allowed for Action Plan Subject
-	 * @return the full string (or shortened if longer than max characters)
+	 * @return `String` the full string (or shortened if longer than max characters)
 	 */
 	public static String actionPlanSubjectToName(String subject, Integer maxChars) {
 		if (String.isBlank(subject)) {
@@ -626,7 +655,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Is the org allowed to send emails?
 	 * <br>This could be because deliverability is off, or because we have hit the org limits for emails
-	 * @return Can the org send an email?
+	 * @return `Boolean` Can the org send an email?
 	 */
 	public static Boolean canSendEmails() {
 		Boolean orgCanSendEmails;
@@ -647,12 +676,12 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Given a date, give the English day of the week
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @param  d The given date
+	 * @param  theDate The given date
 	 * @return   `String` The day of hte week in English
 	 */
-	public static String getDayOfWeek(Date d) {
+	public static String getDayOfWeek(Date theDate) {
 		Date monday = Date.newInstance(1900, 1, 1);
-		Integer dayOfWeek = Math.mod(monday.daysBetween(d), 7);
+		Integer dayOfWeek = Math.mod(monday.daysBetween(theDate), 7);
 		return dayOfWeekEnglish.get(dayOfWeek);
 	}
 
@@ -687,7 +716,7 @@ public without sharing class ActionPlansUtilities {
 
 		String dayName = ActionPlansUtilities.getDayOfWeek(dueDate);
 
-		Weekend_Day__mdt cmdt = ActionPlansUtilities.getWeekendDay(dayName); //Weekend_Day__mdt.getInstance(dayName);
+		Weekend_Day__mdt cmdt = ActionPlansUtilities.getWeekendDay(dayName);
 
 		Integer addDays = 0;
 
@@ -702,7 +731,7 @@ public without sharing class ActionPlansUtilities {
 	}
 
 	/**
-	 * Detect user theme
+	 * Detect user theme - TRUE if we are in LEX
 	 * @return `Boolean` Are we in Lightning Experience?
 	 */
 	public static Boolean getIsLex() {

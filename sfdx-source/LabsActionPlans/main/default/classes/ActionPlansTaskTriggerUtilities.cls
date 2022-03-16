@@ -51,17 +51,17 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Initialize the functionalities to create all dependent Tasks
-	 * @param cTasks Map of Tasks by Id
+	 * @param taskIdMap Map of Tasks by Id
 	 */
-	public static void initDependentTaskWork(Map<Id, String> cTasks) {
+	public static void initDependentTaskWork(Map<Id, String> taskIdMap) {
 		tasksSendEmail = new List<Task>();
 		tasksSendNoEmail = new List<Task>();
 
-		Set<Id> closedTasks = cTasks.keyset();
+		Set<Id> closedTasks = taskIdMap.keyset();
 
 		if (!closedTasks.isEmpty()) {
 			//Mark all APTasks as Completed
-			updateActionPlansTemplateTaskStatus(cTasks);
+			updateAPTasksStatus(taskIdMap);
 
 			//Get all dependent APTasks
 			List<APTask__c> dependentApts = queryDependentAPTaskTemplates(closedTasks);
@@ -94,7 +94,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	/**
 	 *  Get list of dependent Action Plan Template Tasks
 	 * @param  closedTasks All `Task` records for which we are finding dependent Task Templates
-	 * @return             The list of dependent Templates Tasks
+	 * @return             `List<APTask__c>` The list of dependent Templates Tasks
 	 */
 	private static List<APTask__c> queryDependentAPTaskTemplates(Set<Id> closedTasks) {
 		String apdependentQuery = 'SELECT Action_Plan__r.SkipWeekends__c, Action_Plan__r.SkipDay__c, ';
@@ -172,8 +172,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Cycle through list of dependent Action Plans Template Task and create tasks
-	 * @param dependentAptList
-	 * @return the list of dependent Action Plan Tasks we just updated
+	 * @param dependentAptList Dependent APTasks (with value in `Controller__c`)
+	 * @return `List<APTask__c>` the list of dependent Action Plan Tasks we just updated
 	 */
 	private static List<APTask__c> populateUpdateApttsList(List<APTask__c> dependentAptList) {
 		List<APTask__c> updateAptsList = new List<APTask__c>();
@@ -265,26 +265,16 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	}
 
 	/**
-	 * Update associated Action Plan Task of task to match status
-	 * @param cTasks map of ActionPlan Tasks by Id
+	 * Update APTasks status as passed into method to match Task Status
+	 * @param apTasksMap Map of ActionPlan Tasks by Id to Status
 	 */
-	private static void updateActionPlansTemplateTaskStatus(Map<Id, String> cTasks) {
-		if (!cTasks.keyset().isEmpty()) {
-			updateAPTasksStatus(cTasks);
-		}
-	}
-
-	/**
-	 * Update APTasks status as passed into method
-	 * @param cTasks Map of ActionPlan Tasks by Id
-	 */
-	public static void updateAPTasksStatus(Map<Id, String> cTasks) {
-		if (!cTasks.keyset().isEmpty()) {
+	public static void updateAPTasksStatus(Map<Id, String> apTasksMap) {
+		if (!apTasksMap.keyset().isEmpty()) {
 			//Update all APTasks
-			List<APTask__c> updateApttList = [SELECT Id, Status__c FROM APTask__c WHERE Id IN :cTasks.keyset()];
+			List<APTask__c> updateApttList = [SELECT Id, Status__c FROM APTask__c WHERE Id IN :apTasksMap.keyset()];
 
 			for (APTask__c apt : updateApttList) {
-				apt.Status__c = cTasks.get(apt.Id);
+				apt.Status__c = apTasksMap.get(apt.Id);
 			}
 
 			update updateApttList;
@@ -306,9 +296,8 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 	/**
 	 * Delete Action Plan Tasks related Tasks
-	 * @param apttIds
+	 * @param apttIds `Task` IDs to delete
 	 */
-	//@future
 	public static void deleteTasks(Set<Id> apttIds) {
 		List<Task> toDelete = [SELECT Id FROM Task WHERE IsClosed = FALSE AND Id IN :apttIds];
 		delete toDelete;

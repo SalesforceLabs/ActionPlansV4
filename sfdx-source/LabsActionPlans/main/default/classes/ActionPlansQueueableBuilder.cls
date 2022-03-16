@@ -59,7 +59,7 @@ public inherited sharing class ActionPlansQueueableBuilder implements Queueable 
 
 	/**
 	 * Instead of a batch, we use queuable because it's more simple than Batch Apex
-	 * @param qc `QueueableContext` (note not `BatchableContext` which is in Batch Apex)
+	 * @param qc `QueueableContext` (note: not `BatchableContext` which is in Batch Apex)
 	 */
 	public void execute(QueueableContext qc) {
 		try {

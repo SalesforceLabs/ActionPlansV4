@@ -77,6 +77,31 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
+	private static void saveAndView() {
+		Test.startTest();
+		Test.setCurrentPage(Page.ActionPlanCreation);
+
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+
+		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+		apCreateController.onLoad();
+		System.assertEquals(0, ActionPlansTestUtilities.getCompleted(actionPlan.Id), 'New AP should have no completed tasks');
+		System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
+		apCreateController.getAllRelationshipFields();
+		System.assertEquals('', apCreateController.getTemplateName());
+
+		//apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+		apCreateController.relatedObjectId();
+		PageReference viewPage = apCreateController.save();
+		Test.stopTest();
+
+		Test.setCurrentPage(viewPage);
+		ActionPlanDetailController apdc = new ActionPlanDetailController(new Apexpages.StandardController(actionPlan));
+		System.assertNotEquals(0, apdc.getActionPlanTasks().size());
+	}
+
+	@IsTest
 	private static void newAPWithoutTasks() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 0);
@@ -199,13 +224,15 @@ private class ActionPlanCreationControllerTest {
 		actionPlan.Contact__c = contact.Id;
 		actionPlan.StartDate__c = Date.today();
 
-		APTask__c apTask = new APTask__c();
+		APTask__c apTask = testUtil.createNewActionPlanTask(actionPlan, 1, UserInfo.getUserId(), 'Email', 'Normal');
+
+		/* new APTask__c();
 
 		apTask.Subject__c = testUtil.createRandomWord('subject');
 		apTask.User__c = testUtil.createTestUser().Id;
 		apTask.DaysFromStart__c = 2;
 		apTask.Type__c = 'Email';
-		apTask.Priority__c = 'High';
+		apTask.Priority__c = 'High'; */
 
 		ApexPages.currentPage().getParameters().put('id', null);
 		ApexPages.currentPage().getParameters().put('refId', contact.Id);
@@ -346,35 +373,28 @@ private class ActionPlanCreationControllerTest {
 
 		User ownerUser = testUtil.createTestUser();
 
-		APTask__c apTask = new APTask__c();
-		apTask.Action_Plan__c = actionPlan.Id;
-		apTask.Subject__c = testUtil.createRandomWord('subject');
-		apTask.User__c = ownerUser.Id;
-		apTask.DaysFromStart__c = 2;
-		apTask.Type__c = 'Email';
-		apTask.Priority__c = 'High';
+		APTask__c apTask = testUtil.createNewActionPlanTask(actionPlan, 0, ownerUser.Id, null, null);
 		insert apTask;
 
-		Id defaultTaskRTId = [SELECT Id, TaskRecordTypeID__c FROM ActionPlan__c LIMIT 1].TaskRecordTypeID__c;
-		System.debug('defaultTaskRTID: ' + defaultTaskRTId);
+		Id defaultTaskRTId = ActionPlansUtilities.getDefaultTaskRecordTypeId();
 
 		Test.startTest();
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		//apCreateController.apTasks = new List<APTask__c>();
-		apCreateController.getTasks();
+		//apCreateController.getTasks();
 		System.assertEquals(1, apCreateController.getTasks().size());
 		apCreateController.addTask();
-		apCreateController.getTasks();
-		System.assertEquals(2, apCreateController.getTasks().size());
+		List<ActionPlanCreationController.ApTaskWrapper> taskWrapList = apCreateController.getTasks();
+		System.assertEquals(2, taskWrapList.size());
 
-		ActionPlanCreationController.ApTaskWrapper taskWrap = apCreateController.getTasks()[1];
+		ActionPlanCreationController.ApTaskWrapper taskWrap = taskWrapList[1];
 
 		taskWrap.apt.Subject__c = testUtil.createRandomWord('subject');
 		taskWrap.apt.DaysFromStart__c = 3;
-		taskWrap.apt.User__c = ownerUser.Id;
+		taskWrap.apt.User__c = null;
+		taskWrap.apt.Type__c = ActionPlansUtilities.getTaskRecordTypeTypeDefaultValues().get(defaultTaskRTId);
 		taskWrap.apt.Priority__c = ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(defaultTaskRTId);
-		System.debug('Priority is set to ' + ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(defaultTaskRTId));
 		apCreateController.save();
 
 		Test.stopTest();
@@ -479,33 +499,22 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
 
-		APTask__c newAPTask1 = new APTask__c();
-		APTask__c newAPTask2 = new APTask__c();
-		APTask__c newAPTask3 = new APTask__c();
-
-		newAPTask1.Subject__c = testUtil.createRandomWord('subject');
-		newAPTask1.DaysFromStart__c = 2;
-		newAPTask1.Dependent__c = '2';
-		newAPTask1.Type__c = 'Email';
-		newAPTask1.Priority__c = 'High';
-		newAPTask1.Action_Plan__c = actionPlan.Id;
-		upsert newAPTask1;
-
-		newAPTask2.Subject__c = testUtil.createRandomWord('subject');
-		newAPTask2.DaysFromStart__c = 2;
+		APTask__c newAPTask2 = testUtil.createNewActionPlanTask(actionPlan, 2, actionPlan.OwnerId, 'Email', null);
+		newAPTask2.TaskIndex__c = 1;
 		newAPTask2.Dependent__c = 'None';
-		newAPTask2.Type__c = 'Email';
-		newAPTask2.Priority__c = 'High';
-		newAPTask2.Action_Plan__c = actionPlan.Id;
 		upsert newAPTask2;
 
-		newAPTask3.Subject__c = testUtil.createRandomWord('subject');
-		newAPTask3.DaysFromStart__c = 2;
+		APTask__c newAPTask3 = testUtil.createNewActionPlanTask(actionPlan, 2, actionPlan.OwnerId, 'Email', null);
+		newAPTask3.TaskIndex__c = 2;
 		newAPTask3.Dependent__c = '1';
-		newAPTask3.Type__c = 'Email';
-		newAPTask3.Priority__c = 'High';
-		newAPTask3.Action_Plan__c = actionPlan.Id;
+		newAPTask3.Controller__c = newAPTask2.Id;
 		upsert newAPTask3;
+
+		APTask__c newAPTask1 = testUtil.createNewActionPlanTask(actionPlan, 2, actionPlan.OwnerId, 'Email', null);
+		newAPTask1.TaskIndex__c = 0;
+		newAPTask1.Dependent__c = '2';
+		newAPTask1.Controller__c = newAPTask3.Id;
+		upsert newAPTask1;
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
@@ -683,7 +692,6 @@ private class ActionPlanCreationControllerTest {
 	private static void testForceRecordTypes() {
 		ActionPlansTestUtilities.forceHasRecordType = true;
 
-		System.debug('hasrt: ' + ActionPlansUtilities.taskUsesRecordTypes);
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c actionPlan = testutil.createNewActionPlan('contact', 2);
 
@@ -700,8 +708,6 @@ private class ActionPlanCreationControllerTest {
 	@IsTest
 	private static void testForceNoRecordTypes() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
-
-		System.debug('hasrt: ' + ActionPlansUtilities.taskUsesRecordTypes);
 
 		ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues();
 		ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues();
@@ -757,8 +763,8 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.addTask();
 		Test.stopTest();
 		String errorMsg = apCreateController.getErrorMsg();
-		System.debug(errorMsg);
-		System.debug(String.valueof(ActionPlansUtilities.MAX_APTASKS));
+		//System.debug(errorMsg);
+		//System.debug(String.valueof(ActionPlansUtilities.MAX_APTASKS));
 		System.assert(errorMsg.containsIgnoreCase(String.valueOf(ActionPlansUtilities.MAX_APTASKS)));
 	}
 }
