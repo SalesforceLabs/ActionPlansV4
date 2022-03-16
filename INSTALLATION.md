@@ -15,7 +15,7 @@ Follow these instructions to deploy Action Plans to your org.
 
 ## AppExchange (Managed Package - RECOMMENDED)
 
-[Action Plans](https://appexchange.salesforce.com): This is the best way to install the package, which you can easily upgrade as features are added.
+[Action Plans](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000Gg6NVUAZ): This is the best way to install the package, which you can easily upgrade as features are added.
 
 ## Installing the App using a Scratch Org
 
