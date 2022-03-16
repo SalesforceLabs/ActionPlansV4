@@ -21,9 +21,5 @@ sfdx force:apex:execute -f ./data/sample-data.apex
 echo "deploying a sample Flow"
 sfdx force:source:deploy -p sfdx-source/unmanaged --tracksource
 
-# To install sample Flow and other metadata
-echo "deploying two page layouts"
-sfdx force:source:deploy -p sfdx-source/unpackaged --tracksource
-
 echo "opening org..."
 sfdx force:org:open

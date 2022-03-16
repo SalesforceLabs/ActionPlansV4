@@ -24,10 +24,8 @@ sfdx force:user:permset:assign -n Action_Plans_Admin
 echo "Loading sample data"
 sfdx force:apex:execute -f ./data/sample-data.apex
 
-echo "Deploy unpackaged metadata"
-sfdx force:source:deploy -p sfdx-source/unpackaged --tracksource
-
 # To install sample Flow and other metadata
+echo "Deploy unmanaged metadata"
 sfdx force:source:deploy -p sfdx-source/unmanaged --tracksource
 
 echo "opening org"

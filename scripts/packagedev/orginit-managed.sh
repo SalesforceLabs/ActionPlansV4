@@ -5,14 +5,13 @@ echo "Using namespace"
 sed -i "" "s|\"namespace\": \"\"|\"namespace\": \"LabsActionPlans\"|" sfdx-project.json
 
 echo "Creating new scratch org"
-sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s --noancestors
+sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s
 
 # For use with namespaced scratch org in package development process
 echo "Pushing managed metadata"
 sfdx force:source:push
 
-echo "Deploy unpackaged metadata"
-sfdx force:source:deploy -p sfdx-source/unpackaged --tracksource
+echo "Deploy unmanaged metadata"
 sfdx force:source:deploy -p sfdx-source/unmanagedExtension --tracksource
 
 echo "Assigning permission set"

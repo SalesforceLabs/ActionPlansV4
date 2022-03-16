@@ -8,6 +8,5 @@ sfdx force:apex:execute -f ./data/sample-data-managed.apex
 
 # To install sample Flow and other metadata
 sfdx force:source:deploy -p sfdx-source/unmanagedExtension --tracksource
-sfdx force:source:deploy -p sfdx-source/unpackaged --tracksource
 
 sfdx force:org:open

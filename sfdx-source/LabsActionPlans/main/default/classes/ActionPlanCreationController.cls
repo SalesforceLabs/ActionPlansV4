@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.ExcessivePublicCount')
 /*
 Action Plans v4
 David Schach 2022
