@@ -52,8 +52,8 @@ public with sharing class ActionPlansRedirect {
 	public String objName { get; private set; }
 
 	/**
-	 * Gets the SObjectType and returns the correct object to display the correct values
-	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * Extension Constructor
+	 * <br>Gets the SObjectType and returns the correct object to display the correct values
 	 * @param  controller Standard Controller. Accepts any SObject
 	 */
 	public ActionPlansRedirect(ApexPages.StandardController controller) {
@@ -83,7 +83,6 @@ public with sharing class ActionPlansRedirect {
 
 	/**
 	 * Change the relevant record owner, and then call cancel so we go back to the record page
-	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return {@link ActionPlansRedirect.cancel}
 	 */
 	public PageReference save() {
@@ -98,7 +97,6 @@ public with sharing class ActionPlansRedirect {
 
 	/**
 	 * Go back to view the relevant record
-	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   `PageReference` for the parent record
 	 */
 	public PageReference cancel() {
@@ -119,7 +117,6 @@ public with sharing class ActionPlansRedirect {
 
 	/**
 	 * Show the view page for either the Action Plan or the Action Plan Template
-	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   `PageReference` by recordId ('/' + parentId)
 	 */
 	public Pagereference redirect() {

@@ -41,10 +41,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ActionPlansQueueableBuilder</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ActionPlansBuilderUtilities</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -54,6 +50,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ActionPlansDeleteMultipleAPExtension</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ActionPlansQueueableBuilder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

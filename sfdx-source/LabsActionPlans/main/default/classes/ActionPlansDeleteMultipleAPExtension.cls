@@ -57,12 +57,12 @@ public with sharing class ActionPlansDeleteMultipleAPExtension {
 	 */
 	public List<ActionPlan__c> actionPlansToShow { get; private set; }
 	/**
-	 * Constructor for page showing Action Plans we want to delete
+	 * Extension Constructor for page showing Action Plans we want to delete
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @param  stdController `ActionPlan__c` standard controller
+	 * @param  stdSetController `ActionPlan__c` standard controller
 	 */
-	public ActionPlansDeleteMultipleAPExtension(ApexPages.StandardSetController stdController) {
-		this.standardController = stdController;
+	public ActionPlansDeleteMultipleAPExtension(ApexPages.StandardSetController stdSetController) {
+		this.standardController = stdSetController;
 		Set<Id> selected = new Map<Id, SObject>(standardController.getSelected()).keySet();
 		actionPlansToShow = [SELECT Id, Name, Related_Record__c FROM ActionPlan__c WHERE Id IN :selected];
 	}
@@ -70,7 +70,7 @@ public with sharing class ActionPlansDeleteMultipleAPExtension {
 	/**
 	 * Page Redirect on delete
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   PageReference with success/error message
+	 * @return   `PageReference` with success/error message
 	 */
 	public PageReference deleteRecords() {
 		PageReference newPage = Page.ActionPlansHome;

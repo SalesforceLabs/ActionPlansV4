@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 /**
- * @author Rodrigo Birriel
+ * @author {@link [Rodrigo Birriel](https://www.linkedin.com/in/rbirriel)}
  * @author {@link [David Schach](https://github.com/dschach)}
  * @group Visualforce
  * @since 2022
@@ -51,20 +51,20 @@ public with sharing class ActionPlanDetailController {
 	/**
 	 * Does the org have Record Types enabled for Task SObject
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return Yes/No
+	 * @return `Boolean` Yes/No
 	 */
 	public Boolean hasRecordType { get; set; }
 
 	/**
 	 * Does the user have reminders enabled? If not, do not shrae the reminder option
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return Yes/No
+	 * @return `Boolean` Yes/No
 	 */
 	public Boolean canDisplayReminder { get; private set; }
 
 	/**
-	 * Constructor
-	 * @param stdController Standard Controller
+	 * Extension Constructor
+	 * @param stdController `ActionPlan__c` Standard Controller
 	 */
 	public ActionPlanDetailController(ApexPages.StandardController stdController) {
 		if (!Test.isRunningTest()) {
@@ -76,8 +76,17 @@ public with sharing class ActionPlanDetailController {
 	}
 
 	/**
+	 * Action on page load to ensure custom setting is created
+	 * @return   `PageReference` null (required for page actions method)
+	 */
+	public PageReference onLoad() {
+		ActionPlansUtilities.onPageLoad();
+		return null;
+	}
+
+	/**
 	 * Deletes the current Action Plan loaded and redirects to the AP List
-	 * @return Page to go to after deleting `ActionPlan__c`
+	 * @return `PageReference` Page to go to after deleting `ActionPlan__c`
 	 */
 	public PageReference deletePlan() {
 		//delete ap, which will also delete apts via master-detail relationship
@@ -120,13 +129,16 @@ public with sharing class ActionPlanDetailController {
 			}
 			return hasControllingTasks;
 		}
-		private set;
+		set;
 	}
 
+	/**
+	 * Memoized TaskWrappers for display on the page
+	 */
 	private List<TaskWrapper> apTaskWrapperList;
 	/**
 	 * Collect and return all TaskWrappers
-	 * @return List of `TaskWrapper` for this Action Plan
+	 * @return `List<TaskWrapper>` List of `TaskWrapper` for this Action Plan
 	 */
 	public List<TaskWrapper> getActionPlanTasks() {
 		if (apTaskWrapperList == null) {
@@ -202,7 +214,7 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * Checks if Action Plan Template has been changed since the creation of the Action Plan.
-	 * @return Was the AP's template modified after the Action Plan was created?
+	 * @return `Boolean` Was the AP's template modified after the Action Plan was created?
 	 */
 	public Boolean getVersion() {
 		if (actionPlan.Action_Plan_Template__c != null) {
@@ -216,7 +228,7 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * The label of the Action Plan's parent record SObject
-	 * @return  Label of the object related to this Action Plan
+	 * @return  `String` Label of the object related to this Action Plan
 	 */
 	public String getRelatedObjectLabel() {
 		String objLabel = '';
@@ -234,7 +246,7 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * The name of the parent record - show a different field based on SObject Type
-	 * @return  name of the object related to this Action Plan
+	 * @return  `String` name of the object related to this Action Plan
 	 */
 	public String getrelatedRecordName() {
 		String objName = '';
@@ -284,7 +296,7 @@ public with sharing class ActionPlanDetailController {
 	/**
 	 * If we have no share object, we don't need to show a Share button
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   Does the user have permission to share this Action Plan?
+	 * @return  `Boolean` Does the user have permission to share this Action Plan?
 	 */
 	public Boolean getCanShare() {
 		return ActionPlansUtilities.canShareRecord(actionPlan.Id, actionPlan.OwnerId);

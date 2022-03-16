@@ -95,7 +95,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				<apex:pageBlock id="editBlock" mode="edit">
 					<apex:pageBlockButtons id="buttons">
 						<apex:commandButton id="save" action="{!checkCycleDependent}" value="{!$Label.ap_Save}" reRender="" />
-						<apex:commandButton id="saveandnew" action="{!saveAndNew}" value="{!$Label.ap_SaveAndNew}" reRender="pageMessages" />
+						<apex:commandButton id="saveandnew" action="{!saveAndNew}" value="{!$Label.ap_SaveAndNew}" reRender="" />
 						<apex:actionRegion>
 							<apex:commandButton id="cancel" action="{!cancelTemplate}" value="{!$Label.ap_Cancel}" html-formnovalidate="novalidate" immediate="true" />
 						</apex:actionRegion>
@@ -144,7 +144,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					<apex:pageBlockSection id="taskSection" columns="1" collapsible="false">
 						<apex:outputPanel id="taskList" styleClass="slds-scope" layout="inline">
 							<apex:pageBlockTable value="{!TemplateWrappers}" var="wrapTask" id="taskTable" rules="none" style="table-layout: auto; width: 100%">
-								<!-- columnClasses="first,second,third,fourth,fifth,sixth, seventh, eighth" styleClass="taskTable cardTable noBump pullTable" -->
 								<!--  Tasks delete actions  -->
 								<apex:column style="vertical-align: middle" headerValue="" id="columnOne" rendered="{!TemplateWrappers.size > 1 && $ObjectType.APTemplateTask__c.deletable}">
 									<apex:commandLink
@@ -231,7 +230,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 										<a id="all" onclick="javascript:checkEmail(1);" class="all-none">{!$Label.ap_All}</a> |
 										<a id="none" onclick="javascript:checkEmail(0);" class="all-none">{!$Label.ap_None}</a>
 									</apex:facet>
-									<apex:inputField id="sendEmailCheckbox" value="{!wrapTask.task.SendEmail__c}" />
+									<apex:inputField id="sendEmailCheckbox" value="{!wrapTask.task.SendEmail__c}" style="vertical-align: middle" />
 								</apex:column>
 
 								<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle" id="reminderCol">

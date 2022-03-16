@@ -48,7 +48,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	private Map<Id, APTemplateTask__c> newTasks;
 
 	/**
-	 * Constructor
+	 * Controller Constructor
 	 */
 	public ActionPlanTemplateImport() {
 		this.importedTasks = new Map<Id, APTemplateTask__c>();
@@ -60,7 +60,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	 * for then inserting into the system.
 	 * @param document Attachment record
 	 * @exception ImportException
-	 * @return `String`
+	 * @return `String` Action Plan Template Id
 	 */
 	public String processImportedDocument(Attachment document) {
 		String xml;
@@ -140,7 +140,7 @@ public inherited sharing class ActionPlanTemplateImport {
 	/**
 	 * Handle importing of a Action Plan Template Object
 	 * @param xml import file
-	 * @return `ActionPlanTemplate__c` apTemplate
+	 * @return `ActionPlanTemplate__c` Action Plan Template
 	 */
 	private ActionPlanTemplate__c importAPTemplate(String xml) {
 		ActionPlanTemplate__c apTemplate = new ActionPlanTemplate__c();

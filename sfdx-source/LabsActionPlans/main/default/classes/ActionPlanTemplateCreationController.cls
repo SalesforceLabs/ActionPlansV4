@@ -40,12 +40,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * Extension for `Action Plan Template` Create/Edit page
  * @since v3
- * @author Rodrigo Birriel
+ * @author {@link [Rodrigo Birriel](https://www.linkedin.com/in/rbirriel)}
  * @author {@link [David Schach](https://github.com/dschach)}
  * @group Visualforce
  */
 public with sharing class ActionPlanTemplateCreationController {
 	private Double taskIndex;
+	/**
+	 * The Action Plan Template for this page
+	 */
 	@testVisible
 	private ActionPlanTemplate__c actionPlanTemplate;
 	/**
@@ -62,8 +65,10 @@ public with sharing class ActionPlanTemplateCreationController {
 	public Boolean taskHasRecordType { get; private set; }
 
 	@testVisible
-	private List<APTemplateTask__c> pendingTemplateDeletes;
-
+	private List<APTemplateTask__c> pendingTemplateTaskDeletes;
+	/**
+	 * If we are making this template from another template, the Id is stored here
+	 */
 	private Id templateId;
 
 	/**
@@ -116,7 +121,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Action on page load to ensure custom setting is created
-	 * @return   PageReference (null)
+	 * @return   `PageReference` null
 	 */
 	public PageReference onLoad() {
 		ActionPlansUtilities.onPageLoad();
@@ -127,24 +132,24 @@ public with sharing class ActionPlanTemplateCreationController {
 	}
 
 	/**
-	 * Saves Action Plan Template and all tasks, then redirects to the AP template list.
-	 * <br>First check for pending templates for delete; in case that exists then delete those objects.
-	 * <br>Then insert or update the Action Plan Template pending to save and save tasks to the template
-	 * and attach relation to Action Plan.
-	 * @return newPage
+	 * Standalone save action so the redirects are different for Save vs Save and New
+	 * <br>First delete pending deletions, then upsert the template and its tasks,
+	 * <br>then update dependencies
+	 * @return `Boolean` Do we have an error?
 	 */
-	public PageReference saveTemplate() {
+	private Boolean doSave() {
 		// check for pending Deletes; if something is pending send it to delete
-		if (pendingTemplateDeletes != null) {
-			Database.delete(pendingTemplateDeletes);
+		if (pendingTemplateTaskDeletes != null) {
+			Database.delete(pendingTemplateTaskDeletes);
 		}
-
 		// update Action Plan Template object
 		try {
 			Database.upsert(actionPlanTemplate);
 		} catch (Exception e) {
 			ApexPages.addMessages(e);
-			return null;
+			System.debug('ERROR: ' + e.getMessage());
+			this.errorMsg = e.getMessage();
+			return true;
 		}
 
 		// save tasks to the template and attach relation to Action Plan
@@ -162,7 +167,9 @@ public with sharing class ActionPlanTemplateCreationController {
 			Database.upsert(aptTasks);
 		} catch (Exception e) {
 			ApexPages.addMessages(e);
-			return null;
+			System.debug('ERROR: ' + e.getMessage());
+			this.errorMsg = e.getMessage();
+			return true;
 		}
 
 		// run through the tasks and take care of dependents
@@ -171,6 +178,7 @@ public with sharing class ActionPlanTemplateCreationController {
 				t.TController__c = aptTasks[Integer.valueOf(t.Dependent__c)].Id;
 			} else {
 				t.TController__c = null;
+				t.Dependent__c = 'None'; // Added for redundancy
 			}
 		}
 
@@ -178,9 +186,25 @@ public with sharing class ActionPlanTemplateCreationController {
 			Database.update(aptTasks);
 		} catch (Exception e) {
 			ApexPages.addMessages(e);
+			System.debug('ERROR: ' + e.getMessage());
+			this.errorMsg = e.getMessage();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Saves Action Plan Template and all tasks, then redirects to the AP template list.
+	 * <br>First check for pending templates for delete; in case that exists then delete those objects.
+	 * <br>Then insert or update the Action Plan Template pending to save and save tasks to the template
+	 * and attach relation to Action Plan.
+	 * @return `PageReference` Page.ActionPlanTemplateDetail
+	 */
+	public PageReference saveTemplate() {
+		Boolean hasSaveError = doSave();
+		if (hasSaveError) {
 			return null;
 		}
-
 		// Send the user to the detail page for the new account.
 		PageReference newPage = Page.ActionPlanTemplateDetail;
 		newPage.getParameters().put('Id', actionPlanTemplate.Id);
@@ -190,22 +214,23 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Save and go to New page for Save and New
-	 * @return PageReference
+	 * @return `PageReference` Page.ActionPlanTemplateCreation
 	 */
 	public Pagereference saveAndNew() {
-		try {
-			saveTemplate();
-		} catch (Exception ex) {
-			ApexPages.addMessages(ex);
+		Boolean hasSaveError = doSave();
+		if (hasSaveError) {
+			return null;
 		}
+
 		Pagereference newPage = Page.ActionPlanTemplateCreation;
+		newPage.getParameters().clear();
 		newPage.setRedirect(true);
 		return newPage;
 	}
 
 	/**
-	 * Call method cancelTemplate()
-	 * @return PageReference
+	 * Cancel changes
+	 * @return `PageReference` Object home or Template detail page
 	 */
 	public PageReference cancelTemplate() {
 		PageReference newPage;
@@ -224,7 +249,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	}
 
 	/**
-	 * Call method addTemplateTask()
+	 * Add a new row to the Template Tasks (but do not commit to the database)
 	 */
 	public void addTemplateTask() {
 		taskIndex++;
@@ -242,7 +267,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	}
 
 	/**
-	 * Call method removeTemplateTask()
+	 * Remove this row from the Template Tasks (but do not commit to the database)
 	 */
 	public void removeTemplateTask() {
 		if (ApexPages.currentPage().getParameters().get('remove') != null) {
@@ -268,12 +293,12 @@ public with sharing class ActionPlanTemplateCreationController {
 				}
 			}
 
-			// before remove check if it exists in the DB. If so, add to pendingTemplateDeletes to be deleted on save.
+			// before remove check if it exists in the DB. If so, add to pendingTemplateTaskDeletes to be deleted on save.
 			if (aptTasks[taskIndex].Id != null) {
-				if (pendingTemplateDeletes == null) {
-					pendingTemplateDeletes = new List<APTemplateTask__c>();
+				if (pendingTemplateTaskDeletes == null) {
+					pendingTemplateTaskDeletes = new List<APTemplateTask__c>();
 				}
-				pendingTemplateDeletes.add(aptTasks[taskIndex]);
+				pendingTemplateTaskDeletes.add(aptTasks[taskIndex]);
 			}
 
 			aptTasks.remove(taskIndex);
@@ -286,17 +311,17 @@ public with sharing class ActionPlanTemplateCreationController {
 	}
 
 	/**
-	 * Iterate over aptTasks
-	 * @return All the template wrappers for display on the page
+	 * Iterate over aptTasks and generate wrappers for display on the page
+	 * @return `List<ApTTaskWrapper>` All the template wrappers for display on the page
+	 * @see ActionPlanTemplateCreationController.aptTasks
 	 */
 	public List<ApTTaskWrapper> getTemplateWrappers() {
-		ApTTaskWrapper apTTaskWrapper;
 		List<ApTTaskWrapper> tasksList = new List<ApTTaskWrapper>();
 
 		Integer i = 0;
-		for (APTemplateTask__c aptTaskTemplate : aptTasks) {
-			ApTTaskWrapper = new ApTTaskWrapper(aptTaskTemplate, i, this.actionPlanTemplate.TaskRecordTypeID__c);
-			tasksList.add(ApTTaskWrapper);
+		for (APTemplateTask__c templateTask : aptTasks) {
+			ApTTaskWrapper wrapper = new ApTTaskWrapper(templateTask, i, this.actionPlanTemplate.TaskRecordTypeID__c);
+			tasksList.add(wrapper);
 			i++;
 		}
 		if (i > 0) {
@@ -320,10 +345,10 @@ public with sharing class ActionPlanTemplateCreationController {
 	/**
 	 * Single query for ActionPlan Template Tasks
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @param  recordId `APTemplate__c` Id
+	 * @param  templateId `APTemplate__c` Id
 	 * @return          `List<APTemplateTask__c>` The related APTemplate Tasks
 	 */
-	private List<APTemplateTask__c> queryAPTTasks(Id recordId) {
+	private List<APTemplateTask__c> queryAPTTasks(Id templateId) {
 		return [
 			SELECT
 				Type__c,
@@ -345,7 +370,7 @@ public with sharing class ActionPlanTemplateCreationController {
 				SendEmail__c,
 				Comments__c
 			FROM APTemplateTask__c
-			WHERE Action_Plan_Template__c = :recordId
+			WHERE Action_Plan_Template__c = :templateId
 			ORDER BY TaskIndex__c ASC
 		];
 	}
@@ -373,11 +398,9 @@ public with sharing class ActionPlanTemplateCreationController {
 				aptTasks.clear();
 				aptTasks = tempTaskList;
 
-				// clear lookup relationship also
+				// clear lookup relationship
 				for (APTemplateTask__c t : aptTasks) {
-					if (t.Action_Plan_Template__c != null) {
-						t.Action_Plan_Template__c = null;
-					}
+					t.Action_Plan_Template__c = null;
 				}
 			}
 		}
@@ -386,7 +409,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Return size of the APTTemplate Tasks List.
-	 * @return the number of template tasks
+	 * @return `Integer` the number of template tasks
 	 */
 	public Integer getTemplateTaskSize() {
 		return aptTasks.size();
@@ -394,7 +417,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Call method getTemplateSubjectItems()
-	 * @return the picklist of Task subjects
+	 * @return `List<SelectOption>` the picklist of Task subjects
 	 */
 	public List<SelectOption> getTemplateSubjectItems() {
 		List<SelectOption> options = new List<SelectOption>();
@@ -415,7 +438,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Checks if Action Plan Tasks has cyclic dependency.
-	 * @return PageReference
+	 * @return `PageReference` to allow pass-through of save action
 	 */
 	public PageReference checkCycleDependent() {
 		if (this.templateCycleDependent()) {
@@ -427,7 +450,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Checks if Action Plans Tasks has cyclic dependency.
-	 * @return Boolean cyclicErrorExists
+	 * @return `Boolean` cyclicErrorExists
 	 */
 	public Boolean templateCycleDependent() {
 		this.errorMsg = null;
@@ -445,7 +468,7 @@ public with sharing class ActionPlanTemplateCreationController {
 				}
 
 				if (this.dependantCycle(link, index)) {
-					System.debug('cyclic-dependency error ' + System.Label.ap_Errors_RemoveCyclicDependency);
+					//System.debug('cyclic-dependency error ' + System.Label.ap_Errors_RemoveCyclicDependency);
 					this.errorMsg = System.Label.ap_Errors_RemoveCyclicDependency;
 					return true;
 				}
@@ -457,26 +480,26 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Check for dependent tasks
-	 * @param destinyTask
-	 * @param index
-	 * @return Boolean
+	 * @param inspectedTask We check against a specific task
+	 * @param index The index (position) of the template task
+	 * @return `Boolean` Is there a dependency for this task?
 	 */
-	private Boolean dependantCycle(APTemplateTask__c destinyTask, Integer index) {
+	private Boolean dependantCycle(APTemplateTask__c inspectedTask, Integer index) {
 		Boolean hasDependency = false;
-		Set<Integer> visitedTasks = new Set<Integer>();
+		Set<Integer> checkedTasks = new Set<Integer>();
 
 		while (!hasDependency) {
-			if (destinyTask.Dependent__c != null && destinyTask.Dependent__c != 'None') {
-				if (visitedTasks.contains(Integer.valueOf(destinyTask.Dependent__c))) {
+			if (inspectedTask.Dependent__c != null && inspectedTask.Dependent__c != 'None') {
+				if (checkedTasks.contains(Integer.valueOf(inspectedTask.Dependent__c))) {
 					hasDependency = true;
 					break;
 				} else {
-					visitedTasks.add(Integer.valueOf(destinyTask.Dependent__c));
+					checkedTasks.add(Integer.valueOf(inspectedTask.Dependent__c));
 				}
 			}
 
-			if (destinyTask.Dependent__c != null && destinyTask.Dependent__c != 'None') {
-				Integer tempIndexDestiny = Integer.valueOf(destinyTask.Dependent__c);
+			if (inspectedTask.Dependent__c != null && inspectedTask.Dependent__c != 'None') {
+				Integer tempIndexDestiny = Integer.valueOf(inspectedTask.Dependent__c);
 				APTemplateTask__c link = aptTasks[tempIndexDestiny];
 
 				if (link.Dependent__c != null && link.Dependent__c != 'None') {
@@ -485,7 +508,7 @@ public with sharing class ActionPlanTemplateCreationController {
 						break;
 					} else {
 						//get next task in dependency chain
-						destinyTask = aptTasks[Integer.valueOf(destinyTask.Dependent__c)];
+						inspectedTask = aptTasks[Integer.valueOf(inspectedTask.Dependent__c)];
 					}
 				} else {
 					break;
@@ -498,10 +521,14 @@ public with sharing class ActionPlanTemplateCreationController {
 		return hasDependency;
 	}
 
+	/**
+	 * Store the value of the error message
+	 */
 	private String errorMsg;
 	/**
 	 * Getter method to return the error message from action plans utilities
-	 * @return errorMsg
+	 * @return `String` errorMsg
+	 * @see ActionPlanTemplateCreationController.errorMsg
 	 */
 	public String getErrorMsg() {
 		return errorMsg;
@@ -509,7 +536,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Calculates the highest task index value
-	 * @return maxIndex
+	 * @return `Double` maxIndex
 	 */
 	public Double calculateTaskIndexValue() {
 		Double maxIndex = 0;
@@ -524,7 +551,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Find user default recordtype
-	 * @return The org default Task RecordTypeId
+	 * @return `Id` The org default Task RecordTypeId
 	 */
 	public Id getDefaultTaskRecordTypeId() {
 		return ActionPlansUtilities.getDefaultTaskRecordTypeId();
@@ -532,20 +559,20 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Generate picklist of Task Record Types
-	 * @return A picklist of available Record Types
+	 * @return `List<SelectOption>` A picklist of available Record Types
 	 */
 	public List<SelectOption> getTaskRTPicklistValues() {
 		return ActionPlansUtilities.getTaskRTPicklistValues();
 	}
 
 	/**
-	 * Generate picklist of Task Types
+	 * Generate picklist of Task Type
 	 */
 	private List<SelectOption> taskTypes;
 	/**
 	 * Generate a picklist of Task Type
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return Picklist of `Task.Type`
+	 * @return `List<SelectOption>` Picklist of `Task.Type`
 	 */
 	public List<SelectOption> getTaskTypes() {
 		if (taskTypes == null) {
@@ -554,11 +581,14 @@ public with sharing class ActionPlanTemplateCreationController {
 		return taskTypes;
 	}
 
+	/**
+	 * Generate picklist of Task Priority
+	 */
 	private List<SelectOption> taskPriorities;
 	/**
 	 * Generate picklist of Task Priorities
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return Picklist of `Task.Priority`
+	 * @return `List<SelectOption>` Picklist of `Task.Priority`
 	 */
 	public List<SelectOption> getTaskPriorities() {
 		if (taskPriorities == null) {
@@ -569,7 +599,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Get the reminder time picklist options from the central utilities class
-	 * @return      Picklist of reminder times
+	 * @return `List<SelectOption>` Picklist of reminder times
 	 */
 	public List<SelectOption> getHoursOption() {
 		return ActionPlansUtilities.getHoursOption();
@@ -577,7 +607,7 @@ public with sharing class ActionPlanTemplateCreationController {
 
 	/**
 	 * Inner Wrapper Class for Action Plan Template Tasks
-	 * @author Matias Menafra
+	 * @author {@link [Matias Menafra](https://www.linkedin.com/in/mmenafra)}
 	 * @date 08/08/2010
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @date 05/2021

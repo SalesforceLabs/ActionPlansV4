@@ -59,10 +59,9 @@ private class ActionPlanTemplateDetailCntrlTest {
 		}
 
 		Test.startTest();
-
-		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(new ActionPlanTemplate__c()));
-
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
+		ActionPlanTemplateDetailController apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(new ActionPlanTemplate__c()));
+		apTemplateDetailController.onLoad();
 
 		ApexPages.currentPage().getParameters().put('id', apTemplate.Id);
 		apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));

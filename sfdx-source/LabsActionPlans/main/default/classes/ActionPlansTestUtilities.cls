@@ -57,7 +57,8 @@ public inherited sharing class ActionPlansTestUtilities {
 	/**
 	 * Standard objects included in this package
 	 */
-	public static Set<String> standardObjects = new Set<String>{ 'account', 'lead', 'contact', 'contract', 'case', 'campaign', 'opportunity' };
+	@TestVisible
+	private static Set<String> standardObjects = new Set<String>{ 'account', 'lead', 'contact', 'contract', 'case', 'campaign', 'opportunity' };
 
 	/**
 	 * Random words are required for testing, as you will likely run into any word I can insert
@@ -105,8 +106,8 @@ public inherited sharing class ActionPlansTestUtilities {
 		String namePrefix = this.createRandomWord('un');
 
 		User testUser = new User();
-		testUser.Email = 'test@test.com';
-		testUser.Username = namePrefix + '@Testuser.com';
+		testUser.Email = 'test@aptest.com';
+		testUser.Username = namePrefix + 'test@Testuser.com';
 		testUser.LastName = 'test';
 		testUser.Alias = 'test';
 		testUser.ProfileId = p.Id;
@@ -372,7 +373,9 @@ public inherited sharing class ActionPlansTestUtilities {
 		List<APTask__c> apttToInsert = new List<APTask__c>();
 		//Creates default tasks for Action Plan
 		for (Integer i = 0; i < numTasks; i++) {
-			apttToInsert.add(this.createNewActionPlanTask(newActionPlan, i + 1, user, 'Email', 'High'));
+			APTask__c apt = createNewActionPlanTask(newActionPlan, i + 1, user.Id, null, null);
+			System.debug(apt);
+			apttToInsert.add(apt);
 		}
 
 		insert apttToInsert;
@@ -381,25 +384,30 @@ public inherited sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Create Action Plan Task template
+	 * Create Action Plan Task
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  actionPlan The `ActionPlan__c` object
-	 * @param  days       Days from now to start the plan
-	 * @param  user       The assigned owner
-	 * @param  category   Task Category
+	 * @param  days       Days from actionPlan Start Date to schedule the task
+	 * @param  userId     The assigned owner Id
+	 * @param  category   Task Type
 	 * @param  priority   Task Priority
 	 * @return            `APTask__c` The created `APTask__c` record
 	 */
-	public APTask__c createNewActionPlanTask(ActionPlan__c actionPlan, Integer days, User user, String category, String priority) {
+	public APTask__c createNewActionPlanTask(ActionPlan__c actionPlan, Integer days, Id userId, String category, String priority) {
 		APTask__c newAPTask = new APTask__c();
 		newAPTask.Subject__c = this.createRandomWord('subject');
-		newAPTask.DaysFromStart__c = days;
+		newAPTask.DaysFromStart__c = days == null || days < 0 ? 0 : days;
 		newAPTask.Action_Plan__c = actionPlan.Id;
-		newAPTask.User__c = user != null ? user.Id : null;
-		newAPTask.Type__c = category;
-		newAPTask.Priority__c = priority;
+		newAPTask.User__c = userId;
+		Id defaultRTID = ActionPlansUtilities.getDefaultTaskRecordTypeId();
+		System.debug('ActionPlansTestUtilties: defaultRTID ' + defaultRTID);
+		System.debug('RTStatusMap: ' + ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues());
+		newAPTask.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(defaultRTID);
+		newAPTask.Type__c = String.isNotBlank(category) ? category : ActionPlansUtilities.getTaskRecordTypeTypeDefaultValues().get(defaultRTID);
+		newAPTask.Priority__c = String.isNotBlank(priority) ? priority : ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(defaultRTID);
 		newAPTask.Minutes_Reminder__c = '510';
-
+		newAPTask.TaskIndex__c = days - 1;
+		newAPTask.Dependent__c = 'None';
 		return newAPTask;
 	}
 
@@ -435,38 +443,36 @@ public inherited sharing class ActionPlansTestUtilities {
 	}
 
 	/**
-	 * Create Action Plan Template Task Template
+	 * Create Action Plan Template Task
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  apTemplate The parent ActionPlanTemplate__c object
 	 * @param  days       Days from now to start Action Plan
-	 * @param  user       The assigned user for each created task
+	 * @param  userId     The assigned user for each created task
 	 * @param  category   Task Category
 	 * @param  priority   Task Priority
 	 * @return            `APTemplateTask__c` The new Action Plan Template Task Template
 	 */
-	public APTemplateTask__c createNewActionPlanTemplateTask(ActionPlanTemplate__c apTemplate, Integer days, User user, String category, String priority) {
+	public APTemplateTask__c createNewActionPlanTemplateTask(ActionPlanTemplate__c apTemplate, Integer days, Id userId, String category, String priority) {
 		APTemplateTask__c newAPTTask = new APTemplateTask__c();
-
 		newAPTTask.Action_Plan_Template__c = apTemplate.Id;
 		newAPTTask.Subject__c = this.createRandomWord('subject');
 		newAPTTask.DaysFromStart__c = days;
+		newAPTTask.TaskIndex__c = days - 1;
 		newAPTTask.Dependent__c = 'None';
-		if (user != null) {
-			newAPTTask.User__c = user.Id;
-		}
-		newAPTTask.Type__c = category;
-		newAPTTask.Priority__c = priority;
+		newAPTTask.User__c = userId;
+		Id defaultRTID = ActionPlansUtilities.getDefaultTaskRecordTypeId();
+		newAPTTask.Type__c = String.isNotBlank(category) ? category : ActionPlansUtilities.getTaskRecordTypeTypeDefaultValues().get(defaultRTID);
+		newAPTTask.Priority__c = String.isNotBlank(priority) ? priority : ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(defaultRTID);
 		newAPTTask.Minutes_Reminder__c = '510';
 		newAPTTask.Comments__c = 'Comment here';
 
-		// TODO : Include making TaskIndex value when making these tasks
 		return newAPTTask;
 	}
 
 	/**
 	 * Find a non-default Task Record Type
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   The `Id` of a non-default `Task` Record Type for the running user
+	 * @return   `Id` The `Id` of a non-default `Task` Record Type for the running user
 	 */
 	public static Id getNonDefaultAvailableTaskRecordType() {
 		if (!ActionPlansUtilities.taskUsesRecordTypes) {

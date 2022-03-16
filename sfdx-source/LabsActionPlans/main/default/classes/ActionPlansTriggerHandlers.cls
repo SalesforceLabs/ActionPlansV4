@@ -214,9 +214,9 @@ global without sharing class ActionPlansTriggerHandlers {
 				//get all tasks asociated to this APTasks
 				List<Task> taskList = [SELECT Id, TaskAPTask__c, IsDeleted FROM Task WHERE TaskAPTask__c IN :mapAPTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
 
-				if (!taskList.isEmpty()) {
+				//if (!taskList.isEmpty()) {
 					Database.undelete(taskList, false);
-				}
+				//}
 			}
 		}
 	}
@@ -231,7 +231,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
 				if (actionPlan.get(s) != null) {
 					parentIDs.add((Id) actionPlan.get(s));
-					continue;
+					break;
 				}
 			}
 		}
@@ -245,7 +245,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					if (String.isEmpty(ap.Related_Object__c)) {
 						ap.Related_Object__c = ActionPlansUtilities.getRelatedRecordInfo(relatedId).getLabel();
 					}
-					continue;
+					break;
 				}
 			}
 		}
@@ -267,24 +267,15 @@ global without sharing class ActionPlansTriggerHandlers {
 				for (APTask__c a : newRecords) {
 					a.IsClosed__c = ActionPlansUtilities.getClosedTaskStatuses().contains(a.Status__c);
 					a.User__c = a.User__c == null ? UserInfo.getUserId() : a.User__c;
-					/* if (a.User__c == null) {
-						a.User__c = UserInfo.getUserId();
-					} */
 					a.DaysFromStart__c = a.DaysFromStart__c == null ? 0 : a.DaysFromStart__c;
-					/* if(a.DaysFromStart__c == null){
-						a.DaysFromStart__c = 0;
-					} */
 					a.Dependent__c = (String.isBlank(a.Dependent__c)) ? 'None' : a.Dependent__c;
-					/* if(String.isBlank(a.Dependent__c)){
-						a.Dependent__c = 'None';
-					} */
 				}
 
 				Set<Id> apIDs = new Set<Id>();
-				Schema.SObjectType apttype = Schema.APTask__c.getSObjectType();
-				Schema.DescribeSObjectResult aptDescribe = apttype.getDescribe();
-				String aptObjectName = aptDescribe.getName();
-				String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix(aptObjectName);
+				//Schema.DescribeSObjectResult aptDescribe = Schema.APTask__c.getSObjectType().getDescribe();
+				//String aptObjectName = aptDescribe.getName();
+				//String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix(aptObjectName);
+				String aptPrefix = Schema.APTask__c.getSObjectType().getDescribe().getKeyPrefix();
 				
 
 				for (APTask__c apt : newRecords) {
@@ -474,11 +465,6 @@ global without sharing class ActionPlansTriggerHandlers {
 					triggerTasksWithTemplateTaskStatus.put(ta.Id, ta);
 				}
 
-				Boolean taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
-
-				// May need this
-				Set<String> closedStatuses = ActionPlansUtilities.getClosedTaskStatuses();
-
 				Set<Id> tasktemplatesToValidate = new Set<Id>();
 
 				for (Task t : newRecords) {
@@ -486,6 +472,10 @@ global without sharing class ActionPlansTriggerHandlers {
 						tasktemplatesToValidate.add(t.TaskAPTask__c);
 					}
 				}
+
+				Boolean taskHasRecordType = ActionPlansUtilities.taskUsesRecordTypes;
+
+				Set<String> closedStatuses = ActionPlansUtilities.getClosedTaskStatuses();
 
 				// Map of record ID to "true" if the related task template is OPEN
 				Map<Id, Boolean> allowMap = allowChangeParentStatus(tasktemplatesToValidate);
@@ -501,7 +491,7 @@ global without sharing class ActionPlansTriggerHandlers {
 						String defaultTaskStatus;
 
 						if (!taskHasRecordType) {
-							defaultTaskStatus = rtIdToDefaultStatus.get(null); //(String)Task.Status.getDescribe().getDefaultValue();
+							defaultTaskStatus = rtIdToDefaultStatus.get(null);
 						} else {
 							defaultTaskStatus = rtIdToDefaultStatus.get((Id) t.get('recordtypeid'));
 						}
@@ -545,7 +535,6 @@ global without sharing class ActionPlansTriggerHandlers {
 							tmp.Comments__c = t.Description;
 							tmp.Priority__c = t.Priority;
 							tmp.User__c = t.OwnerId;
-							//tmp.Status__c = t.Status;
 							tmp.ActivityDate__c = t.ActivityDate;
 							lUpsert.add(tmp);
 						}
@@ -564,7 +553,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 				//only delete Action Plan Template Tasks that are not deleted
-				//create any task depending on this one
+				//create any tasks depending on this one
 				ActionPlansTaskTriggerUtilities.actionsOnTaskBeforeDelete(taskTempIds);
 			}
 			when AFTER_DELETE {
@@ -754,8 +743,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @return         The name of the filled Relationship field object name
 	 */
 	private static String getRelationshipName(Id recordId) {
-		Schema.SObjectType token = recordId.getSObjectType();
-		String sObjectName = token.getDescribe().getName().toLowerCase();
+		String sObjectName = recordId.getSObjectType().getDescribe().getName().toLowerCase();
 
 		Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.ActionPlan__c.fields.getMap();
 
@@ -777,7 +765,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * <br>If the task depends on another that is open, returns false
 	 * <br>This bulkified method avoids SOQL queries in a loop
 	 * @param apTaskTemplateIds bulkified set of task IDs to consider
-	 * @return dependsOnInProgressTask
+	 * @return `Map<Id, Boolean>` Is each APTask dependent on another task and is in an open status?
 	 */
 	private static Map<Id, Boolean> allowChangeParentStatus(Set<Id> apTaskTemplateIds) {
 		Map<Id, Boolean> allowTasksMap = new Map<Id, Boolean>();
