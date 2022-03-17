@@ -43,8 +43,13 @@ Follow these instructions to deploy Action Plans to your org.
 	```
 	npm run-script scratchorg
 	```
+    or
+    ```
+    . scripts/scratchorg.sh
+    ```
 
 1. That's it! 
+
 ## Installing the App using a Developer Edition Org or your own Sandbox Org
 
 Follow this set of instructions if you want to deploy the app to a more permanent environment than a Scratch org.
@@ -65,7 +70,13 @@ Start from a brand-new environment to avoid conflicts with previous work you may
     cd ActionPlansV4
     ```
 
-1. If you are setting up a Developer Edition: go to **Setup**, and under **My Domain**, [register a My Domain](https://help.salesforce.com/articleView?id=domain_name_setup.htm&type=5).
+1. If you are setting up a Developer Edition: go to **Setup**, and under **My Domain**, [register a My Domain](https://help.salesforce.com/articleView?id=domain_name_setup.htm&type=5). Then ensure that enhanced domains are activated. You may need to enable Salesforce Edge network first.
+
+1. To run all the next steps at once, run this command in the terminal:
+    ```
+    . scripts/unmanaged.sh
+    ```
+    The org will open. That's it!
 
 1. Run this command to deploy the app.
 
@@ -79,7 +90,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
     sfdx force:user:permset:assign -n Action_Plans_Admin
     ```
 
-1. (Optional) [Load sample data](#optional-installation-instructions) (see below)
+1. (Optional) [Load sample metadata](#optional-installation-instructions) (see below)
 
 1. If your org isn't already open, open it now:
 
@@ -121,7 +132,7 @@ This repository contains several files that are relevant if you want to add samp
 
 ### Data Import (Optional - ONLY if using the AppExchange managed package)
 
-- To create a sample Action Plan Template for Account onboarding, run the following:
+- When FIRST installing the package, it will automatically create a sample Action Plan Template for Account onboarding. If you want to recreate it manually, run the following:
 	```
 	sfdx force:apex:execute -f ./data/sample-data-managed.apex
 	```

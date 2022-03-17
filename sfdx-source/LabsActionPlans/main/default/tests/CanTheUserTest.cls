@@ -1,10 +1,16 @@
+/*
+Action Plans v4
+David Schach 2022
+https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000Gg6NVUAZ
+*/
 /**
  * Taken from Codefriar code
  * @see https://github.com/codefriar/CanTheUser
  * @see https://github.com/trailheadapps/apex-recipes
  * @author {@link [Codefriar](https://github.com/codefriar)}
  * @since 2021
- * @group Security
+ * @see CanTheUser
+ * @group Tests
  */
 @IsTest
 private class CanTheUserTest {

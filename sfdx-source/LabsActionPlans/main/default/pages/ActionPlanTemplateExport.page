@@ -3,35 +3,10 @@ Action Plans v3
 Force.com Labs 2011
 http://appexchange.salesforce.com/listingDetail?listingId=a0N30000003HcINEA0
 
-BSD 3-Clause License
-
 Copyright (c) 2022, salesforce.com, inc.
 All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-3. Neither the name of the copyright holder nor the names of its
-   contributors may be used to endorse or promote products derived from
-   this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
+SPDX-License-Identifier: BSD-3-Clause
+For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause-->
 <apex:page standardController="ActionPlanTemplate__c" extensions="ActionPlanTemplateDetailController" action="{!exportTemplateToXMLDoc}" lightningStylesheets="true">
 	<c:APSectionHeader sObjType="ActionPlanTemplate__c" title="{!$Label.ap_ExportTitle}" subtitle="{!$ObjectType.ActionPlanTemplate__c.label}" />
 
@@ -40,7 +15,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 			<table>
 				<apex:outputPanel layout="none" rendered="{!ISNULL(actionPlanExportXMLId)}">
 					<tr>
-						<td><apex:outputText value="{!$Label.ap_XMLFailure}" /></td>
+						<td>
+							<apex:outputText value="{!$Label.ap_XMLFailure}" />
+						</td>
 					</tr>
 				</apex:outputPanel>
 				<apex:outputPanel layout="none" rendered="{!NOT(ISNULL(actionPlanExportXMLId))}">
@@ -50,27 +27,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 						</td>
 					</tr>
 					<tr>
-						<td><br /></td>
+						<td>
+							<br />
+						</td>
 					</tr>
 					<tr>
-						<td>{!$Label.ap_ViewFile}&nbsp;<a href="/{!actionPlanExportXMLId}">{!ActionPlanTemplate__c.Name}</a></td>
+						<td>
+							{!$Label.ap_ViewFile}&nbsp;
+							<a href="/{!actionPlanExportXMLId}">{!ActionPlanTemplate__c.Name}</a>
+						</td>
 					</tr>
 				</apex:outputPanel>
 				<tr>
-					<td><br /></td>
+					<td>
+						<br />
+					</td>
 				</tr>
 				<tr>
 					<td>
-						<apex:form
-							><apex:outputText value="{!$Label.ap_View}" />&nbsp;{!$ObjectType.ActionPlanTemplate__c.label}&nbsp;<apex:commandLink
-								action="{!URLFOR($Action.ActionPlanTemplate__c.View, ActionPlanTemplate__c.Id)}"
-								value="{!ActionPlanTemplate__c.Name}"
+						<apex:form>
+							<apex:outputText value="{!$Label.ap_View}" />&nbsp;{!$ObjectType.ActionPlanTemplate__c.label}&nbsp;
+							<apex:commandLink action="{!URLFOR($Action.ActionPlanTemplate__c.View, ActionPlanTemplate__c.Id)}" value="{!ActionPlanTemplate__c.Name}"
 						/></apex:form>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<br /><br />
+						<br />
+						<br />
 						<apex:outputText escape="false" value="{!$Label.ap_ShareEmail}" />
 					</td>
 				</tr>

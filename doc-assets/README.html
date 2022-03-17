@@ -18,9 +18,9 @@
 	}
 </style>
 <!-- <script>hljs.highlightAll();</script> -->
-<h1><a href="https://github.com/salesforcelabs/ActionPlansV4">About Action Plans</a></h1>
+<h1><a href="https://github.com/salesforcelabs/ActionPlansV4">Action Plans (GitHub)</a></h1>
 
-<h2><a id="Action_Plans_Installation_and_Setup_3" href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md"></a>Action Plans Installation and Setup</h2>
+<h2><a id="Action_Plans_Installation_and_Setup_3" href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md">Action Plans Installation and Setup</a></h2>
 <!-- <h3>
 	<a id="AppExchangehttpsgithubcomSalesforceLabsActionPlansV4blobmainINSTALLATIONmdappexchangemanagedpackagerecommended_5"></a
 	><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#appexchange-managed-package---recommended">AppExchange</a>
@@ -53,7 +53,7 @@
 <h2><a id="Getting_Help_27"></a>Getting Help</h2>
 <p>
 	Action Plans is unsupported. For community assistance with Action Plans, please visit <a href="https://trailblazers.salesforce.com/">Salesforce Trailblazer Community</a>. To submit ideas or issues,
-	please visit <a href="https://github.com/SalesforceLabs/ActionPlansV4">Action Plans on Github</a>.
+	please visit <a href="https://github.com/SalesforceLabs/ActionPlansV4/issues">Action Plans on Github</a>.
 </p>
 <h2><a id="Community_31"></a>Community</h2>
 <p>
@@ -69,18 +69,18 @@
 	<li>Invocable Apex allows automatic Action Plan creation from a Template in Process Builder and Flow</li>
 </ul>
 <h1><a id="Post_Install_Configuration_43"></a>Post Install Configuration</h1>
-<p>Getting started is easy. For each object, you need to add a button to the list view, add a button to the detail page. For Accounts, follow these steps:&quot;</p>
+<p>Getting started is easy. For each object, you need to add a button to the list view, add a button to the detail page. For Accounts, follow these steps:</p>
 <h2><a id="Update_Action_Plans_Custom_Settings_47"></a>Update Action Plans Custom Settings</h2>
 <p>Change these setting by editing Action Plan Settings, and updating values at either the organization level, profile levels, or user levels.</p>
 <p>
-	Navigate to Setup &gt; Develop &gt; Custom Settings. Click on ‘Manage’ next to <code>Action Plans Settings</code>. Click the ‘New’ button near ‘Default Organizational Level Value’. Check the values
+	Navigate to Setup &gt; Develop &gt; Custom Settings. Click on “Manage” next to <code>Action Plans Settings</code>. Click the “New” button near “Default Organizational Level Value”. Check the values
 	that you want to enable.
 </p>
 <ul>
 	<li><code>Enable Chatter Post</code> places a post in the related record's Chatter Feed (if Chatter is enabled for that object). If unchecked, Action Plans does not create a Feed Post.</li>
 	<li>
-		<code>Unassigned Task Defaults to Record Owner</code> ensures that Action Plan Template tasks with a blank ‘Assigned To’ field go to the related record's owner. If unchecked, tasks with a blank
-		‘Assigned To’ field are assigned to the running user. Tasks can be assigned to specific people on Action Plan Templates, which overrides this setting.
+		<code>Unassigned Task Defaults to Record Owner</code> ensures that Action Plan Template tasks with a blank “Assigned To” field go to the related record's owner. If unchecked, tasks with a blank
+		“Assigned To” field are assigned to the running user. Tasks can be assigned to specific people on Action Plan Templates, which overrides this setting.
 	</li>
 	<li>
 		<code>Default Object on Lead Conversion</code> specifies that if an Action Plan is related to a Lead, whether the Action Plan should be moved to the converted Account, Contact, or Opportunity when
@@ -124,11 +124,11 @@
 <h2><a id="Update_Your_OrgWide_Default_Sharing_Settings_94"></a>Update Your Org-Wide Default Sharing Settings</h2>
 <p>Action Plans includes two shareable objects: <code>Action Plan</code> and <code>Action Plan Template</code>. You may configure your sharing settings in whatever way works for your organization.</p>
 <ul>
-	<li>If you want anyone to be able to create and see plans and their templates, use Public Read/Write for Action Plan and Action Plan Template.</li>
+	<li>If you want anyone to be able to create and edit plans and their templates, use Public Read/Write for Action Plan and Action Plan Template.</li>
 	<li>If you want anyone to be able to see Action Plans and Templates without being able to change them, select “Public Read Only.”</li>
 	<li>
-		If your Org-Wide Default sharing settings are set to Private for Action Plan or Action Plan Template, you may need to implement custom automation to share Action Plan records with the appropriate
-		people. You may do this via Apex sharing, or you may use other automation, to assign ownership of the Action Plan itself to the related record owner or any desired user.
+		If your Org-Wide Default sharing settings are set to Private for Action Plan or Action Plan Template, you may need to implement custom sharing or automation to share Action Plan records with the
+		appropriate people. You may do this via Sharing Rules, Apex sharing, or you may use other automation to assign ownership of the Action Plan itself to the related record owner or any desired user.
 	</li>
 	<li>
 		To use Action Plans, most users require access only to <code>Tasks</code>. They can be assigned Tasks without knowing that these Tasks are part of an Action Plan. Any changes they make to a Task's
@@ -139,7 +139,7 @@
 <p>Assign the appropriate Permission Set(s) to each user who will need to use Action Plans:</p>
 <ul>
 	<li><code>Action Plans Admin:</code> Full permissions for Action Plans, Action Plan Templates, AP Tasks and APT Task Templates.</li>
-	<li><code>Action Plans Template Creator:</code> Full permissions for Action Plan Templates and AP Template Tasks. No Action Plan access.</li>
+	<li><code>Action Plans Template Creator:</code> Read, Create, Edit, Delete for Action Plan Templates and AP Template Tasks. No Action Plan access.</li>
 	<li><code>Action Plans Creator:</code> Read, Create, Edit, Delete for Action Plans and AP Tasks. Read-only for Action Plan Templates and APT Task Templates.</li>
 	<li><code>Action Plans User:</code> Read-only for Action Plans and AP Tasks.</li>
 </ul>
@@ -156,8 +156,13 @@
 		exporting of Action Plan Templates.
 	</li>
 	<li>
+		Intended as an add-on for <code>Action Plans Template Creator</code>, the <code>Action Plans Import/Export</code> permission set allows the viewing of the Export button on Template detail pages
+		and to the Import tab. The custom permission <code>Action Plan Template Export</code> allows exporting of Action Plan Templates and associated tasks. Use this permission with care, as it is a
+		potential security hole for your org's proprietary templates. This is a great way to move templates from a Sandbox to Production org.
+	</li>
+	<li>
 		<code>Action Plans Admin</code> includes Modify All permissions for all four Action Plan objects (Action Plan, Action Plan Task Template, Action Plan Template, and Action Plan Template Task
-		Template). A custom permission allows exporting Action Plan Templates.
+		Template). The custom permission allows exporting Action Plan Templates.
 	</li>
 </ul>
 <p>Note: The Apex used in Flows or via triggers does not require special permissions to run.</p>

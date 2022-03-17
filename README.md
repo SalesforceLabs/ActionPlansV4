@@ -121,8 +121,8 @@ Uses for each Permission Set:
 -   Some users may require visibility into the Action Plans related to those Tasks. These users need the `Action Plans User` Permission Set. It gives Read-only access to Action Plan.
 -   Some users may need to create Action Plans from Templates but not edit the templates themselves. The `Action Plans Creator` Permission Set gives read-only access to Action Plan Templates, and Read, Create, Edit, and Delete access to Action Plans.
 -   Users who can create and edit Action Plan Templates require the `Action Plans Template Creator` Permission Set. This includes permission to Read, Create, Edit, and Delete all Action Plan Templates only. It does not include any Action Plan or Task permissions. If these users require Action Plan access, other Permission Sets should be used as well. A custom permission allows exporting of Action Plan Templates.
--   Intended as an add-on for `Action Plans Template Creator`, the `Action Plans Import/Export` permission set allows the viewing of the Export button on Template detail pages and to the Import tab. 
--   `Action Plans Admin` includes Modify All permissions for all four Action Plan objects (Action Plan, Action Plan Task Template, Action Plan Template, and Action Plan Template Task Template). A custom permission allows exporting Action Plan Templates.
+-   Intended as an add-on for `Action Plans Template Creator`, the `Action Plans Import/Export` permission set allows the viewing of the Export button on Template detail pages and to the Import tab. The custom permission `Action Plan Template Export` allows exporting of Action Plan Templates and associated tasks. Use this permission with care, as it is a potential security hole for your org's proprietary templates. This is a great way to move templates from a Sandbox to Production org.
+-   `Action Plans Admin` includes Modify All permissions for all four Action Plan objects (Action Plan, Action Plan Task Template, Action Plan Template, and Action Plan Template Task Template). The custom permission allows exporting Action Plan Templates.
 
 Note: The Apex used in Flows or via triggers does not require special permissions to run.
 
@@ -132,6 +132,7 @@ Note: The Apex used in Flows or via triggers does not require special permission
 
 1.  Create the object and be sure to check "Track Activities" for the object attrributes
 1.  Create a lookup field from Action Plan to the object. **Name the field the same as the object name.** The field label can be anything.
+    - As an example, if you have a custom object named `MyObject__c`, you must name the field on Action Plan `MyObject__c`
 1.  Add the field to the `Related Objects` fieldset on Action Plan.
 1.  The related object will now be available for selection when creating a new Action Plan and relating it to an object.
 1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts:
