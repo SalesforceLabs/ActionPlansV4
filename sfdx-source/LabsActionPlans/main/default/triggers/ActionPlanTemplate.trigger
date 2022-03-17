@@ -12,6 +12,6 @@ All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 */
-trigger ActionPlanTemplateTrigger on ActionPlanTemplate__c(before insert, after insert, before update, after update) {
+trigger ActionPlanTemplate on ActionPlanTemplate__c(before insert, after insert, before update, after update) {
 	ActionPlansTriggerHandlers.triggerhandlerActionPlanTemplate(Trigger.new, Trigger.old, Trigger.oldMap, Trigger.operationType);
 }

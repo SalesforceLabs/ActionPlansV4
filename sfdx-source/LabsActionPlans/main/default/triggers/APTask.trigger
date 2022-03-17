@@ -12,9 +12,6 @@ All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 */
-trigger APLeadTrigger on Lead(after update, before delete, after undelete) {
-	ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap, Trigger.operationType, 'Lead');
-
-	ActionPlansTriggerHandlers.triggerhandlerActionPlanLead(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap, Trigger.operationType);
-
+trigger APTask on Task(before insert, after update, before delete, after delete) {
+	ActionPlansTriggerHandlers.triggerhandlerTask(Trigger.new, Trigger.old, Trigger.operationType);
 }

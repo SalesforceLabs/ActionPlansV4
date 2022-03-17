@@ -12,9 +12,6 @@ All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 */
-trigger APAccountTrigger on Account(before delete, after undelete) {
-	ActionPlansTriggerHandlers.triggerhandlerActionPlanAccount(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap, Trigger.operationType);
-
-	ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler('Account');
-
+trigger ActionPlan on ActionPlan__c(before insert, before update, after update, before delete, after undelete) {
+	ActionPlansTriggerHandlers.triggerhandlerActionPlan(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap, Trigger.operationType);
 }
