@@ -70,10 +70,10 @@ jobs:
           fi
           exit $status
 
-      Update sfdx-project.json and README to use only latest package version
-      - name: 'Update sfdx-project.json and README'
-        id: packaging-updater
-        uses: trailheadapps/github-action-sfdx-packaging-updater@main
+      # Update sfdx-project.json and README to use only latest package version
+      #- name: 'Update sfdx-project.json and README'
+      #  id: packaging-updater
+      #  uses: trailheadapps/github-action-sfdx-packaging-updater@main
 
       # Remove namespace from project config
       - name: Remove namespace from project config
