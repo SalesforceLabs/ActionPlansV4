@@ -151,6 +151,25 @@ While Action Plans already overrides the New Action Plan action, the New button 
     ```
     {!URLFOR( $Action.ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id])}
     ```
+## Create Action Plans for multiple Custom Object records
+
+Just as there is a button for Account list views to create multiple Action Plans, you can do the same for your custom object. Create a Visualforce page with the following code:
+```
+<apex:page standardController="CustomObject__c" recordsetvar="o" extensions="LabsActionPlans.ActionPlansCreateMultipleAPsExtension" showHeader="false" action="{!doRedirect}">
+	<apex:form>
+		<apex:actionFunction name="jsCancel" action="{!cancel}" immediate="true" />
+	</apex:form>
+	<script>
+		var oids = '<apex:outputText value="{!objIDs}"/>';
+		if (oids.length < 15) {
+			alert('{!$Label.ap_Errors_selectOneRecord}');
+			jsCancel();
+		}
+	</script>
+</apex:page>
+```
+Then create a list view button for that object and add it to your list views.
+
 ## To Stop Using an Object with Action Plans
 
 If you want, for example, not to allow relating Action Plans to Contracts, remove the Contract field from the Action Plan Related Objects fieldset.

@@ -34,7 +34,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					<tr>
 						<td>
 							{!$Label.ap_ViewFile}&nbsp;
-							<a href="/{!actionPlanExportXMLId}">{!ActionPlanTemplate__c.Name}</a>
+							<a href="/{!actionPlanExportXMLId}">
+								<apex:outputText value="{!ActionPlanTemplate__c.Name}" />
+							</a>
 						</td>
 					</tr>
 				</apex:outputPanel>

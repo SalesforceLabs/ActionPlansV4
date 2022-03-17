@@ -74,6 +74,8 @@ testresults
 **/objects/Lead
 **/objects/Opportunity
 !**/webLinks/**
+sfdx-source/LabsActionPlans/main/default/flows/**
+sfdx-source/LabsActionPlans/main/default/reports/**
 
 # Action Plans Objects
 !**/objects/ActionPlan__c/**

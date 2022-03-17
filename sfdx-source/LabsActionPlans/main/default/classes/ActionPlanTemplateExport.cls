@@ -15,7 +15,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 /**
  * Helper class to do the work for creating XML for a given Action Plan Template
  * @group Import Export
- * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2011
  */
 public without sharing class ActionPlanTemplateExport {

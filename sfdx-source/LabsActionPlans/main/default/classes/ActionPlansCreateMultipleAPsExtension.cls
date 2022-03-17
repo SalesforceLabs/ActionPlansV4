@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.AvoidGlobalModifier')
 /*
 Action Plans v4
 David Schach 2022
@@ -19,7 +20,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * @since 2022
  * @group Visualforce
  */
-public with sharing class ActionPlansCreateMultipleAPsExtension {
+global with sharing class ActionPlansCreateMultipleAPsExtension {
 	/**
 	 * The standard set controller. Not much use besides allowing the page to show on a list view and letting us cancel the action with a system-generated redirect
 	 */
@@ -28,14 +29,14 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 	/**
 	 * All the selected records from the list view
 	 */
-	public String objIDs { get; private set; }
+	global String objIDs { get; private set; }
 
 	/**
 	 * Constructor
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param stdSetController Standard Set Controller - used only for Cancel standard action
 	 */
-	public ActionPlansCreateMultipleAPsExtension(ApexPages.StandardSetController stdSetController) {
+	global ActionPlansCreateMultipleAPsExtension(ApexPages.StandardSetController stdSetController) {
 		this.stdSetCntrlr = stdSetController;
 		Set<Id> selected = new Map<Id, SObject>(stdSetController.getSelected()).keySet();
 		List<Id> objIDsList = new List<Id>(selected);
@@ -47,7 +48,7 @@ public with sharing class ActionPlansCreateMultipleAPsExtension {
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   `PageReference` The Action Plan creation page
 	 */
-	public PageReference doRedirect() {
+	global PageReference doRedirect() {
 		if (String.isBlank(objIDs)) {
 			return null;
 		}

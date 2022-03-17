@@ -30,6 +30,5 @@
 	"force.showApexJavadocAuthorTag": true,
 	"force.showApexJavadocContext": true,
 	"force.showApexJavadocDescriptionTag": false,
-	"visualforce.format.wrapLineLength": 180,
 	"editor.linkedEditing": true
 }

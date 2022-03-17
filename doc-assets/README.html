@@ -201,6 +201,23 @@
 		<pre><code>{!URLFOR( $Action.ActionPlan__c.New, null, [refType=&quot;CustomObject__c&quot;, refId=CustomObject__c.Id])}</code></pre>
 	</li>
 </ol>
+<h2>Create Action Plans for multiple Custom Object records</h2>
+<p>Just as there is a button for Account list views to create multiple Action Plans, you can do the same for your custom object. Create a Visualforce page with the following code:</p>
+<pre><code>
+&lt;apex:page standardController=&quot;CustomObject__c&quot; recordsetvar=&quot;o&quot; extensions=&quot;LabsActionPlans.ActionPlansCreateMultipleAPsExtension&quot; showHeader=&quot;false&quot; action=&quot;{!doRedirect}&quot;&gt;<br/>
+	&lt;apex:form&gt;<br/>
+		&lt;apex:actionFunction name=&quot;jsCancel&quot; action=&quot;{!cancel}&quot; immediate=&quot;true&quot; /&gt;<br/>
+	&lt;/apex:form&gt;<br/>
+	&lt;script&gt;<br/>
+		var oids = &apos;&lt;apex:outputText value=&quot;{!objIDs}&quot;/&gt;&apos;;<br/>
+		if (oids.length &lt; 15) {<br/>
+			alert(&apos;{!$Label.ap_Errors_selectOneRecord}&apos;);<br/>
+			jsCancel();<br/>
+		}<br/>
+	&lt;/script&gt;<br/>
+&lt;/apex:page&gt;<br/>
+</code></pre>
+<p>Then create a list view button for that object and add it to your list views.</p>
 <h2><a id="To_Stop_Using_an_Object_with_Action_Plans_144"></a>To Stop Using an Object with Action Plans</h2>
 <p>
 	If you want, for example, not to allow relating Action Plans to Contracts, remove the Contract field from the Action Plan Related Objects fieldset.<br />

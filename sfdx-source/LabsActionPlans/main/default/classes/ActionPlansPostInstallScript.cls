@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.AvoidGlobalModifier')
 /*
 Action Plans v4
 David Schach 2022
@@ -15,7 +16,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * @author {@link [David Schach](https://github.com/dschach)}
  * @group Utilities
  */
-@SuppressWarnings('PMD.AvoidGlobalModifier')
 global class ActionPlansPostInstallScript implements InstallHandler {
 	/**
 	 * Script to run when the managed package is installed or upgraded

@@ -31,6 +31,8 @@ jsconfig.json
 **/objects/Account/*.xml
 !**/Account-Account %28Action Plans%29 Layout.layout-meta.xml
 !**/Task-Task ActionPlans Layout.layout-meta.xml
+sfdx-source/LabsActionPlans/main/default/flows/**
+sfdx-source/LabsActionPlans/main/default/reports/**
 
 # !**objects/Account/webLinks/
 !*Action_Plan.webLink-meta.xml
