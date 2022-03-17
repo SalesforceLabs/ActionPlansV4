@@ -11,8 +11,8 @@
 jsconfig.json
 
 # VS Code project settings
-.vscode/*
-!.vscode/extensions.json
+# .vscode/*
+# !.vscode/extensions.json
 
 # LWC Jest coverage reports
 coverage/

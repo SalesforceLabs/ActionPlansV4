@@ -10,7 +10,7 @@ Follow these instructions to deploy Action Plans to your org.
 
 [Installing the app using a Developer Edition Org or a Sandbox](#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org): Useful when tackling Trailhead Badges or if you want the app deployed to a more permanent environment than a scratch org.
 
-[Optional installation instructions](#optional-installation-instructions): Installing sample Action Plan Template
+[Optional installation instructions](#optional-installation-instructions): Installing sample Action Plan Template and other metadata
 <hr/>
 
 ## AppExchange (Managed Package - RECOMMENDED)
@@ -104,7 +104,11 @@ This repository contains several files that are relevant if you want to add samp
 	```
 	sfdx force:apex:execute -f ./data/sample-data.apex
 	```
-	To create a sample Flow that uses the sample template and some other metadata that you may want to install (reports, etc), run the following:
+- To create 
+    - a sample Flow that uses the sample template
+    - a sample Account layout
+    - a sample Task layout
+    - a sample report on open Action Plan-related Tasks
 	```
 	sfdx force:source:deploy -p sfdx-source/unmanaged
 	```
@@ -112,7 +116,7 @@ This repository contains several files that are relevant if you want to add samp
 - You can also create other sample Account and Contact records by running the following command:
 
     ```
-    sfdx force:data:tree:import -p ./data/data-plan.json
+    sfdx force:data:tree:import -p ./data/action-plan-data-plan.json
     ```
 
 ### Data Import (Optional - ONLY if using the AppExchange managed package)
@@ -121,15 +125,18 @@ This repository contains several files that are relevant if you want to add samp
 	```
 	sfdx force:apex:execute -f ./data/sample-data-managed.apex
 	```
-	To create a sample Flow that uses the sample template, run the following:
+- To create 
+    - a sample Flow that uses the sample template
+    - a sample Account layout
+    - a sample Task layout
+    - a sample report on open Action Plan-related Tasks
 	```
 	sfdx force:source:deploy -p sfdx-source/unmanagedExtension
 	```
 
 - You can also create other sample Account and Contact records by running the following command:
-
     ```
-    sfdx force:data:tree:import -p ./data/data-plan.json
+    sfdx force:data:tree:import -p ./data/action-plan-data-plan.json 
     ```
 
 ### Code formatting
@@ -138,7 +145,7 @@ This repository contains several files that are relevant if you want to add samp
 
 ### Code linting
 
-[ESLint](https://eslint.org/) is a popular JavaScript linting tool used to identify stylistic errors and erroneous constructs. To use ESLint with Visual Studio Code, install [this extension](https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode-lwc) from the Visual Studio Code Marketplace. The [.eslintignore](/.eslintignore) file is provided as part of this repository to exclude specific files from the linting process in the context of Lightning Web Components development.
+[ESLint](https://eslint.org/) is a popular JavaScript linting tool used to identify stylistic errors and erroneous constructs. To use ESLint with Visual Studio Code, install [this extension](https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode) from the Visual Studio Code Marketplace. The [.eslintignore](/.eslintignore) file is provided as part of this repository to exclude specific files from the linting process in the context of Lightning Web Components development.
 
 ### Pre-commit hook
 

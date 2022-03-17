@@ -4,7 +4,6 @@ apt.LabsActionPlans__Description__c = 'When Prospect -> Customer, do these tasks
 apt.LabsActionPlans__SkipDay__c = 'Start of next week';
 apt.LabsActionPlans__SkipWeekends__c = true;
 apt.LabsActionPlans__TaskRecordTypeID__c = '';
-
 insert apt;
 
 LabsActionPlans__APTemplateTask__c a1 = new LabsActionPlans__APTemplateTask__c(LabsActionPlans__Action_Plan_Template__c = apt.Id);

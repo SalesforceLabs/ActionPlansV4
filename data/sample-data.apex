@@ -4,7 +4,6 @@ apt.Description__c = 'When Prospect -> Customer, do these tasks';
 apt.SkipDay__c = 'Start of next week';
 apt.SkipWeekends__c = true;
 apt.TaskRecordTypeID__c = '';
-
 insert apt;
 
 APTemplateTask__c a1 = new APTemplateTask__c(Action_Plan_Template__c = apt.Id);

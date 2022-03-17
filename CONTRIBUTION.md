@@ -5,7 +5,7 @@
    what you are trying to add/fix. That way, we can also offer suggestions or
    let you know if there is already an effort in progress. We will let you know when you're good to go to start.
 1. Fork this repository.
-1. The [README](README.md) has details on how to set up your environment.
+1. The [INSTALLATION INSTRUCTIONS](INSTALLATION.md) has details on how to set up your environment.
 1. Create a _topic_ branch in your fork based on the correct branch (usually the **main** branch. Note, this step is recommended but technically not required if contributing using a fork.
 1. Edit the code in your fork.
 1. Sign CLA (see [CLA](#cla) below)
@@ -14,8 +14,7 @@
 
 ### CLA
 
-External contributors will be required to sign a Contributor's License
-Agreement. You can do so by going to https://cla.salesforce.com/sign-cla.
+External contributors will be required to sign a Contributor's License Agreement. You can do so by going to https://cla.salesforce.com/sign-cla.
 
 ## Branches
 
@@ -40,6 +39,8 @@ Agreement. You can do so by going to https://cla.salesforce.com/sign-cla.
 -   Develop features and bug fixes in _topic_ branches.
 -   _Topic_ branches can live in forks (external contributors) or within this repository (committers).
     \*\* When creating _topic_ branches in this repository please prefix with `<developer-name>/`.
+-   Before submitting a pull request, run ApexDox (Command + Shift + P > ApexDox: Run) to generate new documentation files
+-   There is a check that the documentation has been formatted properly, so to submit a pull request, you MUST install the recommended extensions, or the PR will fail.
 
 ### Merging Pull Requests
 
