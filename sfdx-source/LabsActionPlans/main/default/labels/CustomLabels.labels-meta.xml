@@ -228,7 +228,7 @@
         <fullName>ap_Errors_selectOneRecord</fullName>
         <categories>Action Plans</categories>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>Error: selectOneRecord</shortDescription>
         <value>You must select at least one record.</value>
     </labels>
