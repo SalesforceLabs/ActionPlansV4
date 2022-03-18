@@ -204,14 +204,16 @@
 <h2>Create Action Plans for multiple Custom Object records</h2>
 <p>Just as there is a button for Account list views to create multiple Action Plans, you can do the same for your custom object. Create a Visualforce page with the following code:</p>
 <pre><code>
-&lt;apex:page standardController=&quot;CustomObject__c&quot; recordsetvar=&quot;o&quot; extensions=&quot;LabsActionPlans.ActionPlansCreateMultipleAPsExtension&quot; showHeader=&quot;false&quot; action=&quot;{!doRedirect}&quot;&gt;<br/>
+&lt;apex:page standardController=&quot;CustomObject__c&quot; recordsetvar=&quot;o&quot; <br />
+ extensions=&quot;LabsActionPlans.ActionPlansCreateMultipleAPsExtension&quot; <br />
+ showHeader=&quot;false&quot; action=&quot;{!doRedirect}&quot;&gt;<br/>
 	&lt;apex:form&gt;<br/>
 		&lt;apex:actionFunction name=&quot;jsCancel&quot; action=&quot;{!cancel}&quot; immediate=&quot;true&quot; /&gt;<br/>
 	&lt;/apex:form&gt;<br/>
 	&lt;script&gt;<br/>
 		var oids = &apos;&lt;apex:outputText value=&quot;{!objIDs}&quot;/&gt;&apos;;<br/>
 		if (oids.length &lt; 15) {<br/>
-			alert(&apos;{!$Label.ap_Errors_selectOneRecord}&apos;);<br/>
+			alert(&apos;{!$Label.LabsActionPlans__ap_Errors_selectOneRecord}&apos;);<br/>
 			jsCancel();<br/>
 		}<br/>
 	&lt;/script&gt;<br/>
@@ -400,10 +402,7 @@ List&lt;Id&gt; resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(
 <p>Sharing the file is easy. Email the file to whomever you want to share it with. Do you want to share it with a broader audience? Contact the file to Salesforce Labs at @salesforcelabs.</p>
 <h2><a id="Best_Practices_How_to_Import_277"></a>Best Practices: How to Import</h2>
 <p>
-	Import is also simple. Navigate to the “Import Template” tab. Select the file you want to import using “Browse” and once you've found it click on “Import Template.”<img
-		src="assets/ActionPlanTemplate-import-2.png"
-		alt=""
-		class="readmeimage" />
+	Import is also simple. Navigate to the “Import Template” tab. Select the file you want to import using “Browse” and once you've found it click on “Import Template.”<img src="assets/ActionPlanTemplate-import-2.png" alt="" class="readmeimage" />
 </p>
 <h2><a id="Optional_Sample_Action_Plan_Template_Import_281"></a>(Optional) Sample Action Plan Template Import</h2>
 <p>

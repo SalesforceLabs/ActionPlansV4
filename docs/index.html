@@ -302,9 +302,7 @@
             }</style
           ><!-- <script>hljs.highlightAll();</script> -->
           <h1><a href="https://github.com/salesforcelabs/ActionPlansV4">Action Plans (GitHub)</a></h1>
-          <h2>
-            <a id="Action_Plans_Installation_and_Setup_3" href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md">Action Plans Installation and Setup</a>
-          </h2>
+          <h2><a id="Action_Plans_Installation_and_Setup_3" href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md">Action Plans Installation and Setup</a></h2>
           <!-- <h3>	<a id="AppExchangehttpsgithubcomSalesforceLabsActionPlansV4blobmainINSTALLATIONmdappexchangemanagedpackagerecommended_5"></a	><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#appexchange-managed-package---recommended">AppExchange</a></h3><h3>	<a id="Scratch_OrghttpsgithubcomSalesforceLabsActionPlansV4blobmainINSTALLATIONmdinstallingtheappusingascratchorgfastmethod_7"></a	><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-scratch-org-fast-method">Scratch Org</a></h3><h3>	<a id="Developer_Edition__SandboxhttpsgithubcomSalesforceLabsActionPlansV4blobmainINSTALLATIONmdinstallingtheappusingadevelopereditionorgoryourownsandboxorglinebyline_9"></a	><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org-line-by-line"		>Developer Edition / Sandbox</a	></h3> -->
           <h1><a id="About_Action_Plans_11"></a>About Action Plans</h1>
           <p>Action Plans helps your organization encapsulate best practices into easily sharable, reusable task templates.</p>
@@ -322,9 +320,8 @@
           </ul>
           <h2><a id="Getting_Help_27"></a>Getting Help</h2>
           <p>
-            Action Plans is unsupported. For community assistance with Action Plans, please visit
-            <a href="https://trailblazers.salesforce.com/">Salesforce Trailblazer Community</a>. To submit ideas or issues, please visit
-            <a href="https://github.com/SalesforceLabs/ActionPlansV4/issues">Action Plans on Github</a>.
+            Action Plans is unsupported. For community assistance with Action Plans, please visit <a href="https://trailblazers.salesforce.com/">Salesforce Trailblazer Community</a>. To submit ideas
+            or issues, please visit <a href="https://github.com/SalesforceLabs/ActionPlansV4/issues">Action Plans on Github</a>.
           </p>
           <h2><a id="Community_31"></a>Community</h2>
           <p>
@@ -483,7 +480,7 @@
           </ol>
           <h2>Create Action Plans for multiple Custom Object records</h2>
           <p>Just as there is a button for Account list views to create multiple Action Plans, you can do the same for your custom object. Create a Visualforce page with the following code:</p>
-          <pre><code>&lt;apex:page standardController=&quot;CustomObject__c&quot; recordsetvar=&quot;o&quot; extensions=&quot;LabsActionPlans.ActionPlansCreateMultipleAPsExtension&quot; showHeader=&quot;false&quot; action=&quot;{!doRedirect}&quot;&gt;<br/>	&lt;apex:form&gt;<br/>		&lt;apex:actionFunction name=&quot;jsCancel&quot; action=&quot;{!cancel}&quot; immediate=&quot;true&quot; /&gt;<br/>	&lt;/apex:form&gt;<br/>	&lt;script&gt;<br/>		var oids = &apos;&lt;apex:outputText value=&quot;{!objIDs}&quot;/&gt;&apos;;<br/>		if (oids.length &lt; 15) {<br/>			alert(&apos;{!$Label.ap_Errors_selectOneRecord}&apos;);<br/>			jsCancel();<br/>		}<br/>	&lt;/script&gt;<br/>&lt;/apex:page&gt;<br/></code></pre>
+          <pre><code>&lt;apex:page standardController=&quot;CustomObject__c&quot; recordsetvar=&quot;o&quot; <br /> extensions=&quot;LabsActionPlans.ActionPlansCreateMultipleAPsExtension&quot; <br /> showHeader=&quot;false&quot; action=&quot;{!doRedirect}&quot;&gt;<br/>	&lt;apex:form&gt;<br/>		&lt;apex:actionFunction name=&quot;jsCancel&quot; action=&quot;{!cancel}&quot; immediate=&quot;true&quot; /&gt;<br/>	&lt;/apex:form&gt;<br/>	&lt;script&gt;<br/>		var oids = &apos;&lt;apex:outputText value=&quot;{!objIDs}&quot;/&gt;&apos;;<br/>		if (oids.length &lt; 15) {<br/>			alert(&apos;{!$Label.LabsActionPlans__ap_Errors_selectOneRecord}&apos;);<br/>			jsCancel();<br/>		}<br/>	&lt;/script&gt;<br/>&lt;/apex:page&gt;<br/></code></pre>
           <p>Then create a list view button for that object and add it to your list views.</p>
           <h2><a id="To_Stop_Using_an_Object_with_Action_Plans_144"></a>To Stop Using an Object with Action Plans</h2>
           <p>

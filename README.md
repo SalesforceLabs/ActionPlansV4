@@ -155,14 +155,16 @@ While Action Plans already overrides the New Action Plan action, the New button 
 
 Just as there is a button for Account list views to create multiple Action Plans, you can do the same for your custom object. Create a Visualforce page with the following code:
 ```
-<apex:page standardController="CustomObject__c" recordsetvar="o" extensions="LabsActionPlans.ActionPlansCreateMultipleAPsExtension" showHeader="false" action="{!doRedirect}">
+<apex:page standardController="CustomObject__c" recordsetvar="o" 
+ extensions="LabsActionPlans.ActionPlansCreateMultipleAPsExtension" 
+ showHeader="false" action="{!doRedirect}">
 	<apex:form>
 		<apex:actionFunction name="jsCancel" action="{!cancel}" immediate="true" />
 	</apex:form>
 	<script>
 		var oids = '<apex:outputText value="{!objIDs}"/>';
 		if (oids.length < 15) {
-			alert('{!$Label.ap_Errors_selectOneRecord}');
+			alert('{!$Label.LabsActionPlans__ap_Errors_selectOneRecord}');
 			jsCancel();
 		}
 	</script>
