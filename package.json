@@ -29,8 +29,8 @@
 		"prettier": "prettier --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\" \"docs/*.html\"",
 		"postinstall": "husky install",
 		"blankorg": ". scripts/packagedev/blankorg.sh",
-		"scratchorg": ". scripts/packagedev/orginit.sh",
-		"packagedev": ". scripts/packagedev/orginit-managed.sh",
+		"scratchorg": ". scripts/scratchorg.sh",
+		"packagedev": ". scripts/packagedev/packagedev.sh",
 		"prepare": "husky install",
 		"pre-commit": "lint-staged"
 	},
@@ -45,8 +45,8 @@
 		"eslint-plugin-jest": "^26.1.1",
 		"eslint-plugin-prettier": "^4.0.0",
 		"husky": "^7.0.4",
-		"lint-staged": "^12.3.5",
-		"prettier": "^2.5.1",
+		"lint-staged": "^12.3.7",
+		"prettier": "^2.6.0",
 		"prettier-plugin-apex": "^1.10.0"
 	},
 	"lint-staged": {

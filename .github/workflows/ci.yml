@@ -66,6 +66,12 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
 
+      - name: 'Use latest PMD version'
+        run: |
+          VERSION=$(curl -s https://api.github.com/repos/pmd/pmd/releases/latest | grep '.tag_name' | sed 's:.*/::' | sed 's:",::')
+          echo $VERSION
+          echo -n $VERSION > pmd/pmd-version.txt
+
       # Install PMD
       - name: 'Install PMD'
         run: |

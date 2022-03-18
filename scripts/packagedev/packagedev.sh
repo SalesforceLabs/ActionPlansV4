@@ -11,9 +11,8 @@ sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s --noa
 echo "Pushing managed metadata"
 sfdx force:source:push
 
-echo "Deploy unpackaged metadata"
-sfdx force:source:deploy -p sfdx-source/unpackaged --tracksource
-sfdx force:source:deploy -p sfdx-source/unmanagedExtension --tracksource
+echo "Deploy unmanaged metadata"
+sfdx force:source:deploy -p sfdx-source/unmanaged
 
 echo "Assigning permission set"
 sfdx force:user:permset:assign -n Action_Plans_Admin

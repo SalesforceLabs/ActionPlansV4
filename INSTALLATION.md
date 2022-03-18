@@ -10,7 +10,7 @@ Follow these instructions to deploy Action Plans to your org.
 
 [Installing the app using a Developer Edition Org or a Sandbox](#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org): Useful when tackling Trailhead Badges or if you want the app deployed to a more permanent environment than a scratch org.
 
-[Optional installation instructions](#optional-installation-instructions): Installing sample Action Plan Template
+[Optional installation instructions](#optional-installation-instructions): Installing sample Action Plan Template and other metadata
 <hr/>
 
 ## AppExchange (Managed Package - RECOMMENDED)
@@ -43,8 +43,13 @@ Follow these instructions to deploy Action Plans to your org.
 	```
 	npm run-script scratchorg
 	```
+    or
+    ```
+    . scripts/scratchorg.sh
+    ```
 
 1. That's it! 
+
 ## Installing the App using a Developer Edition Org or your own Sandbox Org
 
 Follow this set of instructions if you want to deploy the app to a more permanent environment than a Scratch org.
@@ -65,7 +70,13 @@ Start from a brand-new environment to avoid conflicts with previous work you may
     cd ActionPlansV4
     ```
 
-1. If you are setting up a Developer Edition: go to **Setup**, and under **My Domain**, [register a My Domain](https://help.salesforce.com/articleView?id=domain_name_setup.htm&type=5).
+1. If you are setting up a Developer Edition: go to **Setup**, and under **My Domain**, [register a My Domain](https://help.salesforce.com/articleView?id=domain_name_setup.htm&type=5). Then ensure that enhanced domains are activated. You may need to enable Salesforce Edge network first.
+
+1. To run all the next steps at once, run this command in the terminal:
+    ```
+    . scripts/unmanaged.sh
+    ```
+    The org will open. That's it!
 
 1. Run this command to deploy the app.
 
@@ -79,7 +90,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
     sfdx force:user:permset:assign -n Action_Plans_Admin
     ```
 
-1. (Optional) [Load sample data](#optional-installation-instructions) (see below)
+1. (Optional) [Load sample metadata](#optional-installation-instructions) (see below)
 
 1. If your org isn't already open, open it now:
 
@@ -104,7 +115,11 @@ This repository contains several files that are relevant if you want to add samp
 	```
 	sfdx force:apex:execute -f ./data/sample-data.apex
 	```
-	To create a sample Flow that uses the sample template and some other metadata that you may want to install (reports, etc), run the following:
+- To create 
+    - a sample Flow that uses the sample template
+    - a sample Account layout
+    - a sample Task layout
+    - a sample report on open Action Plan-related Tasks
 	```
 	sfdx force:source:deploy -p sfdx-source/unmanaged
 	```
@@ -112,24 +127,27 @@ This repository contains several files that are relevant if you want to add samp
 - You can also create other sample Account and Contact records by running the following command:
 
     ```
-    sfdx force:data:tree:import -p ./data/data-plan.json
+    sfdx force:data:tree:import -p ./data/action-plan-data-plan.json
     ```
 
 ### Data Import (Optional - ONLY if using the AppExchange managed package)
 
-- To create a sample Action Plan Template for Account onboarding, run the following:
+- When FIRST installing the package, it will automatically create a sample Action Plan Template for Account onboarding. If you want to recreate it manually, run the following:
 	```
 	sfdx force:apex:execute -f ./data/sample-data-managed.apex
 	```
-	To create a sample Flow that uses the sample template, run the following:
+- To create 
+    - a sample Flow that uses the sample template
+    - a sample Account layout
+    - a sample Task layout
+    - a sample report on open Action Plan-related Tasks
 	```
 	sfdx force:source:deploy -p sfdx-source/unmanagedExtension
 	```
 
 - You can also create other sample Account and Contact records by running the following command:
-
     ```
-    sfdx force:data:tree:import -p ./data/data-plan.json
+    sfdx force:data:tree:import -p ./data/action-plan-data-plan.json 
     ```
 
 ### Code formatting
@@ -138,7 +156,7 @@ This repository contains several files that are relevant if you want to add samp
 
 ### Code linting
 
-[ESLint](https://eslint.org/) is a popular JavaScript linting tool used to identify stylistic errors and erroneous constructs. To use ESLint with Visual Studio Code, install [this extension](https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode-lwc) from the Visual Studio Code Marketplace. The [.eslintignore](/.eslintignore) file is provided as part of this repository to exclude specific files from the linting process in the context of Lightning Web Components development.
+[ESLint](https://eslint.org/) is a popular JavaScript linting tool used to identify stylistic errors and erroneous constructs. To use ESLint with Visual Studio Code, install [this extension](https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode) from the Visual Studio Code Marketplace. The [.eslintignore](/.eslintignore) file is provided as part of this repository to exclude specific files from the linting process in the context of Lightning Web Components development.
 
 ### Pre-commit hook
 
@@ -147,9 +165,9 @@ This repository also comes with a [package.json](./package.json) file that makes
 To set up the formatting and linting pre-commit hook:
 
 1. Install [Node.js](https://nodejs.org) if you haven't already done so
-1. Run `npm install` in your project's root folder to install the ESLint and Prettier modules (Note: Mac users should verify that Xcode command line tools are installed before running this command.)
+1. Run `npm install` in your project's root folder to install the Husky, ESLint, and Prettier modules (Note: Mac users should verify that Xcode command line tools are installed before running this command.)
 
-Prettier and ESLint will now run automatically every time you commit changes. The commit will fail if linting errors are detected. You can also run the formatting and linting from the command line using the following commands (check out [package.json](./package.json) for the full list):
+Husky will now run Prettier and ESLint automatically every time you commit changes, with some other updates if you installed the recommended extension ApexDox. The commit will fail if linting errors are detected. You can also run the formatting and linting from the command line using the following commands (check out [package.json](./package.json) for the full list):
 
 ```
 npm run lint:lwc

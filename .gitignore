@@ -11,8 +11,8 @@
 jsconfig.json
 
 # VS Code project settings
-.vscode/*
-!.vscode/extensions.json
+# .vscode/*
+# !.vscode/extensions.json
 
 # LWC Jest coverage reports
 coverage/
@@ -74,6 +74,8 @@ testresults
 **/objects/Lead
 **/objects/Opportunity
 !**/webLinks/**
+sfdx-source/LabsActionPlans/main/default/flows/**
+sfdx-source/LabsActionPlans/main/default/reports/**
 
 # Action Plans Objects
 !**/objects/ActionPlan__c/**

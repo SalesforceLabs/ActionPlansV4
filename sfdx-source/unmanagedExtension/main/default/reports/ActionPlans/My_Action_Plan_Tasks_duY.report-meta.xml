@@ -4,7 +4,7 @@
 		<field>DUE_DATE</field>
 	</columns>
 	<columns>
-		<field>Activity.TaskAPTask__c</field>
+		<field>Activity.LabsActionPlans__TaskAPTask__c</field>
 	</columns>
 	<columns>
 		<field>WHAT_NAME</field>
@@ -36,14 +36,7 @@
 	<description>All my open tasks related to an Action Plan</description>
 	<filter>
 		<criteriaItems>
-			<column>CLOSED</column>
-			<columnToColumn>false</columnToColumn>
-			<isUnlocked>false</isUnlocked>
-			<operator>equals</operator>
-			<value>0</value>
-		</criteriaItems>
-		<criteriaItems>
-			<column>Activity.TaskAPTask__c</column>
+			<column>Activity.LabsActionPlans__TaskAPTask__c</column>
 			<columnToColumn>false</columnToColumn>
 			<isUnlocked>false</isUnlocked>
 			<operator>notEqual</operator>
