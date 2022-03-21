@@ -15,9 +15,9 @@ engine:
   scope:
     - global
     - public
-    - protected
+    #- protected
     - private
-    - webService
+    #- webService
     - testMethod
   homePagePath: '${workspaceFolder}/doc-assets/readme.html'
   #pages:

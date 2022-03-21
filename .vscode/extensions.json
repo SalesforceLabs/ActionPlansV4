@@ -6,6 +6,10 @@
     "esbenp.prettier-vscode",
     "financialforce.lana",
     "peterweinberg.apexdox-vs-code",
-    "chuckjonas.apex-pmd"
+    "chuckjonas.apex-pmd",
+    "eg2.vscode-npm-script",
+    "matteopieroni.refresh-npm-packages",
+    "subc4i.sublime-mavensmate-monokai-apex",
+    "PKief.material-icon-theme"
   ]
 }
