@@ -13,7 +13,7 @@
 - [AppExchange Listing](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000Gg6NVUAZ)
 - [Post-intall extras](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#data-import-optional---only-if-using-the-appexchange-managed-package)
 
-### [Scratch Org](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-scratch-org-fast-method)
+### [Scratch Org](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-scratch-org)
 
 ### [Developer Edition / Sandbox](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org-line-by-line)
 
