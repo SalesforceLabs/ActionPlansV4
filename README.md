@@ -3,6 +3,7 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Latest Commit](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml)
 [![Latest Pull Request](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml)
+[![codecov](https://codecov.io/gh/salesforcelabs/actionplansv4/branch/main/graph/badge.svg?token=9BD97HKVUI)](https://codecov.io/gh/salesforcelabs/actionplansv4)
 [![Twitter](https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social)](https://twitter.com/salesforce_labs)
 
 # Action Plans Installation and Setup
@@ -13,9 +14,9 @@
 - [AppExchange Listing](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000Gg6NVUAZ)
 - [Post-intall extras](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#data-import-optional---only-if-using-the-appexchange-managed-package)
 
-### [Scratch Org](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-scratch-org-fast-method)
+### [Scratch Org](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-scratch-org)
 
-### [Developer Edition / Sandbox](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org-line-by-line)
+### [Developer Edition / Sandbox](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org)
 
 # [Apex Code Documentation](https://salesforcelabs.github.io/ActionPlansV4)
 
