@@ -39,7 +39,8 @@ External contributors will be required to sign a Contributor's License Agreement
 -   Develop features and bug fixes in _topic_ branches.
 -   _Topic_ branches can live in forks (external contributors) or within this repository (committers).
     \*\* When creating _topic_ branches in this repository please prefix with `<developer-name>/`.
--   Before submitting a pull request, run ApexDox (Command + Shift + P > ApexDox: Run) to generate new documentation files
+-   **Before submitting a pull request, run ApexDox (Command + Shift + P > ApexDox: Run) to generate new documentation files**
+-   The repository comes with a pre-commit hook. If that is not executed, then the PR will fail. Please do not use GitHub Desktop to commit changes; you will need to use VSCode so that husky can execute the documentation cleanup.
 -   There is a check that the documentation has been formatted properly, so to submit a pull request, you MUST install the recommended extensions, or the PR will fail.
 
 ### Merging Pull Requests
