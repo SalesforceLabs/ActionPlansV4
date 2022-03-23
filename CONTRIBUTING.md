@@ -49,4 +49,4 @@ External contributors will be required to sign a Contributor's License Agreement
 
 ### Required Extensions
 
--   ApexDox is required for Pull Request approval if changing Apex code. Please install it from the recommended VSCode extensions and run ApexDox (OSX: Shift + Command + P > ApexDox: Run) before committing changes. Include the updated html files in the commit, and Husky will automatically format the documentation properly.
+-   [ApexDox](https://github.com/no-stack-dub-sack/apexdox-vs-code) is required for Pull Request approval if changing Apex code. Please install it from the recommended VSCode extensions and run ApexDox (OSX: Shift + Command + P > ApexDox: Run) before committing changes. Include the updated html files in the commit, and Husky will automatically format the documentation properly.
