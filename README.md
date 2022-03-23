@@ -15,7 +15,7 @@
 
 ### [Scratch Org](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-scratch-org)
 
-### [Developer Edition / Sandbox](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org-line-by-line)
+### [Developer Edition / Sandbox](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org)
 
 # [Apex Code Documentation](https://salesforcelabs.github.io/ActionPlansV4)
 
