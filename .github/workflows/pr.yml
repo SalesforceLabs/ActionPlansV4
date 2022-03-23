@@ -42,6 +42,9 @@ jobs:
       check-pmd
       # Install Salesforce CLI
     steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+
       - name: 'Install Salesforce CLI'
         run: |
           wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
