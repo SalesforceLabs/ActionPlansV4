@@ -11,9 +11,8 @@ scripts/soql/**
 node_modules/
 *.md
 coverage/
+doc-assets/*.js
 docs/assets/*.js
-docs/assets/highlight.css
-!docs/*
 *-meta.xml
 data/
 **/staticresources/ActionPlan_Resources/js/jquery*
