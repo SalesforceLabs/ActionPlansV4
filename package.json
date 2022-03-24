@@ -1,12 +1,18 @@
 {
 	"name": "action-plans",
 	"private": true,
-	"version": "4.0.0",
+	"version": "4.1.0",
 	"description": "Action Plans Salesforce Labs App",
 	"author": "Salesforce Labs",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/salesforcelabs/actionplansv4"
+	},
+	"auto-changelog": {
+		"output": "CHANGELOG.md",
+		"template": "keepachangelog",
+		"unreleased": true,
+		"commitLimit": false
 	},
 	"scripts": {
 		"lint": "npm run lint:lwc && npm run lint:aura",
@@ -32,13 +38,15 @@
 		"scratchorg": ". scripts/scratchorg.sh",
 		"packagedev": ". scripts/packagedev/packagedev.sh",
 		"prepare": "husky install",
-		"pre-commit": "lint-staged"
+		"pre-commit": "lint-staged",
+		"version": "auto-changelog -p && git add CHANGELOG.md"
 	},
 	"devDependencies": {
 		"@lwc/eslint-plugin-lwc": "^1.1.2",
 		"@salesforce/eslint-config-lwc": "^3.2.3",
 		"@salesforce/eslint-plugin-lightning": "^1.0.0",
 		"@salesforce/sfdx-lwc-jest": "^1.1.0",
+		"auto-changelog": "^2.4.0",
 		"eslint": "^8.11.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-import": "^2.25.4",
