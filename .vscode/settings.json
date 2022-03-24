@@ -8,7 +8,7 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[html]": {
-        "editor.defaultFormatter": "vscode.html-language-features"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
 	"salesforcedx-vscode-core.retrieve-test-code-coverage": true,
 	"apexPMD.enableCache": true,
