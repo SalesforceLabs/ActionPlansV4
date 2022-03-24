@@ -11,7 +11,8 @@ scripts/soql/**
 node_modules/
 *.md
 coverage/
-docs/assets/*
+docs/assets/*.js
+docs/assets/highlight.css
 !docs/*
 *-meta.xml
 data/
