@@ -319,4 +319,4 @@ Import is also simple. Navigate to the "Import Template" tab. Select the file yo
 
 ## (Optional) Sample Action Plan Template Import
 
-This repository also includes a sample Action Plan Template file, which you can import on the appropriate tab. You may download [Trade show follow up](data/Export%20-%20Trade%20Show%20follow%20up.xml) from GitHub, or you can find it in this SFDX project in the `data` folder.
+This repository also includes a sample Action Plan Template file, which you can import on the appropriate tab. You may download [New Customr Onboarding](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20New%20Customer%20Onboarding.xml) from GitHub, or you can find it in this SFDX project in the `data` folder.
