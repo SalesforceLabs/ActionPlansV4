@@ -210,7 +210,7 @@
     &lt;apex:actionFunction name=&quot;jsCancel&quot; action=&quot;{!cancel}&quot; immediate=&quot;true&quot; /&gt;<br/>
   &lt;/apex:form&gt;<br/>
   &lt;script&gt;<br/>
-    var oids = &apos;&lt;apex:outputText value=&quot;{!objIDs}&quot;/&gt;&apos;;<br/>
+    var oids = &apos;{!objIDs}&apos;;<br/>
     if (oids.length &lt; 15) {<br/>
       alert(&apos;{!$Label.LabsActionPlans__ap_Errors_selectOneRecord}&apos;);<br/>
       jsCancel();<br/>

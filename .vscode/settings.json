@@ -31,5 +31,10 @@
 	"force.showApexJavadocContext": true,
 	"force.showApexJavadocDescriptionTag": false,
 	"editor.linkedEditing": true,
-	"prettier.configPath": ".prettierrc"
+	"prettier.configPath": ".prettierrc",
+	"SFDoc.AlwaysUpdateFileHeaderOnSave": false,
+	"SFDoc.EnableForApex": false,
+	"SFDoc.EnableForLightningMarkup": false,
+	"SFDoc.EnableForVisualforce": false,
+	"SFDoc.IncludParameterTypeInMethodHeader": true
 }

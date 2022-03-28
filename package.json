@@ -66,6 +66,7 @@
 		],
 		"docs/*.html": [
 			"sed -i '' 's|<h3 class=\"subsection-title\\([^/]*\\)</h2>|<h3 class=\"subsection-title\\1</h3>|g'",
+			"sed -i '' 's|<br/>|\\n|g'",
 			"prettier --write --tab-width 2"
 		],
 		"docs/assets/*.css": [

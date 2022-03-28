@@ -166,7 +166,7 @@ Just as there is a button for Account list views to create multiple Action Plans
 		<apex:actionFunction name="jsCancel" action="{!cancel}" immediate="true" />
 	</apex:form>
 	<script>
-		var oids = '<apex:outputText value="{!objIDs}"/>';
+		var oids = '{!objIDs}';
 		if (oids.length < 15) {
 			alert('{!$Label.LabsActionPlans__ap_Errors_selectOneRecord}');
 			jsCancel();
