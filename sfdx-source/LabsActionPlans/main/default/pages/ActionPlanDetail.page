@@ -51,8 +51,17 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					action="{!$Page.ActionPlanCreation}?id={!ActionPlan__c.Id}&retURL={!$CurrentPage.URL}"
 					value="{!$Label.ap_Edit}"
 					rendered="{!$ObjectType.ActionPlan__c.updateable}" />
-				<apex:commandButton id="delete" action="{!deletePlan}" value="{!$Label.ap_Delete}" onclick="return confirm('{!$Label.ap_AreYouSureAsk}');" rendered="{!$ObjectType.ActionPlan__c.deletable}" />
-				<apex:commandButton id="clone" action="{!$Page.ActionPlanCreation}?clone=1&Id={!ActionPlan__c.Id}" value="{!$Label.ap_Clone}" rendered="{!$ObjectType.ActionPlan__c.createable}" />
+				<apex:commandButton
+					id="delete"
+					action="{!deletePlan}"
+					value="{!$Label.ap_Delete}"
+					onclick="return confirm('{!$Label.ap_AreYouSureAsk}');"
+					rendered="{!$ObjectType.ActionPlan__c.deletable}" />
+				<apex:commandButton
+					id="clone"
+					action="{!$Page.ActionPlanCreation}?clone=1&Id={!ActionPlan__c.Id}"
+					value="{!$Label.ap_Clone}"
+					rendered="{!$ObjectType.ActionPlan__c.createable}" />
 				<apex:commandButton
 					id="share"
 					action="/p/share/CustomObjectSharingDetail?parentId={!ActionPlan__c.Id}"
@@ -150,9 +159,13 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					</apex:column>
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.ActivityDate__c.label}" style="vertical-align: middle">
 						<span style="color: #cc0000">
-							<apex:outputField value="{!wrap.apt.ActivityDate__c}" rendered="{!wrap.apt.ActivityDate__c != null && wrap.apt.ActivityDate__c < TODAY() && wrap.apt.IsClosed__c == false}" />
+							<apex:outputField
+								value="{!wrap.apt.ActivityDate__c}"
+								rendered="{!wrap.apt.ActivityDate__c != null && wrap.apt.ActivityDate__c < TODAY() && wrap.apt.IsClosed__c == false}" />
 						</span>
-						<apex:outputField value="{!wrap.apt.ActivityDate__c}" rendered="{!wrap.apt.ActivityDate__c = null || wrap.apt.ActivityDate__c >= TODAY() || wrap.apt.IsClosed__c == true}" />
+						<apex:outputField
+							value="{!wrap.apt.ActivityDate__c}"
+							rendered="{!wrap.apt.ActivityDate__c = null || wrap.apt.ActivityDate__c >= TODAY() || wrap.apt.IsClosed__c == true}" />
 					</apex:column>
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.User__c.label}" styleClass="assigned_to_field" style="vertical-align: middle">
 						<apex:outputField value="{!wrap.apt.User__c}" />

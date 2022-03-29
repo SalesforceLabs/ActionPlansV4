@@ -268,7 +268,11 @@ global without sharing class ActionPlanCreateInvocable {
 			//link to Action Plan's Related To Object
 			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
 				String f = s;
-				if (!f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') && !f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') && insertedAP.get(f) != null) {
+				if (
+					!f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') &&
+					!f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') &&
+					insertedAP.get(f) != null
+				) {
 					t.WhatId = (Id) insertedAP.get(f);
 					break;
 				}

@@ -203,7 +203,7 @@
 </ol>
 <h2>Create Action Plans for multiple Custom Object records</h2>
 <p>Just as there is a button for Account list views to create multiple Action Plans, you can do the same for your custom object. Create a Visualforce page with the following code:</p>
-<!-- prettier-ignore-start -->
+
 <pre><code class="language-plaintext">
 &lt;apex:page standardController=&quot;CustomObject__c&quot; extensions=&quot;LabsActionPlans.ActionPlansCreateMultipleAPsExtension&quot; recordsetvar=&quot;o&quot; showHeader=&quot;false&quot; action=&quot;{!doRedirect}&quot;&gt;<br/>
   &lt;apex:form&gt;<br/>
@@ -218,7 +218,7 @@
   &lt;/script&gt;<br/>
 &lt;/apex:page&gt;<br/>
 </code></pre>
-<!-- prettier-ignore-end -->
+
 <p>Then create a list view button for that object and add it to your list views.</p>
 <h2><a id="To_Stop_Using_an_Object_with_Action_Plans_144"></a>To Stop Using an Object with Action Plans</h2>
 <p>
@@ -364,19 +364,21 @@
 <p><img src="assets/ProcessBuilder.png" alt="" class="readmeimage" /></p>
 <h2><a id="Apex_234"></a>Apex</h2>
 <p>To call the invocable Apex from a Trigger or Apex class, adapt the following sample code:</p>
+
 <pre><code>String apTemplateName;<br/>
 ActionPlanTemplate__c apTemplate;<br/>
 List&lt;SObject&gt; toInsert... /* can use any object, such as Account, or the generic SObject class */<br/>
 List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt; requests = new List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt;();<br/>
 for(SObject a : toInsert){<br/>
-    ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();<br/>
-    req.templateNameOrID = apTemplate.Id;<br/>
-    req.relatedRecordID = a.Id;<br/>
-    req.daysToActionPlanStart = 0;<br/>
-    requests.add(req);<br/>
+	ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();<br/>
+	req.templateNameOrID = apTemplate.Id;<br/>
+	req.relatedRecordID = a.Id;<br/>
+	req.daysToActionPlanStart = 0;<br/>
+	requests.add(req);<br/>
 }<br/>
 List&lt;Id&gt; resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);<br/>
 </code></pre>
+
 <h2><a id="ActionPlanCreateInvocableCreateActionPlanRequest_class_254"></a>ActionPlanCreateInvocable.CreateActionPlanRequest class</h2>
 <p>Variables:</p>
 <ul>

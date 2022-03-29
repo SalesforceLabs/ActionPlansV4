@@ -25,8 +25,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 	<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
 		<head>
 			<title>
-				<apex:outputText value="{!$ObjectType.ActionPlan__c.label} - {!$Label.ap_New}" rendered="{!ActionPlan__c.Id == null}" /> <apex:outputText value="{!ActionPlan__c.Name} - {!$Label.ap_Edit}"
-				rendered="{!ActionPlan__c.Id != null}" />
+				<apex:outputText value="{!$ObjectType.ActionPlan__c.label} - {!$Label.ap_New}" rendered="{!ActionPlan__c.Id == null}" /> <apex:outputText value="{!ActionPlan__c.Name} -
+				{!$Label.ap_Edit}" rendered="{!ActionPlan__c.Id != null}" />
 			</title>
 			<meta charset="utf-8" />
 			<meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -37,9 +37,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 			<script>
 				var j$ = jQuery.noConflict();
 				j$(function () {
-					console.log('onready');
 					checkSkipWeekend(j$('[id$=skipWeekendCheckbox]').attr('id'), j$('[id$=skipDayPicklist]').attr('id'));
-					checkAllDependent('{!$Label.ap_ItselfDependencyError}', '{!$Label.ap_Errors_Cyclic_Dependency_Found}');
+					checkAllDependent('{!JSENCODE($Label.ap_ItselfDependencyError)}', '{!$Label.ap_Errors_Cyclic_Dependency_Found}');
 					j$('.helpOrb').css({ width: '12px', height: '12px' });
 					showErrors();
 					initSelectors();
@@ -51,7 +50,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					var yardstick = j$('<select><option>' + j$(this).val() + '</option></select>');
 					if (j$(this).val() == null) {
 						// prettier-ignore
-						var labelNone = "{!$Label.ap_None}";
+						var labelNone = "{!JSENCODE($Label.ap_None)}";
 						yardstick = '<select><option>' + '--' + labelNone + '--' + '</option></select>';
 					}
 					yardstick.css({ display: 'none' }).appendTo('body');
@@ -95,7 +94,12 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 
 			<apex:pageMessages id="pageMessages" />
 			<apex:form id="apForm" html-novalidate="novalidate">
-				<apex:actionFunction name="refreshRelatedObjectsLookUp" action="{!refreshRelatedObjectsLookUp}" immediate="true" status="lookStatus" rerender="lookupSectionOutPanel, pageMessages">
+				<apex:actionFunction
+					name="refreshRelatedObjectsLookUp"
+					action="{!refreshRelatedObjectsLookUp}"
+					immediate="true"
+					status="lookStatus"
+					rerender="lookupSectionOutPanel, pageMessages">
 					<apex:param name="relatedFieldName" value="" />
 				</apex:actionFunction>
 
@@ -109,7 +113,11 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						<apex:commandButton id="cancel" value="{!$Label.ap_Cancel}" action="{!cancel}" immediate="true" />
 					</apex:pageBlockButtons>
 
-					<apex:pageBlockSection title="{!$ObjectType.ActionPlanTemplate__c.label}" columns="2" collapsible="false" rendered="{!DisplayTemplateLookup && $ObjectType.ActionPlanTemplate__c.accessible}">
+					<apex:pageBlockSection
+						title="{!$ObjectType.ActionPlanTemplate__c.label}"
+						columns="2"
+						collapsible="false"
+						rendered="{!DisplayTemplateLookup && $ObjectType.ActionPlanTemplate__c.accessible}">
 						<apex:pageBlockSectionItem rendered="{!!lex && $ObjectType.ActionPlan__c.fields.Action_Plan_Template__c.updateable}">
 							<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.label}" for="templateLookup" />
 							<apex:inputField
@@ -392,7 +400,12 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 
 								<!--  Task subject  -->
 								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Subject__c.label}" style="padding-right: 10px">
-									<apex:inputField required="true" value="{!wrapTask.apt.Subject__c}" styleClass="slds-scope slds-input" rendered="{!!wrapTask.apt.IsClosed__c}" style="width: 100%" />
+									<apex:inputField
+										required="true"
+										value="{!wrapTask.apt.Subject__c}"
+										styleClass="slds-scope slds-input"
+										rendered="{!!wrapTask.apt.IsClosed__c}"
+										style="width: 100%" />
 									<apex:outputField value="{!wrapTask.apt.Subject__c}" rendered="{!wrapTask.apt.IsClosed__c}" />
 								</apex:column>
 
@@ -420,7 +433,13 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 											<img class="helpOrb" title="{!$ObjectType.APTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
 										</span>
 									</apex:facet>
-									<apex:inputField id="daysFromStart" required="true" value="{!wrapTask.apt.DaysFromStart__c}" styleClass="daysInput" style="width: 50%" rendered="{!!wrapTask.apt.IsClosed__c}" />
+									<apex:inputField
+										id="daysFromStart"
+										required="true"
+										value="{!wrapTask.apt.DaysFromStart__c}"
+										styleClass="daysInput"
+										style="width: 50%"
+										rendered="{!!wrapTask.apt.IsClosed__c}" />
 									<apex:outputField value="{!wrapTask.apt.DaysFromStart__c}" styleClass="daysInput" rendered="{!wrapTask.apt.IsClosed__c}" />
 									<apex:inputField id="activityDate" value="{!wrapTask.apt.ActivityDate__c}" rendered="false" />
 								</apex:column>
@@ -561,8 +580,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								id="addnewtasklink"
 								rerender="taskTable, pageMessages"
 								status="taskStatus"
-								onclick="disableActions();"
-								oncomplete="enableActions();showErrors();checkAllDependent('{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');checkReminderPicklists();"
+								onclick="console.log('addclick');disableActions();"
+								oncomplete="enableActions();showErrors();checkAllDependent('{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');checkReminderPicklists();console.log('add completed');"
 								rendered="{!$ObjectType.APTask__c.createable}">
 								<apex:outputText value="{!$Label.ap_AddNewTask}" />
 							</apex:commandLink>

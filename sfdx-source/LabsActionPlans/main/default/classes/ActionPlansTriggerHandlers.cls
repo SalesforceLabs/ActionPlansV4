@@ -437,7 +437,11 @@ global without sharing class ActionPlansTriggerHandlers {
 				Set<Id> aPTasksIds = new Set<Id>();
 
 				Map<Id, Task> triggerTasksWithTemplateTaskStatus = new Map<Id, Task>();
-				for (Task ta : [SELECT Id, Status, TaskAPTask__r.Status__c, TaskAPTask__r.Controller__c, TaskAPTask__r.Controller__r.Status__c FROM Task WHERE Id IN :newRecords AND TaskAPTask__c != NULL]) {
+				for (Task ta : [
+					SELECT Id, Status, TaskAPTask__r.Status__c, TaskAPTask__r.Controller__c, TaskAPTask__r.Controller__r.Status__c
+					FROM Task
+					WHERE Id IN :newRecords AND TaskAPTask__c != NULL
+				]) {
 					triggerTasksWithTemplateTaskStatus.put(ta.Id, ta);
 				}
 
@@ -565,7 +569,13 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 */
-	public static void triggerhandlerActionPlanLead(List<Lead> newRecords, List<Lead> oldRecords, Map<Id, Lead> newRecordsMap, Map<Id, Lead> oldRecordsMap, System.TriggerOperation triggerEvent) {
+	public static void triggerhandlerActionPlanLead(
+		List<Lead> newRecords,
+		List<Lead> oldRecords,
+		Map<Id, Lead> newRecordsMap,
+		Map<Id, Lead> oldRecordsMap,
+		System.TriggerOperation triggerEvent
+	) {
 		switch on triggerEvent {
 			when AFTER_UPDATE {
 				List<ActionPlan__c> leadAPs = [SELECT Id, Lead__c, Contact__c, Account__c, Opportunity__c, Description__c FROM ActionPlan__c WHERE Lead__c IN :newRecordsMap.keySet()];

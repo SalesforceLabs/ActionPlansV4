@@ -664,7 +664,15 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Map of day of week (as number) to English day
 	 */
-	private static Map<Integer, String> dayOfWeekEnglish = new Map<Integer, String>{ 0 => 'Monday', 1 => 'Tuesday', 2 => 'Wednesday', 3 => 'Thursday', 4 => 'Friday', 5 => 'Saturday', 6 => 'Sunday' };
+	private static Map<Integer, String> dayOfWeekEnglish = new Map<Integer, String>{
+		0 => 'Monday',
+		1 => 'Tuesday',
+		2 => 'Wednesday',
+		3 => 'Thursday',
+		4 => 'Friday',
+		5 => 'Saturday',
+		6 => 'Sunday'
+	};
 
 	/**
 	 * Get the Custom Metadata record for the weekend day

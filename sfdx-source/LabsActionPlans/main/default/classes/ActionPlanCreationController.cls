@@ -542,7 +542,14 @@ public with sharing class ActionPlanCreationController {
 		}
 
 		PageReference newPage = Page.ActionPlansHome;
-		String confirmation = oIdsList.size() + ' ' + ActionPlan__c.sObjectType.getDescribe().getLabelPlural() + ' ' + System.Label.ap_Created + ' ' + System.Label.ap_ConfirmationofCreation;
+		String confirmation =
+			oIdsList.size() +
+			' ' +
+			ActionPlan__c.sObjectType.getDescribe().getLabelPlural() +
+			' ' +
+			System.Label.ap_Created +
+			' ' +
+			System.Label.ap_ConfirmationofCreation;
 		newPage.getParameters().put('message', confirmation);
 		newPage.getParameters().put('severity', 'success');
 		newPage.setRedirect(true);

@@ -39,7 +39,10 @@ private class CanTheUserTest {
 
 	@IsTest
 	private static void canCrudCreateAccountPositive() {
-		System.assert(CanTheUser.create(generateAccounts()), 'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts');
+		System.assert(
+			CanTheUser.create(generateAccounts()),
+			'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts'
+		);
 		System.assert(CanTheUser.create(new Account()), 'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts');
 		System.assert(CanTheUser.create('Account'), 'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts');
 	}
