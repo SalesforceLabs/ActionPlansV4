@@ -22,11 +22,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 		j$(document).ready(function () {
 			showAPTab(1);
 			if (notAPAccessible) {
-				//console.log('no actionplan access');
 				showAPTab(2);
 			}
 			if (notAPTAccessible) {
-				//console.log('no aptemplate access');
 				showAPTab(1);
 			};
 			if (notAPAccessible && notAPTAccessible) {
@@ -35,7 +33,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 		});
 
 		function showAPTab(tabIndex) {
-			console.log('showing tabindex ' + tabIndex);
 			//Hide all headers
 			j$("[Id*=secHeader]").hide();
 
@@ -79,7 +76,15 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								</a>
 							</li>
 							<li class="slds-tabs_default__item" title="{!$ObjectType.ActionPlanTemplate__c.LabelPlural}" role="presentation" id="tab-default-li-2">
-								<a class="slds-tabs_default__link" href="#" onclick="showAPTab(2);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-2" id="actionPlanTemplatesTab">
+								<a
+									class="slds-tabs_default__link"
+									href="#"
+									onclick="showAPTab(2);"
+									role="tab"
+									tabindex="-1"
+									aria-selected="false"
+									aria-controls="tab-default-2"
+									id="actionPlanTemplatesTab">
 									<apex:outputText value="{!$ObjectType.ActionPlanTemplate__c.LabelPlural}" />
 								</a>
 							</li>

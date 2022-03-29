@@ -80,8 +80,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 				j$(recInfoIdInput).val(recId);
 				j$('[id$=SrchDrpDwn{!for}]').fadeOut();
 				//ID Based Retrieval Instead Of Query to Get Record Details Of The Selected Record
-				result = sforce.connection.retrieve("{!displayField},Id", sObjType, [recId]);
-				j$('#{!for}sldsscopediv [id$=searchInput]').val(result[0].{!displayField}).trigger("parentchange", [result[0].{!displayField}]);
+				result = sforce.connection.retrieve("{!JSENCODE(displayField)},Id", sObjType, [recId]);
+				j$('#{!for}sldsscopediv [id$=searchInput]').val(result[0].{!JSENCODE(displayField)}).trigger("parentchange", [result[0].{!JSENCODE(displayField)}]);
 		},
 		searchRecords: function  (key, sObjType, cObject) {
 
@@ -94,7 +94,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 				j$('#' + key.attr('aria-activedescendant')).hide();
 			}
 			//Querying For Records In Objects Name Matching The Input in The Text Field
-			var queryText = "SELECT Id, {!displayField} FROM " + sObjType + " WHERE {!displayField} LIKE '%" + searchKey + "%' {!where} ORDER BY {!displayField} ASC LIMIT 8";
+			var queryText = "SELECT Id, {!JSENCODE(displayField)} FROM " + sObjType + " WHERE {!JSENCODE(displayField)} LIKE '%" + searchKey + "%' {!JSENCODE(where)} ORDER BY {!JSENCODE(displayField)} ASC LIMIT 8";
 			result = sforce.connection.query(queryText);
 			records = result.getArray("records");
 			var searchList = "";
@@ -124,7 +124,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 
 					searchList += '<li onclick="LightningLookupScripts{!for}.recInfo(\'' + records[i].Id + '\'' + ', \'' + sObjType.toLowerCase() + '\');" class="slds-lookup__item">';
 					searchList += '<a id="' + records[i].Id + '" href="#" role="option"><svg aria-hidden="true" class="slds-icon ' + iconStyle + ' slds-icon_small">'
-						+ '<use xlink:href="' + objectIcon + '"></use></svg>' + records[i]["{!displayField}"] + '</a>';
+						+ '<use xlink:href="' + objectIcon + '"></use></svg>' + records[i]["{!JSENCODE(displayField)}"] + '</a>';
 					searchList += '</li>';
 				}
 			} else {

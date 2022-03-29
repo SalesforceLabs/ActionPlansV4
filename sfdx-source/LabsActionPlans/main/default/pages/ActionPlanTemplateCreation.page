@@ -25,8 +25,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 	<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
 		<head>
 			<title>
-				<apex:outputText value="{!$ObjectType.ActionPlanTemplate__c.label} - {!$Label.ap_New}" rendered="{!ActionPlanTemplate__c.Id == null}" /> <apex:outputText value="{!ActionPlanTemplate__c.Name} -
-				{!$Label.ap_Edit}" rendered="{!ActionPlanTemplate__c.Id != null}" />
+				<apex:outputText value="{!$ObjectType.ActionPlanTemplate__c.label} - {!$Label.ap_New}" rendered="{!ActionPlanTemplate__c.Id == null}" /> <apex:outputText
+				value="{!ActionPlanTemplate__c.Name} - {!$Label.ap_Edit}" rendered="{!ActionPlanTemplate__c.Id != null}" />
 			</title>
 			<meta charset="utf-8" />
 			<meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -40,7 +40,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					onLoad();
 				});
 				function onLoad() {
-					console.log('onLoad');
 					checkSkipWeekend(j$('[id$=skipWeekendCheckbox]').attr('id'), j$('[id$=skipDayPicklist]').attr('id'));
 					checkAllDependent('{!$Label.ap_ItselfDependencyError}', '{!$Label.ap_Errors_Cyclic_Dependency_Found}');
 					showErrors();

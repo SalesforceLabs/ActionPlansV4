@@ -2,11 +2,12 @@
 	"trailingComma": "none",
 	"singleQuote": true,
 	"tabWidth": 2,
-	"printWidth": 200,
+	"printWidth": 180,
 	"useTabs": true,
 	"bracketSpacing": true,
 	"apexInsertFinalNewline": false,
 	"bracketSameLine": true,
+	"singleAttributePerLine": false,
 	"overrides": [
 		{
 			"files": "**/lwc/**/*.html",
@@ -14,19 +15,23 @@
 		},
 		{
 			"files": "*.{cmp,page,component}",
-			"options": { "parser": "html", "tabWidth": 2 }
+			"options": { "parser": "html", "tabWidth": 2, "htmlWhitespaceSensitivity": "strict" }
 		},
 		{
 			"files": "**/*.{cls,trigger,apex}",
-			"options": { "tabWidth": 2 }
+			"options": { "parser": "apex", "tabWidth": 2 }
 		},
 		{
 			"files": "*.json",
-			"options": { "tabWidth": 2 }
+			"options": { "useTabs": true, "tabWidth": 2 }
 		},
 		{
-			"files": "**/docs/*.html",
-			"options": { "useTabs": false, "tabWidth": 2 }
+			"files": ["docs/*.html", "doc-assets/*.html"],
+			"options": { "parser": "html", "useTabs": false, "tabWidth": 2 }
+		},
+		{
+			"files": "scripts/apex/*.apex",
+			"options": { "parser": "apex-anonymous" }
 		}
 	]
 }

@@ -4,7 +4,7 @@
 
 .localdevserver
 .sfdx
-.vscode
+.vscode/settings.json
 
 data/
 scripts/soql/**
@@ -15,7 +15,7 @@ doc-assets/*.js
 docs/assets/*.js
 *-meta.xml
 data/
-**/staticresources/ActionPlan_Resources/js/jquery*
+**/staticresources/ActionPlan_Resources/js/jquery*.js
 
 # Exclude project config
 sfdx-project.json

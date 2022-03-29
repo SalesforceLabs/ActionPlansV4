@@ -6,6 +6,8 @@
 [![codecov](https://codecov.io/gh/salesforcelabs/actionplansv4/branch/main/graph/badge.svg?token=9BD97HKVUI)](https://codecov.io/gh/salesforcelabs/actionplansv4)
 [![Twitter](https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social)](https://twitter.com/salesforce_labs)
 
+## [Changelog](/CHANGELOG.md)
+
 # Action Plans Installation and Setup
 
 ## Please follow installation instructions, shown on the **[Installation page](/INSTALLATION.md)**
@@ -166,7 +168,7 @@ Just as there is a button for Account list views to create multiple Action Plans
 		<apex:actionFunction name="jsCancel" action="{!cancel}" immediate="true" />
 	</apex:form>
 	<script>
-		var oids = '<apex:outputText value="{!objIDs}"/>';
+		var oids = '{!objIDs}';
 		if (oids.length < 15) {
 			alert('{!$Label.LabsActionPlans__ap_Errors_selectOneRecord}');
 			jsCancel();
@@ -319,4 +321,4 @@ Import is also simple. Navigate to the "Import Template" tab. Select the file yo
 
 ## (Optional) Sample Action Plan Template Import
 
-This repository also includes a sample Action Plan Template file, which you can import on the appropriate tab. You may download [Trade show follow up](data/Export%20-%20Trade%20Show%20follow%20up.xml) from GitHub, or you can find it in this SFDX project in the `data` folder.
+This repository also includes a sample Action Plan Template file, which you can import on the appropriate tab. You may download [New Customr Onboarding](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20New%20Customer%20Onboarding.xml) from GitHub, or you can find it in this SFDX project in the `data` folder.

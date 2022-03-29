@@ -184,7 +184,11 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			}
 
 			Date d = Date.today();
-			if (dependentApt.Controller__c != null && controllingTasks.containsKey(dependentApt.Controller__c) && controllingTasks.get(dependentApt.Controller__c).ActivityDate__c != null) {
+			if (
+				dependentApt.Controller__c != null &&
+				controllingTasks.containsKey(dependentApt.Controller__c) &&
+				controllingTasks.get(dependentApt.Controller__c).ActivityDate__c != null
+			) {
 				d = controllingTasks.get(dependentApt.Controller__c).ActivityDate__c;
 			}
 
@@ -206,7 +210,11 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			Boolean setWho = true;
 			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
 				String f = s;
-				if (!f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') && !f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') && ap.get(f) != null) {
+				if (
+					!f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Contact__c') &&
+					!f.equalsIgnoreCase(ActionPlansUtilities.namespacePrefix + 'Lead__c') &&
+					ap.get(f) != null
+				) {
 					t2.WhatId = (Id) ap.get(f);
 					setWho = false;
 					break;

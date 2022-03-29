@@ -4,12 +4,6 @@
 		"**/bower_components": true,
 		"**/node_modules": true
 	},
-	"[javascript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[html]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
 	"salesforcedx-vscode-core.retrieve-test-code-coverage": true,
 	"apexPMD.enableCache": true,
 	"apexPMD.rulesets": [
@@ -31,5 +25,17 @@
 	"force.showApexJavadocContext": true,
 	"force.showApexJavadocDescriptionTag": false,
 	"editor.linkedEditing": true,
-	"prettier.configPath": ".prettierrc"
+	"SFDoc.AlwaysUpdateFileHeaderOnSave": false,
+	"SFDoc.EnableForApex": false,
+	"SFDoc.EnableForLightningMarkup": false,
+	"SFDoc.EnableForVisualforce": false,
+	"SFDoc.IncludParameterTypeInMethodHeader": true,
+	"html.format.maxPreserveNewLines": 2,
+	"prettier.printWidth": 180,
+	"prettier.configPath": ".prettierrc",
+	"prettier.documentSelectors": [
+		"**/*.page",
+		"**/*.component",
+		"**/*.cls"
+	]
 }
