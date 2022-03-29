@@ -13,7 +13,7 @@
 		"template": "keepachangelog",
 		"unreleased": true,
 		"commitLimit": 0,
-		"hidecredit": true
+		"hideCredit": true
 	},
 	"scripts": {
 		"lint": "npm run lint:lwc && npm run lint:aura",
@@ -40,7 +40,7 @@
 		"packagedev": ". scripts/packagedev/packagedev.sh",
 		"prepare": "husky install",
 		"pre-commit": "lint-staged",
-		"version": "auto-changelog -p && git add CHANGELOG.md"
+		"version": "auto-changelog && git add CHANGELOG.md"
 	},
 	"devDependencies": {
 		"@lwc/eslint-plugin-lwc": "^1.1.2",

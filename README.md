@@ -6,6 +6,8 @@
 [![codecov](https://codecov.io/gh/salesforcelabs/actionplansv4/branch/main/graph/badge.svg?token=9BD97HKVUI)](https://codecov.io/gh/salesforcelabs/actionplansv4)
 [![Twitter](https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social)](https://twitter.com/salesforce_labs)
 
+## [Changelog](/CHANGELOG.md)
+
 # Action Plans Installation and Setup
 
 ## Please follow installation instructions, shown on the **[Installation page](/INSTALLATION.md)**
