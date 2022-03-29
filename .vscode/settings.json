@@ -31,9 +31,6 @@
 	"SFDoc.EnableForVisualforce": false,
 	"SFDoc.IncludParameterTypeInMethodHeader": true,
 	"html.format.maxPreserveNewLines": 2,
-	"html.format.wrapAttributes": "preserve-aligned",
-	"html.format.wrapLineLength": 180,
-	"html.format.enable": false,
 	"prettier.printWidth": 180,
 	"prettier.configPath": ".prettierrc",
 	"prettier.documentSelectors": [
