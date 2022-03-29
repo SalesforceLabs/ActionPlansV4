@@ -1,74 +1,75 @@
 {
-  "name": "action-plans",
-  "private": true,
-  "version": "4.1.0",
-  "description": "Action Plans Salesforce Labs App",
-  "author": "Salesforce Labs",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/salesforcelabs/actionplansv4"
-  },
-  "auto-changelog": {
-    "output": "CHANGELOG.md",
-    "template": "keepachangelog",
-    "unreleased": true,
-    "commitLimit": false
-  },
-  "scripts": {
-    "lint": "npm run lint:lwc && npm run lint:aura",
-    "lint:aura": "eslint **/aura/**",
-    "lint:lwc": "eslint **/lwc/**",
-    "test": "npm run test:unit",
-    "test:unit": "sfdx-lwc-jest",
-    "test:unit:watch": "sfdx-lwc-jest --watch",
-    "test:unit:debug": "sfdx-lwc-jest --debug",
-    "test:unit:coverage": "sfdx-lwc-jest --coverage",
-    "apex:local:start": "node node_modules/prettier-plugin-apex/bin/start-apex-server.js",
-    "apex:local:stop": "node node_modules/prettier-plugin-apex/bin/stop-apex-server.js",
-    "apex:test:local": "rm testresults/* && sfdx force:apex:test:run -l RunLocalTests -d testresults -r human -c",
-    "pmd:scan:csv": "$HOME/pmd/bin/run.sh pmd -d sfdx-source -R pmd/ruleset.xml -f csv -r pmd/pmd.csv --cache .pmdCache --short-names",
-    "pmd:scan:deploy:csv": "$HOME/pmd/bin/run.sh pmd -d sfdx-source -R pmd/deployRules.xml -f csv -r pmd/deploy.csv --cache .pmdCache --short-names",
-    "prettier:apex:local": "prettier --apex-standalone-parser built-in --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
-    "prettier:docs": ". doc-assets/docscleanup.sh | prettier --write \"docs/*.html\"",
-    "prettier:verify:apex:local": "prettier --apex-standalone-parser built-in --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
-    "prettier:verify": "prettier --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\" \"docs/*.html\"",
-    "prettier": "prettier --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\" \"docs/*.html\"",
-    "postinstall": "husky install",
-    "blankorg": ". scripts/packagedev/blankorg.sh",
-    "scratchorg": ". scripts/scratchorg.sh",
-    "packagedev": ". scripts/packagedev/packagedev.sh",
-    "prepare": "husky install",
-    "pre-commit": "lint-staged",
-    "version": "auto-changelog -p && git add CHANGELOG.md"
-  },
-  "devDependencies": {
-    "@lwc/eslint-plugin-lwc": "^1.1.2",
-    "@salesforce/eslint-config-lwc": "^3.2.3",
-    "@salesforce/eslint-plugin-lightning": "^1.0.0",
-    "@salesforce/sfdx-lwc-jest": "^1.1.0",
-    "auto-changelog": "^2.4.0",
-    "eslint": "^8.12.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jest": "^26.1.3",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.7",
-    "prettier": "^2.6.1",
-    "prettier-plugin-apex": "^1.10.0"
-  },
-  "lint-staged": {
-    "sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}": [
-      "prettier --write"
-    ],
-    "sfdx-source/**/{aura,lwc}/**": [
-      "eslint"
-    ],
-    "docs/*.html": [
-      "sed -i '' 's|<h3 class=\"subsection-title\\([^/]*\\)</h2>|<h3 class=\"subsection-title\\1</h3>|g'",
-      "sed -i '' 's|<br/>|\\n|g'",
-      "prettier --write --tab-width 2"
-    ],
-    "docs/assets/*.css": [
-      "prettier --write"
-    ]
-  }
+	"name": "action-plans",
+	"private": true,
+	"version": "4.1.0",
+	"description": "Action Plans Salesforce Labs App",
+	"author": "Salesforce Labs",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/salesforcelabs/actionplansv4"
+	},
+	"auto-changelog": {
+		"output": "CHANGELOG.md",
+		"template": "keepachangelog",
+		"unreleased": true,
+		"commitLimit": 0,
+		"hidecredit": true
+	},
+	"scripts": {
+		"lint": "npm run lint:lwc && npm run lint:aura",
+		"lint:aura": "eslint **/aura/**",
+		"lint:lwc": "eslint **/lwc/**",
+		"test": "npm run test:unit",
+		"test:unit": "sfdx-lwc-jest",
+		"test:unit:watch": "sfdx-lwc-jest --watch",
+		"test:unit:debug": "sfdx-lwc-jest --debug",
+		"test:unit:coverage": "sfdx-lwc-jest --coverage",
+		"apex:local:start": "node node_modules/prettier-plugin-apex/bin/start-apex-server.js",
+		"apex:local:stop": "node node_modules/prettier-plugin-apex/bin/stop-apex-server.js",
+		"apex:test:local": "rm testresults/* && sfdx force:apex:test:run -l RunLocalTests -d testresults -r human -c",
+		"pmd:scan:csv": "$HOME/pmd/bin/run.sh pmd -d sfdx-source -R pmd/ruleset.xml -f csv -r pmd/pmd.csv --cache .pmdCache --short-names",
+		"pmd:scan:deploy:csv": "$HOME/pmd/bin/run.sh pmd -d sfdx-source -R pmd/deployRules.xml -f csv -r pmd/deploy.csv --cache .pmdCache --short-names",
+		"prettier:apex:local": "prettier --apex-standalone-parser built-in --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
+		"prettier:docs": ". doc-assets/docscleanup.sh | prettier --write \"docs/*.html\"",
+		"prettier:verify:apex:local": "prettier --apex-standalone-parser built-in --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
+		"prettier:verify": "prettier --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\" \"docs/*.html\"",
+		"prettier": "prettier --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\" \"docs/*.html\"",
+		"postinstall": "husky install",
+		"blankorg": ". scripts/packagedev/blankorg.sh",
+		"scratchorg": ". scripts/scratchorg.sh",
+		"packagedev": ". scripts/packagedev/packagedev.sh",
+		"prepare": "husky install",
+		"pre-commit": "lint-staged",
+		"version": "auto-changelog -p && git add CHANGELOG.md"
+	},
+	"devDependencies": {
+		"@lwc/eslint-plugin-lwc": "^1.1.2",
+		"@salesforce/eslint-config-lwc": "^3.2.3",
+		"@salesforce/eslint-plugin-lightning": "^1.0.0",
+		"@salesforce/sfdx-lwc-jest": "^1.1.0",
+		"auto-changelog": "^2.4.0",
+		"eslint": "^8.12.0",
+		"eslint-plugin-import": "^2.25.4",
+		"eslint-plugin-jest": "^26.1.3",
+		"husky": "^7.0.4",
+		"lint-staged": "^12.3.7",
+		"prettier": "^2.6.1",
+		"prettier-plugin-apex": "^1.10.0"
+	},
+	"lint-staged": {
+		"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}": [
+			"prettier --write"
+		],
+		"sfdx-source/**/{aura,lwc}/**": [
+			"eslint"
+		],
+		"docs/*.html": [
+			"sed -i '' 's|<h3 class=\"subsection-title\\([^/]*\\)</h2>|<h3 class=\"subsection-title\\1</h3>|g'",
+			"sed -i '' 's|<br/>|\\n|g'",
+			"prettier --write --tab-width 2"
+		],
+		"docs/assets/*.css": [
+			"prettier --write"
+		]
+	}
 }
