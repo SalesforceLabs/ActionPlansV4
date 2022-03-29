@@ -9,4 +9,3 @@ git add pmd/pmd-version.txt
 
 npx lint-staged
 npm run prettier:docs
-npm run version
