@@ -53,7 +53,7 @@ private class ActionPlanCreateInvocableTest {
 
 		Test.startTest();
 
-		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, 0);
+		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, 1, apTemplate.Name + 'TEST');
 
 		List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
 		requests.add(req);
@@ -159,6 +159,28 @@ private class ActionPlanCreateInvocableTest {
 	private static void relatedCampaign() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		Campaign a = testUtil.createNewCampaign();
+
+		Test.startTest();
+
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
+
+		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, 0);
+
+		List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
+		requests.add(req);
+
+		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
+
+		Test.stopTest();
+		System.assertNotEquals(null, resultIDs);
+		System.assertEquals(1, resultIDs.size());
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+	}
+
+	@IsTest
+	private static void relatedCase() {
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		Case a = testUtil.createNewCase();
 
 		Test.startTest();
 
@@ -301,12 +323,81 @@ private class ActionPlanCreateInvocableTest {
 		System.assertEquals(0, [SELECT COUNT() FROM Task WHERE ActivityDate = :upcomingWeekendDay]);
 	}
 
-	private static ActionPlanCreateInvocable.CreateActionPlanRequest setupRequest(Id templateId, Id relatedID, Integer daysToActionPlanStart) {
+	@IsTest
+	private static void bogusTemplateName() {
+		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
+		aps.Chatter_Object_Brag__c = true;
+		aps.Unassigned_Task_Assigned_to_Owner__c = true;
+		try {
+			upsert aps;
+		} catch (Exception e) {
+			update aps;
+		}
+
+		Account a = new Account();
+		a.Name = 'TestAcct';
+		insert a;
+
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
+		List<APTemplateTask__c> allTaskTemplates = [SELECT Id, Dependent__c, SendEmail__c, Reminder__c FROM APTemplateTask__c];
+		for (APTemplateTask__c at : allTaskTemplates) {
+			at.SendEmail__c = true;
+			at.Reminder__c = true;
+			at.Dependent__c = null;
+			at.User__c = null;
+		}
+		update allTaskTemplates;
+
+		Test.startTest();
+
+		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest('Fake Name', a.Id, 1, apTemplate.Name + 'TEST');
+
+		List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
+		requests.add(req);
+
+		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
+
+		Test.stopTest();
+		System.assertNotEquals(null, resultIDs);
+		System.assertEquals(0, resultIDs.size());
+		System.assertEquals(0, [SELECT COUNT() FROM Task]);
+	}
+
+	/**
+	 * Helper method for setting up a request for Invocable Apex
+	 *
+	 * @param templateId            Name or Id of Action Plan Template
+	 * @param relatedID             Parent record Id
+	 * @param daysToActionPlanStart Days after today to start the first task
+	 * @return                      `ActionPlanCreateInvocable.CreateActionPlanRequest` Used in Invocable Apex
+	 * @see ActionPlanCreateInvocableTest.setupRequest[1]
+	 */
+	private static ActionPlanCreateInvocable.CreateActionPlanRequest setupRequest(String templateId, Id relatedID, Integer daysToActionPlanStart) {
 		ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
 		req.templateNameOrID = templateId;
 		req.relatedRecordID = relatedId;
 		req.daysToActionPlanStart = daysToActionPlanStart;
+		return req;
+	}
 
+	/**
+	 * Helper method for setting up a request for Invocable Apex
+	 *
+	 * @param templateId            Name or Id of Action Plan Template
+	 * @param relatedID             Parent record Id
+	 * @param daysToActionPlanStart Days after today to start the first task
+	 * @param actionPlanName        Intended name of the Action Plan
+	 * @return                      `ActionPlanCreateInvocable.CreateActionPlanRequest` Used in Invocable Apex
+	 * @see ActionPlanCreateInvocableTest.setupRequest[0]
+	 */
+	private static ActionPlanCreateInvocable.CreateActionPlanRequest setupRequest(String templateId, Id relatedID, Integer daysToActionPlanStart, String actionPlanName) {
+		ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
+		req.templateNameOrID = templateId;
+		req.relatedRecordID = relatedId;
+		req.daysToActionPlanStart = daysToActionPlanStart;
+		req.actionPlanName = actionPlanName;
 		return req;
 	}
 }

@@ -103,6 +103,7 @@ global without sharing class ActionPlanCreateInvocable {
 		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
 
 		Map<Id, Id> relObjectOwners = ActionPlansBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs);
+		Map<Id, String> relRecordNames = ActionPlansUtilities.queryRecordIDToRecordName(relatedIDs);
 
 		Set<String> actionPlanFields = Schema.SObjectType.ActionPlan__c.fields.getMap().keyset();
 
@@ -114,7 +115,9 @@ global without sharing class ActionPlanCreateInvocable {
 			ActionPlanTemplate__c actionPlanTemplate = templateNameOrIdToTemplate.get(r.templateNameOrID);
 
 			ActionPlan__c ap = new ActionPlan__c();
-			ap.Name = ActionPlansUtilities.actionPlanSubjectToName(actionPlanTemplate.Name);
+			ap.Name = String.isBlank(r.actionPlanName)
+				? ActionPlansUtilities.actionPlanSubjectToName(actionPlanTemplate.Name + ' - ' + relRecordNames.get(r.relatedRecordID))
+				: ActionPlansUtilities.actionPlanSubjectToName(r.actionPlanName);
 			ap.Description__c = actionPlanTemplate.Description__c;
 			ap.SkipWeekends__c = actionPlanTemplate.SkipWeekends__c;
 			ap.SkipDay__c = actionPlanTemplate.SkipDay__c;
@@ -353,5 +356,10 @@ global without sharing class ActionPlanCreateInvocable {
 		 */
 		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
 		global String templateNameOrID;
+		/**
+		 * The Action Plan Name. Defaults to the Template Name
+		 */
+		@InvocableVariable(required=false label='Action Plan Name' description='If not specified, the Action Plan will be called <Template Name> - <Parent Record Name>')
+		global String actionPlanName;
 	}
 }
