@@ -34,6 +34,9 @@ window.onbeforeunload = () => {
 function initHighlightJs() {
 	// initialize highlighting for code examples and
 	// signatures for methods, classes, props and enums
+	hljs.configure({
+		ignoreUnescapedHTML: true,
+	});
 	highlightJsSelectors.forEach((selector) => {
 		document.querySelectorAll(selector).forEach(block => {
 			hljs.highlightElement(block);
