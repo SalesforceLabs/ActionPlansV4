@@ -9,6 +9,12 @@
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
+            <name>actionPlanName</name>
+            <value>
+                <elementReference>ActionPlanName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>daysToActionPlanStart</name>
             <value>
                 <numberValue>1.0</numberValue>
@@ -30,6 +36,12 @@
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <description>Sample Flow - change Account Type so it contains &apos;Customer&apos; and if New Customer Onboarding Action Plan Template exists, it will be created as an Action Plan</description>
+    <formulas>
+        <description>Formula to create a custom Action Plan Name</description>
+        <name>ActionPlanName</name>
+        <dataType>String</dataType>
+        <expression>&quot;Onboarding Plan - &quot; &amp; {!$Record.Name}</expression>
+    </formulas>
     <interviewLabel>New Customer Onboarding Actions {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
     <label>New Customer Onboarding Tasks</label>
@@ -71,5 +83,5 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
 </Flow>
