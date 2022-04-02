@@ -393,6 +393,9 @@
               <div class="methods-container">
                 <ul class="methods-toc">
                   <li class="method testmethod">
+                    <a class="methods-toc__entry" href="#ActionPlanCreateInvocableTest.bogusTemplateName"> bogusTemplateName () </a>
+                  </li>
+                  <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlanCreateInvocableTest.bulkAccounts"> bulkAccounts () </a>
                   </li>
                   <li class="method testmethod">
@@ -403,6 +406,9 @@
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlanCreateInvocableTest.relatedCampaign"> relatedCampaign () </a>
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry" href="#ActionPlanCreateInvocableTest.relatedCase"> relatedCase () </a>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlanCreateInvocableTest.relatedContact"> relatedContact () </a>
@@ -418,8 +424,32 @@
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#ActionPlanCreateInvocableTest.setupRequest"> setupRequest (templateId, relatedID, daysToActionPlanStart) </a>
+
+                    <div class="methods-toc__description">Helper method for setting up a request for Invocable Apex</div>
+                  </li>
+                  <li class="method private">
+                    <a class="methods-toc__entry" href="#ActionPlanCreateInvocableTest.setupRequest_1">
+                      setupRequest (templateId, relatedID, daysToActionPlanStart, actionPlanName)
+                    </a>
+
+                    <div class="methods-toc__description">Helper method for setting up a request for Invocable Apex</div>
                   </li>
                 </ul>
+                <div class="method testmethod">
+                  <h4 class="method-title" id="ActionPlanCreateInvocableTest.bogusTemplateName">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L327">
+                      bogusTemplateName()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">Signature</div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">private static void bogusTemplateName()</div>
+                </div>
                 <div class="method testmethod">
                   <h4 class="method-title" id="ActionPlanCreateInvocableTest.bulkAccounts">
                     <a
@@ -427,7 +457,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L203">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L225">
                       bulkAccounts()
                     </a>
                   </h4>
@@ -442,7 +472,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L237">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L259">
                       checkWeekendDueDate()
                     </a>
                   </h4>
@@ -481,6 +511,21 @@
                   <div class="method-signature">private static void relatedCampaign()</div>
                 </div>
                 <div class="method testmethod">
+                  <h4 class="method-title" id="ActionPlanCreateInvocableTest.relatedCase">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L181">
+                      relatedCase()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">Signature</div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">private static void relatedCase()</div>
+                </div>
+                <div class="method testmethod">
                   <h4 class="method-title" id="ActionPlanCreateInvocableTest.relatedContact">
                     <a
                       target="_blank"
@@ -502,7 +547,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L181">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L203">
                       relatedContract()
                     </a>
                   </h4>
@@ -547,14 +592,73 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L304">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L377">
                       setupRequest(templateId, relatedID, daysToActionPlanStart)
                     </a>
                   </h4>
+                  <div class="method-description">Helper method for setting up a request for Invocable Apex</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">
-                    private static ActionPlanCreateInvocable.CreateActionPlanRequest setupRequest(Id templateId, Id relatedID, Integer daysToActionPlanStart)
+                    private static ActionPlanCreateInvocable.CreateActionPlanRequest setupRequest(String templateId, Id relatedID, Integer daysToActionPlanStart)
+                  </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">templateId</div>
+                  <div class="param-type">Type: <code class="code-inline">String</code></div>
+                  <div class="param-description">Name or Id of Action Plan Template</div>
+                  <div class="param-name">relatedID</div>
+                  <div class="param-type">Type: <code class="code-inline">Id</code></div>
+                  <div class="param-description">Parent record Id</div>
+                  <div class="param-name">daysToActionPlanStart</div>
+                  <div class="param-type">Type: <code class="code-inline">Integer</code></div>
+                  <div class="param-description">Days after today to start the first task</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">ActionPlanCreateInvocable.CreateActionPlanRequest</code> Used in Invocable Apex</div>
+                  <div class="method-subtitle">See</div>
+                  <div class="method-subtitle-description">
+                    <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreateInvocableTest.html#ActionPlanCreateInvocableTest.setupRequest_1')"
+                      >ActionPlanCreateInvocableTest.setupRequest</a
+                    >
+                  </div>
+                </div>
+                <div class="method private">
+                  <h4 class="method-title" id="ActionPlanCreateInvocableTest.setupRequest_1">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreateInvocableTest.cls#L395">
+                      setupRequest(templateId, relatedID, daysToActionPlanStart, actionPlanName)
+                    </a>
+                  </h4>
+                  <div class="method-description">Helper method for setting up a request for Invocable Apex</div>
+                  <div class="method-subtitle">Signature</div>
+
+                  <div class="method-signature">
+                    private static ActionPlanCreateInvocable.CreateActionPlanRequest setupRequest(String templateId, Id relatedID, Integer daysToActionPlanStart, String
+                    actionPlanName)
+                  </div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">templateId</div>
+                  <div class="param-type">Type: <code class="code-inline">String</code></div>
+                  <div class="param-description">Name or Id of Action Plan Template</div>
+                  <div class="param-name">relatedID</div>
+                  <div class="param-type">Type: <code class="code-inline">Id</code></div>
+                  <div class="param-description">Parent record Id</div>
+                  <div class="param-name">daysToActionPlanStart</div>
+                  <div class="param-type">Type: <code class="code-inline">Integer</code></div>
+                  <div class="param-description">Days after today to start the first task</div>
+                  <div class="param-name">actionPlanName</div>
+                  <div class="param-type">Type: <code class="code-inline">String</code></div>
+                  <div class="param-description">Intended name of the Action Plan</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">ActionPlanCreateInvocable.CreateActionPlanRequest</code> Used in Invocable Apex</div>
+                  <div class="method-subtitle">See</div>
+                  <div class="method-subtitle-description">
+                    <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreateInvocableTest.html#ActionPlanCreateInvocableTest.setupRequest')"
+                      >ActionPlanCreateInvocableTest.setupRequest</a
+                    >
                   </div>
                 </div>
               </div>

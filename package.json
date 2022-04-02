@@ -36,17 +36,20 @@
 		"prettier": "prettier --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\" \"docs/*.html\"",
 		"postinstall": "husky install",
 		"blankorg": ". scripts/packagedev/blankorg.sh",
+		"installlatest": ". scripts/packagedev/installlatest.sh",
 		"scratchorg": ". scripts/scratchorg.sh",
-		"packagedev": ". scripts/packagedev/packagedev.sh",
+		"packagedev": ". scripts/packagedev/manageddev.sh",
 		"prepare": "husky install",
 		"pre-commit": "lint-staged",
-		"labsdevhub": "sfdx config:set defaultdevhubusername=LabsLDO"
+		"labsdevhub": "sfdx config:set defaultdevhubusername=LabsLDO",
+		"version": "auto-changelog -p && git add CHANGELOG.md"
 	},
 	"devDependencies": {
 		"@lwc/eslint-plugin-lwc": "^1.1.2",
 		"@salesforce/eslint-config-lwc": "^3.2.3",
 		"@salesforce/eslint-plugin-lightning": "^1.0.0",
 		"@salesforce/sfdx-lwc-jest": "^1.1.0",
+		"auto-changelog": "^2.4.0",
 		"eslint": "^8.12.0",
 		"eslint-plugin-import": "^2.25.4",
 		"eslint-plugin-jest": "^26.1.3",
@@ -62,13 +65,13 @@
 		"sfdx-source/**/{aura,lwc}/**": [
 			"eslint"
 		],
+		"docs/assets/*.css": [
+			"prettier --write"
+		],
 		"docs/*.html": [
 			"sed -i '' 's|<h3 class=\"subsection-title\\([^/]*\\)</h2>|<h3 class=\"subsection-title\\1</h3>|g'",
 			"sed -i '' 's|<br/>|\\n|g'",
 			"prettier --write --tab-width 2"
-		],
-		"docs/assets/*.css": [
-			"prettier --write"
 		]
 	}
 }

@@ -9,10 +9,10 @@ sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s --noa
 
 # For use with namespaced scratch org in package development process
 echo "Pushing managed metadata"
-sfdx force:source:push
+sfdx force:source:deploy -p sfdx-source/LabsActionPlans --tracksource
 
 echo "Deploy unmanaged metadata"
-sfdx force:source:deploy -p sfdx-source/unmanaged
+sfdx force:source:deploy -p sfdx-source/unmanaged --tracksource
 
 echo "Assigning permission set"
 sfdx force:user:permset:assign -n Action_Plans_Admin
@@ -24,9 +24,5 @@ sfdx force:apex:execute -f ./data/sample-data.apex
 echo "Clearing namespace"
 sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-project.json
 
-# To install sample Flow and other metadata
-#echo "Installing sample flow"
-#sfdx force:source:deploy -p sfdx-source/unmanagedExtension
-
 echo "opening org"
-sfdx force:org:open
+sfdx force:org:open -u ActionPlans

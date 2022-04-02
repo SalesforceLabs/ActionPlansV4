@@ -18,7 +18,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 @IsTest
 private class ActionPlansSectionHeaderControllerTest {
 	@TestSetup
-	static void makeData() {
+	private static void makeData() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		User u = testUtil.createTestUser();
 		testUtil.assignAPPermissionSets(u.Id, false);

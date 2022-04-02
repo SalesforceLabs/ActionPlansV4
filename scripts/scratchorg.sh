@@ -11,8 +11,8 @@ echo "Creating new scratch org"
 sfdx force:org:create --definitionfile config/project-scratch-def.json --setalias ActionPlans --nonamespace --setdefaultusername --noancestors
 
 # For use with namespaced scratch org n package development process
-echo "Pushing unmanaged metadata"
-sfdx force:source:push
+echo "Deploying unmanaged main metadata"
+sfdx force:source:deploy -p sfdx-source/LabsActionPlans --tracksource
 
 echo "Assigning permission set"
 sfdx force:user:permset:assign -n Action_Plans_Admin
@@ -22,7 +22,7 @@ echo "Loading sample data"
 sfdx force:apex:execute -f ./data/sample-data.apex
 
 # To install sample Flow and other metadata
-echo "Deploy unmanaged metadata"
+echo "Deploy unmanaged extra metadata"
 sfdx force:source:deploy -p sfdx-source/unmanaged --tracksource
 
 echo "opening org"
