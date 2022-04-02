@@ -21,8 +21,8 @@ jobs:
       # Checkout the code in the pull request
       - name: 'Checkout source code'
         uses: actions/checkout@v3
-        #with:
-        #  ref: 'main'
+        with:
+          ref: 'main'
 
       # Store secret for dev hub
       - name: 'Populate auth file with DEVHUB_SFDX_URL secret'
