@@ -339,27 +339,28 @@ global without sharing class ActionPlanCreateInvocable {
 	 * @since 2022
 	 */
 	global class CreateActionPlanRequest {
+		@InvocableVariable(required=true label='The parent Record ID' description='Must have a relationship named the related record object name from Action Plan object')
 		/**
 		 * The parent Record ID. Must have a relationship named the related record object name from Action Plan object.
 		 */
-		@InvocableVariable(required=true label='The parent Record ID' description='Must have a relationship named the related record object name from Action Plan object')
 		global Id relatedRecordID;
 
+		@InvocableVariable(required=false label='Days from trigger to start Action Plan' description='Defaults to 0, the day the plan is created')
 		/**
 		 * Days from trigger to start Action Plan. Defaults to 0, the day the plan is created.
 		 */
-		@InvocableVariable(required=false label='Days from trigger to start Action Plan' description='Defaults to 0, the day the plan is created')
 		global Integer daysToActionPlanStart;
 
+		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
 		/**
 		 * The template Id or Name to use. (Name is not unique, so ID is preferred)
 		 */
-		@InvocableVariable(required=true label='The Template Id or Name to use' description='Name is not unique, so ID is preferred')
 		global String templateNameOrID;
-		/**
-		 * The Action Plan Name. Defaults to the Template Name
-		 */
+
 		@InvocableVariable(required=false label='Action Plan Name' description='If not specified, the Action Plan will be called <Template Name> - <Parent Record Name>')
+		/**
+		 * The Action Plan Name. If not specified, the Action Plan will be called <Template Name> - <Parent Record Name>
+		 */
 		global String actionPlanName;
 	}
 }

@@ -425,7 +425,7 @@
                 <tr>
                   <th>Name</th>
                   <th>Signature</th>
-                  <th>Annotations</th>
+
                   <th>Description</th>
                 </tr>
                 <tr class="property global">
@@ -435,16 +435,15 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L363">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L364">
                       actionPlanName
                     </a>
                   </td>
                   <td>
                     <div class="attribute-signature">global String actionPlanName</div>
                   </td>
-                  <td></td>
 
-                  <td class="attribute-description">The Action Plan Name. Defaults to the Template Name</td>
+                  <td class="attribute-description">The Action Plan Name. If not specified, the Action Plan will be called &lt;Template Name&gt; - &lt;Parent Record Name&gt;</td>
                 </tr>
                 <tr class="property global">
                   <td class="attribute-name">
@@ -460,7 +459,6 @@
                   <td>
                     <div class="attribute-signature">global Integer daysToActionPlanStart</div>
                   </td>
-                  <td></td>
 
                   <td class="attribute-description">Days from trigger to start Action Plan. Defaults to 0, the day the plan is created.</td>
                 </tr>
@@ -477,12 +475,6 @@
                   </td>
                   <td>
                     <div class="attribute-signature">global Id relatedRecordID</div>
-                  </td>
-                  <td>
-                    <div class="prop-annotations">
-                      @InvocableVariable(required=true label='The parent Record ID' description='Must have a relationship named the related record object name from Action Plan
-                      object')
-                    </div>
                   </td>
 
                   <td class="attribute-description">The parent Record ID. Must have a relationship named the related record object name from Action Plan object.</td>
@@ -501,7 +493,6 @@
                   <td>
                     <div class="attribute-signature">global String templateNameOrID</div>
                   </td>
-                  <td></td>
 
                   <td class="attribute-description">The template Id or Name to use. (Name is not unique, so ID is preferred)</td>
                 </tr>
