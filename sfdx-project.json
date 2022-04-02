@@ -12,6 +12,9 @@
             "versionDescription": "Welcome to the new Action Plans from Salesforce Labs",
             "postInstallScript": "ActionPlansPostInstallScript",
             "postInstallUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md"
+        },
+        {
+            "path": "sfdx-source/unmanaged"
         }
     ],
     "name": "Action Plans",
