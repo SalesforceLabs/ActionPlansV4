@@ -8,6 +8,7 @@ versionNumberRegex="\"versionNumber\": \"[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.
 newVersionName="\"versionName\": \"${versionName}\""
 newVersionNumber="\"versionNumber\": \"${versionNumber/v/}.NEXT\""
 echo $versionNumber
+echo $newVersionNumber
 sed -i -E "s,${versionNameRegex},${newVersionName}," sfdx-project.json
 sed -i -E "s,${versionNumberRegex},${newVersionNumber}," sfdx-project.json
 

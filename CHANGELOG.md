@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Merged
 
+- Specify Action Plan Name in Invocable Apex [`#27`](https://github.com/SalesforceLabs/ActionPlansV4/pull/27)
+- Prettier, JS fixing [`#26`](https://github.com/SalesforceLabs/ActionPlansV4/pull/26)
 - Highlight.js to 11.5 [`#25`](https://github.com/SalesforceLabs/ActionPlansV4/pull/25)
 - Add changelog [`#24`](https://github.com/SalesforceLabs/ActionPlansV4/pull/24)
 - Bump minimist from 1.2.5 to 1.2.6 [`#23`](https://github.com/SalesforceLabs/ActionPlansV4/pull/23)

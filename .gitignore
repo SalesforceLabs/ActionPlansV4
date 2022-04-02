@@ -92,3 +92,6 @@ sfdx-source/LabsActionPlans/main/default/reports/**
 **/objects/Task/recordTypes
 **/standardValueSets
 **/Translations
+
+# Temporary files for automated packaging
+packageversion.json
