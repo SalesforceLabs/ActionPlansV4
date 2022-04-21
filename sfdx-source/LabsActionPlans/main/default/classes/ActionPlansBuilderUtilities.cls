@@ -187,7 +187,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 		upsert aptsToUpsert;
 
-		for (Task tmpTask : [SELECT Id, TaskAPTask__c, Subject FROM Task WHERE TaskAPTask__c IN :mapAP.keySet()]) {
+		for (Task tmpTask : [SELECT Id, TaskAPTask__c, Subject FROM Task WHERE TaskAPTask__c IN :mapAP.keySet() AND TaskAPTask__c != NULL]) {
 			mapApTasks.put(tmpTask.TaskAPTask__c, tmpTask);
 		}
 

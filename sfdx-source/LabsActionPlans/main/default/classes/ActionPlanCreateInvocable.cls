@@ -34,6 +34,7 @@ global without sharing class ActionPlanCreateInvocable {
 	 *     req.templateNameOrID = apTemplate.Id;
 	 *     req.relatedRecordID = a.Id;
 	 *     req.daysToActionPlanStart = 0;
+	 *     req.actionPlanName = apTemplate.Name + ' - ' + a.Name;
 	 *     requests.add(req);
 	 * List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 	 */
