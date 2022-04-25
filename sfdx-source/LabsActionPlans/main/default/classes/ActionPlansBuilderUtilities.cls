@@ -91,7 +91,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 	 */
 	public Id generateActionPlans() {
 		List<APTask__c> aptList = new List<APTask__c>();
-		Map<Id, APTask__c> mapAP = new Map<Id, APTask__c>();
+		Set<Id> upsertedAPTaskIDs = new Set<Id>();
 		Map<Id, ActionPlan__c> mapIDAP = new Map<Id, ActionPlan__c>();
 		ActionPlan__c apAux;
 		Map<Id, Task> mapApTasks = new Map<Id, Task>();
@@ -179,15 +179,18 @@ public inherited sharing class ActionPlansBuilderUtilities {
 						at.ActivityDate__c = ap.StartDate__c.addDays(at.DaysFromStart__c.intValue());
 					}
 				}
-
-				mapAP.put(at.Id, at);
 				aptsToUpsert.add(at);
 			}
 		}
 
 		upsert aptsToUpsert;
 
-		for (Task tmpTask : [SELECT Id, TaskAPTask__c, Subject FROM Task WHERE TaskAPTask__c IN :mapAP.keySet()]) {
+		// This may be unnecessary, as we can probably use the upserted list in the query, but is here for readability
+		for (APTask__c apt : aptsToUpsert) {
+			upsertedAPTaskIDs.add(apt.Id);
+		}
+
+		for (Task tmpTask : [SELECT Id, TaskAPTask__c, Subject FROM Task WHERE TaskAPTask__c IN :upsertedAPTaskIDs AND TaskAPTask__c != NULL]) {
 			mapApTasks.put(tmpTask.TaskAPTask__c, tmpTask);
 		}
 

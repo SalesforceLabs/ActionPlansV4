@@ -1,7 +1,7 @@
 {
 	"name": "action-plans",
 	"private": true,
-	"version": "4.1.0",
+	"version": "4.2.0",
 	"description": "Action Plans Salesforce Labs App",
 	"author": "Salesforce Labs",
 	"repository": {

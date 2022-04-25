@@ -22,7 +22,8 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.PAT }}
+          #token: ${{ secrets.PAT }}
+          ref: 'main'
 
       # Store secret for dev hub
       - name: 'Populate auth file with DEVHUB_SFDX_URL secret'
@@ -71,9 +72,9 @@ jobs:
           exit $status
 
       # Update sfdx-project.json and README to use only latest package version
-      - name: 'Update sfdx-project.json and README'
-        id: packaging-updater
-        uses: trailheadapps/github-action-sfdx-packaging-updater@main
+      #- name: 'Update sfdx-project.json and README'
+      #  id: packaging-updater
+      #  uses: trailheadapps/github-action-sfdx-packaging-updater@main
 
       # Remove namespace from project config
       - name: Remove namespace from project config
