@@ -9,4 +9,4 @@ git add pmd/pmd-version.txt
 
 npx lint-staged
 npm run prettier:docs
-git add docs/*.html
+# git add docs/*.html

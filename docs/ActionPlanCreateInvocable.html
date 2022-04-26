@@ -361,7 +361,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L41">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L42">
                       makeActionPlanFromTemplate(requests)
                     </a>
                   </h4>
@@ -394,6 +394,7 @@
      req.templateNameOrID = apTemplate.Id; 
      req.relatedRecordID = a.Id; 
      req.daysToActionPlanStart = 0; 
+     req.actionPlanName = apTemplate.Name + &#39; - &#39; + a.Name; 
      requests.add(req); 
  List&lt;Id&gt; resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);</code></pre>
                 </div>
@@ -408,7 +409,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L341">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L342">
                 ActionPlanCreateInvocable.CreateActionPlanRequest
               </a>
             </h2>
@@ -435,7 +436,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L364">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L365">
                       actionPlanName
                     </a>
                   </td>
@@ -452,7 +453,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L352">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L353">
                       daysToActionPlanStart
                     </a>
                   </td>
@@ -469,7 +470,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L346">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L347">
                       relatedRecordID
                     </a>
                   </td>
@@ -486,7 +487,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L358">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanCreateInvocable.cls#L359">
                       templateNameOrID
                     </a>
                   </td>
