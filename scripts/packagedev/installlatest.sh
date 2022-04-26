@@ -23,7 +23,7 @@ VERSIONJSON=$(sfdx force:package:version:report -p $PACKAGEVERSIONID --json)
 VERSIONNUMBER=$(echo $VERSIONJSON | grep '.MajorVersion' | sed 's|[^0-9]||g').$(echo $VERSIONJSON | grep '.MinorVersion' | sed 's|[^0-9]||g').$(echo $VERSIONJSON | grep '.PatchVersion' | sed 's|[^0-9]||g').$(echo $VERSIONJSON | grep '.BuildNumber' | sed 's|[^0-9]||g')
 
 echo "Installing version $VERSIONNUMBER with package version $PACKAGEVERSIONID"
-sfdx force:package:install --package $PACKAGEVERSIONID --upgradetype Delete -u PackageInstallTest -w 20
+sfdx force:package:install --package $PACKAGEVERSIONID -u PackageInstallTest -w 20
 
 echo "Adding unmanaged extension metadata"
 sfdx force:source:deploy -p sfdx-source/unmanagedExtension -u PackageInstallTest
