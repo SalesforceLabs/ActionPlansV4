@@ -6,12 +6,13 @@ insert co;
 
 String apTemplateName = 'New Customer Onboarding';
 
-List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
-ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
+List<LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest>();
+LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest req = new LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest();
 req.templateNameOrID = apTemplateName;
 req.relatedRecordID = co.Id;
 req.daysToActionPlanStart = 1;
+req.actionPlanName = co.Name + ' Onboarding';
 requests.add(req);
 
-List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
+List<Id> resultIDs = LabsActionPlans.ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 System.debug('resultIDs ' + resultIDs);

@@ -556,29 +556,17 @@
 
           <pre><code class="language-plaintext">
 &lt;apex:page standardController=&quot;CustomObject__c&quot; extensions=&quot;LabsActionPlans.ActionPlansCreateMultipleAPsExtension&quot; recordsetvar=&quot;o&quot; showHeader=&quot;false&quot; action=&quot;{!doRedirect}&quot;&gt;
-
   &lt;apex:form&gt;
-
     &lt;apex:actionFunction name=&quot;jsCancel&quot; action=&quot;{!cancel}&quot; immediate=&quot;true&quot; /&gt;
-
   &lt;/apex:form&gt;
-
   &lt;script&gt;
-
     var oids = &apos;{!objIDs}&apos;;
-
     if (oids.length &lt; 15) {
-
       alert(&apos;{!$Label.LabsActionPlans__ap_Errors_selectOneRecord}&apos;);
-
       jsCancel();
-
     }
-
   &lt;/script&gt;
-
 &lt;/apex:page&gt;
-
 </code></pre>
 
           <p>Then create a list view button for that object and add it to your list views.</p>
@@ -734,31 +722,34 @@
           <p><img src="assets/ProcessBuilder.png" alt="" class="readmeimage" /></p>
           <h2><a id="Apex_234"></a>Apex</h2>
           <p>To call the invocable Apex from a Trigger or Apex class, adapt the following sample code:</p>
-
+          <strong>Unmanaged Code</strong>
           <pre><code>String apTemplateName;
-
 ActionPlanTemplate__c apTemplate;
-
 List&lt;SObject&gt; toInsert... /* can use any object, such as Account, or the generic SObject class */
-
 List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt; requests = new List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt;();
-
 for(SObject a : toInsert){
-
 	ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
-
 	req.templateNameOrID = apTemplate.Id;
-
 	req.relatedRecordID = a.Id;
-
 	req.daysToActionPlanStart = 0;
-
 	requests.add(req);
-
 }
-
 List&lt;Id&gt; resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
+</code></pre>
 
+          <strong>Managed Package</strong>
+          <pre><code>String apTemplateName;
+LabsActionPlans__ActionPlanTemplate__c apTemplate;
+List&lt;SObject&gt; toInsert... /* can use any object, such as Account, or the generic SObject class */
+List&lt;LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest&gt; requests = new List&lt;LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest&gt;();
+for(SObject a : toInsert){
+	LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest req = new LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest();
+	req.templateNameOrID = apTemplate.Id;
+	req.relatedRecordID = a.Id;
+	req.daysToActionPlanStart = 0;
+	requests.add(req);
+}
+List&lt;Id&gt; resultIDs = LabsActionPlans.ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 </code></pre>
 
           <h2><a id="ActionPlanCreateInvocableCreateActionPlanRequest_class_254"></a>ActionPlanCreateInvocable.CreateActionPlanRequest class</h2>
