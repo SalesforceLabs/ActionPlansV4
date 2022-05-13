@@ -522,66 +522,8 @@ var hljs = function () {
       ; return Object.assign(e, A), e
   })({}); return te
 }()
-  ; "object" == typeof exports && "undefined" != typeof module && (module.exports = hljs);/*! `css` grammar compiled for Highlight.js 11.5.0 */
-(() => {
-  var e = (() => {
-    "use strict"
-      ; const e = ["a", "abbr", "address", "article", "aside", "audio", "b", "blockquote", "body", "button", "canvas", "caption", "cite", "code", "dd", "del", "details", "dfn", "div", "dl", "dt", "em", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "html", "i", "iframe", "img", "input", "ins", "kbd", "label", "legend", "li", "main", "mark", "menu", "nav", "object", "ol", "p", "q", "quote", "samp", "section", "span", "strong", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "tr", "ul", "var", "video"], i = ["any-hover", "any-pointer", "aspect-ratio", "color", "color-gamut", "color-index", "device-aspect-ratio", "device-height", "device-width", "display-mode", "forced-colors", "grid", "height", "hover", "inverted-colors", "monochrome", "orientation", "overflow-block", "overflow-inline", "pointer", "prefers-color-scheme", "prefers-contrast", "prefers-reduced-motion", "prefers-reduced-transparency", "resolution", "scan", "scripting", "update", "width", "min-width", "max-width", "min-height", "max-height"], r = ["active", "any-link", "blank", "checked", "current", "default", "defined", "dir", "disabled", "drop", "empty", "enabled", "first", "first-child", "first-of-type", "fullscreen", "future", "focus", "focus-visible", "focus-within", "has", "host", "host-context", "hover", "indeterminate", "in-range", "invalid", "is", "lang", "last-child", "last-of-type", "left", "link", "local-link", "not", "nth-child", "nth-col", "nth-last-child", "nth-last-col", "nth-last-of-type", "nth-of-type", "only-child", "only-of-type", "optional", "out-of-range", "past", "placeholder-shown", "read-only", "read-write", "required", "right", "root", "scope", "target", "target-within", "user-invalid", "valid", "visited", "where"], t = ["after", "backdrop", "before", "cue", "cue-region", "first-letter", "first-line", "grammar-error", "marker", "part", "placeholder", "selection", "slotted", "spelling-error"], o = ["align-content", "align-items", "align-self", "all", "animation", "animation-delay", "animation-direction", "animation-duration", "animation-fill-mode", "animation-iteration-count", "animation-name", "animation-play-state", "animation-timing-function", "backface-visibility", "background", "background-attachment", "background-blend-mode", "background-clip", "background-color", "background-image", "background-origin", "background-position", "background-repeat", "background-size", "block-size", "border", "border-block", "border-block-color", "border-block-end", "border-block-end-color", "border-block-end-style", "border-block-end-width", "border-block-start", "border-block-start-color", "border-block-start-style", "border-block-start-width", "border-block-style", "border-block-width", "border-bottom", "border-bottom-color", "border-bottom-left-radius", "border-bottom-right-radius", "border-bottom-style", "border-bottom-width", "border-collapse", "border-color", "border-image", "border-image-outset", "border-image-repeat", "border-image-slice", "border-image-source", "border-image-width", "border-inline", "border-inline-color", "border-inline-end", "border-inline-end-color", "border-inline-end-style", "border-inline-end-width", "border-inline-start", "border-inline-start-color", "border-inline-start-style", "border-inline-start-width", "border-inline-style", "border-inline-width", "border-left", "border-left-color", "border-left-style", "border-left-width", "border-radius", "border-right", "border-right-color", "border-right-style", "border-right-width", "border-spacing", "border-style", "border-top", "border-top-color", "border-top-left-radius", "border-top-right-radius", "border-top-style", "border-top-width", "border-width", "bottom", "box-decoration-break", "box-shadow", "box-sizing", "break-after", "break-before", "break-inside", "caption-side", "caret-color", "clear", "clip", "clip-path", "clip-rule", "color", "column-count", "column-fill", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "column-span", "column-width", "columns", "contain", "content", "content-visibility", "counter-increment", "counter-reset", "cue", "cue-after", "cue-before", "cursor", "direction", "display", "empty-cells", "filter", "flex", "flex-basis", "flex-direction", "flex-flow", "flex-grow", "flex-shrink", "flex-wrap", "float", "flow", "font", "font-display", "font-family", "font-feature-settings", "font-kerning", "font-language-override", "font-size", "font-size-adjust", "font-smoothing", "font-stretch", "font-style", "font-synthesis", "font-variant", "font-variant-caps", "font-variant-east-asian", "font-variant-ligatures", "font-variant-numeric", "font-variant-position", "font-variation-settings", "font-weight", "gap", "glyph-orientation-vertical", "grid", "grid-area", "grid-auto-columns", "grid-auto-flow", "grid-auto-rows", "grid-column", "grid-column-end", "grid-column-start", "grid-gap", "grid-row", "grid-row-end", "grid-row-start", "grid-template", "grid-template-areas", "grid-template-columns", "grid-template-rows", "hanging-punctuation", "height", "hyphens", "icon", "image-orientation", "image-rendering", "image-resolution", "ime-mode", "inline-size", "isolation", "justify-content", "left", "letter-spacing", "line-break", "line-height", "list-style", "list-style-image", "list-style-position", "list-style-type", "margin", "margin-block", "margin-block-end", "margin-block-start", "margin-bottom", "margin-inline", "margin-inline-end", "margin-inline-start", "margin-left", "margin-right", "margin-top", "marks", "mask", "mask-border", "mask-border-mode", "mask-border-outset", "mask-border-repeat", "mask-border-slice", "mask-border-source", "mask-border-width", "mask-clip", "mask-composite", "mask-image", "mask-mode", "mask-origin", "mask-position", "mask-repeat", "mask-size", "mask-type", "max-block-size", "max-height", "max-inline-size", "max-width", "min-block-size", "min-height", "min-inline-size", "min-width", "mix-blend-mode", "nav-down", "nav-index", "nav-left", "nav-right", "nav-up", "none", "normal", "object-fit", "object-position", "opacity", "order", "orphans", "outline", "outline-color", "outline-offset", "outline-style", "outline-width", "overflow", "overflow-wrap", "overflow-x", "overflow-y", "padding", "padding-block", "padding-block-end", "padding-block-start", "padding-bottom", "padding-inline", "padding-inline-end", "padding-inline-start", "padding-left", "padding-right", "padding-top", "page-break-after", "page-break-before", "page-break-inside", "pause", "pause-after", "pause-before", "perspective", "perspective-origin", "pointer-events", "position", "quotes", "resize", "rest", "rest-after", "rest-before", "right", "row-gap", "scroll-margin", "scroll-margin-block", "scroll-margin-block-end", "scroll-margin-block-start", "scroll-margin-bottom", "scroll-margin-inline", "scroll-margin-inline-end", "scroll-margin-inline-start", "scroll-margin-left", "scroll-margin-right", "scroll-margin-top", "scroll-padding", "scroll-padding-block", "scroll-padding-block-end", "scroll-padding-block-start", "scroll-padding-bottom", "scroll-padding-inline", "scroll-padding-inline-end", "scroll-padding-inline-start", "scroll-padding-left", "scroll-padding-right", "scroll-padding-top", "scroll-snap-align", "scroll-snap-stop", "scroll-snap-type", "scrollbar-color", "scrollbar-gutter", "scrollbar-width", "shape-image-threshold", "shape-margin", "shape-outside", "speak", "speak-as", "src", "tab-size", "table-layout", "text-align", "text-align-all", "text-align-last", "text-combine-upright", "text-decoration", "text-decoration-color", "text-decoration-line", "text-decoration-style", "text-emphasis", "text-emphasis-color", "text-emphasis-position", "text-emphasis-style", "text-indent", "text-justify", "text-orientation", "text-overflow", "text-rendering", "text-shadow", "text-transform", "text-underline-position", "top", "transform", "transform-box", "transform-origin", "transform-style", "transition", "transition-delay", "transition-duration", "transition-property", "transition-timing-function", "unicode-bidi", "vertical-align", "visibility", "voice-balance", "voice-duration", "voice-family", "voice-pitch", "voice-range", "voice-rate", "voice-stress", "voice-volume", "white-space", "widows", "width", "will-change", "word-break", "word-spacing", "word-wrap", "writing-mode", "z-index"].reverse()
-      ; return n => {
-        const a = n.regex, l = (e => ({
-          IMPORTANT: { scope: "meta", begin: "!important" },
-          BLOCK_COMMENT: e.C_BLOCK_COMMENT_MODE, HEXCOLOR: {
-            scope: "number",
-            begin: /#(([0-9a-fA-F]{3,4})|(([0-9a-fA-F]{2}){3,4}))\b/
-          }, FUNCTION_DISPATCH: {
-            className: "built_in", begin: /[\w-]+(?=\()/
-          }, ATTRIBUTE_SELECTOR_MODE: {
-            scope: "selector-attr", begin: /\[/, end: /\]/, illegal: "$",
-            contains: [e.APOS_STRING_MODE, e.QUOTE_STRING_MODE]
-          }, CSS_NUMBER_MODE: {
-            scope: "number",
-            begin: e.NUMBER_RE + "(%|em|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|px|deg|grad|rad|turn|s|ms|Hz|kHz|dpi|dpcm|dppx)?",
-            relevance: 0
-          }, CSS_VARIABLE: { className: "attr", begin: /--[A-Za-z][A-Za-z0-9_-]*/ }
-        }))(n), s = [n.APOS_STRING_MODE, n.QUOTE_STRING_MODE]; return {
-          name: "CSS",
-          case_insensitive: !0, illegal: /[=|'\$]/, keywords: { keyframePosition: "from to" },
-          classNameAliases: { keyframePosition: "selector-tag" }, contains: [l.BLOCK_COMMENT, {
-            begin: /-(webkit|moz|ms|o)-(?=[a-z])/
-          }, l.CSS_NUMBER_MODE, {
-            className: "selector-id", begin: /#[A-Za-z0-9_-]+/, relevance: 0
-          }, {
-            className: "selector-class", begin: "\\.[a-zA-Z-][a-zA-Z0-9_-]*", relevance: 0
-          }, l.ATTRIBUTE_SELECTOR_MODE, {
-            className: "selector-pseudo", variants: [{
-              begin: ":(" + r.join("|") + ")"
-            }, { begin: ":(:)?(" + t.join("|") + ")" }]
-          }, l.CSS_VARIABLE, {
-            className: "attribute", begin: "\\b(" + o.join("|") + ")\\b"
-          }, {
-            begin: /:/, end: /[;}{]/,
-            contains: [l.BLOCK_COMMENT, l.HEXCOLOR, l.IMPORTANT, l.CSS_NUMBER_MODE, ...s, {
-              begin: /(url|data-uri)\(/, end: /\)/, relevance: 0, keywords: {
-                built_in: "url data-uri"
-              }, contains: [{ className: "string", begin: /[^)]/, endsWithParent: !0, excludeEnd: !0 }]
-            }, l.FUNCTION_DISPATCH]
-          }, {
-            begin: a.lookahead(/@/), end: "[{;]", relevance: 0,
-            illegal: /:/, contains: [{ className: "keyword", begin: /@-?\w[\w]*(-\w+)*/ }, {
-              begin: /\s/, endsWithParent: !0, excludeEnd: !0, relevance: 0, keywords: {
-                $pattern: /[a-z-]+/, keyword: "and or not only", attribute: i.join(" ")
-              }, contains: [{
-                begin: /[a-z-]+(?=:)/, className: "attribute"
-              }, ...s, l.CSS_NUMBER_MODE]
-            }]
-          }, {
-            className: "selector-tag", begin: "\\b(" + e.join("|") + ")\\b"
-          }]
-        }
-      }
-  })()
-    ; hljs.registerLanguage("css", e)
-})();/*! `xml` grammar compiled for Highlight.js 11.5.0 */
+  ; "object" == typeof exports && "undefined" != typeof module && (module.exports = hljs);
+/*! `xml` grammar compiled for Highlight.js 11.5.0 */
 (() => {
   var e = (() => {
     "use strict"; return e => {
@@ -646,7 +588,8 @@ var hljs = function () {
       }
     }
   })(); hljs.registerLanguage("xml", e)
-})();/*! `javascript` grammar compiled for Highlight.js 11.5.0 */
+})();
+/*! `javascript` grammar compiled for Highlight.js 11.5.0 */
 (() => {
   var e = (() => {
     "use strict"
@@ -807,45 +750,8 @@ var hljs = function () {
       }
   })()
     ; hljs.registerLanguage("javascript", e)
-})();/*! `sql` grammar compiled for Highlight.js 11.5.0 */
-(() => {
-  var e = (() => {
-    "use strict"; return e => {
-      const r = e.regex, t = e.COMMENT("--", "$"), n = ["true", "false", "unknown"], a = ["bigint", "binary", "blob", "boolean", "char", "character", "clob", "date", "dec", "decfloat", "decimal", "float", "int", "integer", "interval", "nchar", "nclob", "national", "numeric", "real", "row", "smallint", "time", "timestamp", "varchar", "varying", "varbinary"], i = ["abs", "acos", "array_agg", "asin", "atan", "avg", "cast", "ceil", "ceiling", "coalesce", "corr", "cos", "cosh", "count", "covar_pop", "covar_samp", "cume_dist", "dense_rank", "deref", "element", "exp", "extract", "first_value", "floor", "json_array", "json_arrayagg", "json_exists", "json_object", "json_objectagg", "json_query", "json_table", "json_table_primitive", "json_value", "lag", "last_value", "lead", "listagg", "ln", "log", "log10", "lower", "max", "min", "mod", "nth_value", "ntile", "nullif", "percent_rank", "percentile_cont", "percentile_disc", "position", "position_regex", "power", "rank", "regr_avgx", "regr_avgy", "regr_count", "regr_intercept", "regr_r2", "regr_slope", "regr_sxx", "regr_sxy", "regr_syy", "row_number", "sin", "sinh", "sqrt", "stddev_pop", "stddev_samp", "substring", "substring_regex", "sum", "tan", "tanh", "translate", "translate_regex", "treat", "trim", "trim_array", "unnest", "upper", "value_of", "var_pop", "var_samp", "width_bucket"], s = ["create table", "insert into", "primary key", "foreign key", "not null", "alter table", "add constraint", "grouping sets", "on overflow", "character set", "respect nulls", "ignore nulls", "nulls first", "nulls last", "depth first", "breadth first"], o = i, c = ["abs", "acos", "all", "allocate", "alter", "and", "any", "are", "array", "array_agg", "array_max_cardinality", "as", "asensitive", "asin", "asymmetric", "at", "atan", "atomic", "authorization", "avg", "begin", "begin_frame", "begin_partition", "between", "bigint", "binary", "blob", "boolean", "both", "by", "call", "called", "cardinality", "cascaded", "case", "cast", "ceil", "ceiling", "char", "char_length", "character", "character_length", "check", "classifier", "clob", "close", "coalesce", "collate", "collect", "column", "commit", "condition", "connect", "constraint", "contains", "convert", "copy", "corr", "corresponding", "cos", "cosh", "count", "covar_pop", "covar_samp", "create", "cross", "cube", "cume_dist", "current", "current_catalog", "current_date", "current_default_transform_group", "current_path", "current_role", "current_row", "current_schema", "current_time", "current_timestamp", "current_path", "current_role", "current_transform_group_for_type", "current_user", "cursor", "cycle", "date", "day", "deallocate", "dec", "decimal", "decfloat", "declare", "default", "define", "delete", "dense_rank", "deref", "describe", "deterministic", "disconnect", "distinct", "double", "drop", "dynamic", "each", "element", "else", "empty", "end", "end_frame", "end_partition", "end-exec", "equals", "escape", "every", "except", "exec", "execute", "exists", "exp", "external", "extract", "false", "fetch", "filter", "first_value", "float", "floor", "for", "foreign", "frame_row", "free", "from", "full", "function", "fusion", "get", "global", "grant", "group", "grouping", "groups", "having", "hold", "hour", "identity", "in", "indicator", "initial", "inner", "inout", "insensitive", "insert", "int", "integer", "intersect", "intersection", "interval", "into", "is", "join", "json_array", "json_arrayagg", "json_exists", "json_object", "json_objectagg", "json_query", "json_table", "json_table_primitive", "json_value", "lag", "language", "large", "last_value", "lateral", "lead", "leading", "left", "like", "like_regex", "listagg", "ln", "local", "localtime", "localtimestamp", "log", "log10", "lower", "match", "match_number", "match_recognize", "matches", "max", "member", "merge", "method", "min", "minute", "mod", "modifies", "module", "month", "multiset", "national", "natural", "nchar", "nclob", "new", "no", "none", "normalize", "not", "nth_value", "ntile", "null", "nullif", "numeric", "octet_length", "occurrences_regex", "of", "offset", "old", "omit", "on", "one", "only", "open", "or", "order", "out", "outer", "over", "overlaps", "overlay", "parameter", "partition", "pattern", "per", "percent", "percent_rank", "percentile_cont", "percentile_disc", "period", "portion", "position", "position_regex", "power", "precedes", "precision", "prepare", "primary", "procedure", "ptf", "range", "rank", "reads", "real", "recursive", "ref", "references", "referencing", "regr_avgx", "regr_avgy", "regr_count", "regr_intercept", "regr_r2", "regr_slope", "regr_sxx", "regr_sxy", "regr_syy", "release", "result", "return", "returns", "revoke", "right", "rollback", "rollup", "row", "row_number", "rows", "running", "savepoint", "scope", "scroll", "search", "second", "seek", "select", "sensitive", "session_user", "set", "show", "similar", "sin", "sinh", "skip", "smallint", "some", "specific", "specifictype", "sql", "sqlexception", "sqlstate", "sqlwarning", "sqrt", "start", "static", "stddev_pop", "stddev_samp", "submultiset", "subset", "substring", "substring_regex", "succeeds", "sum", "symmetric", "system", "system_time", "system_user", "table", "tablesample", "tan", "tanh", "then", "time", "timestamp", "timezone_hour", "timezone_minute", "to", "trailing", "translate", "translate_regex", "translation", "treat", "trigger", "trim", "trim_array", "true", "truncate", "uescape", "union", "unique", "unknown", "unnest", "update", "upper", "user", "using", "value", "values", "value_of", "var_pop", "var_samp", "varbinary", "varchar", "varying", "versioning", "when", "whenever", "where", "width_bucket", "window", "with", "within", "without", "year", "add", "asc", "collation", "desc", "final", "first", "last", "view"].filter((e => !i.includes(e))), l = {
-        begin: r.concat(/\b/, r.either(...o), /\s*\(/), relevance: 0, keywords: { built_in: o }
-      }
-        ; return {
-          name: "SQL", case_insensitive: !0, illegal: /[{}]|<\//, keywords: {
-            $pattern: /\b[\w\.]+/, keyword: ((e, { exceptions: r, when: t } = {}) => {
-              const n = t
-                ; return r = r || [], e.map((e => e.match(/\|\d+$/) || r.includes(e) ? e : n(e) ? e + "|0" : e))
-            })(c, { when: e => e.length < 3 }), literal: n, type: a,
-            built_in: ["current_catalog", "current_date", "current_default_transform_group", "current_path", "current_role", "current_schema", "current_transform_group_for_type", "current_user", "session_user", "system_time", "system_user", "current_time", "localtime", "current_timestamp", "localtimestamp"]
-          }, contains: [{
-            begin: r.either(...s), relevance: 0, keywords: {
-              $pattern: /[\w\.]+/,
-              keyword: c.concat(s), literal: n, type: a
-            }
-          }, {
-            className: "type",
-            begin: r.either("double precision", "large object", "with timezone", "without timezone")
-          }, l, { className: "variable", begin: /@[a-z0-9]+/ }, {
-            className: "string", variants: [{
-              begin: /'/, end: /'/, contains: [{ begin: /''/ }]
-            }]
-          }, {
-            begin: /"/, end: /"/, contains: [{
-              begin: /""/
-            }]
-          }, e.C_NUMBER_MODE, e.C_BLOCK_COMMENT_MODE, t, {
-            className: "operator",
-            begin: /[-+*/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?/, relevance: 0
-          }]
-        }
-    }
-  })()
-    ; hljs.registerLanguage("sql", e)
-})();/*! `plaintext` grammar compiled for Highlight.js 11.5.0 */
+})();
+/*! `plaintext` grammar compiled for Highlight.js 11.5.0 */
 (() => {
   var t = (() => {
     "use strict"; return t => ({
@@ -854,7 +760,8 @@ var hljs = function () {
     })
   })()
     ; hljs.registerLanguage("plaintext", t)
-})();/*! `java` grammar compiled for Highlight.js 11.5.0 */
+})();
+/*! `java` grammar compiled for Highlight.js 11.5.0 */
 (() => {
   var e = (() => {
     "use strict"
@@ -925,7 +832,8 @@ var hljs = function () {
     }
   })()
     ; hljs.registerLanguage("java", e)
-})();/*! `markdown` grammar compiled for Highlight.js 11.5.0 */
+})();
+/*! `markdown` grammar compiled for Highlight.js 11.5.0 */
 (() => {
   var e = (() => {
     "use strict"; return e => {
@@ -1004,173 +912,8 @@ var hljs = function () {
     }
   })()
     ; hljs.registerLanguage("markdown", e)
-})();/*! `ruby` grammar compiled for Highlight.js 11.5.0 */
-(() => {
-  var e = (() => {
-    "use strict"; return e => {
-      const n = e.regex, a = "([a-zA-Z_]\\w*[!?=]?|[-+~]@|<<|>>|=~|===?|<=>|[<>]=?|\\*\\*|[-/+%^&*~`|]|\\[\\]=?)", s = n.either(/\b([A-Z]+[a-z0-9]+)+/, /\b([A-Z]+[a-z0-9]+)+[A-Z]+/), i = n.concat(s, /(::\w+)*/), r = {
-        "variable.constant": ["__FILE__", "__LINE__"],
-        "variable.language": ["self", "super"],
-        keyword: ["alias", "and", "attr_accessor", "attr_reader", "attr_writer", "begin", "BEGIN", "break", "case", "class", "defined", "do", "else", "elsif", "end", "END", "ensure", "for", "if", "in", "include", "module", "next", "not", "or", "redo", "require", "rescue", "retry", "return", "then", "undef", "unless", "until", "when", "while", "yield"],
-        built_in: ["proc", "lambda"], literal: ["true", "false", "nil"]
-      }, c = {
-        className: "doctag", begin: "@[A-Za-z]+"
-      }, t = {
-        begin: "#<", end: ">"
-      }, b = [e.COMMENT("#", "$", { contains: [c] }), e.COMMENT("^=begin", "^=end", {
-        contains: [c], relevance: 10
-      }), e.COMMENT("^__END__", e.MATCH_NOTHING_RE)], l = {
-        className: "subst", begin: /#\{/, end: /\}/, keywords: r
-      }, d = {
-        className: "string",
-        contains: [e.BACKSLASH_ESCAPE, l], variants: [{ begin: /'/, end: /'/ }, {
-          begin: /"/, end: /"/
-        }, { begin: /`/, end: /`/ }, { begin: /%[qQwWx]?\(/, end: /\)/ }, {
-          begin: /%[qQwWx]?\[/,
-          end: /\]/
-        }, { begin: /%[qQwWx]?\{/, end: /\}/ }, { begin: /%[qQwWx]?</, end: />/ }, {
-          begin: /%[qQwWx]?\//, end: /\//
-        }, { begin: /%[qQwWx]?%/, end: /%/ }, {
-          begin: /%[qQwWx]?-/,
-          end: /-/
-        }, { begin: /%[qQwWx]?\|/, end: /\|/ }, { begin: /\B\?(\\\d{1,3})/ }, {
-          begin: /\B\?(\\x[A-Fa-f0-9]{1,2})/
-        }, { begin: /\B\?(\\u\{?[A-Fa-f0-9]{1,6}\}?)/ }, {
-          begin: /\B\?(\\M-\\C-|\\M-\\c|\\c\\M-|\\M-|\\C-\\M-)[\x20-\x7e]/
-        }, {
-          begin: /\B\?\\(c|C-)[\x20-\x7e]/
-        }, { begin: /\B\?\\?\S/ }, {
-          begin: n.concat(/<<[-~]?'?/, n.lookahead(/(\w+)(?=\W)[^\n]*\n(?:[^\n]*\n)*?\s*\1\b/)),
-          contains: [e.END_SAME_AS_BEGIN({
-            begin: /(\w+)/, end: /(\w+)/,
-            contains: [e.BACKSLASH_ESCAPE, l]
-          })]
-        }]
-      }, g = "[0-9](_?[0-9])*", o = {
-        className: "number",
-        relevance: 0, variants: [{
-          begin: `\\b([1-9](_?[0-9])*|0)(\\.(${g}))?([eE][+-]?(${g})|r)?i?\\b`
-        }, {
-          begin: "\\b0[dD][0-9](_?[0-9])*r?i?\\b"
-        }, {
-          begin: "\\b0[bB][0-1](_?[0-1])*r?i?\\b"
-        }, { begin: "\\b0[oO][0-7](_?[0-7])*r?i?\\b" }, {
-          begin: "\\b0[xX][0-9a-fA-F](_?[0-9a-fA-F])*r?i?\\b"
-        }, {
-          begin: "\\b0(_?[0-7])+r?i?\\b"
-        }]
-      }, _ = {
-        variants: [{ match: /\(\)/ }, {
-          className: "params", begin: /\(/, end: /(?=\))/, excludeBegin: !0, endsParent: !0,
-          keywords: r
-        }]
-      }, u = [d, {
-        variants: [{ match: [/class\s+/, i, /\s+<\s+/, i] }, {
-          match: [/class\s+/, i]
-        }], scope: { 2: "title.class", 4: "title.class.inherited" },
-        keywords: r
-      }, { relevance: 0, match: [i, /\.new[ (]/], scope: { 1: "title.class" } }, {
-          relevance: 0, match: /\b[A-Z][A-Z_0-9]+\b/, className: "variable.constant"
-        }, {
-          match: [/def/, /\s+/, a], scope: { 1: "keyword", 3: "title.function" }, contains: [_]
-        }, {
-          begin: e.IDENT_RE + "::"
-        }, {
-          className: "symbol",
-          begin: e.UNDERSCORE_IDENT_RE + "(!|\\?)?:", relevance: 0
-        }, {
-          className: "symbol",
-          begin: ":(?!\\s)", contains: [d, { begin: a }], relevance: 0
-        }, o, {
-          className: "variable",
-          begin: "(\\$\\W)|((\\$|@@?)(\\w+))(?=[^@$?])(?![A-Za-z])(?![@$?'])"
-        }, {
-          className: "params", begin: /\|/, end: /\|/, excludeBegin: !0, excludeEnd: !0,
-          relevance: 0, keywords: r
-        }, {
-          begin: "(" + e.RE_STARTERS_RE + "|unless)\\s*",
-          keywords: "unless", contains: [{
-            className: "regexp", contains: [e.BACKSLASH_ESCAPE, l],
-            illegal: /\n/, variants: [{ begin: "/", end: "/[a-z]*" }, { begin: /%r\{/, end: /\}[a-z]*/ }, {
-              begin: "%r\\(", end: "\\)[a-z]*"
-            }, { begin: "%r!", end: "![a-z]*" }, {
-              begin: "%r\\[",
-              end: "\\][a-z]*"
-            }]
-          }].concat(t, b), relevance: 0
-        }].concat(t, b)
-        ; l.contains = u, _.contains = u; const w = [{
-          begin: /^\s*=>/, starts: { end: "$", contains: u }
-        }, {
-          className: "meta.prompt",
-          begin: "^([>?]>|[\\w#]+\\(\\w+\\):\\d+:\\d+[>*]|(\\w+-)?\\d+\\.\\d+\\.\\d+(p\\d+)?[^\\d][^>]+>)(?=[ ])",
-          starts: { end: "$", keywords: r, contains: u }
-        }]; return b.unshift(t), {
-          name: "Ruby",
-          aliases: ["rb", "gemspec", "podspec", "thor", "irb"], keywords: r, illegal: /\/\*/,
-          contains: [e.SHEBANG({ binary: "ruby" })].concat(w).concat(b).concat(u)
-        }
-    }
-  })()
-    ; hljs.registerLanguage("ruby", e)
-})();/*! `yaml` grammar compiled for Highlight.js 11.5.0 */
-(() => {
-  var e = (() => {
-    "use strict"; return e => {
-      const n = "true false yes no null", a = "[\\w#;/?:@&=+$,.~*'()[\\]]+", s = {
-        className: "string", relevance: 0, variants: [{ begin: /'/, end: /'/ }, {
-          begin: /"/, end: /"/
-        }, { begin: /\S+/ }], contains: [e.BACKSLASH_ESCAPE, {
-          className: "template-variable",
-          variants: [{ begin: /\{\{/, end: /\}\}/ }, { begin: /%\{/, end: /\}/ }]
-        }]
-      }, i = e.inherit(s, {
-        variants: [{ begin: /'/, end: /'/ }, { begin: /"/, end: /"/ }, { begin: /[^\s,{}[\]]+/ }]
-      }), l = {
-        end: ",", endsWithParent: !0, excludeEnd: !0, keywords: n, relevance: 0
-      }, t = {
-        begin: /\{/,
-        end: /\}/, contains: [l], illegal: "\\n", relevance: 0
-      }, g = {
-        begin: "\\[", end: "\\]",
-        contains: [l], illegal: "\\n", relevance: 0
-      }, b = [{
-        className: "attr", variants: [{
-          begin: "\\w[\\w :\\/.-]*:(?=[ \t]|$)"
-        }, { begin: '"\\w[\\w :\\/.-]*":(?=[ \t]|$)' }, {
-          begin: "'\\w[\\w :\\/.-]*':(?=[ \t]|$)"
-        }]
-      }, {
-        className: "meta", begin: "^---\\s*$",
-        relevance: 10
-      }, {
-        className: "string",
-        begin: "[\\|>]([1-9]?[+-])?[ ]*\\n( +)[^ ][^\\n]*\\n(\\2[^\\n]+\\n?)*"
-      }, {
-        begin: "<%[%=-]?", end: "[%-]?%>", subLanguage: "ruby", excludeBegin: !0, excludeEnd: !0,
-        relevance: 0
-      }, { className: "type", begin: "!\\w+!" + a }, {
-        className: "type",
-        begin: "!<" + a + ">"
-      }, { className: "type", begin: "!" + a }, {
-        className: "type", begin: "!!" + a
-      }, { className: "meta", begin: "&" + e.UNDERSCORE_IDENT_RE + "$" }, {
-        className: "meta",
-        begin: "\\*" + e.UNDERSCORE_IDENT_RE + "$"
-      }, {
-        className: "bullet", begin: "-(?=[ ]|$)",
-        relevance: 0
-      }, e.HASH_COMMENT_MODE, { beginKeywords: n, keywords: { literal: n } }, {
-        className: "number",
-        begin: "\\b[0-9]{4}(-[0-9][0-9]){0,2}([Tt \\t][0-9][0-9]?(:[0-9][0-9]){2})?(\\.[0-9]*)?([ \\t])*(Z|[-+][0-9][0-9]?(:[0-9][0-9])?)?\\b"
-      }, { className: "number", begin: e.C_NUMBER_RE + "\\b", relevance: 0 }, t, g, s], r = [...b]
-        ; return r.pop(), r.push(i), l.contains = r, {
-          name: "YAML", case_insensitive: !0,
-          aliases: ["yml"], contains: b
-        }
-    }
-  })(); hljs.registerLanguage("yaml", e)
-})();/*! `json` grammar compiled for Highlight.js 11.5.0 */
+})();
+/*! `json` grammar compiled for Highlight.js 11.5.0 */
 (() => {
   var e = (() => {
     "use strict"; return e => ({
@@ -1187,78 +930,143 @@ var hljs = function () {
 /*! `apex` grammar compiled for Highlight.js 11.5.0 */
 (() => {
   var e = (() => {
-    "use strict"; function e(t, a, n) {
-      return -1 === n ? "" : t.replace(a, (s => e(t, a, n - 1)))
+    "use strict"; function e(t, s, a) {
+      return -1 === a ? "" : t.replace(s, (c => e(t, s, a - 1)))
     } return t => {
-      const a = t.regex, n = "[a-zA-Z][a-zA-Z_0-9]*", s = n + e("(?:<" + n + "~~~(?:\\s*,\\s*" + n + "~~~)*>)?", /~~~/g, 2), r = {
-        keyword: ["abstract", "break", "case", "catch", "continue", "default", "do", "else", "enum", "execute", "exports", "extends|6", "final", "finally", "finish", "for", "global|4", "if", "implements|6", "import", "instanceof", "module", "override", "package", "private", "protected", "public", "requires", "start", "static", "switch", "throws", "testmethod", "transient", "try", "var", "virtual", "void", "webservice", "while"],
-        literal: ["false", "true", "null"],
-        type: ["anytype", "blob", "boolean", "byte", "currency", "date", "datetime", "decimal", "double", "float", "id", "integer", "list", "long", "map", "object", "pagereference", "selectoption", "set", "short", "sobject", "string", "time", "void", "int|0", "bool|0", "float|0", "int|0", "int32|0", "int64|0"],
-        title: ["ApexPages|10", "AppLauncher|10", "Approval|10", "Auth|10", "Cache|10", "Canvas|10", "ChatterAnswers|10", "CommercePayments|10", "ConnectApi|10", "Database|6", "Datacloud|10", "DataSource|10", "Dom|4", "EventBus|10", "Flow|10", "Functions|10", "KbManagement|10", "Label", "LxScheduler|10", "Messaging|0", "Metadata|0", "Pref_center|10", "Process|0", "QuickAction|10", "Reports|10", "Schema|4", "Search|0", "Sfc|10", "Sfdc_Checkout|10", "sfdc_surveys|10", "Site|6", "Support|10", "System|10", "TerritoryMgmt|10", "Test|10", "TxnSecurity|10", "Type", "UserProvisioning|10", "VisualEditor|10", "Wave|10"],
-        built_in: ["super", "this", "trigger|10", "class", "insert", "update", "upsert|10", "delete", "undelete", "merge", "before", "after"]
-      }, i = {
-        className: "meta", begin: "@[a-zA-Z_$][a-zA-Z_$0-9]+", end: "[$(]",
-        excludeEnd: !0, contains: [{ begin: /\(/, end: /\)/, contains: ["self"] }]
-      }, c = {
-        className: "params", begin: /\(/, end: /\)/, keywords: r, relevance: 0,
-        contains: [t.C_BLOCK_COMMENT_MODE], endsParent: !0
-      }, o = "\\.([0-9](_?[0-9])*)", l = "0|[1-9](_?[0-9])*|0[0-7]*[89][0-9]*", b = {
-        className: "number", variants: [{
-          begin: `(\\b(${l})((${o})|\\.)?|(${o}))[eE][+-]?([0-9](_?[0-9])*)\\b`
+      const s = t.regex, a = "[a-zA-Z][a-zA-Z_0-9]*", c = a + e("(?:<" + a + "~~~(?:\\s*,\\s*" + a + "~~~)*>)?", /~~~/g, 2), n = {
+        scope: "number", match: /\b[0-9]+(?:\.[0-9]+)?/, relevance: 0
+      }, r = ["false", "true", "null"], o = {
+        match: [s.concat(/\b/, s.either(...r), /\b/)],
+        scope: { 1: "literal" }, relevance: 0
+      }, i = ["anytype", "blob|0", "boolean|0", "byte|0", "currency|0", "date|0", "datetime|0", "decimal|0", "double|0", "enum|0", "exception|0", "float|0", "id|8", "integer|0", "long|0", "object", "pagereference|10", "selectoption|10", "short|0", "sobject|10", "string|0", "time|0", "void|0", "float|0"], l = {
+        match: s.concat(/(?<=[^\.])\b/, s.either(...i), /\b/), scope: "type"
+      }, b = {
+        $pattern: "[A-Za-z][0-9A-Za-z$_]*",
+        keyword: ["abstract", "AccessLevel", "USER_MODE", "break", "catch", "continue", "default", "do", "else", "execute", "exports", "extends|6", "final", "finally", "finish", "for", "get", "put", "set", "global", "if", "implements", "new", "newMap|10", "old|10", "oldMap|10", "override", "private", "protected", "public", "return", "seealldata|8", "start", "static", "throws", "throw", "testmethod|10", "transient", "try", "virtual", "webservice", "when", "while"],
+        "variable.language": ["super", "this", "self", "instanceof"],
+        built_in: ["trigger|10", "class", "interface", "insert", "update", "upsert|8", "delete", "undelete", "merge", "schedulable|10", "batchable|10", "queueable|10", "comparable|10", "callable|10"],
+        type: i, literal: r
+      }, p = {
+        match: [s.concat(/\b/, s.either("ApexPages|10", "AppLauncher", "Approval", "Auth", "Cache", "Canvas", "ChatterAnswers|10", "CommercePayments|10", "ConnectApi|10", "Database", "Datacloud|10", "DataSource|10", "Dom", "EventBus|10", "Flow", "Functions", "KbManagement|10", "Label", "LxScheduler|10", "Messaging", "Metadata", "Pref_center|10", "Process", "QuickAction", "Reports", "Schema", "Search", "Sfc|10", "Sfdc_Checkout|10", "sfdc_surveys|10", "Site", "Support", "System", "TerritoryMgmt|10", "Test", "Trigger|10", "TxnSecurity|10", "Type", "UserProvisioning|10", "VisualEditor|10", "Wave|10"), /(?=\.)/)],
+        scope: { 1: "built_in" }, relevance: 10
+      }, E = t.COMMENT("//", /[$\n]/), A = t.COMMENT("/\\*", "\\*/", {
+        relevance: 0, contains: [{
+          begin: /\w+@/, relevance: 0
+        }, { scope: "doctag", begin: "@[A-Za-z_]+" }, {
+          begin: "`",
+          end: "`", excludeBegin: !1, excludeEnd: !1, scope: "meta string",
+          contains: [t.BACKSLASH_ESCAPE], relevance: 0
+        }]
+      }), u = {
+        relevance: 10,
+        begin: s.either("@AuraEnabled", "@Deprecated", "@Future", "@HttpDelete", "@HttpGet", "@HttpPatch", "@HttpPost", "@HttpPut", "@InvocableMethod", "@InvocableVariable", "@IsTest", "@jsonAccess", "@namespaceAccessible,", "@ReadOnly", "@RemoteAction", "@RestResource", "@SuppressWarnings", "@TestSetup", "@TestVisible"),
+        end: "\n", excludeEnd: !0, scope: "meta", keywords: b, contains: [t.APOS_STRING_MODE, {
+          begin: /\(/, end: /\)/, contains: [t.APOS_STRING_MODE, o, n, {
+            match: "=", scope: "operator"
+          }, { match: /\b\w+\s*(?==)/, scope: "type" }]
+        }]
+      }, d = [{
+        match: /\b[a-zA-Z\d]*Exception\b/,
+        scope: "type", relevance: 0
+      }, {
+        match: [/\wthrow\s+new\s+/, a], scope: {
+          1: "keyword",
+          2: "type"
+        }, relevance: 0
+      }], S = [{
+        match: [s.concat(/\b/, a, /\b/), />/], scope: { 1: "type" },
+        relevance: 10
+      }], h = [{
+        match: [/\b(list|set|map)\s*/, /(?=<)/], scope: { 1: "type" },
+        relevance: 10
+      }, { match: [a, /\s*/, "[]"], scope: { 1: "type" } }], T = {
+        match: [/[^\.]/, /\b[a-zA-Z][a-zA-Z\d_]*__[cxeb]\b/, /[\(\s;,]+/], scope: { 2: "type" },
+        relevance: 10
+      }, m = {
+        variants: [{
+          begin: [/\./, s.concat("(?:" + c + ")"), /(?=\s*\(\))/],
+          scope: { 2: "title.function.invoke" }
         }, {
-          begin: `\\b(${l})\\b((${o})\\b|\\.)?|(${o})\\b`
+          begin: [/\./, s.concat("(?:" + c + ")"), /(?=\s*\([^\)])/], scope: {
+            2: "title.function.invoke"
+          }
+        }], contains: [E, A, t.APOS_STRING_MODE], relevance: 0
+      }, v = {
+        begin: /\[[\s\n]*(?=SELECT)/, end: /\]/, scope: "subst", relevance: 20, contains: [{
+          begin: s.concat(/\b/, s.either("ABOVE_OR_BELOW", "ABOVE", "ACTIVE", "ADVANCED", "ALL", /ALL\s+FIELDS/, "AND", "ANY", "ARRAY", "AS", "ASC", "BY", "CATEGORY", "CONTAINS", "COUNT", "COUNT_DISTINCT", "SUM", "MAX", "MIN", "HOUR_IN_DAY", "CONVERTCURRENCY", "CUBE", "DATA", "DESC", "DIVISION", "END", "EXCLUDES", "FIELDS", "FIND", "FIRST", "FOR", "FROM", /GROUP\s+BY/, "HAVING", "INCLUDES", "LAST", "LAST_90_DAYS", "LAST_MONTH", "LAST_N_DAYS", "LAST_WEEK", "LAST", "LIKE", "LIMIT", "NETWORK", "NEXT_90_DAYS", "NEXT_MONTH", "NEXT_N_DAYS", "NEXT_WEEK", "NULLS", "OFFSET", "ON", "OR", /ORDER\s+BY/, "REFERENCE", "RETURNING", "ROLLUP", "ROWS", "SEARCH", "SECURITY_ENFORCED", "SELECT", "SNIPPET", "SORT", "THIS_MONTH", "THIS_WEEK", "TODAY", "TOLABEL", "TOMORROW", "TRACKING", "TYPEOF", "UPDATE", /USING\s+SCOPE/, "VIEW", "VIEWSTAT", "VIEWSTATE", "WHERE", "WITH", "YESTERDAY", "USER_MODE"), /\b/),
+          scope: "literal"
         }, {
-          begin: "\\b(0|[1-9](_?[0-9])*)n\\b"
+          match: /(\bIN\b|<|<=|>|>=|\bNOT\s+IN\b|=|!\s*=|:{1})/,
+          scope: "literal", relevance: 0
         }, {
-          begin: "\\b0[xX][0-9a-fA-F](_?[0-9a-fA-F])*n?\\b"
-        }, {
-          begin: "\\b0[bB][0-1](_?[0-1])*n?\\b"
-        }, { begin: "\\b0[oO][0-7](_?[0-7])*n?\\b" }, {
-          begin: "\\b0[0-7]+n?\\b"
-        }], relevance: 0
-      }; return {
-        name: "Apex", aliases: ["apex"],
-        case_insensitive: !0, disableAutodetect: !1, keywords: r,
-        illegal: [/<\/|#/, "<]", /\nimport/, "struct"],
-        contains: [t.COMMENT("/\\*\\*", "\\*/", {
-          relevance: 0, contains: [{
-            begin: /\w+@/,
-            relevance: 0
-          }, { className: "doctag", begin: "@[A-Za-z]+" }]
-        }), {
-          begin: /import \.[a-z]+\./, keywords: "import", relevance: 0
-        }, t.C_LINE_COMMENT_MODE, t.C_BLOCK_COMMENT_MODE, {
-          begin: "'", end: "'",
-          scope: "string", relevance: 8, contains: [t.BACKSLASH_ESCAPE]
-        }, t.APOS_STRING_MODE, t.QUOTE_STRING_MODE, {
-          match: [/\b(?:class|interface|enum|extends|implements|new)/, /\s+/, n], className: {
-            1: "keyword", 3: "title.class"
-          },
-          contains: [c, t.C_LINE_COMMENT_MODE, t.C_BLOCK_COMMENT_MODE]
-        }, {
-          match: [/\b(?:trigger)/, /\s+/, n, /\s+/, /on/, /\s+/, n], className: {
-            1: "keyword",
-            3: "title.class", 7: "type"
+          match: /(?<=\bFROM\b\s+)\w+/, scope: "type",
+          relevance: 0
+        }, { match: /\b[a-zA-Z][a-zA-Z_0-9]*\b/, scope: "property" }, n, m],
+        illegal: "::"
+      }, _ = [{
+        match: [/\b(?<=enum)/, /\s+/, a, /\s*(?=[{()])/], scope: { 3: "type" },
+        contains: [E, A, T]
+      }, {
+        match: [/(?<=\bnew)/, /\s+/, a, /\s*(?=[{()])/], scope: { 3: "type" },
+        contains: [E, A, T]
+      }, {
+        match: [/\bclass/, /\s+/, a], scope: { 1: "keyword", 3: "title.class" }
+      }, { match: [/(?<=public)(?<=\s+)/, a, /(?=\s*\()/], scope: { 2: "constructor" } }, {
+        match: [/\b(?:extends)/, /\s+/, a], scope: { 3: "title.class.inherited" },
+        contains: [E, A, p], illegal: [/\b_/, /_\b/]
+      }], N = {
+        variants: [{
+          match: [/\bfor\b/, /\s*\(/, /\w+/, /\s+/, /\w+/, /\s+:/, /(?=\s*\[)/], scope: {
+            1: "keyword", 3: "type", 5: "variable"
           }
         }, {
-          begin: [a.concat(/(?!else)/, n), /\s+/, n, /\s+/, /=/],
-          className: { 1: "type", 3: "variable", 5: "operator" }, relevance: 10
-        }, {
-          beginKeywords: "new throw return else", relevance: 0
-        }, {
-          begin: ["(?:" + s + "\\s+)", t.UNDERSCORE_IDENT_RE, /\s*(?=\()/], className: {
-            2: "title.function"
-          }, keywords: r, contains: [{
-            className: "params", begin: /\(/,
-            end: /\)/, keywords: r, relevance: 0,
-            contains: [i, t.APOS_STRING_MODE, t.QUOTE_STRING_MODE, b, t.C_BLOCK_COMMENT_MODE]
-          }, t.C_LINE_COMMENT_MODE, t.C_BLOCK_COMMENT_MODE]
-        }, b, i]
+          match: [/\bfor\b/, /\s*\(/, /\w+/, /\s+/, /\w+/, /\s+:/, /\s*/, /\w+/], scope: {
+            1: "keyword", 3: "type", 5: "variable", 8: "variable"
+          }
+        }], contains: [E, A, v]
+      }, O = [{
+        match: [s.concat(/(?!else)/, a), /\s+/, a, /\s+/, /=/], scope: {
+          1: "type", 3: "variable",
+          5: "operator"
+        }, relevance: 0
+      }, {
+        match: [/\s+/, a, /\s+/, /=/], scope: {
+          2: "variable",
+          4: "operator"
+        }, relevance: 0
+      }, {
+        match: [/(?<=\w+\s+=\s+\()/, a, /(?=\))/], scope: {
+          2: "type"
+        }, relevance: 0
+      }], g = {
+        begin: [/\btrigger/, /\s+/, a, /\s+/, /on/, /\s+/, a],
+        end: "{", scope: { 1: "keyword", 3: "title.class", 7: "type" }, contains: [E, A, {
+          match: /(?:before|after)\s+(?:insert|update|delete|undelete)/, scope: "built_in",
+          relevance: 10
+        }], relevance: 10
+      }, R = {
+        begin: ["(?:" + c + "\\s+)", s.concat(/\b/, s.either(...i), /\b/), t.UNDERSCORE_IDENT_RE, /(?=\s*\()/],
+        keywords: b, scope: { 2: "type", 3: "title.function" },
+        contains: [E, A, t.APOS_STRING_MODE, l], relevance: 0, illegal: [/\b_/, /_\b/]
+      }, w = {
+        match: s.either(/-/, /~/, /\*/, /\*=/, /\/=/, /%/, /\.\.\./, /\.\./, /\+/, /<</, />>/, />=/, /<=/, /\s<\s/, /\s>\s/, /\^/, /\^=/, /!=/, /!/, /==/, /&&/, /&/, /\|\|/, /\|/, /\?:/, /=/, /=>/),
+        scope: "operator", relevance: 0
+      }; return {
+        name: "Apex", aliases: ["apex"],
+        case_insensitive: !0, disableAutodetect: !1, ignoreIllegals: !1, keywords: b,
+        illegal: ["</", "<#", "<]", "<div>", "\x3c!--", "!DOCTYPE", /<iframe\b/, /\n#/, /\nimport \.[a-zA-Z]+\./, /\nimport [\w]+/, /\ninclude </, /\nuse\s+</, /\b(const|var)\s+\w+\s*=/, /\bstruct\b/, "System.log", "console.log", /\bfor\s+\w+\s+IN\s+/, /\bif\s+\w+\s+IN\s+/, /\bend\s+if\b/, /\bend\s+select\b/, /\b(int|var)\s+\w+\s+=/, /\b(int[0-9]+|bool)\b/, /\b\$/, "::=", /\s#[a-zA-Z]/, /\s_[a-zA-Z]/, /\s\$[a-zA-Z]/, "#if", "%if", "%endif", "#endif", /\w::\w/, /RETURNING\s+\*/, /\bint\b/, /import\s+\w+\s+=\s+require\("\w+"\)/, "/\binclude\b/", /\buse\s+strict\b/, /\w+\s+=\s+"\S*";/, /\/include\//, /\Anamespace\b/, /\bend\.\n/, '"""'],
+        contains: [l, h, S, O, N, v, u, o, d, t.APOS_STRING_MODE, {
+          match: /\b(switch\s+on|as\s+user|as\s+system)\b/, relevance: 8, scope: "keyword"
+        }, T, {
+            relevance: 10, match: [/\b(?:with|without|inherited)\s+sharing/], scope: {
+              1: "keyword"
+            }
+          }, p, A, E, w, R, m, _, g, n]
       }
     }
-  })()
-    ; hljs.registerLanguage("apex", e)
+  })(); hljs.registerLanguage("apex", e)
 })();
 hljs.unregisterLanguage("sql");
 hljs.unregisterLanguage("xml");
 hljs.unregisterLanguage("java");
+hljs.unregisterLanguage("javascript");
