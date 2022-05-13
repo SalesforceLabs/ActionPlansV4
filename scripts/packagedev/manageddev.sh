@@ -1,3 +1,5 @@
+npm run labsdevhub
+
 echo "Cleaning previous scratch org..."
 sfdx force:org:delete -p -u ActionPlans
 
