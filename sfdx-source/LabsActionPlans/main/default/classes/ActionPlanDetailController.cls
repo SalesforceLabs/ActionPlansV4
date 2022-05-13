@@ -212,7 +212,7 @@ public with sharing class ActionPlanDetailController {
 		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
 			if (actionPlan.get(f) != null) {
 				Id objId = (Id) actionPlan.get(f);
-				Schema.DescribeSObjectResult dsr = objId.getSObjectType().getDescribe();
+				Schema.DescribeSObjectResult dsr = ActionPlansUtilities.getRelatedRecordInfo(objId);
 				objLabel = dsr.getLabel();
 				break;
 			}
@@ -231,7 +231,7 @@ public with sharing class ActionPlanDetailController {
 		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
 			if (actionPlan.get(f) != null) {
 				objId = (Id) actionPlan.get(f);
-				Schema.DescribeSObjectResult dsr = objId.getSObjectType().getDescribe();
+				Schema.DescribeSObjectResult dsr = ActionPlansUtilities.getRelatedRecordInfo(objId);
 				objName = dsr.getName();
 				break;
 			}

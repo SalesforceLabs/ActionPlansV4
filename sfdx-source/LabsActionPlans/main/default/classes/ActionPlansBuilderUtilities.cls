@@ -40,7 +40,11 @@ public inherited sharing class ActionPlansBuilderUtilities {
 	}
 	private ApEditMode mode;
 
+	/**
+	 * All tasks for upserting that will not require an email to be sent
+	 */
 	private List<Task> myTasksWithOutEmail { get; set; }
+	// TODO: Combine these two lists and use upsert if we can with the dmlo
 	private List<Task> myOldTasksWithEmail { get; set; }
 	private List<Task> myNewTasksWithEmail { get; set; }
 
@@ -370,7 +374,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		}
 		List<Id> recordIdList = new List<Id>(relatedRecordIDs);
 		Id recId = recordIdList[0];
-		String objectName = recId.getSobjectType().getDescribe().getName();
+		String objectName = ActionPlansUtilities.getRelatedRecordInfo(recId).getName();
 
 		String queryRetrieveOwnerIds;
 
@@ -407,7 +411,8 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			for (String f : apRefFields) {
 				if (ap.get(f) != null) {
 					recId = (Id) ap.get(f);
-					chatterEnabled = recId.getSObjectType().getDescribe().isFeedEnabled();
+					chatterEnabled = ActionPlansUtilities.getRelatedRecordInfo(recId).isFeedEnabled();
+					//chatterEnabled = recId.getSObjectType().getDescribe().isFeedEnabled();
 					break;
 				}
 			}

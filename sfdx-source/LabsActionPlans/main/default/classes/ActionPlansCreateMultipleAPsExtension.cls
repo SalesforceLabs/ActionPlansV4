@@ -60,8 +60,9 @@ global with sharing class ActionPlansCreateMultipleAPsExtension {
 		Pagereference pageRef = Page.ActionPlanCreation;
 
 		Id firstId = objIDs.split(',')[0];
-		String objType = firstId.getSobjectType().getDescribe().getLabel();
-		String objPrefix = firstId.getSobjectType().getDescribe().getKeyPrefix();
+		Schema.DescribeSObjectResult dsr = ActionPlansUtilities.getRelatedRecordInfo(firstId);
+		String objType = dsr.getLabel();
+		String objPrefix = dsr.getKeyPrefix();
 
 		pageRef.getParameters().put('refType', objType);
 		pageRef.getParameters().put('refId', objIDs);

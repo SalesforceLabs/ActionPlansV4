@@ -361,7 +361,7 @@ public with sharing class ActionPlanCreationController {
 	public String refId {
 		get {
 			if (refId == null) {
-				refId = ActionPlansUtilities.getEscapedPageParameter('refId'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refId'));
+				refId = ActionPlansUtilities.getEscapedPageParameter('refId');
 			}
 			return refId;
 		}
@@ -375,9 +375,9 @@ public with sharing class ActionPlanCreationController {
 		get {
 			if (refType == null && refId != null) {
 				Id shortId = refId.left(15);
-				refType = shortId.getSobjectType().getDescribe().getName();
+				refType = ActionPlansUtilities.getRelatedRecordInfo(shortId).getName();
 			} else if (refId == null) {
-				refType = ActionPlansUtilities.getEscapedPageParameter('refType'); //String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('refType'));
+				refType = ActionPlansUtilities.getEscapedPageParameter('refType');
 			}
 			return refType;
 		}
