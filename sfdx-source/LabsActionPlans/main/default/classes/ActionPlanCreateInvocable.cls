@@ -34,14 +34,16 @@ global without sharing class ActionPlanCreateInvocable {
 	 *     req.templateNameOrID = apTemplate.Id;
 	 *     req.relatedRecordID = a.Id;
 	 *     req.daysToActionPlanStart = 0;
-	 *     req.actionPlanName = apTemplate.Name + ' - ' + a.Name;
+	 *     req.actionPlanName = apTemplate.Name + ' - ' + a.Name; // optional
 	 *     requests.add(req);
 	 * List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 	 */
 	@InvocableMethod(label='Create Action Plan From Template' description='Takes a Template Name/Id and Record Id and makes an Action Plan for that record.' category='ActionPlans')
 	global static List<Id> makeActionPlanFromTemplate(List<CreateActionPlanRequest> requests) {
-		List<Id> resultIDs = new List<Id>();
+		List<ActionPlan__c> actionPlansToInsert = new List<ActionPlan__c>();
+		Set<Id> createdAPIDs = new Set<Id>();
 
+		// * Collect template IDs
 		Set<String> templateNamesOrIDs = new Set<String>();
 		for (CreateActionPlanRequest r : requests) {
 			templateNamesOrIDs.add(r.templateNameOrID);
@@ -49,7 +51,8 @@ global without sharing class ActionPlanCreateInvocable {
 
 		Map<String, ActionPlanTemplate__c> templateNameOrIdToTemplate = new Map<String, ActionPlanTemplate__c>();
 
-		List<ActionPlanTemplate__c> possibleTemplates = [
+		// Map contains Id AND Name because we will refer to
+		for (ActionPlanTemplate__c apt : [
 			SELECT
 				Id,
 				Description__c,
@@ -82,16 +85,16 @@ global without sharing class ActionPlanCreateInvocable {
 				)
 			FROM ActionPlanTemplate__c
 			WHERE Name IN :templateNamesOrIDs OR Id IN :templateNamesOrIDs
-		];
-
-		if (possibleTemplates.isEmpty()) {
-			return resultIDs;
-		}
-
-		for (ActionPlanTemplate__c apt : possibleTemplates) {
+		]) {
 			templateNameOrIdToTemplate.put(apt.Id, apt);
 			templateNameOrIdToTemplate.put(apt.Name, apt);
 		}
+
+		if (templateNameOrIdToTemplate.isEmpty()) {
+			return new List<Id>(createdAPIDs);
+		}
+
+		// * Handle parent records
 
 		Set<Id> relatedIDs = new Set<Id>();
 
@@ -99,22 +102,18 @@ global without sharing class ActionPlanCreateInvocable {
 			relatedIDs.add(r.relatedRecordID);
 		}
 
-		Map<Id, ActionPlan__c> actionPlansToInsert = new Map<Id, ActionPlan__c>();
-
-		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
-
 		Map<Id, Id> relObjectOwners = ActionPlansBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs);
 		Map<Id, String> relRecordNames = ActionPlansUtilities.queryRecordIDToRecordName(relatedIDs);
 
 		Set<String> actionPlanFields = Schema.SObjectType.ActionPlan__c.fields.getMap().keyset();
 
+		// * Copy Template fields to new AP fields
 		for (CreateActionPlanRequest r : requests) {
 			if (!templateNameOrIdToTemplate.containsKey(r.templateNameOrID)) {
 				continue;
 			}
 
 			ActionPlanTemplate__c actionPlanTemplate = templateNameOrIdToTemplate.get(r.templateNameOrID);
-
 			ActionPlan__c ap = new ActionPlan__c();
 			ap.Name = String.isBlank(r.actionPlanName)
 				? ActionPlansUtilities.actionPlanSubjectToName(actionPlanTemplate.Name + ' - ' + relRecordNames.get(r.relatedRecordID))
@@ -122,7 +121,7 @@ global without sharing class ActionPlanCreateInvocable {
 			ap.Description__c = actionPlanTemplate.Description__c;
 			ap.SkipWeekends__c = actionPlanTemplate.SkipWeekends__c;
 			ap.SkipDay__c = actionPlanTemplate.SkipDay__c;
-			ap.Action_Plan_Template__c = actionPlanTemplate.Id;
+			ap.Action_Plan_Template__c = actionPlanTemplate.Id; // Most important line
 			ap.TaskRecordTypeID__c = actionPlanTemplate.TaskRecordTypeID__c;
 			ap.StartDate__c = Date.today().addDays(r.daysToActionPlanStart == null ? 0 : r.daysToActionPlanStart);
 
@@ -130,6 +129,7 @@ global without sharing class ActionPlanCreateInvocable {
 				ap.put(s, null);
 			}
 
+			// * Describe parent (if needed - it was memoized) and fill related field
 			Id relatedId = r.relatedRecordID;
 			Schema.DescribeSObjectResult sor = ActionPlansUtilities.getRelatedRecordInfo(relatedId);
 			String relObjName = sor.getName().toLowerCase();
@@ -152,68 +152,66 @@ global without sharing class ActionPlanCreateInvocable {
 			}
 			ap.put(relObjField, relatedId);
 
-			actionPlansToInsert.put(r.relatedRecordID, ap);
+			actionPlansToInsert.add(ap);
 		}
 
 		if (actionPlansToInsert.isEmpty()) {
-			return resultIDs;
+			return new List<Id>(createdAPIDs);
 		}
 
-		insert actionPlansToInsert.values();
+		insert actionPlansToInsert;
+
+		// * Action Plans inserted. Handle APTasks.
 
 		Map<String, APTask__c> planTaskIndexToTask = new Map<String, APTask__c>();
 
-		for (CreateActionPlanRequest r : requests) {
-			if (!actionPlansToInsert.containsKey(r.relatedRecordID)) {
-				continue;
-			}
+		// For each Actoin Plan, if we have a template match, make the ActionPlan tasks
+		for (ActionPlan__c ap : actionPlansToInsert) {
+			if (ap.Action_Plan_Template__c != null && templateNameOrIdToTemplate.containsKey(ap.Action_Plan_Template__c)) {
+				ActionPlanTemplate__c actionPlanTemplate = templateNameOrIdToTemplate.get(ap.Action_Plan_Template__c);
 
-			ActionPlan__c ap = actionPlansToInsert.get(r.relatedRecordID);
+				for (APTemplateTask__c aptTask : actionPlanTemplate.aptTasks__r) {
+					APTask__c apTask = new APTask__c();
+					apTask.User__c = ActionPlansBuilderUtilities.getAPTaskTemplateUser(ap, relObjectOwners, aptTask.User__c);
+					apTask.Type__c = aptTask.Type__c;
+					apTask.Subject__c = aptTask.Subject__c;
+					apTask.Priority__c = aptTask.Priority__c;
+					apTask.Dependent__c = aptTask.Dependent__c;
+					apTask.TaskIndex__c = aptTask.TaskIndex__c;
+					apTask.DaysFromStart__c = aptTask.DaysFromStart__c;
+					apTask.Comments__c = aptTask.Comments__c;
+					apTask.Reminder__c = aptTask.Reminder__c;
+					apTask.Minutes_Reminder__c = aptTask.Minutes_Reminder__c;
+					apTask.SendEmail__c = aptTask.SendEmail__c;
 
-			ActionPlanTemplate__c actionPlanTemplate = templateNameOrIdToTemplate.get(r.templateNameOrID);
+					apTask.Action_Plan__c = ap.Id;
 
-			for (APTemplateTask__c aptTask : actionPlanTemplate.aptTasks__r) {
-				APTask__c apTask = new APTask__c();
-				apTask.User__c = ActionPlansBuilderUtilities.getAPTaskTemplateUser(ap, relObjectOwners, aptTask.User__c);
-				apTask.Type__c = aptTask.Type__c;
-				apTask.Subject__c = aptTask.Subject__c;
-				apTask.Priority__c = aptTask.Priority__c;
-				apTask.Dependent__c = aptTask.Dependent__c;
-				apTask.TaskIndex__c = aptTask.TaskIndex__c;
-				apTask.DaysFromStart__c = aptTask.DaysFromStart__c;
-				apTask.Comments__c = aptTask.Comments__c;
-				apTask.Reminder__c = aptTask.Reminder__c;
-				apTask.Minutes_Reminder__c = aptTask.Minutes_Reminder__c;
-				apTask.SendEmail__c = aptTask.SendEmail__c;
+					apTask.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
 
-				apTask.Action_Plan__c = ap.Id;
-
-				apTask.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
-
-				if (apTask.Dependent__c != null && apTask.Dependent__c != 'None') {
-					apTask.ActivityDate__c = null;
-				} else {
-					apTask.Controller__c = null;
-
-					//set dependency taskId to none if none was selected
-					if (apTask.Dependent__c == null) {
-						apTask.Dependent__c = 'None';
-					}
-
-					// create due date, calculate the due date of the tasks for skip weekends feature
-					if (ap.SkipWeekends__c == true && ap.SkipDay__c != null) {
-						apTask.ActivityDate__c = ActionPlansUtilities.adjustTaskDueDate(ap.StartDate__c, apTask.DaysFromStart__c.intValue(), ap.SkipDay__c);
+					if (apTask.Dependent__c != null && apTask.Dependent__c != 'None') {
+						apTask.ActivityDate__c = null;
 					} else {
-						apTask.ActivityDate__c = ap.StartDate__c.addDays(apTask.DaysFromStart__c.intValue());
+						apTask.Controller__c = null;
+
+						//set dependency taskId to none if none was selected
+						if (apTask.Dependent__c == null) {
+							apTask.Dependent__c = 'None';
+						}
+
+						// create due date, calculate the due date of the tasks for skip weekends feature
+						if (ap.SkipWeekends__c == true && ap.SkipDay__c != null) {
+							apTask.ActivityDate__c = ActionPlansUtilities.adjustTaskDueDate(ap.StartDate__c, apTask.DaysFromStart__c.intValue(), ap.SkipDay__c);
+						} else {
+							apTask.ActivityDate__c = ap.StartDate__c.addDays(apTask.DaysFromStart__c.intValue());
+						}
 					}
+					planTaskIndexToTask.put(ap.Id + '' + apTask.TaskIndex__c, apTask);
 				}
-				planTaskIndexToTask.put(ap.Id + '' + apTask.TaskIndex__c, apTask);
 			}
 		}
-
 		Database.insert(planTaskIndexToTask.values());
 
-		// Now we have to update with the controlling/dependent task IDs
+		// We update with the controlling/dependent task IDs
 
 		List<APTask__c> dependentTasksToUpdate = new List<APTask__c>();
 
@@ -229,7 +227,7 @@ global without sharing class ActionPlanCreateInvocable {
 		Database.update(dependentTasksToUpdate);
 
 		List<Task> myTasksWithOutEmail = new List<Task>();
-		List<Task> myNewTasksWithEmail = new List<Task>();
+		List<Task> myTasksWithEmail = new List<Task>();
 
 		Map<Id, APTask__c> mapAP = new Map<Id, APTask__c>();
 		for (APTask__c a : planTaskIndexToTask.values()) {
@@ -237,7 +235,7 @@ global without sharing class ActionPlanCreateInvocable {
 		}
 
 		Map<Id, ActionPlan__c> insertedActionPlans = new Map<Id, ActionPlan__c>();
-		for (ActionPlan__c ap : actionPlansToInsert.values()) {
+		for (ActionPlan__c ap : actionPlansToInsert) {
 			insertedActionPlans.put(ap.Id, ap);
 		}
 
@@ -297,7 +295,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 			if (apTask.Dependent__c == 'None') {
 				if (apTask.SendEmail__c == true) {
-					myNewTasksWithEmail.add(t);
+					myTasksWithEmail.add(t);
 				} else {
 					myTasksWithOutEmail.add(t);
 				}
@@ -310,28 +308,27 @@ global without sharing class ActionPlanCreateInvocable {
 		Database.DMLOptions dmlo2 = new Database.DMLOptions();
 		dmlo2.EmailHeader.triggerUserEmail = false;
 
-		if (myNewTasksWithEmail.size() > 0) {
-			Database.insert(myNewTasksWithEmail, dmlo1);
+		if (myTasksWithEmail.size() > 0) {
+			Database.insert(myTasksWithEmail, dmlo1);
 		}
 
 		if (myTasksWithOutEmail.size() > 0) {
 			Database.insert(myTasksWithOutEmail, dmlo2);
 		}
 
-		Set<Id> relObjectIDs = new Set<Id>();
-		for (ActionPlan__c ap : actionPlansToInsert.values()) {
-			relObjectIDs.add(ap.Id);
+		// Collect all AP IDs for Chatter (and for returning)
+		for (ActionPlan__c ap : actionPlansToInsert) {
+			createdAPIDs.add(ap.Id);
 		}
+
+		Action_Plans_Settings__c mySettings = ActionPlansUtilities.getCustomSetting();
 
 		if (mySettings != null && mySettings.Chatter_Object_Brag__c) {
-			ActionPlansBuilderUtilities.generateObjectFeeds(relObjectIDs);
+			ActionPlansBuilderUtilities.generateObjectFeeds(createdAPIDs);
 		}
 
-		for (CreateActionPlanRequest request : requests) {
-			resultIDs.add(actionPlansToInsert.get(request.relatedRecordID).Id);
-		}
-
-		return resultIDs;
+		// Finish by returning all created ActionPlan IDs
+		return new List<Id>(createdAPIDs);
 	}
 
 	/**
