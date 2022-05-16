@@ -382,9 +382,9 @@
 <h2><a id="Apex_234"></a>Apex</h2>
 <p>To call the invocable Apex from a Trigger or Apex class, adapt the following sample code:</p>
 <strong>Unmanaged Code</strong>
-<pre><code>String apTemplateName;
+<pre><code class="language-apex">String apTemplateName;
 ActionPlanTemplate__c apTemplate;
-List&lt;SObject&gt; toInsert... /* can use any object, such as Account, or the generic SObject class */
+List&lt;SObject&gt; toInsert... // can use any object, such as Account, or the generic SObject class
 List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt; requests = new List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt;();
 for(SObject a : toInsert){
 	ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
@@ -397,9 +397,9 @@ List&lt;Id&gt; resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(
 </code></pre>
 
 <strong>Managed Package</strong>
-<pre><code>String apTemplateName;
+<pre><code class="language-apex">String apTemplateName;
 LabsActionPlans__ActionPlanTemplate__c apTemplate;
-List&lt;SObject&gt; toInsert... /* can use any object, such as Account, or the generic SObject class */
+List&lt;SObject&gt; toInsert... // can use any object, such as Account, or the generic SObject class
 List&lt;LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest&gt; requests = new List&lt;LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest&gt;();
 for(SObject a : toInsert){
 	LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest req = new LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest();
