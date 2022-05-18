@@ -93,3 +93,6 @@ sfdx-source/LabsActionPlans/main/default/reports/**
 **/objects/Task/recordTypes
 **/standardValueSets
 **/Translations
+
+#temporary file for parsing package version info for sed actions
+packageversion.json

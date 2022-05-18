@@ -1,0 +1,42 @@
+{
+  "status": 0,
+  "result": {
+    "attributes": {
+      "type": "Package2Version",
+      "url": "/services/data/v54.0/tooling/sobjects/Package2Version/05i5f000000oM6BAAU"
+    },
+    "Package2Id": "0Ho5f000000oLlrCAE",
+    "SubscriberPackageVersionId": "04t5f000000rJrSAAU",
+    "Name": "4.2.0",
+    "Description": "Welcome to the new Action Plans from Salesforce Labs",
+    "Tag": null,
+    "Branch": null,
+    "AncestorId": "04t5f000000rJgsAAE",
+    "ValidationSkipped": false,
+    "MajorVersion": 4,
+    "MinorVersion": 2,
+    "PatchVersion": 0,
+    "BuildNumber": 5,
+    "IsReleased": false,
+    "CodeCoverage": {
+      "apexCodeCoveragePercentage": 93
+    },
+    "HasPassedCodeCoverageCheck": true,
+    "Package2": {
+      "attributes": {
+        "type": "Package2",
+        "url": "/services/data/v54.0/tooling/sobjects/Package2/0Ho5f000000oLlrCAE"
+      },
+      "IsOrgDependent": "N/A"
+    },
+    "ReleaseVersion": 54,
+    "BuildDurationInSeconds": 322,
+    "HasMetadataRemoved": "No",
+    "CreatedById": "0055f000001gXVCAA2",
+    "Version": "4.2.0.5",
+    "AncestorVersion": "4.1.0.1"
+  },
+  "warnings": [
+    "apiVersion configuration overridden at \"54.0\""
+  ]
+}

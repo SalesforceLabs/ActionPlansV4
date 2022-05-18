@@ -8,6 +8,7 @@ npm run labsdevhub
 #newVersionName="\"versionName\": \"${versionName}\""
 #newVersionNumber="\"versionNumber\": \"${versionNumber/v/}.NEXT\""
 #echo $versionNumber
+#echo $newVersionNumber
 #echo "will be updated to " $newVersionNumber
 #sed -i -E "s,${versionNameRegex},${newVersionName}," sfdx-project.json
 #sed -i -E "s,${versionNumberRegex},${newVersionNumber}," sfdx-project.json
