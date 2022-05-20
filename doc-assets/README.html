@@ -193,7 +193,7 @@
   </li>
   <li>
     <p>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts:</p>
-    <pre><code>ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' )</code></pre>
+    <pre><code>LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );</code></pre>
   </li>
 </ol>
 <p><img src="assets/ActionPlanFieldSet.png" alt="" class="readmeimage" /></p>
@@ -209,7 +209,7 @@
   <li>Display Type is List Button. Uncheck the list checkbox.</li>
   <li>
     Use the following format for the button:
-    <pre><code>{!URLFOR( $Action.ActionPlan__c.New, null, [refType=&quot;CustomObject__c&quot;, refId=CustomObject__c.Id])}</code></pre>
+    <pre><code class="language-plaintext">{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id] )}</code></pre>
   </li>
 </ol>
 <h2>Create Action Plans for multiple Custom Object records</h2>
