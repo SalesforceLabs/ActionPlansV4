@@ -211,14 +211,13 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 			}
 		}
-		Map<Id, String> relatedNamesMap = new Map<Id, String>();
-		relatedNamesMap.putAll(ActionPlansUtilities.queryRecordIDToRecordName(parentIDs));
+		Map<Id, String> relatedNamesMap = ActionPlansUtilities.queryRecordIDToRecordName(parentIDs);
 		for (ActionPlan__c ap : newRecords) {
 			for (String s : ActionPlansUtilities.getCustomRelationshipFields()) {
 				if (ap.get(s) != null) {
 					Id relatedId = (Id) ap.get(s);
 					ap.Related_Record__c = relatedNamesMap.get(relatedId);
-					if (String.isEmpty(ap.Related_Object__c)) {
+					if (String.isEmpty(ap.Related_Object__c) || ap.Id == null) {
 						ap.Related_Object__c = ActionPlansUtilities.getRelatedRecordInfo(relatedId).getLabel();
 					}
 					break;
