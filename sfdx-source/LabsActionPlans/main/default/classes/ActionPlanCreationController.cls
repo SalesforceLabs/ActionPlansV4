@@ -525,7 +525,6 @@ public with sharing class ActionPlanCreationController {
 	@TestVisible
 	private PageReference saveMultipleAP() {
 		String oIds = ActionPlansUtilities.getEscapedPageParameter('refId');
-
 		List<Id> oIdsList = new List<Id>();
 		if ((refType != null || refType != '') && (oIds != null || oIds != '')) {
 			try {
