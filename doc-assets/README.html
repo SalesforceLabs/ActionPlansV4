@@ -210,8 +210,7 @@
   <li>Navigate to Setup &gt; Object Manager &gt; Action Plan &gt; Buttons, Links, and Actions &gt; New Button or Link</li>
   <li>Give it a label and name, such as “New MyObject Action Plan”</li>
   <li>Display Type is List Button. Uncheck the list checkbox.</li>
-  <li>
-    Use the following format for the button (removing the `LabsActionPlans` namespace if you're not using the managed package):
+  <li>Use the following format for the button (removing the `LabsActionPlans` namespace if you're not using the managed package):
     <pre><code class="language-plaintext">{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id] )}</code></pre>
   </li>
 </ol>
