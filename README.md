@@ -141,7 +141,7 @@ Note: The Apex used in Flows or via triggers does not require special permission
     - As an example, if you have a custom object named `MyObject__c`, you must name the field on Action Plan `MyObject__c`
 1.  Add the field to the `Related Objects` fieldset on Action Plan.
 1.  The related object will now be available for selection when creating a new Action Plan and relating it to an object.
-1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts (removing the namespace if you're not using the managed package:
+1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts (removing the `LabsActionPlans` namespace if you're not using the managed package:
   ```
 	LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );
 	```
@@ -153,7 +153,7 @@ While Action Plans already overrides the New Action Plan action, the New button 
 1.  Navigate to Setup > Object Manager > Action Plan > Buttons, Links, and Actions > New Button or Link
 1.  Give it a label and name, such as "New MyObject Action Plan"
 1.  Display Type is List Button. Uncheck the list checkbox.
-1.  Use the following format for the button (removing the namespace if you're not using the managed package):
+1.  Use the following format for the button (removing the `LabsActionPlans` namespace if you're not using the managed package):
     ```
     {!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id] )}
     ```
