@@ -53,7 +53,7 @@ public with sharing class ActionPlanDetailController {
 
 	/**
 	 * Action on page load to ensure custom setting is created
-	 * @return   `PageReference` null (required for page actions method)
+	 * @return `PageReference` null (required for page actions method)
 	 */
 	public PageReference onLoad() {
 		ActionPlansUtilities.onPageLoad();
@@ -92,20 +92,28 @@ public with sharing class ActionPlanDetailController {
 	/**
 	 * Display ControllingTasks column only if there are controlling tasks
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   `Boolean` is the Controller__c field populated for any Action Plan Tasks?
+	 * @return  `Boolean` is the `Controller__c` field populated for any Action Plan Tasks?
 	 */
-	public Boolean hasControllingTasks {
+	/* public Boolean hasControllingTasks {
 		get {
 			hasControllingTasks = false;
 			for (TaskWrapper tw : getActionPlanTasks()) {
 				if (tw.apt.Controller__c != null) {
 					hasControllingTasks = true;
-					break;
+					return true;
 				}
 			}
 			return hasControllingTasks;
 		}
 		set;
+	} */
+	public Boolean gethasControllingTasks() {
+		for (TaskWrapper tw : getActionPlanTasks()) {
+			if (tw.apt.Controller__c != null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

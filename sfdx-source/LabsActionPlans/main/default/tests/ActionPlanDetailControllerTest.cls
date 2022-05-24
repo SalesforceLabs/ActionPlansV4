@@ -99,7 +99,7 @@ private class ActionPlanDetailControllerTest {
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		apDetailController.getActionPlanTasks();
 		Test.stopTest();
-		System.assert(apDetailController.hasControllingTasks);
+		System.assert(apDetailController.gethasControllingTasks());
 	}
 
 	@IsTest

@@ -22,6 +22,12 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  */
 global without sharing class ActionPlansTriggerHandlers {
 	/**
+	 * Use only when we want to delete a Task while preserving the APTask (such as when making an APTask newly-dependent on another)
+	 * @author David Schach
+	 * @return   `Boolean` Should we bypass the trigger?
+	 */
+	private static Boolean bypassTaskTrigger = false;
+	/**
 	 * Global so that if in managed package, this method is the only one available
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  sObjectName the name of the sObject
@@ -251,7 +257,6 @@ global without sharing class ActionPlansTriggerHandlers {
 				//String aptObjectName = aptDescribe.getName();
 				//String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix(aptObjectName);
 				String aptPrefix = Schema.APTask__c.getSObjectType().getDescribe().getKeyPrefix();
-				
 
 				for (APTask__c apt : newRecords) {
 					if (
@@ -283,6 +288,37 @@ global without sharing class ActionPlansTriggerHandlers {
 						a.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
 					} else if (!a.Reminder__c) {
 						a.Minutes_Reminder__c = null;
+					}
+				}
+			}
+			when AFTER_UPDATE {
+				Set<Id> apTasksNewlyWithController = new Set<Id>();
+				Set<Id> controllingTaskIDs = new Set<Id>();
+				for(APTask__c apt : newRecords){
+					if(apt.Controller__c != null && oldRecordsMap.get(apt.Id).Controller__c == null){
+						apTasksNewlyWithController.add(apt.Id);
+						controllingTaskIDs.add(apt.Controller__c);
+					}
+				}
+				Map<Id, APTask__c> controllingTasks = new Map<Id, APTask__c>([SELECT Id, Status__c FROM APTask__c WHERE Id IN :controllingTaskIDs]);
+				Set<Id> apTasksNeedingDeletedTasks = new Set<Id>();
+				for(APTask__c aptask : newRecords){
+					if(apTasksNewlyWithController.contains(aptask.Controller__c)){
+						APTask__c controllerT = controllingTasks.get(aptask.Controller__c);
+						if(ActionPlansUtilities.getClosedTaskStatuses().contains(controllerT.Status__c)){
+							apTasksNeedingDeletedTasks.add(aptask.Id);
+						}
+					}
+				}
+				if(!apTasksNeedingDeletedTasks.isEmpty()){
+					try {
+						bypassTaskTrigger = true;
+						Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :apTasksNewlyWithController AND IsClosed = FALSE]);
+						bypassTaskTrigger = false;
+					} catch (Exception e) {
+						for (APTask__c a : newRecords) {
+							a.addError('Error when deleting newly-dependent Task related to APTaskTemplate: ' + e.getMessage());
+						}
 					}
 				}
 			}
@@ -406,6 +442,9 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  triggerEvent  Trigger context
 	 */
 	public static void triggerhandlerTask(List<Task> newRecords, List<Task> oldRecords, System.TriggerOperation triggerEvent) {
+		if (bypassTaskTrigger) {
+			return;
+		}
 		switch on triggerEvent {
 			when BEFORE_INSERT {
 				if (ActionPlansUtilities.taskUsesRecordTypes) {
