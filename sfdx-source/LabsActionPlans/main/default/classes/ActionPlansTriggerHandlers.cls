@@ -22,7 +22,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  */
 global without sharing class ActionPlansTriggerHandlers {
 	/**
-	 * Use only when we want to delete a Task while preserving the APTask (such as when making an APTask newly-dependent on another)
+	 * Use only when we want to delete a Task while preserving the APTask (such as when making an APTask newly-dependent on another)<br>
+	 * Unused in v4.2.1 but will be used in next version
 	 * @author David Schach
 	 * @return   `Boolean` Should we bypass the trigger?
 	 */
@@ -291,6 +292,8 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 			}
+			/*
+			* TODO: Update this for next release so that if an AP task is made newly-dependent, its task is deleted (if the parent is open)
 			when AFTER_UPDATE {
 				Set<Id> apTasksNewlyWithController = new Set<Id>();
 				Set<Id> controllingTaskIDs = new Set<Id>();
@@ -322,6 +325,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 			}
+			*/
 			when BEFORE_DELETE {
 				try {
 					Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :oldRecordsMap.keyset() AND IsClosed = FALSE]);
