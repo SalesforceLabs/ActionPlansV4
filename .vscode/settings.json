@@ -20,22 +20,11 @@
 	"editor.formatOnSave": true,
 	"editor.guides.bracketPairs": "active",
 	"editor.insertSpaces": false,
+	"editor.linkedEditing": true,
 	"editor.tabSize": 2,
 	"force.showApexJavadocAuthorTag": true,
 	"force.showApexJavadocContext": true,
 	"force.showApexJavadocDescriptionTag": false,
-	"editor.linkedEditing": true,
-	"SFDoc.AlwaysUpdateFileHeaderOnSave": false,
-	"SFDoc.EnableForApex": false,
-	"SFDoc.EnableForLightningMarkup": false,
-	"SFDoc.EnableForVisualforce": false,
-	"SFDoc.IncludParameterTypeInMethodHeader": true,
 	"html.format.maxPreserveNewLines": 2,
-	"prettier.printWidth": 180,
-	"prettier.configPath": ".prettierrc",
-	"prettier.documentSelectors": [
-		"**/*.page",
-		"**/*.component",
-		"**/*.cls"
-	]
+	"prettier.configPath": ".prettierrc"
 }

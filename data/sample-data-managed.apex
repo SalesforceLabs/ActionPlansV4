@@ -6,6 +6,8 @@ apt.LabsActionPlans__SkipWeekends__c = true;
 apt.LabsActionPlans__TaskRecordTypeID__c = '';
 insert apt;
 
+List<LabsActionPlans__APTemplateTask__c> aptasks = new List<LabsActionPlans__APTemplateTask__c>();
+
 LabsActionPlans__APTemplateTask__c a1 = new LabsActionPlans__APTemplateTask__c(LabsActionPlans__Action_Plan_Template__c = apt.Id);
 a1.LabsActionPlans__Subject__c = 'Send welcome gift';
 a1.LabsActionPlans__Priority__c = 'High';
@@ -17,7 +19,7 @@ a1.LabsActionPlans__Action_Plan_Template__c = apt.Id;
 a1.LabsActionPlans__Reminder__c = false;
 a1.LabsActionPlans__SendEmail__c = false;
 a1.LabsActionPlans__Comments__c = 'Contact our branded product provider to ship appropriate gift';
-insert a1;
+aptasks.add(a1);
 
 LabsActionPlans__APTemplateTask__c a2 = new LabsActionPlans__APTemplateTask__c(LabsActionPlans__Action_Plan_Template__c = apt.Id);
 a2.LabsActionPlans__Subject__c = 'Enable Customer Community User';
@@ -27,10 +29,10 @@ a2.Name = 'New Customer Onboarding - Enable Customer Experience User';
 a2.LabsActionPlans__TaskIndex__c = 1;
 a2.LabsActionPlans__DaysFromStart__c = 2;
 a2.LabsActionPlans__Action_Plan_Template__c = apt.Id;
-a2.LabsActionPlans__TController__c = a1.Id;
+//a2.LabsActionPlans__TController__c = a1.Id;
 a2.LabsActionPlans__Reminder__c = false;
 a2.LabsActionPlans__SendEmail__c = false;
-insert a2;
+aptasks.add( a2);
 
 
 LabsActionPlans__APTemplateTask__c a3 = new LabsActionPlans__APTemplateTask__c(LabsActionPlans__Action_Plan_Template__c = apt.Id);
@@ -41,7 +43,9 @@ a3.Name = 'New Customer Onboarding - Schedule onboarding call with customer succ
 a3.LabsActionPlans__TaskIndex__c = 2;
 a3.LabsActionPlans__DaysFromStart__c = 1;
 a3.LabsActionPlans__Action_Plan_Template__c = apt.Id;
-a3.LabsActionPlans__TController__c = a2.Id;
+//a3.LabsActionPlans__TController__c = a2.Id;
 a3.LabsActionPlans__Reminder__c = false;
 a3.LabsActionPlans__SendEmail__c = false;
-insert a3;
+aptasks.add( a3);
+
+insert aptasks;

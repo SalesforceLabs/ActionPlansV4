@@ -378,7 +378,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L114">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L122">
                       apTaskWrapperList
                     </a>
                   </td>
@@ -404,23 +404,6 @@
                   </td>
 
                   <td class="attribute-description">Does the user have reminders enabled? If not, do not shrae the reminder option</td>
-                </tr>
-                <tr class="property public">
-                  <td class="attribute-name">
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Go to source"
-                      class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L97">
-                      hasControllingTasks
-                    </a>
-                  </td>
-                  <td>
-                    <div class="attribute-signature">public Boolean hasControllingTasks</div>
-                  </td>
-
-                  <td class="attribute-description">Display ControllingTasks column only if there are controlling tasks</td>
                 </tr>
                 <tr class="property public">
                   <td class="attribute-name">
@@ -498,6 +481,11 @@
                     <div class="methods-toc__description">Does the user have permission to transfer? We query <code class="code-inline">UserRecordAccess</code> to find out.</div>
                   </li>
                   <li class="method public">
+                    <a class="methods-toc__entry" href="#ActionPlanDetailController.gethasControllingTasks"> gethasControllingTasks () </a>
+
+                    <div class="methods-toc__description">Display ControllingTasks column only if there are controlling tasks</div>
+                  </li>
+                  <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlanDetailController.getRecordTypeName"> getRecordTypeName () </a>
 
                     <div class="methods-toc__description">Convert AP Task Record Type Id to Record Type Name</div>
@@ -550,7 +538,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L119">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L127">
                       getActionPlanTasks()
                     </a>
                   </h4>
@@ -570,7 +558,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L277">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L285">
                       getCanShare()
                     </a>
                   </h4>
@@ -592,7 +580,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L286">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L294">
                       getCanTransfer()
                     </a>
                   </h4>
@@ -608,13 +596,37 @@
                   </div>
                 </div>
                 <div class="method public">
+                  <h4 class="method-title" id="ActionPlanDetailController.gethasControllingTasks">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L110">
+                      gethasControllingTasks()
+                    </a>
+                  </h4>
+                  <div class="method-description">Display ControllingTasks column only if there are controlling tasks</div>
+                  <div class="method-subtitle">Signature</div>
+
+                  <div class="method-signature">public Boolean gethasControllingTasks()</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description">
+                    <code class="code-inline">Boolean</code> is the <code class="code-inline">Controller__c</code> field populated for any Action Plan Tasks?
+                  </div>
+                  <div class="method-subtitle">Author</div>
+                  <div class="method-subtitle-description">
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
+                  </div>
+                </div>
+                <div class="method public">
                   <h4 class="method-title" id="ActionPlanDetailController.getRecordTypeName">
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L261">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L269">
                       getRecordTypeName()
                     </a>
                   </h4>
@@ -632,7 +644,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L209">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L217">
                       getRelatedObjectLabel()
                     </a>
                   </h4>
@@ -650,7 +662,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L227">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L235">
                       getrelatedRecordName()
                     </a>
                   </h4>
@@ -668,7 +680,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L195">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L203">
                       getVersion()
                     </a>
                   </h4>
@@ -708,7 +720,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L170">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L178">
                 ActionPlanDetailController.TaskWrapper
               </a>
             </h2>
@@ -736,7 +748,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L174">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L182">
                       apt
                     </a>
                   </td>
@@ -753,7 +765,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L178">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L186">
                       taskId
                     </a>
                   </td>
@@ -782,7 +794,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L185">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlanDetailController.cls#L193">
                       TaskWrapper(aptParam, taskIdParam)
                     </a>
                   </h4>

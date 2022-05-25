@@ -28,5 +28,8 @@ sfdx force:package:install --package $PACKAGEVERSIONID -u PackageInstallTest -w 
 echo "Adding unmanaged extension metadata"
 sfdx force:source:deploy -p sfdx-source/unmanagedExtension -u PackageInstallTest
 
+echo "Install sample data"
+sfdx force:apex:execute -f ./data/sample-data-managed.apex
+
 echo "opening org"
 sfdx force:org:open -u PackageInstallTest

@@ -146,7 +146,11 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						<apex:variable value="{!wrap.apt.TaskIndex__c + 1}" var="row" />
 						<apex:outputText value="{!row}" />
 					</apex:column>
-					<apex:column id="dependency" headerValue="{!$ObjectType.APTask__c.fields.Controller__c.label}" rendered="{!ActionPlanTasks.Size > 1}" style="vertical-align: middle">
+					<apex:column
+						id="dependency"
+						headerValue="{!$ObjectType.APTask__c.fields.Controller__c.label}"
+						rendered="{!ActionPlanTasks.Size > 1 && hasControllingTasks}"
+						style="vertical-align: middle">
 						<apex:outputField value="{!wrap.apt.Controller__r.Subject__c}" />
 					</apex:column>
 					<apex:column value="{!wrap.apt.DaysFromStart__c}" style="vertical-align: middle">

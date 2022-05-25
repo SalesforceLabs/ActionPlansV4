@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - v4.2.0 [`#30`](https://github.com/SalesforceLabs/ActionPlansV4/pull/30)
 
+### Fixed
+
+- Fix #34 [`#34`](https://github.com/SalesforceLabs/ActionPlansV4/issues/34)
+- Namespace to sample code [`#35`](https://github.com/SalesforceLabs/ActionPlansV4/issues/35)
+
 ## [4.2.0](https://github.com/SalesforceLabs/ActionPlansV4/compare/4.1.0...4.2.0) - 2022-04-01
 
 ### Merged

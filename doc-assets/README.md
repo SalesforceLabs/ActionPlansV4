@@ -1,1 +1,1 @@
-This directory contains auxiliary files for generating the ApexDox documentation
+This directory contains files for generating the ApexDox documentation

@@ -32,6 +32,10 @@
 		{
 			"files": "scripts/apex/*.apex",
 			"options": { "parser": "apex-anonymous" }
+		},
+		{
+			"files": ".prettierrc",
+			"options": { "parser": "json" }
 		}
 	]
 }
