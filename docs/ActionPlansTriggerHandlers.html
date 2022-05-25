@@ -352,6 +352,37 @@
               </div>
               <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />2022
             </div>
+            <div class="subsection properties ActionPlansTriggerHandlers">
+              <h3 class="subsection-title properties">ActionPlansTriggerHandlers Properties</h3>
+              <table class="attributes-table properties">
+                <tr>
+                  <th>Name</th>
+                  <th>Signature</th>
+
+                  <th>Description</th>
+                </tr>
+                <tr class="property private">
+                  <td class="attribute-name">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L30">
+                      bypassTaskTrigger
+                    </a>
+                  </td>
+                  <td>
+                    <div class="attribute-signature">private static Boolean bypassTaskTrigger</div>
+                  </td>
+
+                  <td class="attribute-description">
+                    Use only when we want to delete a Task while preserving the APTask (such as when making an APTask newly-dependent on another)<br />
+                    Unused in v4.2.1 but will be used in next version
+                  </td>
+                </tr>
+              </table>
+            </div>
             <div class="subsection methods">
               <h3 class="subsection-title methods">ActionPlansTriggerHandlers Methods</h3>
               <div class="methods-container">
@@ -459,7 +490,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L29">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L36">
                       actionPlansSObjectTriggerHandler(sObjectName)
                     </a>
                   </h4>
@@ -483,7 +514,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L44">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L51">
                       actionPlansSObjectTriggerHandler(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent, sObjectName)
                     </a>
                   </h4>
@@ -525,7 +556,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L756">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L798">
                       allowChangeParentStatus(apTaskTemplateIds)
                     </a>
                   </h4>
@@ -552,7 +583,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L771">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L813">
                       deleteActionPlans(relActionPlansIds)
                     </a>
                   </h4>
@@ -576,7 +607,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L204">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L211">
                       fillRelatedRecordFields(newRecords)
                     </a>
                   </h4>
@@ -603,7 +634,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L791">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L833">
                       futureDeleteActionPlans(relActionPlansIds)
                     </a>
                   </h4>
@@ -627,7 +658,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L731">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L773">
                       getRelationshipName(recordId)
                     </a>
                   </h4>
@@ -649,7 +680,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L120">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L127">
                       triggerhandlerActionPlan(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -688,7 +719,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L629">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L671">
                       triggerhandlerActionPlanAccount(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -727,7 +758,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L572">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L614">
                       triggerhandlerActionPlanLead(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -764,7 +795,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L240">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L246">
                       triggerhandlerActionPlanTask(newRecords, oldRecords, newRecordsMap, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -803,7 +834,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L321">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L360">
                       triggerhandlerActionPlanTemplate(newRecords, oldRecords, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -839,7 +870,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L358">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L397">
                       triggerhandlerActionPlanTemplateTask(newRecords, oldRecords, oldRecordsMap, triggerEvent)
                     </a>
                   </h4>
@@ -875,7 +906,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L409">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L448">
                       triggerhandlerTask(newRecords, oldRecords, triggerEvent)
                     </a>
                   </h4>
@@ -907,7 +938,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L707">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTriggerHandlers.cls#L749">
                       validateActionPlans(actionPlans)
                     </a>
                   </h4>

@@ -192,24 +192,26 @@
     <p>The related object will now be available for selection when creating a new Action Plan and relating it to an object.</p>
   </li>
   <li>
-    <p>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts:</p>
-    <pre><code>ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' )</code></pre>
+    <p>
+      Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts (removing the <code>LabsActionPlans</code> namespace if
+      you're not using the managed package:
+    </p>
+    <pre><code class="language-apex">LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );</code></pre>
   </li>
 </ol>
 <p><img src="assets/ActionPlanFieldSet.png" alt="" class="readmeimage" /></p>
 <h2><a id="Adding_a_New_Custom_Object_Action_Plan_button_to_the_Action_Plan_object_133"></a>Adding a New Custom Object Action Plan button to the Action Plan object</h2>
 <p>
   While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this
-  will be in a future release… safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page
+  will be in a future release ... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page
   layout:
 </p>
 <ol>
   <li>Navigate to Setup &gt; Object Manager &gt; Action Plan &gt; Buttons, Links, and Actions &gt; New Button or Link</li>
   <li>Give it a label and name, such as “New MyObject Action Plan”</li>
   <li>Display Type is List Button. Uncheck the list checkbox.</li>
-  <li>
-    Use the following format for the button:
-    <pre><code>{!URLFOR( $Action.ActionPlan__c.New, null, [refType=&quot;CustomObject__c&quot;, refId=CustomObject__c.Id])}</code></pre>
+  <li>Use the following format for the button (removing the `LabsActionPlans` namespace if you're not using the managed package):
+    <pre><code class="language-plaintext">{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id] )}</code></pre>
   </li>
 </ol>
 <h2>Create Action Plans for multiple Custom Object records</h2>
@@ -382,9 +384,9 @@
 <h2><a id="Apex_234"></a>Apex</h2>
 <p>To call the invocable Apex from a Trigger or Apex class, adapt the following sample code:</p>
 <strong>Unmanaged Code</strong>
-<pre><code>String apTemplateName;
+<pre><code class="language-apex">String apTemplateName;
 ActionPlanTemplate__c apTemplate;
-List&lt;SObject&gt; toInsert... /* can use any object, such as Account, or the generic SObject class */
+List&lt;SObject&gt; toInsert... // can use any object, such as Account, or the generic SObject class
 List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt; requests = new List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt;();
 for(SObject a : toInsert){
 	ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
@@ -397,9 +399,9 @@ List&lt;Id&gt; resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(
 </code></pre>
 
 <strong>Managed Package</strong>
-<pre><code>String apTemplateName;
+<pre><code class="language-apex">String apTemplateName;
 LabsActionPlans__ActionPlanTemplate__c apTemplate;
-List&lt;SObject&gt; toInsert... /* can use any object, such as Account, or the generic SObject class */
+List&lt;SObject&gt; toInsert... // can use any object, such as Account, or the generic SObject class
 List&lt;LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest&gt; requests = new List&lt;LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest&gt;();
 for(SObject a : toInsert){
 	LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest req = new LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest();

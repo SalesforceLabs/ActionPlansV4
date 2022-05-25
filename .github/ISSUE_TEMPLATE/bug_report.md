@@ -26,7 +26,7 @@ If applicable, add screenshots to help explain your problem.
 **Environment (please complete the following information):**
  - OS: [e.g. OSX, Windows]
  - Browser [e.g. chrome, safari]
- - Version [e.g. 4.0.1]
+ - Action Plans Version [e.g. 4.0.1] (See Setup > Installed Packages)
 
 **Additional context**
 Add any other context about the problem here.

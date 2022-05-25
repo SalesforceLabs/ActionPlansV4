@@ -152,11 +152,10 @@ public without sharing class ActionPlansUtilities {
 		for (Id recId : recordIDs) {
 			if (recordIdToRecordName.containsKey(recId)) {
 				continue;
-			} else {
-				idsToQuery.add(recId);
 			}
+			idsToQuery.add(recId);
 			String objectName = getRelatedRecordInfo(recId).getName().toLowerCase();
-			if (!mapIDsByObject.containsKey(recId)) {
+			if (!mapIDsByObject.containsKey(objectName)) {
 				mapIDsByObject.put(objectName, new Set<Id>());
 			}
 			mapIDsByObject.get(objectName).add(recId);
@@ -177,7 +176,9 @@ public without sharing class ActionPlansUtilities {
 					}
 				}
 				when else {
+					System.debug('Querying object name : ' + objName);
 					Set<Id> queryIDs = mapIDsByObject.get(objName); //NOPMD
+					System.debug('querying IDs: ' + queryIDs);
 					List<SObject> genericQueryResults = Database.query('SELECT Id, Name FROM ' + String.escapeSingleQuotes(objName) + ' WHERE Id IN :queryIDs'); //NOPMD
 					for (SObject so : genericQueryResults) {
 						recordIdToRecordName.put((Id) so.get('Id'), ((String) so.get('Name')));

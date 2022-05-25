@@ -1,0 +1,8 @@
+{
+	"output": "CHANGELOG.md",
+	"template": "keepachangelog",
+	"unreleased": true,
+	"commitLimit": 0,
+	"hideCredit": true,
+	"tagPrefix": ""
+}
