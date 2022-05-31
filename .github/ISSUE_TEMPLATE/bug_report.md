@@ -34,7 +34,13 @@ If applicable, add screenshots to help explain your problem.
  - [ ] Classic
  - [ ] Lightning Experience
  
- - Org Edition [e.g. Professional, Enterprise, Unlimited, Performance, Developer]
+ - Org Edition
+ - [ ] Personal
+ - [ ] Contact Manager
+ - [ ] Professional
+ - [ ] Enterprise
+ - [ ] Unlimited
+ - [ ] Developer
 
 **Additional context**
 Add any other context about the problem here.
