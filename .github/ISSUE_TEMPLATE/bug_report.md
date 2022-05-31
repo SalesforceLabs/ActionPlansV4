@@ -25,8 +25,16 @@ If applicable, add screenshots to help explain your problem.
 
 **Environment (please complete the following information):**
  - OS: [e.g. OSX, Windows]
+ 
  - Browser [e.g. chrome, safari]
- - Action Plans Version [e.g. 4.0.1] (See Setup > Installed Packages)
+ 
+ - Action Plans Version (e.g. 4.0.1) (See Setup > Installed Packages)
+
+ - Salesforce UI
+ - [ ] Classic
+ - [ ] Lightning Experience
+ 
+ - Org Edition [e.g. Professional, Enterprise, Unlimited, Performance, Developer]
 
 **Additional context**
 Add any other context about the problem here.
