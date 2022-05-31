@@ -277,25 +277,24 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			}
 		}
 
-		Database.DMLOptions dmlo = new Database.DMLOptions();
-		Database.DMLOptions dmlo2 = new Database.DMLOptions();
+		Database.DMLOptions dmloEmail = new Database.DMLOptions();
+		dmloEmail.EmailHeader.triggerUserEmail = true;
+		Database.DMLOptions dmloNOEmail = new Database.DMLOptions();
+		dmloNOEmail.EmailHeader.triggerUserEmail = false;
 
 		if (this.myNewTasksWithEmail.size() > 0) {
-			dmlo.EmailHeader.triggerUserEmail = true;
-			Database.insert(this.myNewTasksWithEmail, dmlo); //NOPMD
+			Database.insert(this.myNewTasksWithEmail, dmloEmail); //NOPMD
 		}
 
 		if (this.myOldTasksWithEmail.size() > 0) {
-			dmlo.EmailHeader.triggerUserEmail = true;
-			Database.update(this.myOldTasksWithEmail, dmlo); //NOPMD
+			Database.update(this.myOldTasksWithEmail, dmloEmail); //NOPMD
 		}
 
 		if (this.myTasksWithOutEmail.size() > 0) {
 			if (this.mode == ApEditMode.MODE_EDIT_SINGLE) {
 				Database.upsert(this.myTasksWithOutEmail); //NOPMD
 			} else {
-				dmlo2.EmailHeader.triggerUserEmail = false;
-				Database.insert(this.myTasksWithOutEmail, dmlo2); //NOPMD
+				Database.insert(this.myTasksWithOutEmail, dmloNOEmail); //NOPMD
 			}
 		}
 
