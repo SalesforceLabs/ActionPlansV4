@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+**Action Plans version
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
@@ -25,11 +27,22 @@ If applicable, add screenshots to help explain your problem.
 
 **Environment (please complete the following information):**
  - OS: [e.g. OSX, Windows]
+ 
  - Browser [e.g. chrome, safari]
- - Action Plans Version [e.g. 4.0.1] (See Setup > Installed Packages)
+ 
+ - Action Plans Version (e.g. 4.0.1) (See Setup > Installed Packages)
+
  - Salesforce UI
  - [ ] Classic
  - [ ] Lightning Experience
+ 
+ - Org Edition
+ - [ ] Personal
+ - [ ] Contact Manager
+ - [ ] Professional
+ - [ ] Enterprise
+ - [ ] Unlimited
+ - [ ] Developer
 
 **Additional context**
 Add any other context about the problem here.
