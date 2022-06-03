@@ -40,7 +40,7 @@ sfdx-source/LabsActionPlans/main/default/reports/**
 
 # Prevent org changes from being included in local project
 Admin.profile
-Activities.settings
+# Activities.settings
 Security.settings
 TaskStatus.standardValueSet
 TaskPriority.standardValueSet
@@ -55,10 +55,18 @@ Contact.object
 Contract.object
 Lead.object
 Opportunity.object
+Admin.profile
 *.profile
+Custom*.profile
+Custom: Marketing Profile.profile
+Custom: Sales Profile.profile
+Custom: Support Profile.profile
+Read Only.profile
 *.recordType
-*.ProfilePasswordPolicy
-*.ProfileSessionSetting
+*.profilePasswordPolicy
+*.profileSessionSetting
+taskQueue.queue
+*.queue
 
 # Ignore Communities in case the package is extended to Partner Users
 **/classes/ChangePasswordController.cls
@@ -123,8 +131,8 @@ Opportunity.object
 **/pages/BandwidthExceeded.page-meta.xml
 **/pages/ChangePassword.page
 **/pages/ChangePassword.page-meta.xml
-#**/pages/CommunitiesLanding.page
-#**/pages/CommunitiesLanding.page-meta.xml
+**/pages/CommunitiesLanding.page
+**/pages/CommunitiesLanding.page-meta.xml
 **/pages/CommunitiesLogin.page
 **/pages/CommunitiesLogin.page-meta.xml
 **/pages/CommunitiesSelfReg.page
@@ -167,8 +175,6 @@ Opportunity.object
 # Communities Stuff
 **/sites/**
 **/networks/**
-**/pages/CommunitiesLanding.page
-**/pages/CommunitiesLanding.page-meta.xml
 **/networkBranding/**
 **/navigationMenus/**
 **/experiences/**

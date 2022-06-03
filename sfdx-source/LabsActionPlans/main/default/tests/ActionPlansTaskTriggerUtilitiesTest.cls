@@ -425,5 +425,11 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	@IsTest
 	private static void taskAssignToQueue() {
 		// TODO: Test assigning Task to queue. Should not update APTask User
+		Group g1 = new Group(Name = 'task queue name', type = 'Queue');
+		insert g1;
+		QueuesObject q1 = new QueueSObject(QueueID = g1.id, SobjectType = 'Task');
+		insert q1;
+		// TODO: Check settings to see if Tasks *can* be assigned to queues
+		System.assert(true);
 	}
 }

@@ -38,7 +38,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 				var j$ = jQuery.noConflict();
 				j$(function () {
 					checkSkipWeekend(j$('[id$=skipWeekendCheckbox]').attr('id'), j$('[id$=skipDayPicklist]').attr('id'));
-					checkAllDependent('{!JSENCODE($Label.ap_ItselfDependencyError)}', '{!$Label.ap_Errors_Cyclic_Dependency_Found}');
+					checkAllDependent('{!JSENCODE($Label.ap_ItselfDependencyError)}', '{!JSENCODE($Label.ap_Errors_Cyclic_Dependency_Found)}');
 					j$('.helpOrb').css({ width: '12px', height: '12px' });
 					showErrors();
 					initSelectors();
@@ -182,7 +182,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 											j$(recInfoIdInput).val(recId);
 											j$('[id$=SrchTmpltDrpDwn]').fadeOut();
 											//ID Based Retrieval Instead Of Query to Get Record Details Of The Selected Record
-											result = sforce.connection.retrieve('Name,Id', '{!NamespacePrefix}ActionPlanTemplate__c', [recId]);
+											result = sforce.connection.retrieve('Name,Id', '{!JSENCODE(NamespacePrefix)}ActionPlanTemplate__c', [recId]);
 											j$('#sldsscopediv [id$=searchtemplateinput]').val(result[0].Name);
 											//reloadActionPlan('{!JSINHTMLENCODE(ActionPlan__c.Action_Plan_template__c)}', recId);
 											reloadActionPlan(oldTemplateId, result[0].Id);
@@ -194,7 +194,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 											if (searchKey == '') {
 												j$('#' + key.attr('aria-activedescendant')).hide();
 											}
-											var namespace = '{!NamespacePrefix}';
+											var namespace = '{!JSENCODE(NamespacePrefix)}';
 											//Querying For Records In Objects Name Matching The Input in The Text Field
 											var queryText = 'SELECT Id, Name FROM ' + namespace + "ActionPlanTemplate__c WHERE Name LIKE '%" + searchKey + "%' ORDER BY Name ASC LIMIT 10";
 											result = sforce.connection.query(queryText);
@@ -278,7 +278,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 									size="1"
 									style="font-size: 14px"
 									required="true"
-									onchange="refreshRelatedObjectsLookUp(this.value);j$('[id$=APName]').val('{!templateName}');">
+									onchange="refreshRelatedObjectsLookUp(this.value);j$('[id$=APName]').val('{!JSENCODE(templateName)}');">
 									<apex:selectOptions value="{!relatedObjectOptions}" />
 								</apex:selectList>
 							</apex:outputPanel>
@@ -307,8 +307,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 												for="{!relatedFieldName}lookup" />
 											<apex:outputPanel rendered="{!ActionPlan__c.Action_Plan_Template__c != null}">
 												<script>
-													j$('#{!relatedFieldName}lookupsldsscopediv #searchInput').on('parentchange', function (event, relName) {
-														j$('[id$=APName]').val('{!templateName}' + ' - ' + relName);
+													j$('#{!JSENCODE(relatedFieldName)}lookupsldsscopediv #searchInput').on('parentchange', function (event, relName) {
+														j$('[id$=APName]').val('{!JSENCODE(templateName)}' + ' - ' + relName);
 													});
 												</script>
 											</apex:outputPanel>

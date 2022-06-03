@@ -25,6 +25,7 @@ coverage/
 .pmdCache
 pmd/deploy.csv
 pmd/pmd.csv
+filelist.txt
 
 # Logs
 logs
@@ -57,6 +58,8 @@ mdconverted
 testresults
 
 # temporary files
+tmp
+
 **/layouts/Contact*
 **/layouts/Global*
 **/layouts/Lead*

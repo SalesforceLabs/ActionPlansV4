@@ -37,7 +37,7 @@ jobs:
 
       # Run PMD scan
       - name: 'Run PMD scan'
-        run: ~/pmd/bin/run.sh pmd -d sfdx-source/LabsActionPlans -R pmd/deployRules.xml -f text --cache .pmdCache --minimum-priority 2
+        run: ~/pmd/bin/run.sh pmd -d sfdx-source -R pmd/deployRules.xml -f text --cache .pmdCache --minimum-priority 2
   test-run:
     runs-on: ubuntu-latest
     needs: check-pmd

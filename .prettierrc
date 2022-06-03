@@ -15,7 +15,7 @@
 		},
 		{
 			"files": "*.{cmp,page,component}",
-			"options": { "parser": "html", "tabWidth": 2, "htmlWhitespaceSensitivity": "strict" }
+			"options": { "parser": "html", "tabWidth": 2 }
 		},
 		{
 			"files": "**/*.{cls,trigger,apex}",
@@ -36,6 +36,10 @@
 		{
 			"files": ".prettierrc",
 			"options": { "parser": "json" }
+		},
+		{
+			"files": "*.xml",
+			"options": { "parser": "xml", "xmlWhitespaceSensitivity": "ignore", "tabWidth": 2, "xmlSelfClosingSpace": true }
 		}
 	]
 }
