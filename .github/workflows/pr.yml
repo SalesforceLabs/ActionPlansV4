@@ -93,7 +93,7 @@ jobs:
 
       # Upload code coverage to Codecov.io
       - name: 'Upload code coverage for Apex to Codecov.io'
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3
         with:
           flags: Apex
 
