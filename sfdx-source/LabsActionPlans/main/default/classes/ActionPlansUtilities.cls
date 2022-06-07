@@ -53,7 +53,8 @@ public without sharing class ActionPlansUtilities {
 	 * Actions to perform whenever loading a Visualforce page
 	 * <br>Ensures that Custom Setting is created for the org
 	 * <br>Left as this method in case we want to add certain actions to both Creation Visualforce pages in the future
-	 * @return   `PageReference` (null)
+	 * @return   `PageReference` null
+	 * @see checkOrgDefaultCustomSetting
 	 */
 	public static PageReference onPageLoad() {
 		checkOrgDefaultCustomSetting(true);
@@ -121,7 +122,7 @@ public without sharing class ActionPlansUtilities {
 	 * @param  recordId related record Id
 	 * @return          `Schema.DescribeSObjectResult` so we can get info about the related record
 	 */
-	public static Schema.DescribeSObjectResult getRelatedRecordInfo(Id recordId) {
+	public static Schema.DescribeSObjectResult getRelatedSObjectDescribe(Id recordId) {
 		if (prefixToDescribe == null) {
 			prefixToDescribe = new Map<String, Schema.DescribeSObjectResult>();
 		}
@@ -142,6 +143,7 @@ public without sharing class ActionPlansUtilities {
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  recordIDs Set<Id> of parent records to Action Plans
 	 * @return           `Map<Id, String>` Map of RecordID to Record Name (special for Case & Contract)
+	 * @see getRelatedSObjectDescribe
 	 */
 	public static Map<Id, String> queryRecordIDToRecordName(Set<Id> recordIDs) {
 		if (recordIdToRecordName == null) {
@@ -154,7 +156,7 @@ public without sharing class ActionPlansUtilities {
 				continue;
 			}
 			idsToQuery.add(recId);
-			String objectName = getRelatedRecordInfo(recId).getName().toLowerCase();
+			String objectName = getRelatedSObjectDescribe(recId).getName().toLowerCase();
 			if (!mapIDsByObject.containsKey(objectName)) {
 				mapIDsByObject.put(objectName, new Set<Id>());
 			}
@@ -725,7 +727,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 *  Check if we are in a managed package - if so, return the namespace prefix
-	 * @return `String` The namespace prefix
+	 * @return `String` The namespace prefix (`LabsActionPlans`) if in managed package
 	 */
 	public static String namespacePrefix {
 		get {

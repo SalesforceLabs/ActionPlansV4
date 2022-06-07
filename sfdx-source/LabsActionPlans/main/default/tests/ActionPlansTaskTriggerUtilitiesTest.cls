@@ -26,7 +26,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 * test trigger without skipweekends method for testing Task After Update trigger when updating task to status 'Completed'
 	 */
 	@IsTest
-	private static void testTaskAfterUpdateToCompleted() {
+	private static void taskAfterUpdateToCompleted() {
 		List<String> closedStatuses = new List<String>(ActionPlansUtilities.getClosedTaskStatuses());
 		String testClosedStatus = closedStatuses[0];
 
@@ -85,7 +85,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 * test trigger AP Delete
 	 */
 	@IsTest
-	private static void testActionPlanDelete() {
+	private static void actionPlanDelete() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testUtil.createNewActionPlan('contact', 0);
 		ap.SkipWeekends__c = true;
@@ -135,10 +135,10 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	}
 
 	/**
-	 * test trigger
+	 * test trigger Action Plan Task Update
 	 */
 	@IsTest
-	private static void testAPTaskUpdate() {
+	private static void aPTaskUpdate() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testUtil.createNewActionPlan('opportunity', 0);
 		ap.SkipWeekends__c = true;
@@ -196,11 +196,11 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	}
 
 	/**
-	 * 	test ActionPlanTaskTemplateTrigger
-	 *	When the user undeletes an ActionPlan Task Template
+	 * test ActionPlanTaskTemplateTrigger
+	 * when the user undeletes an ActionPlan Task
 	 */
 	@IsTest
-	private static void testAPTaskUndelete() {
+	private static void aPTaskUndelete() {
 		Test.startTest();
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
@@ -251,7 +251,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 *	When the user undeletes an ActionPlan Task Template
 	 */
 	@IsTest
-	private static void testAPTTemplateUndeleteException() {
+	private static void aPTTemplateUndeleteException() {
 		Test.startTest();
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
@@ -291,11 +291,11 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		Test.stopTest();
 	}
 	/**
-	 * method for testing Task  After Update trigger
-	 * when updating task to status 'In progress'
+	 * method for testing Task After Update trigger
+	 * when updating task to status 'In Progress' (or another open status)
 	 */
 	@IsTest
-	private static void testTrigger6() {
+	private static void taskAfterUpdateToOpen() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testUtil.createNewActionPlan('lead', 0);
 
@@ -352,7 +352,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	 * method for testing Task before delete trigger
 	 */
 	@IsTest
-	private static void testTaskBeforeDelete() {
+	private static void taskBeforeDelete() {
 		Test.startTest();
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testUtil.createNewActionPlan('account', 0);

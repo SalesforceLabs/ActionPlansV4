@@ -172,7 +172,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 							rendered="{!wrap.apt.ActivityDate__c = null || wrap.apt.ActivityDate__c >= TODAY() || wrap.apt.IsClosed__c == true}" />
 					</apex:column>
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.User__c.label}" styleClass="assigned_to_field" style="vertical-align: middle">
-						<apex:outputField value="{!wrap.apt.User__c}" />
+						<apex:outputField value="{!wrap.apt.User__c}" rendered="{!LEFT(wrap.taskOwnerId, 3) != '00G'}" />
+						<apex:outputText value="{!wrap.taskOwnerName}" rendered="{!LEFT(wrap.taskOwnerId, 3) == '00G'}" />
 					</apex:column>
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.Type__c.label}" value="{!wrap.apt.Type__c}" style="vertical-align: middle" />
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.Priority__c.label}" value="{!wrap.apt.Priority__c}" style="vertical-align: middle" />

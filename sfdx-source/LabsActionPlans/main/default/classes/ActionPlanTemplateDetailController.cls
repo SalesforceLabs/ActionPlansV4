@@ -36,9 +36,10 @@ public with sharing class ActionPlanTemplateDetailController {
 
 	/**
 	 * Constructor
-	 * If we can obtain the Id from the page parameters then we search for that template and set the variable for that template.
-	 * If we can't obtain the Id from the page parameters then we create a new template and obtain from the controller.
+	 * <br>If we can obtain the Id from the page parameters then we search for that template and set the variable for that template.
+	 * <br>If we can't obtain the Id from the page parameters then we create a new template and obtain from the controller.
 	 * @param stdController Standard Controller (Action Plan Template)
+	 * @see ActionPlansUtilities.getCanDisplayReminder
 	 */
 	public ActionPlanTemplateDetailController(ApexPages.StandardController stdController) {
 		actionPlanTemplate = (ActionPlanTemplate__c) stdController.getRecord();
@@ -49,6 +50,7 @@ public with sharing class ActionPlanTemplateDetailController {
 	/**
 	 * Action on page load to ensure custom setting is created
 	 * @return   `PageReference` null (required for page actions method)
+	 * @see ActionPlansUtilities.onPageLoad
 	 */
 	public PageReference onLoad() {
 		ActionPlansUtilities.onPageLoad();
@@ -73,7 +75,7 @@ public with sharing class ActionPlanTemplateDetailController {
 
 	/**
 	 * Delete the template
-	 * @return `PageReference`
+	 * @return `PageReference` Action Plan Template home tab
 	 */
 	public PageReference deleteTemplate() {
 		try {
@@ -123,6 +125,7 @@ public with sharing class ActionPlanTemplateDetailController {
 
 	/**
 	 * Method exports the Action Plan template into a new XML document
+	 * @see ActionPlanTemplateExport
 	 */
 	public void exportTemplateToXMLDoc() {
 		ActionPlanTemplateExport utility = new ActionPlanTemplateExport(actionPlanTemplate.Id);
@@ -132,6 +135,7 @@ public with sharing class ActionPlanTemplateDetailController {
 	/**
 	 * Determine the export success message based on LEX vs Classic
 	 * @return      `String` The success message
+	 * @see ActionPlansUtilities.getIsLex
 	 */
 	public String getSuccessMessage() {
 		Boolean isLex = ActionPlansUtilities.getIsLex();
@@ -165,7 +169,8 @@ public with sharing class ActionPlanTemplateDetailController {
 	 * If we have no share object, we don't need to show a Share button
 	 * <br>Also validate user permission to share
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   `Boolean` Does the user have permission to share this Action Plan Tmplate?
+	 * @return   `Boolean` Does the user have permission to share this Action Plan Template?
+	 * @see ActionPlansUtilities.canShareRecord
 	 */
 	public Boolean getCanShare() {
 		return ActionPlansUtilities.canShareRecord(actionPlanTemplate.Id, actionPlanTemplate.OwnerId);
@@ -174,7 +179,8 @@ public with sharing class ActionPlanTemplateDetailController {
 	/**
 	 * Does the user have permission to transfer? We query `UserRecordAccess` to find out.
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return   `Boolean` yes/no
+	 * @return   `Boolean` Does the user have permission to transfer this Action Plan Template?
+	 * @see ActionPlansUtilities.getCanTransfer
 	 */
 	public Boolean getCanTransfer() {
 		return ActionPlansUtilities.getCanTransfer(actionPlanTemplate.Id);

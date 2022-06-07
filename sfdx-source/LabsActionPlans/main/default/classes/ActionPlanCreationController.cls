@@ -119,7 +119,6 @@ public with sharing class ActionPlanCreationController {
 		this.hasRelated = false;
 		this.hasRelatedObject = false;
 		this.relatedRecordIDs = new Set<Id>();
-		//this.mapTasksListBkp = new Map<Id, ApTaskWrapper>();
 
 		if (!Test.isRunningTest()) {
 			stdController.addFields(getAllRelationshipFields());
@@ -132,6 +131,8 @@ public with sharing class ActionPlanCreationController {
 		this.templateId = ActionPlansUtilities.getEscapedPageParameter('templateId');
 		this.refId = ActionPlansUtilities.getEscapedPageParameter('refId');
 		this.refType = ActionPlansUtilities.getEscapedPageParameter('refType');
+
+		this.taskOwnerMap = new Map<Id, OwnerWrapper>();
 
 		if (cloneParam == '1') {
 			initCloneActionPlan();
@@ -154,6 +155,7 @@ public with sharing class ActionPlanCreationController {
 		this.hasRelatedObject = this.hasRelatedObject();
 		this.taskIndex = this.calculateMaxTaskIndex();
 		this.subtitle = this.actionPlan.Name;
+		this.taskOwnerMap = queryAPTaskOwners(this.actionPlan);
 	}
 
 	/**
@@ -249,6 +251,65 @@ public with sharing class ActionPlanCreationController {
 			this.referedObjectInit();
 		}
 		this.subtitle = System.Label.ap_New + ' ' + Schema.getGlobalDescribe().get(getNamespacePrefix() + 'ActionPlan__c').getDescribe().getLabel();
+	}
+
+	// Set up OwnerWrappers to handle Queue-owned Tasks
+	/**
+	 * Map of Action Plan Task Id to the Task owner (or APTask User if no Task has been created)
+	 */
+	public Map<Id, OwnerWrapper> taskOwnerMap { get; private set; }
+
+	/**
+	 * Query all `Task` records for the Action Plan's Tasks so we can display the owher name read-only if it is a queue
+	 * @author David Schach
+	 * @param  ap The Action Plan
+	 * @return    Map of `Task` by Id
+	 */
+	private Map<Id, OwnerWrapper> queryAPTaskOwners(ActionPlan__c ap) {
+		Map<Id, OwnerWrapper> toReturn = new Map<Id, OwnerWrapper>();
+		if (ap.Id == null) {
+			System.debug('toReturn: ' + toReturn);
+			return toReturn;
+		}
+
+		//Map<Id, Task> tasksByAPTask = new Map<Id, Task>();
+		for (Task t : [SELECT Id, OwnerId, Owner.Name, TaskAPTask__c FROM Task WHERE TaskAPTask__r.Action_Plan__c = :ap.Id]) {
+			//tasksByAPTask.put(t.TaskAPTask__c, t);
+			toReturn.put(t.TaskAPTask__c, new OwnerWrapper(t.OwnerId, t.Owner.Name));
+		}
+		for (APTask__c apt : [SELECT Id, User__c, User__r.Name FROM APTask__c WHERE Action_Plan__c = :ap.Id]) {
+			if (!toReturn.containsKey(apt.Id)) {
+				toReturn.put(apt.Id, new OwnerWrapper(apt.User__c, apt.User__r.Name));
+			}
+		}
+		System.debug('toReturn: ' + toReturn);
+		return toReturn;
+	}
+
+	/**
+	 * Wrapper class for `Task` owner, with Name and Id. Used to determine if owned by a Queue
+	 */
+	public class OwnerWrapper {
+		/**
+		 * Constructor for OwnerWrapper
+		 * @author David Schach
+		 * @param  taskOwnerId   `Task.OwnerId`
+		 * @param  taskOwnerName `Task.Owner.Name` (User or Queue)
+		 */
+		public OwnerWrapper(Id taskOwnerId, String taskOwnerName) {
+			this.tOwnerId = taskOwnerId;
+			this.tOwnerName = taskOwnerName;
+		}
+
+		/**
+		 * Task Owner Name (User or Queue)
+		 */
+		public String tOwnerName { get; private set; }
+
+		/**
+		 * Task Owner Id (User or Queue)
+		 */
+		public Id tOwnerId { get; private set; }
 	}
 
 	/**
@@ -349,6 +410,7 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Action on page load to ensure custom setting is created
 	 * @return   `PageReference` null (required for page actions method)
+	 * @see ActionPlansUtilities.onPageLoad
 	 */
 	public PageReference onLoad() {
 		ActionPlansUtilities.onPageLoad();
@@ -375,7 +437,7 @@ public with sharing class ActionPlanCreationController {
 		get {
 			if (refType == null && refId != null) {
 				Id shortId = refId.left(15);
-				refType = ActionPlansUtilities.getRelatedRecordInfo(shortId).getName();
+				refType = ActionPlansUtilities.getRelatedSObjectDescribe(shortId).getName();
 			} else if (refId == null) {
 				refType = ActionPlansUtilities.getEscapedPageParameter('refType');
 			}
@@ -446,8 +508,10 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public PageReference save() {
 		PageReference pageRef = null;
+		//pageRef = this.saveHandler();
 		try {
 			if (!this.checkCycleDependent()) {
+				System.debug('Cycle check ok');
 				pageRef = this.saveHandler();
 			}
 		} catch (Exception e) {
@@ -564,6 +628,7 @@ public with sharing class ActionPlanCreationController {
 	 * @see ActionPlanCreationController.saveMultipleAP
 	 */
 	private PageReference saveHandler() {
+		System.debug('in saveHandler');
 		if (!this.actionPlan.SkipWeekends__c) {
 			this.actionPlan.SkipDay__c = null;
 		}
@@ -845,7 +910,7 @@ public with sharing class ActionPlanCreationController {
 						t.Reminder__c = false;
 						t.Minutes_Reminder__c = tmpReminderDefaultTime;
 					}
-					t.SendEmail__c = false;
+					//t.SendEmail__c = false;
 				}
 			} else {
 				this.apTasks = new List<APTask__c>();

@@ -25,7 +25,7 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	private static void testObjectTabDescribePositive() {
+	private static void objectTabDescribePositive() {
 		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' AND IsActive = TRUE LIMIT 1];
 
 		System.runAs(u) {
@@ -42,7 +42,7 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	private static void testObjectTabDescribeNegative() {
+	private static void objectTabDescribeNegative() {
 		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' LIMIT 1];
 
 		System.runAs(u) {
@@ -61,7 +61,7 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	private static void testObjectTabDescribeNotInApplication() {
+	private static void objectTabDescribeNotInApplication() {
 		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' LIMIT 1];
 
 		System.runAs(u) {
@@ -73,7 +73,7 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	private static void testNullObject() {
+	private static void nullObject() {
 		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' LIMIT 1];
 
 		System.runAs(u) {

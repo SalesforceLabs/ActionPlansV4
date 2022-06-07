@@ -18,7 +18,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 @IsTest
 private class ActionPlansPostInstallScriptTest {
 	@isTest
-	private static void testInstallScript() {
+	private static void installScript() {
 		ActionPlansPostInstallScript postinstall = new ActionPlansPostInstallScript();
 		Test.testInstall(postinstall, null);
 		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlanTemplate__c]);

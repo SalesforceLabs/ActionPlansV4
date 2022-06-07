@@ -35,7 +35,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void testAccountTrigger() {
+	private static void accountTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 1);
 		Account a = [SELECT Id FROM Account WHERE Id = :ap.Account__c];
@@ -69,7 +69,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void testCampaignTrigger() {
+	private static void campaignTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('campaign', 1);
 		Campaign c = [SELECT Id FROM Campaign WHERE Id = :ap.Campaign__c];
@@ -103,7 +103,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void testCaseTrigger() {
+	private static void caseTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('case', 1);
 		Case c = [SELECT Id FROM Case WHERE Id = :ap.Case__c];
@@ -137,7 +137,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void testContactTrigger() {
+	private static void contactTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('contact', 1);
 		Contact c = [SELECT Id FROM Contact WHERE Id = :ap.Contact__c];
@@ -171,7 +171,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void testContractTrigger() {
+	private static void contractTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('contract', 1);
 		Contract c = [SELECT Id FROM Contract WHERE Id = :ap.Contract__c];
@@ -205,7 +205,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void testLeadTrigger() {
+	private static void leadTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('lead', 1);
 		Lead l = [SELECT Id FROM Lead WHERE Id = :ap.Lead__c];
@@ -239,7 +239,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void testOpportunityTrigger() {
+	private static void opportunityTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 1);
 		Opportunity o = [SELECT Id FROM Opportunity WHERE Id = :ap.Opportunity__c];
@@ -273,7 +273,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void testLeadConversionContact() {
+	private static void leadConversionContact() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		User u = testutil.createTestUser();
 		testutil.assignAPPermissionSets(u.Id, true);
@@ -312,7 +312,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void testLeadConversionAccount() {
+	private static void leadConversionAccount() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		User u = testutil.createTestUser();
 		testutil.assignAPPermissionSets(u.Id, true);
@@ -358,7 +358,7 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void testLeadConversionOpportunity() {
+	private static void leadConversionOpportunity() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		User u = testutil.createTestUser();
 		//testutil.assignAPPermissionSets(u.Id, true);

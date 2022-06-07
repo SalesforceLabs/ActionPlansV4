@@ -339,7 +339,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					<!--  End Related Section -->
 
 					<apex:pageBlockSection title="{!$ObjectType.Task.labelPlural}" columns="2" collapsible="false" id="taskDetails">
-						<!-- <apex:inputField value="{!ActionPlan__c.SkipWeekends__c}" id="skipWeekendCheckbox" onclick="checkSkipWeekend('{!$Component.skipWeekendCheckbox}','{!$Component.taskDetails.skipDayPicklist}');" />-->
 						<apex:pageBlockSectionItem>
 							<apex:outputPanel layout="none">
 								<apex:outputLabel value="{!$ObjectType.ActionPlan__c.fields.SkipWeekends__c.label}" />
@@ -390,7 +389,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 										immediate="{!wrapTask.isLast}"
 										status="taskStatus"
 										action="{!removeTask}"
-										rendered="{! (!wrapTask.apt.IsClosed__c &&  $ObjectType.APTask__c.deletable ) || wrapTask.apt.Id == null }"
+										rendered="{! (!wrapTask.apt.IsClosed__c && $ObjectType.APTask__c.deletable ) || wrapTask.apt.Id == null }"
 										onclick="if (confirmTaskDeletion('{!$Component.taskTable.dependent}','{!$Label.ap_Confirm_Tasks_Deletion}')) {return false;}"
 										oncomplete="showErrors(); checkReminderPicklists(); ">
 										<apex:image url="{!URLFOR($Resource.ActionPlan_Resources, 'ActionPlans_cross.gif')}" alt="{!$Label.ap_Remove}" title="{!$Label.ap_Remove}" />

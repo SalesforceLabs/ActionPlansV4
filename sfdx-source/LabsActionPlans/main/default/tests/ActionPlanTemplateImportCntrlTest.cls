@@ -31,7 +31,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	private static String xmlWithControllingTasks = '<?xml version="1.0"?><export><meta><exportPackage>Action+Plan+Template</exportPackage><exportAuthor>User+User</exportAuthor><exportOrganization>Action+Plans</exportOrganization><exportCreateDate>2022-02-18+00%3A46%3A44</exportCreateDate></meta><ActionPlanTemplate><id>a021g000005GnaJAAS</id><name>New+Customer+Onboarding</name><description>When+Prospect+-%3E+Customer%2C+do+these+tasks</description><skipWeekend>true</skipWeekend><skipday>Start+of+next+week</skipday></ActionPlanTemplate><ActionPlanTemplateTasks><TaskTemplate><id>a011g00000Fzb5AAAR</id><templateId>a021g000005GnaJAAS</templateId><subject>Send+welcome+gift</subject><dependent>None</dependent><taskIndex>0</taskIndex><taskcontroller>null</taskcontroller><daysFromStart>1</daysFromStart><category>null</category><priority>High</priority><sendEmail>false</sendEmail><reminder>false</reminder><reminderTime>null</reminderTime><comments>Contact+our+branded+product+provider+to+ship+appropriate+gift</comments></TaskTemplate><TaskTemplate><id>a011g00000Fzb5BAAR</id><templateId>a021g000005GnaJAAS</templateId><subject>Enable+Customer+Community+User</subject><dependent>0</dependent><taskIndex>1</taskIndex><taskcontroller>a011g00000Fzb5AAAR</taskcontroller><daysFromStart>2</daysFromStart><category>null</category><priority>Normal</priority><sendEmail>false</sendEmail><reminder>false</reminder><reminderTime>null</reminderTime><comments>null</comments></TaskTemplate><TaskTemplate><id>a011g00000Fzb5CAAR</id><templateId>a021g000005GnaJAAS</templateId><subject>Schedule+onboarding+call+with+customer+success</subject><dependent>1</dependent><taskIndex>2</taskIndex><taskcontroller>a011g00000Fzb5BAAR</taskcontroller><daysFromStart>1</daysFromStart><category>null</category><priority>Normal</priority><sendEmail>false</sendEmail><reminder>false</reminder><reminderTime>null</reminderTime><comments>null</comments></TaskTemplate></ActionPlanTemplateTasks></export>';
 
 	@IsTest
-	private static void testXMLImport() {
+	private static void xMLImport() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();
@@ -45,7 +45,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	private static void testXMLImportEmptyAttachment() {
+	private static void xMLImportEmptyAttachment() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();
@@ -58,7 +58,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	private static void testXMLImportEmptyXML() {
+	private static void xMLImportEmptyXML() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();
@@ -72,7 +72,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	private static void testXMLImportWrongTemplate() {
+	private static void xMLImportWrongTemplate() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();
@@ -86,7 +86,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	private static void testXMLImportWrongTemplateTask() {
+	private static void xMLImportWrongTemplateTask() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();
@@ -100,7 +100,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	private static void testXMLImportWrongMetaData() {
+	private static void xMLImportWrongMetaData() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();
@@ -114,7 +114,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	private static void testXMLImportFromExport() {
+	private static void xMLImportFromExport() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();
@@ -128,7 +128,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	private static void testBadFields() {
+	private static void badFields() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();
@@ -152,7 +152,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	private static void testControllingTask() {
+	private static void controllingTask() {
 		Test.setCurrentPage(Page.ActionPlanTemplateImport);
 
 		ActionPlanTemplateImportController controller = new ActionPlanTemplateImportController();
@@ -166,7 +166,7 @@ private class ActionPlanTemplateImportCntrlTest {
 	}
 
 	@IsTest
-	private static void testRoundTrip() {
+	private static void roundTrip() {
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
