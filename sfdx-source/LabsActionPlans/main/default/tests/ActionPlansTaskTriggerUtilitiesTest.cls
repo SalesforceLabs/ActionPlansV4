@@ -417,4 +417,13 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		newTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE];
 		System.assertEquals(1, newTaskList.size());
 	}
+
+	/**
+	 * method for testing Task After Update trigger
+	 * when updating task owner to a queue
+	 */
+	@IsTest
+	private static void taskAssignToQueue() {
+		// TODO: Test assigning Task to queue. Should not update APTask User
+	}
 }
