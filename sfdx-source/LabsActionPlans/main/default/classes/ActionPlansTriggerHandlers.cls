@@ -560,7 +560,10 @@ global without sharing class ActionPlansTriggerHandlers {
 							tmp.Comments__c = t.Description;
 							tmp.Priority__c = t.Priority;
 							// Do not change AP Task owner if Task is assigned to a queue
-							tmp.User__c = ((String) t.OwnerId).startsWith('005') ? t.OwnerId : tmp.User__c;
+							if (((String) t.OwnerId).startsWith('005')) {
+								tmp.User__c = t.OwnerId;
+							}
+							//tmp.User__c = ( ? t.OwnerId : tmp.User__c;
 							tmp.ActivityDate__c = t.ActivityDate;
 							lUpsert.add(tmp);
 						}
