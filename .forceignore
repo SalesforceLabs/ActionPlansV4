@@ -40,7 +40,7 @@ sfdx-source/LabsActionPlans/main/default/reports/**
 
 # Prevent org changes from being included in local project
 Admin.profile
-# Activities.settings
+Activities.settings
 Security.settings
 TaskStatus.standardValueSet
 TaskPriority.standardValueSet
@@ -58,15 +58,12 @@ Opportunity.object
 Admin.profile
 *.profile
 Custom*.profile
-Custom: Marketing Profile.profile
-Custom: Sales Profile.profile
-Custom: Support Profile.profile
 Read Only.profile
 *.recordType
 *.profilePasswordPolicy
 *.profileSessionSetting
-taskQueue.queue
 *.queue
+*.group
 
 # Ignore Communities in case the package is extended to Partner Users
 **/classes/ChangePasswordController.cls
