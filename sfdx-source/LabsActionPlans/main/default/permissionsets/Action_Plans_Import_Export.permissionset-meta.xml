@@ -122,6 +122,11 @@
         <field>ActionPlanTemplate__c.TaskRecordTypeID__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ActionPlanTemplate__c.Total__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Action Plans Import/Export</label>
     <objectPermissions>
