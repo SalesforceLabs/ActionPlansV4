@@ -34,6 +34,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Artifact from old autocomplete extension
+.vim-force.com/
+
 # Dependency directories
 node_modules/
 
@@ -96,3 +99,4 @@ sfdx-source/LabsActionPlans/main/default/reports/**
 **/objects/Task/recordTypes
 **/standardValueSets
 **/Translations
+

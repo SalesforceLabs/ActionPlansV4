@@ -258,7 +258,7 @@ private class ActionPlanCreateInvocableTest {
 	@IsTest
 	private static void checkWeekendDueDate() {
 		Weekend_Day__mdt weekend = [
-			SELECT Days_from_end_of_previous_week__c, Days_to_start_of_next_week__c, DeveloperName
+			SELECT Id, Days_from_end_of_previous_week__c, Days_to_start_of_next_week__c, DeveloperName
 			FROM Weekend_Day__mdt
 			WHERE Days_to_start_of_next_week__c != 0
 		][0];
