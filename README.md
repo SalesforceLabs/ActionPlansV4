@@ -1,16 +1,12 @@
 # Action Plans
 
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![Latest Commit](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml)
-[![Latest Pull Request](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml)
-[![codecov](https://codecov.io/gh/salesforcelabs/actionplansv4/branch/main/graph/badge.svg?token=9BD97HKVUI)](https://codecov.io/gh/salesforcelabs/actionplansv4)
-[![Twitter](https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social)](https://twitter.com/salesforce_labs)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Latest Commit](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml) [![Latest Pull Request](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml) [![codecov](https://codecov.io/gh/salesforcelabs/actionplansv4/branch/main/graph/badge.svg?token=9BD97HKVUI)](https://codecov.io/gh/salesforcelabs/actionplansv4) [![Twitter](https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social)](https://twitter.com/salesforce_labs)
 
-## [Changelog](/CHANGELOG.md)
+## [Changelog](./CHANGELOG.md)
 
 # Action Plans Installation and Setup
 
-## Please follow installation instructions, shown on the **[Installation page](/INSTALLATION.md)**
+## Please follow installation instructions, shown on the **[Installation page](./INSTALLATION.md)**
 
 ### [AppExchange](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#appexchange-managed-package---recommended)
 - [AppExchange Listing](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000Gg6NVUAZ)
@@ -60,7 +56,7 @@ Getting started is easy. For each object, you need to add a button to the list v
 
 ## Update Action Plans Custom Settings
 
- Change these setting by editing Action Plan Settings, and updating values at either the organization level, profile levels, or user levels.
+Change these setting by editing Action Plan Settings, and updating values at either the organization level, profile levels, or user levels.
 
 Navigate to Setup > Develop > Custom Settings. Click on 'Manage' next to `Action Plans Settings`. Click the 'New' button near 'Default Organizational Level Value'. Check the values that you want to enable.
 - `Enable Chatter Post` places a post in the related record's Chatter Feed (if Chatter is enabled for that object). If unchecked, Action Plans does not create a Feed Post.
@@ -75,7 +71,7 @@ All weekdays should have 0 in both numeric fields.
 
 ## Update Your Page & Search Layout Configurations
 
-### Create Action Plans Button
+### Create Action Plans Buttons
 
 For each object, you need to add a button to the list view, For Accounts, follow these steps:
 
@@ -94,7 +90,7 @@ For each object, you need to add a button to the list view, For Accounts, follow
 
 Repeat these steps for the other standard objects Action Plans supports: Contacts, Leads, Opportunities, etc.
 
-### Delete Action Plans Button
+### Delete Action Plans Buttons
 
 Follow this steps for Action Plan Object:
 
@@ -102,6 +98,9 @@ Follow this steps for Action Plan Object:
 1. Click on "Edit" near "List View."
 1. Move the "Delete Action Plans" button from "Available Buttons" to "Selected Buttons."
 1. Click "Save."
+
+### Task Layout
+Optionally, add the "Action Plan Task" field to your Task page layout, but it should be **Read-Only**, as clearing this field will break the ability to track Action Plan progress.
 
 # Security
 
@@ -142,7 +141,7 @@ Note: The Apex used in Flows or via triggers does not require special permission
 1.  Add the field to the `Related Objects` fieldset on Action Plan.
 1.  The related object will now be available for selection when creating a new Action Plan and relating it to an object.
 1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts (removing the `LabsActionPlans` namespace if you're not using the managed package:
-  ```
+	```apex
 	LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );
 	```
 ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanFieldSet.png)
@@ -154,13 +153,13 @@ While Action Plans already overrides the New Action Plan action, the New button 
 1.  Give it a label and name, such as "New MyObject Action Plan"
 1.  Display Type is List Button. Uncheck the list checkbox.
 1.  Use the following format for the button (removing the `LabsActionPlans` namespace if you're not using the managed package):
-    ```
-    {!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id] )}
-    ```
+	```plaintext
+	{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id] )}
+	```
 ## Create Action Plans for multiple Custom Object records
 
 Just as there is a button for Account list views to create multiple Action Plans, you can do the same for your custom object. Create a Visualforce page with the following code:
-```
+```xml
 <apex:page standardController="CustomObject__c" recordsetvar="o" 
  extensions="LabsActionPlans.ActionPlansCreateMultipleAPsExtension" 
  showHeader="false" action="{!doRedirect}">
@@ -168,7 +167,7 @@ Just as there is a button for Account list views to create multiple Action Plans
 		<apex:actionFunction name="jsCancel" action="{!cancel}" immediate="true" />
 	</apex:form>
 	<script>
-		var oids = '{!objIDs}';
+		var oids = '{!JSENCODE(objIDs)}';
 		if (oids.length < 15) {
 			alert('{!$Label.LabsActionPlans__ap_Errors_selectOneRecord}');
 			jsCancel();
@@ -182,6 +181,7 @@ Then create a list view button for that object and add it to your list views.
 
 If you want, for example, not to allow relating Action Plans to Contracts, remove the Contract field from the Action Plan Related Objects fieldset.
 There is no need to delete the field from the Action Plan object.
+
 # Create a Template
 
 Now you're ready to create your first template. Navigate to the Action Plans Templates tab. Click on the "New Action Plan Template" button.
@@ -197,16 +197,16 @@ The template screen looks like this:
 1.  Subject - What the task is to do.
 1.  Task Dependency - The dependent task will only be created once the controlling task is completed.
 1.  Days After- This value determines the due date of the task.
-    -   For tasks with no dependency, the task’s due date will be offset from the plan start date.
+    -   For tasks with no dependency, the task's due date will be offset from the plan start date.
     -   For tasks with a dependency, the due date will be offset from the expected due date of the task on which it depends.
-1.  Assigned To – Looks up to user. Leave blank if you want to assign the task dynamically.
+1.  Assigned To - Looks up to user. Leave blank if you want to assign the task dynamically.
     When assigning dynamically, the default behavior will be to assign the task to the running user. You can also have the system assign it to the record owner by changing your Action Plan Settings. See "Post Install Configuration" guide above.
 1.  Category - What type of activity.
 1. Priority - Taken from Task priorities and Record Type (if applicable).
 1. Email - Send a standard New Task email when checked. For Tasks depending on others, the email will be sent when the task is created.
-1. Reminder – This check box will define the default behaviour for reminders when applying the template to create an Action plan .
-1. If it’s left unchecked, in the Action Plan Creation page the reminders will be initially disabled
-1. If it’s checked the reminders will be available.
+1. Reminder - This check box will define the default behaviour for reminders when applying the template to create an Action plan .
+1. If it's left unchecked, in the Action Plan Creation page the reminders will be initially disabled
+1. If it's checked the reminders will be available.
 
     -   User Reminder settings: Go Personal Setup > My Personal Information > Reminders, if the option "By default, set reminder on Tasks to:" is checked then the selected time will be the default option for task template reminders.
     -   User setting for Activity Object : Go App Setup> Feature Settings > Sales > Activity Settings, If "Enable Activity Reminders" is not checked, then reminders column will not be displayed in the Action Plan creation page.
@@ -232,16 +232,37 @@ If your org uses Task Record Types, you must specify which Record Type to use fo
 	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Choose-template-step2.png)
 
 1. Save the Action Plan.
-    Note: Action Plan creation is handled by a queueable (asynchronous) process. It can take a couple of minutes to be able to view all created records.
+	Note: Action Plan creation is handled by a queueable (asynchronous) process. It can take a couple of minutes to be able to view all created records.
 
-    ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlan-Detail.png)
+	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlan-Detail.png)
 
 1. Verify the Action Plan and the tasks.
 
 1. Complete the first task on the Action Plan.
-    Note that the Action Plan is now in the correct related list and that this Account has one open activity and one closed activity. The third activity in the template is dependent and will be created only when its controlling task is complete.
+	Note that the Action Plan is now in the correct related list and that this Account has one open activity and one closed activity. The third activity in the template is dependent and will be created only when its controlling task is complete.
 
 	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/AccountActionPlan-Detail.png)
+
+# Task notifications for Flow-created Action Plans
+
+## User Settings
+
+To receive Task notifications if `Send Email` is selected on an Action Plan Task, ensure that users have been allowed to control receipt of Task notification emails (this is active by default), and that they have allowed email notifications to be sent (this is also enabled by default). See [Salesforce H&T](https://help.salesforce.com/s/articleView?id=sf.tasks_control_email_notifications_considerations.htm) for more information.
+
+## Org Setting
+
+The `Send Email` field on Action Plan Task must be checked to send a email notifications, and the setting `Allow Flow to send delegated task notifications on records created through Apex` must **also** be enabled. Go to Settings > Feature Settings > Sales > Activity Settings to check that box and allow email notifications to be sent via Flow-created Action Plans.
+
+## Action Plan Tasks
+
+If the user has enabled task notification, then those will be sent when an Action Plan Task is created.
+
+- If the Action Plan Task is updated to a new owner, and if the `Send Email` box is NOT checked, the user may still receive a task notification if that is in their personal settings. 
+- If the box is checked, assuming that notifications are enabled for that user, the email will be sent.
+
+# Queues
+
+Action Plan Tasks cannot be assigned to queues, so if the parent record is owned by a queue, each AP Task will be assigned to the running user. Tasks generated from that Action Plan can be assigned to the queue by using a Flow to reassign the Tasks. Because the Invocable Apex returns a list of Action Plan Task IDs, the createdTasks (which have a relationship to the Action Plan tasks) can be updated in that same flow, as they are created synchronously and can be queried immediately. Alternatively, reassign Tasks to Queues any other way you'd like; it will not break Action Plans, and the Queue name will show on the Action Plan detail page.
 
 # Automate Action Plan Creation
 
@@ -251,9 +272,14 @@ Action Plans includes an Invocable Apex class that can be included in a Flow. Th
 Days from trigger to start Action Plan is optional (and defaults to 0). The first task will be due the number of days (specified on the template) from the start date. This date may fall on a weekend, though task due dates can be moved to avoid weekends if set on the template.
 
 ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/FlowAction.png)
-### (Optional) Sample Action Plan Template for Account onboarding, run the following
+
+The Invocable Apex class returns the Salesforce IDs of all the created Action Plan Tasks, which can be used in the next Flow steps.
+
+### (Optional) Sample Action Plan Template for Account onboarding
+
+Run the following:
 	
-```
+```plaintext
 sfdx force:apex:execute -f ./data/sample-data.apex
 ```
 
@@ -269,7 +295,7 @@ It is recommended NOT to check the Recursion box when creating a Process Builder
 
 **It is also recommended NOT to use Process Builder at all!**
 
-![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png)
+<!-- ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png) -->
 
 ## Apex
 
@@ -298,14 +324,15 @@ LabsActionPlans__ActionPlanTemplate__c apTemplate;
 List<SObject> toInsert... // can use any object, such as Account, or the generic SObject class
 
 List<LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest>();
+for(SObject a : toInsert){
 	LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest req = new LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest();
 	req.templateNameOrID = apTemplateName;
 	req.relatedRecordID = a.Id;
 	req.daysToActionPlanStart = 1;
 	req.actionPlanName = a.Name + ' - Onboarding';
 	requests.add(req);
-
-	List<Id> resultIDs = LabsActionPlans.ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
+}
+List<Id> resultIDs = LabsActionPlans.ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 ```
 
 ## ActionPlanCreateInvocable.CreateActionPlanRequest class
@@ -313,6 +340,7 @@ Variables:
 - String `templateNameOrID` (required) Name is not unique, so ID is preferred
 - Id `relatedRecordID` (required) Must have a relationship field named the related record object name from Action Plan object
 - Integer `daysToActionPlanStart` (not required) Defaults to 0, the day the plan is created
+- String `actionPlanName` (not required) Give the Action Plan a custom name. If not specified, defaults to {Template Name} - {Parent Record Name}.
 
 # Share Your Templates and Discover Best Practices using Template Export and Template Import
 
@@ -333,10 +361,10 @@ Sharing the file is easy. Email the file to whomever you want to share it with. 
 
 ## Best Practices: How to Import
 
-Import is also simple. Navigate to the "Import Template" tab. Select the file you want to import using "Browse" and once you’ve found it click on "Import Template."
+Import is also simple. Navigate to the "Import Template" tab. Select the file you want to import using "Browse" and once you've found it click on "Import Template."
 
 ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanTemplate-import-2.png)
 
 ## (Optional) Sample Action Plan Template Import
 
-This repository also includes a sample Action Plan Template file, which you can import on the appropriate tab. You may download [New Customr Onboarding](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20New%20Customer%20Onboarding.xml) from GitHub, or you can find it in this SFDX project in the `data` folder.
+This repository also includes sample Action Plan Template files, which you can import on the appropriate tab. You may download [New Customer Onboarding](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20New%20Customer%20Onboarding.xml) or [Trade Show Follow Up](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Trade%20Show%20Follow%20Up.xml) from GitHub, or you can find it in this SFDX project in the `data` folder.

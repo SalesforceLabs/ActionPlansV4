@@ -52,7 +52,8 @@ public inherited sharing class ActionPlansSectionHeaderController {
 
 	/**
 	 * Map of Icon attribute and value
-	 * @return `Map<String, String>` Key-value pairs
+	 * @return `Map<String, String>` Key-value pairs\
+	 * @see ActionPlansSectionHeaderController.retrieveIconForObject
 	 */
 	public Map<String, String> getObjectIconInfo() {
 		return retrieveIconForObject(objectName);
@@ -61,6 +62,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	/**
 	 * Is this a custom object?
 	 * @return `Boolean` true if custom object
+	 * @see ActionPlansSectionHeaderController.isCustom
 	 */
 	public Boolean getIsCustom() {
 		return isCustom(objectName);

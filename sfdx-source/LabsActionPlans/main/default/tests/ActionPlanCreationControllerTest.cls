@@ -15,7 +15,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 /**
  * Tests for `ActionPlan__c` Create/Edit Visualforce Extension
  * @author {@link [David Schach](https://github.com/dschach)}
- * @see ActionPLanCreationController
+ * @see ActionPlanCreationController
  * @group Tests
  */
 @IsTest
@@ -146,7 +146,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void testActionPlanSave() {
+	private static void actionPlanSave() {
 		ActionPlan__c ap = new ActionPlansTestUtilities().createNewActionPlan('contact', 3);
 
 		Contact contact = [SELECT Id FROM Contact LIMIT 1];
@@ -189,7 +189,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void testActionPlanSaveAndNew() {
+	private static void actionPlanSaveAndNew() {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -231,7 +231,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void testRelateToMultipleContacts() {
+	private static void relateToMultipleContacts() {
 		final Integer conCOUNT = 40;
 		final Integer apTASKCOUNT = 2;
 
@@ -341,7 +341,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void testAddNewTask() {
+	private static void addNewTask() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		Test.setCurrentPage(Page.ActionPlanCreation);
@@ -380,7 +380,39 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void testRemoveActionPlanTask() {
+	private static void changeAPTaskOwner() {
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+
+		Test.setCurrentPage(Page.ActionPlanCreation);
+
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
+
+		User ownerUser = testUtil.createTestUser();
+
+		APTask__c apTask = testUtil.createNewActionPlanTask(actionPlan, 0, ownerUser.Id, null, null);
+		insert apTask;
+
+		Id defaultTaskRTId = ActionPlansUtilities.getDefaultTaskRecordTypeId();
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
+			System.assertNotEquals(null, defaultTaskRTId);
+		}
+
+		Test.startTest();
+
+		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+		List<ActionPlanCreationController.ApTaskWrapper> taskWrapList = apCreateController.getTasks();
+		ActionPlanCreationController.ApTaskWrapper taskWrap = taskWrapList[0];
+
+		taskWrap.apt.User__c = System.UserInfo.getUserId();
+		apCreateController.save();
+
+		Test.stopTest();
+
+		System.assertEquals(System.UserInfo.getUserId(), [SELECT Id, OwnerId FROM Task LIMIT 1].OwnerId);
+	}
+
+	@IsTest
+	private static void removeActionPlanTask() {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -467,7 +499,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void testCyclicDependencyTaskSuccess() {
+	private static void cyclicDependencyTaskSuccess() {
 		Test.startTest();
 
 		Test.setCurrentPage(Page.ActionPlanCreation);
@@ -508,7 +540,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void testCyclicDependencyTasksFail() {
+	private static void cyclicDependencyTasksFail() {
 		Test.startTest();
 
 		Test.setCurrentPage(Page.ActionPlanCreation);
@@ -630,7 +662,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void testSetTaskRecordType() {
+	private static void setTaskRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = true;
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
@@ -666,7 +698,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void testForceRecordTypes() {
+	private static void forceRecordTypes() {
 		ActionPlansTestUtilities.forceHasRecordType = true;
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
@@ -683,7 +715,7 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
-	private static void testForceNoRecordTypes() {
+	private static void forceNoRecordTypes() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
 
 		ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues();

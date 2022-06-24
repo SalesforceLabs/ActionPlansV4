@@ -1,0 +1,17 @@
+code {
+	font-size: large;
+	background: rgb(238, 238, 238) !important;
+}
+
+pre code {
+	white-space: pre-wrap;
+}
+
+.hljs {
+	background: rgb(238, 238, 238);
+}
+
+.readmeimage {
+	max-width: 800px;
+	width: 100%;
+}

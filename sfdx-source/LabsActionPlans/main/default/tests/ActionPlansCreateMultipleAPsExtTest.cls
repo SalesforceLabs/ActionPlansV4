@@ -21,7 +21,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 @IsTest
 private class ActionPlansCreateMultipleAPsExtTest {
 	@IsTest
-	private static void givenRecordsToDeleteThenDeleted() {
+	private static void givenRecordsToCreateThenCreated() {
 		List<Account> accts = new List<Account>();
 		for (Integer i = 0; i < 20; i++) {
 			Account newAccount = new Account();

@@ -29,7 +29,7 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testSaveSingle() {
+	private static void saveSingle() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
 
@@ -61,7 +61,7 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testSaveMultiple() {
+	private static void saveMultiple() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
 
@@ -91,7 +91,7 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testAccount() {
+	private static void account() {
 		System.assert(testObject('Account'));
 		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
 		Test.startTest();
@@ -101,7 +101,7 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testContact() {
+	private static void contact() {
 		System.assert(testObject('Contact'));
 		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
 		Test.startTest();
@@ -114,22 +114,22 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testLead() {
+	private static void lead() {
 		System.assert(testObject('Lead'));
 	}
 
 	@IsTest
-	private static void testCase() {
+	private static void case() {
 		System.assert(testObject('Case'));
 	}
 
 	@IsTest
-	private static void testCampaign() {
+	private static void campaign() {
 		System.assert(testObject('Campaign'));
 	}
 
 	@IsTest
-	private static void testContract() {
+	private static void contract() {
 		System.assert(testObject('Contract'));
 	}
 
@@ -166,7 +166,7 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testCancel() {
+	private static void cancel() {
 		Test.startTest();
 
 		Test.setCurrentPage(Page.ActionPlanCreation);
@@ -221,7 +221,7 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testRelatedObjectId() {
+	private static void relatedObjectId() {
 		Test.startTest();
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
@@ -248,7 +248,7 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testDeleteActionPlans() {
+	private static void deleteActionPlans() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		System.runAs(new User(Id = UserInfo.getUserId())) {
 			testutil.assignAPPermissionSets(UserInfo.getUserId(), false);
@@ -366,13 +366,13 @@ private class ActionPlansUtilitiesTest {
 	}
 
 	@IsTest
-	private static void testRandomWord() {
+	private static void randomWord() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		System.assert(testUtil.createRandomWord('testword') != testUtil.createRandomWord());
 	}
 
 	@IsTest
-	private static void testUtilitiesRecordTypes() {
+	private static void utilitiesRecordTypes() {
 		if (ActionPlansUtilities.taskUsesRecordTypes) {
 			if (ActionPlansTestUtilities.getNonDefaultAvailableTaskRecordType() != null) {
 				String taskQuery = 'SELECT Id, RecordTypeId FROM Task';

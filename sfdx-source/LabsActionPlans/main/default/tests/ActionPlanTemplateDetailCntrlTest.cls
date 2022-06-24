@@ -22,7 +22,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 @IsTest
 private class ActionPlanTemplateDetailCntrlTest {
 	@IsTest
-	private static void testConstructor() {
+	private static void constructor() {
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
@@ -57,7 +57,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 	}
 
 	@IsTest
-	private static void testForceRecordType() {
+	private static void forceRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = true;
 
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
@@ -79,7 +79,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 	}
 
 	@IsTest
-	private static void testForceNoRecordType() {
+	private static void forceNoRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
 
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
@@ -118,7 +118,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 	}
 
 	@IsTest
-	private static void testDeleteActionPlanTemplate() {
+	private static void deleteActionPlanTemplate() {
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
 		Test.startTest();
 
@@ -139,7 +139,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 	}
 
 	@IsTest
-	private static void testRetrievingTemplateTasks() {
+	private static void retrievingTemplateTasks() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(3);
 
@@ -161,7 +161,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 	}
 
 	@IsTest
-	private static void testRetrievingActionPlanTemplate() {
+	private static void retrievingActionPlanTemplate() {
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
 		Test.startTest();
 
