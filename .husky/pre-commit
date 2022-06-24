@@ -7,7 +7,5 @@ echo $VERSION
 printf '%s' "$VERSION" > pmd/pmd-version.txt
 git add pmd/pmd-version.txt
 
-sed -i '' 's|src="sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images|class="readmeimage" src="assets|g' doc-assets/README.html docs/index.html
-
 npm run updateHighlight
 npx lint-staged

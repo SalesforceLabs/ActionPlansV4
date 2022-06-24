@@ -249,6 +249,10 @@ If your org uses Task Record Types, you must specify which Record Type to use fo
 
 To receive Task notifications if `Send Email` is selected on an Action Plan Task, ensure that users have been allowed to control receipt of Task notification emails (this is active by default), and that they have allowed email notifications to be sent (this is also enabled by default). See [Salesforce H&T](https://help.salesforce.com/s/articleView?id=sf.tasks_control_email_notifications_considerations.htm) for more information.
 
+## Org Setting
+
+The `Send Email` field on Action Plan Task must be checked to send a email notifications, and the setting `Allow Flow to send delegated task notifications on records created through Apex` must **also** be enabled. Go to Settings > Feature Settings > Sales > Activity Settings to check that box and allow email notifications to be sent via Flow-created Action Plans.
+
 ## Action Plan Tasks
 
 If the user has enabled task notification, then those will be sent when an Action Plan Task is created.
@@ -258,11 +262,7 @@ If the user has enabled task notification, then those will be sent when an Actio
 
 # Queues
 
-Action Plan Tasks cannot be assigned to queues, so if the parent record is owned by a queue, each AP Task will be assigned to the running user. Tasks generated from that Action Plan can be assigned to the queue by using a Flow to reassign the Tasks. Because the Invocable Apex returns a list of Action Plan Task IDs, the createdTasks (which have a relationship to the Action Plan tasks) can be updated from that same flow, as they are created synchronously and can be queried immediately.
-
-## Flow Considerations
-
-The `Send Email` field on Action Plan Task must be checked to send a email notifications, but the setting `Allow Flow to send delegated task notifications on records created through Apex` must **also** be enabled. Go to Settings > Feature Settings > Sales > Activity Settings to check that box and allow email notifications to be sent via Flow-created Action Plans.
+Action Plan Tasks cannot be assigned to queues, so if the parent record is owned by a queue, each AP Task will be assigned to the running user. Tasks generated from that Action Plan can be assigned to the queue by using a Flow to reassign the Tasks. Because the Invocable Apex returns a list of Action Plan Task IDs, the createdTasks (which have a relationship to the Action Plan tasks) can be updated in that same flow, as they are created synchronously and can be queried immediately. Alternatively, reassign Tasks to Queues any other way you'd like; it will not break Action Plans, and the Queue name will show on the Action Plan detail page.
 
 # Automate Action Plan Creation
 
@@ -295,7 +295,7 @@ It is recommended NOT to check the Recursion box when creating a Process Builder
 
 **It is also recommended NOT to use Process Builder at all!**
 
-![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png)
+<!-- ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png) -->
 
 ## Apex
 

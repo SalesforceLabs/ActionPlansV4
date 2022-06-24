@@ -24,7 +24,7 @@
 		"pmd:scan:csv": "$HOME/pmd/bin/run.sh pmd -d sfdx-source -R pmd/ruleset.xml -f csv -r pmd/pmd.csv --cache .pmdCache --short-names",
 		"pmd:scan:deploy:csv": "$HOME/pmd/bin/run.sh pmd -d sfdx-source -R pmd/deployRules.xml -f csv -r pmd/deploy.csv --cache .pmdCache --short-names",
 		"prettier:apex:local": "prettier --apex-standalone-parser built-in --write \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
-		"prettier:docs": "prettier --write \"docs/*.html\"",
+		"cleanup:docs": "prettier --write \"docs/*.html\"",
 		"prettier:package": "prettier --write \"sfdx-source/**/*.{cls,component,page,trigger}\"",
 		"prettier:verify:apex:local": "prettier --apex-standalone-parser built-in --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\"",
 		"prettier:verify": "prettier --list-different \"sfdx-source/**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,yaml,yml}\" \"docs/*.html\"",
@@ -39,7 +39,8 @@
 		"pre-commit": "lint-staged",
 		"labsdevhub": "sfdx config:set defaultdevhubusername=LabsLDO",
 		"version": "auto-changelog && git add CHANGELOG.md",
-		"updateHighlight": ". scripts/updateHighlight.sh"
+		"updateHighlight": ". scripts/updateHighlight.sh",
+		"readmeChange": ". doc-assets/onreadmechange.sh"
 	},
 	"devDependencies": {
 		"@lwc/eslint-plugin-lwc": "^1.3.0",

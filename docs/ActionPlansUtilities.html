@@ -911,6 +911,11 @@
                     <div class="methods-toc__description">Get the Custom Metadata record for the weekend day</div>
                   </li>
                   <li class="method public">
+                    <a class="methods-toc__entry" href="#ActionPlansUtilities.idStartsWith"> idStartsWith (idParam, compareString) </a>
+
+                    <div class="methods-toc__description">Basic utility method to avoid repeatedly casting Ids to Strings to test for startsWith (User vs Group)</div>
+                  </li>
+                  <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansUtilities.onPageLoad"> onPageLoad () </a>
 
                     <div class="methods-toc__description">
@@ -1565,6 +1570,33 @@
                   <div class="method-subtitle-description">
                     <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
                   </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title" id="ActionPlansUtilities.idStartsWith">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansUtilities.cls#L750">
+                      idStartsWith(idParam, compareString)
+                    </a>
+                  </h4>
+                  <div class="method-description">Basic utility method to avoid repeatedly casting Ids to Strings to test for startsWith (User vs Group)</div>
+                  <div class="method-subtitle">Signature</div>
+
+                  <div class="method-signature">public static Boolean idStartsWith(Id idParam, String compareString)</div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">idParam</div>
+                  <div class="param-type">Type: <code class="code-inline">Id</code></div>
+                  <div class="param-description">The Id passed to the method</div>
+                  <div class="param-name">compareString</div>
+                  <div class="param-type">Type: <code class="code-inline">String</code></div>
+                  <div class="param-description">The string we compare for the string&#39;s start</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">Boolean</code> true/false</div>
+                  <div class="method-subtitle">Author</div>
+                  <div class="method-subtitle-description">David Schach</div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title" id="ActionPlansUtilities.onPageLoad">

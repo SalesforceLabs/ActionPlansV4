@@ -215,7 +215,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			}
 			t.Subject = refAPTask.Subject__c;
 			t.Priority = refAPTask.Priority__c;
-			if (t.Id == null || ((String) (t.OwnerId)).startsWithIgnoreCase('005')) {
+			if (t.Id == null || ActionPlansUtilities.idStartsWith(t.OwnerId, '005')) {
 				t.OwnerId = refAPTask.User__c;
 			}
 			t.Type = refAPTask.Type__c;

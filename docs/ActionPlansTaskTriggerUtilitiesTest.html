@@ -380,46 +380,48 @@
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.actionPlanDelete"> actionPlanDelete () </a>
 
-                    <div class="methods-toc__description">test trigger AP Delete</div>
+                    <div class="methods-toc__description">Test <code class="code-inline">Task</code> delete on <code class="code-inline">Action Plan</code> delete</div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.aPTaskUndelete"> aPTaskUndelete () </a>
 
-                    <div class="methods-toc__description">test ActionPlanTaskTemplateTrigger when the user undeletes an ActionPlan Task</div>
+                    <div class="methods-toc__description">Test <code class="code-inline">Task</code> undelete on <code class="code-inline">Action Plan Task</code> undelete</div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.aPTaskUpdate"> aPTaskUpdate () </a>
 
-                    <div class="methods-toc__description">test trigger Action Plan Task Update</div>
+                    <div class="methods-toc__description">Test <code class="code-inline">Task</code> update on <code class="code-inline">Action Plan Task</code> update</div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.aPTTemplateUndeleteException"> aPTTemplateUndeleteException () </a>
 
-                    <div class="methods-toc__description">test ActionPlanTaskTemplateTrigger When the user undeletes an ActionPlan Task Template</div>
+                    <div class="methods-toc__description">test ActionPlansTaskTriggerUtilities when the user undeletes an ActionPlan Task Template</div>
+                  </li>
+                  <li class="method private">
+                    <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.makeData"> makeData () </a>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.taskAfterUpdateToCompleted"> taskAfterUpdateToCompleted () </a>
 
-                    <div class="methods-toc__description">
-                      test trigger without skipweekends method for testing Task After Update trigger when updating task to status &#39;Completed&#39;
-                    </div>
+                    <div class="methods-toc__description">Test <code class="code-inline">Task</code> After Update trigger when updating Status to Completed</div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.taskAfterUpdateToOpen"> taskAfterUpdateToOpen () </a>
 
-                    <div class="methods-toc__description">
-                      method for testing Task After Update trigger when updating task to status &#39;In Progress&#39; (or another open status)
-                    </div>
+                    <div class="methods-toc__description">Test Task After Update trigger when updating task to status &#39;In Progress&#39; (or another open status)</div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.taskAssignToQueue"> taskAssignToQueue () </a>
 
-                    <div class="methods-toc__description">method for testing Task After Update trigger when updating task owner to a queue</div>
+                    <div class="methods-toc__description">
+                      Test when updating task owner to a queue <br />Should not try to change APTask to a Queue, as that will break APTask (User only) <br />Also assert that the VF
+                      page shows the Task as the APTask owner (even though it is a User under the hood)
+                    </div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.taskBeforeDelete"> taskBeforeDelete () </a>
 
-                    <div class="methods-toc__description">method for testing Task before delete trigger</div>
+                    <div class="methods-toc__description">Test Task before delete trigger</div>
                   </li>
                 </ul>
                 <div class="method testmethod">
@@ -429,11 +431,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L88">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L97">
                       actionPlanDelete()
                     </a>
                   </h4>
-                  <div class="method-description">test trigger AP Delete</div>
+                  <div class="method-description">Test <code class="code-inline">Task</code> delete on <code class="code-inline">Action Plan</code> delete</div>
                   <div class="method-subtitle">Signature</div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">private static void actionPlanDelete()</div>
@@ -445,11 +447,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L203">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L212">
                       aPTaskUndelete()
                     </a>
                   </h4>
-                  <div class="method-description">test ActionPlanTaskTemplateTrigger when the user undeletes an ActionPlan Task</div>
+                  <div class="method-description">Test <code class="code-inline">Task</code> undelete on <code class="code-inline">Action Plan Task</code> undelete</div>
                   <div class="method-subtitle">Signature</div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">private static void aPTaskUndelete()</div>
@@ -461,11 +463,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L141">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L151">
                       aPTaskUpdate()
                     </a>
                   </h4>
-                  <div class="method-description">test trigger Action Plan Task Update</div>
+                  <div class="method-description">Test <code class="code-inline">Task</code> update on <code class="code-inline">Action Plan Task</code> update</div>
                   <div class="method-subtitle">Signature</div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">private static void aPTaskUpdate()</div>
@@ -477,14 +479,29 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L254">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L262">
                       aPTTemplateUndeleteException()
                     </a>
                   </h4>
-                  <div class="method-description">test ActionPlanTaskTemplateTrigger When the user undeletes an ActionPlan Task Template</div>
+                  <div class="method-description">test ActionPlansTaskTriggerUtilities when the user undeletes an ActionPlan Task Template</div>
                   <div class="method-subtitle">Signature</div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">private static void aPTTemplateUndeleteException()</div>
+                </div>
+                <div class="method private">
+                  <h4 class="method-title" id="ActionPlansTaskTriggerUtilitiesTest.makeData">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L27">
+                      makeData()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">Signature</div>
+                  <div class="method-annotations">@TestSetup</div>
+                  <div class="method-signature">static void makeData()</div>
                 </div>
                 <div class="method testmethod">
                   <h4 class="method-title" id="ActionPlansTaskTriggerUtilitiesTest.taskAfterUpdateToCompleted">
@@ -493,13 +510,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L29">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L38">
                       taskAfterUpdateToCompleted()
                     </a>
                   </h4>
-                  <div class="method-description">
-                    test trigger without skipweekends method for testing Task After Update trigger when updating task to status &#39;Completed&#39;
-                  </div>
+                  <div class="method-description">Test <code class="code-inline">Task</code> After Update trigger when updating Status to Completed</div>
                   <div class="method-subtitle">Signature</div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">private static void taskAfterUpdateToCompleted()</div>
@@ -511,11 +526,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L298">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L305">
                       taskAfterUpdateToOpen()
                     </a>
                   </h4>
-                  <div class="method-description">method for testing Task After Update trigger when updating task to status &#39;In Progress&#39; (or another open status)</div>
+                  <div class="method-description">Test Task After Update trigger when updating task to status &#39;In Progress&#39; (or another open status)</div>
                   <div class="method-subtitle">Signature</div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">private static void taskAfterUpdateToOpen()</div>
@@ -527,11 +542,14 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L426">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L434">
                       taskAssignToQueue()
                     </a>
                   </h4>
-                  <div class="method-description">method for testing Task After Update trigger when updating task owner to a queue</div>
+                  <div class="method-description">
+                    Test when updating task owner to a queue <br />Should not try to change APTask to a Queue, as that will break APTask (User only) <br />Also assert that the VF
+                    page shows the Task as the APTask owner (even though it is a User under the hood)
+                  </div>
                   <div class="method-subtitle">Signature</div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">private static void taskAssignToQueue()</div>
@@ -543,11 +561,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L355">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L362">
                       taskBeforeDelete()
                     </a>
                   </h4>
-                  <div class="method-description">method for testing Task before delete trigger</div>
+                  <div class="method-description">Test Task before delete trigger</div>
                   <div class="method-subtitle">Signature</div>
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">private static void taskBeforeDelete()</div>

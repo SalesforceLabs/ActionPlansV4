@@ -739,4 +739,16 @@ public without sharing class ActionPlansUtilities {
 		}
 		set;
 	}
+
+	/**
+	 * Basic utility method to avoid repeatedly casting Ids to Strings to test for startsWith (User vs Group)
+	 * @author David Schach
+	 * @param  idParam       The Id passed to the method
+	 * @param  compareString The string we compare for the string's start
+	 * @return               `Boolean` true/false
+	 */
+	public static Boolean idStartsWith(Id idParam, String compareString) {
+		String idString = (String) idParam;
+		return idString.startsWithIgnoreCase(compareString);
+	}
 }

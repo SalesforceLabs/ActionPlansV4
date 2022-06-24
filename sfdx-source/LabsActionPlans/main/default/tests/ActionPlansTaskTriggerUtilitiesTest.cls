@@ -22,8 +22,17 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 @IsTest
 private class ActionPlansTaskTriggerUtilitiesTest {
 	private static String testClosedStatus;
+
+	@TestSetup
+	static void makeData() {
+		Group g1 = new Group(Name = 'task queue name', type = 'Queue');
+		insert g1;
+		QueuesObject q1 = new QueueSObject(QueueID = g1.id, SobjectType = 'Task');
+		insert q1;
+	}
+
 	/**
-	 * test trigger without skipweekends method for testing Task After Update trigger when updating task to status 'Completed'
+	 * Test `Task` After Update trigger when updating Status to Completed
 	 */
 	@IsTest
 	private static void taskAfterUpdateToCompleted() {
@@ -82,7 +91,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	}
 
 	/**
-	 * test trigger AP Delete
+	 * Test `Task` delete on `Action Plan` delete
 	 */
 	@IsTest
 	private static void actionPlanDelete() {
@@ -132,10 +141,11 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		Test.stopTest();
 
 		System.assert(apTask.isEmpty());
+		System.assertEquals(0, [SELECT COUNT() FROM Task], 'Deleting Action Plan should delete the APTask Task records as well');
 	}
 
 	/**
-	 * test trigger Action Plan Task Update
+	 * Test `Task` update on `Action Plan Task` update
 	 */
 	@IsTest
 	private static void aPTaskUpdate() {
@@ -196,8 +206,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	}
 
 	/**
-	 * test ActionPlanTaskTemplateTrigger
-	 * when the user undeletes an ActionPlan Task
+	 * Test `Task` undelete on `Action Plan Task` undelete
 	 */
 	@IsTest
 	private static void aPTaskUndelete() {
@@ -247,8 +256,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	}
 
 	/**
-	 * 	test ActionPlanTaskTemplateTrigger
-	 *	When the user undeletes an ActionPlan Task Template
+	 * 	test ActionPlansTaskTriggerUtilities when the user undeletes an ActionPlan Task Template
 	 */
 	@IsTest
 	private static void aPTTemplateUndeleteException() {
@@ -291,8 +299,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		Test.stopTest();
 	}
 	/**
-	 * method for testing Task After Update trigger
-	 * when updating task to status 'In Progress' (or another open status)
+	 * Test Task After Update trigger when updating task to status 'In Progress' (or another open status)
 	 */
 	@IsTest
 	private static void taskAfterUpdateToOpen() {
@@ -349,7 +356,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	}
 
 	/**
-	 * method for testing Task before delete trigger
+	 * Test Task before delete trigger
 	 */
 	@IsTest
 	private static void taskBeforeDelete() {
@@ -419,17 +426,61 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	}
 
 	/**
-	 * method for testing Task After Update trigger
-	 * when updating task owner to a queue
+	 * Test when updating task owner to a queue
+	 * <br>Should not try to change APTask to a Queue, as that will break APTask (User only)
+	 * <br>Also assert that the VF page shows the Task as the APTask owner (even though it is a User under the hood)
 	 */
 	@IsTest
 	private static void taskAssignToQueue() {
-		// TODO: Test assigning Task to queue. Should not update APTask User
-		Group g1 = new Group(Name = 'task queue name', type = 'Queue');
-		insert g1;
-		QueuesObject q1 = new QueueSObject(QueueID = g1.id, SobjectType = 'Task');
-		insert q1;
 		// TODO: Check settings to see if Tasks *can* be assigned to queues
-		System.assert(true);
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('lead', 3);
+		List<APTask__c> aptList = [SELECT Id, User__c, Priority__c, Subject__c FROM APTask__c WHERE Action_Plan__c = :actionPlan.Id];
+		APTask__c at = aptList[0];
+
+		//create task for task template 1
+		Task x = new Task();
+		if (ActionPlansUtilities.taskUsesRecordTypes) {
+			x.put('RecordTypeId', ActionPlansUtilities.getDefaultTaskRecordTypeId());
+		}
+		x.Priority = at.Priority__c;
+		x.Status = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
+		x.TaskAPTask__c = at.Id;
+		x.Subject = at.Subject__c;
+		x.WhoId = [SELECT Id FROM Lead LIMIT 1].Id;
+		insert x;
+
+		x = [SELECT Id, Status, Subject, TaskAPTask__r.Name, WhoId, TaskAPTask__r.User__c, OwnerId FROM Task WHERE Id = :x.Id LIMIT 1];
+
+		System.assert(ActionPlansUtilities.idStartsWith(x.OwnerId, '005'), 'Default Task owner should be user');
+
+		Test.startTest();
+		Group g1 = [SELECT Id, Name FROM Group WHERE Name = 'task queue name' AND Type = 'Queue'];
+		x.OwnerId = g1.Id;
+		update x;
+		Test.stopTest();
+
+		at = [SELECT Id, User__c FROM APTask__c WHERE Id = :at.Id LIMIT 1];
+		Task y = [SELECT Id, Status, Subject, TaskAPTask__r.Name, WhoId, TaskAPTask__r.User__c, OwnerId FROM Task WHERE Id = :x.Id LIMIT 1];
+
+		System.assertEquals('005', ((String) at.User__c).left(3), 'APTask User should still be User');
+		System.assert(ActionPlansUtilities.idStartsWith(y.OwnerId, '00G'), 'Task should be owned by a Queue');
+
+		// View the Action Plan, to be sure page works
+		PageReference pageRef = Page.ActionPlanDetail;
+		Test.setCurrentPage(pageRef);
+
+		Boolean hasQueueAssignedTask = false;
+		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
+		for (ActionPlanDetailController.TaskWrapper wrap : apDetailController.getActionPlanTasks()) {
+			if (wrap.taskId != null) {
+				if (ActionPlansUtilities.idStartsWith(wrap.taskOwnerId, '00G')) {
+					hasQueueAssignedTask = true;
+					System.assert(wrap.taskOwnerName.equalsIgnoreCase(g1.Name));
+					System.assert(ActionPlansUtilities.idStartsWith(wrap.apt.User__c, '005'));
+				}
+			}
+		}
+		System.assert(hasQueueAssignedTask);
 	}
 }
