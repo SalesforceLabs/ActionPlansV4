@@ -72,33 +72,35 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 
 1. If you are setting up a Developer Edition: go to **Setup**, and under **My Domain**, [register a My Domain](https://help.salesforce.com/articleView?id=domain_name_setup.htm&type=5). Then ensure that enhanced domains are activated. You may need to enable Salesforce Edge network first.
 
-1. To run all the next steps at once, run this command in the terminal:
+1. To run all the next steps at once, run this [command](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/scripts/unmanaged.sh) in the terminal:
     ```
     . scripts/unmanaged.sh
     ```
     The org will open. That's it!
 
-1. Run this command to deploy the app.
+    Or run these steps one by one
 
-    ```
-    sfdx force:source:deploy -p sfdx-source/LabsActionPlans
-    ```
+   1. Run this command to deploy the app.
 
-1. Assign the `Action_Plans_Admin` permission set to the admin user.
+       ```
+       sfdx force:source:deploy -p sfdx-source/LabsActionPlans --tracksource
+       ```
 
-    ```
-    sfdx force:user:permset:assign -n Action_Plans_Admin
-    ```
+   2. Assign the `Action_Plans_Admin` permission set to the admin user.
 
-1. (Optional) [Load sample metadata](#optional-installation-instructions) (see below)
+       ```
+       sfdx force:user:permset:assign -n Action_Plans_Admin
+       ```
 
-1. If your org isn't already open, open it now:
+   3. (Optional) [Load sample metadata](#optional-installation-instructions) (see below)
 
-    ```
-    sfdx force:org:open -u myorg
-    ```
+   4. If your org isn't already open, open it now:
 
-1. In App Launcher, select the **Action Plans** app.
+       ```
+       sfdx force:org:open -u myorg
+       ```
+
+2. In App Launcher, select the **Action Plans** app.
 
 ## Optional Installation Instructions
 
@@ -121,7 +123,7 @@ This repository contains several files that are relevant if you want to add samp
     - a sample Task layout
     - a sample report on open Action Plan-related Tasks
 	```
-	sfdx force:source:deploy -p sfdx-source/unmanaged
+	sfdx force:source:deploy -p sfdx-source/unmanaged --tracksource
 	```
 
 - You can also create other sample Account and Contact records by running the following command:
@@ -142,7 +144,7 @@ This repository contains several files that are relevant if you want to add samp
     - a sample Task layout
     - a sample report on open Action Plan-related Tasks
 	```
-	sfdx force:source:deploy -p sfdx-source/unmanagedExtension
+	sfdx force:source:deploy -p sfdx-source/unmanagedExtension --tracksource
 	```
 
 - You can also create other sample Account and Contact records by running the following command:
