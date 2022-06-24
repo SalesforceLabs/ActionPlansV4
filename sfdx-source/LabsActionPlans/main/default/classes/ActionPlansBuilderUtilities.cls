@@ -44,7 +44,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 	 * All tasks for upserting that will not require an email to be sent
 	 */
 	private List<Task> myTasksWithOutEmail { get; set; }
-	// TODO: Combine these two lists and use upsert if we can with the dmlo (at API 54.0 we cannot - maybe one day)
+	// TODO: Combine these two lists and use upsert if we can with the dmlo (at API 55.0 we cannot - maybe one day)
 	/**
 	 * Tasks to update that have `Send Email` checked
 	 */
