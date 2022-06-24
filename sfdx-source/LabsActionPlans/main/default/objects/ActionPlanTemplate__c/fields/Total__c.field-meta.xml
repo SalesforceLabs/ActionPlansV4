@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Total__c</fullName>
-    <description>The total number of Template Tasks on the Action Plan Template</description>
+    <description>The total number of Template Tasks on the Action Plan Template - currently unused, but intended for test validation and future automation optimizations and assertions</description>
     <externalId>false</externalId>
-    <inlineHelpText>The total number of Template Tasks on the Action Plan Template</inlineHelpText>
+    <inlineHelpText>The count of all Template Tasks on the Action Plan Template</inlineHelpText>
     <label>Template Tasks</label>
     <summaryForeignKey>APTemplateTask__c.Action_Plan_Template__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
