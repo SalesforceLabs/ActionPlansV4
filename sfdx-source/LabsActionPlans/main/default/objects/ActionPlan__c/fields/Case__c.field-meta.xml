@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-	<fullName>Case__c</fullName>
-	<businessStatus>Active</businessStatus>
-	<deleteConstraint>SetNull</deleteConstraint>
-	<externalId>false</externalId>
-	<label>Case</label>
-	<referenceTo>Case</referenceTo>
-	<description>Related Case</description>
-	<relationshipLabel>Action Plans</relationshipLabel>
-	<relationshipName>Action_Plans</relationshipName>
-	<required>false</required>
-	<trackTrending>false</trackTrending>
-	<type>Lookup</type>
+    <fullName>Case__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Related Case</description>
+    <externalId>false</externalId>
+    <label>Case</label>
+    <referenceTo>Case</referenceTo>
+    <relationshipLabel>Action Plans</relationshipLabel>
+    <relationshipName>Action_Plans</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
 </CustomField>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-	<fullName>Total__c</fullName>
-	<businessStatus>Active</businessStatus>
-	<description>The total number of tasks on the Action Plan.</description>
-	<externalId>false</externalId>
-	<inlineHelpText>The total number of tasks on the Action Plan.</inlineHelpText>
-	<label>Total Tasks</label>
-	<summaryForeignKey>APTask__c.Action_Plan__c</summaryForeignKey>
-	<summaryOperation>count</summaryOperation>
-	<trackTrending>false</trackTrending>
-	<type>Summary</type>
+    <fullName>Total__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>The total number of tasks on the Action Plan.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total number of tasks on the Action Plan.</inlineHelpText>
+    <label>Total Tasks</label>
+    <summaryForeignKey>APTask__c.Action_Plan__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
 </CustomField>

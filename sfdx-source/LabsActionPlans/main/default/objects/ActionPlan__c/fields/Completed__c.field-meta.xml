@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-	<fullName>Completed__c</fullName>
-	<businessStatus>Active</businessStatus>
-	<description>The number of completed tasks of the Action Plan</description>
-	<externalId>false</externalId>
-	<inlineHelpText>The number of completed tasks of the Action Plan</inlineHelpText>
-	<label>Completed</label>
-	<summaryFilterItems>
-		<field>APTask__c.IsClosed__c</field>
-		<operation>equals</operation>
-		<value>True</value>
-	</summaryFilterItems>
-	<summaryForeignKey>APTask__c.Action_Plan__c</summaryForeignKey>
-	<summaryOperation>count</summaryOperation>
-	<trackTrending>false</trackTrending>
-	<type>Summary</type>
+    <fullName>Completed__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>The number of completed tasks of the Action Plan</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of completed tasks of the Action Plan</inlineHelpText>
+    <label>Completed</label>
+    <summaryFilterItems>
+        <field>APTask__c.IsClosed__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>APTask__c.Action_Plan__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
 </CustomField>
