@@ -384,6 +384,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ActionPlan__c.Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ActionPlan__c.Plan_Progress__c</field>
         <readable>true</readable>
@@ -609,6 +614,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>ActionPlansCreateMultipleOpportunity</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ActionPlansCreateMultipleOrder</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>

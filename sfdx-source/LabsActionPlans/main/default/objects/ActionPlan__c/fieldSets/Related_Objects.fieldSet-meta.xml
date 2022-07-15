@@ -3,7 +3,7 @@
     <fullName>Related_Objects</fullName>
     <description>All object lookup fields for relating Action Plans to standard or custom objects</description>
     <displayedFields>
-        <field>Contract__c</field>
+        <field>Account__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
@@ -13,7 +13,7 @@
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
-        <field>Campaign__c</field>
+        <field>Contract__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
@@ -33,7 +33,12 @@
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
-        <field>Account__c</field>
+        <field>Campaign__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>Order__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
