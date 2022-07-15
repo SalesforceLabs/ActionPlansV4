@@ -29,7 +29,7 @@ jobs:
       # Cache node_modules to speed up the process
       - name: 'Restore node_modules cache'
         id: cache-npm
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: npm-${{ hashFiles('**/package-lock.json') }}
@@ -50,8 +50,8 @@ jobs:
         run: timeout 30 bash -c 'until printf "" 2>>/dev/null >>/dev/tcp/$0/$1; do sleep 1; done' 127.0.0.1 2117
 
       # Prettier formatting
-      - name: 'Code formatting EXECUTION with Prettier'
-        run: npm run prettier:apex:local
+      - name: 'Code formatting verification with Prettier'
+        run: npm run prettier:verify:apex:local
 
       # Stop local Apex parser server for Prettier
       - name: 'Stop local Apex parser server for Prettier'
