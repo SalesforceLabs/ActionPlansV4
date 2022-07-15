@@ -302,7 +302,7 @@ public without sharing class ActionPlansUtilities {
 	}
 
 	/**
-	 * Find user default `Task RecordType`
+	 * Find user default recordtype
 	 * @return `String` Default RecordType Id
 	 */
 	public static String getDefaultTaskRecordTypeId() {
