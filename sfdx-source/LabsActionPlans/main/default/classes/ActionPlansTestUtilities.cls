@@ -34,7 +34,7 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * Standard objects included in this package
 	 */
 	@TestVisible
-	private static Set<String> standardObjects = new Set<String>{ 'account', 'lead', 'contact', 'contract', 'case', 'campaign', 'opportunity' };
+	private static Set<String> standardObjects = new Set<String>{ 'account', 'lead', 'contact', 'contract', 'case', 'campaign', 'opportunity', 'order' };
 
 	/**
 	 * Random words are required for testing, as you will likely run into any word I can insert
@@ -309,6 +309,40 @@ public inherited sharing class ActionPlansTestUtilities {
 	}
 
 	/**
+	 * Creates a new Order Object
+	 * @param insertRecord Insert the record before returning it?
+	 * @return new `Order`
+	 * @see ActionPlansTestUtilities.createNewOrder[1]
+	 */
+	public Order createNewOrder(Boolean insertRecord) {
+		Order newOrder = (Order) Order.sObjectType.newSObject(null, true);
+		Account a = this.createNewAccount();
+		newOrder.AccountId = a.Id;
+		newOrder.Name = this.createRandomWord();
+		newOrder.EffectiveDate = Date.today();
+		String defaultStatus = (String) Order.Status.getDescribe().getPicklistValues()[0].getLabel();
+		System.debug('Default order status ' + defaultStatus);
+		newOrder.Status = defaultStatus;
+		//newOrder.CloseDate = Date.today();
+		//newOrder.StageName = (String) Order.OrderNumber.getDescribe().getPicklistValues()[0].getValue();
+
+		if (insertRecord) {
+			insert newOrder;
+		}
+		return newOrder;
+	}
+
+	/**
+	 * Creates a new Order Object
+	 * Inserts before returning
+	 * @return inserted `Order`
+	 * @see ActionPlansTestUtilities.createNewOrder[0]
+	 */
+	public Order createNewOrder() {
+		return createNewOrder(true);
+	}
+
+	/**
 	 * Create Action Plan and APTaskss
 	 * @param relatedObject The Related Object (included field) for the Action Plan
 	 * @param numTasks How many tasks to create for the ActionPlan
@@ -346,6 +380,9 @@ public inherited sharing class ActionPlansTestUtilities {
 			}
 			when 'opportunity' {
 				newActionPlan.Opportunity__c = this.createNewOpportunity().Id;
+			}
+			when 'order' {
+				newActionPlan.Order__c = this.createNewOrder().Id;
 			}
 		}
 
