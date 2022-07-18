@@ -177,6 +177,12 @@ public without sharing class ActionPlansUtilities {
 						recordIdToRecordName.put(contr.Id, (Contract.Name.getDescribe().getLabel() + ': ' + contr.ContractNumber));
 					}
 				}
+				when 'order' {
+					List<Order> orders = [SELECT OrderNumber FROM Order WHERE Id IN :mapIDsByObject.get('order')]; // NOPMD
+					for (Order ord : orders) {
+						recordIdToRecordName.put(ord.Id, (Order.OrderNumber.getDescribe().getLabel() + ': ' + ord.OrderNumber));
+					}
+				}
 				when else {
 					System.debug('Querying object name : ' + objName);
 					Set<Id> queryIDs = mapIDsByObject.get(objName); //NOPMD
@@ -302,7 +308,7 @@ public without sharing class ActionPlansUtilities {
 	}
 
 	/**
-	 * Find user default recordtype
+	 * Find user default `Task RecordType`
 	 * @return `String` Default RecordType Id
 	 */
 	public static String getDefaultTaskRecordTypeId() {

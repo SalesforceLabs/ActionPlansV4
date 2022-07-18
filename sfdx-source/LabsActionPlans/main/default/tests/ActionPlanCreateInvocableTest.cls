@@ -222,6 +222,28 @@ private class ActionPlanCreateInvocableTest {
 	}
 
 	@IsTest
+	private static void relatedOrder() {
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		Order a = testUtil.createNewOrder();
+
+		Test.startTest();
+
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
+
+		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, 0);
+
+		List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
+		requests.add(req);
+
+		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
+
+		Test.stopTest();
+		System.assertNotEquals(null, resultIDs);
+		System.assertEquals(1, resultIDs.size());
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+	}
+
+	@IsTest
 	private static void bulkAccounts() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Create_Opportunity_Action_Plan</fullName>
+    <fullName>Create_Order_Action_Plan</fullName>
     <availability>online</availability>
+    <description>To display on Action Plans related list for Order Page Layout</description>
     <displayType>massActionButton</displayType>
     <encodingKey>UTF-8</encodingKey>
     <linkType>url</linkType>
-    <masterLabel>Create Opportunity Action Plan</masterLabel>
-    <description>To display on Action Plans related list for Opportunity Page Layout</description>
+    <masterLabel>Create Order Action Plan</masterLabel>
     <openType>replace</openType>
     <protected>false</protected>
     <requireRowSelection>false</requireRowSelection>
-    <url>{!URLFOR($Action.ActionPlan__c.New, null, [refType=&quot;Opportunity&quot;, refId=Opportunity.Id])}</url>
+    <url>{!URLFOR($Action.ActionPlan__c.New, null, [refType=&quot;Order&quot;, refId=Order.Id])}</url>
 </WebLink>

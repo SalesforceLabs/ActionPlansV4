@@ -1,0 +1,12 @@
+{
+	"orgName": "Action Plans",
+	"edition": "Developer",
+	"hasSampleData": true,
+	"description": "Developer Edition org requirements for Action Plans Installation",
+	"features": ["EnableSetPasswordInApi"],
+	"settings": {
+		"lightningExperienceSettings": {
+			"enableS1DesktopEnabled": true
+		}
+	}
+}

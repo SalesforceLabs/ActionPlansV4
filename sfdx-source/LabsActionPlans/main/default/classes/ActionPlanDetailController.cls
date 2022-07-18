@@ -275,6 +275,10 @@ public with sharing class ActionPlanDetailController {
 				Contract c = [SELECT Id, ContractNumber FROM Contract WHERE Id = :objId LIMIT 1];
 				return c.ContractNumber;
 			}
+			when 'Order' {
+				Order c = [SELECT Id, OrderNumber FROM Order WHERE Id = :objId LIMIT 1];
+				return c.OrderNumber;
+			}
 			when else {
 				String relNameQuery = 'SELECT Id, Name FROM ' + objName + ' WHERE Id = \'' + objId + '\'';
 				SObject so = Database.query(relNameQuery)[0];

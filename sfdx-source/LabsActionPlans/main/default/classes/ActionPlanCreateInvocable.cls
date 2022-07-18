@@ -43,10 +43,12 @@ global without sharing class ActionPlanCreateInvocable {
 		List<ActionPlan__c> actionPlansToInsert = new List<ActionPlan__c>();
 		Set<Id> createdAPIDs = new Set<Id>();
 
-		// * Collect template IDs
+		// * Collect template IDs & handle parents
 		Set<String> templateNamesOrIDs = new Set<String>();
+		Set<Id> relatedIDs = new Set<Id>();
 		for (CreateActionPlanRequest r : requests) {
 			templateNamesOrIDs.add(r.templateNameOrID);
+			relatedIDs.add(r.relatedRecordID);
 		}
 
 		Map<String, ActionPlanTemplate__c> templateNameOrIdToTemplate = new Map<String, ActionPlanTemplate__c>();
@@ -95,12 +97,6 @@ global without sharing class ActionPlanCreateInvocable {
 		}
 
 		// * Handle parent records
-
-		Set<Id> relatedIDs = new Set<Id>();
-
-		for (CreateActionPlanRequest r : requests) {
-			relatedIDs.add(r.relatedRecordID);
-		}
 
 		Map<Id, Id> relObjectOwners = ActionPlansBuilderUtilities.retrieveOwnersDataRelatedObject(relatedIDs);
 		Map<Id, String> relRecordNames = ActionPlansUtilities.queryRecordIDToRecordName(relatedIDs);

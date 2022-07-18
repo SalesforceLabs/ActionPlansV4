@@ -128,7 +128,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 		if (iconStyle == null || sObjectName == null) {
 			iconStyle = 'slds-icon-standard-record';
 			iconURL = '/img/icon/t4v35/standard/record_120.png';
-			iconTag = 'No Lightning Icon Found';
+			iconTag = 'record';
 		} else if (!sObjectName.endsWithIgnoreCase('__c')) {
 			iconStyle = 'slds-icon-standard-' + sObjectName.toLowerCase();
 			iconURL = '/img/icon/t4v35/standard/' + sObjectName.toLowerCase() + '_120.png';

@@ -601,6 +601,7 @@ private class ActionPlanCreationControllerTest {
 		Opportunity opportunity = testUtil.createNewOpportunity();
 		Case testCase = testUtil.createNewCase();
 		Contract contract = testUtil.createNewContract();
+		Order testOrder = testUtil.createNewOrder();
 
 		ApexPages.currentPage().getParameters().put('id', null);
 		ApexPages.currentPage().getParameters().put('refId', contact.id);
@@ -652,6 +653,13 @@ private class ActionPlanCreationControllerTest {
 		ApexPages.currentPage().getParameters().put('id', null);
 		ApexPages.currentPage().getParameters().put('refId', contract.Id);
 		ApexPages.currentPage().getParameters().put('refType', 'Contract');
+
+		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(new ActionPlan__c()));
+		apCreateController.referedObjectInit();
+
+		ApexPages.currentPage().getParameters().put('id', null);
+		ApexPages.currentPage().getParameters().put('refId', testOrder.Id);
+		ApexPages.currentPage().getParameters().put('refType', 'Order');
 
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(new ActionPlan__c()));
 		apCreateController.referedObjectInit();

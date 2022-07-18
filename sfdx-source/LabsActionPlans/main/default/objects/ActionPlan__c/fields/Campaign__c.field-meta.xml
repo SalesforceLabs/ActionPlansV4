@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-	<fullName>Campaign__c</fullName>
-	<businessStatus>Active</businessStatus>
-	<deleteConstraint>SetNull</deleteConstraint>
-	<externalId>false</externalId>
-	<label>Campaign</label>
-	<description>Related Campaign</description>
-	<referenceTo>Campaign</referenceTo>
-	<relationshipLabel>Action Plans</relationshipLabel>
-	<relationshipName>Action_Plans</relationshipName>
-	<required>false</required>
-	<trackTrending>false</trackTrending>
-	<type>Lookup</type>
+    <fullName>Campaign__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Related Campaign</description>
+    <externalId>false</externalId>
+    <label>Campaign</label>
+    <referenceTo>Campaign</referenceTo>
+    <relationshipLabel>Action Plans</relationshipLabel>
+    <relationshipName>Action_Plans</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
 </CustomField>

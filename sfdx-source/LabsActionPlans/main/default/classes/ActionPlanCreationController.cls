@@ -401,6 +401,9 @@ public with sharing class ActionPlanCreationController {
 			when 'Contract' {
 				return 'ContractNumber';
 			}
+			when 'Order' {
+				return 'OrderNumber';
+			}
 			when else {
 				return 'Name';
 			}
@@ -1064,6 +1067,13 @@ public with sharing class ActionPlanCreationController {
 				if (CanTheUser.read('Contract')) {
 					for (Contract contr : [SELECT ContractNumber FROM Contract WHERE Id IN :relatedRecordIDs]) {
 						nameList.add(Contract.Name.getDescribe().getLabel() + ': ' + contr.ContractNumber);
+					}
+				}
+			}
+			when 'order' {
+				if (CanTheUser.read('Order')) {
+					for (Order contr : [SELECT OrderNumber FROM Order WHERE Id IN :relatedRecordIDs]) {
+						nameList.add(Order.OrderNumber.getDescribe().getLabel() + ': ' + contr.OrderNumber);
 					}
 				}
 			}
