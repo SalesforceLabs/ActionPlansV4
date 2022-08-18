@@ -55,7 +55,6 @@ Contact.object
 Contract.object
 Lead.object
 Opportunity.object
-Admin.profile
 *.profile
 Custom*.profile
 Read Only.profile

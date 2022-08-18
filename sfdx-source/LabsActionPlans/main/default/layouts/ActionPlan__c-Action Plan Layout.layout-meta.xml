@@ -23,10 +23,6 @@
                 <behavior>Edit</behavior>
                 <field>Related_Record__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Order__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
