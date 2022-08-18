@@ -133,11 +133,6 @@ private class ActionPlansUtilitiesTest {
 		System.assert(testObject('Contract'));
 	}
 
-	@IsTest
-	private static void order() {
-		System.assert(testObject('Order'));
-	}
-
 	/**
 	 * Pass in any object and create an Action Plan for that object
 	 * @author {@link [David Schach](https://github.com/dschach)}
@@ -335,10 +330,6 @@ private class ActionPlansUtilitiesTest {
 					Case c = testutil.createNewCase();
 					ApexPages.currentPage().getParameters().put('refId', c.Id);
 				}
-				when 'order' {
-					Order c = testutil.createNewOrder();
-					ApexPages.currentPage().getParameters().put('refId', c.Id);
-				}
 			}
 
 			ApexPages.currentPage().getParameters().put('id', null);
@@ -369,7 +360,7 @@ private class ActionPlansUtilitiesTest {
 
 	@IsTest
 	private static void doChatterPostPart2() {
-		List<String> objectNames = new List<String>{ 'contract', 'case', 'campaign', 'opportunity', 'order' };
+		List<String> objectNames = new List<String>{ 'contract', 'case', 'campaign', 'opportunity' };
 		doChatterPost(objectNames);
 		System.assertEquals(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c]);
 	}
