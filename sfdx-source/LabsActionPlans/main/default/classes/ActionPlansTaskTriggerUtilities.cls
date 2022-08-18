@@ -270,12 +270,10 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	 * @param aPTasks Ids of APTasks to delete
 	 */
 	public static void deleteAPTasks(Set<Id> aPTasks) {
-		try {
-			List<APTask__c> toDelete = [SELECT aPT.Id FROM APTask__c aPT WHERE aPT.Id IN :aPTasks];
-			delete toDelete;
-		} catch (Exception e) {
-			System.debug('Error deleting APTTemplate - probably a circular error when deleting a APTTemplate, then its Task, then the template again.');
-		}
+		// We allow a silent failure here because these APTasks may already have been deleted before,
+		// and we don't have a sophisticated trigger framework in place
+		List<APTask__c> toDelete = [SELECT aPT.Id FROM APTask__c aPT WHERE aPT.Id IN :aPTasks];
+		Database.delete(toDelete, false);
 	}
 
 	/**
@@ -361,6 +359,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	/**
 	 * Before deleting an APTemplate task, initialize the functionalities to create all dependent Tasks and reset index
 	 * @param cTasks Set of Task template IDs to be deleted
+	 * @see ActionPlansTaskTriggerUtilities.generateDependentTasksAndReset
 	 */
 	public static void actionsOnTaskBeforeDelete(Set<Id> cTasks) {
 		tasksSendEmail = new List<Task>();

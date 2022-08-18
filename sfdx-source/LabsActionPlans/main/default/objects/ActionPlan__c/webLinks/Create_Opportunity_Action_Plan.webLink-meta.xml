@@ -6,6 +6,7 @@
     <encodingKey>UTF-8</encodingKey>
     <linkType>url</linkType>
     <masterLabel>Create Opportunity Action Plan</masterLabel>
+    <description>To display on Action Plans related list for Opportunity Page Layout</description>
     <openType>replace</openType>
     <protected>false</protected>
     <requireRowSelection>false</requireRowSelection>

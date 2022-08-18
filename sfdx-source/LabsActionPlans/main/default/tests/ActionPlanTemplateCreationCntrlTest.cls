@@ -23,7 +23,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	private static final Integer TEMPLATE_TASKS_COUNT = 2;
 
 	@IsTest
-	private static void testContructor() {
+	private static void contructor() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -54,7 +54,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testSave() {
+	private static void save() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -83,7 +83,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 	//Test Saves Action Plan Template and all tasks
 	@IsTest
-	private static void testSaveTemplate() {
+	private static void saveTemplate() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
@@ -122,7 +122,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testCancel() {
+	private static void cancel() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -143,7 +143,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testSetTaskRecordType() {
+	private static void setTaskRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = true;
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
@@ -176,7 +176,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testForceNoRecordType() {
+	private static void forceNoRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
 
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
@@ -211,7 +211,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testAddTemplateTask() {
+	private static void addTemplateTask() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -231,7 +231,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testAddNewActionPlanTemplateTask() {
+	private static void addNewActionPlanTemplateTask() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -257,7 +257,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testRemoveTemplateTask() {
+	private static void removeTemplateTask() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -276,7 +276,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testRemovingActionPlanTemplateTask() {
+	private static void removingActionPlanTemplateTask() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -302,7 +302,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testRetrievingTemplateTasks() {
+	private static void retrievingTemplateTasks() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -320,7 +320,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testLongNameTemplateTasks() {
+	private static void longNameTemplateTasks() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -387,7 +387,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testCyclicDependencyFail() {
+	private static void cyclicDependencyFail() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -435,7 +435,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testItselfCyclicDependencyFail() {
+	private static void itselfCyclicDependencyFail() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 
@@ -465,7 +465,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 	}
 
 	@IsTest
-	private static void testCyclicDependencySuccess() {
+	private static void cyclicDependencySuccess() {
 		Test.setCurrentPage(Page.ActionPlanTemplateCreation);
 		Test.startTest();
 

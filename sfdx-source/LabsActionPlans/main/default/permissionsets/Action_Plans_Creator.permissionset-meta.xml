@@ -224,12 +224,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ActionPlanTemplate__c.Total__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ActionPlan__c.Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>ActionPlan__c.Action_Plan_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -271,6 +276,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ActionPlan__c.Opportunity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ActionPlan__c.Order__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -465,6 +475,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>ActionPlansCreateMultipleOpportunity</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ActionPlansCreateMultipleOrder</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>

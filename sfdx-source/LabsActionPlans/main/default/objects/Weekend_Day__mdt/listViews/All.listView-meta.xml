@@ -5,6 +5,7 @@
     <columns>DeveloperName</columns>
     <columns>Days_from_end_of_previous_week__c</columns>
     <columns>Days_to_start_of_next_week__c</columns>
+    <columns>NamespacePrefix</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

@@ -13,7 +13,7 @@ node_modules/
 coverage/
 doc-assets/*.js
 docs/assets/*.js
-*-meta.xml
+*meta.xml
 data/
 **/staticresources/ActionPlan_Resources/js/jquery*.js
 

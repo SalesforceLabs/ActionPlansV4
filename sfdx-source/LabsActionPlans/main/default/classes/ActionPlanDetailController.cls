@@ -54,6 +54,7 @@ public with sharing class ActionPlanDetailController {
 	/**
 	 * Action on page load to ensure custom setting is created
 	 * @return `PageReference` null (required for page actions method)
+	 * @see ActionPlansUtilities.onPageLoad
 	 */
 	public PageReference onLoad() {
 		ActionPlansUtilities.onPageLoad();
@@ -63,6 +64,7 @@ public with sharing class ActionPlanDetailController {
 	/**
 	 * Deletes the current Action Plan loaded and redirects to the AP List
 	 * @return `PageReference` Page to go to after deleting `ActionPlan__c`
+	 * @see ActionPlansUtilities.getIsLex
 	 */
 	public PageReference deletePlan() {
 		//delete ap, which will also delete apts via master-detail relationship
@@ -89,11 +91,6 @@ public with sharing class ActionPlanDetailController {
 		return newPage;
 	}
 
-	/**
-	 * Display ControllingTasks column only if there are controlling tasks
-	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @return  `Boolean` is the `Controller__c` field populated for any Action Plan Tasks?
-	 */
 	/* public Boolean hasControllingTasks {
 		get {
 			hasControllingTasks = false;
@@ -107,6 +104,12 @@ public with sharing class ActionPlanDetailController {
 		}
 		set;
 	} */
+
+	/**
+	 * Display ControllingTasks column only if there are controlling tasks
+	 * @author {@link [David Schach](https://github.com/dschach)}
+	 * @return  `Boolean` is the `Controller__c` field populated for any Action Plan Tasks?
+	 */
 	public Boolean gethasControllingTasks() {
 		for (TaskWrapper tw : getActionPlanTasks()) {
 			if (tw.apt.Controller__c != null) {
@@ -157,14 +160,16 @@ public with sharing class ActionPlanDetailController {
 					ORDER BY TaskIndex__c ASC
 				]
 			);
-			Map<Id, Id> taskTaskMap = new Map<Id, Id>();
-			for (Task t : [SELECT Id, TaskAPTask__c FROM Task WHERE TaskAPTask__c IN :apTaskMap.keyset()]) {
-				taskTaskMap.put(t.TaskAPTask__c, t.Id);
+			Map<Id, Task> taskTaskMap = new Map<Id, Task>();
+			for (Task t : [SELECT Id, TaskAPTask__c, OwnerId, Owner.Name FROM Task WHERE TaskAPTask__c IN :apTaskMap.keyset()]) {
+				taskTaskMap.put(t.TaskAPTask__c, t);
 			}
-			for (APTask__c a : apTaskMap.values()) {
+			for (APTask__c at : apTaskMap.values()) {
 				TaskWrapper tw;
-				Id relatedTaskId = taskTaskMap.get(a.Id);
-				tw = new TaskWrapper(a, relatedTaskId);
+				Task relatedTask = taskTaskMap.get(at.Id);
+				System.debug('RELATED TASK: ' + relatedTask);
+				tw = new TaskWrapper(at, relatedTask);
+				System.debug('WRAPPER: ' + tw);
 				apTaskWrapperList.add(tw);
 			}
 		}
@@ -184,15 +189,31 @@ public with sharing class ActionPlanDetailController {
 		 * The (standard) `Task` Id
 		 */
 		public Id taskId { get; private set; }
+		/**
+		 * The (standard) `Task` OwnerId
+		 */
+		public Id taskOwnerId { get; private set; }
+		/**
+		 * The (standard) `Task` OwnerId
+		 */
+		public String taskOwnerName { get; private set; }
 
 		/**
 		 * Constructor for the task wrapper
 		 * @param aptParam    Action Plan Task Template
-		 * @param taskIdParam TaskId (for the standard object `Task`)
+		 * @param taskParam   TaskId (for the standard object `Task`)
 		 */
-		public TaskWrapper(APTask__c aptParam, Id taskIdParam) {
+		public TaskWrapper(APTask__c aptParam, Task taskParam) {
 			this.apt = aptParam;
-			this.taskId = taskIdParam;
+			System.debug('TASKPARAM: ' + taskParam);
+			this.taskId = null;
+			this.taskOwnerId = null;
+			this.taskOwnerName = '';
+			if (taskParam != null) {
+				this.taskId = taskParam.Id;
+				this.taskOwnerId = taskParam.OwnerId;
+				this.taskOwnerName = taskParam.Owner.Name;
+			}
 		}
 	}
 
@@ -220,7 +241,7 @@ public with sharing class ActionPlanDetailController {
 		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
 			if (actionPlan.get(f) != null) {
 				Id objId = (Id) actionPlan.get(f);
-				Schema.DescribeSObjectResult dsr = ActionPlansUtilities.getRelatedRecordInfo(objId);
+				Schema.DescribeSObjectResult dsr = ActionPlansUtilities.getRelatedSObjectDescribe(objId);
 				objLabel = dsr.getLabel();
 				break;
 			}
@@ -239,7 +260,7 @@ public with sharing class ActionPlanDetailController {
 		for (String f : ActionPlansUtilities.getCustomRelationshipFields()) {
 			if (actionPlan.get(f) != null) {
 				objId = (Id) actionPlan.get(f);
-				Schema.DescribeSObjectResult dsr = ActionPlansUtilities.getRelatedRecordInfo(objId);
+				Schema.DescribeSObjectResult dsr = ActionPlansUtilities.getRelatedSObjectDescribe(objId);
 				objName = dsr.getName();
 				break;
 			}
@@ -253,6 +274,10 @@ public with sharing class ActionPlanDetailController {
 			when 'Contract' {
 				Contract c = [SELECT Id, ContractNumber FROM Contract WHERE Id = :objId LIMIT 1];
 				return c.ContractNumber;
+			}
+			when 'Order' {
+				Order c = [SELECT Id, OrderNumber FROM Order WHERE Id = :objId LIMIT 1];
+				return c.OrderNumber;
 			}
 			when else {
 				String relNameQuery = 'SELECT Id, Name FROM ' + objName + ' WHERE Id = \'' + objId + '\'';
@@ -269,7 +294,7 @@ public with sharing class ActionPlanDetailController {
 	public String getRecordTypeName() {
 		String toReturn = '';
 		if (ActionPlansUtilities.taskUsesRecordTypes) {
-			Map<Id, Schema.RecordTypeInfo> rtMapById = Task.SObjectType.getDescribe().getRecordTypeInfosById();
+			Map<Id, Schema.RecordTypeInfo> rtMapById = Task.SObjectType.getDescribe().getRecordTypeInfosById(); //NOPMD
 			if (!rtMapById.isEmpty() && rtMapById.containsKey(actionPlan.TaskRecordTypeID__c)) {
 				return rtMapById.get(actionPlan.TaskRecordTypeID__c).getName();
 			}

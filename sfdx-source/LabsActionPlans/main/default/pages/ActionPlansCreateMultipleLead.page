@@ -3,7 +3,7 @@
 		<apex:actionFunction name="jsCancel" action="{!cancel}" immediate="true" />
 	</apex:form>
 	<script>
-		var oids = '{!objIDs}';
+		var oids = '{!JSENCODE(objIDs)}';
 		if (oids.length < 15) {
 			alert('{!$Label.ap_Errors_selectOneRecord}');
 			jsCancel();

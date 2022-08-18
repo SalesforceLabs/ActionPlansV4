@@ -52,7 +52,7 @@ public inherited sharing class CanTheUser {
 	 * @description Main crud method checks an object for a specific permission
 	 * @param obj the object type to check
 	 * @param permission create, read, update or delete
-	 * @return `Boolean`
+	 * @return `Boolean` Is the action possible?
 	 * @example
 	 * System.debug(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE));
 	 **/

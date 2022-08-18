@@ -8,7 +8,7 @@ const SCOPES = ["global", "public", "private", "protected", "testMethod", "webSe
 	SCOPE_STATE_KEY = "APEXDOX_SCOPE",
 	SEARCH_STATE_KEY = "APEXDOX_SEARCH_RESULTS";
 
-const highlightJsSelectors = ["pre code", ".method-annotations", ".class-signature", ".attribute-signature", ".method-signature", ".class-annotations", ".prop-annotations"];
+const apexJsSelectors = [".method-annotations", ".class-signature", ".attribute-signature", ".method-signature", ".class-annotations", ".prop-annotations"];
 
 const initializers = [initMenu, initHighlightJs, renderMenuFromState, setActiveElement, renderSearchFromState, readScope, hideAllScopes, showScopes];
 
@@ -32,16 +32,21 @@ window.onbeforeunload = () => {
 // ==================================================================
 
 function initHighlightJs() {
+	apexJsSelectors.forEach((selector) => {
+		document.querySelectorAll(selector).forEach(block => {
+			//hljs.highlightElement(block);
+			block.classList.add("language-apex");
+		});
+	});
+	apexJsSelectors.push("pre code");
 	// initialize highlighting for code examples and
 	// signatures for methods, classes, props and enums
 	hljs.configure({
-		ignoreUnescapedHTML: true,
+		//ignoreUnescapedHTML: true,
+		//languages: ["xml", "apex"],
+		cssSelector: apexJsSelectors
 	});
-	highlightJsSelectors.forEach((selector) => {
-		document.querySelectorAll(selector).forEach(block => {
-			hljs.highlightElement(block);
-		});
-	});
+	hljs.highlightAll();
 }
 
 // create session storage object for menu state

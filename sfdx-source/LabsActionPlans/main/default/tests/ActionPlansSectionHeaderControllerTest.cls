@@ -25,7 +25,7 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	private static void testObjectTabDescribePositive() {
+	private static void objectTabDescribePositive() {
 		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' AND IsActive = TRUE LIMIT 1];
 
 		System.runAs(u) {
@@ -42,7 +42,7 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	private static void testObjectTabDescribeNegative() {
+	private static void objectTabDescribeNegative() {
 		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' LIMIT 1];
 
 		System.runAs(u) {
@@ -56,12 +56,12 @@ private class ActionPlansSectionHeaderControllerTest {
 			shc.getObjectIconInfo();
 			System.assert(shc.getIsCustom(), 'APTask is a custom object');
 			Map<String, String> iconInfo = shc.getObjectIconInfo();
-			System.assertEquals(iconInfo.get('iconTag'), 'No Lightning Icon Found', 'Should not be a tab/icon for APTask');
+			System.assertEquals(iconInfo.get('iconTag'), 'record', 'Should not be a tab/icon for APTask');
 		}
 	}
 
 	@IsTest
-	private static void testObjectTabDescribeNotInApplication() {
+	private static void objectTabDescribeNotInApplication() {
 		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' LIMIT 1];
 
 		System.runAs(u) {
@@ -73,7 +73,7 @@ private class ActionPlansSectionHeaderControllerTest {
 	}
 
 	@IsTest
-	private static void testNullObject() {
+	private static void nullObject() {
 		User u = [SELECT Id FROM User WHERE Email = 'test@aptest.com' LIMIT 1];
 
 		System.runAs(u) {
@@ -82,7 +82,7 @@ private class ActionPlansSectionHeaderControllerTest {
 			shc.getIsCustom();
 			shc.getObjectIconInfo();
 			String nullIconTag = shc.getObjectIconInfo().get('iconTag');
-			System.assertEquals('No Lightning Icon Found', nullIconTag, 'Should have reached null section of header controller');
+			System.assertEquals('record', nullIconTag, 'Should have reached null section of header controller');
 		}
 
 	}

@@ -39,7 +39,8 @@ global with sharing class ActionPlansCreateMultipleAPsExtension {
 	global ActionPlansCreateMultipleAPsExtension(ApexPages.StandardSetController stdSetController) {
 		this.stdSetCntrlr = stdSetController;
 		Set<Id> selected = new Map<Id, SObject>(stdSetController.getSelected()).keySet();
-		List<Id> objIDsList = new List<Id>(selected);
+		Set<String> stringSet = new Set<String>((List<String>) new List<Id>(selected));
+		List<String> objIDsList = new List<String>(stringSet);
 		objIDs = String.join(objIDsList, ',');
 	}
 
@@ -60,7 +61,7 @@ global with sharing class ActionPlansCreateMultipleAPsExtension {
 		Pagereference pageRef = Page.ActionPlanCreation;
 
 		Id firstId = objIDs.split(',')[0];
-		Schema.DescribeSObjectResult dsr = ActionPlansUtilities.getRelatedRecordInfo(firstId);
+		Schema.DescribeSObjectResult dsr = ActionPlansUtilities.getRelatedSObjectDescribe(firstId);
 		String objType = dsr.getName();
 		String objPrefix = dsr.getKeyPrefix();
 

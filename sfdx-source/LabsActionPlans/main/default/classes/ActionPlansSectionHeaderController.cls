@@ -52,7 +52,8 @@ public inherited sharing class ActionPlansSectionHeaderController {
 
 	/**
 	 * Map of Icon attribute and value
-	 * @return `Map<String, String>` Key-value pairs
+	 * @return `Map<String, String>` Key-value pairs\
+	 * @see ActionPlansSectionHeaderController.retrieveIconForObject
 	 */
 	public Map<String, String> getObjectIconInfo() {
 		return retrieveIconForObject(objectName);
@@ -61,6 +62,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	/**
 	 * Is this a custom object?
 	 * @return `Boolean` true if custom object
+	 * @see ActionPlansSectionHeaderController.isCustom
 	 */
 	public Boolean getIsCustom() {
 		return isCustom(objectName);
@@ -126,7 +128,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 		if (iconStyle == null || sObjectName == null) {
 			iconStyle = 'slds-icon-standard-record';
 			iconURL = '/img/icon/t4v35/standard/record_120.png';
-			iconTag = 'No Lightning Icon Found';
+			iconTag = 'record';
 		} else if (!sObjectName.endsWithIgnoreCase('__c')) {
 			iconStyle = 'slds-icon-standard-' + sObjectName.toLowerCase();
 			iconURL = '/img/icon/t4v35/standard/' + sObjectName.toLowerCase() + '_120.png';

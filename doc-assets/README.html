@@ -1,455 +1,306 @@
-<style>
-  code {
-    font-size: large;
-    background: rgb(238, 238, 238) !important;
-  }
-
-  pre code {
-    white-space: pre-wrap;
-  }
-
-  .hljs {
-    background: rgb(238, 238, 238);
-  }
-
-  .readmeimage {
-    max-width: 800px;
-    width: 100%;
-  }
-</style>
-<!-- <script>hljs.highlightAll();</script> -->
-<h1><a href="https://github.com/salesforcelabs/ActionPlansV4">Action Plans (GitHub)</a></h1>
-
-<h2><a id="Action_Plans_Installation_and_Setup_3" href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md">Action Plans Installation and Setup</a></h2>
-<!-- <h3>
-	<a id="AppExchangehttpsgithubcomSalesforceLabsActionPlansV4blobmainINSTALLATIONmdappexchangemanagedpackagerecommended_5"></a
-	><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#appexchange-managed-package---recommended">AppExchange</a>
-</h3>
-<h3>
-	<a id="Scratch_OrghttpsgithubcomSalesforceLabsActionPlansV4blobmainINSTALLATIONmdinstallingtheappusingascratchorgfastmethod_7"></a
-	><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-scratch-org-fast-method">Scratch Org</a>
-</h3>
-<h3>
-	<a id="Developer_Edition__SandboxhttpsgithubcomSalesforceLabsActionPlansV4blobmainINSTALLATIONmdinstallingtheappusingadevelopereditionorgoryourownsandboxorglinebyline_9"></a
-	><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org-line-by-line"
-		>Developer Edition / Sandbox</a
-	>
-</h3> -->
-
-<h1><a id="About_Action_Plans_11"></a>About Action Plans</h1>
+<link href="assets/styling.css" rel="stylesheet" />
+<h1 id="action-plans">Action Plans</h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause"><img src="https://img.shields.io/badge/License-BSD%203--Clause-blue.svg" alt="License"></a> <a href="https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml"><img src="https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml/badge.svg" alt="Latest Commit"></a> <a href="https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml"><img src="https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml/badge.svg" alt="Latest Pull Request"></a> <a href="https://codecov.io/gh/salesforcelabs/actionplansv4"><img src="https://codecov.io/gh/salesforcelabs/actionplansv4/branch/main/graph/badge.svg?token=9BD97HKVUI" alt="codecov"></a> <a href="https://twitter.com/salesforce_labs"><img src="https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social" alt="Twitter"></a></p>
+<h2 id="changelog"><a target="_blank" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/CHANGELOG.md">Changelog</a></h2>
+<h1 id="action-plans-installation-and-setup">Action Plans Installation and Setup</h1>
+<h2 id="please-follow-installation-instructions-shown-on-the-installation-page">Please follow installation instructions, shown on the <strong><a target="_blank" href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/INSTALLATION.md">Installation page</a></strong></h2>
+<h3 id="appexchange"><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#appexchange-managed-package---recommended">AppExchange</a></h3>
+<ul>
+<li><a href="https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000Gg6NVUAZ">AppExchange Listing</a></li>
+<li><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#data-import-optional---only-if-using-the-appexchange-managed-package">Post-intall extras</a></li>
+</ul>
+<h3 id="scratch-org"><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-scratch-org">Scratch Org</a></h3>
+<h3 id="developer-edition--sandbox"><a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#installing-the-app-using-a-developer-edition-org-or-your-own-sandbox-org">Developer Edition / Sandbox</a></h3>
+<h1 id="apex-code-documentation"><a href="https://salesforcelabs.github.io/ActionPlansV4">Apex Code Documentation</a></h1>
+<h1 id="about-action-plans">About Action Plans</h1>
 <p>Action Plans helps your organization encapsulate best practices into easily sharable, reusable task templates.</p>
 <p>You can create Action Plans for the following objects:</p>
 <ul>
-  <li>Accounts</li>
-  <li>Contacts</li>
-  <li>Leads</li>
-  <li>Opportunities</li>
-  <li>Campaigns</li>
-  <li>Contracts</li>
-  <li>Cases</li>
-  <li>Person Accounts</li>
-  <li>Custom Objects</li>
+<li>Accounts</li>
+<li>Contacts</li>
+<li>Leads</li>
+<li>Opportunities</li>
+<li>Campaigns</li>
+<li>Contracts</li>
+<li>Cases</li>
+<li>Person Accounts</li>
+<li>Custom Objects</li>
 </ul>
-<h2><a id="Getting_Help_27"></a>Getting Help</h2>
-<p>
-  Action Plans is unsupported. For community assistance with Action Plans, please visit <a href="https://trailblazers.salesforce.com/">Salesforce Trailblazer Community</a>. To
-  submit ideas or issues, please visit <a href="https://github.com/SalesforceLabs/ActionPlansV4/issues">Action Plans on Github</a>.
-</p>
-<h2><a id="Community_31"></a>Community</h2>
-<p>
-  Action Plans is open source software. We welcome your issue reports, ideas, documentation, code tweaks and all other participation.
-  <a href="https://blogs.developerforce.com/labs/2011/08/howto-contribute-to-milestones-pm-code-not-required-opensource.html">Learn more</a>.
-</p>
-<h3><a id="Features_35"></a>Features:</h3>
+<h2 id="getting-help">Getting Help</h2>
+<p>Action Plans is unsupported. For community assistance with Action Plans, please visit <a href="https://trailblazers.salesforce.com/">Salesforce Trailblazer Community</a>. To submit ideas or issues, please visit <a href="https://github.com/SalesforceLabs/ActionPlansv4">Action Plans on Github</a>.</p>
+<h2 id="community">Community</h2>
+<p>Action Plans is open source software. We welcome your issue reports, ideas, documentation, code tweaks and all other participation. <a href="http://blogs.developerforce.com/labs/2011/08/howto-contribute-to-milestones-pm-code-not-required-opensource.html">Learn more</a>.</p>
+<h3 id="features">Features:</h3>
 <ul>
-  <li>Export and share your Action Plan Templates with other orgs.</li>
-  <li>Import Action Plan Templates.</li>
-  <li>Supports Task reminder times.</li>
-  <li>Action Plans Settings controls behavior around Chatter Notifications, actions when a Lead is converted, and default Task assignment behavior</li>
-  <li>Invocable Apex allows automatic Action Plan creation from a Template in Process Builder and Flow</li>
+<li>Export and share your Action Plan Templates with other orgs.</li>
+<li>Import Action Plan Templates.</li>
+<li>Supports Task reminder times.</li>
+<li>Action Plans Settings controls behavior around Chatter Notifications, actions when a Lead is converted, and default Task assignment behavior</li>
+<li>Invocable Apex allows automatic Action Plan creation from a Template in Process Builder and Flow</li>
 </ul>
-<h1><a id="Post_Install_Configuration_43"></a>Post Install Configuration</h1>
-<p>Getting started is easy. For each object, you need to add a button to the list view, add a button to the detail page. For Accounts, follow these steps:</p>
-<h2><a id="Update_Action_Plans_Custom_Settings_47"></a>Update Action Plans Custom Settings</h2>
+<h1 id="post-install-configuration">Post Install Configuration</h1>
+<p>Getting started is easy. For each object, you need to add a button to the list view, add a button to the detail page. For Accounts, follow these steps:&quot;</p>
+<h2 id="update-action-plans-custom-settings">Update Action Plans Custom Settings</h2>
 <p>Change these setting by editing Action Plan Settings, and updating values at either the organization level, profile levels, or user levels.</p>
-<p>
-  Navigate to Setup &gt; Develop &gt; Custom Settings. Click on “Manage” next to <code>Action Plans Settings</code>. Click the “New” button near “Default Organizational Level
-  Value”. Check the values that you want to enable.
-</p>
+<p>Navigate to Setup &gt; Develop &gt; Custom Settings. Click on &#39;Manage&#39; next to <code>Action Plans Settings</code>. Click the &#39;New&#39; button near &#39;Default Organizational Level Value&#39;. Check the values that you want to enable.</p>
 <ul>
-  <li>
-    <code>Enable Chatter Post</code> places a post in the related record's Chatter Feed (if Chatter is enabled for that object). If unchecked, Action Plans does not create a Feed
-    Post.
-  </li>
-  <li>
-    <code>Unassigned Task Defaults to Record Owner</code> ensures that Action Plan Template tasks with a blank “Assigned To” field go to the related record's owner. If unchecked,
-    tasks with a blank “Assigned To” field are assigned to the running user. Tasks can be assigned to specific people on Action Plan Templates, which overrides this setting.
-  </li>
-  <li>
-    <code>Default Object on Lead Conversion</code> specifies that if an Action Plan is related to a Lead, whether the Action Plan should be moved to the converted Account, Contact,
-    or Opportunity when the Lead is converted. The default is Contact.
-  </li>
-  <li><code>Action Plans Business Hours ID</code> and <code>Use Business Hours</code> are reserved for future functionality.</li>
+<li><code>Enable Chatter Post</code> places a post in the related record&#39;s Chatter Feed (if Chatter is enabled for that object). If unchecked, Action Plans does not create a Feed Post.</li>
+<li><code>Unassigned Task Defaults to Record Owner</code> ensures that Action Plan Template tasks with a blank &#39;Assigned To&#39; field go to the related record&#39;s owner. If unchecked, tasks with a blank &#39;Assigned To&#39; field are assigned to the running user. Tasks can be assigned to specific people on Action Plan Templates, which overrides this setting.</li>
+<li><code>Default Object on Lead Conversion</code> specifies that if an Action Plan is related to a Lead, whether the Action Plan should be moved to the converted Account, Contact, or Opportunity when the Lead is converted. The default is Contact.</li>
+<li><code>Action Plans Business Hours ID</code> and <code>Use Business Hours</code> are reserved for future functionality.</li>
 </ul>
-<h2><a id="Weekends_Custom_Metadata_57"></a>Weekends: Custom Metadata</h2>
-<p>
-  Modify Custom Metadata <code>Weekend Day</code> to indicate which days of the week are the weekend and how many days to move a task forward or backwards to move it to the end of
-  the previous week or the start of the next week. This allows you to work with a different weekend, or to avoid assigning any task to be due on any specific day of the week.<br />
-  All weekdays should have 0 in both numeric fields.
-</p>
-<h2><a id="Update_Your_Page__Search_Layout_Configurations_62"></a>Update Your Page &amp; Search Layout Configurations</h2>
-<h3><a id="Create_Action_Plans_Button_64"></a>Create Action Plans Button</h3>
+<h2 id="weekends-custom-metadata">Weekends: Custom Metadata</h2>
+<p>Modify Custom Metadata <code>Weekend Day</code> to indicate which days of the week are the weekend and how many days to move a task forward or backwards to move it to the end of the previous week or the start of the next week. This allows you to work with a different weekend, or to avoid assigning any task to be due on any specific day of the week.<br>All weekdays should have 0 in both numeric fields.</p>
+<h2 id="update-your-page--search-layout-configurations">Update Your Page &amp; Search Layout Configurations</h2>
+<h3 id="create-action-plans-buttons">Create Action Plans Buttons</h3>
 <p>For each object, you need to add a button to the list view, For Accounts, follow these steps:</p>
 <ol>
-  <li>Navigate to Setup &gt; Object Manager &gt; Account &gt; Search Layouts for Salesforce Classic</li>
-  <li>Click on “Edit” from the menu near “List View.”</li>
-  <li>Move the “Create Account Action Plans” button from “Available Buttons” to “Selected Buttons.”</li>
-  <li>Click “Save.”</li>
-  <li>Navigate to Setup &gt; Object Manager &gt; Account &gt; Page Layouts.</li>
-  <li>Note: the package includes a default “Action Plan Layout” for your reference. You do not need to use it.</li>
-  <li>Click on “Edit” near one of your standard Account Page Layouts.</li>
-  <li>Add “Action Plans” related list to the page.</li>
-  <li>Edit the properties of the related list by clicking the configuration button above it.</li>
-  <li>Expand “Buttons” section, clear the “New” checkbox and move “Create Account Action Plan” to the Selected buttons.</li>
-  <li>Update the fields in the related list to meet your needs. Recommended fields include Start Date, Action Plan Status, Action Plan Template, Plan Start Date.</li>
-  <li>Click “Save.”</li>
+<li>Navigate to Setup &gt; Object Manager &gt; Account &gt; Search Layouts for Salesforce Classic</li>
+<li>Click on &quot;Edit&quot; from the menu near &quot;List View.&quot;</li>
+<li>Move the &quot;Create Account Action Plans&quot; button from &quot;Available Buttons&quot; to &quot;Selected Buttons.&quot;</li>
+<li>Click &quot;Save.&quot;</li>
+<li>Navigate to Setup &gt; Object Manager &gt; Account &gt; Page Layouts.</li>
+<li>Note: the package includes a default &quot;Action Plan Layout&quot; for your reference. You do not need to use it.</li>
+<li>Click on &quot;Edit&quot; near one of your standard Account Page Layouts.</li>
+<li>Add &quot;Action Plans&quot; related list to the page.</li>
+<li>Edit the properties of the related list by clicking the configuration button above it.</li>
+<li>Expand &quot;Buttons&quot; section, clear the &quot;New&quot; checkbox and move &quot;Create Account Action Plan&quot; to the Selected buttons.</li>
+<li>Update the fields in the related list to meet your needs. Recommended fields include Start Date, Action Plan Status, Action Plan Template, Plan Start Date.</li>
+<li>Click &quot;Save.&quot;</li>
 </ol>
 <p>Repeat these steps for the other standard objects Action Plans supports: Contacts, Leads, Opportunities, etc.</p>
-<h3><a id="Delete_Action_Plans_Button_83"></a>Delete Action Plans Button</h3>
+<h3 id="delete-action-plans-buttons">Delete Action Plans Buttons</h3>
 <p>Follow this steps for Action Plan Object:</p>
 <ol>
-  <li>Navigate to Setup &gt; Object Manager &gt; Action Plan &gt; Search Layouts.</li>
-  <li>Click on “Edit” near “List View.”</li>
-  <li>Move the “Delete Action Plans” button from “Available Buttons” to “Selected Buttons.”</li>
-  <li>Click “Save.”</li>
+<li>Navigate to Setup &gt; Object Manager &gt; Action Plan &gt; Search Layouts.</li>
+<li>Click on &quot;Edit&quot; near &quot;List View.&quot;</li>
+<li>Move the &quot;Delete Action Plans&quot; button from &quot;Available Buttons&quot; to &quot;Selected Buttons.&quot;</li>
+<li>Click &quot;Save.&quot;</li>
 </ol>
-<h1><a id="Security_92"></a>Security</h1>
-<h2><a id="Update_Your_OrgWide_Default_Sharing_Settings_94"></a>Update Your Org-Wide Default Sharing Settings</h2>
-<p>
-  Action Plans includes two shareable objects: <code>Action Plan</code> and <code>Action Plan Template</code>. You may configure your sharing settings in whatever way works for
-  your organization.
-</p>
+<h3 id="task-layout">Task Layout</h3>
+<p>Optionally, add the &quot;Action Plan Task&quot; field to your Task page layout, but it should be <strong>Read-Only</strong>, as clearing this field will break the ability to track Action Plan progress.</p>
+<h1 id="security">Security</h1>
+<h2 id="update-your-org-wide-default-sharing-settings">Update Your Org-Wide Default Sharing Settings</h2>
+<p>Action Plans includes two shareable objects: <code>Action Plan</code> and <code>Action Plan Template</code>. You may configure your sharing settings in whatever way works for your organization.</p>
 <ul>
-  <li>If you want anyone to be able to create and edit plans and their templates, use Public Read/Write for Action Plan and Action Plan Template.</li>
-  <li>If you want anyone to be able to see Action Plans and Templates without being able to change them, select “Public Read Only.”</li>
-  <li>
-    If your Org-Wide Default sharing settings are set to Private for Action Plan or Action Plan Template, you may need to implement custom sharing or automation to share Action
-    Plan records with the appropriate people. You may do this via Sharing Rules, Apex sharing, or you may use other automation to assign ownership of the Action Plan itself to the
-    related record owner or any desired user.
-  </li>
-  <li>
-    To use Action Plans, most users require access only to <code>Tasks</code>. They can be assigned Tasks without knowing that these Tasks are part of an Action Plan. Any changes
-    they make to a Task's Status will be reflected in the related Action Plan Task Template record automatically. No Permission Set is required.
-  </li>
+<li>If you want anyone to be able to create and see plans and their templates, use Public Read/Write for Action Plan and Action Plan Template.</li>
+<li>If you want anyone to be able to see Action Plans and Templates without being able to change them, select &quot;Public Read Only.&quot;</li>
+<li>If your Org-Wide Default sharing settings are set to Private for Action Plan or Action Plan Template, you may need to implement custom automation to share Action Plan records with the appropriate people. You may do this via Apex sharing, or you may use other automation, to assign ownership of the Action Plan itself to the related record owner or any desired user.</li>
+<li>To use Action Plans, most users require access only to <code>Tasks</code>. They can be assigned Tasks without knowing that these Tasks are part of an Action Plan. Any changes they make to a Task&#39;s Status will be reflected in the related Action Plan Task Template record automatically. No Permission Set is required.</li>
 </ul>
-<h2><a id="Use_Permission_Sets_For_Security_103"></a>Use Permission Sets For Security</h2>
+<h2 id="use-permission-sets-for-security">Use Permission Sets For Security</h2>
 <p>Assign the appropriate Permission Set(s) to each user who will need to use Action Plans:</p>
 <ul>
-  <li><code>Action Plans Admin:</code> Full permissions for Action Plans, Action Plan Templates, AP Tasks and APT Task Templates.</li>
-  <li><code>Action Plans Template Creator:</code> Read, Create, Edit, Delete for Action Plan Templates and AP Template Tasks. No Action Plan access.</li>
-  <li><code>Action Plans Creator:</code> Read, Create, Edit, Delete for Action Plans and AP Tasks. Read-only for Action Plan Templates and APT Task Templates.</li>
-  <li><code>Action Plans User:</code> Read-only for Action Plans and AP Tasks.</li>
+<li><code>Action Plans Admin:</code> Full permissions for Action Plans, Action Plan Templates, AP Tasks and APT Task Templates.</li>
+<li><code>Action Plans Template Creator:</code> Full permissions for Action Plan Templates and AP Template Tasks. No Action Plan access.</li>
+<li><code>Action Plans Creator:</code> Read, Create, Edit, Delete for Action Plans and AP Tasks. Read-only for Action Plan Templates and APT Task Templates.</li>
+<li><code>Action Plans Import/Export:</code> Access to export and import Action Plan Template records. View the appropriate button for export and tab for import.</li>
+<li><code>Action Plans User:</code> Read-only for Action Plans and AP Tasks.</li>
 </ul>
 <p>Uses for each Permission Set:</p>
 <ul>
-  <li>
-    Some users may require visibility into the Action Plans related to those Tasks. These users need the <code>Action Plans User</code> Permission Set. It gives Read-only access to
-    Action Plan.
-  </li>
-  <li>
-    Some users may need to create Action Plans from Templates but not edit the templates themselves. The <code>Action Plans Creator</code> Permission Set gives read-only access to
-    Action Plan Templates, and Read, Create, Edit, and Delete access to Action Plans.
-  </li>
-  <li>
-    Users who can create and edit Action Plan Templates require the <code>Action Plans Template Creator</code> Permission Set. This includes permission to Read, Create, Edit, and
-    Delete all Action Plan Templates only. It does not include any Action Plan or Task permissions. If these users require Action Plan access, other Permission Sets should be used
-    as well. A custom permission allows exporting of Action Plan Templates.
-  </li>
-  <li>
-    Intended as an add-on for <code>Action Plans Template Creator</code>, the <code>Action Plans Import/Export</code> permission set allows the viewing of the Export button on
-    Template detail pages and to the Import tab. The custom permission <code>Action Plan Template Export</code> allows exporting of Action Plan Templates and associated tasks. Use
-    this permission with care, as it is a potential security hole for your org's proprietary templates. This is a great way to move templates from a Sandbox to Production org.
-  </li>
-  <li>
-    <code>Action Plans Admin</code> includes Modify All permissions for all four Action Plan objects (Action Plan, Action Plan Task Template, Action Plan Template, and Action Plan
-    Template Task Template). The custom permission allows exporting Action Plan Templates.
-  </li>
+<li>Some users may require visibility into the Action Plans related to those Tasks. These users need the <code>Action Plans User</code> Permission Set. It gives Read-only access to Action Plan.</li>
+<li>Some users may need to create Action Plans from Templates but not edit the templates themselves. The <code>Action Plans Creator</code> Permission Set gives read-only access to Action Plan Templates, and Read, Create, Edit, and Delete access to Action Plans.</li>
+<li>Users who can create and edit Action Plan Templates require the <code>Action Plans Template Creator</code> Permission Set. This includes permission to Read, Create, Edit, and Delete all Action Plan Templates only. It does not include any Action Plan or Task permissions. If these users require Action Plan access, other Permission Sets should be used as well. A custom permission allows exporting of Action Plan Templates.</li>
+<li>Intended as an add-on for <code>Action Plans Template Creator</code>, the <code>Action Plans Import/Export</code> permission set allows the viewing of the Export button on Template detail pages and to the Import tab. The custom permission <code>Action Plan Template Export</code> allows exporting of Action Plan Templates and associated tasks. Use this permission with care, as it is a potential security hole for your org&#39;s proprietary templates. This is a great way to move templates from a Sandbox to Production org.</li>
+<li><code>Action Plans Admin</code> includes Modify All permissions for all four Action Plan objects (Action Plan, Action Plan Task Template, Action Plan Template, and Action Plan Template Task Template). The custom permission allows exporting Action Plan Templates.</li>
 </ul>
 <p>Note: The Apex used in Flows or via triggers does not require special permissions to run.</p>
-<h1><a id="Using_Action_Plans_with_Custom_Objects_120"></a>Using Action Plans with Custom Objects</h1>
-<h2><a id="To_Start_Using_an_Object_with_Action_Plans_122"></a>To Start Using an Object with Action Plans</h2>
+<h1 id="using-action-plans-with-custom-objects">Using Action Plans with Custom Objects</h1>
+<h2 id="to-start-using-an-object-with-action-plans">To Start Using an Object with Action Plans</h2>
 <ol>
-  <li>
-    <p>Create the object and be sure to check “Track Activities” for the object attrributes</p>
-  </li>
-  <li>
-    <p>Create a lookup field from Action Plan to the object. <strong>Name the field the same as the object name.</strong> The field label can be anything.</p>
-  </li>
-  <li>
-    <p>Add the field to the <code>Related Objects</code> fieldset on Action Plan.</p>
-  </li>
-  <li>
-    <p>The related object will now be available for selection when creating a new Action Plan and relating it to an object.</p>
-  </li>
-  <li>
-    <p>
-      Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts (removing the <code>LabsActionPlans</code> namespace if
-      you're not using the managed package:
-    </p>
-    <pre><code class="language-apex">LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );</code></pre>
-  </li>
+<li>Create the object and be sure to check &quot;Track Activities&quot; for the object attrributes</li>
+<li>Create a lookup field from Action Plan to the object. <strong>Name the field the same as the object name.</strong> The field label can be anything.<ul>
+<li>As an example, if you have a custom object named <code>MyObject__c</code>, you must name the field on Action Plan <code>MyObject__c</code></li>
+</ul>
+</li>
+<li>Add the field to the <code>Related Objects</code> fieldset on Action Plan.</li>
+<li>The related object will now be available for selection when creating a new Action Plan and relating it to an object.</li>
+<li>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts (removing the <code>LabsActionPlans</code> namespace if you&#39;re not using the managed package:<pre><code class="language-apex">LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( &#39;Custom_Object__c&#39; );
+</code></pre>
+<img class="readmeimage" src="assets/ActionPlanFieldSet.png" alt=""></li>
 </ol>
-<p><img src="assets/ActionPlanFieldSet.png" alt="" class="readmeimage" /></p>
-<h2><a id="Adding_a_New_Custom_Object_Action_Plan_button_to_the_Action_Plan_object_133"></a>Adding a New Custom Object Action Plan button to the Action Plan object</h2>
-<p>
-  While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this
-  will be in a future release ... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page
-  layout:
-</p>
+<h2 id="adding-a-new-custom-object-action-plan-button-to-the-action-plan-object">Adding a New Custom Object Action Plan button to the Action Plan object</h2>
+<p>While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this will be in a future release... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page layout:</p>
 <ol>
-  <li>Navigate to Setup &gt; Object Manager &gt; Action Plan &gt; Buttons, Links, and Actions &gt; New Button or Link</li>
-  <li>Give it a label and name, such as “New MyObject Action Plan”</li>
-  <li>Display Type is List Button. Uncheck the list checkbox.</li>
-  <li>Use the following format for the button (removing the `LabsActionPlans` namespace if you're not using the managed package):
-    <pre><code class="language-plaintext">{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id] )}</code></pre>
-  </li>
+<li>Navigate to Setup &gt; Object Manager &gt; Action Plan &gt; Buttons, Links, and Actions &gt; New Button or Link</li>
+<li>Give it a label and name, such as &quot;New MyObject Action Plan&quot;</li>
+<li>Display Type is List Button. Uncheck the list checkbox.</li>
+<li>Use the following format for the button (removing the <code>LabsActionPlans</code> namespace if you&#39;re not using the managed package):<pre><code class="language-plaintext">{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType=&quot;CustomObject__c&quot;, refId=CustomObject__c.Id] )}
+</code></pre>
+</li>
 </ol>
-<h2>Create Action Plans for multiple Custom Object records</h2>
-<p>
-  Just as there is a button for Account list views to create multiple Action Plans, you can do the same for your custom object. Create a Visualforce page with the following code:
-</p>
-
-<pre><code class="language-plaintext">
-&lt;apex:page standardController=&quot;CustomObject__c&quot; extensions=&quot;LabsActionPlans.ActionPlansCreateMultipleAPsExtension&quot; recordsetvar=&quot;o&quot; showHeader=&quot;false&quot; action=&quot;{!doRedirect}&quot;&gt;
-  &lt;apex:form&gt;
-    &lt;apex:actionFunction name=&quot;jsCancel&quot; action=&quot;{!cancel}&quot; immediate=&quot;true&quot; /&gt;
-  &lt;/apex:form&gt;
-  &lt;script&gt;
-    var oids = &apos;{!objIDs}&apos;;
-    if (oids.length &lt; 15) {
-      alert(&apos;{!$Label.LabsActionPlans__ap_Errors_selectOneRecord}&apos;);
-      jsCancel();
-    }
-  &lt;/script&gt;
+<h2 id="create-action-plans-for-multiple-custom-object-records">Create Action Plans for multiple Custom Object records</h2>
+<p>Just as there is a button for Account list views to create multiple Action Plans, you can do the same for your custom object. Create a Visualforce page with the following code:</p>
+<pre><code class="language-xml">&lt;apex:page standardController=&quot;CustomObject__c&quot; recordsetvar=&quot;o&quot; 
+ extensions=&quot;LabsActionPlans.ActionPlansCreateMultipleAPsExtension&quot; 
+ showHeader=&quot;false&quot; action=&quot;{!doRedirect}&quot;&gt;
+    &lt;apex:form&gt;
+        &lt;apex:actionFunction name=&quot;jsCancel&quot; action=&quot;{!cancel}&quot; immediate=&quot;true&quot; /&gt;
+    &lt;/apex:form&gt;
+    &lt;script&gt;
+        var oids = &#39;{!JSENCODE(objIDs)}&#39;;
+        if (oids.length &lt; 15) {
+            alert(&#39;{!$Label.LabsActionPlans__ap_Errors_selectOneRecord}&#39;);
+            jsCancel();
+        }
+    &lt;/script&gt;
 &lt;/apex:page&gt;
 </code></pre>
-
 <p>Then create a list view button for that object and add it to your list views.</p>
-<h2><a id="To_Stop_Using_an_Object_with_Action_Plans_144"></a>To Stop Using an Object with Action Plans</h2>
-<p>
-  If you want, for example, not to allow relating Action Plans to Contracts, remove the Contract field from the Action Plan Related Objects fieldset.<br />
-  There is no need to delete the field from the Action Plan object.
-</p>
-<h1><a id="Create_a_Template_148"></a>Create a Template</h1>
-<p>Now you're ready to create your first template. Navigate to the Action Plans Templates tab. Click on the “New Action Plan Template” button.</p>
+<h2 id="to-stop-using-an-object-with-action-plans">To Stop Using an Object with Action Plans</h2>
+<p>If you want, for example, not to allow relating Action Plans to Contracts, remove the Contract field from the Action Plan Related Objects fieldset.<br>There is no need to delete the field from the Action Plan object.</p>
+<h1 id="create-a-template">Create a Template</h1>
+<p>Now you&#39;re ready to create your first template. Navigate to the Action Plans Templates tab. Click on the &quot;New Action Plan Template&quot; button.</p>
 <p>The template screen looks like this:</p>
-<p><img src="assets/Template-Creation.png" alt="" class="readmeimage" /></p>
+<p><img class="readmeimage" src="assets/Template-Creation.png" alt=""></p>
 <ol>
-  <li>
-    <p>Name - Template Name.</p>
-  </li>
-  <li>
-    <p>Description - An explanation of how the template should be used.</p>
-  </li>
-  <li>
-    <p>
-      Skip Weekends - Allows you to automatically reschedule a task that would fall on a weekend to either the day before or day after the weekend. When checked, a picklist
-      appears, allowing you to select before or after the weekend.
-    </p>
-  </li>
-  <li>
-    <p>Action - Click “X” to eliminate a step in a template.</p>
-  </li>
-  <li>
-    <p>Subject - What the task is to do.</p>
-  </li>
-  <li>
-    <p>Task Dependency - The dependent task will only be created once the controlling task is completed.</p>
-  </li>
-  <li>
-    <p>Days After- This value determines the due date of the task.</p>
-    <ul>
-      <li>For tasks with no dependency, the task's due date will be offset from the plan start date.</li>
-      <li>For tasks with a dependency, the due date will be offset from the expected due date of the task on which it depends.</li>
-    </ul>
-  </li>
-  <li>
-    <p>
-      Assigned To – Looks up to user. Leave blank if you want to assign the task dynamically.<br />
-      When assigning dynamically, the default behavior will be to assign the task to the running user. You can also have the system assign it to the record owner by changing your
-      Action Plan Settings. See “Post Install Configuration” guide above.
-    </p>
-  </li>
-  <li>
-    <p>Category - What type of activity.</p>
-  </li>
-  <li>
-    <p>Priority - Taken from Task priorities and Record Type (if applicable).</p>
-  </li>
-  <li>
-    <p>Email - Send a standard New Task email when checked. For Tasks depending on others, the email will be sent when the task is created.</p>
-  </li>
-  <li>
-    <p>Reminder – This check box will define the default behaviour for reminders when applying the template to create an Action plan .</p>
-  </li>
-  <li>
-    <p>If it's left unchecked, in the Action Plan Creation page the reminders will be initially disabled</p>
-  </li>
-  <li>
-    <p>If it's checked, the reminders will be available.</p>
-    <ul>
-      <li>
-        User Reminder settings: Go Personal Setup &gt; My Personal Information &gt; Reminders, if the option “By default, set reminder on Tasks to:” is checked then the selected
-        time will be the default option for task template reminders.
-      </li>
-      <li>
-        User setting for Activity Object : Go App Setup&gt; Feature Settings &gt; Sales &gt; Activity Settings, If “Enable Activity Reminders” is not checked, then reminders column
-        will not be displayed in the Action Plan creation page.
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p>Comments - Comments supporting a task.</p>
-  </li>
-  <li>
-    <p>Add New Task - Adds an additional row to the tasks grid.</p>
-  </li>
-  <li>
-    <p>Save - Saves the template.</p>
-  </li>
+<li><p>Name - Template Name.</p>
+</li>
+<li><p>Description - An explanation of how the template should be used.</p>
+</li>
+<li><p>Skip Weekends - Allows you to automatically reschedule a task that would fall on a weekend to either the day before or day after the weekend. When checked, a picklist appears, allowing you to select before or after the weekend.</p>
+</li>
+<li><p>Action - Click &quot;X&quot; to eliminate a step in a template.</p>
+</li>
+<li><p>Subject - What the task is to do.</p>
+</li>
+<li><p>Task Dependency - The dependent task will only be created once the controlling task is completed.</p>
+</li>
+<li><p>Days After- This value determines the due date of the task.</p>
+<ul>
+<li>For tasks with no dependency, the task&#39;s due date will be offset from the plan start date.</li>
+<li>For tasks with a dependency, the due date will be offset from the expected due date of the task on which it depends.</li>
+</ul>
+</li>
+<li><p>Assigned To - Looks up to user. Leave blank if you want to assign the task dynamically.<br>When assigning dynamically, the default behavior will be to assign the task to the running user. You can also have the system assign it to the record owner by changing your Action Plan Settings. See &quot;Post Install Configuration&quot; guide above.</p>
+</li>
+<li><p>Category - What type of activity.</p>
+</li>
+<li><p>Priority - Taken from Task priorities and Record Type (if applicable).</p>
+</li>
+<li><p>Email - Send a standard New Task email when checked. For Tasks depending on others, the email will be sent when the task is created.</p>
+</li>
+<li><p>Reminder - This check box will define the default behaviour for reminders when applying the template to create an Action plan .</p>
+</li>
+<li><p>If it&#39;s left unchecked, in the Action Plan Creation page the reminders will be initially disabled</p>
+</li>
+<li><p>If it&#39;s checked the reminders will be available.</p>
+<ul>
+<li>User Reminder settings: Go Personal Setup &gt; My Personal Information &gt; Reminders, if the option &quot;By default, set reminder on Tasks to:&quot; is checked then the selected time will be the default option for task template reminders.</li>
+<li>User setting for Activity Object : Go App Setup&gt; Feature Settings &gt; Sales &gt; Activity Settings, If &quot;Enable Activity Reminders&quot; is not checked, then reminders column will not be displayed in the Action Plan creation page.</li>
+</ul>
+</li>
+<li><p>Comments - Comments supporting a task.</p>
+</li>
+<li><p>Add New Task - Adds an additional row to the tasks grid.</p>
+</li>
+<li><p>Save - Saves the template.</p>
+</li>
 </ol>
-<h2><a id="Task_Record_Types_181"></a>Task Record Types</h2>
-<p>
-  If your org uses Task Record Types, you must specify which Record Type to use for all Tasks from each Action Plan and Template record. This will affect the Status values
-  available for each related Action Plan Task. This cannot be changed once an Action Plan or Template is created. Only one record type may be specified for all the Tasks on that
-  Action Plan or Template.
-</p>
-<h2><a id="Create_Action_Plans_for_Several_Accounts_185"></a>Create Action Plans for Several Accounts</h2>
+<h2 id="task-record-types">Task Record Types</h2>
+<p>If your org uses Task Record Types, you must specify which Record Type to use for all Tasks from each Action Plan and Template record. This will affect the Status values available for each related Action Plan Task. This cannot be changed once an Action Plan or Template is created. Only one record type may be specified for all the Tasks on that Action Plan or Template.</p>
+<h2 id="create-action-plans-for-several-accounts">Create Action Plans for Several Accounts</h2>
 <ol>
-  <li>
-    <p>Navigate to an Accounts list view. Select the Accounts for which you want to create Action Plans. Click on the “Create Account Action Plans” button.</p>
-    <p><img src="assets/Select-Accounts.png" alt="" class="readmeimage" /></p>
-  </li>
-  <li>
-    <p>
-      Select the template you want to use by typing the name on the lookup and clicking on it.<br />
-      <img src="assets/Choose-template-step1.png" alt="" class="readmeimage" />
-    </p>
-  </li>
-  <li>
-    <p>
-      Enter the information specific to this plan. Note that the Accounts you selected earlier are visible.<br />
-      <img src="assets/Choose-template-step2.png" alt="" class="readmeimage" />
-    </p>
-  </li>
-  <li>
-    <p>
-      Save the Action Plan.<br />
-      Note: Action Plan creation is handled by a queuable (asynchronous) process. It can take a couple of minutes to be able to view all created records.
-    </p>
-    <p><img src="assets/ActionPlan-Detail.png" alt="" class="readmeimage" /></p>
-  </li>
-  <li>
-    <p>Verify the Action Plan and the tasks.</p>
-  </li>
-  <li>
-    <p>
-      Complete the first task on the Action Plan.<br />
-      Note that the Action Plan is now in the correct related list and that this Account has one open activity and one closed activity. The third activity in the template is
-      dependent and will be created only when its controlling task is complete.
-    </p>
-    <p><img src="assets/AccountActionPlan-Detail.png" alt="" class="readmeimage" /></p>
-  </li>
+<li><p>Navigate to an Accounts list view. Select the Accounts for which you want to create Action Plans. Click on the &quot;Create Account Action Plans&quot; button.</p>
+<p> <img class="readmeimage" src="assets/Select-Accounts.png" alt=""></p>
+</li>
+<li><p>Select the template you want to use by typing the name on the lookup and clicking on it.<br> <img class="readmeimage" src="assets/Choose-template-step1.png" alt=""></p>
+</li>
+<li><p>Enter the information specific to this plan. Note that the Accounts you selected earlier are visible.<br> <img class="readmeimage" src="assets/Choose-template-step2.png" alt=""></p>
+</li>
+<li><p>Save the Action Plan.<br> Note: Action Plan creation is handled by a queueable (asynchronous) process. It can take a couple of minutes to be able to view all created records.</p>
+<p> <img class="readmeimage" src="assets/ActionPlan-Detail.png" alt=""></p>
+</li>
+<li><p>Verify the Action Plan and the tasks.</p>
+</li>
+<li><p>Complete the first task on the Action Plan.<br> Note that the Action Plan is now in the correct related list and that this Account has one open activity and one closed activity. The third activity in the template is dependent and will be created only when its controlling task is complete.</p>
+<p> <img class="readmeimage" src="assets/AccountActionPlan-Detail.png" alt=""></p>
+</li>
 </ol>
-<h1><a id="Automate_Action_Plan_Creation_209"></a>Automate Action Plan Creation</h1>
-<h2><a id="Flow_211"></a>Flow</h2>
-<p>
-  Action Plans includes an Invocable Apex class that can be included in a Flow. The Record ID of the triggering record is required, as is the Id OR the Name of the desired
-  template.<br />
-  Days from trigger to start Action Plan is optional (and defaults to 0). The first task will be due the number of days (specified on the template) from the start date. This date
-  may fall on a weekend, though task due dates can be moved to avoid weekends if set on the template.
-</p>
-<p><img src="assets/FlowAction.png" alt="" class="readmeimage" /></p>
-<h3>
-  <a id="Optional_Sample_Action_Plan_Template_for_Account_onboarding_run_the_following_217"></a>(Optional) Sample Action Plan Template for Account onboarding, run the following
-</h3>
-<pre><code>sfdx force:apex:execute -f ./data/sample-data.apex</code></pre>
+<h1 id="task-notifications-for-flow-created-action-plans">Task notifications for Flow-created Action Plans</h1>
+<h2 id="user-settings">User Settings</h2>
+<p>To receive Task notifications if <code>Send Email</code> is selected on an Action Plan Task, ensure that users have been allowed to control receipt of Task notification emails (this is active by default), and that they have allowed email notifications to be sent (this is also enabled by default). See <a href="https://help.salesforce.com/s/articleView?id=sf.tasks_control_email_notifications_considerations.htm">Salesforce H&amp;T</a> for more information.</p>
+<h2 id="org-setting">Org Setting</h2>
+<p>The <code>Send Email</code> field on Action Plan Task must be checked to send a email notifications, and the setting <code>Allow Flow to send delegated task notifications on records created through Apex</code> must <strong>also</strong> be enabled. Go to Settings &gt; Feature Settings &gt; Sales &gt; Activity Settings to check that box and allow email notifications to be sent via Flow-created Action Plans.</p>
+<h2 id="action-plan-tasks">Action Plan Tasks</h2>
+<p>If the user has enabled task notification, then those will be sent when an Action Plan Task is created.</p>
+<ul>
+<li>If the Action Plan Task is updated to a new owner, and if the <code>Send Email</code> box is NOT checked, the user may still receive a task notification if that is in their personal settings. </li>
+<li>If the box is checked, assuming that notifications are enabled for that user, the email will be sent.</li>
+</ul>
+<h1 id="queues">Queues</h1>
+<p>Action Plan Tasks cannot be assigned to queues, so if the parent record is owned by a queue, each AP Task will be assigned to the running user. Tasks generated from that Action Plan can be assigned to the queue by using a Flow to reassign the Tasks. Because the Invocable Apex returns a list of Action Plan Task IDs, the createdTasks (which have a relationship to the Action Plan tasks) can be updated in that same flow, as they are created synchronously and can be queried immediately. Alternatively, reassign Tasks to Queues any other way you&#39;d like; it will not break Action Plans, and the Queue name will show on the Action Plan detail page.</p>
+<h1 id="automate-action-plan-creation">Automate Action Plan Creation</h1>
+<h2 id="flow">Flow</h2>
+<p>Action Plans includes an Invocable Apex class that can be included in a Flow. The Record ID of the triggering record is required, as is the Id OR the Name of the desired template.<br>Days from trigger to start Action Plan is optional (and defaults to 0). The first task will be due the number of days (specified on the template) from the start date. This date may fall on a weekend, though task due dates can be moved to avoid weekends if set on the template.</p>
+<p><img class="readmeimage" src="assets/FlowAction.png" alt=""></p>
+<p>The Invocable Apex class returns the Salesforce IDs of all the created Action Plan Tasks, which can be used in the next Flow steps.</p>
+<h3 id="optional-sample-action-plan-template-for-account-onboarding">(Optional) Sample Action Plan Template for Account onboarding</h3>
+<p>Run the following:</p>
+<pre><code class="language-plaintext">sfdx force:apex:execute -f ./data/sample-data.apex
+</code></pre>
 <p>To use this Template with the included Flow, see the <code>Create Action Plan From Template</code> Apex Action in the <code>New Customer Onboarding Activities</code> Flow</p>
-<p><img src="assets/FlowActionVariables.png" alt="" class="readmeimage" /></p>
-<p>Create an Account and set <code>Type</code> to any value that starts with "Customer"</p>
-<h2><a id="Process_Builder_228"></a>Process Builder</h2>
+<p> <img class="readmeimage" src="assets/FlowActionVariables.png" alt="Set input variables for the Flow action"></p>
+<p>Create an Account and set <code>Type</code> to any value that starts with &#39;Customer&#39;</p>
+<h2 id="process-builder">Process Builder</h2>
 <p>It is recommended NOT to check the Recursion box when creating a Process Builder to work with Action Plans.</p>
 <p><strong>It is also recommended NOT to use Process Builder at all!</strong></p>
-<p><img src="assets/ProcessBuilder.png" alt="" class="readmeimage" /></p>
-<h2><a id="Apex_234"></a>Apex</h2>
+<!-- ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png) -->
+
+<h2 id="apex">Apex</h2>
 <p>To call the invocable Apex from a Trigger or Apex class, adapt the following sample code:</p>
-<strong>Unmanaged Code</strong>
+<h3 id="unmanaged-code">UNMANAGED CODE</h3>
 <pre><code class="language-apex">String apTemplateName;
 ActionPlanTemplate__c apTemplate;
 List&lt;SObject&gt; toInsert... // can use any object, such as Account, or the generic SObject class
+
 List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt; requests = new List&lt;ActionPlanCreateInvocable.CreateActionPlanRequest&gt;();
 for(SObject a : toInsert){
-	ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
-	req.templateNameOrID = apTemplate.Id;
-	req.relatedRecordID = a.Id;
-	req.daysToActionPlanStart = 0;
-	requests.add(req);
+    ActionPlanCreateInvocable.CreateActionPlanRequest req = new ActionPlanCreateInvocable.CreateActionPlanRequest();
+    req.templateNameOrID = apTemplate.Id;
+    req.relatedRecordID = a.Id;
+    req.daysToActionPlanStart = 0;
+    req.actionPlanName = a.Name + &#39; - Onboarding&#39;;
+    requests.add(req);
 }
 List&lt;Id&gt; resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 </code></pre>
-
-<strong>Managed Package</strong>
+<h3 id="managed-package">MANAGED PACKAGE</h3>
 <pre><code class="language-apex">String apTemplateName;
 LabsActionPlans__ActionPlanTemplate__c apTemplate;
 List&lt;SObject&gt; toInsert... // can use any object, such as Account, or the generic SObject class
+
 List&lt;LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest&gt; requests = new List&lt;LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest&gt;();
 for(SObject a : toInsert){
-	LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest req = new LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest();
-	req.templateNameOrID = apTemplate.Id;
-	req.relatedRecordID = a.Id;
-	req.daysToActionPlanStart = 0;
-	requests.add(req);
+    LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest req = new LabsActionPlans.ActionPlanCreateInvocable.CreateActionPlanRequest();
+    req.templateNameOrID = apTemplateName;
+    req.relatedRecordID = a.Id;
+    req.daysToActionPlanStart = 1;
+    req.actionPlanName = a.Name + &#39; - Onboarding&#39;;
+    requests.add(req);
 }
 List&lt;Id&gt; resultIDs = LabsActionPlans.ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 </code></pre>
-
-<h2><a id="ActionPlanCreateInvocableCreateActionPlanRequest_class_254"></a>ActionPlanCreateInvocable.CreateActionPlanRequest class</h2>
+<h2 id="actionplancreateinvocablecreateactionplanrequest-class">ActionPlanCreateInvocable.CreateActionPlanRequest class</h2>
 <p>Variables:</p>
 <ul>
-  <li><code>String templateNameOrID</code> (required) Name is not unique, so ID is preferred</li>
-  <li><code>Id relatedRecordID</code> (required) Must have a relationship field named the related record object name from Action Plan object</li>
-  <li><code>Integer daysToActionPlanStart</code> (not required) Defaults to 0, the day the plan is created</li>
+<li>String <code>templateNameOrID</code> (required) Name is not unique, so ID is preferred</li>
+<li>Id <code>relatedRecordID</code> (required) Must have a relationship field named the related record object name from Action Plan object</li>
+<li>Integer <code>daysToActionPlanStart</code> (not required) Defaults to 0, the day the plan is created</li>
+<li>String <code>actionPlanName</code> (not required) Give the Action Plan a custom name. If not specified, defaults to {Template Name} - {Parent Record Name}.</li>
 </ul>
-<h1>
-  <a id="Share_Your_Templates_and_Discover_Best_Practices_using_Template_Export_and_Template_Import_260"></a>Share Your Templates and Discover Best Practices using Template Export
-  and Template Import
-</h1>
+<h1 id="share-your-templates-and-discover-best-practices-using-template-export-and-template-import">Share Your Templates and Discover Best Practices using Template Export and Template Import</h1>
 <p>Action Plans supports the sharing and discovery of best practices using Template Export and Template Import.</p>
-<h2><a id="How_to_Share_Your_Template_264"></a>How to Share Your Template</h2>
-<p>Export is simple. Navigate to the Template you wish to export. Click on the “Export” button.</p>
-<p><img src="assets/ActionPlanTemplate-import-1.png" alt="" class="readmeimage" /></p>
-<p>
-  Export creates a simple XML file containing template header and task information. It also includes information about who created the template.<br />
-  Note: It does not include user information or sensitive data about what objects you might use this template with.
-</p>
-<p>
-  If you are using Lightning Experience, the exported file is in your Files tab, in your private files library. If you are still using Salesforce Classic, it is in your Documents
-  tab, in your private documents folder.
-</p>
-<p>
-  Sharing the file is easy. Email the file to whomever you want to share it with. Do you want to share it with a broader audience? Contact the file to Salesforce Labs at
-  @salesforcelabs.
-</p>
-<h2><a id="Best_Practices_How_to_Import_277"></a>Best Practices: How to Import</h2>
-<p>
-  Import is also simple. Navigate to the “Import Template” tab. Select the file you want to import using “Browse” and once you've found it click on “Import Template.”<img
-    src="assets/ActionPlanTemplate-import-2.png"
-    alt=""
-    class="readmeimage" />
-</p>
-<h2><a id="Optional_Sample_Action_Plan_Template_Import_281"></a>(Optional) Sample Action Plan Template Import</h2>
-<p>
-  This repository also includes a sample Action Plan Template file, which you can import on the appropriate tab. You may download
-  <a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20New%20Customer%20Onboarding.xml">New Customer Onboarding</a> from GitHub, or you can find it
-  in this SFDX project in the <a href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/data"><code>data</code></a> folder.
-</p>
+<h2 id="how-to-share-your-template">How to Share Your Template</h2>
+<p>Export is simple. Navigate to the Template you wish to export. Click on the &quot;Export&quot; button.</p>
+<p><img class="readmeimage" src="assets/ActionPlanTemplate-import-1.png" alt=""></p>
+<p>Export creates a simple XML file containing template header and task information. It also includes information about who created the template.<br>Note: It does not include user information or sensitive data about what objects you might use this template with.</p>
+<p>If you are using Lightning Experience, the exported file is in your Files tab, in your private files library. If you are still using Salesforce Classic, it is in your Documents tab, in your private documents folder.</p>
+<p>Sharing the file is easy. Email the file to whomever you want to share it with. Do you want to share it with a broader audience? Email the file to Salesforce Labs at <a href="mailto:labs@salesforce.com">labs@salesforce.com</a>.</p>
+<h2 id="best-practices-how-to-import">Best Practices: How to Import</h2>
+<p>Import is also simple. Navigate to the &quot;Import Template&quot; tab. Select the file you want to import using &quot;Browse&quot; and once you&#39;ve found it click on &quot;Import Template.&quot;</p>
+<p><img class="readmeimage" src="assets/ActionPlanTemplate-import-2.png" alt=""></p>
+<h2 id="optional-sample-action-plan-template-import">(Optional) Sample Action Plan Template Import</h2>
+<p>This repository also includes sample Action Plan Template files, which you can import on the appropriate tab. You may download <a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20New%20Customer%20Onboarding.xml">New Customer Onboarding</a> or <a href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Trade%20Show%20Follow%20Up.xml">Trade Show Follow Up</a> from GitHub, or you can find it in this SFDX project in the <code>data</code> folder.</p>
+

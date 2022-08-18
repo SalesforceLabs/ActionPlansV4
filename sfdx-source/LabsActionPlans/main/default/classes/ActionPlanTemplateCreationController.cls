@@ -98,6 +98,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	/**
 	 * Action on page load to ensure custom setting is created
 	 * @return   `PageReference` null
+	 * @see ActionPlansUtilities.onPageLoad
 	 */
 	public PageReference onLoad() {
 		ActionPlansUtilities.onPageLoad();
@@ -528,6 +529,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	/**
 	 * Find user default recordtype
 	 * @return `Id` The org default Task RecordTypeId
+	 * @see ActionPlansUtilities.getDefaultTaskRecordTypeId
 	 */
 	public Id getDefaultTaskRecordTypeId() {
 		return ActionPlansUtilities.getDefaultTaskRecordTypeId();
@@ -536,6 +538,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	/**
 	 * Generate picklist of Task Record Types
 	 * @return `List<SelectOption>` A picklist of available Record Types
+	 * @see ActionPlansUtilities.getTaskRTPicklistValues
 	 */
 	public List<SelectOption> getTaskRTPicklistValues() {
 		return ActionPlansUtilities.getTaskRTPicklistValues();
@@ -549,6 +552,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * Generate a picklist of Task Type
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return `List<SelectOption>` Picklist of `Task.Type`
+	 * @see ActionPlansUtilities.getFieldOptions
 	 */
 	public List<SelectOption> getTaskTypes() {
 		if (taskTypes == null) {
@@ -565,6 +569,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * Generate picklist of Task Priorities
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return `List<SelectOption>` Picklist of `Task.Priority`
+	 * @see ActionPlansUtilities.getFieldOptions
 	 */
 	public List<SelectOption> getTaskPriorities() {
 		if (taskPriorities == null) {
@@ -576,6 +581,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	/**
 	 * Get the reminder time picklist options from the central utilities class
 	 * @return `List<SelectOption>` Picklist of reminder times
+	 * @see ActionPlansUtilities.getHoursOption
 	 */
 	public List<SelectOption> getHoursOption() {
 		return ActionPlansUtilities.getHoursOption();
@@ -610,6 +616,7 @@ public with sharing class ActionPlanTemplateCreationController {
 		 * @param apTask      Action Plan Template Task
 		 * @param pos         Position/Index
 		 * @param apTTaskRTId The RecordType of the related Task
+		 * @see ActionPlansUtilities
 		 */
 		public ApTTaskWrapper(APTemplateTask__c apTask, Integer pos, Id apTTaskRTId) {
 			task = apTask;

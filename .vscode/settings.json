@@ -26,5 +26,9 @@
 	"force.showApexJavadocContext": true,
 	"force.showApexJavadocDescriptionTag": false,
 	"html.format.maxPreserveNewLines": 2,
-	"prettier.configPath": ".prettierrc"
+	"prettier.configPath": ".prettierrc",
+	"[visualforce]": {
+		"editor.defaultFormatter": "salesforce.salesforcedx-vscode-visualforce",
+		"editor.formatOnSave": false
+	}
 }

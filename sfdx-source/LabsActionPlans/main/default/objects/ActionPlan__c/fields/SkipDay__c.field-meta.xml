@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-	<fullName>SkipDay__c</fullName>
-	<businessStatus>Active</businessStatus>
-	<description>Do we pull weekend due dates forward to the end of the previous week or back to the start of the next week?</description>
-	<externalId>false</externalId>
-	<label>Default Weekend Due Dates To</label>
-	<required>false</required>
-	<trackTrending>false</trackTrending>
-	<type>Picklist</type>
-	<valueSet>
-		<controllingField>SkipWeekends__c</controllingField>
-		<restricted>true</restricted>
-		<valueSetName>SkipDay</valueSetName>
-		<valueSettings>
-			<controllingFieldValue>checked</controllingFieldValue>
-			<valueName>End of previous week</valueName>
-		</valueSettings>
-		<valueSettings>
-			<controllingFieldValue>checked</controllingFieldValue>
-			<valueName>Start of next week</valueName>
-		</valueSettings>
-	</valueSet>
+    <fullName>SkipDay__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Do we pull weekend due dates forward to the end of the previous week or back to the start of the next week?</description>
+    <externalId>false</externalId>
+    <label>Default Weekend Due Dates To</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>SkipWeekends__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>SkipDay</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>End of previous week</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Start of next week</valueName>
+        </valueSettings>
+    </valueSet>
 </CustomField>

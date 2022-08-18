@@ -44,8 +44,14 @@ public inherited sharing class ActionPlansBuilderUtilities {
 	 * All tasks for upserting that will not require an email to be sent
 	 */
 	private List<Task> myTasksWithOutEmail { get; set; }
-	// TODO: Combine these two lists and use upsert if we can with the dmlo (at API 54.0 we cannot - maybe one day)
+	// TODO: Combine these two lists and use upsert if we can with the dmlo (at API 55.0 we cannot - maybe one day)
+	/**
+	 * Tasks to update that have `Send Email` checked
+	 */
 	private List<Task> myOldTasksWithEmail { get; set; }
+	/**
+	 * Tasks to insert that have `Send Email` checked
+	 */
 	private List<Task> myNewTasksWithEmail { get; set; }
 
 	/**
@@ -62,7 +68,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		this.relatedRecordIDs = oIdsLIst;
 
 		// if the actionPlan has already an Id, then we are editing an AP and not creating a new one
-		if (baseObj.id != null) {
+		if (baseObj.Id != null) {
 			mode = ApEditMode.MODE_EDIT_SINGLE;
 			relActionPlans.add(baseObj);
 		} else {
@@ -117,12 +123,12 @@ public inherited sharing class ActionPlansBuilderUtilities {
 				mapIDAP.put(ap.Id, ap);
 
 				//Now for each inserted ap we should run through tasks and create them
-				for (APTask__c t : this.baseAPTaskList) {
+				for (APTask__c aptask : this.baseAPTaskList) {
 					APTask__c nt = new APTask__c();
-					nt = t.clone();
+					nt = aptask.clone();
 
 					nt.Action_Plan__c = ap.Id;
-					nt.Name = t.Id == null ? ActionPlansUtilities.actionPlanSubjectToName(t.Subject__c, taskTemplateNameLength) : nt.Name;
+					nt.Name = aptask.Id == null ? ActionPlansUtilities.actionPlanSubjectToName(ap.Name + ' - ' + nt.Subject__c, taskTemplateNameLength) : nt.Name;
 					nt.DaysFromStart__c = (nt.DaysFromStart__c == null || nt.DaysFromStart__c < 0) ? 0 : nt.DaysFromStart__c;
 					nt.User__c = getAPTaskTemplateUser(ap, objectOwnersMap, nt.User__c);
 					aptList.add(nt);
@@ -138,7 +144,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 				for (APTask__c t : this.baseAPTaskList) {
 					t.DaysFromStart__c = (t.DaysFromStart__c == null || t.DaysFromStart__c < 0) ? 0 : t.DaysFromStart__c;
-					t.Name = t.Id == null ? ActionPlansUtilities.actionPlanSubjectToName(t.Subject__c, taskTemplateNameLength) : t.Name;
+					t.Name = t.Id == null ? ActionPlansUtilities.actionPlanSubjectToName(ap.Name + ' - ' + t.Subject__c, taskTemplateNameLength) : t.Name;
 					t.User__c = getAPTaskTemplateUser(ap, objectOwnersMap, t.User__c);
 				}
 				aptList = this.baseAPTaskList;
@@ -194,20 +200,24 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			upsertedAPTaskIDs.add(apt.Id);
 		}
 
-		for (Task tmpTask : [SELECT Id, TaskAPTask__c, Subject FROM Task WHERE TaskAPTask__c IN :upsertedAPTaskIDs AND TaskAPTask__c != NULL]) {
+		for (Task tmpTask : [SELECT Id, TaskAPTask__c, Subject, OwnerId FROM Task WHERE TaskAPTask__c IN :upsertedAPTaskIDs AND TaskAPTask__c != NULL]) {
 			mapApTasks.put(tmpTask.TaskAPTask__c, tmpTask);
 		}
+		System.debug('mapApTasks.size: ' + mapApTasks.size());
 
 		for (APTask__c refAPTask : aptsToUpsert) {
 			// check if task exists already
 			Task t = mapApTasks.get(refAPTask.Id);
+			System.debug('t: ' + t);
 			if (t == null) {
 				//Create the new task and template
 				t = new Task();
 			}
 			t.Subject = refAPTask.Subject__c;
 			t.Priority = refAPTask.Priority__c;
-			t.OwnerId = refAPTask.User__c;
+			if (t.Id == null || ActionPlansUtilities.idStartsWith(t.OwnerId, '005')) {
+				t.OwnerId = refAPTask.User__c;
+			}
 			t.Type = refAPTask.Type__c;
 			t.TaskAPTask__c = refAPTask.Id;
 
@@ -259,9 +269,11 @@ public inherited sharing class ActionPlansBuilderUtilities {
 				}
 			}
 
+			System.debug('NEW TASK: ' + t);
+
 			if (refAPTask.Dependent__c == 'None') {
 				if (refAPTask.SendEmail__c == true) {
-					if (t.id == null) {
+					if (t.Id == null) {
 						this.myNewTasksWithEmail.add(t);
 					} else {
 						this.myOldTasksWithEmail.add(t);
@@ -272,31 +284,35 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			} else {
 				//only update dependant tasks that are already created
 				if (t.Id != null) {
-					this.myTasksWithOutEmail.add(t);
+					if (refAPTask.SendEmail__c == true) {
+						this.myOldTasksWithEmail.add(t);
+					} else {
+						this.myTasksWithOutEmail.add(t);
+					}
 				}
 			}
 		}
 
 		Database.DMLOptions dmlo = new Database.DMLOptions();
-		Database.DMLOptions dmlo2 = new Database.DMLOptions();
+		dmlo.EmailHeader.triggerUserEmail = true;
+		/* Database.DMLOptions dmloNOEmail = new Database.DMLOptions();
+		 dmloNOEmail.EmailHeader.triggerUserEmail = false; */
 
 		if (this.myNewTasksWithEmail.size() > 0) {
-			dmlo.EmailHeader.triggerUserEmail = true;
 			Database.insert(this.myNewTasksWithEmail, dmlo); //NOPMD
 		}
 
 		if (this.myOldTasksWithEmail.size() > 0) {
-			dmlo.EmailHeader.triggerUserEmail = true;
 			Database.update(this.myOldTasksWithEmail, dmlo); //NOPMD
 		}
 
 		if (this.myTasksWithOutEmail.size() > 0) {
-			if (this.mode == ApEditMode.MODE_EDIT_SINGLE) {
+			/* 	if (this.mode == ApEditMode.MODE_EDIT_SINGLE) {
 				Database.upsert(this.myTasksWithOutEmail); //NOPMD
 			} else {
-				dmlo2.EmailHeader.triggerUserEmail = false;
-				Database.insert(this.myTasksWithOutEmail, dmlo2); //NOPMD
-			}
+				Database.insert(this.myTasksWithOutEmail, dmloNOEmail); //NOPMD
+			} */
+			Database.upsert(this.myTasksWithOutEmail); //NOPMD
 		}
 
 		if (this.mode != ApEditMode.MODE_EDIT_SINGLE) {
@@ -313,7 +329,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			}
 		}
 		if (relActionPlans.size() == 1) {
-			return relActionPlans[0].id;
+			return relActionPlans[0].Id;
 		} else {
 			return null;
 		}
@@ -358,13 +374,15 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		if (relObjOwners.containsKey(objId)) {
 			return relObjOwners.get(objId);
 		} else {
+			System.debug('RETURNING NULL FOR THE USER');
 			return null;
 		}
 	}
 
 	/**
 	 * Retrieve the owner list from the related object.
-	 * @param relatedRecordIDs	List of sobject Ids
+	 * <br>Exclude owners that are not users (that are queues)
+	 * @param relatedRecordIDs	List of sobject record Ids
 	 * @return                  `Map<Id, Id>` Map of record Id to Owner Id
 	 */
 	public static Map<Id, Id> retrieveOwnersDataRelatedObject(Set<Id> relatedRecordIDs) {
@@ -374,7 +392,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		}
 		List<Id> recordIdList = new List<Id>(relatedRecordIDs);
 		Id recId = recordIdList[0];
-		String objectName = ActionPlansUtilities.getRelatedRecordInfo(recId).getName();
+		String objectName = ActionPlansUtilities.getRelatedSObjectDescribe(recId).getName();
 
 		String queryRetrieveOwnerIds;
 
@@ -382,7 +400,8 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			queryRetrieveOwnerIds = 'SELECT Id, OwnerId FROM ' + objectName + ' WHERE Id IN :relatedRecordIDs';
 
 			for (SObject obj : Database.query(String.escapeSingleQuotes(queryRetrieveOwnerIds))) {
-				relatedObjOwners.put((Id) (obj.get('Id')), (Id) (obj.get('OwnerId')));
+				Id relRecordOwnerId = (Id) (obj.get('OwnerId'));
+				relatedObjOwners.put((Id) (obj.get('Id')), ((String) relRecordOwnerId).startsWith('005') ? relRecordOwnerId : System.UserInfo.getUserId());
 			}
 		}
 		return relatedObjOwners;
@@ -391,6 +410,8 @@ public inherited sharing class ActionPlansBuilderUtilities {
 	/**
 	 * Generate New `FeedItems` for multiple Action Plans
 	 * @param recIDs Set of IDs of records for which we may make Chatter posts
+	 * @see ActionPlansUtilities.getRelatedSObjectDescribe
+	 * @see ActionPlansUtilities.getPostObjectBody
 	 */
 	public static void generateObjectFeeds(Set<Id> recIDs) {
 		if (!Schema.getGlobalDescribe().containsKey('feeditem')) {
@@ -411,7 +432,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			for (String f : apRefFields) {
 				if (ap.get(f) != null) {
 					recId = (Id) ap.get(f);
-					chatterEnabled = ActionPlansUtilities.getRelatedRecordInfo(recId).isFeedEnabled();
+					chatterEnabled = ActionPlansUtilities.getRelatedSObjectDescribe(recId).isFeedEnabled();
 					//chatterEnabled = recId.getSObjectType().getDescribe().isFeedEnabled();
 					break;
 				}

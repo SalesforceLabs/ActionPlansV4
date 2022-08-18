@@ -18,20 +18,21 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
  * @group Trigger Handlers
- * @see ActionPlansTaskTriggerUtilities
  */
 global without sharing class ActionPlansTriggerHandlers {
 	/**
 	 * Use only when we want to delete a Task while preserving the APTask (such as when making an APTask newly-dependent on another)<br>
-	 * Unused in v4.2.1 but will be used in next version
+	 * Unused currently, but may be used in future version
 	 * @author David Schach
 	 * @return   `Boolean` Should we bypass the trigger?
 	 */
 	private static Boolean bypassTaskTrigger = false;
+
 	/**
 	 * Global so that if in managed package, this method is the only one available
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  sObjectName the name of the sObject
+	 * @see ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler[1]
 	 */
 	global static void actionPlansSObjectTriggerHandler(String sObjectName) {
 		actionPlansSObjectTriggerHandler(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap, Trigger.operationType, sObjectName);
@@ -46,6 +47,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
 	 * @param  sObjectName   the name of the SObject
+	 * @see ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler[0]
 	 */
 	// prettier-ignore
 	public static void actionPlansSObjectTriggerHandler(List<SObject> newRecords, List<SObject> oldRecords, Map<Id, SObject> newRecordsMap, Map<Id, SObject> oldRecordsMap, System.TriggerOperation triggerEvent, String sObjectName) {
@@ -122,6 +124,9 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  newRecordsMap Trigger.newMap
 	 * @param  oldRecordsMap Trigger.oldMap
 	 * @param  triggerEvent  Trigger context
+	 * @see ActionPlansTriggerHandlers.fillRelatedRecordFields
+	 * @see ActionPlansTriggerHandlers.validateActionPlans
+	 * @see ActionPlansTaskTriggerUtilities.deleteTasks
 	 */
 	// prettier-ignore
 	public static void triggerhandlerActionPlan(List<ActionPlan__c> newRecords, List<ActionPlan__c> oldRecords, Map<Id, ActionPlan__c> newRecordsMap, Map<Id, ActionPlan__c> oldRecordsMap, System.TriggerOperation triggerEvent) {
@@ -161,7 +166,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				Set<Id> actionPlanNewNames = new Set<Id>();
 				for (ActionPlan__c ap : newRecords) {
 					if (ap.Name != oldRecordsMap.get(ap.Id).Name) {
-						actionPlanNewNames.add(ap.id);
+						actionPlanNewNames.add(ap.Id);
 					}
 				}
 				if (!actionPlanNewNames.isEmpty()) {
@@ -225,7 +230,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					Id relatedId = (Id) ap.get(s);
 					ap.Related_Record__c = relatedNamesMap.get(relatedId);
 					if (String.isEmpty(ap.Related_Object__c) || ap.Id == null) {
-						ap.Related_Object__c = ActionPlansUtilities.getRelatedRecordInfo(relatedId).getLabel();
+						ap.Related_Object__c = ActionPlansUtilities.getRelatedSObjectDescribe(relatedId).getLabel();
 					}
 					break;
 				}
@@ -248,15 +253,13 @@ global without sharing class ActionPlansTriggerHandlers {
 			when BEFORE_INSERT, BEFORE_UPDATE {
 				for (APTask__c a : newRecords) {
 					a.IsClosed__c = ActionPlansUtilities.getClosedTaskStatuses().contains(a.Status__c);
+					// TODO: Check if we need to move custom setting record owner logic here
 					a.User__c = a.User__c == null ? UserInfo.getUserId() : a.User__c;
 					a.DaysFromStart__c = a.DaysFromStart__c == null ? 0 : a.DaysFromStart__c;
 					a.Dependent__c = (String.isBlank(a.Dependent__c)) ? 'None' : a.Dependent__c;
 				}
 
 				Set<Id> apIDs = new Set<Id>();
-				//Schema.DescribeSObjectResult aptDescribe = Schema.APTask__c.getSObjectType().getDescribe();
-				//String aptObjectName = aptDescribe.getName();
-				//String aptPrefix = ActionPlansUtilities.getObjectKeyPrefix(aptObjectName);
 				String aptPrefix = Schema.APTask__c.getSObjectType().getDescribe().getKeyPrefix();
 
 				for (APTask__c apt : newRecords) {
@@ -328,7 +331,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			*/
 			when BEFORE_DELETE {
 				try {
-					Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :oldRecordsMap.keyset() AND IsClosed = FALSE]);
+					Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :oldRecordsMap.keyset() AND IsClosed = FALSE AND IsDeleted = FALSE]);
 				} catch (Exception e) {
 					for (APTask__c a : oldRecords) {
 						a.addError('Error when deleting Task related to APTaskTemplate: ' + e.getMessage());
@@ -444,11 +447,11 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  newRecords    Trigger.new
 	 * @param  oldRecords    Trigger.old
 	 * @param  triggerEvent  Trigger context
+	 * @see ActionPlansTaskTriggerUtilities
 	 */
 	public static void triggerhandlerTask(List<Task> newRecords, List<Task> oldRecords, System.TriggerOperation triggerEvent) {
-		if (bypassTaskTrigger) {
-			return;
-		}
+		// prettier-ignore
+		if (bypassTaskTrigger) { return; }
 		switch on triggerEvent {
 			when BEFORE_INSERT {
 				if (ActionPlansUtilities.taskUsesRecordTypes) {
@@ -545,7 +548,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				//Query APTask__c objects to update fields
 				if (!aPTasksIds.isEmpty()) {
 					Map<Id, APTask__c> mapAPTasks = new Map<Id, APTask__c>(
-						[SELECT Status__c, Id, Controller__r.Status__c, ActivityDate__c, Minutes_Reminder__c, Action_Plan__r.Name FROM APTask__c WHERE Id IN :APTasksIds]
+						[SELECT Status__c, Id, Controller__r.Status__c, ActivityDate__c, Minutes_Reminder__c, Action_Plan__r.Name, User__c FROM APTask__c WHERE Id IN :APTasksIds]
 					);
 					List<APTask__c> lUpsert = new List<APTask__c>();
 
@@ -556,7 +559,11 @@ global without sharing class ActionPlansTriggerHandlers {
 							tmp.Name = tmp.Id;
 							tmp.Comments__c = t.Description;
 							tmp.Priority__c = t.Priority;
-							tmp.User__c = t.OwnerId;
+							// Do not change AP Task owner if Task is assigned to a queue
+							if (((String) t.OwnerId).startsWith('005')) {
+								tmp.User__c = t.OwnerId;
+							}
+							//tmp.User__c = ( ? t.OwnerId : tmp.User__c;
 							tmp.ActivityDate__c = t.ActivityDate;
 							lUpsert.add(tmp);
 						}
@@ -745,6 +752,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * Validate that 1 and only 1 custom reference field is filled
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  actionPlans Trigger records to validate
+	 * @see ActionPlansUtilities.getCustomRelationshipFields
 	 */
 	private static void validateActionPlans(List<ActionPlan__c> actionPlans) {
 		List<String> actionPlanReferenceFields = ActionPlansUtilities.getCustomRelationshipFields();
@@ -828,6 +836,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * Given actionplanIDs, delete these Action Plans AND their open Tasks in future context
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  relActionPlansIds `ActionPlan__c` IDs
+	 * @see ActionPlanTriggerHandlers.deleteActionPlans
 	 */
 	@future
 	private static void futureDeleteActionPlans(Set<Id> relActionPlansIds) {

@@ -1,6 +1,6 @@
 # UNMANAGED for use with scratch org
 
-# Install scriptecho "Cleaning previous scratch org..."
+# Install script
 echo "Cleaning previous scratch org..."
 sfdx force:org:delete -p -u ActionPlans
 

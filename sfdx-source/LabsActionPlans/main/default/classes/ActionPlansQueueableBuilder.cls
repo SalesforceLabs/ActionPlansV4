@@ -18,6 +18,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
  * @group Asynchronous
+ * @see ActionPlansBuilderUtilities
  */
 public inherited sharing class ActionPlansQueueableBuilder implements Queueable {
 	private ActionPlansBuilderUtilities builtUtil;
@@ -36,6 +37,7 @@ public inherited sharing class ActionPlansQueueableBuilder implements Queueable 
 	/**
 	 * Instead of a batch, we use queuable because it's more simple than Batch Apex
 	 * @param qc `QueueableContext` (note: not `BatchableContext` which is in Batch Apex)
+	 * @see ActionPlansBuilderUtilities.generateActionPlans
 	 */
 	public void execute(QueueableContext qc) {
 		try {

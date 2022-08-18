@@ -222,6 +222,28 @@ private class ActionPlanCreateInvocableTest {
 	}
 
 	@IsTest
+	private static void relatedOrder() {
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		Order a = testUtil.createNewOrder();
+
+		Test.startTest();
+
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
+
+		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, 0);
+
+		List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
+		requests.add(req);
+
+		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
+
+		Test.stopTest();
+		System.assertNotEquals(null, resultIDs);
+		System.assertEquals(1, resultIDs.size());
+		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+	}
+
+	@IsTest
 	private static void bulkAccounts() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
@@ -258,7 +280,7 @@ private class ActionPlanCreateInvocableTest {
 	@IsTest
 	private static void checkWeekendDueDate() {
 		Weekend_Day__mdt weekend = [
-			SELECT Days_from_end_of_previous_week__c, Days_to_start_of_next_week__c, DeveloperName
+			SELECT Id, Days_from_end_of_previous_week__c, Days_to_start_of_next_week__c, DeveloperName
 			FROM Weekend_Day__mdt
 			WHERE Days_to_start_of_next_week__c != 0
 		][0];

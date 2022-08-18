@@ -402,7 +402,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L49">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L55">
                       myNewTasksWithEmail
                     </a>
                   </td>
@@ -410,7 +410,7 @@
                     <div class="attribute-signature">private List&lt;Task&gt; myNewTasksWithEmail</div>
                   </td>
 
-                  <td class="attribute-description"></td>
+                  <td class="attribute-description">Tasks to insert that have <code class="code-inline">Send Email</code> checked</td>
                 </tr>
                 <tr class="property private">
                   <td class="attribute-name">
@@ -419,7 +419,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L48">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L51">
                       myOldTasksWithEmail
                     </a>
                   </td>
@@ -427,7 +427,7 @@
                     <div class="attribute-signature">private List&lt;Task&gt; myOldTasksWithEmail</div>
                   </td>
 
-                  <td class="attribute-description"></td>
+                  <td class="attribute-description">Tasks to update that have <code class="code-inline">Send Email</code> checked</td>
                 </tr>
                 <tr class="property private">
                   <td class="attribute-name">
@@ -564,7 +564,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L58">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L64">
                       ActionPlansBuilderUtilities(baseObj, aPTListparam, refType, oIdsLIst)
                     </a>
                   </h4>
@@ -624,7 +624,7 @@
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansBuilderUtilities.retrieveOwnersDataRelatedObject"> retrieveOwnersDataRelatedObject (relatedRecordIDs) </a>
 
-                    <div class="methods-toc__description">Retrieve the owner list from the related object.</div>
+                    <div class="methods-toc__description">Retrieve the owner list from the related object. <br />Exclude owners that are not users (that are queues)</div>
                   </li>
                 </ul>
                 <div class="method public">
@@ -634,7 +634,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L96">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L102">
                       generateActionPlans()
                     </a>
                   </h4>
@@ -656,7 +656,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L395">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L416">
                       generateObjectFeeds(recIDs)
                     </a>
                   </h4>
@@ -668,6 +668,12 @@
                   <div class="param-name">recIDs</div>
                   <div class="param-type">Type: <code class="code-inline">Set&lt;Id&gt;</code></div>
                   <div class="param-description">Set of IDs of records for which we may make Chatter posts</div>
+                  <div class="method-subtitle">See</div>
+                  <div class="method-subtitle-description">
+                    <a href="javascript:void(0)" onclick="goToLocation('ActionPlansUtilities.html#ActionPlansUtilities.getRelatedSObjectDescribe')"
+                      >ActionPlansUtilities.getRelatedSObjectDescribe</a
+                    >, <span title="A valid link could not be created with this identifier.">ActionPlansUtilities.getPostObjectBody</span>
+                  </div>
                 </div>
                 <div class="method public">
                   <h4 class="method-title" id="ActionPlansBuilderUtilities.getAPTaskTemplateUser">
@@ -676,7 +682,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L330">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L346">
                       getAPTaskTemplateUser(ap, relObjOwners, apTaskUser)
                     </a>
                   </h4>
@@ -710,7 +716,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L441">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L462">
                       getPostObjectBody(recID, apName)
                     </a>
                   </h4>
@@ -739,7 +745,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L348">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L364">
                       getRelatedRecordOwnerId(ap, relObjOwners)
                     </a>
                   </h4>
@@ -766,18 +772,18 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L370">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L388">
                       retrieveOwnersDataRelatedObject(relatedRecordIDs)
                     </a>
                   </h4>
-                  <div class="method-description">Retrieve the owner list from the related object.</div>
+                  <div class="method-description">Retrieve the owner list from the related object. <br />Exclude owners that are not users (that are queues)</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">public static Map&lt;Id, Id&gt; retrieveOwnersDataRelatedObject(Set&lt;Id&gt; relatedRecordIDs)</div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">relatedRecordIDs</div>
                   <div class="param-type">Type: <code class="code-inline">Set&lt;Id&gt;</code></div>
-                  <div class="param-description">List of sobject Ids</div>
+                  <div class="param-description">List of sobject record Ids</div>
                   <div class="method-subtitle">Returns</div>
                   <div class="method-subtitle-description"><code class="code-inline">Map&lt;Id, Id&gt;</code> Map of record Id to Owner Id</div>
                 </div>

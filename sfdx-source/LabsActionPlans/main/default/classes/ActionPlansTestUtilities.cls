@@ -34,7 +34,7 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * Standard objects included in this package
 	 */
 	@TestVisible
-	private static Set<String> standardObjects = new Set<String>{ 'account', 'lead', 'contact', 'contract', 'case', 'campaign', 'opportunity' };
+	private static Set<String> standardObjects = new Set<String>{ 'account', 'lead', 'contact', 'contract', 'case', 'campaign', 'opportunity', 'order' };
 
 	/**
 	 * Random words are required for testing, as you will likely run into any word I can insert
@@ -99,6 +99,8 @@ public inherited sharing class ActionPlansTestUtilities {
 	/**
 	 * Create an ActionPlans Admin user, plus all other permissions, for full ability to access certain tests.
 	 * @return `User` an admin user with all Action Plans permission sets
+	 * @see ActionPlansTestUtilities.createTestUser
+	 * @see ActionPlansTestUtilities.assignAPPermissionSets
 	 **/
 	public User createAdminUser() {
 		User u = createTestUser();
@@ -154,6 +156,7 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * Creates a new Campaign SObject
 	 * @param insertRecord Insert the record before returning it?
 	 * @return new `Campaign`
+	 * @see ActionPlansTestUtilities.createNewCampaign[1]
 	 */
 	public Campaign createNewCampaign(Boolean insertRecord) {
 		Campaign newCampaign = new Campaign();
@@ -169,6 +172,7 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * Creates a new Campaign SObject
 	 * Inserts before returning
 	 * @return inserted `Campaign`
+	 * @see ActionPlansTestUtilities.createNewCampaign[0]
 	 */
 	public Campaign createNewCampaign() {
 		return createNewCampaign(true);
@@ -280,6 +284,7 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * Creates a new Opportunity Object
 	 * @param insertRecord Insert the record before returning it?
 	 * @return new `Opportunity`
+	 * @see ActionPlansTestUtilities.createNewOpportunity[1]
 	 */
 	public Opportunity createNewOpportunity(Boolean insertRecord) {
 		Opportunity newOpportunity = (Opportunity) Opportunity.sObjectType.newSObject(null, true);
@@ -297,9 +302,44 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * Creates a new Opportunity Object
 	 * Inserts before returning
 	 * @return inserted `Opportunity`
+	 * @see ActionPlansTestUtilities.createNewOpportunity[0]
 	 */
 	public Opportunity createNewOpportunity() {
 		return createNewOpportunity(true);
+	}
+
+	/**
+	 * Creates a new Order Object
+	 * @param insertRecord Insert the record before returning it?
+	 * @return new `Order`
+	 * @see ActionPlansTestUtilities.createNewOrder[1]
+	 */
+	public Order createNewOrder(Boolean insertRecord) {
+		Order newOrder = (Order) Order.sObjectType.newSObject(null, true);
+		Account a = this.createNewAccount();
+		newOrder.AccountId = a.Id;
+		newOrder.Name = this.createRandomWord();
+		newOrder.EffectiveDate = Date.today();
+		String defaultStatus = (String) Order.Status.getDescribe().getPicklistValues()[0].getLabel();
+		System.debug('Default order status ' + defaultStatus);
+		newOrder.Status = defaultStatus;
+		//newOrder.CloseDate = Date.today();
+		//newOrder.StageName = (String) Order.OrderNumber.getDescribe().getPicklistValues()[0].getValue();
+
+		if (insertRecord) {
+			insert newOrder;
+		}
+		return newOrder;
+	}
+
+	/**
+	 * Creates a new Order Object
+	 * Inserts before returning
+	 * @return inserted `Order`
+	 * @see ActionPlansTestUtilities.createNewOrder[0]
+	 */
+	public Order createNewOrder() {
+		return createNewOrder(true);
 	}
 
 	/**
@@ -307,6 +347,7 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * @param relatedObject The Related Object (included field) for the Action Plan
 	 * @param numTasks How many tasks to create for the ActionPlan
 	 * @return new `ActionPlan__c`
+	 * @see ActionPlansTestUtilities.createNewActionPlanTask
 	 */
 	public ActionPlan__c createNewActionPlan(String relatedObject, Integer numTasks) {
 		ActionPlan__c newActionPlan = new ActionPlan__c();
@@ -339,6 +380,9 @@ public inherited sharing class ActionPlansTestUtilities {
 			}
 			when 'opportunity' {
 				newActionPlan.Opportunity__c = this.createNewOpportunity().Id;
+			}
+			when 'order' {
+				newActionPlan.Order__c = this.createNewOrder().Id;
 			}
 		}
 
@@ -392,6 +436,7 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  numTasks Number of tasks to create
 	 * @return          `ActionPlanTemplate__c` Action Plan Template
+	 * @see ActionPlansTestUtilities.createNewActionPlanTemplateTask
 	 */
 	public ActionPlanTemplate__c createNewActionPlanTemplate(Integer numTasks) {
 		if (numTasks < 0) {
@@ -450,7 +495,8 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return   `Id` The `Id` of a non-default `Task` Record Type for the running user
 	 */
-	public static Id getNonDefaultAvailableTaskRecordType() {
+	@testVisible
+	private static Id getNonDefaultAvailableTaskRecordType() {
 		if (!ActionPlansUtilities.taskUsesRecordTypes) {
 			return null;
 		}
@@ -473,7 +519,8 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * @param actionPlanId Id of Action Plan so we can query closed/completed Tasks
 	 * @return `Integer` Count of completed tasks for this Action Plan
 	 */
-	public static Integer getCompleted(Id actionPlanId) {
+	@testVisible
+	private static Integer getCompleted(Id actionPlanId) {
 		if (actionPlanId == null) {
 			return 0;
 		}

@@ -15,7 +15,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 /**
  * Tests for `ActionPlan__c` View Controller
  * @author {@link [David Schach](https://github.com/dschach)}
- * @see ActionPLanDetailController
+ * @see ActionPlanDetailController
  * @group Tests
  */
 @IsTest
@@ -205,10 +205,16 @@ private class ActionPlanDetailControllerTest {
 		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
+
+		actionPlan = testUtil.createNewActionPlan('order', 0);
+		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
+		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
+		recName = apdc.getrelatedRecordName();
+		System.assert(recName != null);
 	}
 
 	@IsTest
-	private static void testForceRecordType() {
+	private static void forceRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = true;
 
 		PageReference pageRef = Page.ActionPlanDetail;
@@ -229,7 +235,7 @@ private class ActionPlanDetailControllerTest {
 	}
 
 	@IsTest
-	private static void testForceNoRecordType() {
+	private static void forceNoRecordType() {
 		ActionPlansTestUtilities.forceHasRecordType = false;
 
 		PageReference pageRef = Page.ActionPlanDetail;
