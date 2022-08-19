@@ -241,7 +241,7 @@ global without sharing class ActionPlanCreateInvocable {
 			Task t = new Task();
 			t.Subject = apTask.Subject__c;
 			t.Priority = apTask.Priority__c;
-			t.OwnerId = apTask.User__c;
+			t.OwnerId = apTask?.User__c == null ? UserInfo.getUserId() : apTask.User__c;
 			t.TaskAPTask__c = apTask.Id;
 
 			if (apTask.Comments__c != null) {

@@ -19,7 +19,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * @group Visualforce
  * @example
  * <div class="slds-media__figure">
- *   <span class="slds-icon_container {!ObjectIconInfo['iconStyle']}" title="{!$ObjectType[sObjType].label}">
+ *   <span class="slds-icon_container {!ObjectIconInfo['iconStyle']}" title="{!$ObjectType['sObjType'].label}">
  *     <apex:image url="{!ObjectIconInfo['iconURL']}" styleClass="slds-icon slds-page-header__icon" html-aria-hidden="true" />
  *     <span class="slds-assistive-text">{!$ObjectType[sObjType].label}</span>
  *   </span>
@@ -31,15 +31,15 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	 */
 	public String objectName {
 		get {
-			if (orgObject == null) {
-				Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
-				String withNamespace = (ActionPlansUtilities.namespacePrefix + objectName).toLowerCase();
-				if (gd.containsKey(withNamespace)) {
-					orgObject = withNamespace;
-				} else {
-					orgObject = objectName;
-				}
+			//if (orgObject == null) {
+			Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+			String withNamespace = (ActionPlansUtilities.namespacePrefix + objectName).toLowerCase();
+			if (gd.containsKey(withNamespace)) {
+				orgObject = withNamespace;
+			} else {
+				orgObject = objectName;
 			}
+			//}
 			return orgObject;
 		}
 		set;
@@ -101,16 +101,28 @@ public inherited sharing class ActionPlansSectionHeaderController {
 			tabDesc.addAll(tsr.getTabs());
 		}
 		for (Schema.DescribeTabResult tr : tabDesc) {
-			if (sObjectName == tr.getSobjectName()) {
-				iconDesc.addAll(tr.getIcons());
-				break;
+			//System.debug(tr.getSobjectName());
+			if (sObjectName != null && sObjectName.endsWithIgnoreCase(tr.getSobjectName())) {
+				//System.debug(tr.getIcons());
+				if (!tr.getIcons().isEmpty()) {
+					iconDesc.addAll(tr.getIcons());
+				} else {
+					if (tr.isCustom() == true) {
+						iconStyle = 'slds-icon-standard-custom';
+						iconURL = '/img/icon/t4v35/standard/custom_120.png';
+					} else {
+						iconStyle = 'slds-icon-standard-' + sObjectName.toLowerCase();
+						iconURL = '/img/icon/t4v35/standard/' + sObjectName.toLowerCase() + '_120.png';
+					}
+				}
 			}
 		}
 		for (Schema.DescribeIconResult ir : iconDesc) {
 			if (ir.getWidth() == 120 && ir.getTheme() == 'theme4' && ir.getContentType() == 'image/png') {
 				//large lightning icon image
+				System.debug('ir.getURL ' + ir.getURL());
 				if (ir.getURL().contains('/custom/')) {
-					//Icon is from the Custom Sprite
+					//Icon is from the Custom Sprite /img/icon/t4v35/custom/custom11_120.png
 					iconTag = ir.getURL().substringBetween('custom/', '.png').substringBefore('_');
 					iconURL = '/img/icon/t4v35/custom/' + iconTag + '_120.png';
 					iconStyle = 'slds-icon-custom-' + iconTag;

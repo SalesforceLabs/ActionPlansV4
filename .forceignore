@@ -55,6 +55,10 @@ Contact.object
 Contract.object
 Lead.object
 Opportunity.object
+Custom*.object
+Custom*.layout
+Custom*.listView
+Custom*.tab
 *.profile
 Custom*.profile
 Read Only.profile
