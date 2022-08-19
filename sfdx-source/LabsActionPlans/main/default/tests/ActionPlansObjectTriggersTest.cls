@@ -273,40 +273,6 @@ private class ActionPlansObjectTriggersTest {
 	}
 
 	@IsTest
-	private static void orderTrigger() {
-		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('order', 1);
-		Order o = [SELECT Id FROM Order WHERE Id = :ap.Order__c];
-
-		// Verifies that action plans are undeleted when restoring related object
-		Test.startTest();
-		delete o;
-		Test.stopTest();
-		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assert(lAp.size() == 0);
-
-		// Verifies catch is working fine
-		ActionPlansTestUtilities.forceError = true;
-		try {
-			undelete o;
-		} catch (Dmlexception e) {
-			System.assert(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
-		}
-		ActionPlansTestUtilities.forceError = false;
-
-		// Verifies that action plans are undeleted when restoring related object
-		undelete o;
-		lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assert(lAp.size() == 1);
-
-		// Verifies that action plans that are in recycle bin are removed when deleting the related object
-		delete ap;
-		delete o;
-		lAp = [SELECT Id, Name, LastModifiedDate FROM ActionPlan__c WHERE Order__c = :o.Id AND isDeleted = TRUE ALL ROWS];
-		System.assert(lAp.size() == 0);
-	}
-
-	@IsTest
 	private static void leadConversionContact() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		User u = testutil.createTestUser();

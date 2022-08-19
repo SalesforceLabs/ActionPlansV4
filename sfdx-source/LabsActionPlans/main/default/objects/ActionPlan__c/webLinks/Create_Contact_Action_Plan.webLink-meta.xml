@@ -2,11 +2,11 @@
 <WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Create_Contact_Action_Plan</fullName>
     <availability>online</availability>
+    <description>To display on Action Plans related list for Contact Page Layout</description>
     <displayType>massActionButton</displayType>
     <encodingKey>UTF-8</encodingKey>
     <linkType>url</linkType>
     <masterLabel>Create Contact Action Plan</masterLabel>
-    <description>To display on Action Plans related list for Contact Page Layout</description>
     <openType>replace</openType>
     <protected>false</protected>
     <requireRowSelection>false</requireRowSelection>

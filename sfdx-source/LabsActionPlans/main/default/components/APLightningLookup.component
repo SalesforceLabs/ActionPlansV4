@@ -116,7 +116,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 
 				for (var i = 0; i < records.length; i++) {
 					// li elements of each list option
-					if (cObject == 'true') {
+					if (cObject == 'true' && iconTag != 'record') {
 						objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/custom-sprite/svg/symbols.svg#' + iconTag + '")}';
 					} else {
 						objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/standard-sprite/svg/symbols.svg#' + iconTag + '")}';

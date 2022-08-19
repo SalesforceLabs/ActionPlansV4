@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/SalesforceLabs/ActionPlansV4/compare/4.2.1...HEAD)
 
+### Merged
+
+- Version 4.3.0 pt 2 [`#47`](https://github.com/SalesforceLabs/ActionPlansV4/pull/47)
+- Version 4.3.0 [`#44`](https://github.com/SalesforceLabs/ActionPlansV4/pull/44)
+- Codecov to v3 [`#41`](https://github.com/SalesforceLabs/ActionPlansV4/pull/41)
+
 ## [4.2.1](https://github.com/SalesforceLabs/ActionPlansV4/compare/4.2.0...4.2.1) - 2022-05-25
 
 ### Merged
@@ -18,8 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Version 4.2.1 (#37) [`#35`](https://github.com/SalesforceLabs/ActionPlansV4/issues/35) [`#34`](https://github.com/SalesforceLabs/ActionPlansV4/issues/34)
-- Fix #34 [`#34`](https://github.com/SalesforceLabs/ActionPlansV4/issues/34)
-- Namespace to sample code [`#35`](https://github.com/SalesforceLabs/ActionPlansV4/issues/35)
+- Namespace to sample code (#36) [`#35`](https://github.com/SalesforceLabs/ActionPlansV4/issues/35)
 
 ## [4.2.0](https://github.com/SalesforceLabs/ActionPlansV4/compare/4.1.0...4.2.0) - 2022-04-01
 

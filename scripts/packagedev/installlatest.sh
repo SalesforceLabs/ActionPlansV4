@@ -12,8 +12,8 @@ sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-proje
 echo "Creating new scratch org"
 sfdx force:org:create --definitionfile config/enterprise-scratch-def.json --setalias PackageInstallTest --nonamespace --durationdays 7 --noancestors -w 20
 
-LASTCREATEREQUESTID=$(sfdx force:package:version:create:list -s Success | tail -1 | grep -o "^\w*\b")
-echo $LASTCREATEREQUESTID
+LASTCREATEREQUESTID=$(sfdx force:package:version:create:list -s Success | tail -1 | awk '{print $1}' | tr -d "\n")
+echo "lastCreateRequestId $LASTCREATEREQUESTID"
 
 PACKAGEVERSIONID=$(sfdx force:package:version:create:report -i $LASTCREATEREQUESTID --json | grep -o '"SubscriberPackageVersionId": "[^"]*' | grep -o '[^"]*$')
 echo "packageversionId $PACKAGEVERSIONID"
@@ -27,6 +27,9 @@ sfdx force:package:install --package $PACKAGEVERSIONID -u PackageInstallTest -w 
 
 echo "Adding unmanaged extension metadata"
 sfdx force:source:deploy -p sfdx-source/unmanagedExtension -u PackageInstallTest
+
+echo "Assigning permission set"
+sfdx force:user:permset:assign -n LabsActionPlans__Action_Plans_Admin
 
 echo "Install sample data"
 sfdx force:apex:execute -f ./data/sample-data-managed.apex

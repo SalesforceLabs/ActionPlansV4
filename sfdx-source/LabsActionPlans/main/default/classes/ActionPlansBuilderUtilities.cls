@@ -216,7 +216,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			t.Subject = refAPTask.Subject__c;
 			t.Priority = refAPTask.Priority__c;
 			if (t.Id == null || ActionPlansUtilities.idStartsWith(t.OwnerId, '005')) {
-				t.OwnerId = refAPTask.User__c;
+				t.OwnerId = refAPTask?.User__c == null ? UserInfo.getUserId() : refAPTask.User__c;
 			}
 			t.Type = refAPTask.Type__c;
 			t.TaskAPTask__c = refAPTask.Id;
@@ -393,6 +393,21 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		List<Id> recordIdList = new List<Id>(relatedRecordIDs);
 		Id recId = recordIdList[0];
 		String objectName = ActionPlansUtilities.getRelatedSObjectDescribe(recId).getName();
+
+		if (Schema.getGlobalDescribe().containsKey(objectName.toLowerCase())) {
+			Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectName.toLowerCase()).getDescribe().fields.getMap();
+			if (!fieldMap.containsKey('OwnerId')) {
+				for (Id i : relatedRecordIDs) {
+					relatedObjOwners.put(i, null);
+				}
+				return relatedObjOwners;
+			}
+		} else {
+			for (Id i : relatedRecordIDs) {
+				relatedObjOwners.put(i, null);
+			}
+			return relatedObjOwners;
+		}
 
 		String queryRetrieveOwnerIds;
 

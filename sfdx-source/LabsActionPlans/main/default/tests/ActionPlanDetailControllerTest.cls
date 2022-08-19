@@ -205,12 +205,6 @@ private class ActionPlanDetailControllerTest {
 		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
 		System.assert(recName != null);
-
-		actionPlan = testUtil.createNewActionPlan('order', 0);
-		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
-		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
-		recName = apdc.getrelatedRecordName();
-		System.assert(recName != null);
 	}
 
 	@IsTest
