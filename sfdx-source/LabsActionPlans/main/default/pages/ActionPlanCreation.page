@@ -76,10 +76,10 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						});
 				}
 			</script>
+			<script src="../../soap/ajax/55.0/connection.js" type="text/javascript"></script>
 			<script type="text/javascript">
 				var __sfdcSessionId = '{!GETSESSIONID()}';
 			</script>
-			<script src="../../soap/ajax/55.0/connection.js" type="text/javascript"></script>
 			<style>
 				input.errorBorder {
 					border: 2px solid #cc0000;
