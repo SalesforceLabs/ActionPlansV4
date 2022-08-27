@@ -342,7 +342,6 @@ public with sharing class ActionPlanCreationController {
 	/**
 	 * Get the specific lookup field used by this Action Plan
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	public String relatedFieldName {
 	 * @return  `String` The field Name
 	 */
 	public String relatedFieldName {
