@@ -91,11 +91,14 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					<!-- End Information Section -->
 
 					<!-- Tasks Section -->
-					<apex:pageBlockSection title="{!$ObjectType.Task.labelPlural}" columns="2" collapsible="false" id="taskDetails">
+					<apex:pageBlockSection columns="2" collapsible="false" id="taskDetails">
 						<apex:inputField
 							value="{!ActionPlanTemplate__c.SkipWeekends__c}"
 							id="skipWeekendCheckbox"
 							onclick="checkSkipWeekend('{!$Component.skipWeekendCheckbox}','{!$Component.taskDetails.skipDayPicklist}');" />
+						<apex:inputField id="archived" value="{!ActionPlanTemplate__c.Archived__c}" />
+
+						<apex:inputField id="skipDayPicklist" styleclass="slds-select" value="{!ActionPlanTemplate__c.SkipDay__c}" />
 
 						<apex:pageBlockSectionItem rendered="{!taskHasRecordType}">
 							<apex:outputLabel>{!$ObjectType.Task.Label}&nbsp;{!$ObjectType.RecordType.Label}&nbsp;</apex:outputLabel>
@@ -112,11 +115,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 							</apex:actionRegion>
 						</apex:pageBlockSectionItem>
 						<apex:outputPanel rendered="{!!taskHasRecordType}" />
-
-						<apex:inputField id="skipDayPicklist" styleclass="slds-select" value="{!ActionPlanTemplate__c.SkipDay__c}" />
 					</apex:pageBlockSection>
 
-					<apex:pageBlockSection id="taskSection" columns="1" collapsible="false">
+					<apex:pageBlockSection id="taskSection" title="{!$ObjectType.Task.labelPlural}" columns="1" collapsible="false">
 						<apex:outputPanel id="taskList" styleClass="slds-scope" layout="inline">
 							<apex:pageBlockTable value="{!TemplateWrappers}" var="wrapTask" id="taskTable" rules="none" style="table-layout: auto; width: 100%">
 								<!--  Tasks delete actions  -->
