@@ -205,6 +205,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ActionPlanTemplate__c.Archived__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ActionPlanTemplate__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
