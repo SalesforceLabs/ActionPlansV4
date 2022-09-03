@@ -224,6 +224,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 		List<Task> myTasksWithOutEmail = new List<Task>();
 		List<Task> myTasksWithEmail = new List<Task>();
+		List<Task> allTasksToInsert = new List<Task>();
 
 		Map<Id, APTask__c> mapAP = new Map<Id, APTask__c>();
 		for (APTask__c a : planTaskIndexToTask.values()) {
@@ -289,18 +290,26 @@ global without sharing class ActionPlanCreateInvocable {
 			}
 			t.ActivityDate = apTask.ActivityDate__c;
 
+			Database.DMLOptions dmlEmail = new Database.DMLOptions();
+			dmlEmail.EmailHeader.TriggerUserEmail = true;
+
+			Database.DMLOptions dmlNoEmail = new Database.DMLOptions();
+			dmlEmail.EmailHeader.TriggerUserEmail = false;
+
 			//if (apTask.Dependent__c == 'None') {
 			if (apTask.SendEmail__c == true) {
-				myTasksWithEmail.add(t);
+				t.setOptions(dmlEmail);
+				allTasksToInsert.add(t);
+				//myTasksWithEmail.add(t);
 			} else {
-				myTasksWithOutEmail.add(t);
+				t.setOptions(dmlNoEmail);
+				allTasksToInsert.add(t);
+				//myTasksWithOutEmail.add(t);
 			}
 			//}
 		}
 
-		Database.DMLOptions dmlo = new Database.DMLOptions();
-
-		if (myTasksWithEmail.size() > 0) {
+		/* if (myTasksWithEmail.size() > 0) {
 			dmlo.EmailHeader.triggerUserEmail = true;
 			Database.insert(myTasksWithEmail, dmlo);
 		}
@@ -308,7 +317,9 @@ global without sharing class ActionPlanCreateInvocable {
 		if (myTasksWithOutEmail.size() > 0) {
 			dmlo.EmailHeader.triggerUserEmail = false;
 			Database.insert(myTasksWithOutEmail, dmlo);
-		}
+		} */
+
+		insert allTasksToInsert;
 
 		// Collect all AP IDs for Chatter (and for returning)
 		for (ActionPlan__c ap : actionPlansToInsert) {

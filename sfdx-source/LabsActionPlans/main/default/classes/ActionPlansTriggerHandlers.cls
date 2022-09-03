@@ -181,18 +181,27 @@ global without sharing class ActionPlansTriggerHandlers {
 			//Execution when an Action Plan is deleted: delete all asociated Tasks
 			when BEFORE_DELETE {
 				Set<Id> taskIds = new Set<Id>();
+				Set<Id> apTaskIDs = new Set<Id>();
 				if (!System.isBatch() && !System.isFuture() && !System.isQueueable()) {
 					// if action plan is deleted, delete all tasks associated with it
-					for (Task ap : [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__r.Action_Plan__c IN :oldRecordsMap.keyset()]) {
+					// Collect all APTasks
+					for (APTask__c apt : [SELECT Id FROM APTask__c WHERE Action_Plan__c IN :oldRecordsMap.keyset()]){
+						apTaskIDs.add(apt.Id);
+					}
+					for (Task ap : [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__c IN :apTaskIDs]) {
 						taskIds.add(ap.Id);
 					}
 					if (!taskIds.isEmpty()) {
-						// Run a future method
-						ActionPlansTaskTriggerUtilities.deleteTasks(taskIds);
+						// Run a future delete method
+						//delete [SELECT Id FROM Task WHERE IsClosed = FALSE AND Id IN :taskIds];
+						ActionPlansTaskTriggerUtilities.futureDeleteTasks(taskIds);
 					}
 				} else {
+					for (APTask__c apt : [SELECT Id FROM APTask__c WHERE Action_Plan__c IN :oldRecordsMap.keyset()]){
+						apTaskIDs.add(apt.Id);
+					}
 					// no permissions check because trigger handler must run in system mode
-					delete [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__r.Action_Plan__c IN :oldRecordsMap.keyset()];
+					delete [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__c IN :apTaskIDs];
 				}
 			}
 			when AFTER_UNDELETE {

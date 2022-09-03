@@ -43,16 +43,21 @@ public inherited sharing class ActionPlansBuilderUtilities {
 	/**
 	 * All tasks for upserting that will not require an email to be sent
 	 */
-	private List<Task> myTasksWithOutEmail { get; set; }
+	//private List<Task> myTasksWithOutEmail { get; set; }
 	// TODO: Combine these two lists and use upsert if we can with the dmlo (at API 55.0 we cannot - maybe one day)
 	/**
 	 * Tasks to update that have `Send Email` checked
 	 */
-	private List<Task> myOldTasksWithEmail { get; set; }
+	//private List<Task> myOldTasksWithEmail { get; set; }
 	/**
 	 * Tasks to insert that have `Send Email` checked
 	 */
-	private List<Task> myNewTasksWithEmail { get; set; }
+	//private List<Task> myNewTasksWithEmail { get; set; }
+
+	/**
+	 * A single list of all Tasks - we set the DMLOption to send an email notification when we add the Task to this list
+	 */
+	private List<Task> allTasksToUpsert { get; set; }
 
 	/**
 	 * Constructor
@@ -107,10 +112,17 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		Map<Id, Task> mapApTasks = new Map<Id, Task>();
 		Integer taskTemplateNameLength = APTask__c.Name.getDescribe().getLength();
 
-		this.myOldTasksWithEmail = new List<Task>();
+		/* this.myOldTasksWithEmail = new List<Task>();
 		this.myNewTasksWithEmail = new List<Task>();
-		this.myTasksWithOutEmail = new List<Task>();
+		this.myTasksWithOutEmail = new List<Task>(); */
+		this.allTasksToUpsert = new List<Task>();
 		this.relAPTaskList = new List<APTask__c>();
+
+		Database.DMLOptions dmlEmail = new Database.DMLOptions();
+		dmlEmail.EmailHeader.TriggerUserEmail = true;
+
+		Database.DMLOptions dmlNoEmail = new Database.DMLOptions();
+		dmlEmail.EmailHeader.TriggerUserEmail = false;
 
 		Map<Id, Id> objectOwnersMap = retrieveOwnersDataRelatedObject(this.relatedRecordIDs);
 		//insert Action Plans to DB
@@ -273,30 +285,40 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 			if (refAPTask.Dependent__c == 'None') {
 				if (refAPTask.SendEmail__c == true) {
+					// TODO: Remove this IF and just send email for all upserted tasks
 					if (t.Id == null) {
-						this.myNewTasksWithEmail.add(t);
+						t.setOptions(dmlEmail);
+						allTasksToUpsert.add(t);
+						//this.myNewTasksWithEmail.add(t);
 					} else {
-						this.myOldTasksWithEmail.add(t);
+						t.setOptions(dmlEmail);
+						allTasksToUpsert.add(t);
+						//this.myOldTasksWithEmail.add(t);
 					}
 				} else {
-					this.myTasksWithOutEmail.add(t);
+					// refAPTask__c.SendEmail__c = false
+					t.setOptions(dmlNoEmail);
+					allTasksToUpsert.add(t);
+					//this.myTasksWithOutEmail.add(t);
 				}
 			} else {
 				//only update dependant tasks that are already created
 				if (t.Id != null) {
 					if (refAPTask.SendEmail__c == true) {
-						this.myOldTasksWithEmail.add(t);
+						t.setOptions(dmlEmail);
+						allTasksToUpsert.add(t);
+						//this.myOldTasksWithEmail.add(t);
 					} else {
-						this.myTasksWithOutEmail.add(t);
+						t.setOptions(dmlNoEmail);
+						allTasksToUpsert.add(t);
+						//this.myTasksWithOutEmail.add(t);
 					}
 				}
 			}
 		}
 
-		Database.DMLOptions dmlo = new Database.DMLOptions();
+		/* Database.DMLOptions dmlo = new Database.DMLOptions();
 		dmlo.EmailHeader.triggerUserEmail = true;
-		/* Database.DMLOptions dmloNOEmail = new Database.DMLOptions();
-		 dmloNOEmail.EmailHeader.triggerUserEmail = false; */
 
 		if (this.myNewTasksWithEmail.size() > 0) {
 			Database.insert(this.myNewTasksWithEmail, dmlo); //NOPMD
@@ -307,13 +329,10 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		}
 
 		if (this.myTasksWithOutEmail.size() > 0) {
-			/* 	if (this.mode == ApEditMode.MODE_EDIT_SINGLE) {
-				Database.upsert(this.myTasksWithOutEmail); //NOPMD
-			} else {
-				Database.insert(this.myTasksWithOutEmail, dmloNOEmail); //NOPMD
-			} */
 			Database.upsert(this.myTasksWithOutEmail); //NOPMD
-		}
+		} */
+
+		upsert allTasksToUpsert;
 
 		if (this.mode != ApEditMode.MODE_EDIT_SINGLE) {
 			// Execution When a Action Plan is created that checks the Custom Setings in order to post a new FeedPost ( Object )
