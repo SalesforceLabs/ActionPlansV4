@@ -5,6 +5,7 @@
     <columns>Description__c</columns>
     <columns>CREATED_DATE</columns>
     <columns>LAST_UPDATE</columns>
+    <columns>Archived__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>
