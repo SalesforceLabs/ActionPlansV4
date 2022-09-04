@@ -220,15 +220,7 @@ private class ActionPlanCreationControllerTest {
 		actionPlan.Contact__c = contact.Id;
 		actionPlan.StartDate__c = Date.today();
 
-		APTask__c apTask = testUtil.createNewActionPlanTask(actionPlan, 1, UserInfo.getUserId(), 'Email', 'Normal');
-
-		/* new APTask__c();
-
-		apTask.Subject__c = testUtil.createRandomWord('subject');
-		apTask.User__c = testUtil.createTestUser().Id;
-		apTask.DaysFromStart__c = 2;
-		apTask.Type__c = 'Email';
-		apTask.Priority__c = 'High'; */
+		APTask__c apTask = testUtil.createNewActionPlanTask(actionPlan, null, UserInfo.getUserId(), 'Email', 'Normal');
 
 		ApexPages.currentPage().getParameters().put('id', null);
 		ApexPages.currentPage().getParameters().put('refId', contact.Id);
@@ -247,6 +239,31 @@ private class ActionPlanCreationControllerTest {
 		System.assert(!results.isEmpty(), 'Action Plan not created');
 		System.assert(results.size() == 1, 'ONE Action Plan not created');
 		System.debug(results.size() + ' action plans created');
+	}
+
+	@IsTest
+	private static void actionPlanSaveAndMakeDependent() {
+		Test.setCurrentPage(Page.ActionPlanCreation);
+
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+
+		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
+
+		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+		apCreateController.save();
+		Test.startTest();
+
+		List<APTask__c> apTasks = [SELECT Id, Controller__c FROM APTask__c];
+		apTasks[1].Controller__c = apTasks[0].Id;
+		update apTasks[1];
+
+		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+		Test.stopTest();
+
+		List<Task> results = [SELECT Id FROM Task];
+		System.assertEquals(1, results.size(), 'ONE Task left - the other was deleted');
 	}
 
 	@IsTest

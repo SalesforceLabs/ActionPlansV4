@@ -854,6 +854,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @param  relActionPlansIds `ActionPlan__c` IDs
 	 * @see ActionPlanTriggerHandlers.deleteActionPlans
 	 */
+	@testVisible
 	@future
 	private static void futureDeleteActionPlans(Set<Id> relActionPlansIds) {
 		deleteActionPlans(relActionPlansIds);
@@ -861,7 +862,7 @@ global without sharing class ActionPlansTriggerHandlers {
 
 	/**
 	 * Simple method to check if we are asynchronous already
-	 *
+	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @return  `Boolean` Are we in an asynchronous state (so can't call future methods)?
 	 */
 	private static Boolean forceSynchronous() {

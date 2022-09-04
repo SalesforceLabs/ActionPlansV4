@@ -320,7 +320,7 @@ public inherited sharing class ActionPlansTestUtilities {
 		newActionPlan.Name = this.createRandomWord('APName');
 		newActionPlan.StartDate__c = Date.today();
 		newActionPlan.OwnerId = Userinfo.getUserId();
-		String objectLowerCase = relatedObject.toLowerCase();
+		String objectLowerCase = relatedObject?.toLowerCase();
 		switch on objectLowerCase {
 			when 'account' {
 				newActionPlan.Account__c = this.createNewAccount().Id;
@@ -389,7 +389,7 @@ public inherited sharing class ActionPlansTestUtilities {
 		newAPTask.Type__c = String.isNotBlank(category) ? category : ActionPlansUtilities.getTaskRecordTypeTypeDefaultValues().get(defaultRTID);
 		newAPTask.Priority__c = String.isNotBlank(priority) ? priority : ActionPlansUtilities.getTaskRecordTypePriorityDefaultValues().get(defaultRTID);
 		newAPTask.Minutes_Reminder__c = '510';
-		newAPTask.TaskIndex__c = days - 1;
+		newAPTask.TaskIndex__c = days == null || days < 0 ? 0 : days + 1;
 		newAPTask.Dependent__c = 'None';
 		return newAPTask;
 	}
