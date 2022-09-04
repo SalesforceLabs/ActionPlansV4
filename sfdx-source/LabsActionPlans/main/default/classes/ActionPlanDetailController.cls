@@ -186,6 +186,10 @@ public with sharing class ActionPlanDetailController {
 		 */
 		public APTask__c apt { get; private set; }
 		/**
+		 * The Action Plan Task related Task
+		 */
+		public Task tsk { get; private set; }
+		/**
 		 * The (standard) `Task` Id
 		 */
 		public Id taskId { get; private set; }
@@ -205,6 +209,7 @@ public with sharing class ActionPlanDetailController {
 		 */
 		public TaskWrapper(APTask__c aptParam, Task taskParam) {
 			this.apt = aptParam;
+			this.tsk = taskParam;
 			System.debug('TASKPARAM: ' + taskParam);
 			this.taskId = null;
 			this.taskOwnerId = null;

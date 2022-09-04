@@ -38,8 +38,12 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	private static void coverFutureMethods() {
 		Task t = new Task(Subject = 'test task', ActivityDate = Date.today());
 		insert t;
+
+		ActionPlan__c ap = new ActionPlansTestUtilities().createNewActionPlan('account', 2);
+
 		Test.startTest();
 		ActionPlansTaskTriggerUtilities.futureDeleteTasks(new Set<Id>{ t.Id });
+		ActionPlansTriggerHandlers.futureDeleteActionPlans(new Set<Id>{ ap.Id });
 		Test.stopTest();
 		System.assertEquals(0, [SELECT COUNT() FROM Task]);
 	}
