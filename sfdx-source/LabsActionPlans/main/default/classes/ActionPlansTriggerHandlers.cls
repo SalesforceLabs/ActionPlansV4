@@ -208,7 +208,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 			when AFTER_UNDELETE {
 				//get Id of all deleted Action Plan Task Templates
-				Map<Id, APTask__c> mapAPTasks = new Map<Id, APTask__c>([SELECT Id, Action_Plan__c FROM APTask__c WHERE Action_Plan__c IN :newRecordsMap.keyset()]);
+				Map<Id, APTask__c> mapAPTasks = new Map<Id, APTask__c>([SELECT Id, Action_Plan__c FROM APTask__c WHERE Action_Plan__c IN :newRecordsMap.keyset() ALL ROWS]);
 
 				//get all tasks asociated to this APTasks
 				List<Task> taskList = [SELECT Id, TaskAPTask__c, IsDeleted FROM Task WHERE TaskAPTask__c IN :mapAPTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
@@ -609,7 +609,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 				//only delete Action Plan Template Tasks that are not deleted
-				for (APTask__c ta : [SELECT Id, Action_Plan__c FROM APTask__c WHERE Id IN :taskTempIds AND IsDeleted = FALSE]) {
+				for (APTask__c ta : [SELECT Id, Action_Plan__c FROM APTask__c WHERE Id IN :taskTempIds AND IsDeleted = FALSE ALL ROWS]) {
 					finalIds.add(ta.Id);
 				}
 
@@ -746,7 +746,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					relatedIDs.add(c.Id);
 				}
 
-				List<ActionPlan__c> aPs = [SELECT Id FROM ActionPlan__c WHERE Contact__c IN :relatedIDs OR Contract__c IN :relatedIDs OR Case__c IN :relatedIDs OR Opportunity__c IN :relatedIDs];
+				List<ActionPlan__c> aPs = [SELECT Id FROM ActionPlan__c WHERE Contact__c IN :relatedIDs OR Contract__c IN :relatedIDs OR Case__c IN :relatedIDs OR Opportunity__c IN :relatedIDs ALL ROWS];
 
 				try {
 					if (ActionPlansTestUtilities.forceError) {

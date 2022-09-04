@@ -234,11 +234,17 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		List<APTask__c> apttDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
 		System.assert(apttDel.isEmpty());
+		System.assertEquals(0, [SELECT COUNT() FROM APTask__c]);
+		System.assertEquals(0, [SELECT COUNT() FROM Task]);
 
 		// undelete task and APTask and get exception
 		List<Id> ids = new List<Id>();
 		ids.add(t.Id);
 		ids.add(at.Id);
+
+		Database.undelete(at.Id);
+		Database.undelete(t.Id);
+
 		try {
 			Database.undelete(ids);
 		} catch (Dmlexception e) {
@@ -284,16 +290,20 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		// delete the APTask Template
 		delete at;
+
+		// ! KNOWN Platform bug that emptyRecycleBin doesn't work in testing
 		Database.emptyRecycleBin(t);
 		List<APTask__c> apttDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
 		System.assert(apttDel.isEmpty());
 
 		// undelete task and APTask and get exception
+		Boolean hasError = false;
 		try {
 			Database.undelete(ids);
 		} catch (Dmlexception e) {
 			//System.debug('Dmlexception: ' + e.getMessage());
 			System.assert(e.getMessage().contains(System.Label.ap_Error), e.getMessage() + '(APTask__c undelete error should have the proper format)');
+			hasError = true;
 		}
 
 		Test.stopTest();
