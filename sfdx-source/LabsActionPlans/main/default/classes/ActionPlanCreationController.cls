@@ -490,16 +490,14 @@ public with sharing class ActionPlanCreationController {
 	 */
 	private void checkPendingDeletes() {
 		if (this.pendingDeletes != null && !pendingDeletes.isEmpty()) {
-			List<Task> tasksToDelete = new List<Task>();
 			Set<Id> deleteApttIds = new Set<Id>();
 
 			for (APTask__c deleteAptt : this.pendingDeletes) {
 				deleteApttIds.add(deleteAptt.Id);
 			}
 			//do not delete completed tasks
-			tasksToDelete = [SELECT Id FROM Task WHERE TaskAPTask__c IN :deleteApttIds AND IsClosed = FALSE];
-			Database.delete(tasksToDelete);
 			Database.delete(pendingDeletes);
+			delete [SELECT Id FROM Task WHERE IsClosed = FALSE AND IsDeleted = FALSE AND TaskAPTask__c IN :deleteApttIds];
 		}
 	}
 
@@ -560,7 +558,7 @@ public with sharing class ActionPlanCreationController {
 			Set<Id> parentIDs = new Set<Id>();
 			parentIDs.addAll(oIdsList);
 
-			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()) {
+			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch() && !System.isQueueable()) {
 				System.enqueueJob(new ActionPlansQueueableBuilder(actionPlan, this.apTasks, objName, parentIDs));
 			} else {
 				newActionPlanId = new ActionPlansBuilderUtilities(actionPlan, this.apTasks, objName, parentIDs).generateActionPlans();

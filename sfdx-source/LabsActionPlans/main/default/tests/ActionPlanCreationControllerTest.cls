@@ -88,7 +88,6 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.onLoad();
-		//apCreateController.getAllRelationshipFields();
 		apCreateController.save();
 
 		System.assertNotEquals(0, [SELECT COUNT() FROM Task]);

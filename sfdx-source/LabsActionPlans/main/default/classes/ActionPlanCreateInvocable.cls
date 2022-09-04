@@ -161,7 +161,7 @@ global without sharing class ActionPlanCreateInvocable {
 
 		Map<String, APTask__c> planTaskIndexToTask = new Map<String, APTask__c>();
 
-		// For each Actoin Plan, if we have a template match, make the ActionPlan tasks
+		// For each Action Plan, if we have a template match, make the ActionPlan tasks
 		for (ActionPlan__c ap : actionPlansToInsert) {
 			if (ap.Action_Plan_Template__c != null && templateNameOrIdToTemplate.containsKey(ap.Action_Plan_Template__c)) {
 				ActionPlanTemplate__c actionPlanTemplate = templateNameOrIdToTemplate.get(ap.Action_Plan_Template__c);
@@ -222,8 +222,6 @@ global without sharing class ActionPlanCreateInvocable {
 
 		Database.update(dependentTasksToUpdate);
 
-		List<Task> myTasksWithOutEmail = new List<Task>();
-		List<Task> myTasksWithEmail = new List<Task>();
 		List<Task> allTasksToInsert = new List<Task>();
 
 		Map<Id, APTask__c> mapAP = new Map<Id, APTask__c>();
@@ -296,28 +294,14 @@ global without sharing class ActionPlanCreateInvocable {
 			Database.DMLOptions dmlNoEmail = new Database.DMLOptions();
 			dmlEmail.EmailHeader.TriggerUserEmail = false;
 
-			//if (apTask.Dependent__c == 'None') {
 			if (apTask.SendEmail__c == true) {
 				t.setOptions(dmlEmail);
 				allTasksToInsert.add(t);
-				//myTasksWithEmail.add(t);
 			} else {
 				t.setOptions(dmlNoEmail);
 				allTasksToInsert.add(t);
-				//myTasksWithOutEmail.add(t);
 			}
-			//}
 		}
-
-		/* if (myTasksWithEmail.size() > 0) {
-			dmlo.EmailHeader.triggerUserEmail = true;
-			Database.insert(myTasksWithEmail, dmlo);
-		}
-
-		if (myTasksWithOutEmail.size() > 0) {
-			dmlo.EmailHeader.triggerUserEmail = false;
-			Database.insert(myTasksWithOutEmail, dmlo);
-		} */
 
 		insert allTasksToInsert;
 

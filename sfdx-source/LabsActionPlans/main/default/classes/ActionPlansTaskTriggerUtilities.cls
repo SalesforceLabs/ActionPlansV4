@@ -69,7 +69,7 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 				}
 				//Database.insert(tasksSendNoEmail, dmlo);
 			}
-			insert allTasksToInsert;
+			upsert allTasksToInsert;
 
 			Database.update(updateAptsList); //NOPMD
 		}
@@ -384,25 +384,12 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 			apIdToAPTaskMap.put(apt.Action_Plan__c, apt);
 		}
 
-		/* Map<Id, List<APTask__c>> apTasksByActionPlan = new Map<Id, List<APTask__c>>();
-			for(APTask__c apt : lAPT){
-				if( !apTasksByActionPlan.containsKey(apt.Action_Plan__c)){
-					apTasksByActionPlan.put(apt.Action_Plan__c, new List<APTask__c>);
-				}
-				List<APTask__c> aptList = apTasksByActionPlan.get(apt.Action_Plan__c);
-				aptList.add(apt);
-				apTasksByActionPlan.put(apt.Action_Plan__c, aptList);
-			} */
-
-		/* List<APTask__c> tmp_lAPT;
-		 APTask__c aux; */
-
 		for (ActionPlan__c ap : [SELECT Id, (SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTasks1__r) FROM ActionPlan__c WHERE Id IN :apIdToAPTaskMap.keyset()]) {
 			APTask__c aux = apIdToAPTaskMap.get(ap.Id);
 			generateDependentTasksAndReset(ap.apTasks1__r, aux.TaskIndex__c);
 		}
 
-		/* // TODO: Bulkify this SOQL in a loop (see above commented code)
+		/* TODO: Bulkify this SOQL in a loop (see above commented code)
 		for (Id apId : apIdToAPTaskMap.keySet()) {
 			List<APTask__c> tmp_lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTask__c WHERE Action_Plan__c = :apId]; //NOPMD
 

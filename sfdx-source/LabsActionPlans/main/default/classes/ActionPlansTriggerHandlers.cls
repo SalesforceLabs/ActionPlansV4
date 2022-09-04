@@ -91,7 +91,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				if (!apIds.isEmpty()) {
-					if(System.isFuture() || System.isBatch()){
+					if(forceSynchronous()){
 						deleteActionPlans(apIds);
 					} else {
 						futureDeleteActionPlans(apIds);
@@ -100,7 +100,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 			//Undelete related action plans
 			when AFTER_UNDELETE {
-				String afterUndeleteQuery = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :newRecords ALL ROWS';
+				String afterUndeleteQuery = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :newRecords';
 				List<ActionPlan__c> aPs = Database.query(String.escapeSingleQuotes(afterUndeleteQuery));
 
 				try {
@@ -182,7 +182,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			when BEFORE_DELETE {
 				Set<Id> taskIds = new Set<Id>();
 				Set<Id> apTaskIDs = new Set<Id>();
-				if (!System.isBatch() && !System.isFuture() && !System.isQueueable()) {
+				if (!forceSynchronous()) {
 					// if action plan is deleted, delete all tasks associated with it
 					// Collect all APTasks
 					for (APTask__c apt : [SELECT Id FROM APTask__c WHERE Action_Plan__c IN :oldRecordsMap.keyset()]){
@@ -206,7 +206,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 			when AFTER_UNDELETE {
 				//get Id of all deleted Action Plan Task Templates
-				Map<Id, APTask__c> mapAPTasks = new Map<Id, APTask__c>([SELECT Id, Action_Plan__c FROM APTask__c WHERE Action_Plan__c IN :newRecordsMap.keyset() ALL ROWS]);
+				Map<Id, APTask__c> mapAPTasks = new Map<Id, APTask__c>([SELECT Id, Action_Plan__c FROM APTask__c WHERE Action_Plan__c IN :newRecordsMap.keyset()]);
 
 				//get all tasks asociated to this APTasks
 				List<Task> taskList = [SELECT Id, TaskAPTask__c, IsDeleted FROM Task WHERE TaskAPTask__c IN :mapAPTasks.keySet() AND IsDeleted = TRUE ALL ROWS];
@@ -260,12 +260,21 @@ global without sharing class ActionPlansTriggerHandlers {
 	public static void triggerhandlerActionPlanTask(List<APTask__c> newRecords, List<APTask__c> oldRecords,	Map<Id, APTask__c> newRecordsMap,Map<Id, APTask__c> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		switch on triggerEvent {
 			when BEFORE_INSERT, BEFORE_UPDATE {
+				
+				Set<Id> parentIDs = new Set<Id>();
+				for(APTask__c apt : newRecords){
+					parentIDs.add(apt.Action_Plan__c);
+				}
+				Map<Id, ActionPlan__c> parentMap = new Map<Id, ActionPlan__c>([SELECT Id, Name, StartDate__c FROM ActionPlan__c WHERE Id IN :parentIDs]);
 				for (APTask__c a : newRecords) {
 					a.IsClosed__c = ActionPlansUtilities.getClosedTaskStatuses().contains(a.Status__c);
 					// TODO: Check if we need to move custom setting record owner logic here
 					a.User__c = a.User__c == null ? UserInfo.getUserId() : a.User__c;
 					a.DaysFromStart__c = a.DaysFromStart__c == null ? 0 : a.DaysFromStart__c;
 					a.Dependent__c = (String.isBlank(a.Dependent__c)) ? 'None' : a.Dependent__c;
+					if(a.DaysFromStart__c != null && a.ActivityDate__c == null){
+						a.ActivityDate__c = parentMap.get(a.Action_Plan__c).StartDate__c.addDays(a.DaysFromStart__c.intValue());
+					}
 				}
 
 				Set<Id> apIDs = new Set<Id>();
@@ -284,12 +293,10 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 				if (!apIDs.isEmpty()) {
-					Map<Id, ActionPlan__c> nameMap = new Map<Id, ActionPlan__c>([SELECT Id, Name FROM ActionPlan__c WHERE Id IN :apIDs]);
-
 					Integer taskTemplateNameLength = APTask__c.Name.getDescribe().getLength();
 					for (APTask__c apt : newRecords) {
-						if (nameMap.containsKey(apt.Action_Plan__c)) {
-							String apName = nameMap.get(apt.Action_Plan__c).Name;
+						if (parentMap.containsKey(apt.Action_Plan__c)) {
+							String apName = parentMap.get(apt.Action_Plan__c).Name;
 							String newSubject = apName + ' - ' + apt.Subject__c;
 							apt.Name = ActionPlansUtilities.actionPlanSubjectToName(newSubject, taskTemplateNameLength);
 						}
@@ -304,18 +311,36 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 			}
-			/*
-			* TODO: Update this for next release so that if an AP task is made newly-dependent, its task is deleted (if the parent is open)
+			
 			when AFTER_UPDATE {
-				Set<Id> apTasksNewlyWithController = new Set<Id>();
-				Set<Id> controllingTaskIDs = new Set<Id>();
+				Map<Id, Id> openControlledAPTasks = new Map<Id, Id>();
+				Set<Id> parentControllingTaskIDs = new Set<Id>();
 				for(APTask__c apt : newRecords){
-					if(apt.Controller__c != null && oldRecordsMap.get(apt.Id).Controller__c == null){
-						apTasksNewlyWithController.add(apt.Id);
-						controllingTaskIDs.add(apt.Controller__c);
+					if(apt.Controller__c != null){
+						openControlledAPTasks.put(apt.Id, apt.Controller__c);
+						parentControllingTaskIDs.add(apt.Controller__c);
 					}
 				}
-				Map<Id, APTask__c> controllingTasks = new Map<Id, APTask__c>([SELECT Id, Status__c FROM APTask__c WHERE Id IN :controllingTaskIDs]);
+				Map<Id, APTask__c> parentControllingTasks = new Map<Id, APTask__c>([SELECT Id, (SELECT Id, IsClosed FROM Tasks__r) FROM APTask__c WHERE Id IN :parentControllingTaskIDs]);
+				Set<Id> apTasksNeedingTaskDeletion = new Set<Id>();
+				for(Id i : openControlledAPTasks.keyset()){
+					APTask__c controller = parentControllingTasks.get(openControlledAPTasks.get(i));
+					if(controller.Tasks__r.isEmpty() || !controller.Tasks__r[0].IsClosed){
+						apTasksNeedingTaskDeletion.add(i);
+					}
+				}
+				
+				try {
+					bypassTaskTrigger = true;
+					Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :apTasksNeedingTaskDeletion]);
+					bypassTaskTrigger = false;
+				} catch (Exception e) {
+					for (APTask__c a : newRecords) {
+						a.addError('Error when deleting newly-dependent Task related to APTaskTemplate: ' + e.getMessage());
+					}
+				}
+				
+				/* Map<Id, APTask__c> controllingTasks = new Map<Id, APTask__c>([SELECT Id, Status__c FROM APTask__c WHERE Id IN :controllingTaskIDs]);
 				Set<Id> apTasksNeedingDeletedTasks = new Set<Id>();
 				for(APTask__c aptask : newRecords){
 					if(apTasksNewlyWithController.contains(aptask.Controller__c)){
@@ -335,9 +360,9 @@ global without sharing class ActionPlansTriggerHandlers {
 							a.addError('Error when deleting newly-dependent Task related to APTaskTemplate: ' + e.getMessage());
 						}
 					}
-				}
+				} */
 			}
-			*/
+			
 			when BEFORE_DELETE {
 				try {
 					Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :oldRecordsMap.keyset() AND IsClosed = FALSE AND IsDeleted = FALSE]);
@@ -348,7 +373,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 			}
 			when AFTER_UNDELETE {
-				List<Task> apTasks = [SELECT Id FROM Task WHERE TaskAPTask__c IN :newRecordsMap.keyset() AND isDeleted = TRUE ALL ROWS];
+				List<Task> apTasks = [SELECT Id FROM Task WHERE TaskAPTask__c IN :newRecordsMap.keyset() AND IsDeleted = TRUE ALL ROWS];
 
 				try {
 					Database.undelete(apTasks);
@@ -603,13 +628,13 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 				//only delete Action Plan Template Tasks that are not deleted
-				for (APTask__c ta : [SELECT Id, Action_Plan__c FROM APTask__c WHERE Id IN :taskTempIds AND isDeleted = FALSE ALL ROWS]) {
+				for (APTask__c ta : [SELECT Id, Action_Plan__c FROM APTask__c WHERE Id IN :taskTempIds AND IsDeleted = FALSE]) {
 					finalIds.add(ta.Id);
 				}
 
 				if (!finalIds.isEmpty()) {
-					if (System.isBatch() || System.isFuture() || System.isQueueable()) {
-						Database.delete([SELECT Id FROM APTask__c WHERE Id IN :finalIds]);
+					if (forceSynchronous()) {
+						delete [SELECT Id FROM APTask__c WHERE Id IN :finalIds];
 					} else {
 						ActionPlansTaskTriggerUtilities.deleteAPTasks(finalIds);
 					}
@@ -717,7 +742,7 @@ global without sharing class ActionPlansTriggerHandlers {
 				}
 
 				if (!apIds.isEmpty()) {
-					if(System.isFuture() || System.isBatch()){
+					if(forceSynchronous()){
 						deleteActionPlans(apIds);
 					} else {
 						futureDeleteActionPlans(apIds);
@@ -740,7 +765,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					relatedIDs.add(c.Id);
 				}
 
-				List<ActionPlan__c> aPs = [SELECT Id FROM ActionPlan__c WHERE Contact__c IN :relatedIDs OR Contract__c IN :relatedIDs OR Case__c IN :relatedIDs OR Opportunity__c IN :relatedIDs ALL ROWS];
+				List<ActionPlan__c> aPs = [SELECT Id FROM ActionPlan__c WHERE Contact__c IN :relatedIDs OR Contract__c IN :relatedIDs OR Case__c IN :relatedIDs OR Opportunity__c IN :relatedIDs];
 
 				try {
 					if (ActionPlansTestUtilities.forceError) {
@@ -850,5 +875,14 @@ global without sharing class ActionPlansTriggerHandlers {
 	@future
 	private static void futureDeleteActionPlans(Set<Id> relActionPlansIds) {
 		deleteActionPlans(relActionPlansIds);
+	}
+
+	/**
+	 * Simple method to check if we are asynchronous already
+	 *
+	 * @return  `Boolean` Are we in an asynchronous state (so can't call future methods)?
+	 */
+	private static Boolean forceSynchronous() {
+		return (System.isQueueable() || System.isFuture() || System.isBatch());
 	}
 }
