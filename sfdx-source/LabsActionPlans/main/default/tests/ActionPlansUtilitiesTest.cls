@@ -110,7 +110,7 @@ private class ActionPlansUtilitiesTest {
 		Test.stopTest();
 		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Contact Action Plan with Account');
 		undelete a;
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Contact Action Plan with Account');
+		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have undeleted Contact Action Plan with Account');
 	}
 
 	@IsTest

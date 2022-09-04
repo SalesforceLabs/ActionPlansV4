@@ -50,15 +50,26 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 			Database.DMLOptions dmlo = new Database.DMLOptions();
 
+			List<Task> allTasksToInsert = new List<Task>();
+
 			if (!tasksSendEmail.isEmpty()) {
 				dmlo.EmailHeader.triggerUserEmail = true;
-				Database.insert(tasksSendEmail, dmlo);
+				for (Task t : tasksSendEmail) {
+					t.setOptions(dmlo);
+					allTasksToInsert.add(t);
+				}
+				//Database.insert(tasksSendEmail, dmlo);
 			}
 
 			if (!tasksSendNoEmail.isEmpty()) {
 				dmlo.EmailHeader.triggerUserEmail = false;
-				Database.insert(tasksSendNoEmail, dmlo);
+				for (Task t : tasksSendNoEmail) {
+					t.setOptions(dmlo);
+					allTasksToInsert.add(t);
+				}
+				//Database.insert(tasksSendNoEmail, dmlo);
 			}
+			upsert allTasksToInsert;
 
 			Database.update(updateAptsList); //NOPMD
 		}
@@ -277,12 +288,12 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 	}
 
 	/**
-	 * Delete Action Plan Tasks related Tasks
-	 * @param apttIds `Task` IDs to delete
+	 * Delete Action Plan Tasks' related Tasks
+	 * @param taskIDs `Task` IDs to delete
 	 */
-	public static void deleteTasks(Set<Id> apttIds) {
-		List<Task> toDelete = [SELECT Id FROM Task WHERE IsClosed = FALSE AND Id IN :apttIds];
-		delete toDelete;
+	@future
+	public static void futureDeleteTasks(Set<Id> taskIDs) {
+		delete [SELECT Id FROM Task WHERE IsClosed = FALSE AND Id IN :taskIDs];
 	}
 
 	/**
@@ -365,33 +376,25 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 		tasksSendEmail = new List<Task>();
 		tasksSendNoEmail = new List<Task>();
 
-		Map<Id, APTask__c> apIdToAPTemplateMap = new Map<Id, APTask__c>();
+		Map<Id, APTask__c> apIdToAPTaskMap = new Map<Id, APTask__c>();
 		List<APTask__c> lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTask__c WHERE Id IN :cTasks];
 
 		//create a map with : (APTaskId, APTaskTemplate)
 		for (APTask__c apt : lAPT) {
-			apIdToAPTemplateMap.put(apt.Action_Plan__c, apt);
+			apIdToAPTaskMap.put(apt.Action_Plan__c, apt);
 		}
 
-		/* Map<Id, List<APTask__c>> apTasksByActionPlan = new Map<Id, List<APTask__c>>();
-			for(APTask__c apt : lAPT){
-				if( !apTasksByActionPlan.containsKey(apt.Action_Plan__c)){
-					apTasksByActionPlan.put(apt.Action_Plan__c, new List<APTask__c>);
-				}
-				List<APTask__c> aptList = apTasksByActionPlan.get(apt.Action_Plan__c);
-				aptList.add(apt);
-				apTasksByActionPlan.put(apt.Action_Plan__c, aptList);
-			} */
+		for (ActionPlan__c ap : [SELECT Id, (SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTasks1__r) FROM ActionPlan__c WHERE Id IN :apIdToAPTaskMap.keyset()]) {
+			APTask__c aux = apIdToAPTaskMap.get(ap.Id);
+			generateDependentTasksAndReset(ap.apTasks1__r, aux.TaskIndex__c);
+		}
 
-		/* List<APTask__c> tmp_lAPT;
-		 APTask__c aux; */
-
-		// TODO: Bulkify this SOQL in a loop (see above commented code)
-		for (Id apId : apIdToAPTemplateMap.keySet()) {
+		/* TODO: Bulkify this SOQL in a loop (see above commented code)
+		for (Id apId : apIdToAPTaskMap.keySet()) {
 			List<APTask__c> tmp_lAPT = [SELECT Id, Action_Plan__c, TaskIndex__c, Dependent__c FROM APTask__c WHERE Action_Plan__c = :apId]; //NOPMD
 
-			APTask__c aux = apIdToAPTemplateMap.get(apId);
+			APTask__c aux = apIdToAPTaskMap.get(apId);
 			generateDependentTasksAndReset(tmp_lAPT, aux.TaskIndex__c);
-		}
+		} */
 	}
 }

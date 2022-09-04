@@ -154,6 +154,7 @@ private class ActionPlanDetailControllerTest {
 		Test.stopTest();
 
 		System.assert(actionPlanList.isEmpty(), 'Action Plan was not deleted');
+		System.assertEquals(0, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest

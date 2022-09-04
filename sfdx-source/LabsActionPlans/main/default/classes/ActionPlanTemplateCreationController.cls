@@ -357,7 +357,7 @@ public with sharing class ActionPlanTemplateCreationController {
 	 * @return `List<APTemplateTask__c>` ActionPlan Template Tasks
 	 */
 	public List<APTemplateTask__c> getTemplateTasks() {
-		if (aptTasks.size() == 0) {
+		if (aptTasks.isEmpty()) {
 			if (actionPlanTemplate.Id != null) {
 				aptTasks = queryAPTTasks(actionPlanTemplate.Id);
 			} else {

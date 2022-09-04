@@ -168,9 +168,9 @@ public with sharing class ActionPlanCreationController {
 		this.apTasks = tC;
 
 		// clear task relations
-		for (APTask__c t : this.apTasks) {
-			t.IsClosed__c = false;
-			t.Action_Plan__c = null;
+		for (APTask__c apt : this.apTasks) {
+			apt.IsClosed__c = false;
+			apt.Action_Plan__c = null;
 		}
 		String templateName = actionPlan.Action_Plan_Template__r.Name;
 
@@ -273,7 +273,11 @@ public with sharing class ActionPlanCreationController {
 		}
 
 		//Map<Id, Task> tasksByAPTask = new Map<Id, Task>();
-		for (Task t : [SELECT Id, OwnerId, Owner.Name, TaskAPTask__c FROM Task WHERE TaskAPTask__r.Action_Plan__c = :ap.Id]) {
+		Set<Id> apTaskIDs = new Set<Id>();
+		for (APTask__c apt : [SELECT Id FROM APTask__c WHERE Action_Plan__c = :ap.Id]) {
+			apTaskIDs.add(apt.Id);
+		}
+		for (Task t : [SELECT Id, OwnerId, Owner.Name, TaskAPTask__c FROM Task WHERE TaskAPTask__c IN :apTaskIDs]) {
 			//tasksByAPTask.put(t.TaskAPTask__c, t);
 			toReturn.put(t.TaskAPTask__c, new OwnerWrapper(t.OwnerId, t.Owner.Name));
 		}
@@ -486,16 +490,14 @@ public with sharing class ActionPlanCreationController {
 	 */
 	private void checkPendingDeletes() {
 		if (this.pendingDeletes != null && !pendingDeletes.isEmpty()) {
-			List<Task> tasksToDelete = new List<Task>();
 			Set<Id> deleteApttIds = new Set<Id>();
 
 			for (APTask__c deleteAptt : this.pendingDeletes) {
 				deleteApttIds.add(deleteAptt.Id);
 			}
 			//do not delete completed tasks
-			tasksToDelete = [SELECT Id FROM Task WHERE TaskAPTask__c IN :deleteApttIds AND IsClosed = FALSE];
-			Database.delete(tasksToDelete);
 			Database.delete(pendingDeletes);
+			delete [SELECT Id FROM Task WHERE IsClosed = FALSE AND IsDeleted = FALSE AND TaskAPTask__c IN :deleteApttIds];
 		}
 	}
 
@@ -738,11 +740,11 @@ public with sharing class ActionPlanCreationController {
 			errorMsg = String.format(System.Label.ap_Errors_TaskLimitError, parameters);
 			return null;
 		} else {
-			APTask__c t = new APTask__c();
-			t.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
-			t.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
-			t.Name = null;
-			t.TaskIndex__c = this.taskIndex;
+			APTask__c newApt = new APTask__c();
+			newApt.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
+			newApt.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
+			newApt.Name = null;
+			newApt.TaskIndex__c = this.taskIndex;
 
 			// validate subject and days before adding another
 			for (APTask__c apt : apTasks) {
@@ -750,9 +752,9 @@ public with sharing class ActionPlanCreationController {
 				apt.DaysFromStart__c = (apt.DaysFromStart__c < 0) ? 0 : apt.DaysFromStart__c;
 			}
 			if (!hasError) {
-				this.apTasks.add(t);
+				this.apTasks.add(newApt);
 			}
-			this.addedTask = t;
+			this.addedTask = newApt;
 		}
 		return null;
 	}
@@ -871,52 +873,52 @@ public with sharing class ActionPlanCreationController {
 				this.apTasks = new List<APTask__c>();
 
 				for (APTemplateTask__c aptTask : aptTasks) {
-					APTask__c t = new APTask__c();
+					APTask__c apt = new APTask__c();
 					//Read the Custom Settings in order to asign the User to that Task
 					if (aptTask.User__c != null) {
-						t.User__c = aptTask.User__c;
+						apt.User__c = aptTask.User__c;
 					}
-					t.Type__c = aptTask.Type__c;
-					t.Subject__c = aptTask.Subject__c;
-					t.Priority__c = aptTask.Priority__c;
-					t.Dependent__c = aptTask.Dependent__c;
-					t.TaskIndex__c = aptTask.TaskIndex__c;
-					t.DaysFromStart__c = aptTask.DaysFromStart__c;
-					t.Reminder__c = aptTask.Reminder__c;
+					apt.Type__c = aptTask.Type__c;
+					apt.Subject__c = aptTask.Subject__c;
+					apt.Priority__c = aptTask.Priority__c;
+					apt.Dependent__c = aptTask.Dependent__c;
+					apt.TaskIndex__c = aptTask.TaskIndex__c;
+					apt.DaysFromStart__c = aptTask.DaysFromStart__c;
+					apt.Reminder__c = aptTask.Reminder__c;
 
 					if (aptTask.Reminder__c && String.isBlank(aptTask.Minutes_Reminder__c)) {
-						t.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
+						apt.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
 					} else if (aptTask.Reminder__c) {
-						t.Minutes_Reminder__c = aptTask.Minutes_Reminder__c;
+						apt.Minutes_Reminder__c = aptTask.Minutes_Reminder__c;
 					} else if (!aptTask.Reminder__c) {
-						t.Minutes_Reminder__c = null;
+						apt.Minutes_Reminder__c = null;
 					}
 					if (!ActionPlansUtilities.getCanDisplayReminder()) {
-						t.Reminder__c = false;
-						t.Minutes_Reminder__c = null;
+						apt.Reminder__c = false;
+						apt.Minutes_Reminder__c = null;
 					}
 
-					t.SendEmail__c = aptTask.SendEmail__c;
-					t.Comments__c = aptTask.Comments__c;
-					this.apTasks.add(t);
+					apt.SendEmail__c = aptTask.SendEmail__c;
+					apt.Comments__c = aptTask.Comments__c;
+					this.apTasks.add(apt);
 				}
 			} else if (actionPlan.Id != null) {
 				this.apTasks = retrieveTaskFromExistingActionPlan(actionPlan.Id);
 				//check reminders and set 'send email' as false
 				String tmpReminderDefaultTime = ActionPlansUtilities.getDefaultReminderMinutes();
-				for (APTask__c t : this.apTasks) {
-					if (t.Reminder__c == null || t.Reminder__c == false) {
-						t.Reminder__c = false;
-						t.Minutes_Reminder__c = tmpReminderDefaultTime;
+				for (APTask__c apt : this.apTasks) {
+					if (apt.Reminder__c == null || apt.Reminder__c == false) {
+						apt.Reminder__c = false;
+						apt.Minutes_Reminder__c = tmpReminderDefaultTime;
 					}
 					//t.SendEmail__c = false;
 				}
 			} else {
 				this.apTasks = new List<APTask__c>();
-				APTask__c t = new APTask__c();
-				t.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
-				t.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
-				this.apTasks.add(t);
+				APTask__c apt = new APTask__c();
+				apt.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
+				apt.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
+				this.apTasks.add(apt);
 			}
 		}
 

@@ -86,7 +86,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 
 				<apex:outputField value="{!ActionPlanTemplate__c.Description__c}" />
 				<apex:outputField value="{!ActionPlanTemplate__c.TaskRecordTypeID__c}" rendered="false" />
-				<apex:pageBlockSectionItem />
+				<!-- <apex:pageBlockSectionItem /> -->
+				<apex:outputField value="{!ActionPlanTemplate__c.Archived__c}" />
 
 				<apex:outputField value="{!ActionPlanTemplate__c.SkipWeekends__c}" />
 				<apex:pageBlockSectionItem rendered="{!taskHasRecordType}">

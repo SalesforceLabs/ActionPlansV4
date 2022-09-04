@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Merged
 
+- Cosmetic rearrangements, apexdoc [`#55`](https://github.com/SalesforceLabs/ActionPlansV4/pull/55)
 - 4.3.0 Queues, Child Objects [`#53`](https://github.com/SalesforceLabs/ActionPlansV4/pull/53)
 - Version 4.3.0 pt 2 [`#47`](https://github.com/SalesforceLabs/ActionPlansV4/pull/47)
 - Version 4.3.0 [`#44`](https://github.com/SalesforceLabs/ActionPlansV4/pull/44)

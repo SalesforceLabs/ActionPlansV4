@@ -79,6 +79,25 @@ private class ActionPlanCreationControllerTest {
 	}
 
 	@IsTest
+	private static void saveAndDelete() {
+		Test.startTest();
+		Test.setCurrentPage(Page.ActionPlanCreation);
+
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+
+		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
+		apCreateController.onLoad();
+		apCreateController.save();
+
+		System.assertNotEquals(0, [SELECT COUNT() FROM Task]);
+
+		delete actionPlan;
+		Test.stopTest();
+		System.assertEquals(0, [SELECT COUNT() FROM Task]);
+	}
+
+	@IsTest
 	private static void newAPWithoutTasks() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 0);
