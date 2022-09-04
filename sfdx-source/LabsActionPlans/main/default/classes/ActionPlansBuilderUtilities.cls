@@ -288,21 +288,6 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			}
 		}
 
-		/* Database.DMLOptions dmlo = new Database.DMLOptions();
-		dmlo.EmailHeader.triggerUserEmail = true;
-
-		if (this.myNewTasksWithEmail.size() > 0) {
-			Database.insert(this.myNewTasksWithEmail, dmlo); //NOPMD
-		}
-
-		if (this.myOldTasksWithEmail.size() > 0) {
-			Database.update(this.myOldTasksWithEmail, dmlo); //NOPMD
-		}
-
-		if (this.myTasksWithOutEmail.size() > 0) {
-			Database.upsert(this.myTasksWithOutEmail); //NOPMD
-		} */
-
 		upsert allTasksToUpsert;
 
 		if (this.mode != ApEditMode.MODE_EDIT_SINGLE) {

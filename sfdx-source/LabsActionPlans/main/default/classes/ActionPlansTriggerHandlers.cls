@@ -76,9 +76,8 @@ global without sharing class ActionPlansTriggerHandlers {
 
 				// Query Action Plans to delete in recycle bin
 				String deleteQueryString = 'SELECT Id, Name FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords AND isDeleted = true ALL ROWS';
-				//System.debug('deleteQueryString ' + deleteQueryString);
 				List<ActionPlan__c> deletePermenantlyAps = Database.query(String.escapeSingleQuotes(deleteQueryString));
-				//System.debug('DeletedAPs ' + deletePermenantlyAps);
+
 				if (!deletePermenantlyAps.isEmpty()) {
 					Database.emptyRecycleBin(deletePermenantlyAps);
 				}
@@ -86,7 +85,6 @@ global without sharing class ActionPlansTriggerHandlers {
 				// Delete regular Action Plans associated with this object
 				deleteQueryString = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords AND IsDeleted = false';
 				List<ActionPlan__c> apList = Database.query(String.escapeSingleQuotes(deleteQueryString));
-				//System.debug('apList to be deleted ' + apList);
 				for (ActionPlan__c ap : apList) {
 					apIds.add(ap.Id);
 				}
@@ -102,7 +100,6 @@ global without sharing class ActionPlansTriggerHandlers {
 			//Undelete related action plans
 			when AFTER_UNDELETE {
 				String afterUndeleteQuery = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :newRecords ALL ROWS';
-				//System.debug('In Undelete: About to query ' + afterUndeleteQuery);
 				List<ActionPlan__c> aPs = Database.query(String.escapeSingleQuotes(afterUndeleteQuery));
 
 				try {
@@ -182,9 +179,10 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 			//Execution when an Action Plan is deleted: delete all asociated Tasks
 			when BEFORE_DELETE {
-				Set<Id> taskIds = new Set<Id>();
+				
 				Set<Id> apTaskIDs = new Set<Id>();
 				if (!forceSynchronous()) {
+					Set<Id> taskIds = new Set<Id>();
 					// if action plan is deleted, delete all tasks associated with it
 					// Collect all APTasks
 					for (APTask__c apt : [SELECT Id FROM APTask__c WHERE Action_Plan__c IN :oldRecordsMap.keyset()]){
@@ -193,11 +191,12 @@ global without sharing class ActionPlansTriggerHandlers {
 					for (Task ap : [SELECT Id FROM Task WHERE IsClosed = FALSE AND TaskAPTask__c IN :apTaskIDs]) {
 						taskIds.add(ap.Id);
 					}
-					if (!taskIds.isEmpty()) {
-						// Run a future delete method
-						//delete [SELECT Id FROM Task WHERE IsClosed = FALSE AND Id IN :taskIds];
-						ActionPlansTaskTriggerUtilities.futureDeleteTasks(taskIds);
-					}
+					delete [SELECT Id FROM Task WHERE IsClosed = FALSE AND Id IN :taskIds];
+					// Run a future delete method
+					//if (!taskIds.isEmpty()) {
+					//ActionPlansTaskTriggerUtilities.futureDeleteTasks(taskIds);
+					//}
+					
 				} else {
 					for (APTask__c apt : [SELECT Id FROM APTask__c WHERE Action_Plan__c IN :oldRecordsMap.keyset()]){
 						apTaskIDs.add(apt.Id);
@@ -346,7 +345,9 @@ global without sharing class ActionPlansTriggerHandlers {
 			
 			when BEFORE_DELETE {
 				try {
+					bypassTaskTrigger = true;
 					Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :oldRecordsMap.keyset() AND IsClosed = FALSE AND IsDeleted = FALSE]);
+					bypassTaskTrigger = false;
 				} catch (Exception e) {
 					for (APTask__c a : oldRecords) {
 						a.addError('Error when deleting Task related to APTaskTemplate: ' + e.getMessage());

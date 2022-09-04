@@ -558,7 +558,7 @@ public with sharing class ActionPlanCreationController {
 			Set<Id> parentIDs = new Set<Id>();
 			parentIDs.addAll(oIdsList);
 
-			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch() && !System.isQueueable()) {
+			if (actionPlan.Id == null && !this.inVisualforceContext && !System.isFuture() && !System.isBatch()) {
 				System.enqueueJob(new ActionPlansQueueableBuilder(actionPlan, this.apTasks, objName, parentIDs));
 			} else {
 				newActionPlanId = new ActionPlansBuilderUtilities(actionPlan, this.apTasks, objName, parentIDs).generateActionPlans();

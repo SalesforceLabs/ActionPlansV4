@@ -32,6 +32,19 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	}
 
 	/**
+	 * Coverage for future deletion methods because we may not use them
+	 */
+	@IsTest
+	private static void coverFutureMethods() {
+		Task t = new Task(Subject = 'test task', ActivityDate = Date.today());
+		insert t;
+		Test.startTest();
+		ActionPlansTaskTriggerUtilities.futureDeleteTasks(new Set<Id>{ t.Id });
+		Test.stopTest();
+		System.assertEquals(0, [SELECT COUNT() FROM Task]);
+	}
+
+	/**
 	 * Test `Task` After Update trigger when updating Status to Completed
 	 */
 	@IsTest
@@ -243,13 +256,23 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		ids.add(at.Id);
 
 		Database.undelete(at.Id);
-		Database.undelete(t.Id);
 
+		Boolean hasError = false;
+		try {
+			Database.undelete(t.Id);
+		} catch (DmlException e) {
+			hasError = true;
+		}
+		System.assert(hasError, 'Should have not been able to undelete this task, as it was already undeleted');
+
+		hasError = false;
 		try {
 			Database.undelete(ids);
 		} catch (Dmlexception e) {
-			System.assert(e.getMessage().containsIgnoreCase('BROKEN'), e.getMessage());
+			hasError = true;
+			System.assert(hasError, e.getMessage());
 		}
+		System.assert(hasError);
 
 		// now undelete and trigger the code
 		if (![SELECT Id FROM APTask__c WHERE Id = :at.Id AND isDeleted = TRUE ALL ROWS].isEmpty()) {
