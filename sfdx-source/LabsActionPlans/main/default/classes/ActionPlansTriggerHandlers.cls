@@ -66,26 +66,27 @@ global without sharing class ActionPlansTriggerHandlers {
 				return;
 			}
 		}
-		if (relationshipName == null) {
-			return;
-		}
+		// prettier-ignore
+		if (relationshipName == null) { return; }
 
 		//Delete related action plans
 		switch on triggerEvent {
 			when BEFORE_DELETE {
 				Set<Id> apIds = new Set<Id>();
-				List<ActionPlan__c> deletePermenantlyApIds = new List<ActionPlan__c>();
 
 				// Query Action Plans to delete in recycle bin
 				String deleteQueryString = 'SELECT Id, Name FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords AND isDeleted = true ALL ROWS';
-				deletePermenantlyApIds = Database.query(String.escapeSingleQuotes(deleteQueryString));
-
-				if (!deletePermenantlyApIds.isEmpty()) {
-					Database.emptyRecycleBin(deletePermenantlyApIds);
+				//System.debug('deleteQueryString ' + deleteQueryString);
+				List<ActionPlan__c> deletePermenantlyAps = Database.query(String.escapeSingleQuotes(deleteQueryString));
+				//System.debug('DeletedAPs ' + deletePermenantlyAps);
+				if (!deletePermenantlyAps.isEmpty()) {
+					Database.emptyRecycleBin(deletePermenantlyAps);
 				}
 
-				deleteQueryString = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords';
+				// Delete regular Action Plans associated with this object
+				deleteQueryString = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :oldRecords AND IsDeleted = false';
 				List<ActionPlan__c> apList = Database.query(String.escapeSingleQuotes(deleteQueryString));
+				//System.debug('apList to be deleted ' + apList);
 				for (ActionPlan__c ap : apList) {
 					apIds.add(ap.Id);
 				}
@@ -100,7 +101,8 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 			//Undelete related action plans
 			when AFTER_UNDELETE {
-				String afterUndeleteQuery = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :newRecords';
+				String afterUndeleteQuery = 'SELECT Id FROM ActionPlan__c WHERE ' + relationshipName + ' IN :newRecords ALL ROWS';
+				//System.debug('In Undelete: About to query ' + afterUndeleteQuery);
 				List<ActionPlan__c> aPs = Database.query(String.escapeSingleQuotes(afterUndeleteQuery));
 
 				try {
@@ -272,7 +274,8 @@ global without sharing class ActionPlansTriggerHandlers {
 					a.User__c = a.User__c == null ? UserInfo.getUserId() : a.User__c;
 					a.DaysFromStart__c = a.DaysFromStart__c == null ? 0 : a.DaysFromStart__c;
 					a.Dependent__c = (String.isBlank(a.Dependent__c)) ? 'None' : a.Dependent__c;
-					if(a.DaysFromStart__c != null && a.ActivityDate__c == null){
+					// support manually creating related tasks - for future moving all logic into trigger handlers
+					if(a.Id == null && a.Controller__c == null && a.DaysFromStart__c != null && a.ActivityDate__c == null){
 						a.ActivityDate__c = parentMap.get(a.Action_Plan__c).StartDate__c.addDays(a.DaysFromStart__c.intValue());
 					}
 				}
@@ -339,28 +342,6 @@ global without sharing class ActionPlansTriggerHandlers {
 						a.addError('Error when deleting newly-dependent Task related to APTaskTemplate: ' + e.getMessage());
 					}
 				}
-				
-				/* Map<Id, APTask__c> controllingTasks = new Map<Id, APTask__c>([SELECT Id, Status__c FROM APTask__c WHERE Id IN :controllingTaskIDs]);
-				Set<Id> apTasksNeedingDeletedTasks = new Set<Id>();
-				for(APTask__c aptask : newRecords){
-					if(apTasksNewlyWithController.contains(aptask.Controller__c)){
-						APTask__c controllerT = controllingTasks.get(aptask.Controller__c);
-						if(ActionPlansUtilities.getClosedTaskStatuses().contains(controllerT.Status__c)){
-							apTasksNeedingDeletedTasks.add(aptask.Id);
-						}
-					}
-				}
-				if(!apTasksNeedingDeletedTasks.isEmpty()){
-					try {
-						bypassTaskTrigger = true;
-						Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :apTasksNewlyWithController AND IsClosed = FALSE]);
-						bypassTaskTrigger = false;
-					} catch (Exception e) {
-						for (APTask__c a : newRecords) {
-							a.addError('Error when deleting newly-dependent Task related to APTaskTemplate: ' + e.getMessage());
-						}
-					}
-				} */
 			}
 			
 			when BEFORE_DELETE {
@@ -883,6 +864,6 @@ global without sharing class ActionPlansTriggerHandlers {
 	 * @return  `Boolean` Are we in an asynchronous state (so can't call future methods)?
 	 */
 	private static Boolean forceSynchronous() {
-		return (System.isQueueable() || System.isFuture() || System.isBatch());
+		return (System.isQueueable() || System.isFuture() || System.isBatch() || Test.isRunningTest());
 	}
 }
