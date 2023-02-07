@@ -1,11 +1,14 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
-VERSION=$(curl -s https://api.github.com/repos/pmd/pmd/releases/latest | grep '.tag_name' | sed 's:.*/::' | sed 's:",::')
-echo $VERSION
+. pmd/updatepmd.sh
 
-printf '%s' "$VERSION" > pmd/pmd-version.txt
-git add pmd/pmd-version.txt
+branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+if [ "$branch" == "main" ]
+then
+    npm run prettier:docs
+		cd docs
+		git add .
+fi
 
-npm run updateHighlight
-npx lint-staged
+npm run precommit

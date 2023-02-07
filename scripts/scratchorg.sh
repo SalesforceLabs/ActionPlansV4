@@ -10,7 +10,6 @@ sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-proje
 echo "Creating new scratch org"
 sfdx force:org:create --definitionfile config/project-scratch-def.json --setalias ActionPlans --nonamespace --setdefaultusername --noancestors
 
-# For use with namespaced scratch org n package development process
 echo "Deploying unmanaged main metadata"
 sfdx force:source:deploy -p sfdx-source/LabsActionPlans --tracksource
 
