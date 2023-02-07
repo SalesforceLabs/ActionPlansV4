@@ -159,4 +159,18 @@ public inherited sharing class ActionPlansSectionHeaderController {
 
 		return iconPropertyMap;
 	}
+
+	/**
+	 * Main code for lightning lookup. Included in this class because we use this as the controller for our lookups
+	 * <br> the code is duplicated in AciontPlanCreationController because there is a lookup directly in that page (for now)
+	 *
+	 * @param queryText SOQL query to return records for the lookup
+	 * @return          `List<SObject>` Returned records
+	 * @see ActionPlanCreationController
+	 */
+	@RemoteAction
+	public static List<SObject> getRecords(String queryText) {
+		System.debug('querytext ' + queryText);
+		return Database.query(queryText);
+	}
 }

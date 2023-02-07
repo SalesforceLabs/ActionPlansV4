@@ -75,66 +75,94 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 		}
 		var LightningLookupScripts{!for} =  {
 			//Function To Get Record's Details on Record Click
-			recInfo: function (recId, sObjType) {
-				var recInfoIdInput = document.getElementById('{!$Component.HiddenInput}');
-				j$(recInfoIdInput).val(recId);
-				j$('[id$=SrchDrpDwn{!for}]').fadeOut();
-				//ID Based Retrieval Instead Of Query to Get Record Details Of The Selected Record
-				result = sforce.connection.retrieve("{!JSENCODE(displayField)},Id", sObjType, [recId]);
-				j$('#{!for}sldsscopediv [id$=searchInput]').val(result[0].{!JSENCODE(displayField)}).trigger("parentchange", [result[0].{!JSENCODE(displayField)}]);
-		},
-		searchRecords: function  (key, sObjType, cObject) {
+		recInfo: function (recId, sObjType) {
+			var recInfoIdInput = document.getElementById('{!$Component.HiddenInput}');
+			j$(recInfoIdInput).val(recId);
+			j$('[id$=SrchDrpDwn{!for}]').fadeOut();
 
-			var sObjTypeLower = sObjType.toLowerCase();
-
-			j$('#' + key.attr('aria-activedescendant')).show();
-			//Grabbing The Input Field Value
-			var searchKey = key.val();
-			if (searchKey == '') {
-				j$('#' + key.attr('aria-activedescendant')).hide();
-			}
-			//Querying For Records In Objects Name Matching The Input in The Text Field
-			var queryText = "SELECT Id, {!JSENCODE(displayField)} FROM " + sObjType + " WHERE {!JSENCODE(displayField)} LIKE '%" + searchKey + "%' {!JSENCODE(where)} ORDER BY {!JSENCODE(displayField)} ASC LIMIT 8";
-			result = sforce.connection.query(queryText);
-			records = result.getArray("records");
-			var searchList = "";
-			//Creating List Elements Based on Query Results
-			var searchIcon = '{!URLFOR($Asset.SLDS, "assets/icons/utility-sprite/svg/symbols.svg#search")}';
-			searchList += '<li role="presentation" class="slds-listbox__item">' +
-				'<div aria-selected="true" id="option0" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">' +
-				'<span class="slds-media__figure slds-listbox__option-icon">' +
-				'<span class="slds-icon_container slds-icon-utility-search" title="{!$Label.ap_Search}:">' +
-				'<svg class="slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true"><use xlink:href="' + searchIcon + '"></use></svg>' +
-				'<span class="slds-assistive-text">{!$Label.ap_Search}:</span></span></span>' +
-				'<span class="slds-media__body"><span class="slds-listbox__option-text slds-listbox__option-text_entity">' + searchKey + '</span></span></div > ' +
-				'</li>';
-			if (records.length > 0) {
-
-				var iconTag = "{!ObjectIconInfo['iconTag']}";
-				var objectIcon = "{!ObjectIconInfo['iconURL']}";
-				var iconStyle = "{!ObjectIconInfo['iconStyle']}";
-
-				for (var i = 0; i < records.length; i++) {
-					// li elements of each list option
-					if (cObject == 'true' && iconTag != 'record') {
-						objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/custom-sprite/svg/symbols.svg#' + iconTag + '")}';
+			var queryText = 'SELECT Id, {!displayField} FROM ' + sObjType + ' WHERE Id = \'' + recId + '\'';
+			//console.log('querytext ' + queryText);
+			Visualforce.remoting.Manager.invokeAction(
+				'{!$RemoteAction.ActionPlansSectionHeaderController.getRecords}',
+				queryText,
+				function (result, event) {
+					if (event.status) {
+						var record = result[0];
+						j$('#{!for}sldsscopediv [id$=searchInput]').val(record.{!JSENCODE(displayField)}).trigger("parentchange", [record.{!JSENCODE(displayField)}]);
+						var recInfoIdInput = document.getElementById('{!$Component.HiddenInput}');
+						j$(recInfoIdInput).val(recId);
 					} else {
-						objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/standard-sprite/svg/symbols.svg#' + iconTag + '")}';
+						alert(event.message);
 					}
+				},
+				{ escape: true }
+				);
+			},
+			searchRecords: function  (key, sObjType, cObject) {
 
-					searchList += '<li onclick="LightningLookupScripts{!for}.recInfo(\'' + records[i].Id + '\'' + ', \'' + sObjType.toLowerCase() + '\');" class="slds-lookup__item">';
-					searchList += '<a id="' + records[i].Id + '" href="#" role="option"><svg aria-hidden="true" class="slds-icon ' + iconStyle + ' slds-icon_small">'
-						+ '<use xlink:href="' + objectIcon + '"></use></svg>' + records[i]["{!JSENCODE(displayField)}"] + '</a>';
-					searchList += '</li>';
+				var sObjTypeLower = sObjType.toLowerCase();
+
+				j$('#' + key.attr('aria-activedescendant')).show();
+				//Grabbing The Input Field Value
+				var searchKey = key.val();
+				if (searchKey == '') {
+					j$('#' + key.attr('aria-activedescendant')).hide();
 				}
-			} else {
+				var searchList = "";
+				//Creating List Elements Based on Query Results
+				var searchIcon = '{!URLFOR($Asset.SLDS, "assets/icons/utility-sprite/svg/symbols.svg#search")}';
 				searchList += '<li role="presentation" class="slds-listbox__item">' +
-					'<div aria-selected="true" id="norecords" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term" role="option">' +
-					'<span class="slds-media__body"><span class="slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.ap_NoRecords}</span></span></div></li>';
+					'<div aria-selected="true" id="option0" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">' +
+					'<span class="slds-media__figure slds-listbox__option-icon">' +
+					'<span class="slds-icon_container slds-icon-utility-search" title="{!$Label.ap_Search}:">' +
+					'<svg class="slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true"><use xlink:href="' + searchIcon + '"></use></svg>' +
+					'<span class="slds-assistive-text">{!$Label.ap_Search}:</span></span></span>' +
+					'<span class="slds-media__body"><span class="slds-listbox__option-text slds-listbox__option-text_entity">' + searchKey + '</span></span></div > ' +
+					'</li>';
+				//Querying For Records In Objects Name Matching The Input in The Text Field
+				var queryText = "SELECT Id, {!JSENCODE(displayField)} FROM " + sObjType + " WHERE {!JSENCODE(displayField)} LIKE '%" + searchKey + "%' {!JSENCODE(where)} ORDER BY {!JSENCODE(displayField)} ASC LIMIT 8";
+				var records = [];
+
+				Visualforce.remoting.Manager.invokeAction(
+					'{!$RemoteAction.ActionPlansSectionHeaderController.getRecords}',
+					queryText,
+					function (result, event) {
+						if (event.status) {
+							records = result;
+							if (records.length > 0) {
+
+								var iconTag = "{!ObjectIconInfo['iconTag']}";
+								var objectIcon = "{!ObjectIconInfo['iconURL']}";
+								var iconStyle = "{!ObjectIconInfo['iconStyle']}";
+
+								for (var i = 0; i < records.length; i++) {
+									// li elements of each list option
+									if (cObject == 'true' && iconTag != 'record') {
+										objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/custom-sprite/svg/symbols.svg#' + iconTag + '")}';
+									} else {
+										objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/standard-sprite/svg/symbols.svg#' + iconTag + '")}';
+									}
+
+									searchList += '<li onclick="LightningLookupScripts{!for}.recInfo(\'' + records[i].Id + '\'' + ', \'' + sObjType.toLowerCase() + '\');" class="slds-lookup__item">';
+									searchList += '<a id="' + records[i].Id + '" href="#" role="option"><svg aria-hidden="true" class="slds-icon ' + iconStyle + ' slds-icon_small">'
+										+ '<use xlink:href="' + objectIcon + '"></use></svg>' + records[i]["{!JSENCODE(displayField)}"] + '</a>';
+									searchList += '</li>';
+								}
+							} else {
+								searchList += '<li role="presentation" class="slds-listbox__item">' +
+									'<div aria-selected="true" id="norecords" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term" role="option">' +
+									'<span class="slds-media__body"><span class="slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.ap_NoRecords}</span></span></div></li>';
+							}
+							//Appending all the created result List Elements to the UL tag
+							j$('[id$=searchResultsUL{!for}]').html(searchList);
+
+						} else {
+							alert(event.message);
+						}
+					},
+					{ escape: true }
+				);
 			}
-			//Appending all the created result List Elements to the UL tag
-			j$('[id$=searchResultsUL{!for}]').html(searchList);
-		}
 		}
 		checkinput();
 	</script>

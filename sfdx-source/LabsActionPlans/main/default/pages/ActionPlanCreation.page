@@ -76,10 +76,10 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						});
 				}
 			</script>
-			<script type="text/javascript">
+			<!-- <script type="text/javascript">
 				var __sfdcSessionId = '{!GETSESSIONID()}';
 			</script>
-			<script src="../../soap/ajax/55.0/connection.js" type="text/javascript"></script>
+			<script src="../../soap/ajax/55.0/connection.js" type="text/javascript"></script> -->
 
 			<style>
 				input.errorBorder {
@@ -183,10 +183,20 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 											j$(recInfoIdInput).val(recId);
 											j$('[id$=SrchTmpltDrpDwn]').fadeOut();
 											//ID Based Retrieval Instead Of Query to Get Record Details Of The Selected Record
-											result = sforce.connection.retrieve('Name,Id', '{!JSENCODE(NamespacePrefix)}ActionPlanTemplate__c', [recId]);
-											j$('#sldsscopediv [id$=searchtemplateinput]').val(result[0].Name);
-											//reloadActionPlan('{!JSINHTMLENCODE(ActionPlan__c.Action_Plan_template__c)}', recId);
-											reloadActionPlan(oldTemplateId, result[0].Id);
+											var queryText = "SELECT Id, Name FROM {!JSENCODE(NamespacePrefix)}ActionPlanTemplate__c WHERE Id = '" + recId + "'";
+											Visualforce.remoting.Manager.invokeAction(
+												'{!$RemoteAction.ActionPlanCreationController.getRecords}',
+												queryText,
+												function (result, event) {
+													if (event.status) {
+														j$('#sldsscopediv [id$=searchtemplateinput]').val(result[0].Name);
+														reloadActionPlan(oldTemplateId, result[0].Id);
+													} else {
+														alert(event.message);
+													}
+												},
+												{ escape: true }
+											);
 										},
 										searchRecords: function (key) {
 											j$('#' + key.attr('aria-activedescendant')).show();
@@ -195,35 +205,46 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 											if (searchKey == '') {
 												j$('#' + key.attr('aria-activedescendant')).hide();
 											}
-											var namespace = '{!JSENCODE(NamespacePrefix)}';
 											//Querying For Records In Objects Name Matching The Input in The Text Field
 											var queryText =
-												'SELECT Id, Name FROM ' + namespace + "ActionPlanTemplate__c WHERE Name LIKE '%" + searchKey + "%' AND Archived__c = false ORDER BY Name ASC LIMIT 10";
-											console.log('queryText: ' + queryText);
-											result = sforce.connection.query(queryText);
-											records = result.getArray('records');
+												"SELECT Id, Name FROM {!JSENCODE(NamespacePrefix)}ActionPlanTemplate__c WHERE Name LIKE '%" +
+												searchKey +
+												"%' AND Archived__c = false ORDER BY Name ASC LIMIT 10";
+											//console.log('queryText: ' + queryText);
 											var searchList = '';
-											//Creating List Elements Based on Query Results
-											if (records.length > 0) {
-												for (var i = 0; i < records.length; i++) {
-													//List Elements With Onclick and ID Attributes
-													var objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/custom-sprite/svg/symbols.svg#custom39")}';
-													searchList +=
-														'<li onclick="LightningLookupScripts.recInfo(\'' +
-														records[i].Id +
-														'\');" class="slds-lookup__item"><a id="' +
-														records[i].Id +
-														'" href="#" role="option"><svg aria-hidden="true" class="slds-icon slds-icon-custom-custom39 slds-icon_small">' +
-														'<use xlink:href="' +
-														objectIcon +
-														'"></use></svg>' +
-														records[i].Name +
-														'</a></li>';
-												}
-											} else {
-												searchList += '<li class="slds-lookup__item">No Records Found</li>';
-											}
-											j$('[id$=searchResultsUL]').html(searchList);
+											Visualforce.remoting.Manager.invokeAction(
+												'{!$RemoteAction.ActionPlanCreationController.getRecords}',
+												queryText,
+												function (result, event) {
+													if (event.status) {
+														records = result;
+														if (records.length > 0) {
+															for (var i = 0; i < records.length; i++) {
+																//List Elements With Onclick and ID Attributes
+																var objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/custom-sprite/svg/symbols.svg#custom39")}';
+																searchList +=
+																	'<li onclick="LightningLookupScripts.recInfo(\'' +
+																	records[i].Id +
+																	'\');" class="slds-lookup__item"><a id="' +
+																	records[i].Id +
+																	'" href="#" role="option"><svg aria-hidden="true" class="slds-icon slds-icon-custom-custom39 slds-icon_small">' +
+																	'<use xlink:href="' +
+																	objectIcon +
+																	'"></use></svg>' +
+																	records[i].Name +
+																	'</a></li>';
+															}
+														} else {
+															searchList += '<li class="slds-lookup__item">No Records Found</li>';
+														}
+
+														j$('[id$=searchResultsUL]').html(searchList);
+													} else {
+														alert(event.message);
+													}
+												},
+												{ escape: true }
+											);
 										}
 									};
 									checkinput();
@@ -582,8 +603,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								id="addnewtasklink"
 								rerender="taskTable, pageMessages"
 								status="taskStatus"
-								onclick="console.log('addclick');disableActions();"
-								oncomplete="enableActions();showErrors();checkAllDependent('{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');checkReminderPicklists();console.log('add completed');"
+								onclick="disableActions();"
+								oncomplete="enableActions();showErrors();checkAllDependent('{!$Label.ap_ItselfDependencyError}','{!$Label.ap_Errors_Cyclic_Dependency_Found}');checkReminderPicklists();"
 								rendered="{!$ObjectType.APTask__c.createable}">
 								<apex:outputText value="{!$Label.ap_AddNewTask}" />
 							</apex:commandLink>

@@ -1532,4 +1532,18 @@ public with sharing class ActionPlanCreationController {
 			}
 		}
 	}
+
+	/**
+	 * Main code for lightning lookup. Included in this class because we use this as the controller for our main page
+	 * <br>The code is duplicated from ActionPlanSectionHeaderController because there is a lookup directly in this page (for now)
+	 *
+	 * @param queryText SOQL query to return records for the lookup
+	 * @return          `List<SObject>` Returned records
+	 * @see ActionPlanSectionHeaderController
+	 */
+	@RemoteAction
+	public static List<SObject> getRecords(String queryText) {
+		System.debug('querytext ' + queryText);
+		return Database.query(queryText);
+	}
 }

@@ -1,5 +1,5 @@
 {
-  "recommendations": [
+	"recommendations": [
     "salesforce.salesforcedx-vscode",
     "redhat.vscode-xml",
     "dbaeumer.vscode-eslint",
@@ -7,9 +7,8 @@
     "financialforce.lana",
     "peterweinberg.apexdox-vs-code",
     "chuckjonas.apex-pmd",
-    "eg2.vscode-npm-script",
     "matteopieroni.refresh-npm-packages",
     "subc4i.sublime-mavensmate-monokai-apex",
-    "PKief.material-icon-theme"
+    "pkief.material-icon-theme"
   ]
 }
