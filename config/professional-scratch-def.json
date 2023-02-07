@@ -5,6 +5,10 @@
 	"description": "Professional Edition Scratch org for Action Plans",
 	"features": ["EnableSetPasswordInApi"],
 	"settings": {
+		"orgPreferenceSettings": {
+			"s1DesktopEnabled": true,
+			"chatterEnabled": true
+		},
 		"lightningExperienceSettings": {
 			"enableS1DesktopEnabled": true
 		}
