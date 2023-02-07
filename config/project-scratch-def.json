@@ -3,13 +3,13 @@
 	"edition": "Developer",
 	"hasSampleData": true,
 	"description": "Developer Edition Scratch org for Action Plans",
-	"features": ["EnableSetPasswordInApi", "OrderSaveLogicEnabled"],
+	"features": ["EnableSetPasswordInApi"],
 	"settings": {
 		"lightningExperienceSettings": {
 			"enableS1DesktopEnabled": true
 		},
-		"orderSettings": {
-			"enableOrders": true
+		"mobileSettings": {
+			"enableS1EncryptedStoragePref2": false
 		}
 	}
 }

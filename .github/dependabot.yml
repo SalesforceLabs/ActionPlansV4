@@ -5,15 +5,17 @@
 
 version: 2
 updates:
-  # Maintain dependencies for npm packages
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: 'npm' # See documentation for possible values
+    directory: '/' # Location of package manifests
+    commit-message:
+      prefix: 'fix'
+    rebase-strategy: 'auto'
     schedule:
-      interval: "weekly"
-  
-  # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    # default location of `.github/workflows`
-    directory: "/"
+      interval: 'daily'
+  - package-ecosystem: 'github-actions' # See documentation for possible values
+    directory: '/' # Location of package manifests
+    commit-message:
+      prefix: 'fix'
+    rebase-strategy: 'auto'
     schedule:
-      interval: "weekly"
+      interval: 'daily'
