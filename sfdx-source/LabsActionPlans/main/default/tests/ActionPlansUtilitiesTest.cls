@@ -50,12 +50,12 @@ private class ActionPlansUtilitiesTest {
 		ActionPlanCreationController apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
 		apcc.apTasks = aptList;
 
-		System.assert(apcc.hasRelatedObject(), 'Should be a related object Account');
+		Assert.isTrue(apcc.hasRelatedObject(), 'Should be a related object Account');
 
 		apcc.save();
 
 		ActionPlan__c rap = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assert(rap != null);
+		Assert.isTrue(rap != null);
 
 		Test.stopTest();
 	}
@@ -87,50 +87,50 @@ private class ActionPlansUtilitiesTest {
 		apcc.saveMultipleAP();
 		Test.stopTest();
 		ActionPlan__c rap = [SELECT Id, Account__c FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assert(rap.Account__c == ap.Account__c);
+		Assert.isTrue(rap.Account__c == ap.Account__c);
 	}
 
 	@IsTest
 	private static void account() {
-		System.assert(testObject('Account'));
-		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
+		Assert.isTrue(testObject('Account'));
+		Assert.areNotEqual(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
 		Test.startTest();
 		delete [SELECT Id FROM Account];
 		Test.stopTest();
-		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Action Plan with Account');
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Action Plan with Account');
 	}
 
 	@IsTest
 	private static void contact() {
-		System.assert(testObject('Contact'));
-		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
+		Assert.isTrue(testObject('Contact'));
+		Assert.areNotEqual(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
 		Test.startTest();
 		Account a = [SELECT Id FROM Account];
 		delete a;
 		Test.stopTest();
-		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Contact Action Plan with Account');
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have deleted Contact Action Plan with Account');
 		undelete a;
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have undeleted Contact Action Plan with Account');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c], 'Trigger should have undeleted Contact Action Plan with Account');
 	}
 
 	@IsTest
 	private static void lead() {
-		System.assert(testObject('Lead'));
+		Assert.isTrue(testObject('Lead'));
 	}
 
 	@IsTest
 	private static void case() {
-		System.assert(testObject('Case'));
+		Assert.isTrue(testObject('Case'));
 	}
 
 	@IsTest
 	private static void campaign() {
-		System.assert(testObject('Campaign'));
+		Assert.isTrue(testObject('Campaign'));
 	}
 
 	@IsTest
 	private static void contract() {
-		System.assert(testObject('Contract'));
+		Assert.isTrue(testObject('Contract'));
 	}
 
 	/**
@@ -173,7 +173,7 @@ private class ActionPlansUtilitiesTest {
 
 		ActionPlanCreationController apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		PageReference page = apcc.cancel();
-		System.assert(page != null, 'Cancel page is null. Unexpected.');
+		Assert.isTrue(page != null, 'Cancel page is null. Unexpected.');
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
@@ -182,41 +182,41 @@ private class ActionPlansUtilitiesTest {
 		ApexPages.currentPage().getParameters().put('refId', ap.Account__c + ',' + testutil.createNewAccount().id);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		System.assert(page != null);
+		Assert.isTrue(page != null);
 
 		testutil.createNewActionPlan('contact', 0);
 		ApexPages.currentPage().getParameters().put('refType', 'Contact');
 		ApexPages.currentPage().getParameters().put('refId', ap.Contact__c + ',' + testutil.createNewContact().id);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		System.assert(page != null);
+		Assert.isTrue(page != null);
 
 		testutil.createNewActionPlan('lead', 0);
 		ApexPages.currentPage().getParameters().put('refType', 'Lead');
 		ApexPages.currentPage().getParameters().put('refId', ap.Lead__c + ',' + testutil.createNewLead().id);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		System.assert(page != null);
+		Assert.isTrue(page != null);
 
 		testutil.createNewActionPlan('opportunity', 0);
 		ApexPages.currentPage().getParameters().put('refType', 'Opportunity');
 		ApexPages.currentPage().getParameters().put('refId', ap.Opportunity__c + ',' + testutil.createNewOpportunity().id);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		System.assert(page != null);
+		Assert.isTrue(page != null);
 
 		testutil.createNewActionPlan('account', 0);
 		ApexPages.currentPage().getParameters().put('refType', 'Account');
 		ApexPages.currentPage().getParameters().put('refId', ap.Account__c);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		System.assert(page != null);
+		Assert.isTrue(page != null);
 
 		ActionPlanTemplate__c apt = testutil.createNewActionPlanTemplate(0);
 		ApexPages.currentPage().getParameters().put('templateId', apt.Id);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		System.assert(page != null);
+		Assert.isTrue(page != null);
 		Test.stopTest();
 	}
 
@@ -229,22 +229,22 @@ private class ActionPlansUtilitiesTest {
 		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
 		ActionPlanCreationController apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
 		Id recId = apcc.relatedObjectId();
-		System.assert(ap.Account__c == recId);
+		Assert.isTrue(ap.Account__c == recId);
 
 		ap = testutil.createNewActionPlan('contact', 0);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
 		recId = apcc.relatedObjectId();
-		System.assert(ap.Contact__c == recId);
+		Assert.isTrue(ap.Contact__c == recId);
 
 		ap = testutil.createNewActionPlan('lead', 0);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
 		recId = apcc.relatedObjectId();
-		System.assert(ap.Lead__c == recId);
+		Assert.isTrue(ap.Lead__c == recId);
 
 		ap = testutil.createNewActionPlan('opportunity', 0);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
 		recId = apcc.relatedObjectId();
-		System.assert(ap.Opportunity__c == recId);
+		Assert.isTrue(ap.Opportunity__c == recId);
 	}
 
 	@IsTest
@@ -270,9 +270,9 @@ private class ActionPlansUtilitiesTest {
 		Test.stopTest();
 
 		List<ActionPlan__c> lAp2 = [SELECT Id FROM ActionPlan__c WHERE Id IN :lAp];
-		System.assert(lAp2.size() == 1);
+		Assert.isTrue(lAp2.size() == 1);
 		if (!ActionPlansUtilities.getIsLex()) {
-			System.assertEquals(page.getUrl(), url);
+			Assert.areEqual(page.getUrl(), url);
 		}
 	}
 
@@ -282,7 +282,7 @@ private class ActionPlansUtilitiesTest {
 			aps.Chatter_Object_Brag__c = true;
 			update aps;
 		}
-		System.assert(aps.Chatter_Object_Brag__c);
+		Assert.isTrue(aps.Chatter_Object_Brag__c);
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
@@ -342,7 +342,7 @@ private class ActionPlansUtilitiesTest {
 			apcc.actionPlan.SkipDay__c = 'End of previous week';
 			apcc.getTasks();
 
-			System.assert(!apcc.getTasks().isEmpty());
+			Assert.isFalse(apcc.getTasks().isEmpty());
 
 			apcc.save();
 		}
@@ -355,20 +355,20 @@ private class ActionPlansUtilitiesTest {
 		List<String> objectNames = new List<String>{ 'account', 'lead', 'contact' };
 		doChatterPost(objectNames);
 		System.debug([SELECT Id, Account__c, Lead__c, Contact__c, Action_Plan_Template__r.Name FROM ActionPlan__c]);
-		System.assertEquals(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c]);
+		Assert.areEqual(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c]);
 	}
 
 	@IsTest
 	private static void doChatterPostPart2() {
 		List<String> objectNames = new List<String>{ 'contract', 'case', 'campaign', 'opportunity' };
 		doChatterPost(objectNames);
-		System.assertEquals(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c]);
+		Assert.areEqual(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c]);
 	}
 
 	@IsTest
 	private static void randomWord() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		System.assert(testUtil.createRandomWord('testword') != testUtil.createRandomWord());
+		Assert.isTrue(testUtil.createRandomWord('testword') != testUtil.createRandomWord());
 	}
 
 	@IsTest
@@ -379,12 +379,12 @@ private class ActionPlansUtilitiesTest {
 
 				for (SObject t : Database.query(taskQuery)) {
 					System.debug([SELECT Id, Name FROM RecordType WHERE Id = :(Id) t.get('RecordTypeId')].Name); //NOPMD
-					System.assertNotEquals(ActionPlansUtilities.getDefaultTaskRecordTypeId(), t.get('RecordTypeId'), 'Record Type is default');
+					Assert.areNotEqual(ActionPlansUtilities.getDefaultTaskRecordTypeId(), t.get('RecordTypeId'), 'Record Type is default');
 				}
 			}
-			System.assertNotEquals(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
+			Assert.areNotEqual(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
 		} else {
-			System.assertEquals(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
+			Assert.areEqual(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
 		}
 	}
 

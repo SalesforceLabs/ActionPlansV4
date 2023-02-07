@@ -132,7 +132,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 			upsert aptList;
 		} else {
-			System.assertEquals(1, relActionPlans.size());
+			Assert.areEqual(1, relActionPlans.size());
 
 			for (ActionPlan__c ap : relActionPlans) {
 				mapIDAP.put(ap.Id, ap);

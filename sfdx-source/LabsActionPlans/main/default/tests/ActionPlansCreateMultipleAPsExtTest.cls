@@ -33,14 +33,14 @@ private class ActionPlansCreateMultipleAPsExtTest {
 		dml.DuplicateRuleHeader.allowSave = true;
 		dml.DuplicateRuleHeader.runAsCurrentUser = true;
 		List<Database.SaveResult> sr = Database.insert(accts, dml);
-		System.assert(!sr.isEmpty(), 'We attempted to save at least one record');
+		Assert.isFalse(sr.isEmpty(), 'We attempted to save at least one record');
 		ApexPages.StandardSetController std = new ApexPages.StandardSetController(accts);
 		std.setSelected(accts);
 		ActionPlansCreateMultipleAPsExtension ctrl = new ActionPlansCreateMultipleAPsExtension(std);
 
 		PageReference newAPPage = ctrl.doRedirect();
 
-		System.assert(newAPPage.geturl().containsIgnoreCase('%2C0'));
+		Assert.isTrue(newAPPage.geturl().containsIgnoreCase('%2C0'));
 	}
 
 	@IsTest
@@ -52,6 +52,6 @@ private class ActionPlansCreateMultipleAPsExtTest {
 		PageReference newAPPage = ctrl.doRedirect();
 		Test.stopTest();
 
-		System.assertEquals(null, newAPPage);
+		Assert.areEqual(null, newAPPage);
 	}
 }

@@ -58,7 +58,7 @@ private class ActionPlansDeleteMultipleAPExtTest {
 	@IsTest
 	private static void givenRecordsToDeleteThenDeleted() {
 		List<ActionPlan__c> listActionPlan = [SELECT Id, Name FROM ActionPlan__c];
-		System.assertEquals(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
+		Assert.areEqual(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
 		ApexPages.StandardSetController std = new ApexPages.StandardSetController(listActionPlan);
 		std.setSelected(new List<ActionPlan__c>{ listActionPlan[0], listActionPlan[1] });
 		ActionPlansDeleteMultipleAPExtension ctrl = new ActionPlansDeleteMultipleAPExtension(std);
@@ -66,13 +66,13 @@ private class ActionPlansDeleteMultipleAPExtTest {
 		Test.startTest();
 		ctrl.deleteRecords();
 		Test.stopTest();
-		System.assertEquals(APS_TO_CREATE - 2, [SELECT COUNT() FROM ActionPlan__c]);
+		Assert.areEqual(APS_TO_CREATE - 2, [SELECT COUNT() FROM ActionPlan__c]);
 	}
 
 	@IsTest
 	private static void givenNoRecordsToDeleteThenNotDeleted() {
 		List<ActionPlan__c> listActionPlan = [SELECT Id, Name FROM ActionPlan__c];
-		System.assertEquals(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
+		Assert.areEqual(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
 		ApexPages.StandardSetController std = new ApexPages.StandardSetController(listActionPlan);
 		std.setSelected(new List<ActionPlan__c>{});
 		ActionPlansDeleteMultipleAPExtension ctrl = new ActionPlansDeleteMultipleAPExtension(std);
@@ -81,8 +81,8 @@ private class ActionPlansDeleteMultipleAPExtTest {
 		ctrl.deleteRecords();
 		Test.stopTest();
 
-		System.assertEquals(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
-		System.assertEquals(null, ctrl.deleteRecords());
+		Assert.areEqual(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
+		Assert.areEqual(null, ctrl.deleteRecords());
 	}
 
 	@IsTest
@@ -118,7 +118,7 @@ private class ActionPlansDeleteMultipleAPExtTest {
 
 		System.runAs(minAccessUser) {
 			List<ActionPlan__c> listActionPlan = [SELECT Id, Name FROM ActionPlan__c];
-			System.assertEquals(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
+			Assert.areEqual(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
 			ApexPages.StandardSetController std = new ApexPages.StandardSetController(listActionPlan);
 			std.setSelected(new List<ActionPlan__c>{ listActionPlan[0], listActionPlan[1] });
 			ActionPlansDeleteMultipleAPExtension ctrl = new ActionPlansDeleteMultipleAPExtension(std);
@@ -126,6 +126,6 @@ private class ActionPlansDeleteMultipleAPExtTest {
 			ctrl.deleteRecords();
 			Test.stopTest();
 		}
-		System.assertEquals(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
+		Assert.areEqual(APS_TO_CREATE, [SELECT COUNT() FROM ActionPlan__c]);
 	}
 }

@@ -45,7 +45,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		ActionPlansTaskTriggerUtilities.futureDeleteTasks(new Set<Id>{ t.Id });
 		ActionPlansTriggerHandlers.futureDeleteActionPlans(new Set<Id>{ ap.Id });
 		Test.stopTest();
-		System.assertEquals(0, [SELECT COUNT() FROM Task]);
+		Assert.areEqual(0, [SELECT COUNT() FROM Task]);
 	}
 
 	/**
@@ -104,7 +104,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		apTaskList = [SELECT Id FROM Task WHERE TaskAPTask__c = :apTTaskIds[0]];
 
 		Test.stopTest();
-		System.assert(!apTaskList.isEmpty(), 'We should have some records here');
+		Assert.isFalse(apTaskList.isEmpty(), 'We should have some records here');
 	}
 
 	/**
@@ -157,8 +157,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		Test.stopTest();
 
-		System.assert(apTask.isEmpty());
-		System.assertEquals(0, [SELECT COUNT() FROM Task], 'Deleting Action Plan should delete the APTask Task records as well');
+		Assert.isTrue(apTask.isEmpty());
+		Assert.areEqual(0, [SELECT COUNT() FROM Task], 'Deleting Action Plan should delete the APTask Task records as well');
 	}
 
 	/**
@@ -219,7 +219,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		Test.stopTest();
 
-		System.assert(!apTask.isEmpty());
+		Assert.isFalse(apTask.isEmpty());
 	}
 
 	/**
@@ -250,9 +250,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		delete at;
 
 		List<APTask__c> apttDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
-		System.assert(apttDel.isEmpty());
-		System.assertEquals(0, [SELECT COUNT() FROM APTask__c]);
-		System.assertEquals(0, [SELECT COUNT() FROM Task]);
+		Assert.isTrue(apttDel.isEmpty());
+		Assert.areEqual(0, [SELECT COUNT() FROM APTask__c]);
+		Assert.areEqual(0, [SELECT COUNT() FROM Task]);
 
 		// undelete task and APTask and get exception
 		List<Id> ids = new List<Id>();
@@ -267,22 +267,22 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		} catch (DmlException e) {
 			hasError = true;
 		}
-		System.assert(hasError, 'Should have not been able to undelete this task, as it was already undeleted');
+		Assert.isTrue(hasError, 'Should have not been able to undelete this task, as it was already undeleted');
 
 		hasError = false;
 		try {
 			Database.undelete(ids);
 		} catch (Dmlexception e) {
 			hasError = true;
-			System.assert(hasError, e.getMessage());
+			Assert.isTrue(hasError, e.getMessage());
 		}
-		System.assert(hasError);
+		Assert.isTrue(hasError);
 
 		// now undelete and trigger the code
 		if (![SELECT Id FROM APTask__c WHERE Id = :at.Id AND isDeleted = TRUE ALL ROWS].isEmpty()) {
 			undelete at;
 			List<APTask__c> apttUnDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
-			System.assertEquals(1, apttUnDel.size());
+			Assert.areEqual(1, apttUnDel.size());
 		}
 
 		Test.stopTest();
@@ -321,7 +321,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		// ! KNOWN Platform bug that emptyRecycleBin doesn't work in testing
 		Database.emptyRecycleBin(t);
 		List<APTask__c> apttDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
-		System.assert(apttDel.isEmpty());
+		Assert.isTrue(apttDel.isEmpty());
 
 		// undelete task and APTask and get exception
 		Boolean hasError = false;
@@ -329,7 +329,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			Database.undelete(ids);
 		} catch (Dmlexception e) {
 			//System.debug('Dmlexception: ' + e.getMessage());
-			System.assert(e.getMessage().contains(System.Label.ap_Error), e.getMessage() + '(APTask__c undelete error should have the proper format)');
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_Error), e.getMessage() + '(APTask__c undelete error should have the proper format)');
 			hasError = true;
 		}
 
@@ -389,7 +389,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		apTask = [SELECT Id FROM Task WHERE TaskAPTask__c = :apTTaskIds[0]];
 
 		Test.stopTest();
-		System.assert(!apTask.isEmpty());
+		Assert.isFalse(apTask.isEmpty());
 	}
 
 	/**
@@ -457,9 +457,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		//check if the dependent task was created
 		List<Task> newTaskList = [SELECT Status, Id FROM Task WHERE TaskAPTask__c = :at2.Id];
-		System.assert(!newTaskList.isEmpty());
+		Assert.isFalse(newTaskList.isEmpty());
 		newTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE];
-		System.assertEquals(1, newTaskList.size());
+		Assert.areEqual(1, newTaskList.size());
 	}
 
 	/**
@@ -489,7 +489,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		x = [SELECT Id, Status, Subject, TaskAPTask__r.Name, WhoId, TaskAPTask__r.User__c, OwnerId FROM Task WHERE Id = :x.Id LIMIT 1];
 
-		System.assert(ActionPlansUtilities.idStartsWith(x.OwnerId, '005'), 'Default Task owner should be user');
+		Assert.isTrue(ActionPlansUtilities.idStartsWith(x.OwnerId, '005'), 'Default Task owner should be user');
 
 		Test.startTest();
 		Group g1 = [SELECT Id, Name FROM Group WHERE Name = 'task queue name' AND Type = 'Queue'];
@@ -500,8 +500,8 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		at = [SELECT Id, User__c FROM APTask__c WHERE Id = :at.Id LIMIT 1];
 		Task y = [SELECT Id, Status, Subject, TaskAPTask__r.Name, WhoId, TaskAPTask__r.User__c, OwnerId FROM Task WHERE Id = :x.Id LIMIT 1];
 
-		System.assertEquals('005', ((String) at.User__c).left(3), 'APTask User should still be User');
-		System.assert(ActionPlansUtilities.idStartsWith(y.OwnerId, '00G'), 'Task should be owned by a Queue');
+		Assert.areEqual('005', ((String) at.User__c).left(3), 'APTask User should still be User');
+		Assert.isTrue(ActionPlansUtilities.idStartsWith(y.OwnerId, '00G'), 'Task should be owned by a Queue');
 
 		// View the Action Plan, to be sure page works
 		PageReference pageRef = Page.ActionPlanDetail;
@@ -513,11 +513,11 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 			if (wrap.taskId != null) {
 				if (ActionPlansUtilities.idStartsWith(wrap.taskOwnerId, '00G')) {
 					hasQueueAssignedTask = true;
-					System.assert(wrap.taskOwnerName.equalsIgnoreCase(g1.Name));
-					System.assert(ActionPlansUtilities.idStartsWith(wrap.apt.User__c, '005'));
+					Assert.isTrue(wrap.taskOwnerName.equalsIgnoreCase(g1.Name));
+					Assert.isTrue(ActionPlansUtilities.idStartsWith(wrap.apt.User__c, '005'));
 				}
 			}
 		}
-		System.assert(hasQueueAssignedTask);
+		Assert.isTrue(hasQueueAssignedTask);
 	}
 }

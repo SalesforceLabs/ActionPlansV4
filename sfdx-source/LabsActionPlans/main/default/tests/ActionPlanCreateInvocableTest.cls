@@ -61,9 +61,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		System.assertNotEquals(null, resultIDs);
-		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs);
+		Assert.areEqual(1, resultIDs.size());
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
@@ -103,9 +103,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		System.assertNotEquals(null, resultIDs);
-		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs);
+		Assert.areEqual(1, resultIDs.size());
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
@@ -128,9 +128,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		System.assertNotEquals(null, resultIDs);
-		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs);
+		Assert.areEqual(1, resultIDs.size());
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
@@ -150,9 +150,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		System.assertNotEquals(null, resultIDs);
-		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs);
+		Assert.areEqual(1, resultIDs.size());
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
@@ -172,9 +172,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		System.assertNotEquals(null, resultIDs);
-		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs);
+		Assert.areEqual(1, resultIDs.size());
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
@@ -194,9 +194,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		System.assertNotEquals(null, resultIDs);
-		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs);
+		Assert.areEqual(1, resultIDs.size());
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
@@ -216,9 +216,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		System.assertNotEquals(null, resultIDs);
-		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs);
+		Assert.areEqual(1, resultIDs.size());
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
 	}
 
 	@IsTest
@@ -251,8 +251,8 @@ private class ActionPlanCreateInvocableTest {
 		}
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 		Test.stopTest();
-		System.assertEquals(BULK_COUNT, resultIDs.size(), 'Should have made one AP per wrapper');
-		System.assertEquals(BULK_COUNT, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL]);
+		Assert.areEqual(BULK_COUNT, resultIDs.size(), 'Should have made one AP per wrapper');
+		Assert.areEqual(BULK_COUNT, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL]);
 	}
 
 	@IsTest
@@ -290,7 +290,7 @@ private class ActionPlanCreateInvocableTest {
 
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 
-		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM APTemplateTask__c]);
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM APTemplateTask__c]);
 
 		apTemplate.SkipDay__c = 'Start of next week';
 		update apTemplate;
@@ -314,13 +314,13 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		System.assertNotEquals(null, resultIDs);
-		System.assertEquals(1, resultIDs.size());
-		System.assertEquals(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs);
+		Assert.areEqual(1, resultIDs.size());
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
 		/* for (Task t : [SELECT Id, ActivityDate FROM Task]) {
 			System.debug('Task is due on ' + t.ActivityDate + ' which is a ' + ActionPlansUtilities.getDayOfWeek(t.ActivityDate));
 		} */
-		System.assertEquals(0, [SELECT COUNT() FROM Task WHERE ActivityDate = :upcomingWeekendDay]);
+		Assert.areEqual(0, [SELECT COUNT() FROM Task WHERE ActivityDate = :upcomingWeekendDay]);
 	}
 
 	@IsTest
@@ -360,9 +360,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		System.assertNotEquals(null, resultIDs);
-		System.assertEquals(0, resultIDs.size());
-		System.assertEquals(0, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs);
+		Assert.areEqual(0, resultIDs.size());
+		Assert.areEqual(0, [SELECT COUNT() FROM Task]);
 	}
 
 	/**

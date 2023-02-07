@@ -21,8 +21,8 @@ private class ActionPlansPostInstallScriptTest {
 	private static void installScript() {
 		ActionPlansPostInstallScript postinstall = new ActionPlansPostInstallScript();
 		Test.testInstall(postinstall, null);
-		System.assertNotEquals(0, [SELECT COUNT() FROM ActionPlanTemplate__c]);
-		System.assertEquals(true, Action_Plans_Settings__c.getInstance().Unassigned_Task_Assigned_to_Owner__c);
+		Assert.areNotEqual(0, [SELECT COUNT() FROM ActionPlanTemplate__c]);
+		Assert.areEqual(true, Action_Plans_Settings__c.getInstance().Unassigned_Task_Assigned_to_Owner__c);
 		Test.testInstall(postinstall, new Version(4, 0), false);
 		Test.testInstall(postinstall, new Version(4, 0), true);
 	}

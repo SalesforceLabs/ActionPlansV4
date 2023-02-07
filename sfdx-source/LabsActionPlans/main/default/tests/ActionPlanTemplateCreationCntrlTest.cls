@@ -50,7 +50,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		Test.stopTest();
 
-		System.assert(!aptcc.getTemplateTasks().isEmpty());
+		Assert.isFalse(aptcc.getTemplateTasks().isEmpty());
 	}
 
 	@IsTest
@@ -77,8 +77,8 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		Test.stopTest();
 
-		System.assert(page != null);
-		System.assert(aptcc.saveAndNew() != null);
+		Assert.isTrue(page != null);
+		Assert.isTrue(aptcc.saveAndNew() != null);
 	}
 
 	//Test Saves Action Plan Template and all tasks
@@ -101,7 +101,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		aptcc.saveTemplate();
 
-		System.assert(!aptcc.pendingTemplateTaskDeletes.isEmpty());
+		Assert.isFalse(aptcc.pendingTemplateTaskDeletes.isEmpty());
 
 		//Enter Task Catch()
 		aptcc.pendingTemplateTaskDeletes = new List<APTemplateTask__c>();
@@ -112,13 +112,13 @@ private class ActionPlanTemplateCreationCntrlTest {
 		//aptcc.aptTasks.add(new APTemplateTask__c(DaysFromStart__c = -3));
 		aptcc.saveTemplate();
 
-		System.assert(!aptcc.aptTasks.isEmpty());
+		Assert.isFalse(aptcc.aptTasks.isEmpty());
 
 		//Enter APT Catch()
 		aptcc.actionPlanTemplate = null;
 		aptcc.saveTemplate();
 		Test.stopTest();
-		System.assert(!aptcc.aptTasks.isEmpty());
+		Assert.isFalse(aptcc.aptTasks.isEmpty());
 	}
 
 	@IsTest
@@ -139,7 +139,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		Test.stopTest();
 
 		String urlVal = cancelPage.getUrl();
-		System.assert(urlVal.containsIgnoreCase(apTemplate.Id));
+		Assert.isTrue(urlVal.containsIgnoreCase(apTemplate.Id));
 	}
 
 	@IsTest
@@ -172,7 +172,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		aptcc.saveTemplate();
 
 		Test.stopTest();
-		System.assertEquals(1, aptcc.getTemplateTaskSize());
+		Assert.areEqual(1, aptcc.getTemplateTaskSize());
 	}
 
 	@IsTest
@@ -190,7 +190,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		aptcc.getTemplateWrappers();
 		Test.stopTest();
 
-		System.assertEquals(false, aptcc.taskHasRecordType);
+		Assert.areEqual(false, aptcc.taskHasRecordType);
 	}
 
 	@IsTest
@@ -207,7 +207,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		aptcc.addTemplateTask();
 		Test.stopTest();
 		String errorMsg = aptcc.getErrorMsg();
-		System.assert(errorMsg.containsIgnoreCase(String.valueOf(ActionPlansUtilities.MAX_APTASKS)));
+		Assert.isTrue(errorMsg.containsIgnoreCase(String.valueOf(ActionPlansUtilities.MAX_APTASKS)));
 	}
 
 	@IsTest
@@ -227,7 +227,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		Test.stopTest();
 
 		Integer taskCount = aptcc.getTemplateTaskSize();
-		System.assert(taskCount > 2);
+		Assert.isTrue(taskCount > 2);
 	}
 
 	@IsTest
@@ -242,7 +242,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		aptcc.addTemplateTask();
 
-		System.assert(aptcc.geterrorMsg() == null, 'An error was returned when adding a template task ');
+		Assert.isTrue(aptcc.geterrorMsg() == null, 'An error was returned when adding a template task ');
 
 		ActionPlanTemplate__c actionPlanTemplate2 = testUtil.createNewActionPlanTemplate(ActionPlansUtilities.MAX_APTASKS);
 		aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(actionPlanTemplate2));
@@ -251,7 +251,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		aptcc.addTemplateTask();
 
-		System.assert(aptcc.geterrorMsg() != null, 'An error was not returned when adding a template task');
+		Assert.isTrue(aptcc.geterrorMsg() != null, 'An error was not returned when adding a template task');
 
 		Test.stopTest();
 	}
@@ -272,7 +272,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		Test.stopTest();
 
-		System.assertEquals(3, aptcc.getTemplateTaskSize(), 'Should have removed 1 task from 4');
+		Assert.areEqual(3, aptcc.getTemplateTaskSize(), 'Should have removed 1 task from 4');
 	}
 
 	@IsTest
@@ -283,11 +283,11 @@ private class ActionPlanTemplateCreationCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c actionPlanTemplate = testUtil.createNewActionPlanTemplate(5);
 
-		System.assertEquals(5, [SELECT COUNT() FROM APTemplateTask__c], 'We created 5 tasks');
+		Assert.areEqual(5, [SELECT COUNT() FROM APTemplateTask__c], 'We created 5 tasks');
 
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(actionPlanTemplate));
 		aptcc.getTemplateTasks();
-		System.assertEquals(5, aptcc.aptTasks.size(), 'Should have 5 tasks on the template');
+		Assert.areEqual(5, aptcc.aptTasks.size(), 'Should have 5 tasks on the template');
 
 		ApexPages.currentPage().getParameters().put('remove', '1');
 		aptcc.removeTemplateTask();
@@ -297,8 +297,8 @@ private class ActionPlanTemplateCreationCntrlTest {
 		Test.stopTest();
 		aptcc.getTemplateTasks();
 
-		System.assert(aptcc.aptTasks.size() == 4, 'Task was not deleted correctly');
-		System.assertEquals(4, aptcc.getTemplateTasks().size(), 'Tasks get after delete failed');
+		Assert.isTrue(aptcc.aptTasks.size() == 4, 'Task was not deleted correctly');
+		Assert.areEqual(4, aptcc.getTemplateTasks().size(), 'Tasks get after delete failed');
 	}
 
 	@IsTest
@@ -316,7 +316,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		Test.stopTest();
 
 		//checks that the list is not empty
-		System.assert(!taskList.isEmpty(), 'Task list was not empty');
+		Assert.isFalse(taskList.isEmpty(), 'Task list was not empty');
 	}
 
 	@IsTest
@@ -343,7 +343,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		Test.stopTest();
 
 		//checks that the list is not empty
-		System.assert(!taskList.isEmpty(), 'Task list was not empty');
+		Assert.isFalse(taskList.isEmpty(), 'Task list was not empty');
 	}
 
 	@IsTest
@@ -359,13 +359,13 @@ private class ActionPlanTemplateCreationCntrlTest {
 		Integer numTasks = aptcc.getTemplateTaskSize();
 
 		//checks that the list is not empty
-		System.assert(!taskList.isEmpty(), 'Task list was not empty');
+		Assert.isFalse(taskList.isEmpty(), 'Task list was not empty');
 
 		Test.stopTest();
 
 		//Checks to see if both methods return same task size
-		System.assertEquals(numTasks, taskList.size());
-		System.assertEquals(TEMPLATE_TASKS_COUNT, taskList.size());
+		Assert.areEqual(numTasks, taskList.size());
+		Assert.areEqual(TEMPLATE_TASKS_COUNT, taskList.size());
 	}
 
 	@IsTest
@@ -383,7 +383,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		Test.stopTest();
 
-		System.assert(subjectItems.size() > 1, 'We have a task to select for dependency');
+		Assert.isTrue(subjectItems.size() > 1, 'We have a task to select for dependency');
 	}
 
 	@IsTest
@@ -429,7 +429,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		aptcc.checkCycleDependent();
 
-		System.assert(aptcc.getErrorMsg() != null, 'dependency check failed');
+		Assert.isTrue(aptcc.getErrorMsg() != null, 'dependency check failed');
 
 		Test.stopTest();
 	}
@@ -459,7 +459,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		aptcc.checkCycleDependent();
 
-		System.assert(aptcc.getErrorMsg() != null, 'dependency check failed');
+		Assert.isTrue(aptcc.getErrorMsg() != null, 'dependency check failed');
 
 		Test.stopTest();
 	}
@@ -515,7 +515,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		aptcc.aptTasks.add(newAPTTask4);
 
 		aptcc.checkCycleDependent();
-		System.assert(aptcc.getErrorMsg() != null, 'dependency check failed');
+		Assert.isTrue(aptcc.getErrorMsg() != null, 'dependency check failed');
 
 		ApexPages.currentPage().getParameters().put('remove', '1');
 		aptcc.removeTemplateTask();

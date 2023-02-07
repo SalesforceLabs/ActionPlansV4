@@ -31,7 +31,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 		apTemplate = [SELECT Id, TaskRecordTypeId__c, OwnerId FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
 
 		if (ActionPlansUtilities.taskUsesRecordTypes) {
-			System.assertNotEquals(null, apTemplate.TaskRecordTypeID__c);
+			Assert.areNotEqual(null, apTemplate.TaskRecordTypeID__c);
 		}
 
 		Test.startTest();
@@ -43,9 +43,9 @@ private class ActionPlanTemplateDetailCntrlTest {
 		apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
 		if (apTemplateDetailController.taskHasRecordType) {
-			System.assertNotEquals('', apTemplateDetailController.getRecordTypeName());
+			Assert.areNotEqual('', apTemplateDetailController.getRecordTypeName());
 		} else {
-			System.assertEquals('', apTemplateDetailController.getRecordTypeName());
+			Assert.areEqual('', apTemplateDetailController.getRecordTypeName());
 		}
 
 		apTemplateDetailController.getCanTransfer();
@@ -53,7 +53,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.stopTest();
 
-		System.assert(!apTemplateDetailController.getTemplateTasks().isEmpty());
+		Assert.isFalse(apTemplateDetailController.getTemplateTasks().isEmpty());
 	}
 
 	@IsTest
@@ -74,8 +74,8 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.stopTest();
 
-		System.assertEquals(true, apTemplateDetailController.taskHasRecordType);
-		System.assertNotEquals(null, apTemplateDetailController.getRecordTypeName());
+		Assert.areEqual(true, apTemplateDetailController.taskHasRecordType);
+		Assert.areNotEqual(null, apTemplateDetailController.getRecordTypeName());
 	}
 
 	@IsTest
@@ -96,7 +96,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.stopTest();
 
-		System.assertEquals('', apTemplateDetailController.getRecordTypeName());
+		Assert.areEqual('', apTemplateDetailController.getRecordTypeName());
 	}
 
 	@IsTest
@@ -114,7 +114,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.stopTest();
 
-		System.assert(apTemplateDetailController.getTemplateTasks().isEmpty());
+		Assert.isTrue(apTemplateDetailController.getTemplateTasks().isEmpty());
 	}
 
 	@IsTest
@@ -135,7 +135,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 		List<ActionPlanTemplate__c> auxTemplate = [SELECT Id FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id];
 
 		//Checks to see if action plan template has been deleted
-		System.assert(auxTemplate.isEmpty(), 'action plan Template was not deleted');
+		Assert.isTrue(auxTemplate.isEmpty(), 'action plan Template was not deleted');
 	}
 
 	@IsTest
@@ -143,7 +143,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(3);
 
-		System.assertEquals(3, [SELECT COUNT() FROM APTemplateTask__c]);
+		Assert.areEqual(3, [SELECT COUNT() FROM APTemplateTask__c]);
 
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
@@ -154,10 +154,10 @@ private class ActionPlanTemplateDetailCntrlTest {
 		Test.stopTest();
 
 		//Checks to see if template tasks is not empty
-		System.assert(!taskList.isEmpty(), 'action plan Template tasks is empty');
+		Assert.isFalse(taskList.isEmpty(), 'action plan Template tasks is empty');
 
 		//checks that list contains total number of created tasks
-		System.assertEquals(3, taskList.size());
+		Assert.areEqual(3, taskList.size());
 	}
 
 	@IsTest
@@ -176,10 +176,10 @@ private class ActionPlanTemplateDetailCntrlTest {
 		Test.stopTest();
 
 		//Checks to see if action plan template is retrieved
-		System.assert(apTemplate2 != null, 'action plan Template tasks is empty');
+		Assert.isTrue(apTemplate2 != null, 'action plan Template tasks is empty');
 
 		//checks to see if both action plan templates are the same
-		System.assertEquals(apTemplate2.Id, apTemplate.Id);
+		Assert.areEqual(apTemplate2.Id, apTemplate.Id);
 	}
 
 	@IsTest
@@ -196,8 +196,8 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.stopTest();
 
-		System.assert(controller.actionPlanExportXMLId != null);
+		Assert.isTrue(controller.actionPlanExportXMLId != null);
 
-		System.assertNotEquals(null, controller.getSuccessMessage());
+		Assert.areNotEqual(null, controller.getSuccessMessage());
 	}
 }

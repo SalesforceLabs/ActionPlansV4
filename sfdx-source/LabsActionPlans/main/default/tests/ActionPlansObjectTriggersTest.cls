@@ -45,25 +45,25 @@ private class ActionPlansObjectTriggersTest {
 		delete a;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assertEquals(0, lAp.size());
+		Assert.areEqual(0, lAp.size());
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete a;
 		} catch (Dmlexception e) {
-			System.assert(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
 		}
 		ActionPlansTestUtilities.forceError = false;
 
 		// Verifies that action plans are undeleted when restoring related object
 		undelete a;
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
 		System.debug([SELECT Id, IsDeleted, Name FROM ActionPlan__c ALL ROWS]);
 		// Verifies that action plans that are in recycle bin are removed when deleting the related object
 		delete ap;
-		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
 		delete a;
 	}
 
@@ -78,26 +78,26 @@ private class ActionPlansObjectTriggersTest {
 		delete c;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assertEquals(0, lAp.size());
+		Assert.areEqual(0, lAp.size());
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete c;
 		} catch (Dmlexception e) {
-			System.assert(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
 		}
 		ActionPlansTestUtilities.forceError = false;
 
 		// Verifies that action plans are undeleted when restoring related object
 		undelete (c);
 
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
 		System.debug([SELECT Id, IsDeleted, Name FROM ActionPlan__c ALL ROWS]);
 		// Verifies that action plans that are in recycle bin are removed when deleting the related object
 		delete ap;
-		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
 		delete c;
 	}
 
@@ -112,26 +112,26 @@ private class ActionPlansObjectTriggersTest {
 		delete c;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assertEquals(0, lAp.size());
+		Assert.areEqual(0, lAp.size());
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete c;
 		} catch (Dmlexception e) {
-			System.assert(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
 		}
 		ActionPlansTestUtilities.forceError = false;
 
 		// Verifies that action plans are undeleted when restoring related object
 		undelete c;
 
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
 		System.debug([SELECT Id, IsDeleted, Name FROM ActionPlan__c ALL ROWS]);
 		// Verifies that action plans that are in recycle bin are removed when deleting the related object
 		delete ap;
-		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
 		delete c;
 	}
 
@@ -146,26 +146,26 @@ private class ActionPlansObjectTriggersTest {
 		delete c;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assertEquals(0, lAp.size());
+		Assert.areEqual(0, lAp.size());
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete c;
 		} catch (Dmlexception e) {
-			System.assert(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
 		}
 		ActionPlansTestUtilities.forceError = false;
 
 		// Verifies that action plans are undeleted when restoring related object
 		undelete c;
 
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
 		System.debug([SELECT Id, IsDeleted, Name FROM ActionPlan__c ALL ROWS]);
 		// Verifies that action plans that are in recycle bin are removed when deleting the related object
 		delete ap;
-		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
 		delete c;
 	}
 
@@ -180,26 +180,26 @@ private class ActionPlansObjectTriggersTest {
 		delete c;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assertEquals(0, lAp.size());
+		Assert.areEqual(0, lAp.size());
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete c;
 		} catch (Dmlexception e) {
-			System.assert(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
 		}
 		ActionPlansTestUtilities.forceError = false;
 
 		// Verifies that action plans are undeleted when restoring related object
 		undelete c;
 
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
 		System.debug([SELECT Id, IsDeleted, Name FROM ActionPlan__c ALL ROWS]);
 		// Verifies that action plans that are in recycle bin are removed when deleting the related object
 		delete ap;
-		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
 		delete c;
 	}
 
@@ -214,26 +214,26 @@ private class ActionPlansObjectTriggersTest {
 		delete l;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assertEquals(0, lAp.size());
+		Assert.areEqual(0, lAp.size());
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete l;
 		} catch (Dmlexception e) {
-			System.assert(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
 		}
 		ActionPlansTestUtilities.forceError = false;
 
 		// Verifies that action plans are undeleted when restoring related object
 		undelete l;
 
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
 		System.debug([SELECT Id, IsDeleted, Name FROM ActionPlan__c ALL ROWS]);
 		// Verifies that action plans that are in recycle bin are removed when deleting the related object
 		delete ap;
-		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
 		delete l;
 	}
 
@@ -248,26 +248,26 @@ private class ActionPlansObjectTriggersTest {
 		delete o;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		System.assertEquals(0, lAp.size());
+		Assert.areEqual(0, lAp.size());
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete o;
 		} catch (Dmlexception e) {
-			System.assert(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
 		}
 		ActionPlansTestUtilities.forceError = false;
 
 		// Verifies that action plans are undeleted when restoring related object
 		undelete o;
 
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have 1 Action Plan undeleted with the campaign');
 		System.debug([SELECT Id, IsDeleted, Name FROM ActionPlan__c ALL ROWS]);
 		// Verifies that action plans that are in recycle bin are removed when deleting the related object
 		delete ap;
-		System.assertEquals(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = FALSE], 'We should have deleted our Action Plan');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE IsDeleted = TRUE ALL ROWS], 'No Action Plan in the recycle bin');
 		delete o;
 	}
 
@@ -291,8 +291,8 @@ private class ActionPlansObjectTriggersTest {
 				update aps;
 			}
 			Lead l = [SELECT Id FROM Lead LIMIT 1];
-			System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL]);
-			System.assertEquals(l.Id, [SELECT Lead__c FROM ActionPlan__c LIMIT 1].Lead__c, 'Our only lead should be on this action plan');
+			Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL]);
+			Assert.areEqual(l.Id, [SELECT Lead__c FROM ActionPlan__c LIMIT 1].Lead__c, 'Our only lead should be on this action plan');
 
 			Database.LeadConvert lc = new Database.LeadConvert();
 			lc.setDoNotCreateOpportunity(true);
@@ -302,12 +302,12 @@ private class ActionPlansObjectTriggersTest {
 			lc.setConvertedStatus(convertStatus.MasterLabel);
 
 			Database.LeadConvertResult lcr = Database.convertLead(lc);
-			System.assert(lcr.isSuccess());
+			Assert.isTrue(lcr.isSuccess());
 		}
 
 		Test.stopTest();
 
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL]);
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL]);
 	}
 
 	@IsTest
@@ -332,10 +332,10 @@ private class ActionPlansObjectTriggersTest {
 				update aps;
 			}
 
-			System.assert(Schema.sObjectType.ActionPlan__c.fields.Account__c.isUpdateable());
+			Assert.isTrue(Schema.sObjectType.ActionPlan__c.fields.Account__c.isUpdateable());
 
-			System.assertEquals(0, [SELECT COUNT() FROM Account]);
-			System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL]);
+			Assert.areEqual(0, [SELECT COUNT() FROM Account]);
+			Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL]);
 
 			Database.LeadConvert lc = new Database.LeadConvert();
 			lc.setDoNotCreateOpportunity(true);
@@ -345,15 +345,15 @@ private class ActionPlansObjectTriggersTest {
 			lc.setConvertedStatus(convertStatus.MasterLabel);
 
 			Database.LeadConvertResult lcr = Database.convertLead(lc);
-			System.assert(lcr.isSuccess());
-			System.assertEquals(1, [SELECT COUNT() FROM Account]);
+			Assert.isTrue(lcr.isSuccess());
+			Assert.areEqual(1, [SELECT COUNT() FROM Account]);
 			System.debug('ActionPlan by test user: ' + [SELECT Id, Account__c, Contact__c, Lead__c FROM ActionPlan__c]);
 		}
 		Test.stopTest();
 
 		System.debug('ActionPlan by my user: ' + [SELECT Id, Account__c, Contact__c, Lead__c FROM ActionPlan__c]);
 
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL]);
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL]);
 	}
 
 	@IsTest
@@ -377,7 +377,7 @@ private class ActionPlansObjectTriggersTest {
 				update aps;
 			}
 
-			System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL]);
+			Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL]);
 
 			Database.LeadConvert lc = new Database.LeadConvert();
 			lc.setDoNotCreateOpportunity(false);
@@ -387,11 +387,11 @@ private class ActionPlansObjectTriggersTest {
 			lc.setConvertedStatus(convertStatus.MasterLabel);
 
 			Database.LeadConvertResult lcr = Database.convertLead(lc);
-			System.assert(lcr.isSuccess());
+			Assert.isTrue(lcr.isSuccess());
 		}
 
 		Test.stopTest();
 
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c WHERE Opportunity__c != NULL]);
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Opportunity__c != NULL]);
 	}
 }

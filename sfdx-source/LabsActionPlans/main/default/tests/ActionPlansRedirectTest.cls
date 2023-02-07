@@ -22,9 +22,9 @@ public class ActionPlansRedirectTest {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
-		System.assertNotEquals(null, apTemplate.Id, 'We should have created an ActionPlan Template');
+		Assert.areNotEqual(null, apTemplate.Id, 'We should have created an ActionPlan Template');
 		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
-		System.assertNotEquals(null, actionPlan.Id, 'We should have created an ActionPlan');
+		Assert.areNotEqual(null, actionPlan.Id, 'We should have created an ActionPlan');
 	}
 
 	@IsTest
@@ -39,9 +39,9 @@ public class ActionPlansRedirectTest {
 		Test.stopTest();
 
 		Pagereference cp = pr;
-		System.assert(!cp.getURL().containsIgnoreCase(apt.Id));
+		Assert.isFalse(cp.getURL().containsIgnoreCase(apt.Id));
 		System.debug('CurrentPage ' + cp.getURL());
-		System.assert(cp.getURL().containsIgnoreCase(apt.Action_Plan__c));
+		Assert.isTrue(cp.getURL().containsIgnoreCase(apt.Action_Plan__c));
 	}
 
 	@IsTest
@@ -56,9 +56,9 @@ public class ActionPlansRedirectTest {
 		Test.stopTest();
 
 		Pagereference cp = pr;
-		System.assert(!cp.getURL().containsIgnoreCase(apttt.Id));
+		Assert.isFalse(cp.getURL().containsIgnoreCase(apttt.Id));
 		System.debug('CurrentPage ' + cp.getURL());
-		System.assert(cp.getURL().containsIgnoreCase(apttt.Action_Plan_Template__c));
+		Assert.isTrue(cp.getURL().containsIgnoreCase(apttt.Action_Plan_Template__c));
 	}
 
 	@IsTest
@@ -67,14 +67,14 @@ public class ActionPlansRedirectTest {
 		Test.setCurrentPage(Page.ActionPlanAPOwnerChange);
 		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlan));
 		PageReference pr = apr.save();
-		System.assert(pr.getURL().containsIgnoreCase(actionPlan.Id), 'Should have put Id in view page URL');
+		Assert.isTrue(pr.getURL().containsIgnoreCase(actionPlan.Id), 'Should have put Id in view page URL');
 
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanAPOwnerChange);
 		apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlan));
 		pr = apr.cancel();
 		Test.stopTest();
-		System.assert(pr.getURL().containsIgnoreCase(actionPlan.Id), 'Should have put Id in view page URL');
+		Assert.isTrue(pr.getURL().containsIgnoreCase(actionPlan.Id), 'Should have put Id in view page URL');
 	}
 
 	@IsTest
@@ -83,7 +83,7 @@ public class ActionPlansRedirectTest {
 		Test.setCurrentPage(Page.ActionPlanAPTOwnerChange);
 		ActionPlansRedirect apr = new ActionPlansRedirect(new ApexPages.StandardController(actionPlanTemplate));
 		PageReference pr = apr.cancel();
-		System.assert(pr.getURL().containsIgnoreCase(actionPlanTemplate.Id), 'Should have put Id in view page URL');
+		Assert.isTrue(pr.getURL().containsIgnoreCase(actionPlanTemplate.Id), 'Should have put Id in view page URL');
 
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanAPTOwnerChange);
@@ -91,6 +91,6 @@ public class ActionPlansRedirectTest {
 		pr = apr.save();
 		Test.stopTest();
 
-		System.assert(pr.getURL().containsIgnoreCase(actionPlanTemplate.Id), 'Should have put Id in view page URL');
+		Assert.isTrue(pr.getURL().containsIgnoreCase(actionPlanTemplate.Id), 'Should have put Id in view page URL');
 	}
 }

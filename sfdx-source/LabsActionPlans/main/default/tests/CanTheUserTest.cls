@@ -27,11 +27,11 @@ private class CanTheUserTest {
 
 	@IsTest
 	private static void canCrudAccountCreatePositive() {
-		System.assert(
+		Assert.isTrue(
 			CanTheUser.crud(generateAccounts(), CanTheUser.CrudType.CREATEABLE),
 			'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts'
 		);
-		System.assert(
+		Assert.isTrue(
 			CanTheUser.crud(new Account(), CanTheUser.CrudType.CREATEABLE),
 			'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts'
 		);
@@ -39,69 +39,69 @@ private class CanTheUserTest {
 
 	@IsTest
 	private static void canCrudCreateAccountPositive() {
-		System.assert(
+		Assert.isTrue(
 			CanTheUser.create(generateAccounts()),
 			'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts'
 		);
-		System.assert(CanTheUser.create(new Account()), 'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts');
-		System.assert(CanTheUser.create('Account'), 'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts');
+		Assert.isTrue(CanTheUser.create(new Account()), 'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts');
+		Assert.isTrue(CanTheUser.create('Account'), 'Unless scratch org defaults have been changed by the user, this test should pass - asserting that users can create accounts');
 	}
 
 	@IsTest
 	private static void canCrudAccountReadPositive() {
-		System.assert(CanTheUser.crud(generateAccounts(), CanTheUser.CrudType.READABLE), 'Expected to be able to read accounts');
-		System.assert(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE), 'Expected to be able to read accounts');
+		Assert.isTrue(CanTheUser.crud(generateAccounts(), CanTheUser.CrudType.READABLE), 'Expected to be able to read accounts');
+		Assert.isTrue(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE), 'Expected to be able to read accounts');
 	}
 
 	@IsTest
 	private static void canCrudReadAccountPositive() {
-		System.assert(CanTheUser.read(generateAccounts()), 'Expected to be able to read accounts');
-		System.assert(CanTheUser.read(new Account()), 'Expected to be able to read accounts');
-		System.assert(CanTheUser.read('Account'), 'Expected to be able to read accounts');
+		Assert.isTrue(CanTheUser.read(generateAccounts()), 'Expected to be able to read accounts');
+		Assert.isTrue(CanTheUser.read(new Account()), 'Expected to be able to read accounts');
+		Assert.isTrue(CanTheUser.read('Account'), 'Expected to be able to read accounts');
 	}
 
 	@IsTest
 	private static void canCrudAccountUpdatePositive() {
-		System.assert(CanTheUser.crud(generateAccounts(), CanTheUser.CrudType.EDITABLE), 'Expected to be able to update accounts');
-		System.assert(CanTheUser.crud(new Account(), CanTheUser.CrudType.EDITABLE), 'Expected to be able to update accounts');
+		Assert.isTrue(CanTheUser.crud(generateAccounts(), CanTheUser.CrudType.EDITABLE), 'Expected to be able to update accounts');
+		Assert.isTrue(CanTheUser.crud(new Account(), CanTheUser.CrudType.EDITABLE), 'Expected to be able to update accounts');
 	}
 
 	@IsTest
 	private static void canCrudEditAccountPositive() {
-		System.assert(CanTheUser.edit(generateAccounts()), 'Expected to be able to update accounts');
-		System.assert(CanTheUser.edit(new Account()), 'Expected to be able to update accounts');
-		System.assert(CanTheUser.edit('Account'), 'Expected to be able to update accounts');
+		Assert.isTrue(CanTheUser.edit(generateAccounts()), 'Expected to be able to update accounts');
+		Assert.isTrue(CanTheUser.edit(new Account()), 'Expected to be able to update accounts');
+		Assert.isTrue(CanTheUser.edit('Account'), 'Expected to be able to update accounts');
 	}
 
 	@IsTest
 	private static void canCrudUpsertAccountPositive() {
-		System.assert(CanTheUser.ups(generateAccounts()), 'Expected to be able to upsert accounts');
-		System.assert(CanTheUser.ups(new Account()), 'Expected to be able to upsert accounts');
-		System.assert(CanTheUser.ups('Account'), 'Expected to be able to upsert accounts');
+		Assert.isTrue(CanTheUser.ups(generateAccounts()), 'Expected to be able to upsert accounts');
+		Assert.isTrue(CanTheUser.ups(new Account()), 'Expected to be able to upsert accounts');
+		Assert.isTrue(CanTheUser.ups('Account'), 'Expected to be able to upsert accounts');
 	}
 
 	@IsTest
 	private static void canCrudAccountDeletePositive() {
-		System.assert(CanTheUser.crud(generateAccounts(), CanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
-		System.assert(CanTheUser.crud(new Account(), CanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
-		System.assert(CanTheUser.crud('Account', CanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
+		Assert.isTrue(CanTheUser.crud(generateAccounts(), CanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
+		Assert.isTrue(CanTheUser.crud(new Account(), CanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
+		Assert.isTrue(CanTheUser.crud('Account', CanTheUser.CrudType.DELETABLE), 'Expected to be able to delete accounts');
 	}
 
 	@IsTest
 	private static void canCrudDestroyAccountPositive() {
-		System.assert(CanTheUser.destroy(generateAccounts()), 'Expected to be able to delete accounts');
-		System.assert(CanTheUser.destroy(new Account()), 'Expected to be able to delete accounts');
-		System.assert(CanTheUser.destroy('Account'), 'Expected to be able to delete accounts');
+		Assert.isTrue(CanTheUser.destroy(generateAccounts()), 'Expected to be able to delete accounts');
+		Assert.isTrue(CanTheUser.destroy(new Account()), 'Expected to be able to delete accounts');
+		Assert.isTrue(CanTheUser.destroy('Account'), 'Expected to be able to delete accounts');
 	}
 
 	@IsTest
 	private static void getFLSofAccountNamePositive() {
-		System.assert(CanTheUser.flsAccessible('Account', 'Name'), 'Expected the name field to be accesible on Account');
+		Assert.isTrue(CanTheUser.flsAccessible('Account', 'Name'), 'Expected the name field to be accesible on Account');
 	}
 
 	@IsTest
 	private static void getFLSofAccountIDNegative() {
-		System.assert(CanTheUser.flsUpdatable('Account', 'id') == false, 'Expected that the ID of an object cannot be updated.');
+		Assert.isTrue(CanTheUser.flsUpdatable('Account', 'id') == false, 'Expected that the ID of an object cannot be updated.');
 	}
 
 	@IsTest
@@ -109,7 +109,7 @@ private class CanTheUserTest {
 		Set<String> fields = new Set<String>{ 'name', 'id' };
 		Map<String, Boolean> bulkCheck = CanTheUser.bulkFLSAccessible('Account', fields);
 		for (String field : bulkCheck.keySet()) {
-			System.assert(bulkCheck.get(field), 'Expected the field ' + field + ' to be accesible on Account');
+			Assert.isTrue(bulkCheck.get(field), 'Expected the field ' + field + ' to be accesible on Account');
 		}
 	}
 
@@ -118,9 +118,9 @@ private class CanTheUserTest {
 		Set<String> fields = new Set<String>{ 'name', 'nonExistingField__c' };
 		Map<String, Boolean> bulkCheck = CanTheUser.bulkFLSAccessible('Account', fields);
 
-		System.assert(bulkCheck.get('name'), 'Expected the name field to be accesible on Account');
+		Assert.isTrue(bulkCheck.get('name'), 'Expected the name field to be accesible on Account');
 
-		System.assert(!bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c field not to be accesible on Account');
+		Assert.isFalse(bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c field not to be accesible on Account');
 	}
 
 	@IsTest
@@ -128,7 +128,7 @@ private class CanTheUserTest {
 		Set<String> fields = new Set<String>{ 'name', 'ShippingStreet' };
 		Map<String, Boolean> bulkCheck = CanTheUser.bulkFLSUpdatable('Account', fields);
 		for (String field : bulkCheck.keySet()) {
-			System.assert(bulkCheck.get(field), 'Expected the field ' + field + ' to be accesible on Account');
+			Assert.isTrue(bulkCheck.get(field), 'Expected the field ' + field + ' to be accesible on Account');
 		}
 	}
 
@@ -136,7 +136,7 @@ private class CanTheUserTest {
 	private static void getBulkFLSUpdatableWithAccountPositiveWithNegativeResults() {
 		Set<String> fields = new Set<String>{ 'name', 'nonExistingField__c' };
 		Map<String, Boolean> bulkCheck = CanTheUser.bulkFLSUpdatable('Account', fields);
-		System.assert(bulkCheck.get('name'), 'Expected the name field to be accesible on Account');
-		System.assert(!bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c field not to be accesible on Account');
+		Assert.isTrue(bulkCheck.get('name'), 'Expected the name field to be accesible on Account');
+		Assert.isFalse(bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c field not to be accesible on Account');
 	}
 }

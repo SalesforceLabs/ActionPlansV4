@@ -52,10 +52,10 @@ private class ActionPlanCreationTaskWrapperTest {
 
 			List<ActionPlanCreationController.ApTaskWrapper> apTaskList = apCreateController.getTasks();
 			for (ActionPlanCreationController.ApTaskWrapper wrap : apTaskList) {
-				System.assertEquals(false, wrap.userRequired);
+				Assert.areEqual(false, wrap.userRequired);
 			}
 			Test.stopTest();
-			System.assert(!apTaskList.isEmpty(), 'Action plan task list is empty');
+			Assert.isFalse(apTaskList.isEmpty(), 'Action plan task list is empty');
 		}
 	}
 
@@ -75,7 +75,7 @@ private class ActionPlanCreationTaskWrapperTest {
 		apCreateController.actionPlan.Account__c = a.Id;
 
 		List<ActionPlanCreationController.ApTaskWrapper> apTaskList = apCreateController.getTasks();
-		System.assert(!apTaskList.isEmpty());
+		Assert.isFalse(apTaskList.isEmpty());
 		for (ActionPlanCreationController.ApTaskWrapper wrap : apTaskList) {
 			wrap.getUserRender();
 		}
@@ -84,7 +84,7 @@ private class ActionPlanCreationTaskWrapperTest {
 		apCreateController.save();
 		Test.stopTest();
 
-		System.assertEquals(1, [SELECT COUNT() FROM ActionPlan__c], 'Action Plan should have been inserted');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c], 'Action Plan should have been inserted');
 
 		ActionPlan__c ap = [SELECT Id, Name, TaskRecordTypeId__c FROM ActionPlan__c LIMIT 1];
 
@@ -94,9 +94,9 @@ private class ActionPlanCreationTaskWrapperTest {
 		apCreateController.onLoad();
 		apCreateController.inVisualforceContext = true;
 		List<ActionPlanCreationController.ApTaskWrapper> apTaskList2 = apCreateController.getTasks();
-		System.assert(!apTaskList2.isEmpty());
+		Assert.isFalse(apTaskList2.isEmpty());
 		for (ActionPlanCreationController.ApTaskWrapper wrap : apTaskList2) {
-			System.assertNotEquals(null, wrap.apt.User__c);
+			Assert.areNotEqual(null, wrap.apt.User__c);
 			wrap.getUserRender();
 		}
 
@@ -111,7 +111,7 @@ private class ActionPlanCreationTaskWrapperTest {
 		}
 		System.runAs(u) {
 			ActionPlanCreationController apCreateController = doTemplateCreateEdit();
-			System.assertEquals(4, apCreateController.getTasks().size());
+			Assert.areEqual(4, apCreateController.getTasks().size());
 		}
 	}
 
@@ -130,7 +130,7 @@ private class ActionPlanCreationTaskWrapperTest {
 		}
 		System.runAs(u) {
 			ActionPlanCreationController apCreateController = doTemplateCreateEdit();
-			System.assertEquals(4, apCreateController.getTasks().size());
+			Assert.areEqual(4, apCreateController.getTasks().size());
 		}
 	}
 
@@ -144,9 +144,9 @@ private class ActionPlanCreationTaskWrapperTest {
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		//apCreateController.onLoad();
 		List<ActionPlanCreationController.ApTaskWrapper> apTaskList = apCreateController.getTasks();
-		System.assert(!apTaskList.isEmpty());
+		Assert.isFalse(apTaskList.isEmpty());
 		for (ActionPlanCreationController.ApTaskWrapper wrap : apTaskList) {
-			System.assertNotEquals(null, wrap.apt.Id);
+			Assert.areNotEqual(null, wrap.apt.Id);
 			wrap.getUserRender();
 		}
 		Test.stopTest();
@@ -160,10 +160,10 @@ private class ActionPlanCreationTaskWrapperTest {
 			u = new ActionPlansTestUtilities().createAdminUser();
 		}
 		System.runAs(u) {
-			System.assert(Schema.sObjectType.APTask__c.fields.User__c.isUpdateable());
+			Assert.isTrue(Schema.sObjectType.APTask__c.fields.User__c.isUpdateable());
 			ActionPlanCreationController apCreateController = doEditActionPlan();
-			System.assertEquals(0, ActionPlansTestUtilities.getCompleted(apCreateController.actionPlan.Id), 'New AP should have no completed tasks');
-			System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
+			Assert.areEqual(0, ActionPlansTestUtilities.getCompleted(apCreateController.actionPlan.Id), 'New AP should have no completed tasks');
+			Assert.areNotEqual(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 		}
 	}
 
@@ -181,10 +181,10 @@ private class ActionPlanCreationTaskWrapperTest {
 			u = new ActionPlansTestUtilities().createAdminUser();
 		}
 		System.runAs(u) {
-			System.assert(Schema.sObjectType.APTask__c.fields.User__c.isUpdateable());
+			Assert.isTrue(Schema.sObjectType.APTask__c.fields.User__c.isUpdateable());
 			ActionPlanCreationController apCreateController = doEditActionPlan();
-			System.assertEquals(0, ActionPlansTestUtilities.getCompleted(apCreateController.actionPlan.Id), 'New AP should have no completed tasks');
-			System.assertNotEquals(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
+			Assert.areEqual(0, ActionPlansTestUtilities.getCompleted(apCreateController.actionPlan.Id), 'New AP should have no completed tasks');
+			Assert.areNotEqual(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 		}
 	}
 }

@@ -80,8 +80,8 @@ private class ActionPlansQueueableBuilderTest {
 		Test.stopTest();
 
 		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :queueId];
-		System.assertEquals('Completed', a.status);
-		System.assertEquals(0, a.NumberOfErrors);
+		Assert.areEqual('Completed', a.status);
+		Assert.areEqual(0, a.NumberOfErrors);
 	}
 
 	@IsTest
@@ -116,7 +116,7 @@ private class ActionPlansQueueableBuilderTest {
 		Test.stopTest();
 
 		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :queueId];
-		System.assertEquals('Completed', a.status);
-		System.assertEquals(0, a.NumberOfErrors);
+		Assert.areEqual('Completed', a.status);
+		Assert.areEqual(0, a.NumberOfErrors);
 	}
 }

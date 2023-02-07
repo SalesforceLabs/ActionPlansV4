@@ -41,7 +41,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		System.assert(pageRef != null);
+		Assert.isTrue(pageRef != null);
 	}
 
 	@IsTest
@@ -54,7 +54,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		System.assert(pageRef == null, 'Should have had error on import');
+		Assert.isTrue(pageRef == null, 'Should have had error on import');
 	}
 
 	@IsTest
@@ -68,7 +68,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		System.assert(pageRef == null, 'Should have had error on import');
+		Assert.isTrue(pageRef == null, 'Should have had error on import');
 	}
 
 	@IsTest
@@ -82,7 +82,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		System.assert(pageRef == null, 'Should have had error on import');
+		Assert.isTrue(pageRef == null, 'Should have had error on import');
 	}
 
 	@IsTest
@@ -96,7 +96,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		System.assert(pageRef == null, 'Should have had error on import');
+		Assert.isTrue(pageRef == null, 'Should have had error on import');
 	}
 
 	@IsTest
@@ -110,7 +110,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		System.assert(pageRef == null, 'Should have had error on import');
+		Assert.isTrue(pageRef == null, 'Should have had error on import');
 	}
 
 	@IsTest
@@ -124,7 +124,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		System.assert(pageRef != null, 'Should be able to read file we generated');
+		Assert.isTrue(pageRef != null, 'Should be able to read file we generated');
 	}
 
 	@IsTest
@@ -136,19 +136,19 @@ private class ActionPlanTemplateImportCntrlTest {
 		xmlFile = xmlFile.replace('<exportAuthor>Salesforce+Labs</exportAuthor>', '<exportAuthor></exportAuthor>');
 		Attachment att = new Attachment(Name = 'Test Xml', Body = Blob.valueOf(xmlFile), ContentType = 'plain/text');
 		controller.attachment = att;
-		System.assertEquals(null, controller.importTemplate(), 'Should not be able to read file we generated');
+		Assert.areEqual(null, controller.importTemplate(), 'Should not be able to read file we generated');
 
 		xmlFile = xmlImportFromExport;
 		xmlFile = xmlFile.replace('<exportOrganization>Action+Plans</exportOrganization>', '<exportOrganization></exportOrganization>');
 		att = new Attachment(Name = 'Test Xml', Body = Blob.valueOf(xmlFile), ContentType = 'plain/text');
 		controller.attachment = att;
-		System.assertEquals(null, controller.importTemplate(), 'Should not be able to read file we generated');
+		Assert.areEqual(null, controller.importTemplate(), 'Should not be able to read file we generated');
 
 		xmlFile = xmlImportFromExport;
 		xmlFile = xmlFile.replace('<exportCreateDate>2021-04-30+00%3A03%3A48</exportCreateDate', '<exportCreateDate></exportCreateDate');
 		att = new Attachment(Name = 'Test Xml', Body = Blob.valueOf(xmlFile), ContentType = 'plain/text');
 		controller.attachment = att;
-		System.assertEquals(null, controller.importTemplate(), 'Should not be able to read file we generated');
+		Assert.areEqual(null, controller.importTemplate(), 'Should not be able to read file we generated');
 	}
 
 	@IsTest
@@ -162,7 +162,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		System.assert(pageRef != null, 'Should be able to read file we generated');
+		Assert.isTrue(pageRef != null, 'Should be able to read file we generated');
 	}
 
 	@IsTest
@@ -187,8 +187,8 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Test.stopTest();
 
-		System.assert(pageRef != null, 'Should be able to read file we generated');
+		Assert.isTrue(pageRef != null, 'Should be able to read file we generated');
 
-		System.assert(xmlId != null);
+		Assert.isTrue(xmlId != null);
 	}
 }

@@ -32,12 +32,12 @@ private class ActionPlansSectionHeaderControllerTest {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
 			shc.objectName = ActionPlansUtilities.namespacePrefix + 'ActionPlan__c';
 			shc.getObjectIconInfo();
-			System.assert(shc.getIsCustom(), 'ActionPlan is a custom object');
+			Assert.isTrue(shc.getIsCustom(), 'ActionPlan is a custom object');
 
 			shc = new ActionPlansSectionHeaderController();
 			shc.objectName = 'Account';
 			shc.getObjectIconInfo();
-			System.assert(!shc.getIsCustom(), 'Account is a standard object');
+			Assert.isFalse(shc.getIsCustom(), 'Account is a standard object');
 		}
 	}
 
@@ -49,14 +49,14 @@ private class ActionPlansSectionHeaderControllerTest {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
 			shc.objectName = 'CaseComment';
 			shc.getObjectIconInfo();
-			System.assert(!shc.getIsCustom(), 'CaseComment is a standard object');
+			Assert.isFalse(shc.getIsCustom(), 'CaseComment is a standard object');
 
 			shc = new ActionPlansSectionHeaderController();
 			shc.objectName = ActionPlansUtilities.namespacePrefix + 'APTask__c';
 			shc.getObjectIconInfo();
-			System.assert(shc.getIsCustom(), 'APTask is a custom object');
+			Assert.isTrue(shc.getIsCustom(), 'APTask is a custom object');
 			Map<String, String> iconInfo = shc.getObjectIconInfo();
-			System.assertEquals(iconInfo.get('iconTag'), 'record', 'Should not be a tab/icon for APTask');
+			Assert.areEqual(iconInfo.get('iconTag'), 'record', 'Should not be a tab/icon for APTask');
 		}
 	}
 
@@ -68,7 +68,7 @@ private class ActionPlansSectionHeaderControllerTest {
 			ActionPlansSectionHeaderController shc = new ActionPlansSectionHeaderController();
 			shc.objectName = 'Contract';
 			shc.getObjectIconInfo();
-			System.assert(!shc.getIsCustom(), 'Contract is a standard object');
+			Assert.isFalse(shc.getIsCustom(), 'Contract is a standard object');
 		}
 	}
 
@@ -82,7 +82,7 @@ private class ActionPlansSectionHeaderControllerTest {
 			shc.getIsCustom();
 			shc.getObjectIconInfo();
 			String nullIconTag = shc.getObjectIconInfo().get('iconTag');
-			System.assertEquals('record', nullIconTag, 'Should have reached null section of header controller');
+			Assert.areEqual('record', nullIconTag, 'Should have reached null section of header controller');
 		}
 
 	}

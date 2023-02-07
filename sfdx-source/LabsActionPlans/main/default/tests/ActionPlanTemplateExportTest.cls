@@ -34,7 +34,7 @@ private class ActionPlanTemplateExportTest {
 
 		Test.stopTest();
 
-		System.assert(xmlId != null);
+		Assert.isTrue(xmlId != null);
 	}
 
 	@IsTest
@@ -51,7 +51,7 @@ private class ActionPlanTemplateExportTest {
 
 		Test.stopTest();
 
-		System.assert(xmlId != null);
+		Assert.isTrue(xmlId != null);
 	}
 
 	@IsTest
@@ -68,6 +68,6 @@ private class ActionPlanTemplateExportTest {
 
 		Test.stopTest();
 
-		System.assert(xmlId != null);
+		Assert.isTrue(xmlId != null);
 	}
 }
