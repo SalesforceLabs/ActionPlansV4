@@ -21,7 +21,7 @@
     "name": "Action Plans",
     "namespace": "",
     "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "55.0",
+    "sourceApiVersion": "56.0",
     "packageAliases": {
         "Action Plans": "0Ho5f000000oLlrCAE",
         "ActionPlans": "0Ho5f000000oLlrCAE",
