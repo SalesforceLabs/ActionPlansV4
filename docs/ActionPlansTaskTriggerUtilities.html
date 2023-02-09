@@ -343,7 +343,14 @@
               <div class="class-subtitle">Signature</div>
 
               <div class="class-signature">public without sharing class ActionPlansTaskTriggerUtilities</div>
-              <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />2022
+              <div class="class-subtitle">Since</div>
+              <div class="class-subtitle-description">
+                <li>2022</li>
+              </div>
+              <div class="class-subtitle">Author</div>
+              <div class="class-subtitle-description">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
+              </div>
             </div>
             <div class="subsection properties ActionPlansTaskTriggerUtilities">
               <h3 class="subsection-title properties">ActionPlansTaskTriggerUtilities Properties</h3>
@@ -414,9 +421,9 @@
                     <div class="methods-toc__description">Delete Action Plan Tasks</div>
                   </li>
                   <li class="method public">
-                    <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilities.deleteTasks"> deleteTasks (apttIds) </a>
+                    <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilities.futureDeleteTasks"> futureDeleteTasks (taskIDs) </a>
 
-                    <div class="methods-toc__description">Delete Action Plan Tasks related Tasks</div>
+                    <div class="methods-toc__description">Delete Action Plan Tasks&#39; related Tasks</div>
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilities.generateDependentTasksAndReset">
@@ -461,7 +468,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L364">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L375">
                       actionsOnTaskBeforeDelete(cTasks)
                     </a>
                   </h4>
@@ -487,7 +494,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L272">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L283">
                       deleteAPTasks(aPTasks)
                     </a>
                   </h4>
@@ -501,22 +508,22 @@
                   <div class="param-description">Ids of APTasks to delete</div>
                 </div>
                 <div class="method public">
-                  <h4 class="method-title" id="ActionPlansTaskTriggerUtilities.deleteTasks">
+                  <h4 class="method-title" id="ActionPlansTaskTriggerUtilities.futureDeleteTasks">
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L283">
-                      deleteTasks(apttIds)
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L295">
+                      futureDeleteTasks(taskIDs)
                     </a>
                   </h4>
-                  <div class="method-description">Delete Action Plan Tasks related Tasks</div>
+                  <div class="method-description">Delete Action Plan Tasks&#39; related Tasks</div>
                   <div class="method-subtitle">Signature</div>
-
-                  <div class="method-signature">public static void deleteTasks(Set&lt;Id&gt; apttIds)</div>
+                  <div class="method-annotations">@future</div>
+                  <div class="method-signature">public static void futureDeleteTasks(Set&lt;Id&gt; taskIDs)</div>
                   <div class="method-subtitle">Parameters</div>
-                  <div class="param-name">apttIds</div>
+                  <div class="param-name">taskIDs</div>
                   <div class="param-type">Type: <code class="code-inline">Set&lt;Id&gt;</code></div>
                   <div class="param-description"><code class="code-inline">Task</code> IDs to delete</div>
                 </div>
@@ -527,7 +534,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L294">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L305">
                       generateDependentTasksAndReset(apTasks, taskIndexToDelete)
                     </a>
                   </h4>
@@ -573,7 +580,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L154">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L165">
                       populateUpdateApttsList(dependentAptList)
                     </a>
                   </h4>
@@ -595,7 +602,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L75">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L86">
                       queryDependentAPTaskTemplates(closedTasks)
                     </a>
                   </h4>
@@ -611,7 +618,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L255">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L266">
                       updateAPTasksStatus(apTasksMap)
                     </a>
                   </h4>
@@ -631,7 +638,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L96">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTaskTriggerUtilities.cls#L107">
                       upsertDependentAPTasks(dependentAptList)
                     </a>
                   </h4>

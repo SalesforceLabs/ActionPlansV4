@@ -352,11 +352,18 @@
                   >https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon</a
                 >
               </div>
-              <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
-              <a target="_blank" rel="noopener noreferrer" href="https://salesforce.stackexchange.com/users/12582/cricketlang">Cricketlang</a><br />2022
+              <div class="class-subtitle">Since</div>
+              <div class="class-subtitle-description">
+                <li>2022</li>
+              </div>
+              <div class="class-subtitle">Authors</div>
+              <div class="class-subtitle-description">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>,
+                <a target="_blank" rel="noopener noreferrer" href="https://salesforce.stackexchange.com/users/12582/cricketlang">Cricketlang</a>
+              </div>
               <div class="class-subtitle">Example</div>
               <pre class="code-example"><code> &lt;div class=&quot;slds-media__figure&quot;&gt; 
-   &lt;span class=&quot;slds-icon_container {!ObjectIconInfo[&#39;iconStyle&#39;]}&quot; title=&quot;{!$ObjectType[sObjType].label}&quot;&gt; 
+   &lt;span class=&quot;slds-icon_container {!ObjectIconInfo[&#39;iconStyle&#39;]}&quot; title=&quot;{!$ObjectType[&#39;sObjType&#39;].label}&quot;&gt; 
      &lt;apex:image url=&quot;{!ObjectIconInfo[&#39;iconURL&#39;]}&quot; styleClass=&quot;slds-icon slds-page-header__icon&quot; html-aria-hidden=&quot;true&quot; /&gt; 
      &lt;span class=&quot;slds-assistive-text&quot;&gt;{!$ObjectType[sObjType].label}&lt;/span&gt; 
    &lt;/span&gt; 
@@ -421,6 +428,14 @@
 
                     <div class="methods-toc__description">Map of Icon attribute and value</div>
                   </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry" href="#ActionPlansSectionHeaderController.getRecords"> getRecords (queryText) </a>
+
+                    <div class="methods-toc__description">
+                      Main code for lightning lookup. Included in this class because we use this as the controller for our lookups <br />
+                      the code is duplicated in AciontPlanCreationController because there is a lookup directly in that page (for now)
+                    </div>
+                  </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#ActionPlansSectionHeaderController.isCustom"> isCustom (sObjectName) </a>
 
@@ -482,6 +497,35 @@
                     <a href="javascript:void(0)" onclick="goToLocation('ActionPlansSectionHeaderController.html#ActionPlansSectionHeaderController.retrieveIconForObject')"
                       >ActionPlansSectionHeaderController.retrieveIconForObject</a
                     >
+                  </div>
+                </div>
+                <div class="method public">
+                  <h4 class="method-title" id="ActionPlansSectionHeaderController.getRecords">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L172">
+                      getRecords(queryText)
+                    </a>
+                  </h4>
+                  <div class="method-description">
+                    Main code for lightning lookup. Included in this class because we use this as the controller for our lookups <br />
+                    the code is duplicated in AciontPlanCreationController because there is a lookup directly in that page (for now)
+                  </div>
+                  <div class="method-subtitle">Signature</div>
+                  <div class="method-annotations">@RemoteAction</div>
+                  <div class="method-signature">public static List&lt;SObject&gt; getRecords(String queryText)</div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">queryText</div>
+                  <div class="param-type">Type: <code class="code-inline">String</code></div>
+                  <div class="param-description">SOQL query to return records for the lookup</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">List&lt;SObject&gt;</code> Returned records</div>
+                  <div class="method-subtitle">See</div>
+                  <div class="method-subtitle-description">
+                    <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreationController.html')">ActionPlanCreationController</a>
                   </div>
                 </div>
                 <div class="method private">

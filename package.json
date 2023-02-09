@@ -41,7 +41,7 @@
 		"labsdevhub": "sfdx config:set defaultdevhubusername=LabsLDO",
 		"version": "auto-changelog && git add CHANGELOG.md",
 		"updateHighlight": ". scripts/updateHighlight.sh",
-		"readmeChange": ". doc-assets/onreadmechange.sh"
+		"ApexDoxSetup": ". doc-assets/ApexDoxSetup.sh"
 	},
 	"devDependencies": {
 		"@lwc/eslint-plugin-lwc": "^1.5.1",

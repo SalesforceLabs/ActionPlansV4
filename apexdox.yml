@@ -43,6 +43,7 @@ engine:
     - '${workspaceFolder}/doc-assets/highlight.css'
     - '${workspaceFolder}/doc-assets/highlight.js'
     - '${workspaceFolder}/doc-assets/index.js'
+    - '${workspaceFolder}/doc-assets/INSTALLATION.html'
   port: 8088
 docblock:
   alignItems: true

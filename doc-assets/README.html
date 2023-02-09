@@ -118,8 +118,9 @@
 <li>The related object will now be available for selection when creating a new Action Plan and relating it to an object.</li>
 <li>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts (removing the <code>LabsActionPlans</code> namespace if you&#39;re not using the managed package:<pre><code class="language-apex">LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( &#39;Custom_Object__c&#39; );
 </code></pre>
-<img class="readmeimage" src="assets/ActionPlanFieldSet.png" alt=""></li>
+</li>
 </ol>
+<p><img class="readmeimage" src="assets/ActionPlanFieldSet.png" alt=""></p>
 <h2 id="adding-a-new-custom-object-action-plan-button-to-the-action-plan-object">Adding a New Custom Object Action Plan button to the Action Plan object</h2>
 <p>While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this will be in a future release... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page layout:</p>
 <ol>
