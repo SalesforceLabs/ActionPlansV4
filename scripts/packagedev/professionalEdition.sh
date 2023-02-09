@@ -7,7 +7,7 @@ echo "Clearing namespace"
 sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-project.json
 
 echo "Creating new scratch org"
-sfdx force:org:create -f config/professional-scratch-def.json -a ActionPlans -s --noancestors --durationdays 21
+sfdx force:org:create -f config/professional-scratch-def.json -a ActionPlansProf -s --noancestors --durationdays 21
 
 echo "Pushing package metadata"
 sfdx force:source:deploy -p sfdx-source/LabsActionPlans --tracksource

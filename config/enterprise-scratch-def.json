@@ -5,13 +5,14 @@
 	"description": "Enterprise Edition Scratch org for Action Plans",
 	"features": ["EnableSetPasswordInApi"],
 	"settings": {
-		"orgPreferenceSettings": {
-			"s1DesktopEnabled": true,
-			"s1EncryptedStoragePref2": false,
-			"chatterEnabled": true
+		"mobileSettings": {
+			"enableS1EncryptedStoragePref2": false
 		},
 		"lightningExperienceSettings": {
 			"enableS1DesktopEnabled": true
+		},
+		"chatterSettings": {
+			"enableChatter": true
 		}
 	}
 }
