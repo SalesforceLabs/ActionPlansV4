@@ -119,7 +119,6 @@ private class CanTheUserTest {
 		Map<String, Boolean> bulkCheck = CanTheUser.bulkFLSAccessible('Account', fields);
 
 		Assert.isTrue(bulkCheck.get('name'), 'Expected the name field to be accesible on Account');
-
 		Assert.isFalse(bulkCheck.get('nonExistingField__c'), 'Expected the nonExistingField__c field not to be accesible on Account');
 	}
 

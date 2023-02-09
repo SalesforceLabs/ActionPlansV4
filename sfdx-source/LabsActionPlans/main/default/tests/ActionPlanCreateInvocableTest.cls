@@ -61,9 +61,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		Assert.areNotEqual(null, resultIDs);
-		Assert.areEqual(1, resultIDs.size());
-		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs, 'Failed to create task IDs in the invocable class');
+		Assert.areEqual(1, resultIDs.size(), 'Should only have created one Id');
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task], 'Did not create the desired number of tasks');
 	}
 
 	@IsTest
@@ -103,9 +103,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		Assert.areNotEqual(null, resultIDs);
-		Assert.areEqual(1, resultIDs.size());
-		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs, 'Failed to create task IDs in the invocable class');
+		Assert.areEqual(1, resultIDs.size(), 'Should only have created one Id');
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task], 'Did not create the desired number of tasks');
 	}
 
 	@IsTest
@@ -128,9 +128,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		Assert.areNotEqual(null, resultIDs);
-		Assert.areEqual(1, resultIDs.size());
-		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs, 'Failed to create task IDs in the invocable class');
+		Assert.areEqual(1, resultIDs.size(), 'Should only have created one Id');
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task], 'Did not create the desired number of tasks');
 	}
 
 	@IsTest
@@ -150,9 +150,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		Assert.areNotEqual(null, resultIDs);
-		Assert.areEqual(1, resultIDs.size());
-		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs, 'Failed to create task IDs in the invocable class');
+		Assert.areEqual(1, resultIDs.size(), 'Should only have created one Id');
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task], 'Did not create the desired number of tasks');
 	}
 
 	@IsTest
@@ -172,9 +172,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		Assert.areNotEqual(null, resultIDs);
-		Assert.areEqual(1, resultIDs.size());
-		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs, 'Failed to create task IDs in the invocable class');
+		Assert.areEqual(1, resultIDs.size(), 'Should only have created one Id');
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task], 'Did not create the desired number of tasks');
 	}
 
 	@IsTest
@@ -194,9 +194,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		Assert.areNotEqual(null, resultIDs);
-		Assert.areEqual(1, resultIDs.size());
-		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs, 'Failed to create task IDs in the invocable class');
+		Assert.areEqual(1, resultIDs.size(), 'Should only have created one Id');
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task], 'Did not create the desired number of tasks');
 	}
 
 	@IsTest
@@ -216,9 +216,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		Assert.areNotEqual(null, resultIDs);
-		Assert.areEqual(1, resultIDs.size());
-		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs, 'Failed to create task IDs in the invocable class');
+		Assert.areEqual(1, resultIDs.size(), 'Should only have created one Id');
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task], 'Did not create the desired number of tasks');
 	}
 
 	@IsTest
@@ -252,7 +252,7 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 		Test.stopTest();
 		Assert.areEqual(BULK_COUNT, resultIDs.size(), 'Should have made one AP per wrapper');
-		Assert.areEqual(BULK_COUNT, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL]);
+		Assert.areEqual(BULK_COUNT, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL], 'Failed to create enough Account-linked APs');
 	}
 
 	@IsTest
@@ -290,7 +290,7 @@ private class ActionPlanCreateInvocableTest {
 
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 
-		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM APTemplateTask__c]);
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM APTemplateTask__c], 'Failed to create the correct number of APTemplate Tasks');
 
 		apTemplate.SkipDay__c = 'Start of next week';
 		update apTemplate;
@@ -314,9 +314,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		Assert.areNotEqual(null, resultIDs);
-		Assert.areEqual(1, resultIDs.size());
-		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs, 'Failed to create task IDs in the invocable class');
+		Assert.areEqual(1, resultIDs.size(), 'Should only have created one Id');
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM Task], 'Did not create the desired number of tasks');
 		/* for (Task t : [SELECT Id, ActivityDate FROM Task]) {
 			System.debug('Task is due on ' + t.ActivityDate + ' which is a ' + ActionPlansUtilities.getDayOfWeek(t.ActivityDate));
 		} */
