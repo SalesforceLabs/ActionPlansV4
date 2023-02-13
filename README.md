@@ -120,7 +120,7 @@ Assign the appropriate Permission Set(s) to each user who will need to use Actio
 - `Action Plans Template Creator:` Full permissions for Action Plan Templates and AP Template Tasks. No Action Plan access.
 - `Action Plans Creator:` Read, Create, Edit, Delete for Action Plans and AP Tasks. Read-only for Action Plan Templates and APT Task Templates.
 - `Action Plans Import/Export:` Access to export and import Action Plan Template records. View the appropriate button for export and tab for import.
-- `Action Plans User:` Read-only for Action Plans and AP Tasks.
+- `Action Plans User:` Read-only for Action Plans and AP Tasks. Edit permission for Tasks should be provided via the user's profile or other permission sets.
 
 Uses for each Permission Set:
 -   Some users may require visibility into the Action Plans related to those Tasks. These users need the `Action Plans User` Permission Set. It gives Read-only access to Action Plan.
@@ -140,11 +140,11 @@ Note: The Apex used in Flows or via triggers does not require special permission
     - As an example, if you have a custom object named `MyObject__c`, you must name the field on Action Plan `MyObject__c`
 1.  Add the field to the `Related Objects` fieldset on Action Plan.
 1.  The related object will now be available for selection when creating a new Action Plan and relating it to an object.
-1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts (removing the `LabsActionPlans` namespace if you're not using the managed package:
+1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts (removing the `LabsActionPlans` namespace if you're not using the managed package):
 	```apex
 	LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );
 	```
-![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanFieldSet.png)
+![](doc-assets/readme/ActionPlanFieldSet.png)
 ## Adding a New Custom Object Action Plan button to the Action Plan object
 
 While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this will be in a future release... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page layout:
@@ -188,7 +188,7 @@ Now you're ready to create your first template. Navigate to the Action Plans Tem
 
 The template screen looks like this:
 
-![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Template-Creation.png)
+![](doc-assets/readme/Template-Creation.png)
 
 1.  Name - Template Name.
 1.  Description - An explanation of how the template should be used.
@@ -223,25 +223,25 @@ If your org uses Task Record Types, you must specify which Record Type to use fo
 
 1. Navigate to an Accounts list view. Select the Accounts for which you want to create Action Plans. Click on the "Create Account Action Plans" button.
 
-    ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Select-Accounts.png)
+    ![](doc-assets/readme/Select-Accounts.png)
 
 1. Select the template you want to use by typing the name on the lookup and clicking on it.
-	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Choose-template-step1.png)
+	![](doc-assets/readme/Choose-template-step1.png)
 
 1. Enter the information specific to this plan. Note that the Accounts you selected earlier are visible.
-	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/Choose-template-step2.png)
+	![](doc-assets/readme/Choose-template-step2.png)
 
 1. Save the Action Plan.
 	Note: Action Plan creation is handled by a queueable (asynchronous) process. It can take a couple of minutes to be able to view all created records.
 
-	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlan-Detail.png)
+	![](doc-assets/readme/ActionPlan-Detail.png)
 
 1. Verify the Action Plan and the tasks.
 
 1. Complete the first task on the Action Plan.
 	Note that the Action Plan is now in the correct related list and that this Account has one open activity and one closed activity. The third activity in the template is dependent and will be created only when its controlling task is complete.
 
-	![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/AccountActionPlan-Detail.png)
+	![](doc-assets/readme/AccountActionPlan-Detail.png)
 
 # Task notifications for Flow-created Action Plans
 
@@ -271,7 +271,7 @@ Action Plan Tasks cannot be assigned to queues, so if the parent record is owned
 Action Plans includes an Invocable Apex class that can be included in a Flow. The Record ID of the triggering record is required, as is the Id OR the Name of the desired template.
 Days from trigger to start Action Plan is optional (and defaults to 0). The first task will be due the number of days (specified on the template) from the start date. This date may fall on a weekend, though task due dates can be moved to avoid weekends if set on the template.
 
-![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/FlowAction.png)
+![](doc-assets/readme/FlowAction.png)
 
 The Invocable Apex class returns the Salesforce IDs of all the created Action Plan Tasks, which can be used in the next Flow steps.
 
@@ -285,7 +285,7 @@ sfdx force:apex:execute -f ./data/sample-data.apex
 
 To use this Template with the included Flow, see the `Create Action Plan From Template` Apex Action in the `New Customer Onboarding Activities` Flow
 
- ![Set input variables for the Flow action](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/FlowActionVariables.png)
+ ![Set input variables for the Flow action](doc-assets/readme/FlowActionVariables.png)
 
 Create an Account and set `Type` to any value that starts with 'Customer'
 
@@ -295,7 +295,7 @@ It is recommended NOT to check the Recursion box when creating a Process Builder
 
 **It is also recommended NOT to use Process Builder at all!**
 
-<!-- ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png) -->
+<!-- ![](doc-assets/readme/ProcessBuilder.png) -->
 
 ## Apex
 
@@ -350,7 +350,7 @@ Action Plans supports the sharing and discovery of best practices using Template
 
 Export is simple. Navigate to the Template you wish to export. Click on the "Export" button.
 
-![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanTemplate-import-1.png)
+![](doc-assets/readme/ActionPlanTemplate-import-1.png)
 
 Export creates a simple XML file containing template header and task information. It also includes information about who created the template.
 Note: It does not include user information or sensitive data about what objects you might use this template with.
@@ -363,7 +363,7 @@ Sharing the file is easy. Email the file to whomever you want to share it with. 
 
 Import is also simple. Navigate to the "Import Template" tab. Select the file you want to import using "Browse" and once you've found it click on "Import Template."
 
-![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ActionPlanTemplate-import-2.png)
+![](doc-assets/readme/ActionPlanTemplate-import-2.png)
 
 ## (Optional) Sample Action Plan Template Import
 

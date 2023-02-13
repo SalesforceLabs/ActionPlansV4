@@ -3,12 +3,8 @@
 
 . pmd/updatepmd.sh
 
-branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
-if [ "$branch" == "main" ]
-then
-    npm run prettier:docs
-		cd docs
-		git add .
-fi
+npm run prettier:docs
+cd docs
+git add .
 
 npm run precommit

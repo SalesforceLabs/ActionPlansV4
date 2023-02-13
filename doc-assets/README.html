@@ -95,7 +95,7 @@
 <li><code>Action Plans Template Creator:</code> Full permissions for Action Plan Templates and AP Template Tasks. No Action Plan access.</li>
 <li><code>Action Plans Creator:</code> Read, Create, Edit, Delete for Action Plans and AP Tasks. Read-only for Action Plan Templates and APT Task Templates.</li>
 <li><code>Action Plans Import/Export:</code> Access to export and import Action Plan Template records. View the appropriate button for export and tab for import.</li>
-<li><code>Action Plans User:</code> Read-only for Action Plans and AP Tasks.</li>
+<li><code>Action Plans User:</code> Read-only for Action Plans and AP Tasks. Edit permission for Tasks should be provided via the user&#39;s profile or other permission sets.</li>
 </ul>
 <p>Uses for each Permission Set:</p>
 <ul>
@@ -116,11 +116,10 @@
 </li>
 <li>Add the field to the <code>Related Objects</code> fieldset on Action Plan.</li>
 <li>The related object will now be available for selection when creating a new Action Plan and relating it to an object.</li>
-<li>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts (removing the <code>LabsActionPlans</code> namespace if you&#39;re not using the managed package:<pre><code class="language-apex">LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( &#39;Custom_Object__c&#39; );
+<li>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts (removing the <code>LabsActionPlans</code> namespace if you&#39;re not using the managed package):<pre><code class="language-apex">LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( &#39;Custom_Object__c&#39; );
 </code></pre>
-</li>
+<img class="readmeimage" src="assets/ActionPlanFieldSet.png" alt=""></li>
 </ol>
-<p><img class="readmeimage" src="assets/ActionPlanFieldSet.png" alt=""></p>
 <h2 id="adding-a-new-custom-object-action-plan-button-to-the-action-plan-object">Adding a New Custom Object Action Plan button to the Action Plan object</h2>
 <p>While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this will be in a future release... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page layout:</p>
 <ol>
@@ -247,7 +246,7 @@
 <h2 id="process-builder">Process Builder</h2>
 <p>It is recommended NOT to check the Recursion box when creating a Process Builder to work with Action Plans.</p>
 <p><strong>It is also recommended NOT to use Process Builder at all!</strong></p>
-<!-- ![](sfdx-source/LabsActionPlans/main/default/staticresources/ActionPlan_Resources/about_images/ProcessBuilder.png) -->
+<!-- ![](doc-assets/readme/ProcessBuilder.png) -->
 
 <h2 id="apex">Apex</h2>
 <p>To call the invocable Apex from a Trigger or Apex class, adapt the following sample code:</p>
