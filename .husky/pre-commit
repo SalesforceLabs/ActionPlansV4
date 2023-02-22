@@ -1,10 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-. pmd/updatepmd.sh
-
-npm run prettier:docs
-cd docs
-git add .
-
 npm run precommit
