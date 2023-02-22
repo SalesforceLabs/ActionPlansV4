@@ -5,13 +5,13 @@ sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-proje
 
 # For use with developer edition or playground
 echo "Pushing source..."
-sfdx force:source:deploy -p sfdx-source/LabsActionPlans --tracksource
+sf deploy metadata  --source-dir sfdx-source/LabsActionPlans
 
 echo "Assigning Permissions"
-sfdx force:user:permset:assign -n Action_Plans_Admin
+sf org assign permset --name Action_Plans_Admin
 
 # To install additional sample Accounts/Contacts
-# sfdx force:data:tree:import -p ./data/action-plan-data-plan.json
+# sf data import tree --plan ./data/action-plan-data-plan.json
 
 # To install sample action plan template
 echo "Adding sample data"
@@ -19,7 +19,7 @@ sfdx force:apex:execute -f ./data/sample-data.apex
 
 # To install sample Flow and other metadata
 echo "deploying sample metadata"
-sfdx force:source:deploy -p sfdx-source/unmanaged --tracksource
+sf deploy metadata  --source-dir sfdx-source/unmanaged
 
 echo "opening org..."
-sfdx force:org:open
+sf org open

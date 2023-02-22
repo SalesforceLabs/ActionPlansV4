@@ -82,23 +82,27 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 
    1. Run this command to deploy the app.
 
-       ```
-       sfdx force:source:deploy -p sfdx-source/LabsActionPlans --tracksource
-       ```
+        ```
+        sf deploy metadata  --source-dir sfdx-source/LabsActionPlans
+        ```
 
    2. Assign the `Action_Plans_Admin` permission set to the admin user.
 
-       ```
-       sfdx force:user:permset:assign -n Action_Plans_Admin
-       ```
+        ```
+        sf org assign permset --name Action_Plans_Admin
+        ```
 
    3. (Optional) [Load sample metadata](#optional-installation-instructions) (see below)
 
+        ```
+        sf deploy metadata  --source-dir sfdx-source/unmanaged
+        ```
+
    4. If your org isn't already open, open it now:
 
-       ```
-       sfdx force:org:open -u myorg
-       ```
+        ```
+        sf org open --target-org myorg
+        ```
 
 2. In App Launcher, select the **Action Plans** app.
 
@@ -106,7 +110,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 
 This repository contains several files that are relevant if you want to add sample data, or integrate modern web development tooling to your Salesforce development processes or to your continuous integration/continuous deployment processes.
 
-### Data Import (Optional - NOT available if using the AppExchange managed package)
+### Data/Metadata Import (Optional - NOT available if using the AppExchange managed package)
 
 - This repository creates sample data (Accounts, Contacts, Leads) if you choose to create a scratch org. To prevent this, go to the [scratch org definition](./config/project-scratch-def.json) and change `hasSampleData` to `false`.
     ```
@@ -123,16 +127,16 @@ This repository contains several files that are relevant if you want to add samp
     - a sample Task layout
     - a sample report on open Action Plan-related Tasks
 	```
-	sfdx force:source:deploy -p sfdx-source/unmanaged --tracksource
+	 sf deploy metadata  --source-dir sfdx-source/unmanaged
 	```
 
 - You can also create other sample Account and Contact records by running the following command:
 
     ```
-    sfdx force:data:tree:import -p ./data/action-plan-data-plan.json
+    sf data import tree --plan ./data/action-plan-data-plan.json
     ```
 
-### Data Import (Optional - ONLY if using the AppExchange managed package)
+### Data/Metadata Import (Optional - ONLY if using the AppExchange managed package)
 
 - When FIRST installing the package, it will automatically create a sample Action Plan Template for Account onboarding. If you want to recreate it manually, run the following:
 	```
@@ -144,17 +148,19 @@ This repository contains several files that are relevant if you want to add samp
     - a sample Task layout
     - a sample report on open Action Plan-related Tasks
 	```
-	sfdx force:source:deploy -p sfdx-source/unmanagedExtension --tracksource
+	sf deploy metadata  --source-dir sfdx-source/unmanagedExtension
 	```
 
 - You can also create other sample Account and Contact records by running the following command:
     ```
-    sfdx force:data:tree:import -p ./data/action-plan-data-plan.json 
+    sf data import tree --plan ./data/action-plan-data-plan.json 
     ```
 
 ### Code formatting
 
 [Prettier](https://prettier.io/) is a code formatter used to ensure consistent formatting across your code base. To use Prettier with Visual Studio Code, install [this extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) from the Visual Studio Code Marketplace. The [.prettierignore](/.prettierignore) and [.prettierrc](/.prettierrc) files are provided as part of this repository to control the behavior of the Prettier formatter.
+
+[Prettier Apex](https://github.com/dangmai/prettier-plugin-apex) is an extension that handles Apex-specific formatting and allows the removal of the extra line via the Prettier config file. To use it with Visual Studio Code, follow [these instructions](https://developer.salesforce.com/tools/vscode/en/user-guide/prettier) from the Salesforce Extensions site.
 
 ### Code linting
 
