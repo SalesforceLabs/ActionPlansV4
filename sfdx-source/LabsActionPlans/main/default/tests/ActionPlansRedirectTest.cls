@@ -16,7 +16,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * @group Tests
  */
 @IsTest
-public class ActionPlansRedirectTest {
+private class ActionPlansRedirectTest {
 	@TestSetup
 	private static void makeData() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
