@@ -16,6 +16,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * Tests for Template Export
  * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
+ * @since 2023 System.assert to Assert class + error messages
  * @group Tests
  * @see ActionPlanTemplateExport
  * @see ActionPlanTemplateImportController
@@ -34,7 +35,7 @@ private class ActionPlanTemplateExportTest {
 
 		Test.stopTest();
 
-		Assert.isTrue(xmlId != null);
+		Assert.areNotEqual(null, xmlId, 'Should have successfully created a Template with an Id');
 	}
 
 	@IsTest
@@ -51,7 +52,7 @@ private class ActionPlanTemplateExportTest {
 
 		Test.stopTest();
 
-		Assert.isTrue(xmlId != null);
+		Assert.areNotEqual(null, xmlId, 'Should have successfully created a Document with an Id');
 	}
 
 	@IsTest
@@ -68,6 +69,6 @@ private class ActionPlanTemplateExportTest {
 
 		Test.stopTest();
 
-		Assert.isTrue(xmlId != null);
+		Assert.areNotEqual(null, xmlId, 'Should have successfully created a File with an Id');
 	}
 }

@@ -142,9 +142,15 @@ Note: The Apex used in Flows or via triggers does not require special permission
 1.  The related object will now be available for selection when creating a new Action Plan and relating it to an object.
 1.  Add the following code to the object trigger in `before delete` and `after undelete` contexts (removing the `LabsActionPlans` namespace if you're not using the managed package):
 	```apex
-	LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'Custom_Object__c' );
+	LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'CustomObject__c' );
 	```
 ![](doc-assets/readme/ActionPlanFieldSet.png)
+
+## Test Code for Additional Objects
+
+Don't forget to write a test class to cover the custom object trigger. If you're just going for coverage (not a best-practice!) just make a test method inserting and then deleting a record.
+Unfortunately, the code in this package does not lend itself to easy creation of an Action Plan for a custom object... yet.
+
 ## Adding a New Custom Object Action Plan button to the Action Plan object
 
 While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this will be in a future release... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page layout:
@@ -152,7 +158,7 @@ While Action Plans already overrides the New Action Plan action, the New button 
 1.  Navigate to Setup > Object Manager > Action Plan > Buttons, Links, and Actions > New Button or Link
 1.  Give it a label and name, such as "New MyObject Action Plan"
 1.  Display Type is List Button. Uncheck the list checkbox.
-1.  Use the following format for the button (removing the `LabsActionPlans` namespace if you're not using the managed package):
+1.  Use the following format for the button (removing the `LabsActionPlans__` namespace if you're not using the managed package):
 	```plaintext
 	{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id] )}
 	```

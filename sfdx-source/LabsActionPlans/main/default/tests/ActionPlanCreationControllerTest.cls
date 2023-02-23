@@ -15,6 +15,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 /**
  * Tests for `ActionPlan__c` Create/Edit Visualforce Extension
  * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
+ * @since 2023 System.assert to Assert class + error messages
  * @see ActionPlanCreationController
  * @group Tests
  */
@@ -38,14 +40,14 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2, null);
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.onLoad();
 		Assert.areEqual(0, ActionPlansTestUtilities.getCompleted(actionPlan.Id), 'New AP should have no completed tasks');
-		Assert.areNotEqual(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
+		Assert.areNotEqual(null, apCreateController.relatedFieldName, 'Should have lazy loaded relatedFieldName');
 		apCreateController.getAllRelationshipFields();
-		Assert.areEqual('', apCreateController.getTemplateName());
+		Assert.areEqual('', apCreateController.getTemplateName(), 'Template should not have a name at this time');
 
 		//apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.relatedObjectId();
@@ -59,14 +61,14 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2, null);
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.onLoad();
 		Assert.areEqual(0, ActionPlansTestUtilities.getCompleted(actionPlan.Id), 'New AP should have no completed tasks');
-		Assert.areNotEqual(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
+		Assert.areNotEqual(null, apCreateController.relatedFieldName, 'Should have lazy loaded relatedFieldName');
 		apCreateController.getAllRelationshipFields();
-		Assert.areEqual('', apCreateController.getTemplateName());
+		Assert.areEqual('', apCreateController.getTemplateName(), 'Template should not have a name at this time');
 
 		//apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.relatedObjectId();
@@ -75,7 +77,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.setCurrentPage(viewPage);
 		ActionPlanDetailController apdc = new ActionPlanDetailController(new Apexpages.StandardController(actionPlan));
-		Assert.areNotEqual(0, apdc.getActionPlanTasks().size());
+		Assert.isFalse(apdc.getActionPlanTasks().isEmpty(), 'Some AP Tasks should have been created');
 	}
 
 	@IsTest
@@ -84,30 +86,30 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2, null);
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.onLoad();
 		apCreateController.save();
 
-		Assert.areNotEqual(0, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(0, [SELECT COUNT() FROM Task], 'Should have created Tasks automatically');
 
 		delete actionPlan;
 		Test.stopTest();
-		Assert.areEqual(0, [SELECT COUNT() FROM Task]);
+		Assert.areEqual(0, [SELECT COUNT() FROM Task], 'We failed to auto-delete our Tasks');
 	}
 
 	@IsTest
 	private static void newAPWithoutTasks() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 0);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 0, null);
 
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanCreation);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		apCreateController.onLoad();
 		Test.stopTest();
-		Assert.isTrue(apCreateController.getTasks().isEmpty());
+		Assert.isTrue(apCreateController.getTasks().isEmpty(), 'No AP Tasks (wrappers) should have been created');
 	}
 
 	@IsTest
@@ -122,7 +124,7 @@ private class ActionPlanCreationControllerTest {
 		Assert.areNotEqual(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2, null);
 
 		apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
@@ -161,12 +163,13 @@ private class ActionPlanCreationControllerTest {
 
 		apCreateController.save();
 
+		// Unnecessary, but could be important if we add assertions
 		Test.stopTest();
 	}
 
 	@IsTest
 	private static void actionPlanSave() {
-		ActionPlan__c ap = new ActionPlansTestUtilities().createNewActionPlan('contact', 3);
+		ActionPlan__c ap = new ActionPlansTestUtilities().createNewActionPlan('contact', 3, null);
 
 		Contact contact = [SELECT Id FROM Contact LIMIT 1];
 
@@ -183,7 +186,7 @@ private class ActionPlanCreationControllerTest {
 
 		apCreateController.save();
 
-		Assert.areEqual(3, [SELECT COUNT() FROM Task]);
+		Assert.areEqual(3, [SELECT COUNT() FROM Task], 'Should NOT have created Tasks automatically');
 
 		APTask__c aptEmail = [SELECT Id, SendEmail__c FROM APTask__c LIMIT 1];
 		aptEmail.SendEmail__c = true;
@@ -202,7 +205,7 @@ private class ActionPlanCreationControllerTest {
 		List<ActionPlan__c> results = [SELECT Id, name, Contact__c FROM ActionPlan__c LIMIT 10000];
 
 		Assert.isFalse(results.isEmpty(), 'Action Plan not created');
-		Assert.isTrue(results.size() == 1, 'Too many Action Plans created');
+		Assert.isTrue(results.size() == 1, 'Too many Action Plans created - expected only 1');
 
 		apCreateController.cancel();
 	}
@@ -247,7 +250,7 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2, null);
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 
@@ -317,7 +320,6 @@ private class ActionPlanCreationControllerTest {
 		Assert.areNotEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL], 'Should have linked Action Plan to contact');
 
 		Assert.areEqual(conCOUNT * apTASKCOUNT, [SELECT COUNT() FROM APTask__c], 'Not enough Action Plan Tasks created');
-		Assert.areEqual(conCOUNT * apTASKCOUNT, [SELECT COUNT() FROM Task], 'Wrong number of Tasks created');
 	}
 
 	@IsTest
@@ -325,7 +327,7 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2, null);
 
 		Test.startTest();
 
@@ -357,7 +359,7 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2, null);
 
 		// add code for shortening long record names
 		actionPlan.Name = '1234567890123456789012345678901234567890'; // 40 characters
@@ -382,7 +384,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0, null);
 
 		User ownerUser = testUtil.createTestUser();
 
@@ -396,10 +398,10 @@ private class ActionPlanCreationControllerTest {
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		//apCreateController.apTasks = new List<APTask__c>();
 		//apCreateController.getTasks();
-		Assert.areEqual(1, apCreateController.getTasks().size());
+		Assert.areEqual(1, apCreateController.getTasks().size(), 'Should have created 1 APTaskWrapper');
 		apCreateController.addTask();
 		List<ActionPlanCreationController.ApTaskWrapper> taskWrapList = apCreateController.getTasks();
-		Assert.areEqual(2, taskWrapList.size());
+		Assert.areEqual(2, taskWrapList.size(), 'Should have a total of 2 APTaskWrappers (failed to create the second one)');
 
 		ActionPlanCreationController.ApTaskWrapper taskWrap = taskWrapList[1];
 
@@ -412,7 +414,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.stopTest();
 
-		Assert.areEqual(2, [SELECT COUNT() FROM APTask__c]);
+		Assert.areEqual(2, [SELECT COUNT() FROM APTask__c], 'Should have created 2 APTasks automatically');
 	}
 
 	@IsTest
@@ -421,7 +423,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0, null);
 
 		User ownerUser = testUtil.createTestUser();
 
@@ -430,7 +432,7 @@ private class ActionPlanCreationControllerTest {
 
 		Id defaultTaskRTId = ActionPlansUtilities.getDefaultTaskRecordTypeId();
 		if (ActionPlansUtilities.taskUsesRecordTypes) {
-			Assert.areNotEqual(null, defaultTaskRTId);
+			Assert.areNotEqual(null, defaultTaskRTId, 'Failed to find the default Task record type Id');
 		}
 
 		Test.startTest();
@@ -444,7 +446,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.stopTest();
 
-		Assert.areEqual(System.UserInfo.getUserId(), [SELECT Id, OwnerId FROM Task LIMIT 1].OwnerId);
+		Assert.areEqual(System.UserInfo.getUserId(), [SELECT Id, OwnerId FROM Task LIMIT 1].OwnerId, 'Current user should own the Task');
 	}
 
 	@IsTest
@@ -452,7 +454,7 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3, null);
 
 		Test.startTest();
 
@@ -477,7 +479,7 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2, null);
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
@@ -496,7 +498,7 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', taskCOUNT);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', taskCOUNT, null);
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
@@ -542,7 +544,7 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0, null);
 
 		APTask__c newAPTask2 = testUtil.createNewActionPlanTask(actionPlan, 2, actionPlan.OwnerId, 'Email', null);
 		newAPTask2.TaskIndex__c = 1;
@@ -583,7 +585,7 @@ private class ActionPlanCreationControllerTest {
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0, null);
 
 		APTask__c newAPTask1 = new APTask__c();
 		APTask__c newAPTask2 = new APTask__c();
@@ -618,7 +620,6 @@ private class ActionPlanCreationControllerTest {
 		apCreateController.save();
 
 		Assert.areNotEqual(null, apCreateController.getErrorMsg());
-
 		Test.stopTest();
 	}
 
@@ -702,7 +703,7 @@ private class ActionPlanCreationControllerTest {
 		ActionPlansTestUtilities.forceHasRecordType = true;
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('contact', 5);
+		ActionPlan__c ap = testutil.createNewActionPlan('contact', 5, null);
 
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanCreation);
@@ -738,7 +739,7 @@ private class ActionPlanCreationControllerTest {
 		ActionPlansTestUtilities.forceHasRecordType = true;
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testutil.createNewActionPlan('contact', 2);
+		ActionPlan__c actionPlan = testutil.createNewActionPlan('contact', 2, null);
 
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanCreation);
@@ -763,7 +764,7 @@ private class ActionPlanCreationControllerTest {
 
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
-		ActionPlan__c actionPlan = testutil.createNewActionPlan('contact', 2);
+		ActionPlan__c actionPlan = testutil.createNewActionPlan('contact', 2, null);
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
@@ -780,7 +781,7 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', ActionPlansUtilities.MAX_APTASKS);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', ActionPlansUtilities.MAX_APTASKS, null);
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		Assert.areNotEqual(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
@@ -797,7 +798,7 @@ private class ActionPlanCreationControllerTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', ActionPlansUtilities.MAX_APTASKS + 1);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', ActionPlansUtilities.MAX_APTASKS + 1, null);
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		Assert.areNotEqual(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');

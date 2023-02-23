@@ -15,6 +15,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 /**
  * Test for Action Plans Queueable Builder
  * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
+ * @since 2023 System.assert to Assert class + error messages
  * @group Tests
  * @see ActionPlansQueuableBuilder
  */
@@ -37,7 +39,7 @@ private class ActionPlansQueueableBuilderTest {
 
 		Test.startTest();
 
-		ActionPlan__c ap = testutil.createNewActionPlan('contact', 5);
+		ActionPlan__c ap = testutil.createNewActionPlan('contact', 5, null);
 		List<APTask__c> apTasks = [
 			SELECT
 				Action_Plan__c,
@@ -80,8 +82,8 @@ private class ActionPlansQueueableBuilderTest {
 		Test.stopTest();
 
 		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :queueId];
-		Assert.areEqual('Completed', a.status);
-		Assert.areEqual(0, a.NumberOfErrors);
+		Assert.areEqual('Completed', a.Status, 'The queueable job did not complete successfully');
+		Assert.areEqual(0, a.NumberOfErrors, 'The queueable job has errors');
 	}
 
 	@IsTest
@@ -91,7 +93,7 @@ private class ActionPlansQueueableBuilderTest {
 
 		Test.startTest();
 
-		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 5);
+		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 5, null);
 		List<APTask__c> apTasks = new List<APTask__c>();
 
 		Opportunity op = new Opportunity();
@@ -116,7 +118,7 @@ private class ActionPlansQueueableBuilderTest {
 		Test.stopTest();
 
 		AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email FROM AsyncApexJob WHERE Id = :queueId];
-		Assert.areEqual('Completed', a.status);
-		Assert.areEqual(0, a.NumberOfErrors);
+		Assert.areEqual('Completed', a.Status, 'The queueable job did not complete successfully');
+		Assert.areEqual(0, a.NumberOfErrors, 'The queueable job has errors');
 	}
 }

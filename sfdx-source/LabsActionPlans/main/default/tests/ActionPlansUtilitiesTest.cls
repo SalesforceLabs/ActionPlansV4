@@ -11,6 +11,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 /**
  * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
+ * @since 2023 System.assert to Assert class + error messages
  * @group Tests
  * @see ActionPlansUtilities
  */
@@ -31,7 +32,7 @@ private class ActionPlansUtilitiesTest {
 	@IsTest
 	private static void saveSingle() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
+		ActionPlan__c ap = testutil.createNewActionPlan('account', 0, null);
 
 		User testUser = testutil.createTestUser();
 
@@ -55,7 +56,7 @@ private class ActionPlansUtilitiesTest {
 		apcc.save();
 
 		ActionPlan__c rap = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		Assert.isTrue(rap != null);
+		Assert.areNotEqual(null, rap, 'The Action Plan should exist');
 
 		Test.stopTest();
 	}
@@ -63,7 +64,7 @@ private class ActionPlansUtilitiesTest {
 	@IsTest
 	private static void saveMultiple() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
+		ActionPlan__c ap = testutil.createNewActionPlan('account', 0, null);
 
 		User testUser = testutil.createTestUser();
 
@@ -87,12 +88,12 @@ private class ActionPlansUtilitiesTest {
 		apcc.saveMultipleAP();
 		Test.stopTest();
 		ActionPlan__c rap = [SELECT Id, Account__c FROM ActionPlan__c WHERE Id = :ap.Id];
-		Assert.isTrue(rap.Account__c == ap.Account__c);
+		Assert.areEqual(rap.Account__c, ap.Account__c, 'Account Id on the Action Plan is incorrect');
 	}
 
 	@IsTest
 	private static void account() {
-		Assert.isTrue(testObject('Account'));
+		Assert.isTrue(testObject('Account', null), 'We did not create the test SObject correctly');
 		Assert.areNotEqual(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
 		Test.startTest();
 		delete [SELECT Id FROM Account];
@@ -102,7 +103,7 @@ private class ActionPlansUtilitiesTest {
 
 	@IsTest
 	private static void contact() {
-		Assert.isTrue(testObject('Contact'));
+		Assert.isTrue(testObject('Contact', null), 'We did not create the test SObject correctly');
 		Assert.areNotEqual(0, [SELECT COUNT() FROM ActionPlan__c], 'We should have an Action Plan');
 		Test.startTest();
 		Account a = [SELECT Id FROM Account];
@@ -115,37 +116,39 @@ private class ActionPlansUtilitiesTest {
 
 	@IsTest
 	private static void lead() {
-		Assert.isTrue(testObject('Lead'));
+		Assert.isTrue(testObject('Lead', null), 'We did not create the test SObject correctly');
 	}
 
 	@IsTest
 	private static void case() {
-		Assert.isTrue(testObject('Case'));
+		Assert.isTrue(testObject('Case', null), 'We did not create the test SObject correctly');
 	}
 
 	@IsTest
 	private static void campaign() {
-		Assert.isTrue(testObject('Campaign'));
+		Assert.isTrue(testObject('Campaign', null), 'We did not create the test SObject correctly');
 	}
 
 	@IsTest
 	private static void contract() {
-		Assert.isTrue(testObject('Contract'));
+		Assert.isTrue(testObject('Contract', null), 'We did not create the test SObject correctly');
 	}
 
 	/**
-	 * Pass in any object and create an Action Plan for that object
+	 * Pass in any object name (and its ID if a custom object) and create an Action Plan for that object
+	 * <br>Will be global in the next version so test code for custom objects can access it
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  objectName The object name
+	 * @param recordId Pass in the Id of a custom object record so we can make an Action Plan for it
 	 * @return            Success at creating tasks for the Action Plan
 	 */
-	private static Boolean testObject(String objectName) {
+	public static Boolean testObject(String objectName, Id recordId) {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 		ActionPlanTemplate__c apt = testutil.createNewActionPlanTemplate(5);
 
-		ActionPlan__c ap = testutil.createNewActionPlan(objectName, 3);
+		ActionPlan__c ap = testutil.createNewActionPlan(objectName, 3, recordId);
 
 		ApexPages.currentPage().getParameters().put('refType', objectName);
 		ApexPages.currentPage().getParameters().put('templateId', null);
@@ -177,46 +180,46 @@ private class ActionPlansUtilitiesTest {
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
+		ActionPlan__c ap = testutil.createNewActionPlan('account', 0, null);
 		ApexPages.currentPage().getParameters().put('refType', 'Account');
 		ApexPages.currentPage().getParameters().put('refId', ap.Account__c + ',' + testutil.createNewAccount().id);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		Assert.isTrue(page != null);
+		Assert.areNotEqual(null, page, 'Cancel should have returned us to a real page');
 
-		testutil.createNewActionPlan('contact', 0);
+		testutil.createNewActionPlan('contact', 0, null);
 		ApexPages.currentPage().getParameters().put('refType', 'Contact');
 		ApexPages.currentPage().getParameters().put('refId', ap.Contact__c + ',' + testutil.createNewContact().id);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		Assert.isTrue(page != null);
+		Assert.areNotEqual(null, page, 'Cancel should have returned us to a real page');
 
-		testutil.createNewActionPlan('lead', 0);
+		testutil.createNewActionPlan('lead', 0, null);
 		ApexPages.currentPage().getParameters().put('refType', 'Lead');
 		ApexPages.currentPage().getParameters().put('refId', ap.Lead__c + ',' + testutil.createNewLead().id);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		Assert.isTrue(page != null);
+		Assert.areNotEqual(null, page, 'Cancel should have returned us to a real page');
 
-		testutil.createNewActionPlan('opportunity', 0);
+		testutil.createNewActionPlan('opportunity', 0, null);
 		ApexPages.currentPage().getParameters().put('refType', 'Opportunity');
 		ApexPages.currentPage().getParameters().put('refId', ap.Opportunity__c + ',' + testutil.createNewOpportunity().id);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		Assert.isTrue(page != null);
+		Assert.areNotEqual(null, page, 'Cancel should have returned us to a real page');
 
-		testutil.createNewActionPlan('account', 0);
-		ApexPages.currentPage().getParameters().put('refType', 'Account');
-		ApexPages.currentPage().getParameters().put('refId', ap.Account__c);
+		testutil.createNewActionPlan('contract', 0, null);
+		ApexPages.currentPage().getParameters().put('refType', 'Contract');
+		ApexPages.currentPage().getParameters().put('refId', ap.Contract__c);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		Assert.isTrue(page != null);
+		Assert.areNotEqual(null, page, 'Cancel should have returned us to a real page');
 
 		ActionPlanTemplate__c apt = testutil.createNewActionPlanTemplate(0);
 		ApexPages.currentPage().getParameters().put('templateId', apt.Id);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(new ActionPlan__c()));
 		page = apcc.cancel();
-		Assert.isTrue(page != null);
+		Assert.areNotEqual(null, page, 'Cancel should have returned us to a real page');
 		Test.stopTest();
 	}
 
@@ -226,25 +229,25 @@ private class ActionPlansUtilitiesTest {
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
+		ActionPlan__c ap = testutil.createNewActionPlan('account', 0, null);
 		ActionPlanCreationController apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
 		Id recId = apcc.relatedObjectId();
-		Assert.isTrue(ap.Account__c == recId);
+		Assert.areEqual(ap.Account__c, recId, 'Related record Id did not populate correctly');
 
-		ap = testutil.createNewActionPlan('contact', 0);
+		ap = testutil.createNewActionPlan('contact', 0, null);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
 		recId = apcc.relatedObjectId();
-		Assert.isTrue(ap.Contact__c == recId);
+		Assert.areEqual(ap.Contact__c, recId, 'Related record Id did not populate correctly');
 
-		ap = testutil.createNewActionPlan('lead', 0);
+		ap = testutil.createNewActionPlan('lead', 0, null);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
 		recId = apcc.relatedObjectId();
-		Assert.isTrue(ap.Lead__c == recId);
+		Assert.areEqual(ap.Lead__c, recId, 'Related record Id did not populate correctly');
 
-		ap = testutil.createNewActionPlan('opportunity', 0);
+		ap = testutil.createNewActionPlan('opportunity', 0, null);
 		apcc = new ActionPlanCreationController(new ApexPages.StandardController(ap));
 		recId = apcc.relatedObjectId();
-		Assert.isTrue(ap.Opportunity__c == recId);
+		Assert.areEqual(ap.Opportunity__c, recId, 'Related record Id did not populate correctly');
 	}
 
 	@IsTest
@@ -253,8 +256,8 @@ private class ActionPlansUtilitiesTest {
 		System.runAs(new User(Id = UserInfo.getUserId())) {
 			testutil.assignAPPermissionSets(UserInfo.getUserId(), false);
 		}
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 0);
-		ActionPlan__c ap2 = testutil.createNewActionPlan('account', 0);
+		ActionPlan__c ap = testutil.createNewActionPlan('account', 0, null);
+		ActionPlan__c ap2 = testutil.createNewActionPlan('account', 0, null);
 		List<ActionPlan__c> lAp = new List<ActionPlan__c>();
 		lAp.add(ap);
 		lAp.add(ap2);
@@ -270,19 +273,24 @@ private class ActionPlansUtilitiesTest {
 		Test.stopTest();
 
 		List<ActionPlan__c> lAp2 = [SELECT Id FROM ActionPlan__c WHERE Id IN :lAp];
-		Assert.isTrue(lAp2.size() == 1);
+		Assert.isTrue(lAp2.size() == 1, 'We should have only one Action Plan referenced');
 		if (!ActionPlansUtilities.getIsLex()) {
-			Assert.areEqual(page.getUrl(), url);
+			Assert.areEqual(page.getUrl(), url, 'URL was not set to desired value: ' + url);
 		}
 	}
 
+	/**
+	 * A method to enable testing creating a Chatter post for any of our usual standard objects
+	 *
+	 * @param objectNames The object we want to make a post for
+	 */
 	private static void doChatterPost(List<String> objectNames) {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getInstance();
 		if (!aps.Chatter_Object_Brag__c) {
 			aps.Chatter_Object_Brag__c = true;
 			update aps;
 		}
-		Assert.isTrue(aps.Chatter_Object_Brag__c);
+		Assert.isTrue(aps.Chatter_Object_Brag__c, 'Failed to set up custom setting correctly');
 
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
 
@@ -342,7 +350,7 @@ private class ActionPlansUtilitiesTest {
 			apcc.actionPlan.SkipDay__c = 'End of previous week';
 			apcc.getTasks();
 
-			Assert.isFalse(apcc.getTasks().isEmpty());
+			Assert.isFalse(apcc.getTasks().isEmpty(), 'Failed to generate our APTaskWrapper records');
 
 			apcc.save();
 		}
@@ -355,20 +363,20 @@ private class ActionPlansUtilitiesTest {
 		List<String> objectNames = new List<String>{ 'account', 'lead', 'contact' };
 		doChatterPost(objectNames);
 		System.debug([SELECT Id, Account__c, Lead__c, Contact__c, Action_Plan_Template__r.Name FROM ActionPlan__c]);
-		Assert.areEqual(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c]);
+		Assert.areEqual(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c], 'Failed to make one Action Plan per SObject');
 	}
 
 	@IsTest
 	private static void doChatterPostPart2() {
 		List<String> objectNames = new List<String>{ 'contract', 'case', 'campaign', 'opportunity' };
 		doChatterPost(objectNames);
-		Assert.areEqual(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c]);
+		Assert.areEqual(objectNames.size(), [SELECT COUNT() FROM ActionPlan__c], 'Failed to make one Action Plan per SObject');
 	}
 
 	@IsTest
 	private static void randomWord() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		Assert.isTrue(testUtil.createRandomWord('testword') != testUtil.createRandomWord());
+		Assert.areNotEqual(testUtil.createRandomWord('testword'), testUtil.createRandomWord(), 'We cannot ensure randomness. This is a problem.');
 	}
 
 	@IsTest
@@ -382,9 +390,9 @@ private class ActionPlansUtilitiesTest {
 					Assert.areNotEqual(ActionPlansUtilities.getDefaultTaskRecordTypeId(), t.get('RecordTypeId'), 'Record Type is default');
 				}
 			}
-			Assert.areNotEqual(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
+			Assert.isFalse(ActionPlansUtilities.getTaskRTPicklistValues().isEmpty(), 'We didn\'t collect all Record Types!');
 		} else {
-			Assert.areEqual(0, ActionPlansUtilities.getTaskRTPicklistValues().size());
+			Assert.isTrue(ActionPlansUtilities.getTaskRTPicklistValues().isEmpty(), 'Why did we collect a Record Type for an object that does not use them?');
 		}
 	}
 

@@ -12,6 +12,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * Test for Redirect Visualforce Controller
  * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
+ * @since 2023 System.assert to Assert class + error messages
  * @see ActionPlansRedirect
  * @group Tests
  */
@@ -23,7 +24,7 @@ private class ActionPlansRedirectTest {
 
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 		Assert.areNotEqual(null, apTemplate.Id, 'We should have created an ActionPlan Template');
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2, null);
 		Assert.areNotEqual(null, actionPlan.Id, 'We should have created an ActionPlan');
 	}
 
@@ -39,9 +40,9 @@ private class ActionPlansRedirectTest {
 		Test.stopTest();
 
 		Pagereference cp = pr;
-		Assert.isFalse(cp.getURL().containsIgnoreCase(apt.Id));
+		Assert.isFalse(cp.getURL().containsIgnoreCase(apt.Id), 'The redirect URL should not contain the APTask Id');
 		System.debug('CurrentPage ' + cp.getURL());
-		Assert.isTrue(cp.getURL().containsIgnoreCase(apt.Action_Plan__c));
+		Assert.isTrue(cp.getURL().containsIgnoreCase(apt.Action_Plan__c), 'The redirect URL should contain the Action Plan Id');
 	}
 
 	@IsTest
@@ -56,9 +57,9 @@ private class ActionPlansRedirectTest {
 		Test.stopTest();
 
 		Pagereference cp = pr;
-		Assert.isFalse(cp.getURL().containsIgnoreCase(apttt.Id));
+		Assert.isFalse(cp.getURL().containsIgnoreCase(apttt.Id), 'The redirect URL should not contain the APTemplateTask Id');
 		System.debug('CurrentPage ' + cp.getURL());
-		Assert.isTrue(cp.getURL().containsIgnoreCase(apttt.Action_Plan_Template__c));
+		Assert.isTrue(cp.getURL().containsIgnoreCase(apttt.Action_Plan_Template__c), 'The redirect URL should contain the Action Plan Template Id');
 	}
 
 	@IsTest

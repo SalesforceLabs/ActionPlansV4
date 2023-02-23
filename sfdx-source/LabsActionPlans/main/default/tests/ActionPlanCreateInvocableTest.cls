@@ -14,8 +14,10 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 */
 /**
  * Test class for Invocable Apex class
- * @since 2022
+ *
  * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
+ * @since 2023 System.assert to Assert class + error messages
  * @see ActionPlanCreateInvocable
  * @group Tests
  */
@@ -320,7 +322,7 @@ private class ActionPlanCreateInvocableTest {
 		/* for (Task t : [SELECT Id, ActivityDate FROM Task]) {
 			System.debug('Task is due on ' + t.ActivityDate + ' which is a ' + ActionPlansUtilities.getDayOfWeek(t.ActivityDate));
 		} */
-		Assert.areEqual(0, [SELECT COUNT() FROM Task WHERE ActivityDate = :upcomingWeekendDay]);
+		Assert.areEqual(0, [SELECT COUNT() FROM Task WHERE ActivityDate = :upcomingWeekendDay], 'Task should not have been scheduled for a weekend');
 	}
 
 	@IsTest
@@ -360,9 +362,9 @@ private class ActionPlanCreateInvocableTest {
 		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
 
 		Test.stopTest();
-		Assert.areNotEqual(null, resultIDs);
-		Assert.areEqual(0, resultIDs.size());
-		Assert.areEqual(0, [SELECT COUNT() FROM Task]);
+		Assert.areNotEqual(null, resultIDs, 'Returned List should not be null');
+		Assert.isTrue(resultIDs.isEmpty(), 'Returned List should be empty');
+		Assert.areEqual(0, [SELECT COUNT() FROM Task], 'No Tasks should have been created');
 	}
 
 	/**

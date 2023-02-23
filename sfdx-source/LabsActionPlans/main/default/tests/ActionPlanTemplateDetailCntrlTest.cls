@@ -31,7 +31,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 		apTemplate = [SELECT Id, TaskRecordTypeId__c, OwnerId FROM ActionPlanTemplate__c WHERE Id = :apTemplate.Id LIMIT 1];
 
 		if (ActionPlansUtilities.taskUsesRecordTypes) {
-			Assert.areNotEqual(null, apTemplate.TaskRecordTypeID__c);
+			Assert.areNotEqual(null, apTemplate.TaskRecordTypeID__c, 'The org has Task Record Types, but we could not get one');
 		}
 
 		Test.startTest();
@@ -43,9 +43,9 @@ private class ActionPlanTemplateDetailCntrlTest {
 		apTemplateDetailController = new ActionPlanTemplateDetailController(new ApexPages.StandardController(apTemplate));
 
 		if (apTemplateDetailController.taskHasRecordType) {
-			Assert.areNotEqual('', apTemplateDetailController.getRecordTypeName());
+			Assert.areNotEqual('', apTemplateDetailController.getRecordTypeName(), 'Task has Record Types - but we did not populate one for the picklist');
 		} else {
-			Assert.areEqual('', apTemplateDetailController.getRecordTypeName());
+			Assert.areEqual('', apTemplateDetailController.getRecordTypeName(), 'Task has NO Record Types - but we populated one for the picklist');
 		}
 
 		apTemplateDetailController.getCanTransfer();
@@ -53,7 +53,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.stopTest();
 
-		Assert.isFalse(apTemplateDetailController.getTemplateTasks().isEmpty());
+		Assert.isFalse(apTemplateDetailController.getTemplateTasks().isEmpty(), 'We failed to collect the AP Template Tasks');
 	}
 
 	@IsTest
@@ -74,8 +74,8 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.stopTest();
 
-		Assert.areEqual(true, apTemplateDetailController.taskHasRecordType);
-		Assert.areNotEqual(null, apTemplateDetailController.getRecordTypeName());
+		Assert.areEqual(true, apTemplateDetailController.taskHasRecordType, 'Failed to force test to see a Task Record Type even if one does not really exist');
+		Assert.areNotEqual(null, apTemplateDetailController.getRecordTypeName(), 'Failed to force test to see a Task Record Type even if one does not really exist');
 	}
 
 	@IsTest
@@ -96,7 +96,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.stopTest();
 
-		Assert.areEqual('', apTemplateDetailController.getRecordTypeName());
+		Assert.areEqual('', apTemplateDetailController.getRecordTypeName(), 'Failed to force test to fail to see Record Types for Task');
 	}
 
 	@IsTest
@@ -114,7 +114,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.stopTest();
 
-		Assert.isTrue(apTemplateDetailController.getTemplateTasks().isEmpty());
+		Assert.isTrue(apTemplateDetailController.getTemplateTasks().isEmpty(), 'It should be impossible to create Template Tasks when none are on the template itself');
 	}
 
 	@IsTest
@@ -140,10 +140,11 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 	@IsTest
 	private static void retrievingTemplateTasks() {
+		final Integer TASK_COUNT = 3; //NOPMD
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(3);
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
 
-		Assert.areEqual(3, [SELECT COUNT() FROM APTemplateTask__c]);
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM APTemplateTask__c], 'Failed to create ' + TASK_COUNT + ' AP Template Tasks');
 
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanTemplateDetail);
@@ -157,7 +158,7 @@ private class ActionPlanTemplateDetailCntrlTest {
 		Assert.isFalse(taskList.isEmpty(), 'action plan Template tasks is empty');
 
 		//checks that list contains total number of created tasks
-		Assert.areEqual(3, taskList.size());
+		Assert.areEqual(TASK_COUNT, taskList.size(), 'Failed to create ' + TASK_COUNT + ' AP Template Tasks');
 	}
 
 	@IsTest
@@ -176,10 +177,10 @@ private class ActionPlanTemplateDetailCntrlTest {
 		Test.stopTest();
 
 		//Checks to see if action plan template is retrieved
-		Assert.isTrue(apTemplate2 != null, 'action plan Template tasks is empty');
+		Assert.areNotEqual(null, apTemplate2, 'we did not successfully retrieve the AP Template for the page');
 
 		//checks to see if both action plan templates are the same
-		Assert.areEqual(apTemplate2.Id, apTemplate.Id);
+		Assert.areEqual(apTemplate2.Id, apTemplate.Id, 'The template Ids did not match');
 	}
 
 	@IsTest
@@ -196,8 +197,8 @@ private class ActionPlanTemplateDetailCntrlTest {
 
 		Test.stopTest();
 
-		Assert.isTrue(controller.actionPlanExportXMLId != null);
+		Assert.areNotEqual(null, controller.actionPlanExportXMLId, 'Failed to find an Action Plan and return its ID');
 
-		Assert.areNotEqual(null, controller.getSuccessMessage());
+		Assert.areNotEqual(null, controller.getSuccessMessage(), 'We did not get a success message - export failed.');
 	}
 }

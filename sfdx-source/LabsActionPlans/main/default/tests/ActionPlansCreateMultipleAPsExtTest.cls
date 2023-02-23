@@ -15,6 +15,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 /**
  * Tests for the Visualforce controller extension for the button to enable creation of multiple action plans for all checked records in a list view
  * @author {@link [David Schach](https://github.com/dschach)}
+ * @since 2022
+ * @since 2023 System.assert to Assert class + error messages
  * @see ActionPlansCreateMultipleAPsExtension
  * @group Tests
  */
@@ -40,7 +42,7 @@ private class ActionPlansCreateMultipleAPsExtTest {
 
 		PageReference newAPPage = ctrl.doRedirect();
 
-		Assert.isTrue(newAPPage.geturl().containsIgnoreCase('%2C0'));
+		Assert.isTrue(newAPPage.getUrl().containsIgnoreCase('%2C0'), 'The URL for making multiple Action Plans is incorrect: ' + newAPPage.getUrl());
 	}
 
 	@IsTest
@@ -52,6 +54,6 @@ private class ActionPlansCreateMultipleAPsExtTest {
 		PageReference newAPPage = ctrl.doRedirect();
 		Test.stopTest();
 
-		Assert.areEqual(null, newAPPage);
+		Assert.areEqual(null, newAPPage, 'If there is no record selected, how did we generate a URL to show?');
 	}
 }

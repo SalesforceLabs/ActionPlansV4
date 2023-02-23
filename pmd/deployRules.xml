@@ -110,10 +110,24 @@
 	<!-- NAMING -->
 	<rule ref="category/apex/codestyle.xml/ClassNamingConventions" message="Class names should begin with an uppercase character">
 		<priority>2</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<property name="testClassPattern" value="[A-Z][a-zA-Z0-9_]*" />
+			<property name="abstractClassPattern" value="[A-Z][a-zA-Z0-9_]*" />
+			<property name="classPattern" value="[A-Z][a-zA-Z0-9_]*" />
+			<property name="interfacePattern" value="[A-Z][a-zA-Z0-9_]*" />
+			<property name="enumPattern" value="[A-Z][a-zA-Z0-9_]*" />
+		</properties>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/MethodNamingConventions" message="Method name does not begin with a lower case character.">
 		<priority>2</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<property name="testPattern" value="[a-z][a-zA-Z0-9]*" />
+			<property name="staticPattern" value="[a-z][a-zA-Z0-9]*" />
+			<property name="instancePattern" value="[a-z][a-zA-Z0-9]*" />
+		</properties>
 	</rule>
 
 	<rule ref="category/apex/errorprone.xml/MethodWithSameNameAsEnclosingClass" message="Classes should not have non-constructor methods with the same name as the class">
@@ -123,18 +137,43 @@
 	<!-- NAMING -->
 	<rule ref="category/apex/codestyle.xml/FieldNamingConventions">
 		<priority>3</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<property name="enumConstantPattern" value="[A-Z][A-Z0-9_]*" />
+			<property name="constantPattern" value="[A-Z][A-Z0-9_]*" />
+			<!-- finalPattern changed -->
+			<property name="finalPattern" value="[a-zA-Z][a-zA-Z0-9]*" />
+			<property name="staticPattern" value="[a-z][a-zA-Z0-9]*" />
+			<property name="instancePattern" value="[a-z][a-zA-Z0-9]*" />
+		</properties>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/FormalParameterNamingConventions">
 		<priority>3</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<property name="finalMethodParameterPattern" value="[a-z][a-zA-Z0-9]*" />
+			<property name="methodParameterPattern" value="[a-z][a-zA-Z0-9]*" />
+		</properties>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/LocalVariableNamingConventions">
 		<priority>3</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<!-- finalLocalPattern changed -->
+			<property name="finalLocalPattern" value="[a-zA-Z][a-zA-Z0-9]*" />
+			<property name="localPattern" value="[a-z][a-zA-Z0-9]*" />
+		</properties>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/PropertyNamingConventions">
 		<priority>3</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<property name="staticPattern" value="[a-z][a-zA-Z0-9]*" />
+			<property name="instancePattern" value="[a-z][a-zA-Z0-9]*" />
+		</properties>
 	</rule>
 
 	<!-- TESTS -->

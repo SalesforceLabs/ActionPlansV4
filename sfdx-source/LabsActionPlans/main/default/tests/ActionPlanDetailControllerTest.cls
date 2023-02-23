@@ -33,19 +33,19 @@ private class ActionPlanDetailControllerTest {
 		Assert.areEqual(0, ActionPlansTestUtilities.getCompleted(null), 'New AP should have no completed tasks');
 		Assert.isTrue(apDetailController.getActionPlanTasks().isEmpty(), 'New Action Plan has no tasks');
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1, null);
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
-		Assert.areEqual('Account', apDetailController2.getRelatedObjectLabel());
+		Assert.areEqual('Account', apDetailController2.getRelatedObjectLabel(), 'Incorrect Related Object Label');
 		apDetailController2.getCanTransfer();
 		apDetailController2.getCanShare();
-		Assert.areNotEqual(null, apDetailController2.hasRecordType);
+		Assert.areNotEqual(null, apDetailController2.hasRecordType, 'HasRecordType should be true or false. Never null.');
 
 		ActionPlanDetailController apDetailController3 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 
 		Test.stopTest();
-		Assert.areNotEqual(0, apDetailController3.getActionPlanTasks().size());
+		Assert.isFalse(apDetailController3.getActionPlanTasks().isEmpty(), 'Failed to collect AP Tasks (TaskWrappers)');
 	}
 
 	@IsTest
@@ -55,7 +55,7 @@ private class ActionPlanDetailControllerTest {
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3, null);
 
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		List<ActionPlanDetailController.TaskWrapper> apTasks = apDetailController.getActionPlanTasks();
@@ -73,7 +73,7 @@ private class ActionPlanDetailControllerTest {
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0, null);
 
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		List<ActionPlanDetailController.TaskWrapper> apTasks = apDetailController.getActionPlanTasks();
@@ -91,7 +91,7 @@ private class ActionPlanDetailControllerTest {
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3, null);
 		List<APTask__c> apTasks = [SELECT Id, Controller__c FROM APTask__c];
 		apTasks[1].Controller__c = apTasks[0].Id;
 		update apTasks;
@@ -99,7 +99,7 @@ private class ActionPlanDetailControllerTest {
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		apDetailController.getActionPlanTasks();
 		Test.stopTest();
-		Assert.isTrue(apDetailController.gethasControllingTasks());
+		Assert.isTrue(apDetailController.gethasControllingTasks(), 'Failed to find controlling tasks');
 	}
 
 	@IsTest
@@ -109,7 +109,7 @@ private class ActionPlanDetailControllerTest {
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2, null);
 		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(2);
 
 		actionPlan.Action_Plan_Template__c = apTemplate.Id;
@@ -117,12 +117,12 @@ private class ActionPlanDetailControllerTest {
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
-		boolean versionName = apDetailController.getVersion();
+		Boolean versionName = apDetailController.getVersion();
 
 		Test.stopTest();
 
 		//Checks if Action Plan Template has not been changed since the creation of the Action Plan.
-		Assert.isFalse(versionName);
+		Assert.isFalse(versionName, 'Somebody changed the APTemplate!');
 
 		apTemplate.Name = 'new name';
 		update apTemplate;
@@ -143,7 +143,7 @@ private class ActionPlanDetailControllerTest {
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2, null);
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
@@ -154,7 +154,7 @@ private class ActionPlanDetailControllerTest {
 		Test.stopTest();
 
 		Assert.isTrue(actionPlanList.isEmpty(), 'Action Plan was not deleted');
-		Assert.areEqual(0, [SELECT COUNT() FROM Task]);
+		Assert.areEqual(0, [SELECT COUNT() FROM Task], 'Should not have found any Tasks');
 	}
 
 	@IsTest
@@ -163,49 +163,49 @@ private class ActionPlanDetailControllerTest {
 		Test.setCurrentPage(pageRef);
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 0, null);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanDetailController apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		String recName = apdc.getrelatedRecordName();
-		Assert.areNotEqual(null, recName);
-		Assert.areEqual('Account', apdc.getRelatedObjectLabel());
+		Assert.areNotEqual(null, recName, 'Failed to get correct related Record Name');
+		Assert.areEqual('Account', apdc.getRelatedObjectLabel(), 'Incorrect Related Object Label');
 
-		actionPlan = testUtil.createNewActionPlan('campaign', 0);
+		actionPlan = testUtil.createNewActionPlan('campaign', 0, null);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
-		Assert.areNotEqual(null, recName);
+		Assert.areNotEqual(null, recName, 'Failed to get correct related Record Name');
 
-		actionPlan = testUtil.createNewActionPlan('case', 0);
+		actionPlan = testUtil.createNewActionPlan('case', 0, null);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
-		Assert.areNotEqual(null, recName);
+		Assert.areNotEqual(null, recName, 'Failed to get correct related Record Name');
 
-		actionPlan = testUtil.createNewActionPlan('contact', 0);
+		actionPlan = testUtil.createNewActionPlan('contact', 0, null);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
-		Assert.areNotEqual(null, recName);
-		Assert.areEqual('Contact', apdc.getRelatedObjectLabel());
+		Assert.areNotEqual(null, recName, 'Failed to get correct related Record Name');
+		Assert.areEqual('Contact', apdc.getRelatedObjectLabel(), 'Incorrect Related Object Label');
 
-		actionPlan = testUtil.createNewActionPlan('contract', 0);
+		actionPlan = testUtil.createNewActionPlan('contract', 0, null);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
-		Assert.areNotEqual(null, recName);
+		Assert.areNotEqual(null, recName, 'Failed to get correct related Record Name');
 
-		actionPlan = testUtil.createNewActionPlan('lead', 0);
+		actionPlan = testUtil.createNewActionPlan('lead', 0, null);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
-		Assert.areNotEqual(null, recName);
+		Assert.areNotEqual(null, recName, 'Failed to get correct related Record Name');
 
-		actionPlan = testUtil.createNewActionPlan('opportunity', 0);
+		actionPlan = testUtil.createNewActionPlan('opportunity', 0, null);
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		apdc = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		recName = apdc.getrelatedRecordName();
-		Assert.areNotEqual(null, recName);
+		Assert.areNotEqual(null, recName, 'Failed to get correct related Record Name');
 	}
 
 	@IsTest
@@ -218,15 +218,15 @@ private class ActionPlanDetailControllerTest {
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1, null);
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 
 		Test.stopTest();
 
-		Assert.areEqual(true, apDetailController.hasRecordType);
-		Assert.areNotEqual(null, apDetailController.getRecordTypeName());
+		Assert.areEqual(true, apDetailController.hasRecordType, 'Failed to find the Record Type');
+		Assert.areNotEqual(null, apDetailController.getRecordTypeName(), 'Failed to find the Record Type Name');
 	}
 
 	@IsTest
@@ -239,14 +239,14 @@ private class ActionPlanDetailControllerTest {
 		Test.startTest();
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 1, null);
 
 		ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 		ActionPlanDetailController apDetailController2 = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 
 		Test.stopTest();
 
-		Assert.areEqual(false, apDetailController2.hasRecordType);
-		Assert.areEqual('', apDetailController2.getRecordTypeName());
+		Assert.areEqual(false, apDetailController2.hasRecordType, 'Found a nonexistent Record Type');
+		Assert.areEqual('', apDetailController2.getRecordTypeName(), 'Found a nonexistent Record Type Name!');
 	}
 }

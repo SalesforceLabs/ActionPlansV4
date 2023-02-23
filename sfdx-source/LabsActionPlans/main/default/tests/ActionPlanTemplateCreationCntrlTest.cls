@@ -50,7 +50,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		Test.stopTest();
 
-		Assert.isFalse(aptcc.getTemplateTasks().isEmpty());
+		Assert.isFalse(aptcc.getTemplateTasks().isEmpty(), 'Failed to collect all Template Tasks for the page');
 	}
 
 	@IsTest
@@ -77,8 +77,8 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		Test.stopTest();
 
-		Assert.isTrue(page != null);
-		Assert.isTrue(aptcc.saveAndNew() != null);
+		Assert.areNotEqual(null, page, 'Failed to instantiate a PageReference to go after saving the Template');
+		Assert.areNotEqual(null, aptcc.saveAndNew(), 'Failed to successfully save the Template and start a new one');
 	}
 
 	//Test Saves Action Plan Template and all tasks
@@ -101,7 +101,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		aptcc.saveTemplate();
 
-		Assert.isFalse(aptcc.pendingTemplateTaskDeletes.isEmpty());
+		Assert.isFalse(aptcc.pendingTemplateTaskDeletes.isEmpty(), 'Failed to collect all Template Tasks for deletion');
 
 		//Enter Task Catch()
 		aptcc.pendingTemplateTaskDeletes = new List<APTemplateTask__c>();
@@ -112,13 +112,13 @@ private class ActionPlanTemplateCreationCntrlTest {
 		//aptcc.aptTasks.add(new APTemplateTask__c(DaysFromStart__c = -3));
 		aptcc.saveTemplate();
 
-		Assert.isFalse(aptcc.aptTasks.isEmpty());
+		Assert.isFalse(aptcc.aptTasks.isEmpty(), 'Failed to collect all Template Tasks for the page');
 
 		//Enter APT Catch()
 		aptcc.actionPlanTemplate = null;
 		aptcc.saveTemplate();
 		Test.stopTest();
-		Assert.isFalse(aptcc.aptTasks.isEmpty());
+		Assert.isFalse(aptcc.aptTasks.isEmpty(), 'Failed to collect all Template Tasks for the page');
 	}
 
 	@IsTest
@@ -139,7 +139,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		Test.stopTest();
 
 		String urlVal = cancelPage.getUrl();
-		Assert.isTrue(urlVal.containsIgnoreCase(apTemplate.Id));
+		Assert.isTrue(urlVal.containsIgnoreCase(apTemplate.Id), 'Failed to construct the cancel page URL correctly: ' + urlVal);
 	}
 
 	@IsTest
@@ -172,7 +172,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		aptcc.saveTemplate();
 
 		Test.stopTest();
-		Assert.areEqual(1, aptcc.getTemplateTaskSize());
+		Assert.areEqual(1, aptcc.getTemplateTaskSize(), 'Failed to collect 1 Template Task for the page');
 	}
 
 	@IsTest
@@ -190,7 +190,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		aptcc.getTemplateWrappers();
 		Test.stopTest();
 
-		Assert.areEqual(false, aptcc.taskHasRecordType);
+		Assert.areEqual(false, aptcc.taskHasRecordType, 'Failed to force test to fail to see Record Types for Task');
 	}
 
 	@IsTest
@@ -207,7 +207,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		aptcc.addTemplateTask();
 		Test.stopTest();
 		String errorMsg = aptcc.getErrorMsg();
-		Assert.isTrue(errorMsg.containsIgnoreCase(String.valueOf(ActionPlansUtilities.MAX_APTASKS)));
+		Assert.isTrue(errorMsg.containsIgnoreCase(String.valueOf(ActionPlansUtilities.MAX_APTASKS)), 'Error message does not show correct nax tasks allowed');
 	}
 
 	@IsTest
@@ -227,7 +227,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 		Test.stopTest();
 
 		Integer taskCount = aptcc.getTemplateTaskSize();
-		Assert.isTrue(taskCount > 2);
+		Assert.isTrue(taskCount > 2, 'We should have started a third Template Task wrapper for the page');
 	}
 
 	@IsTest
@@ -242,7 +242,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		aptcc.addTemplateTask();
 
-		Assert.isTrue(aptcc.geterrorMsg() == null, 'An error was returned when adding a template task ');
+		Assert.areEqual(null, aptcc.geterrorMsg(), 'An error was returned when adding a template task ');
 
 		ActionPlanTemplate__c actionPlanTemplate2 = testUtil.createNewActionPlanTemplate(ActionPlansUtilities.MAX_APTASKS);
 		aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(actionPlanTemplate2));
@@ -251,7 +251,7 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		aptcc.addTemplateTask();
 
-		Assert.isTrue(aptcc.geterrorMsg() != null, 'An error was not returned when adding a template task');
+		Assert.areNotEqual(null, aptcc.geterrorMsg(), 'An error was not returned when adding a template task');
 
 		Test.stopTest();
 	}
@@ -356,16 +356,15 @@ private class ActionPlanTemplateCreationCntrlTest {
 
 		ActionPlanTemplateCreationController aptcc = new ActionPlanTemplateCreationController(new ApexPages.StandardController(apTemplate));
 		List<ActionPlanTemplateCreationController.ApTTaskWrapper> taskList = aptcc.getTemplateWrappers();
-		Integer numTasks = aptcc.getTemplateTaskSize();
-
-		//checks that the list is not empty
-		Assert.isFalse(taskList.isEmpty(), 'Task list was not empty');
 
 		Test.stopTest();
 
+		Integer numTasks = aptcc.getTemplateTaskSize();
+		//checks that the list is not empty
+		Assert.isFalse(taskList.isEmpty(), 'Task list was not empty');
 		//Checks to see if both methods return same task size
-		Assert.areEqual(numTasks, taskList.size());
-		Assert.areEqual(TEMPLATE_TASKS_COUNT, taskList.size());
+		Assert.areEqual(numTasks, taskList.size(), 'Failed to create the correct number of Template Tasks: ' + numTasks);
+		Assert.areEqual(TEMPLATE_TASKS_COUNT, taskList.size(), 'Failed to create the correct number of Template Tasks: ' + TEMPLATE_TASKS_COUNT);
 	}
 
 	@IsTest

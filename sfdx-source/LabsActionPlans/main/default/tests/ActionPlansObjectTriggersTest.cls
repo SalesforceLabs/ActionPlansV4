@@ -37,7 +37,7 @@ private class ActionPlansObjectTriggersTest {
 	@IsTest
 	private static void accountTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('account', 1);
+		ActionPlan__c ap = testutil.createNewActionPlan('account', 1, null);
 		Account a = [SELECT Id FROM Account WHERE Id = :ap.Account__c];
 
 		// Verifies that action plans are deleted when removing related object
@@ -45,14 +45,16 @@ private class ActionPlansObjectTriggersTest {
 		delete a;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		Assert.areEqual(0, lAp.size());
+		Assert.isTrue(lAp.isEmpty(), 'Should not have any Action Plans left');
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete a;
-		} catch (Dmlexception e) {
-			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.fail('Should not have been successful undelete');
+		} catch (Exception e) {
+			Assert.isInstanceOfType(e, DmlException.class, 'Should have been a DML Exception');
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError), ' Undelete error message is wrong');
 		}
 		ActionPlansTestUtilities.forceError = false;
 
@@ -70,7 +72,7 @@ private class ActionPlansObjectTriggersTest {
 	@IsTest
 	private static void campaignTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('campaign', 1);
+		ActionPlan__c ap = testutil.createNewActionPlan('campaign', 1, null);
 		Campaign c = [SELECT Id FROM Campaign WHERE Id = :ap.Campaign__c];
 
 		// Verifies that action plans are deleted when removing related object
@@ -78,14 +80,16 @@ private class ActionPlansObjectTriggersTest {
 		delete c;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		Assert.areEqual(0, lAp.size());
+		Assert.isTrue(lAp.isEmpty(), 'Should not have any Action Plans left');
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete c;
-		} catch (Dmlexception e) {
-			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.fail('Should not have been successful undelete');
+		} catch (Exception e) {
+			Assert.isInstanceOfType(e, DmlException.class, 'Should have been a DML Exception');
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError), ' Undelete error message is wrong');
 		}
 		ActionPlansTestUtilities.forceError = false;
 
@@ -104,7 +108,7 @@ private class ActionPlansObjectTriggersTest {
 	@IsTest
 	private static void caseTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('case', 1);
+		ActionPlan__c ap = testutil.createNewActionPlan('case', 1, null);
 		Case c = [SELECT Id FROM Case WHERE Id = :ap.Case__c];
 
 		// Verifies that action plans are undeleted when restoring related object
@@ -112,14 +116,16 @@ private class ActionPlansObjectTriggersTest {
 		delete c;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		Assert.areEqual(0, lAp.size());
+		Assert.isTrue(lAp.isEmpty(), 'Should not have any Action Plans left');
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete c;
-		} catch (Dmlexception e) {
-			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.fail('Should not have been successful undelete');
+		} catch (Exception e) {
+			Assert.isInstanceOfType(e, DmlException.class, 'Should have been a DML Exception');
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError), ' Undelete error message is wrong');
 		}
 		ActionPlansTestUtilities.forceError = false;
 
@@ -138,7 +144,7 @@ private class ActionPlansObjectTriggersTest {
 	@IsTest
 	private static void contactTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('contact', 1);
+		ActionPlan__c ap = testutil.createNewActionPlan('contact', 1, null);
 		Contact c = [SELECT Id FROM Contact WHERE Id = :ap.Contact__c];
 
 		// Verifies that action plans are undeleted when restoring related object
@@ -146,14 +152,16 @@ private class ActionPlansObjectTriggersTest {
 		delete c;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		Assert.areEqual(0, lAp.size());
+		Assert.isTrue(lAp.isEmpty(), 'Should not have any Action Plans left');
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete c;
-		} catch (Dmlexception e) {
-			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.fail('Should not have been successful undelete');
+		} catch (Exception e) {
+			Assert.isInstanceOfType(e, DmlException.class, 'Should have been a DML Exception');
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError), ' Undelete error message is wrong');
 		}
 		ActionPlansTestUtilities.forceError = false;
 
@@ -172,7 +180,7 @@ private class ActionPlansObjectTriggersTest {
 	@IsTest
 	private static void contractTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('contract', 1);
+		ActionPlan__c ap = testutil.createNewActionPlan('contract', 1, null);
 		Contract c = [SELECT Id FROM Contract WHERE Id = :ap.Contract__c];
 
 		// Verifies that action plans are undeleted when restoring related object
@@ -180,14 +188,16 @@ private class ActionPlansObjectTriggersTest {
 		delete c;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		Assert.areEqual(0, lAp.size());
+		Assert.isTrue(lAp.isEmpty(), 'Should not have any Action Plans left');
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete c;
-		} catch (Dmlexception e) {
-			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.fail('Should not have been successful undelete');
+		} catch (Exception e) {
+			Assert.isInstanceOfType(e, DmlException.class, 'Should have been a DML Exception');
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError), ' Undelete error message is wrong');
 		}
 		ActionPlansTestUtilities.forceError = false;
 
@@ -206,7 +216,7 @@ private class ActionPlansObjectTriggersTest {
 	@IsTest
 	private static void leadTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('lead', 1);
+		ActionPlan__c ap = testutil.createNewActionPlan('lead', 1, null);
 		Lead l = [SELECT Id FROM Lead WHERE Id = :ap.Lead__c];
 
 		// Verifies that action plans are undeleted when restoring related object
@@ -214,14 +224,16 @@ private class ActionPlansObjectTriggersTest {
 		delete l;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		Assert.areEqual(0, lAp.size());
+		Assert.isTrue(lAp.isEmpty(), 'Should not have any Action Plans left');
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete l;
-		} catch (Dmlexception e) {
-			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.fail('Should not have been successful undelete');
+		} catch (Exception e) {
+			Assert.isInstanceOfType(e, DmlException.class, 'Should have been a DML Exception');
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError), ' Undelete error message is wrong');
 		}
 		ActionPlansTestUtilities.forceError = false;
 
@@ -240,7 +252,7 @@ private class ActionPlansObjectTriggersTest {
 	@IsTest
 	private static void opportunityTrigger() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 1);
+		ActionPlan__c ap = testutil.createNewActionPlan('opportunity', 1, null);
 		Opportunity o = [SELECT Id FROM Opportunity WHERE Id = :ap.Opportunity__c];
 
 		// Verifies that action plans are undeleted when restoring related object
@@ -248,14 +260,16 @@ private class ActionPlansObjectTriggersTest {
 		delete o;
 		Test.stopTest();
 		List<ActionPlan__c> lAp = [SELECT Id FROM ActionPlan__c WHERE Id = :ap.Id];
-		Assert.areEqual(0, lAp.size());
+		Assert.isTrue(lAp.isEmpty(), 'Should not have any Action Plans left');
 
 		// Verifies catch is working fine
 		ActionPlansTestUtilities.forceError = true;
 		try {
 			undelete o;
-		} catch (Dmlexception e) {
-			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError));
+			Assert.fail('Should not have been successful undelete');
+		} catch (Exception e) {
+			Assert.isInstanceOfType(e, DmlException.class, 'Should have been a DML Exception');
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_RelObjUndeleteError), ' Undelete error message is wrong');
 		}
 		ActionPlansTestUtilities.forceError = false;
 
@@ -278,7 +292,7 @@ private class ActionPlansObjectTriggersTest {
 		testutil.assignAPPermissionSets(u.Id, true);
 
 		System.runAs(new User(Id = UserInfo.getUserId())) {
-			testutil.createNewActionPlan('lead', 1);
+			testutil.createNewActionPlan('lead', 1, null);
 		}
 
 		Test.startTest();
@@ -291,7 +305,7 @@ private class ActionPlansObjectTriggersTest {
 				update aps;
 			}
 			Lead l = [SELECT Id FROM Lead LIMIT 1];
-			Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL]);
+			Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL], 'Incorrect number of Action Plans created');
 			Assert.areEqual(l.Id, [SELECT Lead__c FROM ActionPlan__c LIMIT 1].Lead__c, 'Our only lead should be on this action plan');
 
 			Database.LeadConvert lc = new Database.LeadConvert();
@@ -302,12 +316,12 @@ private class ActionPlansObjectTriggersTest {
 			lc.setConvertedStatus(convertStatus.MasterLabel);
 
 			Database.LeadConvertResult lcr = Database.convertLead(lc);
-			Assert.isTrue(lcr.isSuccess());
+			Assert.isTrue(lcr.isSuccess(), 'Lead conversion failed');
 		}
 
 		Test.stopTest();
 
-		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL]);
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL], 'Incorrect number of Action Plans created');
 	}
 
 	@IsTest
@@ -317,7 +331,7 @@ private class ActionPlansObjectTriggersTest {
 		testutil.assignAPPermissionSets(u.Id, true);
 
 		System.runAs(new User(Id = UserInfo.getUserId())) {
-			testutil.createNewActionPlan('lead', 1);
+			testutil.createNewActionPlan('lead', 1, null);
 		}
 
 		Test.startTest();
@@ -332,10 +346,10 @@ private class ActionPlansObjectTriggersTest {
 				update aps;
 			}
 
-			Assert.isTrue(Schema.sObjectType.ActionPlan__c.fields.Account__c.isUpdateable());
+			Assert.isTrue(Schema.sObjectType.ActionPlan__c.fields.Account__c.isUpdateable(), 'User unable to update Account field - cannot link Action Plan to Account');
 
-			Assert.areEqual(0, [SELECT COUNT() FROM Account]);
-			Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL]);
+			Assert.areEqual(0, [SELECT COUNT() FROM Account], 'Incorrect number of Accounts found');
+			Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL], 'Incorrect number of Action Plans created');
 
 			Database.LeadConvert lc = new Database.LeadConvert();
 			lc.setDoNotCreateOpportunity(true);
@@ -345,15 +359,15 @@ private class ActionPlansObjectTriggersTest {
 			lc.setConvertedStatus(convertStatus.MasterLabel);
 
 			Database.LeadConvertResult lcr = Database.convertLead(lc);
-			Assert.isTrue(lcr.isSuccess());
-			Assert.areEqual(1, [SELECT COUNT() FROM Account]);
+			Assert.isTrue(lcr.isSuccess(), 'Lead conversion failed');
+			Assert.areEqual(1, [SELECT COUNT() FROM Account], 'Incorrect number of Accounts found');
 			System.debug('ActionPlan by test user: ' + [SELECT Id, Account__c, Contact__c, Lead__c FROM ActionPlan__c]);
 		}
 		Test.stopTest();
 
 		System.debug('ActionPlan by my user: ' + [SELECT Id, Account__c, Contact__c, Lead__c FROM ActionPlan__c]);
 
-		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL]);
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Account__c != NULL], 'Incorrect number of Action Plans created');
 	}
 
 	@IsTest
@@ -363,7 +377,7 @@ private class ActionPlansObjectTriggersTest {
 		//testutil.assignAPPermissionSets(u.Id, true);
 
 		System.runAs(new User(Id = UserInfo.getUserId())) {
-			testutil.createNewActionPlan('lead', 1);
+			testutil.createNewActionPlan('lead', 1, null);
 		}
 
 		Test.startTest();
@@ -377,7 +391,7 @@ private class ActionPlansObjectTriggersTest {
 				update aps;
 			}
 
-			Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL]);
+			Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL], 'Incorrect number of Action Plans created');
 
 			Database.LeadConvert lc = new Database.LeadConvert();
 			lc.setDoNotCreateOpportunity(false);
@@ -387,11 +401,11 @@ private class ActionPlansObjectTriggersTest {
 			lc.setConvertedStatus(convertStatus.MasterLabel);
 
 			Database.LeadConvertResult lcr = Database.convertLead(lc);
-			Assert.isTrue(lcr.isSuccess());
+			Assert.isTrue(lcr.isSuccess(), 'Lead conversion failed');
 		}
 
 		Test.stopTest();
 
-		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Opportunity__c != NULL]);
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Opportunity__c != NULL], 'Incorrect number of Action Plans created');
 	}
 }

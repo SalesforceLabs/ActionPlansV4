@@ -18,6 +18,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * @group Tests
  * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
+ * @since 2023 System.assert to Assert class + error messages
  * @see ActionPlanTemplateImportController
  */
 @IsTest
@@ -41,7 +42,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		Assert.isTrue(pageRef != null);
+		Assert.areNotEqual(null, pageRef, 'We should have a valid importTemplate PageReference');
 	}
 
 	@IsTest
@@ -54,7 +55,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		Assert.isTrue(pageRef == null, 'Should have had error on import');
+		Assert.areEqual(null, pageRef, 'Should have had error on import');
 	}
 
 	@IsTest
@@ -68,7 +69,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		Assert.isTrue(pageRef == null, 'Should have had error on import');
+		Assert.areEqual(null, pageRef, 'Should have had error on import');
 	}
 
 	@IsTest
@@ -82,7 +83,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		Assert.isTrue(pageRef == null, 'Should have had error on import');
+		Assert.areEqual(null, pageRef, 'Should have had error on import');
 	}
 
 	@IsTest
@@ -96,7 +97,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		Assert.isTrue(pageRef == null, 'Should have had error on import');
+		Assert.areEqual(null, pageRef, 'Should have had error on import');
 	}
 
 	@IsTest
@@ -110,7 +111,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		Assert.isTrue(pageRef == null, 'Should have had error on import');
+		Assert.areEqual(null, pageRef, 'Should have had error on import');
 	}
 
 	@IsTest
@@ -124,7 +125,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		Assert.isTrue(pageRef != null, 'Should be able to read file we generated');
+		Assert.areNotEqual(null, pageRef, 'Should be able to read file we generated');
 	}
 
 	@IsTest
@@ -162,7 +163,7 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Pagereference pageRef = controller.importTemplate();
 
-		Assert.isTrue(pageRef != null, 'Should be able to read file we generated');
+		Assert.areNotEqual(null, pageRef, 'Should be able to read file we generated');
 	}
 
 	@IsTest
@@ -187,8 +188,8 @@ private class ActionPlanTemplateImportCntrlTest {
 
 		Test.stopTest();
 
-		Assert.isTrue(pageRef != null, 'Should be able to read file we generated');
+		Assert.areNotEqual(null, pageRef, 'Should be able to read file we generated');
 
-		Assert.isTrue(xmlId != null);
+		Assert.areNotEqual(null, xmlId, 'Should have successfully created a Document with an Id');
 	}
 }

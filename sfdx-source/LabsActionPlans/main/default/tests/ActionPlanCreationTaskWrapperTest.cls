@@ -45,14 +45,14 @@ private class ActionPlanCreationTaskWrapperTest {
 			Test.setCurrentPage(Page.ActionPlanCreation);
 
 			ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-			ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2);
+			ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 2, null);
 
 			ApexPages.currentPage().getParameters().put('id', actionPlan.Id);
 			ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 
 			List<ActionPlanCreationController.ApTaskWrapper> apTaskList = apCreateController.getTasks();
 			for (ActionPlanCreationController.ApTaskWrapper wrap : apTaskList) {
-				Assert.areEqual(false, wrap.userRequired);
+				Assert.areEqual(false, wrap.userRequired, 'User should not have been a required field, but we required it. Look into this.');
 			}
 			Test.stopTest();
 			Assert.isFalse(apTaskList.isEmpty(), 'Action plan task list is empty');
@@ -75,7 +75,7 @@ private class ActionPlanCreationTaskWrapperTest {
 		apCreateController.actionPlan.Account__c = a.Id;
 
 		List<ActionPlanCreationController.ApTaskWrapper> apTaskList = apCreateController.getTasks();
-		Assert.isFalse(apTaskList.isEmpty());
+		Assert.isFalse(apTaskList.isEmpty(), 'Should have collected APTaskWrappers');
 		for (ActionPlanCreationController.ApTaskWrapper wrap : apTaskList) {
 			wrap.getUserRender();
 		}
@@ -94,9 +94,9 @@ private class ActionPlanCreationTaskWrapperTest {
 		apCreateController.onLoad();
 		apCreateController.inVisualforceContext = true;
 		List<ActionPlanCreationController.ApTaskWrapper> apTaskList2 = apCreateController.getTasks();
-		Assert.isFalse(apTaskList2.isEmpty());
+		Assert.isFalse(apTaskList2.isEmpty(), 'Should have collected APTaskWrappers');
 		for (ActionPlanCreationController.ApTaskWrapper wrap : apTaskList2) {
-			Assert.areNotEqual(null, wrap.apt.User__c);
+			Assert.areNotEqual(null, wrap.apt.User__c, 'User field should NOT be null');
 			wrap.getUserRender();
 		}
 
@@ -111,7 +111,7 @@ private class ActionPlanCreationTaskWrapperTest {
 		}
 		System.runAs(u) {
 			ActionPlanCreationController apCreateController = doTemplateCreateEdit();
-			Assert.areEqual(4, apCreateController.getTasks().size());
+			Assert.areEqual(4, apCreateController.getTasks().size(), 'Incorrect number of Tasks to create collected');
 		}
 	}
 
@@ -130,7 +130,7 @@ private class ActionPlanCreationTaskWrapperTest {
 		}
 		System.runAs(u) {
 			ActionPlanCreationController apCreateController = doTemplateCreateEdit();
-			Assert.areEqual(4, apCreateController.getTasks().size());
+			Assert.areEqual(4, apCreateController.getTasks().size(), 'Incorrect number of Tasks to create collected');
 		}
 	}
 
@@ -139,14 +139,14 @@ private class ActionPlanCreationTaskWrapperTest {
 		Test.setCurrentPage(Page.ActionPlanCreation);
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('contact', 2, null);
 
 		ActionPlanCreationController apCreateController = new ActionPlanCreationController(new Apexpages.StandardController(actionPlan));
 		//apCreateController.onLoad();
 		List<ActionPlanCreationController.ApTaskWrapper> apTaskList = apCreateController.getTasks();
-		Assert.isFalse(apTaskList.isEmpty());
+		Assert.isFalse(apTaskList.isEmpty(), 'Should have collected APTaskWrappers');
 		for (ActionPlanCreationController.ApTaskWrapper wrap : apTaskList) {
-			Assert.areNotEqual(null, wrap.apt.Id);
+			Assert.areNotEqual(null, wrap.apt.Id, 'We failed to list TaskWrappers with IDs');
 			wrap.getUserRender();
 		}
 		Test.stopTest();
@@ -160,7 +160,7 @@ private class ActionPlanCreationTaskWrapperTest {
 			u = new ActionPlansTestUtilities().createAdminUser();
 		}
 		System.runAs(u) {
-			Assert.isTrue(Schema.sObjectType.APTask__c.fields.User__c.isUpdateable());
+			Assert.isTrue(Schema.sObjectType.APTask__c.fields.User__c.isUpdateable(), 'Admin cannot update User field on Action Plan');
 			ActionPlanCreationController apCreateController = doEditActionPlan();
 			Assert.areEqual(0, ActionPlansTestUtilities.getCompleted(apCreateController.actionPlan.Id), 'New AP should have no completed tasks');
 			Assert.areNotEqual(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');
@@ -181,7 +181,7 @@ private class ActionPlanCreationTaskWrapperTest {
 			u = new ActionPlansTestUtilities().createAdminUser();
 		}
 		System.runAs(u) {
-			Assert.isTrue(Schema.sObjectType.APTask__c.fields.User__c.isUpdateable());
+			Assert.isTrue(Schema.sObjectType.APTask__c.fields.User__c.isUpdateable(), 'Admin cannot update User field on Action Plan');
 			ActionPlanCreationController apCreateController = doEditActionPlan();
 			Assert.areEqual(0, ActionPlansTestUtilities.getCompleted(apCreateController.actionPlan.Id), 'New AP should have no completed tasks');
 			Assert.areNotEqual(null, apCreateController.relatedFieldName, 'should have lazy loaded relatedFieldName');

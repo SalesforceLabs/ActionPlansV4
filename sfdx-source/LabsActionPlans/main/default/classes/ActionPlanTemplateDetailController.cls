@@ -22,7 +22,7 @@ public with sharing class ActionPlanTemplateDetailController {
 	@TestVisible
 	private ActionPlanTemplate__c actionPlanTemplate;
 	/**
-	 * The Id of the Action Plan for Exporting. Shown on the Export page that shares thsi controller
+	 * The Id of the Action Plan for Exporting. Shown on the Export page that shares this controller
 	 */
 	public Id actionPlanExportXMLId { get; private set; }
 	/**

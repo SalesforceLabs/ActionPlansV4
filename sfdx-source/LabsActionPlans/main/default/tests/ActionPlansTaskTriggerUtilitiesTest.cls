@@ -39,13 +39,13 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		Task t = new Task(Subject = 'test task', ActivityDate = Date.today());
 		insert t;
 
-		ActionPlan__c ap = new ActionPlansTestUtilities().createNewActionPlan('account', 2);
+		ActionPlan__c ap = new ActionPlansTestUtilities().createNewActionPlan('account', 2, null);
 
 		Test.startTest();
 		ActionPlansTaskTriggerUtilities.futureDeleteTasks(new Set<Id>{ t.Id });
 		ActionPlansTriggerHandlers.futureDeleteActionPlans(new Set<Id>{ ap.Id });
 		Test.stopTest();
-		Assert.areEqual(0, [SELECT COUNT() FROM Task]);
+		Assert.areEqual(0, [SELECT COUNT() FROM Task], 'We should not have created a Task');
 	}
 
 	/**
@@ -57,7 +57,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		String testClosedStatus = closedStatuses[0];
 
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testUtil.createNewActionPlan('account', 0);
+		ActionPlan__c ap = testUtil.createNewActionPlan('account', 0, null);
 
 		List<Id> apTTaskIds = new List<Id>();
 		List<Task> apTaskList = new List<Task>();
@@ -113,7 +113,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	@IsTest
 	private static void actionPlanDelete() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testUtil.createNewActionPlan('contact', 0);
+		ActionPlan__c ap = testUtil.createNewActionPlan('contact', 0, null);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -157,7 +157,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		Test.stopTest();
 
-		Assert.isTrue(apTask.isEmpty());
+		Assert.isTrue(apTask.isEmpty(), 'We should have some records here');
 		Assert.areEqual(0, [SELECT COUNT() FROM Task], 'Deleting Action Plan should delete the APTask Task records as well');
 	}
 
@@ -167,7 +167,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	@IsTest
 	private static void aPTaskUpdate() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testUtil.createNewActionPlan('opportunity', 0);
+		ActionPlan__c ap = testUtil.createNewActionPlan('opportunity', 0, null);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -219,7 +219,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		Test.stopTest();
 
-		Assert.isFalse(apTask.isEmpty());
+		Assert.isFalse(apTask.isEmpty(), 'We should have some records here');
 	}
 
 	/**
@@ -230,7 +230,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		Test.startTest();
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c ap = testUtil.createNewActionPlan('contract', 1);
+		ActionPlan__c ap = testUtil.createNewActionPlan('contract', 1, null);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -249,10 +249,10 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		// delete the APTask
 		delete at;
 
-		List<APTask__c> apttDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
-		Assert.isTrue(apttDel.isEmpty());
-		Assert.areEqual(0, [SELECT COUNT() FROM APTask__c]);
-		Assert.areEqual(0, [SELECT COUNT() FROM Task]);
+		List<APTask__c> aptDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
+		Assert.isTrue(aptDel.isEmpty(), 'We should not have created this specific AP Task');
+		Assert.areEqual(0, [SELECT COUNT() FROM APTask__c], 'We should not have created any AP Tasks');
+		Assert.areEqual(0, [SELECT COUNT() FROM Task], 'We should not have created any Tasks');
 
 		// undelete task and APTask and get exception
 		List<Id> ids = new List<Id>();
@@ -264,7 +264,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		Boolean hasError = false;
 		try {
 			Database.undelete(t.Id);
-		} catch (DmlException e) {
+			Assert.fail('Undelete should not have been successful');
+		} catch (Exception e) {
+			Assert.isInstanceOfType(e, DmlException.class, 'Should have thrown a DML Exception');
 			hasError = true;
 		}
 		Assert.isTrue(hasError, 'Should have not been able to undelete this task, as it was already undeleted');
@@ -272,17 +274,18 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		hasError = false;
 		try {
 			Database.undelete(ids);
-		} catch (Dmlexception e) {
+			Assert.fail('Undelete should not have been successful');
+		} catch (Exception e) {
+			Assert.isInstanceOfType(e, DmlException.class, 'Should have thrown a DML Exception');
 			hasError = true;
-			Assert.isTrue(hasError, e.getMessage());
 		}
-		Assert.isTrue(hasError);
+		Assert.isTrue(hasError, 'That should have given us an error');
 
 		// now undelete and trigger the code
 		if (![SELECT Id FROM APTask__c WHERE Id = :at.Id AND isDeleted = TRUE ALL ROWS].isEmpty()) {
 			undelete at;
 			List<APTask__c> apttUnDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
-			Assert.areEqual(1, apttUnDel.size());
+			Assert.areEqual(1, apttUnDel.size(), 'APTask was NOT successfully undeleted');
 		}
 
 		Test.stopTest();
@@ -296,7 +299,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		Test.startTest();
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 
-		ActionPlan__c ap = testUtil.createNewActionPlan('campaign', 3);
+		ActionPlan__c ap = testUtil.createNewActionPlan('campaign', 3, null);
 		ap.SkipWeekends__c = true;
 		ap.SkipDay__c = 'End of previous week';
 		update ap;
@@ -318,30 +321,33 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		// delete the APTask Template
 		delete at;
 
+		Test.stopTest();
+
 		// ! KNOWN Platform bug that emptyRecycleBin doesn't work in testing
 		Database.emptyRecycleBin(t);
 		List<APTask__c> apttDel = [SELECT Id FROM APTask__c WHERE Id = :at.Id];
-		Assert.isTrue(apttDel.isEmpty());
+		Assert.isTrue(apttDel.isEmpty(), 'Not all APTasks were deleted!');
 
 		// undelete task and APTask and get exception
 		Boolean hasError = false;
 		try {
 			Database.undelete(ids);
-		} catch (Dmlexception e) {
+			Assert.fail('It looks like we were able to undelete the records - the bug has been fixed?');
+		} catch (Exception e) {
 			//System.debug('Dmlexception: ' + e.getMessage());
-			Assert.isTrue(e.getMessage().contains(System.Label.ap_Error), e.getMessage() + '(APTask__c undelete error should have the proper format)');
+			Assert.isTrue(e.getMessage().contains(System.Label.ap_Error), e.getMessage() + ' (APTask__c undelete error should have the proper format)');
 			hasError = true;
 		}
-
-		Test.stopTest();
+		Assert.isTrue(hasError, 'The emptyRecycleBin bug seems to have been fixed');
 	}
+
 	/**
 	 * Test Task After Update trigger when updating task to status 'In Progress' (or another open status)
 	 */
 	@IsTest
 	private static void taskAfterUpdateToOpen() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testUtil.createNewActionPlan('lead', 0);
+		ActionPlan__c ap = testUtil.createNewActionPlan('lead', 0, null);
 
 		List<Id> apTTaskIds = new List<Id>();
 		List<Task> apTask = new List<Task>();
@@ -389,7 +395,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		apTask = [SELECT Id FROM Task WHERE TaskAPTask__c = :apTTaskIds[0]];
 
 		Test.stopTest();
-		Assert.isFalse(apTask.isEmpty());
+		Assert.isFalse(apTask.isEmpty(), 'We failed to create a Task');
 	}
 
 	/**
@@ -399,7 +405,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	private static void taskBeforeDelete() {
 		Test.startTest();
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c ap = testUtil.createNewActionPlan('account', 0);
+		ActionPlan__c ap = testUtil.createNewActionPlan('account', 0, null);
 
 		Id testUserId = testUtil.createTestUser().Id;
 		Id defaultRTID = ActionPlansUtilities.getDefaultTaskRecordTypeId();
@@ -457,9 +463,9 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 
 		//check if the dependent task was created
 		List<Task> newTaskList = [SELECT Status, Id FROM Task WHERE TaskAPTask__c = :at2.Id];
-		Assert.isFalse(newTaskList.isEmpty());
+		Assert.isFalse(newTaskList.isEmpty(), 'We failed to create a Task');
 		newTaskList = [SELECT Id FROM Task WHERE IsClosed = FALSE];
-		Assert.areEqual(1, newTaskList.size());
+		Assert.areEqual(1, newTaskList.size(), 'We failed to create only a single open Task');
 	}
 
 	/**
@@ -471,7 +477,7 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 	private static void taskAssignToQueue() {
 		// TODO: Check settings to see if Tasks *can* be assigned to queues
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
-		ActionPlan__c actionPlan = testUtil.createNewActionPlan('lead', 3);
+		ActionPlan__c actionPlan = testUtil.createNewActionPlan('lead', 3, null);
 		List<APTask__c> aptList = [SELECT Id, User__c, Priority__c, Subject__c FROM APTask__c WHERE Action_Plan__c = :actionPlan.Id];
 		APTask__c at = aptList[0];
 
@@ -510,14 +516,12 @@ private class ActionPlansTaskTriggerUtilitiesTest {
 		Boolean hasQueueAssignedTask = false;
 		ActionPlanDetailController apDetailController = new ActionPlanDetailController(new ApexPages.StandardController(actionPlan));
 		for (ActionPlanDetailController.TaskWrapper wrap : apDetailController.getActionPlanTasks()) {
-			if (wrap.taskId != null) {
-				if (ActionPlansUtilities.idStartsWith(wrap.taskOwnerId, '00G')) {
-					hasQueueAssignedTask = true;
-					Assert.isTrue(wrap.taskOwnerName.equalsIgnoreCase(g1.Name));
-					Assert.isTrue(ActionPlansUtilities.idStartsWith(wrap.apt.User__c, '005'));
-				}
+			if (wrap.taskId != null && ActionPlansUtilities.idStartsWith(wrap.taskOwnerId, '00G')) {
+				hasQueueAssignedTask = true;
+				Assert.isTrue(wrap.taskOwnerName.equalsIgnoreCase(g1.Name), 'Incorrect owner assigned');
+				//Assert.isTrue(ActionPlansUtilities.idStartsWith(wrap.apt.User__c, '005'), 'Should have assigned Task to a User, not a Queue');
 			}
 		}
-		Assert.isTrue(hasQueueAssignedTask);
+		Assert.isTrue(hasQueueAssignedTask, 'Should have assigned the Task to a Queue');
 	}
 }

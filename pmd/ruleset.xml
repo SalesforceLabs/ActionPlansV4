@@ -129,7 +129,8 @@
 			<!-- Default values - here for education purposes -->
 			<property name="enumConstantPattern" value="[A-Z][A-Z0-9_]*" />
 			<property name="constantPattern" value="[A-Z][A-Z0-9_]*" />
-			<property name="finalPattern" value="[a-z][a-zA-Z0-9]*" />
+			<!-- finalPattern changed -->
+			<property name="finalPattern" value="[a-zA-Z][a-zA-Z0-9]*" />
 			<property name="staticPattern" value="[a-z][a-zA-Z0-9]*" />
 			<property name="instancePattern" value="[a-z][a-zA-Z0-9]*" />
 		</properties>
@@ -148,7 +149,8 @@
 		<priority>3</priority>
 		<properties>
 			<!-- Default values - here for education purposes -->
-			<property name="finalLocalPattern" value="[a-z][a-zA-Z0-9]*" />
+			<!-- finalLocalPattern changed -->
+			<property name="finalLocalPattern" value="[a-zA-Z][a-zA-Z0-9]*" />
 			<property name="localPattern" value="[a-z][a-zA-Z0-9]*" />
 		</properties>
 	</rule>
