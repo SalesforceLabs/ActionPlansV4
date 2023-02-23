@@ -48,6 +48,7 @@ jobs:
           nodeInstallPath=$(npm config get prefix)
           echo "$nodeInstallPath/bin" >> $GITHUB_PATH
           sfdx --version
+          npm install @salesforce/cli --global
 
       # Store secret for dev hub
       - name: 'Populate auth file with DEVHUB_SFDX_URL secret'

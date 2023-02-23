@@ -1,14 +1,14 @@
 {
 	"recommendations": [
-    "salesforce.salesforcedx-vscode",
-    "redhat.vscode-xml",
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "financialforce.lana",
-    "peterweinberg.apexdox-vs-code",
-    "chuckjonas.apex-pmd",
-    "matteopieroni.refresh-npm-packages",
-    "subc4i.sublime-mavensmate-monokai-apex",
-    "pkief.material-icon-theme"
-  ]
+		"chuckjonas.apex-pmd",
+		"dbaeumer.vscode-eslint",
+		"esbenp.prettier-vscode",
+		"financialforce.lana",
+		"matteopieroni.refresh-npm-packages",
+		"peterweinberg.apexdox-vs-code",
+		"pkief.material-icon-theme",
+		"redhat.vscode-xml",
+		"salesforce.salesforcedx-vscode",
+		"subc4i.sublime-mavensmate-monokai-apex"
+	]
 }
