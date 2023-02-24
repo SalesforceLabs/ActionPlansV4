@@ -116,17 +116,20 @@
 </li>
 <li>Add the field to the <code>Related Objects</code> fieldset on Action Plan.</li>
 <li>The related object will now be available for selection when creating a new Action Plan and relating it to an object.</li>
-<li>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts (removing the <code>LabsActionPlans</code> namespace if you&#39;re not using the managed package):<pre><code class="language-apex">LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( &#39;Custom_Object__c&#39; );
+<li>Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts (removing the <code>LabsActionPlans</code> namespace if you&#39;re not using the managed package):<pre><code class="language-apex">LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( &#39;CustomObject__c&#39; );
 </code></pre>
-<img class="readmeimage" src="assets/ActionPlanFieldSet.png" alt=""></li>
+</li>
 </ol>
+<p><img class="readmeimage" src="assets/ActionPlanFieldSet.png" alt=""></p>
+<h2 id="test-code-for-additional-objects">Test Code for Additional Objects</h2>
+<p>Don&#39;t forget to write a test class to cover the custom object trigger. If you&#39;re just going for coverage (not a best-practice!) just make a test method inserting and then deleting a record.<br>Unfortunately, the code in this package does not lend itself to easy creation of an Action Plan for a custom object... yet.</p>
 <h2 id="adding-a-new-custom-object-action-plan-button-to-the-action-plan-object">Adding a New Custom Object Action Plan button to the Action Plan object</h2>
 <p>While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this will be in a future release... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page layout:</p>
 <ol>
 <li>Navigate to Setup &gt; Object Manager &gt; Action Plan &gt; Buttons, Links, and Actions &gt; New Button or Link</li>
 <li>Give it a label and name, such as &quot;New MyObject Action Plan&quot;</li>
 <li>Display Type is List Button. Uncheck the list checkbox.</li>
-<li>Use the following format for the button (removing the <code>LabsActionPlans</code> namespace if you&#39;re not using the managed package):<pre><code class="language-plaintext">{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType=&quot;CustomObject__c&quot;, refId=CustomObject__c.Id] )}
+<li>Use the following format for the button (removing the <code>LabsActionPlans__</code> namespace if you&#39;re not using the managed package):<pre><code class="language-plaintext">{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType=&quot;CustomObject__c&quot;, refId=CustomObject__c.Id] )}
 </code></pre>
 </li>
 </ol>

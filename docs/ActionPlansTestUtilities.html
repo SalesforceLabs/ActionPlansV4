@@ -177,7 +177,7 @@
                 onclick="goToLocation('ActionPlansQueueableBuilderTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilderTest</a>
               </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class private" onclick="goToLocation('ActionPlansRedirectTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
               </li>
               <li
@@ -334,7 +334,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L22">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L23">
                 ActionPlansTestUtilities
               </a>
             </h2>
@@ -350,6 +350,7 @@
               <div class="class-subtitle">Since</div>
               <div class="class-subtitle-description">
                 <li>2022</li>
+                <li>2023 Begin exposing methods to cover custom objects</li>
               </div>
             </div>
             <div class="subsection properties ActionPlansTestUtilities">
@@ -368,7 +369,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L26">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L27">
                       forceError
                     </a>
                   </td>
@@ -386,7 +387,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L31">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L32">
                       forceHasRecordType
                     </a>
                   </td>
@@ -404,7 +405,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L37">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L38">
                       standardObjects
                     </a>
                   </td>
@@ -444,7 +445,7 @@
                     <div class="methods-toc__description">Creates a new Account SObject <br />Inserts before returning</div>
                   </li>
                   <li class="method public">
-                    <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewActionPlan"> createNewActionPlan (relatedObject, numTasks) </a>
+                    <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewActionPlan"> createNewActionPlan (relatedObject, numTasks, customObjectId) </a>
 
                     <div class="methods-toc__description">Create Action Plan and APTaskss</div>
                   </li>
@@ -475,7 +476,7 @@
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewCampaign_1"> createNewCampaign () </a>
 
-                    <div class="methods-toc__description">Creates a new Campaign SObject Inserts before returning</div>
+                    <div class="methods-toc__description">Creates a new Campaign SObject <br />Inserts before returning</div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewCase"> createNewCase (insertRecord) </a>
@@ -485,7 +486,7 @@
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewCase_1"> createNewCase () </a>
 
-                    <div class="methods-toc__description">Creates a new Case Object Inserts before returning</div>
+                    <div class="methods-toc__description">Creates a new Case Object <br />Inserts before returning</div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewContact"> createNewContact (insertRecord) </a>
@@ -495,7 +496,7 @@
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewContact_1"> createNewContact () </a>
 
-                    <div class="methods-toc__description">Creates a new Contact Object Inserts before returning</div>
+                    <div class="methods-toc__description">Creates a new Contact Object <br />Inserts before returning</div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewContract"> createNewContract (insertRecord) </a>
@@ -505,7 +506,7 @@
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewContract_1"> createNewContract () </a>
 
-                    <div class="methods-toc__description">Creates a new Contract Object Inserts before returning</div>
+                    <div class="methods-toc__description">Creates a new Contract Object <br />Inserts before returning</div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewLead"> createNewLead (insertRecord) </a>
@@ -515,7 +516,7 @@
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewLead_1"> createNewLead () </a>
 
-                    <div class="methods-toc__description">Creates a new Lead Object Inserts before returning</div>
+                    <div class="methods-toc__description">Creates a new Lead Object <br />Inserts before returning</div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewOpportunity"> createNewOpportunity (insertRecord) </a>
@@ -525,7 +526,7 @@
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createNewOpportunity_1"> createNewOpportunity () </a>
 
-                    <div class="methods-toc__description">Creates a new Opportunity Object Inserts before returning</div>
+                    <div class="methods-toc__description">Creates a new Opportunity Object <br />Inserts before returning</div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansTestUtilities.createRandomWord"> createRandomWord () </a>
@@ -573,7 +574,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L118">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L119">
                       assignAPPermissionSets(testUserId, allOrNone)
                     </a>
                   </h4>
@@ -604,7 +605,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L105">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L106">
                       createAdminUser()
                     </a>
                   </h4>
@@ -631,7 +632,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L136">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L137">
                       createNewAccount(insertRecord)
                     </a>
                   </h4>
@@ -653,7 +654,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L151">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L152">
                       createNewAccount()
                     </a>
                   </h4>
@@ -671,14 +672,14 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L318">
-                      createNewActionPlan(relatedObject, numTasks)
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L325">
+                      createNewActionPlan(relatedObject, numTasks, customObjectId)
                     </a>
                   </h4>
                   <div class="method-description">Create Action Plan and APTaskss</div>
                   <div class="method-subtitle">Signature</div>
 
-                  <div class="method-signature">public ActionPlan__c createNewActionPlan(String relatedObject, Integer numTasks)</div>
+                  <div class="method-signature">public ActionPlan__c createNewActionPlan(String relatedObject, Integer numTasks, Id customObjectId)</div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">relatedObject</div>
                   <div class="param-type">Type: <code class="code-inline">String</code></div>
@@ -686,6 +687,9 @@
                   <div class="param-name">numTasks</div>
                   <div class="param-type">Type: <code class="code-inline">Integer</code></div>
                   <div class="param-description">How many tasks to create for the ActionPlan</div>
+                  <div class="param-name">customObjectId</div>
+                  <div class="param-type">Type: <code class="code-inline">Id</code></div>
+                  <div class="param-description">For a Custom Object, pass in the Id of the created record so we don&#39;t have to do that here</div>
                   <div class="method-subtitle">Returns</div>
                   <div class="method-subtitle-description">new <code class="code-inline">ActionPlan__c</code></div>
                   <div class="method-subtitle">See</div>
@@ -694,6 +698,11 @@
                       >ActionPlansTestUtilities.createNewActionPlanTask</a
                     >
                   </div>
+                  <div class="method-subtitle">Example</div>
+                  <pre class="code-example"><code> ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities(); 
+ ActionPlan__c actionPlan = testUtil.createNewActionPlan(&#39;account&#39;, 3, null); 
+ or 
+ ActionPlan__c actionPlan = testUtil.createNewActionPlan(&#39;customObject__c&#39;, 3, &#39;02a000000000000000&#39;);</code></pre>
                 </div>
                 <div class="method public">
                   <h4 class="method-title" id="ActionPlansTestUtilities.createNewActionPlanTask">
@@ -702,7 +711,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L379">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L389">
                       createNewActionPlanTask(actionPlan, days, userId, category, priority)
                     </a>
                   </h4>
@@ -740,7 +749,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L404">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L414">
                       createNewActionPlanTemplate(numTasks)
                     </a>
                   </h4>
@@ -772,7 +781,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L439">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L449">
                       createNewActionPlanTemplateTask(apTemplate, days, userId, category, priority)
                     </a>
                   </h4>
@@ -812,7 +821,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L161">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L162">
                       createNewCampaign(insertRecord)
                     </a>
                   </h4>
@@ -840,11 +849,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L177">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L178">
                       createNewCampaign()
                     </a>
                   </h4>
-                  <div class="method-description">Creates a new Campaign SObject Inserts before returning</div>
+                  <div class="method-description">Creates a new Campaign SObject <br />Inserts before returning</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">public Campaign createNewCampaign()</div>
@@ -864,7 +873,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L186">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L187">
                       createNewCase(insertRecord)
                     </a>
                   </h4>
@@ -886,11 +895,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L202">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L203">
                       createNewCase()
                     </a>
                   </h4>
-                  <div class="method-description">Creates a new Case Object Inserts before returning</div>
+                  <div class="method-description">Creates a new Case Object <br />Inserts before returning</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">public Case createNewCase()</div>
@@ -904,7 +913,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L211">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L212">
                       createNewContact(insertRecord)
                     </a>
                   </h4>
@@ -926,11 +935,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L226">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L227">
                       createNewContact()
                     </a>
                   </h4>
-                  <div class="method-description">Creates a new Contact Object Inserts before returning</div>
+                  <div class="method-description">Creates a new Contact Object <br />Inserts before returning</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">public Contact createNewContact()</div>
@@ -944,7 +953,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L235">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L236">
                       createNewContract(insertRecord)
                     </a>
                   </h4>
@@ -966,11 +975,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L252">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L253">
                       createNewContract()
                     </a>
                   </h4>
-                  <div class="method-description">Creates a new Contract Object Inserts before returning</div>
+                  <div class="method-description">Creates a new Contract Object <br />Inserts before returning</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">public Contract createNewContract()</div>
@@ -984,7 +993,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L261">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L262">
                       createNewLead(insertRecord)
                     </a>
                   </h4>
@@ -1006,11 +1015,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L279">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L280">
                       createNewLead()
                     </a>
                   </h4>
-                  <div class="method-description">Creates a new Lead Object Inserts before returning</div>
+                  <div class="method-description">Creates a new Lead Object <br />Inserts before returning</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">public Lead createNewLead()</div>
@@ -1024,7 +1033,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L289">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L290">
                       createNewOpportunity(insertRecord)
                     </a>
                   </h4>
@@ -1052,11 +1061,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L307">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L308">
                       createNewOpportunity()
                     </a>
                   </h4>
-                  <div class="method-description">Creates a new Opportunity Object Inserts before returning</div>
+                  <div class="method-description">Creates a new Opportunity Object <br />Inserts before returning</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">public Opportunity createNewOpportunity()</div>
@@ -1076,7 +1085,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L44">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L45">
                       createRandomWord()
                     </a>
                   </h4>
@@ -1096,7 +1105,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L55">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L56">
                       createRandomWord(prefix)
                     </a>
                   </h4>
@@ -1123,7 +1132,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L67">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L68">
                       createTestUser()
                     </a>
                   </h4>
@@ -1145,7 +1154,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L81">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L82">
                       createTestUser(p)
                     </a>
                   </h4>
@@ -1167,7 +1176,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L486">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L496">
                       getCompleted(actionPlanId)
                     </a>
                   </h4>
@@ -1189,7 +1198,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L462">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansTestUtilities.cls#L472">
                       getNonDefaultAvailableTaskRecordType()
                     </a>
                   </h4>

@@ -2,8 +2,8 @@ engine:
   source:
     - path: '${workspaceFolder}/sfdx-source/LabsActionPlans/main/default/classes'
       sourceUrl: https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes
-    - path: '${workspaceFolder}/sfdx-source/LabsActionPlans/main/default/tests'
-      sourceUrl: https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests
+    - path: '${workspaceFolder}/sfdx-source/LabsActionPlans/main/default/classes/tests'
+      sourceUrl: https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/tests
   targetDirectory: '${workspaceFolder}/docs'
   #excludes:
   #  - "*Test.cls"

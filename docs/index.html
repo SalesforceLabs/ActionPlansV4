@@ -177,7 +177,7 @@
                 onclick="goToLocation('ActionPlansQueueableBuilderTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilderTest</a>
               </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class private" onclick="goToLocation('ActionPlansRedirectTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
               </li>
               <li
@@ -532,11 +532,16 @@
             <li>
               Add the following code to the object trigger in <code>before delete</code> and <code>after undelete</code> contexts (removing the
               <code>LabsActionPlans</code> namespace if you&#39;re not using the managed package):
-              <pre><code class="language-apex">LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( &#39;Custom_Object__c&#39; );
+              <pre><code class="language-apex">LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( &#39;CustomObject__c&#39; );
 </code></pre>
-              <img class="readmeimage" src="assets/ActionPlanFieldSet.png" alt="" />
             </li>
           </ol>
+          <p><img class="readmeimage" src="assets/ActionPlanFieldSet.png" alt="" /></p>
+          <h2 id="test-code-for-additional-objects">Test Code for Additional Objects</h2>
+          <p>
+            Don&#39;t forget to write a test class to cover the custom object trigger. If you&#39;re just going for coverage (not a best-practice!) just make a test method
+            inserting and then deleting a record.<br />Unfortunately, the code in this package does not lend itself to easy creation of an Action Plan for a custom object... yet.
+          </p>
           <h2 id="adding-a-new-custom-object-action-plan-button-to-the-action-plan-object">Adding a New Custom Object Action Plan button to the Action Plan object</h2>
           <p>
             While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template.
@@ -548,7 +553,7 @@
             <li>Give it a label and name, such as &quot;New MyObject Action Plan&quot;</li>
             <li>Display Type is List Button. Uncheck the list checkbox.</li>
             <li>
-              Use the following format for the button (removing the <code>LabsActionPlans</code> namespace if you&#39;re not using the managed package):
+              Use the following format for the button (removing the <code>LabsActionPlans__</code> namespace if you&#39;re not using the managed package):
               <pre><code class="language-plaintext">{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType=&quot;CustomObject__c&quot;, refId=CustomObject__c.Id] )}
 </code></pre>
             </li>

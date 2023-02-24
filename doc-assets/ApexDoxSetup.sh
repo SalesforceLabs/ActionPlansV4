@@ -14,4 +14,4 @@ npx marked -i INSTALLATION.md --breaks >> "doc-assets/INSTALLATION.html"
 
 sed -i '' 's|https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md|assets/INSTALLATION.html|g' docs/index.html
 
-npm run updateHighlight
+. doc-assets/updateHighlight.sh
