@@ -4,5 +4,5 @@
 	"unreleased": true,
 	"commitLimit": 0,
 	"hideCredit": true,
-	"tagPrefix": ""
+	"tagPrefix": "v"
 }
