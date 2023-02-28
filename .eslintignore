@@ -13,4 +13,5 @@
 **/aura/**/*.tokens
 **/aura/**/*.xml
 **/aura/**/*.app
+**/ActionPlan_Resources/js/*.js
 .sfdx
