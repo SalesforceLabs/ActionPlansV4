@@ -1,9 +1,9 @@
 engine:
   source:
     - path: '${workspaceFolder}/sfdx-source/LabsActionPlans/main/default/classes'
-      sourceUrl: https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes
+      sourceUrl: https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes
     - path: '${workspaceFolder}/sfdx-source/LabsActionPlans/main/default/classes/tests'
-      sourceUrl: https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/tests
+      sourceUrl: https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests
   targetDirectory: '${workspaceFolder}/docs'
   #excludes:
   #  - "*Test.cls"
@@ -20,8 +20,9 @@ engine:
     #- webService
     - testMethod
   homePagePath: '${workspaceFolder}/doc-assets/readme.html'
-  #pages:
-  #- '${workspaceFolder}/doc-assets/Installation.html'
+  pages:
+    - '${workspaceFolder}/doc-assets/installation.html'
+    - '${workspaceFolder}/doc-assets/changelog.html'
   assets:
     - '${workspaceFolder}/doc-assets/logo.png'
     - '${workspaceFolder}/doc-assets/favicon.png'
@@ -43,7 +44,7 @@ engine:
     - '${workspaceFolder}/doc-assets/highlight.css'
     - '${workspaceFolder}/doc-assets/highlight.js'
     - '${workspaceFolder}/doc-assets/index.js'
-    - '${workspaceFolder}/doc-assets/INSTALLATION.html'
+
   port: 8088
 docblock:
   alignItems: true

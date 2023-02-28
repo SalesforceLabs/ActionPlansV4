@@ -1,14 +1,14 @@
 # Action Plans
 
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Latest Commit](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml) [![Latest Pull Request](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml) [![codecov](https://codecov.io/gh/salesforcelabs/actionplansv4/branch/main/graph/badge.svg?token=9BD97HKVUI)](https://codecov.io/gh/salesforcelabs/actionplansv4) [![Twitter](https://img.shields.io/twitter/follow/salesforce_labs.svg?style=social)](https://twitter.com/salesforce_labs)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Latest Commit](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/ci.yml) [![Latest Pull Request](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml/badge.svg)](https://github.com/SalesforceLabs/ActionPlansV4/actions/workflows/pr.yml) [![codecov](https://codecov.io/gh/salesforcelabs/actionplansv4/branch/main/graph/badge.svg?token=9BD97HKVUI)](https://codecov.io/gh/salesforcelabs/actionplansv4) [![Twitter](https://img.shields.io/twitter/follow/appexchange.svg?style=social)](https://twitter.com/appexchange)
 
-## [Changelog](./CHANGELOG.md)
+## [Changelog](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/CHANGELOG.md)
 
 # Action Plans Installation and Setup
 
-## Please follow installation instructions, shown on the **[Installation page](./INSTALLATION.md)**
+## Please follow installation instructions, shown on the **[Installation page](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md)**
 
-### [AppExchange](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#appexchange-managed-package---recommended)
+### [AppExchange - Recommended](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#appexchange-managed-package---recommended)
 - [AppExchange Listing](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000Gg6NVUAZ)
 - [Post-intall extras](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/INSTALLATION.md#data-import-optional---only-if-using-the-appexchange-managed-package)
 
@@ -373,4 +373,4 @@ Import is also simple. Navigate to the "Import Template" tab. Select the file yo
 
 ## (Optional) Sample Action Plan Template Import
 
-This repository also includes sample Action Plan Template files, which you can import on the appropriate tab. You may download [New Customer Onboarding](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20New%20Customer%20Onboarding.xml) or [Trade Show Follow Up](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Trade%20Show%20Follow%20Up.xml) from GitHub, or you can find it in this SFDX project in the [`data`](https://github.com/SalesforceLabs/ActionPlansV4/tree/main/data) folder.
+This repository also includes sample Action Plan Template files, which you can import on the appropriate tab. You may download [New Customer Onboarding](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20New%20Customer%20Onboarding.xml) or [Trade Show Follow Up](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Trade%20Show%20Follow%20Up.xml) from GitHub, or you can find it in this SFDX project in the [`data`](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data) folder.
