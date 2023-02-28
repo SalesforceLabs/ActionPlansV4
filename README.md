@@ -144,7 +144,7 @@ Note: The Apex used in Flows or via triggers does not require special permission
 	```apex
 	LabsActionPlans.ActionPlansTriggerHandlers.actionPlansSObjectTriggerHandler( 'CustomObject__c' );
 	```
-![](doc-assets/readme/ActionPlanFieldSet.png)
+![Field set on Action Plan with all related objects available and only some selected](doc-assets/readme/ActionPlanFieldSet.png)
 
 ## Test Code for Additional Objects
 
@@ -229,25 +229,25 @@ If your org uses Task Record Types, you must specify which Record Type to use fo
 
 1. Navigate to an Accounts list view. Select the Accounts for which you want to create Action Plans. Click on the "Create Account Action Plans" button.
 
-    ![](doc-assets/readme/Select-Accounts.png)
+    ![List view of Accounts with 50 selected. The "Create Account Action Plans" button is highlighted](doc-assets/readme/Select-Accounts.png)
 
 1. Select the template you want to use by typing the name on the lookup and clicking on it.
-	![](doc-assets/readme/Choose-template-step1.png)
+	![Action Plan creation screen with 50 sample records indicated on the page layout](doc-assets/readme/Choose-template-step1.png)
 
 1. Enter the information specific to this plan. Note that the Accounts you selected earlier are visible.
-	![](doc-assets/readme/Choose-template-step2.png)
+	![Filled-in Action Plan creation screen](doc-assets/readme/Choose-template-step2.png)
 
 1. Save the Action Plan.
 	Note: Action Plan creation is handled by a queueable (asynchronous) process. It can take a couple of minutes to be able to view all created records.
 
-	![](doc-assets/readme/ActionPlan-Detail.png)
+	![Single Action Plan detail screen](doc-assets/readme/ActionPlan-Detail.png)
 
 1. Verify the Action Plan and the tasks.
 
 1. Complete the first task on the Action Plan.
-	Note that the Action Plan is now in the correct related list and that this Account has one open activity and one closed activity. The third activity in the template is dependent and will be created only when its controlling task is complete.
+	Note that the Action Plan is now in the correct related list and that this Account has one open activity and one closed activity. The third activity in the template is dependent and will be created only when its controlling task is complete. (A Contact related list is shown here, but this applies equally to Accounts.)
 
-	![](doc-assets/readme/AccountActionPlan-Detail.png)
+	![Contact related lists showing Action Plans for the Contact and one open and one closed task](doc-assets/readme/AccountActionPlan-Detail.png)
 
 # Task notifications for Flow-created Action Plans
 
@@ -268,7 +268,7 @@ If the user has enabled task notification, then those will be sent when an Actio
 
 # Queues
 
-Action Plan Tasks cannot be assigned to queues, so if the parent record is owned by a queue, each AP Task will be assigned to the running user. Tasks generated from that Action Plan can be assigned to the queue by using a Flow to reassign the Tasks. Because the Invocable Apex returns a list of Action Plan Task IDs, the createdTasks (which have a relationship to the Action Plan tasks) can be updated in that same flow, as they are created synchronously and can be queried immediately. Alternatively, reassign Tasks to Queues any other way you'd like; it will not break Action Plans, and the Queue name will show on the Action Plan detail page.
+Action Plan Tasks cannot be assigned to queues, so if the parent record is owned by a queue, each AP Task will be assigned to the running user. Tasks generated from that Action Plan can be assigned to the queue by using a Flow to reassign the Tasks. Because the Invocable Apex returns a list of Action Plan Task IDs, the created Tasks (which have a relationship to the Action Plan tasks) can be updated in that same flow, as they are created synchronously and can be queried immediately. Alternatively, reassign Tasks to Queues any other way you'd like; it will not break Action Plans, and the Queue name will show on the Action Plan detail page.
 
 # Automate Action Plan Creation
 
@@ -277,7 +277,7 @@ Action Plan Tasks cannot be assigned to queues, so if the parent record is owned
 Action Plans includes an Invocable Apex class that can be included in a Flow. The Record ID of the triggering record is required, as is the Id OR the Name of the desired template.
 Days from trigger to start Action Plan is optional (and defaults to 0). The first task will be due the number of days (specified on the template) from the start date. This date may fall on a weekend, though task due dates can be moved to avoid weekends if set on the template.
 
-![](doc-assets/readme/FlowAction.png)
+![Flow action setup screen](doc-assets/readme/FlowAction.png)
 
 The Invocable Apex class returns the Salesforce IDs of all the created Action Plan Tasks, which can be used in the next Flow steps.
 
@@ -373,4 +373,4 @@ Import is also simple. Navigate to the "Import Template" tab. Select the file yo
 
 ## (Optional) Sample Action Plan Template Import
 
-This repository also includes sample Action Plan Template files, which you can import on the appropriate tab. You may download [New Customer Onboarding](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20New%20Customer%20Onboarding.xml) or [Trade Show Follow Up](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Trade%20Show%20Follow%20Up.xml) from GitHub, or you can find it in this SFDX project in the `data` folder.
+This repository also includes sample Action Plan Template files, which you can import on the appropriate tab. You may download [New Customer Onboarding](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Export%20-%20New%20Customer%20Onboarding.xml) or [Trade Show Follow Up](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/data/Trade%20Show%20Follow%20Up.xml) from GitHub, or you can find it in this SFDX project in the [`data`](https://github.com/SalesforceLabs/ActionPlansV4/tree/main/data) folder.
