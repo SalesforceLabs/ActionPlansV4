@@ -3,7 +3,7 @@
  * A reusable, intuitive library for determining wether or not the
  * current use can create, read, edit, or delete objects as well as
  * determining if the user has access or update permissions on specific fields.
- * This class name was chosen to facilitate easy-to-understand and read code.
+ * <br>This class name was chosen to facilitate easy-to-understand and read code.
  * Whenever you need to check FLS or CRUD access your code reads like this
  * `if(CanTheUser.read(new account())){}` making the calling and use of this
  * code easy and intuitive. Taken from Codefriar code.
@@ -19,6 +19,9 @@ public inherited sharing class CanTheUser {
 	@testVisible
 	private static Map<String, Set<String>> updatableFieldsByObject = new Map<String, Set<String>>();
 
+	/**
+	 * The major database actions are insert, read, update, delete, and upsert. Undelete is not considered here.
+	 */
 	public enum CrudType {
 		CREATEABLE,
 		READABLE,
@@ -27,6 +30,9 @@ public inherited sharing class CanTheUser {
 		UPSERTABLE
 	}
 
+	/**
+	 * If a field is not accessible (invisible) it cannot be updatable. If it is accessible, it may or may not be updatable.
+	 */
 	public enum FLSType {
 		ACCESSIBLE,
 		UPDATABLE
@@ -40,14 +46,7 @@ public inherited sharing class CanTheUser {
 	 */
 	private static Map<String, Map<FLSType, Boolean>> memoizedFLSResults = new Map<String, Map<FLSType, Boolean>>();
 
-	/**
-	 * This class' name was chosen to facilitate easy-to-understand and read
-	 * code. Whenever you need to check FLS or CRUD access your code reads like
-	 * this
-	 * `if(CanTheUser.read(new account())){}` making the calling and use of this
-	 * code easy and intuitive.
-	 */
-
+	@testVisible
 	/**
 	 * @description Main crud method checks an object for a specific permission
 	 * @param obj the object type to check
@@ -56,7 +55,6 @@ public inherited sharing class CanTheUser {
 	 * @example
 	 * System.debug(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE));
 	 **/
-	@testVisible
 	private static Boolean crud(SObject obj, CrudType permission) {
 		switch on permission {
 			when CREATEABLE {
@@ -82,11 +80,27 @@ public inherited sharing class CanTheUser {
 	}
 
 	@testVisible
+	/**
+	 * @description MaSecondaryin crud method checks a "list" of SObjects for a specific permission
+	 * @param objs a list of SObjects, but we only check the first one
+	 * @param permission create, read, update or delete
+	 * @return `Boolean` Is the action possible?
+	 * @example
+	 * System.debug(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE));
+	 **/
 	private static Boolean crud(List<SObject> objs, CrudType permission) {
 		return crud(objs?.get(0), permission);
 	}
 
 	@testVisible
+	/**
+	 * @description MaSecondaryin crud method checks a "list" of SObjects for a specific permission
+	 * @param objectName the object name; we will find the type from this
+	 * @param permission create, read, update or delete
+	 * @return `Boolean` Is the action possible?
+	 * @example
+	 * System.debug(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE));
+	 **/
 	private static Boolean crud(String objectName, CrudType permission) {
 		Type t = Type.forName(objectName);
 		SObject p = (SObject) JSON.deserialize('{}', t);

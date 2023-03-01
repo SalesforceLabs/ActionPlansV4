@@ -341,9 +341,9 @@
             <div class="class-container">
               <div class="class-description">
                 A reusable, intuitive library for determining wether or not the current use can create, read, edit, or delete objects as well as determining if the user has access
-                or update permissions on specific fields. This class name was chosen to facilitate easy-to-understand and read code. Whenever you need to check FLS or CRUD access
-                your code reads like this <code class="code-inline">if(CanTheUser.read(new account())){}</code> making the calling and use of this code easy and intuitive. Taken
-                from Codefriar code.
+                or update permissions on specific fields. <br />This class name was chosen to facilitate easy-to-understand and read code. Whenever you need to check FLS or CRUD
+                access your code reads like this <code class="code-inline">if(CanTheUser.read(new account())){}</code> making the calling and use of this code easy and intuitive.
+                Taken from Codefriar code.
               </div>
               <div class="class-subtitle">Signature</div>
 
@@ -398,7 +398,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L41">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L47">
                       memoizedFLSResults
                     </a>
                   </td>
@@ -441,6 +441,7 @@
                   <th>Name</th>
                   <th>Signature</th>
                   <th>Values</th>
+                  <th>Description</th>
                 </tr>
                 <tr class="enum public">
                   <td class="attribute-name">
@@ -449,7 +450,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L22">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L25">
                       CrudType
                     </a>
                   </td>
@@ -457,6 +458,8 @@
                     <div class="attribute-signature">public enum CrudType</div>
                   </td>
                   <td class="enum-values">CREATEABLE,&nbsp;READABLE,&nbsp;EDITABLE,&nbsp;DELETABLE,&nbsp;UPSERTABLE</td>
+
+                  <td class="attribute-description">The major database actions are insert, read, update, delete, and upsert. Undelete is not considered here.</td>
                 </tr>
                 <tr class="enum public">
                   <td class="attribute-name">
@@ -465,7 +468,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L30">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L36">
                       FLSType
                     </a>
                   </td>
@@ -473,6 +476,8 @@
                     <div class="attribute-signature">public enum FLSType</div>
                   </td>
                   <td class="enum-values">ACCESSIBLE,&nbsp;UPDATABLE</td>
+
+                  <td class="attribute-description">If a field is not accessible (invisible) it cannot be updatable. If it is accessible, it may or may not be updatable.</td>
                 </tr>
               </table>
             </div>
@@ -513,16 +518,17 @@
                   <li class="method private">
                     <a class="methods-toc__entry" href="#CanTheUser.crud"> crud (obj, permission) </a>
 
-                    <div class="methods-toc__description">
-                      This class&#39; name was chosen to facilitate easy-to-understand and read code. Whenever you need to check FLS or CRUD access your code reads like this
-                      <code class="code-inline">if(CanTheUser.read(new account())){}</code> making the calling and use of this code easy and intuitive.
-                    </div>
+                    <div class="methods-toc__description">Main crud method checks an object for a specific permission</div>
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#CanTheUser.crud_1"> crud (objs, permission) </a>
+
+                    <div class="methods-toc__description">MaSecondaryin crud method checks a &quot;list&quot; of SObjects for a specific permission</div>
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#CanTheUser.crud_2"> crud (objectName, permission) </a>
+
+                    <div class="methods-toc__description">MaSecondaryin crud method checks a &quot;list&quot; of SObjects for a specific permission</div>
                   </li>
                   <li class="method public">
                     <a class="methods-toc__entry" href="#CanTheUser.destroy"> destroy (obj) </a>
@@ -607,7 +613,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L293">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L307">
                       bulkFLSAccessible(obj, fields)
                     </a>
                   </h4>
@@ -635,7 +641,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L324">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L338">
                       bulkFLSUpdatable(obj, fields)
                     </a>
                   </h4>
@@ -663,7 +669,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L353">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L367">
                       calculateFLS(objType)
                     </a>
                   </h4>
@@ -687,7 +693,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L104">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L118">
                       create(obj)
                     </a>
                   </h4>
@@ -713,7 +719,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L115">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L129">
                       create(objs)
                     </a>
                   </h4>
@@ -737,7 +743,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L127">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L141">
                       create(objName)
                     </a>
                   </h4>
@@ -762,17 +768,25 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L60">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L58">
                       crud(obj, permission)
                     </a>
                   </h4>
-                  <div class="method-description">
-                    This class&#39; name was chosen to facilitate easy-to-understand and read code. Whenever you need to check FLS or CRUD access your code reads like this
-                    <code class="code-inline">if(CanTheUser.read(new account())){}</code> making the calling and use of this code easy and intuitive.
-                  </div>
+                  <div class="method-description">Main crud method checks an object for a specific permission</div>
                   <div class="method-subtitle">Signature</div>
-                  <div class="method-annotations">@testVisible</div>
+
                   <div class="method-signature">private static Boolean crud(SObject obj, CrudType permission)</div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">obj</div>
+                  <div class="param-type">Type: <code class="code-inline">SObject</code></div>
+                  <div class="param-description">the object type to check</div>
+                  <div class="param-name">permission</div>
+                  <div class="param-type">Type: <code class="code-inline">CrudType</code></div>
+                  <div class="param-description">create, read, update or delete</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">Boolean</code> Is the action possible?</div>
+                  <div class="method-subtitle">Example</div>
+                  <pre class="code-example"><code> System.debug(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE));</code></pre>
                 </div>
                 <div class="method private">
                   <h4 class="method-title" id="CanTheUser.crud_1">
@@ -781,13 +795,25 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L85">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L91">
                       crud(objs, permission)
                     </a>
                   </h4>
+                  <div class="method-description">MaSecondaryin crud method checks a &quot;list&quot; of SObjects for a specific permission</div>
                   <div class="method-subtitle">Signature</div>
-                  <div class="method-annotations">@testVisible</div>
+
                   <div class="method-signature">private static Boolean crud(List&lt;SObject&gt; objs, CrudType permission)</div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">objs</div>
+                  <div class="param-type">Type: <code class="code-inline">List&lt;SObject&gt;</code></div>
+                  <div class="param-description">a list of SObjects, but we only check the first one</div>
+                  <div class="param-name">permission</div>
+                  <div class="param-type">Type: <code class="code-inline">CrudType</code></div>
+                  <div class="param-description">create, read, update or delete</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">Boolean</code> Is the action possible?</div>
+                  <div class="method-subtitle">Example</div>
+                  <pre class="code-example"><code> System.debug(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE));</code></pre>
                 </div>
                 <div class="method private">
                   <h4 class="method-title" id="CanTheUser.crud_2">
@@ -796,13 +822,25 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L90">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L104">
                       crud(objectName, permission)
                     </a>
                   </h4>
+                  <div class="method-description">MaSecondaryin crud method checks a &quot;list&quot; of SObjects for a specific permission</div>
                   <div class="method-subtitle">Signature</div>
-                  <div class="method-annotations">@testVisible</div>
+
                   <div class="method-signature">private static Boolean crud(String objectName, CrudType permission)</div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">objectName</div>
+                  <div class="param-type">Type: <code class="code-inline">String</code></div>
+                  <div class="param-description">the object name; we will find the type from this</div>
+                  <div class="param-name">permission</div>
+                  <div class="param-type">Type: <code class="code-inline">CrudType</code></div>
+                  <div class="param-description">create, read, update or delete</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">Boolean</code> Is the action possible?</div>
+                  <div class="method-subtitle">Example</div>
+                  <pre class="code-example"><code> System.debug(CanTheUser.crud(new Account(), CanTheUser.CrudType.READABLE));</code></pre>
                 </div>
                 <div class="method public">
                   <h4 class="method-title" id="CanTheUser.destroy">
@@ -811,7 +849,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L244">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L258">
                       destroy(obj)
                     </a>
                   </h4>
@@ -837,7 +875,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L254">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L268">
                       destroy(objs)
                     </a>
                   </h4>
@@ -860,7 +898,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L266">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L280">
                       destroy(objName)
                     </a>
                   </h4>
@@ -885,7 +923,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L175">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L189">
                       edit(obj)
                     </a>
                   </h4>
@@ -911,7 +949,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L185">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L199">
                       edit(objs)
                     </a>
                   </h4>
@@ -934,7 +972,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L197">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L211">
                       edit(objName)
                     </a>
                   </h4>
@@ -959,7 +997,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L280">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L294">
                       flsAccessible(obj, field)
                     </a>
                   </h4>
@@ -992,7 +1030,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L311">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L325">
                       flsUpdatable(obj, field)
                     </a>
                   </h4>
@@ -1025,7 +1063,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L340">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L354">
                       getFLSForFieldOnObject(obj, field, checkType)
                     </a>
                   </h4>
@@ -1055,7 +1093,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L139">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L153">
                       read(obj)
                     </a>
                   </h4>
@@ -1081,7 +1119,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L151">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L165">
                       read(objs)
                     </a>
                   </h4>
@@ -1106,7 +1144,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L163">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L177">
                       read(objName)
                     </a>
                   </h4>
@@ -1131,7 +1169,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L209">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L223">
                       ups(obj)
                     </a>
                   </h4>
@@ -1157,7 +1195,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L220">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L234">
                       ups(objs)
                     </a>
                   </h4>
@@ -1180,7 +1218,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L232">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/CanTheUser.cls#L246">
                       ups(objName)
                     </a>
                   </h4>
