@@ -47,6 +47,7 @@ TaskPriority.standardValueSet
 TaskType.standardValueSet
 Lead-Lead Layout.layout
 Account-Account Layout.layout
+Opportunity-Opportunity Layout.layout-meta.xml
 Global-Global Layout.layout
 Account.object
 Campaign.object
