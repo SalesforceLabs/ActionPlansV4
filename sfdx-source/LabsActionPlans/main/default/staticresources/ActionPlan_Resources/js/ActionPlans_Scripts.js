@@ -190,11 +190,18 @@ function checkReminderPicklists() {
 	});
 }
 
+function reloadActionPlanForRefIds(templateId, selectedTemplateId) {}
+
 function reloadActionPlan(templateId, selectedTemplateId) {
 	var new_location = window.location.href;
+	new_location = '/apex/ActionPlanCreation?';
 	var reload = 0;
 	var refObjType = j$('.hidden_refOBjtype').val();
+	console.log('refObjType: ' + refObjType);
 	var objIds = j$('.hidden_refID').val();
+	console.log('objIds: ' + objIds);
+	console.log('templateId: ' + templateId);
+	console.log('selectedTemplateId: ' + selectedTemplateId);
 
 	// There is a template selected and different from previous one
 	if (selectedTemplateId != '000000000000000' && templateId.match(selectedTemplateId) == null) {
@@ -242,7 +249,7 @@ function reloadActionPlan(templateId, selectedTemplateId) {
 			}
 			reload = 1;
 		}
-
+		console.log('new_location: ' + new_location);
 		if (reload) {
 			if (refObjType.length > 0 && refObjType != '') {
 				new_location = new_location + '&refType=' + refObjType;
@@ -251,8 +258,13 @@ function reloadActionPlan(templateId, selectedTemplateId) {
 				if (objIds.length > 0 && objIds != '') {
 					new_location = new_location + '&refId=' + objIds;
 				}
-			}
 
+				// add template id
+				if (selectedTemplateId.length > 0 && selectedTemplateId != '') {
+					new_location = new_location + '&templateId=' + selectedTemplateId;
+				}
+			}
+			console.log('reload new_location: ' + new_location);
 			if (UITheme.getUITheme() === 'Theme4d' || UITheme.getUITheme() === 'Theme4u') {
 				sforce.one.navigateToURL(new_location);
 			} else {

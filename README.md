@@ -133,7 +133,7 @@ Note: The Apex used in Flows or via triggers does not require special permission
 
 # Using Action Plans with Custom Objects
 
-## To Start Using an Object with Action Plans
+## Start Using an Object with Action Plans
 
 1.  Create the object and be sure to check "Track Activities" for the object attrributes
 1.  Create a lookup field from Action Plan to the object. **Name the field the same as the object name.** The field label can be anything.
@@ -151,7 +151,7 @@ Note: The Apex used in Flows or via triggers does not require special permission
 Don't forget to write a test class to cover the custom object trigger. If you're just going for coverage (not a best-practice!) just make a test method inserting and then deleting a record.
 Unfortunately, the code in this package does not lend itself to easy creation of an Action Plan for a custom object... yet.
 
-## Adding a New Custom Object Action Plan button to the Action Plan object
+## Adding a `Create Custom Object Action Plan` button to the Action Plan object
 
 While Action Plans already overrides the New Action Plan action, the New button will show a new Action Plan screen, but will not allow adding an existing template. (Perhaps this will be in a future release... safe harbor.) Create a custom button with the following format on the Action Plan object and add it to the related list on the custom object page layout:
 
@@ -162,7 +162,8 @@ While Action Plans already overrides the New Action Plan action, the New button 
 	```plaintext
 	{!URLFOR( $Action.LabsActionPlans__ActionPlan__c.New, null, [refType="CustomObject__c", refId=CustomObject__c.Id] )}
 	```
-## Create Action Plans for multiple Custom Object records
+1. Be sure to remove the standard New button on the Action Plans related list and use this button instead.
+## `Create Action Plans` for multiple Custom Object records
 
 Just as there is a button for Account list views to create multiple Action Plans, you can do the same for your custom object. Create a Visualforce page with the following code:
 ```xml

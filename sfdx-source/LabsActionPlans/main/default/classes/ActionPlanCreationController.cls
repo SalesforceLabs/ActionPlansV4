@@ -34,8 +34,9 @@ public with sharing class ActionPlanCreationController {
 	private ActionPlan__c actionPlan;
 	/**
 	 * TemplateId is pulled from the page parameters and tells us if we're making an Action Plan based on a template
+	 * <br>It can also be set by choosing a template when applying a template to one or more records
 	 */
-	private Id templateId;
+	public Id templateId { get; set; }
 	/**
 	 * Related Record IDs
 	 */
@@ -155,7 +156,7 @@ public with sharing class ActionPlanCreationController {
 		this.hasRelatedObject = this.hasRelatedObject();
 		this.taskIndex = this.calculateMaxTaskIndex();
 		this.subtitle = this.actionPlan.Name;
-		this.taskOwnerMap = queryAPTaskOwners(this.actionPlan);
+		this.taskOwnerMap = this.queryAPTaskOwners(this.actionPlan);
 	}
 
 	/**
@@ -208,31 +209,42 @@ public with sharing class ActionPlanCreationController {
 	 * @param  apt                `ActionPlanTemplate__c` record
 	 */
 	private void initNewActionPlanFromTemplate(Boolean visualforceContext, ActionPlanTemplate__c apt) {
+		System.debug('in initNewActionPlanFromTemplate');
 		this.initNewActionPlan();
-		ActionPlanTemplate__c actionPlanTemplate;
+		ActionPlanTemplate__c apTemplate;
 		if (apt == null) {
 			List<ActionPlanTemplate__c> listAPT = [
-				SELECT Id, Name, Description__c, LastModifiedDate, SkipWeekends__c, SkipDay__c, TaskRecordTypeID__c
+				SELECT Id, Name, Description__c, LastModifiedDate, SkipWeekends__c, SkipDay__c, TaskRecordTypeID__c, Archived__c
 				FROM ActionPlanTemplate__c
 				WHERE Id = :this.templateId
 			];
 			if (!listAPT.isEmpty()) {
-				actionPlanTemplate = listAPT.get(0);
+				apTemplate = listAPT.get(0);
 			}
 		} else {
-			actionPlanTemplate = apt;
+			apTemplate = apt;
 		}
 
-		this.actionPlan.Name = ActionPlansUtilities.actionPlanSubjectToName(actionPlanTemplate.Name);
-		this.actionPlan.Description__c = actionPlanTemplate.Description__c;
-		this.actionPlan.SkipWeekends__c = actionPlanTemplate.SkipWeekends__c;
-		this.actionPlan.SkipDay__c = actionPlanTemplate.SkipDay__c == null ? '' : actionPlanTemplate.SkipDay__c;
-		this.actionPlan.Action_Plan_Template__c = actionPlanTemplate.Id;
-		this.actionPlan.TaskRecordTypeID__c = actionPlanTemplate.TaskRecordTypeID__c;
+		this.actionPlan.Name = ActionPlansUtilities.actionPlanSubjectToName(apTemplate.Name);
+		this.actionPlan.Description__c = apTemplate.Description__c;
+		this.actionPlan.SkipWeekends__c = apTemplate.SkipWeekends__c;
+		this.actionPlan.SkipDay__c = apTemplate.SkipDay__c == null ? '' : apTemplate.SkipDay__c;
+		this.actionPlan.Action_Plan_Template__c = apTemplate.Id;
+		this.actionPlan.TaskRecordTypeID__c = apTemplate.TaskRecordTypeID__c;
+
+		if (refId != null) {
+			this.hasRelated = true;
+			this.referedObjectInit();
+			if (!refId.containsIgnoreCase(',') && refType != null) {
+				String displayFieldName = chooseDisplayField(refType);
+				String queryText = 'SELECT Id, ' + displayFieldName + ' FROM ' + refType + ' WHERE Id = "' + refId + '"';
+				SObject qResult = Database.query(queryText)[0];
+				this.actionPlan.Name += ' - ' + (String) qResult.get(displayFieldName);
+			}
+		}
 
 		if (visualforceContext) {
 			this.taskIndex = this.calculateMaxTemplateTaskIndex();
-			this.subtitle = System.Label.ap_New + ' ' + Schema.getGlobalDescribe().get(getNamespacePrefix() + 'ActionPlan__c').getDescribe().getLabel();
 		}
 		this.apTasks = this.getAPTasks();
 	}
@@ -521,6 +533,16 @@ public with sharing class ActionPlanCreationController {
 		}
 
 		return pageRef;
+	}
+
+	public Pagereference onTemplateSelection() {
+		PageReference pr = Page.ActionPlanCreation;
+		pr.getParameters().put('refType', this.refType);
+		pr.getParameters().put('refId', this.refId);
+		pr.getParameters().put('templateId', this.actionPlan.Action_Plan_Template__c);
+
+		pr.setRedirect(true);
+		return pr;
 	}
 
 	/**

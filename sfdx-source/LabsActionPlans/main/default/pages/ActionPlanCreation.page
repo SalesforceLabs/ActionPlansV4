@@ -104,8 +104,13 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					<apex:param name="relatedFieldName" value="" />
 				</apex:actionFunction>
 
-				<input type="hidden" class="hidden_refID" value="{!RefId}" />
+				<apex:actionFunction name="onTemplateSelection" action="{!onTemplateSelection}" immediate="true">
+					<apex:param name="templateId" value="" />
+				</apex:actionFunction>
+
+				<input type="hidden" class="hidden_refID" value="{!refId}" />
 				<input type="hidden" class="hidden_refOBjtype" value="{!refType}" />
+				<input type="hidden" class="hidden_refTemplateId" value="{!templateId}" />
 
 				<apex:pageBlock id="editBlock" mode="edit">
 					<apex:pageBlockButtons id="buttons">
@@ -131,7 +136,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 									var fieldId = templateLKP_path + '_lkid';
 									if (document.getElementById(fieldId) != null && document.getElementById(fieldId).type == 'hidden') {
 										var selectedTmplId = document.getElementById(fieldId).value;
-										reloadActionPlan('{!JSENCODE($CurrentPage.Parameters.TemplateId)}', selectedTmplId);
+										reloadActionPlan('{!JSENCODE($CurrentPage.Parameters.templateId)}', selectedTmplId);
 									} else {
 										if (document.getElementById(fieldId).type == 'select-one') {
 											document.getElementById(fieldId).selectedIndex = 0;
