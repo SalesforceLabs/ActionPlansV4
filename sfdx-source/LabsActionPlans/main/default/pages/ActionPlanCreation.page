@@ -76,11 +76,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						});
 				}
 			</script>
-			<!-- <script type="text/javascript">
-				var __sfdcSessionId = '{!GETSESSIONID()}';
-			</script>
-			<script src="../../soap/ajax/55.0/connection.js" type="text/javascript"></script> -->
-
 			<style>
 				input.errorBorder {
 					border: 2px solid #cc0000;
@@ -104,13 +99,12 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					<apex:param name="relatedFieldName" value="" />
 				</apex:actionFunction>
 
-				<apex:actionFunction name="onTemplateSelection" action="{!onTemplateSelection}" immediate="true">
+				<!-- <apex:actionFunction name="onTemplateSelection" action="{!onTemplateSelection}" immediate="true">
 					<apex:param name="templateId" value="" />
-				</apex:actionFunction>
+				</apex:actionFunction> -->
 
 				<input type="hidden" class="hidden_refID" value="{!refId}" />
 				<input type="hidden" class="hidden_refOBjtype" value="{!refType}" />
-				<input type="hidden" class="hidden_refTemplateId" value="{!templateId}" />
 
 				<apex:pageBlock id="editBlock" mode="edit">
 					<apex:pageBlockButtons id="buttons">
@@ -195,7 +189,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 												function (result, event) {
 													if (event.status) {
 														j$('#sldsscopediv [id$=searchtemplateinput]').val(result[0].Name);
-														reloadActionPlan(oldTemplateId, result[0].Id);
+														reloadActionPlanLEX(oldTemplateId, result[0].Id);
 													} else {
 														alert(event.message);
 													}

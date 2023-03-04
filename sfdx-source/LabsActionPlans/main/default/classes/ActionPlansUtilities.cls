@@ -114,6 +114,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Memoize objects as we describe them, to save on calls
+	 * <br>This map is keyprefix => DescribeSObjectResult
 	 */
 	private static Map<String, Schema.DescribeSObjectResult> prefixToDescribe;
 	/**
@@ -129,13 +130,13 @@ public without sharing class ActionPlansUtilities {
 		String recordIdString = (String) recordId;
 		String keyPrefix = recordIdString.left(3);
 		if (!prefixToDescribe.containsKey(keyPrefix)) {
-			prefixToDescribe.put(keyPrefix, recordId.getSobjectType().getDescribe());
+			prefixToDescribe.put(keyPrefix, recordId.getSobjectType().getDescribe(SObjectDescribeOptions.DEFERRED));
 		}
 		return prefixToDescribe.get(keyPrefix);
 	}
 
 	/**
-	 * Memoize record IDs so we don't have to keep iterating over them if we already have them
+	 * Memoize record IDs to Names so we don't have to keep iterating over them if we already have them
 	 */
 	private static Map<Id, String> recordIdToRecordName;
 	/**
@@ -163,6 +164,7 @@ public without sharing class ActionPlansUtilities {
 			mapIDsByObject.get(objectName).add(recId);
 		}
 
+		// TODO: Is this really a SOQL query in a loop? Remove it!
 		for (String objName : mapIDsByObject.keySet()) {
 			switch on objName {
 				when 'case' {

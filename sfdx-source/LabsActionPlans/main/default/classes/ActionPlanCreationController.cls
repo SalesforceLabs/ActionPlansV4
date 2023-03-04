@@ -237,7 +237,7 @@ public with sharing class ActionPlanCreationController {
 			this.referedObjectInit();
 			if (!refId.containsIgnoreCase(',') && refType != null) {
 				String displayFieldName = chooseDisplayField(refType);
-				String queryText = 'SELECT Id, ' + displayFieldName + ' FROM ' + refType + ' WHERE Id = "' + refId + '"';
+				String queryText = 'SELECT Id, ' + displayFieldName + ' FROM ' + refType + ' WHERE Id = :refId';
 				SObject qResult = Database.query(queryText)[0];
 				this.actionPlan.Name += ' - ' + (String) qResult.get(displayFieldName);
 			}
@@ -378,7 +378,7 @@ public with sharing class ActionPlanCreationController {
 			}
 			Schema.DescribeFieldResult dfr = Schema.sObjectType.ActionPlan__c.fields.getMap().get(relatedFieldName).getDescribe();
 			Schema.SObjectType sot = dfr.getReferenceTo()[0];
-			Schema.DescribeSObjectResult dsr = sot.getDescribe();
+			Schema.DescribeSObjectResult dsr = sot.getDescribe(SObjectDescribeOptions.DEFERRED);
 			this.relatedObjectName = dsr.getName();
 			System.debug('relatedObjectName: ' + this.relatedObjectName);
 			this.relatedObjDisplayField = chooseDisplayField(this.relatedObjectName);
@@ -535,7 +535,8 @@ public with sharing class ActionPlanCreationController {
 		return pageRef;
 	}
 
-	public Pagereference onTemplateSelection() {
+	/* public Pagereference onTemplateSelection() {
+		System.debug('onTemplateSelection');
 		PageReference pr = Page.ActionPlanCreation;
 		pr.getParameters().put('refType', this.refType);
 		pr.getParameters().put('refId', this.refId);
@@ -543,7 +544,7 @@ public with sharing class ActionPlanCreationController {
 
 		pr.setRedirect(true);
 		return pr;
-	}
+	} */
 
 	/**
 	 * Saves Action Plan Instance and task. Also creates all due dates for tasks, then redirects to the AP list
@@ -559,7 +560,7 @@ public with sharing class ActionPlanCreationController {
 				if (actionPlan.get(s) != null) {
 					objId = (Id) actionPlan.get(s);
 					System.debug('objId: ' + objId);
-					Schema.DescribeSObjectResult dsr = objId.getSObjectType().getDescribe();
+					Schema.DescribeSObjectResult dsr = objId.getSObjectType().getDescribe(SObjectDescribeOptions.DEFERRED);
 					objName = dsr.getName();
 					System.debug('saveSingleAP objName = ' + objName);
 					break;
@@ -1295,7 +1296,7 @@ public with sharing class ActionPlanCreationController {
 				}
 
 				Schema.DescribeFieldResult dfr = fsm.getSObjectField().getDescribe();
-				Schema.DescribeSObjectResult dsr = dfr.getReferenceTo()[0].getDescribe();
+				Schema.DescribeSObjectResult dsr = dfr.getReferenceTo()[0].getDescribe(SObjectDescribeOptions.DEFERRED);
 				Boolean hasActivities = activityEnabledObjects.contains(dsr.getName());
 				Boolean canSeeRelatedObject = dsr.isAccessible();
 				Boolean canUpdateLookupField = dfr.isUpdateable();
