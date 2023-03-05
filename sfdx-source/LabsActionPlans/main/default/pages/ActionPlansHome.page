@@ -13,7 +13,7 @@ SPDX-License-Identifier: BSD-3-Clause
 For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 -->
 <apex:page lightningStylesheets="true" docType="html-5.0" title="ActionPlansHome" contentType="text/html" tabStyle="Action_Plans_Home__tab">
-	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
+	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery.min.js')}" />
 	<script type="text/javascript">
 		var notAPTAccessible = {!!$ObjectType.ActionPlanTemplate__c.accessible};
 		var notAPAccessible = {!!$ObjectType.ActionPlan__c.accessible};

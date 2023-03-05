@@ -32,7 +32,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 			<meta http-equiv="x-ua-compatible" content="ie=edge" />
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
+			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery.min.js')}" />
 			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/ActionPlans_Scripts.js')}" />
 			<script>
 				var j$ = jQuery.noConflict();

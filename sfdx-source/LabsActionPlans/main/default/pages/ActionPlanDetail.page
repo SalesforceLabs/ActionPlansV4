@@ -21,7 +21,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 	lightningStylesheets="true"
 	docType="html-5.0"
 	contentType="text/html">
-	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
+	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery.min.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/ActionPlans_Scripts.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery.tablesorter.min.js')}" />
 	<script type="text/javascript">
