@@ -238,8 +238,9 @@ public with sharing class ActionPlanCreationController {
 			if (!refId.containsIgnoreCase(',') && refType != null) {
 				String displayFieldName = chooseDisplayField(refType);
 				String queryText = 'SELECT Id, ' + displayFieldName + ' FROM ' + refType + ' WHERE Id = :refId';
-				SObject qResult = Database.query(queryText)[0];
-				this.actionPlan.Name += ' - ' + (String) qResult.get(displayFieldName);
+				//System.debug(queryText);
+				List<SObject> qResult = Database.query(queryText);
+				this.actionPlan.Name += ' - ' + (String) qResult[0]?.get(displayFieldName);
 			}
 		}
 
@@ -1283,7 +1284,7 @@ public with sharing class ActionPlanCreationController {
 
 			// Describe the fieldSet so we can make sure that we only add SelectOptions for desired records
 			Schema.FieldSet fs = Schema.SObjectType.ActionPlan__c.fieldSets.Related_Objects;
-			System.assert(fs.getFields().size() > 0, 'Field Set of related objects must have at least one value');
+			System.assert(!fs.getFields().isEmpty(), 'Field Set of related objects must have at least one value');
 
 			Set<String> activityEnabledObjects = findActivityEnabledObjects();
 

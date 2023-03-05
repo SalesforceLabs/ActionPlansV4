@@ -141,6 +141,8 @@ public without sharing class ActionPlansUtilities {
 	private static Map<Id, String> recordIdToRecordName;
 	/**
 	 * Give a set of recordIDs and retrieve the related record names
+	 * <br>This method has queries in a loop - need to investigate if it is even possible to call this
+	 * method with IDs from multiple objects
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  recordIDs Set<Id> of parent records to Action Plans
 	 * @return           `Map<Id, String>` Map of RecordID to Record Name (special for Case & Contract)

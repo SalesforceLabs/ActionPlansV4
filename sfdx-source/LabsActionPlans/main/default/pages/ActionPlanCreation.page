@@ -99,10 +99,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					<apex:param name="relatedFieldName" value="" />
 				</apex:actionFunction>
 
-				<!-- <apex:actionFunction name="onTemplateSelection" action="{!onTemplateSelection}" immediate="true">
-					<apex:param name="templateId" value="" />
-				</apex:actionFunction> -->
-
 				<input type="hidden" class="hidden_refID" value="{!refId}" />
 				<input type="hidden" class="hidden_refOBjtype" value="{!refType}" />
 
@@ -181,15 +177,16 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 											var oldTemplateId = j$(recInfoIdInput).val();
 											j$(recInfoIdInput).val(recId);
 											j$('[id$=SrchTmpltDrpDwn]').fadeOut();
-											//ID Based Retrieval Instead Of Query to Get Record Details Of The Selected Record
+											//ID Based Retrieval Instead of Query to Get Record Details of the Selected Record
 											var queryText = "SELECT Id, Name FROM {!JSENCODE(NamespacePrefix)}ActionPlanTemplate__c WHERE Id = '" + recId + "'";
+											console.log(queryText);
 											Visualforce.remoting.Manager.invokeAction(
 												'{!$RemoteAction.ActionPlanCreationController.getRecords}',
 												queryText,
 												function (result, event) {
 													if (event.status) {
 														j$('#sldsscopediv [id$=searchtemplateinput]').val(result[0].Name);
-														reloadActionPlanLEX(oldTemplateId, result[0].Id);
+														reloadActionPlan(oldTemplateId, result[0].Id);
 													} else {
 														alert(event.message);
 													}
@@ -432,7 +429,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								</apex:column>
 
 								<!--  Dependent task  -->
-								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Controller__c.label}" rendered="{!Tasks.Size > 1}" styleClass="third">
+								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Controller__c.label}" rendered="{!Tasks.Size > 1}" styleClass="controlingT">
 									<apex:selectList
 										id="dependent"
 										value="{!wrapTask.apt.Dependent__c}"

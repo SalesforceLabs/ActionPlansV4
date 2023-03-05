@@ -138,7 +138,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								</apex:column>
 
 								<!--  Tasks depending status  -->
-								<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.TController__c.label}" rendered="{!TemplateWrappers.size > 1}" styleClass="third">
+								<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.TController__c.label}" rendered="{!TemplateWrappers.size > 1}" styleClass="controlingT">
 									<apex:selectList
 										id="dependent"
 										value="{!wrapTask.task.Dependent__c}"
