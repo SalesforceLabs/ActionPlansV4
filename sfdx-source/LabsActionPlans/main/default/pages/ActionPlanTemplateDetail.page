@@ -79,7 +79,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						<apex:outputPanel rendered="{!$ObjectType.ActionPlanTemplate__c.updateable && canTransfer}">
 							&nbsp;[
 							<apex:commandLink action="{!$Page.ActionPlanAPTOwnerChange}?id={!ActionPlanTemplate__c.Id}">{!$Label.ap_Change}</apex:commandLink>
-							<!-- <apex:outputLink value="/{!ActionPlanTemplate__c.Id}/a?retURL={!$CurrentPage.URL}">{!$Label.ap_Change}</apex:outputLink> -->]
 						</apex:outputPanel>
 					</apex:outputPanel>
 				</apex:pageBlockSectionItem>
