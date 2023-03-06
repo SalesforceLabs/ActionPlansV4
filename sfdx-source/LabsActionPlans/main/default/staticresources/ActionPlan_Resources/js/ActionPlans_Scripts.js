@@ -188,7 +188,7 @@ function reloadActionPlan(templateId, selectedTemplateId) {
 	//var new_location = '/apex/ActionPlanCreation';
 	var new_location = window.location.href;
 	//new_location = '/apex/ActionPlanCreation?';
-	if (new_location.match(/\?/gi)) {
+	if (new_location.match('?')) {
 		var location_array = new_location.split('?');
 		new_location = location_array[0];
 	}
