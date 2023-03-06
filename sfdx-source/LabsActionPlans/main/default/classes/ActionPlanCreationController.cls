@@ -239,7 +239,7 @@ public with sharing class ActionPlanCreationController {
 				String displayFieldName = chooseDisplayField(refType);
 				String queryText = 'SELECT Id, ' + displayFieldName + ' FROM ' + refType + ' WHERE Id = :refId';
 				//System.debug(queryText);
-				List<SObject> qResult = Database.query(queryText);
+				List<SObject> qResult = Database.query(String.escapeSingleQuotes(queryText));
 				this.actionPlan.Name += ' - ' + (String) qResult[0]?.get(displayFieldName);
 			}
 		}
@@ -1568,6 +1568,6 @@ public with sharing class ActionPlanCreationController {
 	@RemoteAction
 	public static List<SObject> getRecords(String queryText) {
 		System.debug('querytext ' + queryText);
-		return Database.query(queryText);
+		return Database.query(String.escapeSingleQuotes(queryText));
 	}
 }
