@@ -17,6 +17,11 @@ private class CanTheUserTest {
 	// These tests rely on the assumption that standard FLS/CRUD have not been modified
 	// by the user, and use the Account Object for verification of the Can Logic.
 
+	/**
+	 * These tests rely on the assumption that standard FLS/CRUD have not been modified by the user, and use the Account Object for verification of the Can Logic.
+	 *
+	 * @return  `List<Account>` Sample created Accounts (currently hard-coded to 2)
+	 */
 	private static List<Account> generateAccounts() {
 		List<Account> accounts = new List<Account>();
 		for (Integer i = 0; i < 2; i++) {

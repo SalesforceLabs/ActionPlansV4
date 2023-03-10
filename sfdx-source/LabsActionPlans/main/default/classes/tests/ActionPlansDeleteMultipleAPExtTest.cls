@@ -21,6 +21,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 private class ActionPlansDeleteMultipleAPExtTest {
 	private static final Integer APS_TO_CREATE = 100;
 
+	/**
+	 * Set up custom settings
+	 */
 	@testSetup
 	private static void datasetup() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();

@@ -59,6 +59,10 @@ private class ActionPlanCreationTaskWrapperTest {
 		}
 	}
 
+	/**
+	 * Reused method to create an Action Plan Template - run in multiple user contexts
+	 * @return `ActionPlanCreationController` The instance of the controller for the VF page
+	 */
 	private static ActionPlanCreationController doTemplateCreateEdit() {
 		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
 		Account a = testUtil.createNewAccount();
@@ -134,6 +138,13 @@ private class ActionPlanCreationTaskWrapperTest {
 		}
 	}
 
+	/**
+	 * We make a new Actoin Plan via Visualforce
+	 * @see editActionPlanAssignByDefault
+	 * @see editActionPlanNOTAssignByDefault
+	 *
+	 * @return  `ActionPlanCreationController` The created controller
+	 */
 	private static ActionPlanCreationController doEditActionPlan() {
 		Test.startTest();
 		Test.setCurrentPage(Page.ActionPlanCreation);

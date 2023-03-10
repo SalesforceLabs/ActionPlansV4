@@ -22,6 +22,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  */
 @IsTest
 private class ActionPlanCreationControllerTest {
+	/**
+	 * Set up test data
+	 */
 	@TestSetup
 	private static void makeData() {
 		Action_Plans_Settings__c aps = ActionPlansUtilities.getCustomSetting();

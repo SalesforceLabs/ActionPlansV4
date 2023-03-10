@@ -21,7 +21,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 @IsTest
 private class ActionPlansObjectTriggersTest {
 	private static Action_Plans_Settings__c aps;
-
+	/**
+	 * Set up custom settings
+	 */
 	@TestSetup
 	private static void makeData() {
 		aps = Action_Plans_Settings__c.getOrgDefaults();

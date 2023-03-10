@@ -17,6 +17,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  */
 @IsTest
 private class ActionPlansUtilitiesTest {
+	/**
+	 * Set up custom settings
+	 */
 	@TestSetup
 	private static void makeData() {
 		Action_Plans_Settings__c aps = Action_Plans_Settings__c.getOrgDefaults();
