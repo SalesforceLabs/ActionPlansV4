@@ -82,9 +82,10 @@ public inherited sharing class ActionPlansSectionHeaderController {
 
 	/***
 	 * Explores the schema of the soject passed in and finds lightning icon style and image url for sObject
-	 * If nothing is found, defaults to the custom icon
-	 * Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
-	 * Thanks to https://salesforce.stackexchange.com/users/12582/cricketlang
+	 * <br>If nothing is found, defaults to the custom icon
+	 * <br>Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon
+	 * <br>Thanks to https://salesforce.stackexchange.com/users/12582/cricketlang
+	 * <br>Todo: Avoid describing all applications and tabs, and even use "break" to shorten the runtime
 	 * @param   sObjectName           The sObject to find the icon for
 	 * @return  `Map<String, String>` Map of properties about the icon to be consumed by the front end. Returns values for keys: iconStyle,iconURL
 	 */
@@ -115,6 +116,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 						iconURL = '/img/icon/t4v35/standard/' + sObjectName.toLowerCase() + '_120.png';
 					}
 				}
+				break;
 			}
 		}
 		for (Schema.DescribeIconResult ir : iconDesc) {
@@ -163,6 +165,8 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	/**
 	 * Main code for lightning lookup. Included in this class because we use this as the controller for our lookups
 	 * <br> the code is duplicated in AciontPlanCreationController because there is a lookup directly in that page (for now)
+	 * <br>This is a different approach than in ActionPlanCreationController, as we pass in the full query here, but there it is
+	 * done by passing only the search key.
 	 *
 	 * @param queryText SOQL query to return records for the lookup
 	 * @return          `List<SObject>` Returned records
@@ -170,7 +174,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	 */
 	@RemoteAction
 	public static List<SObject> getRecords(String queryText) {
-		System.debug('querytext ' + queryText);
+		//System.debug('querytext ' + queryText);
 		return Database.query(queryText);
 	}
 }

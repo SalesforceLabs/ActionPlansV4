@@ -515,6 +515,26 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
+	 * Check all relationship fields and return true if at least one is filled
+	 *
+	 * @return  `Boolean` Is at least one lookup to a parent record populated?
+	 */
+	private Boolean checkHasRelated() {
+		if (String.isNotBlank(refId)) {
+			return true;
+		}
+		for (String s : getAllRelationshipFields()) {
+			if (actionPlan.get(s) != null) {
+				return true;
+			}
+		}
+
+		ApexPages.Message myMsg = new APexPages.Message(ApexPages.severity.FATAL, System.Label.ap_Errors_selectOneRecord);
+		ApexPages.addMessage(myMsg);
+		return false;
+	}
+
+	/**
 	 * Action that saves a new Action Plan
 	 * @return `PageReference` null
 	 * @see ActionPlanCreationController.checkCycleDependent
@@ -522,7 +542,11 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public PageReference save() {
 		PageReference pageRef = null;
-		//pageRef = this.saveHandler();
+
+		if (!checkHasRelated()) {
+			return pageRef;
+		}
+
 		try {
 			if (!this.checkCycleDependent()) {
 				System.debug('Cycle check ok');
@@ -536,13 +560,15 @@ public with sharing class ActionPlanCreationController {
 		return pageRef;
 	}
 
-	/* public Pagereference onTemplateSelection() {
+	// This method is still here in case we want to use the non-Javascript way to do our redirect
+	// But a server round trip doesn't feel performant
+	/* 
+		public Pagereference onTemplateSelection() {
 		System.debug('onTemplateSelection');
 		PageReference pr = Page.ActionPlanCreation;
 		pr.getParameters().put('refType', this.refType);
 		pr.getParameters().put('refId', this.refId);
 		pr.getParameters().put('templateId', this.actionPlan.Action_Plan_Template__c);
-
 		pr.setRedirect(true);
 		return pr;
 	} */
@@ -596,6 +622,10 @@ public with sharing class ActionPlanCreationController {
 	 * @return newPage
 	 */
 	public PageReference saveAndNew() {
+		if (!checkHasRelated()) {
+			return null;
+		}
+
 		save();
 
 		PageReference newPage = Page.ActionPlanCreation;
@@ -1436,6 +1466,41 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
+	 * Main code for lightning lookup record selection. Included in this class because we use this as the controller for our main page
+	 *
+	 * @param recordId  Single record ID for chosen Action Plan Template
+	 * @return          `List<SObject>` Returned records
+	 * @since 2022-02
+	 * @see ActionPlanSectionHeaderController
+	 */
+	@SuppressWarnings('PMD.ApexSOQLInjection') // We did escape the search text - too bad PMD can't tell
+	@RemoteAction
+	public static List<SObject> getRecord(String recordId) {
+		String queryText = 'SELECT Id, Name FROM ActionPlanTemplate__c WHERE Id = \'' + String.escapeSingleQuotes(recordId) + '\' LIMIT 1';
+		//System.debug('querytext ' + String.escapeSingleQuotes(queryText));
+		return Database.query(queryText);
+	}
+
+	/**
+	 * Main code for lightning lookup search. Included in this class because we use this as the controller for our main page
+	 *
+	 * @param searchText Search string (escaped!) to get matching AP Templates
+	 * @return          `List<SObject>` Returned records
+	 * @since 2022-02
+	 * @see ActionPlanSectionHeaderController
+	 */
+	@SuppressWarnings('PMD.ApexSOQLInjection') // We did escape the search text - too bad PMD can't tell
+	@RemoteAction
+	public static List<SObject> searchTemplates(String searchText) {
+		String queryText =
+			'SELECT Id, Name FROM ActionPlanTemplate__c WHERE Name LIKE \'%' +
+			String.escapeSingleQuotes(searchText) +
+			'%\' AND Archived__c = false ORDER BY Name ASC LIMIT 10 ';
+		//System.debug('querytext ' + queryText);
+		return Database.query(queryText);
+	}
+
+	/**
 	 * Wrapper Class for AP Task SObject
 	 * @author {@link [Rodrigo Birriel](https://www.linkedin.com/in/rbirriel)}
 	 * @since 08/01/2010
@@ -1524,10 +1589,11 @@ public with sharing class ActionPlanCreationController {
 		 */
 		public String getUserRender() {
 			Id templateId = ActionPlansUtilities.getEscapedPageParameter('templateId');
+			Boolean hasRelatedIDs = ApexPages.currentPage().getParameters().containsKey('refId');
 
 			if (templateId != null && apt.User__c != null) {
 				return 'UserReadOnly';
-			} else if (templateId == null && ap.Id == null) {
+			} else if ((templateId == null || hasRelatedIDs == true) && ap.Id == null) {
 				return 'UserLookup';
 			}
 
@@ -1555,19 +1621,5 @@ public with sharing class ActionPlanCreationController {
 				return 'UserLookup';
 			}
 		}
-	}
-
-	/**
-	 * Main code for lightning lookup. Included in this class because we use this as the controller for our main page
-	 * <br>The code is duplicated from ActionPlanSectionHeaderController because there is a lookup directly in this page (for now)
-	 *
-	 * @param queryText SOQL query to return records for the lookup
-	 * @return          `List<SObject>` Returned records
-	 * @see ActionPlanSectionHeaderController
-	 */
-	@RemoteAction
-	public static List<SObject> getRecords(String queryText) {
-		System.debug('querytext ' + queryText);
-		return Database.query(String.escapeSingleQuotes(queryText));
 	}
 }

@@ -1,6 +1,6 @@
 <!--
 Action Plans v4
-David Schach 2022
+David Schach 2022, 2023
 https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000Gg6NVUAZ
 
 Action Plans v3
@@ -27,8 +27,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 	<script type="text/javascript">
 		var j$ = jQuery.noConflict();
 		j$(document).ready(function () {
-			j$('[Id$=theTable]').tablesorter();
-			j$('.helpOrb').css({ width: '12px', height: '12px' });
+			j$('[Id$=theTable]').tablesorter({ headerTemplate: '{content}' });
+			j$('.helpOrb').css('width', '12px').css('height', '12px');
+			console.log('document ready');
 		});
 	</script>
 	<style>
@@ -37,6 +38,10 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 			.no-print * {
 				display: none !important;
 			}
+		}
+		.helpOrb {
+			width: 12px;
+			height: 12px;
 		}
 	</style>
 
@@ -153,12 +158,14 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						style="vertical-align: middle">
 						<apex:outputField value="{!wrap.apt.Controller__r.Subject__c}" />
 					</apex:column>
-					<apex:column value="{!wrap.apt.DaysFromStart__c}" style="vertical-align: middle">
+					<apex:column value="{!wrap.apt.DaysFromStart__c}" style="vertical-align: middle" id="daysColumn">
 						<apex:facet name="header">
-							<span style="vertical-align: top"
-								>{!$ObjectType.APTask__c.fields.DaysFromStart__c.label}
-								<img class="helpOrb" title="{!$ObjectType.APTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
-							</span>
+							{!$ObjectType.APTask__c.fields.DaysFromStart__c.label}&nbsp;
+							<img
+								class="helpOrb"
+								title="{!$ObjectType.APTask__c.fields.DaysFromStart__c.inlineHelpText}"
+								src="/img/s.gif"
+								style="vertical-align: top; width: 12px; height: 12px" />
 						</apex:facet>
 					</apex:column>
 					<apex:column headerValue="{!$ObjectType.APTask__c.fields.ActivityDate__c.label}" style="vertical-align: middle">

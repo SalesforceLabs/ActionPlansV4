@@ -1,6 +1,6 @@
 <!--
 Action Plans v4
-David Schach 2022
+David Schach 2022, 2023
 https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000Gg6NVUAZ
 
 Action Plans v3
@@ -178,11 +178,11 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 											j$(recInfoIdInput).val(recId);
 											j$('[id$=SrchTmpltDrpDwn]').fadeOut();
 											//ID Based Retrieval Instead of Query to Get Record Details of the Selected Record
-											var queryText = "SELECT Id, Name FROM {!JSENCODE(NamespacePrefix)}ActionPlanTemplate__c WHERE Id = '" + recId + "'";
-											console.log(queryText);
+											//var queryText = "SELECT Id, Name FROM {!JSENCODE(NamespacePrefix)}ActionPlanTemplate__c WHERE Id = '" + recId + "'";
+											//console.log('queryText (recInfo): ' + queryText);
 											Visualforce.remoting.Manager.invokeAction(
-												'{!$RemoteAction.ActionPlanCreationController.getRecords}',
-												queryText,
+												'{!$RemoteAction.ActionPlanCreationController.getRecord}',
+												recId,
 												function (result, event) {
 													if (event.status) {
 														j$('#sldsscopediv [id$=searchtemplateinput]').val(result[0].Name);
@@ -202,15 +202,12 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 												j$('#' + key.attr('aria-activedescendant')).hide();
 											}
 											//Querying For Records In Objects Name Matching The Input in The Text Field
-											var queryText =
-												"SELECT Id, Name FROM {!JSENCODE(NamespacePrefix)}ActionPlanTemplate__c WHERE Name LIKE '%" +
-												searchKey +
-												"%' AND Archived__c = false ORDER BY Name ASC LIMIT 10";
-											//console.log('queryText: ' + queryText);
+											//var queryText = "SELECT Id, Name FROM ActionPlanTemplate__c WHERE Name LIKE \'%" +					searchKey +												"%\' AND Archived__c = false ORDER BY Name ASC LIMIT 10";
+											//console.log('queryText (searchRecords): ' + queryText);
 											var searchList = '';
 											Visualforce.remoting.Manager.invokeAction(
-												'{!$RemoteAction.ActionPlanCreationController.getRecords}',
-												queryText,
+												'{!$RemoteAction.ActionPlanCreationController.searchTemplates}',
+												searchKey,
 												function (result, event) {
 													if (event.status) {
 														records = result;

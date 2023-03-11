@@ -38,6 +38,9 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		MODE_EDIT_SINGLE,
 		MODE_NEW
 	}
+	/**
+	 * Store the enum value
+	 */
 	private ApEditMode mode;
 
 	/**

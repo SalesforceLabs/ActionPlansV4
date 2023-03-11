@@ -188,7 +188,7 @@ function reloadActionPlan(templateId, selectedTemplateId) {
 	//var new_location = '/apex/ActionPlanCreation';
 	var new_location = window.location.href;
 	//new_location = '/apex/ActionPlanCreation?';
-	if (new_location.match('?')) {
+	if (new_location.match(/\?/)) {
 		var location_array = new_location.split('?');
 		new_location = location_array[0];
 	}
@@ -221,7 +221,7 @@ function reloadActionPlan(templateId, selectedTemplateId) {
 		}
 	}
 
-	console.log('reload new_location (LEX): ' + new_location);
+	console.log('reload new_location: ' + new_location);
 	if (UITheme.getUITheme() === 'Theme4d' || UITheme.getUITheme() === 'Theme4u') {
 		sforce.one.navigateToURL(new_location);
 	} else {

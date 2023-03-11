@@ -15,13 +15,14 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 	<apex:attribute name="recordname" type="String" description="The value of the record name to display when editing a populated field" />
 	<apex:attribute name="sObjType" type="String" description="The sObject type." assignTo="{!objectName}" required="true" />
 	<apex:attribute name="for" type="String" description="Unique ID of the input field" required="false" default="" />
-	<apex:attribute name="where" type="String" description="WHERE clause for SOQL (if desired)" required="false" default="" />
+	<apex:attribute name="where" type="String" description="WHERE clause for SOQL (if desired) - must start with OR or AND" required="false" default="" />
 	<apex:attribute name="required" type="Boolean" description="Is this field required?" default="false" required="false" />
 	<apex:attribute name="fieldClass" type="String" description="CSS class for the input field" required="false" />
 	<apex:attribute name="fieldStyle" type="String" description="CSS style for the input field" required="false" default="width:75%;" />
 
 	<apex:variable var="customObject" value="{!$ObjectType[sObjType].custom}" />
 	<script>
+		//j$('[id$=error-message]').hide();
 		function checkEscape(key, e) {
 			if (e.keyCode === 27) {
 				// escape key maps to keycode `27`
@@ -57,6 +58,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								required="{!IF(required == true, 'true', '')}"
 								value="{!recordname}" />
 						</div>
+						<!-- <div class="slds-form-element__help" id="error-message" >Required</div> -->
 					</div>
 				</div>
 				<div id="SrchDrpDwn{!for}" class="slds-dropdown slds-dropdown_length-with-icon-5 slds-dropdown_fluid" role="listbox" style="display: none">
@@ -66,6 +68,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 		</div>
 	</div>
 	<script>
+
+
 		var boolRequired = '{!required}';
 		function checkinput() {
 			if (boolRequired == 'true') {

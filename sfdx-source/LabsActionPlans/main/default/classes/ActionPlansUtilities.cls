@@ -215,7 +215,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Describe `Task.Status` only once
 	 */
-	private static String taskStatusDefaultValue = (String) Task.Status.getDescribe().getDefaultValue();
+	private static final String taskStatusDefaultValue = (String) Task.Status.getDescribe().getDefaultValue();
 	/**
 	 * Memoized map of `RecordTypeId` to default `Task Status`
 	 */
@@ -246,7 +246,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Describe `Task.Type` only once
 	 */
-	private static String taskTypeDefaultValue = (String) Task.Type.getDescribe().getDefaultValue();
+	private static final String taskTypeDefaultValue = (String) Task.Type.getDescribe().getDefaultValue();
 	/**
 	 * Memoized map of `RecordTypeId` to default `Task Type`
 	 */
@@ -276,7 +276,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Describe `Task.Priority` only once
 	 */
-	private static String taskPriorityDefaultValue = (String) Task.Priority.getDescribe().getDefaultValue();
+	private static final String taskPriorityDefaultValue = (String) Task.Priority.getDescribe().getDefaultValue();
 	/**
 	 * Memoized map of `RecordTypeId` to default `Task Priority`
 	 */
@@ -344,6 +344,11 @@ public without sharing class ActionPlansUtilities {
 	private static List<SelectOption> taskRTs;
 
 	/**
+	 * Memoized open Task statuses
+	 */
+	private static Set<String> openTaskStatuses;
+
+	/**
 	 * Lazy load open task statuses
 	 * @return `Set<String>` All Open `Task Status` values
 	 */
@@ -356,10 +361,6 @@ public without sharing class ActionPlansUtilities {
 		}
 		return openTaskStatuses;
 	}
-	/**
-	 * Memoized open Task statuses
-	 */
-	private static Set<String> openTaskStatuses;
 
 	/**
 	 * Memoized closed Task statuses
@@ -530,6 +531,9 @@ public without sharing class ActionPlansUtilities {
 		}
 		return canDisplayReminder;
 	}
+	/**
+	 * Private variable to store if the org can have reminders available
+	 */
 	private static Boolean canDisplayReminder;
 
 	/**
@@ -546,6 +550,9 @@ public without sharing class ActionPlansUtilities {
 		}
 		return checkReminderByDefault;
 	}
+	/**
+	 * Does the running user get task reminders by default?
+	 */
 	private static Boolean checkReminderByDefault;
 
 	/**
@@ -563,6 +570,9 @@ public without sharing class ActionPlansUtilities {
 		}
 		return defaultMinutesForReminderTime;
 	}
+	/**
+	 * What is the default time for the user's reminders
+	 */
 	private static String defaultMinutesForReminderTime;
 
 	/**
