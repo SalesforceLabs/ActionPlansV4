@@ -17,7 +17,6 @@
       "path": "sfdx-source/unmanaged"
     }
   ],
-  "pushPackageDirectoriesSequentially": true,
   "name": "Action Plans",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
