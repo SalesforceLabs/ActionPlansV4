@@ -29,7 +29,7 @@ Follow these instructions to deploy Action Plans to your org.
 1. If you haven't already done so, authorize your hub org and provide it with an alias (**myhuborg** in the command below):
 
     ```bash
-    sfdx auth:web:login -d -a myhuborg
+    sf org login web --set-default --alias myhuborg
     ```
 
 1. Clone this repository:
@@ -41,7 +41,7 @@ Follow these instructions to deploy Action Plans to your org.
 
 1. From the terminal window, run the installation script
 	```bash
-	npm run-script scratchorg
+	npm run scratchorg
 	```
     or
     ```bash
@@ -60,7 +60,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 1. Authorize your org and provide it with an alias (**myorg** in the command below):
 
     ```bash
-    sfdx auth:web:login -s -a myorg
+    sf org login web --set-default --alias myorg
     ```
 
 1. Clone this repository:
@@ -119,7 +119,7 @@ This repository contains several files that are relevant if you want to add samp
 
 - To create a sample Action Plan Template for Account onboarding, run the following:
 	```bash
-	sfdx force:apex:execute -f ./data/sample-data.apex
+	sf apex run -f ./data/sample-data.apex
 	```
 - To create 
     - a sample Flow that uses the sample template
@@ -140,7 +140,7 @@ This repository contains several files that are relevant if you want to add samp
 
 - When FIRST installing the package, it will automatically create a sample Action Plan Template for Account onboarding. If you want to recreate it manually, run the following:
 	```bash
-	sfdx force:apex:execute -f ./data/sample-data-managed.apex
+	sf apex run -f ./data/sample-data-managed.apex
 	```
 - To create 
     - a sample Flow that uses the sample template

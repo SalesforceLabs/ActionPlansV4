@@ -47,7 +47,7 @@ jobs:
           npm install sfdx-cli --location=global
           nodeInstallPath=$(npm config get prefix)
           echo "$nodeInstallPath/bin" >> $GITHUB_PATH
-          sfdx --version
+          sf --version
           npm install @salesforce/cli --global
 
       # Store secret for dev hub
@@ -63,7 +63,7 @@ jobs:
 
       # Authenticate dev hub
       - name: 'Authenticate Dev Hub'
-        run: sfdx auth:sfdxurl:store -f ./DEVHUB_SFDX_URL.txt -a devhub -d
+        run: sf org delete scratch ./DEVHUB_SFDX_URL.txt --alias devhub --set-default-dev-hub
 
         # Add namespace to project config
       - name: Add namespace to project config
@@ -72,23 +72,23 @@ jobs:
 
       # Create scratch org
       - name: 'Create scratch org'
-        #run: sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -d 1 -w 20 --noancestors
-        run: sf force org create --definitionfile config/project-scratch-def.json --setalias ActionPlans --setdefaultusername --noancestors --durationdays 1 --wait 20
+        #run: sfdx force:org:create -f config/project-scratch-def.json -a ActionPlans -s -d 1 -w 20 --no-ancestors
+        run: sf org create scratch --definition-file config/project-scratch-def.json --alias ActionPlans --set-default --no-ancestors --duration-days 1 --wait 20 --target-dev-hub devhub
 
       # Deploy source to scratch org
       - name: 'Push source to scratch org'
         #run: sfdx force:source:push
-        run: sf deploy metadata
+        run: sf deploy metadata --target-org ActionPlans
 
       # Assign permissionset
       - name: 'Assign permissionset to default user'
         #run: sfdx force:user:permset:assign -n Action_Plans_Admin
-        run: sf org assign permset --name Action_Plans_Admin
+        run: sf org assign permset --name Action_Plans_Admin --target-org ActionPlans
 
       # Run Apex tests in scratch org
       - name: 'Run Apex tests'
-        run: sfdx force:apex:test:run --codecoverage --detailedcoverage --resultformat human -l RunLocalTests --wait 20 --outputdir ./
-        #run: sf apex run tests --result-format human --detailed-coverage --wait 20 --test-level RunLocalTests --output-dir ./
+        #run: sfdx force:apex:test:run --codecoverage --detailedcoverage --resultformat human -l RunLocalTests --wait 20 --outputdir ./
+        run: sf apex run test --code-coverage --detailed-coverage --result-format human --wait 20 --test-level RunLocalTests --output-dir ./
 
       # Upload code coverage to Codecov.io
       - name: 'Upload code coverage for Apex to Codecov.io'
@@ -100,7 +100,7 @@ jobs:
       # Housekeeping
       - name: 'Delete scratch org'
         if: always()
-        run: sf force org delete --no-prompt --target-org ActionPlans
+        run: sf org delete scratch --no-prompt --target-org ActionPlans
 
       # Remove namespace from project config
       - name: Remove namespace from project config

@@ -287,7 +287,7 @@ The Invocable Apex class returns the Salesforce IDs of all the created Action Pl
 Run the following:
 	
 ```plaintext
-sfdx force:apex:execute -f ./data/sample-data.apex
+sf apex run -f ./data/sample-data.apex
 ```
 
 To use this Template with the included Flow, see the `Create Action Plan From Template` Apex Action in the `New Customer Onboarding Activities` Flow

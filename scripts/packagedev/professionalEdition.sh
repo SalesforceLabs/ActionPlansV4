@@ -1,27 +1,28 @@
 npm run labsdevhub
 
 echo "Cleaning previous scratch org..."
-sf force org delete --no-prompt --target-org ActionPlansProf
+sf org delete scratch --no-prompt --target-org ActionPlansProf
 
 echo "Clearing namespace"
 sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-project.json
 
 echo "Creating new scratch org"
-#sf force org create --definitionfile config/professional-scratch-def.json --setalias ActionPlansProf --setdefaultusername --durationdays 21 --noancestors
-sf force org create edition=Professional --setalias ActionPlansProf --setdefaultusername --noancestors --durationdays 21
+#sf org create scratch --definition-file config/professional-scratch-def.json --alias ActionPlansProf --set-default --no-ancestors --duration-days 21 
+sf org create scratch --edition=professional --alias ActionPlansProf --set-default --no-ancestors --duration-days 21
 
 echo "Pushing package metadata"
-sf deploy metadata  --source-dir sfdx-source/LabsActionPlans
+sf deploy metadata  --source-dir sfdx-source/LabsActionPlans --target-org ActionPlansProf
 
 echo "Deploy unmanaged metadata"
-sf deploy metadata  --source-dir sfdx-source/unmanaged
+sf deploy metadata  --source-dir sfdx-source/unmanaged --target-org ActionPlansProf
 
 echo "Assigning permission set"
-sf org assign permset --name Action_Plans_Admin
+sf org assign permset --name Action_Plans_Admin --target-org ActionPlansProf
 
 # To install sample action plan template
 echo "Loading sample data"
-sfdx force:apex:execute -f ./data/sample-data.apex
+sf apex run -f ./data/sample-data.apex --target-org ActionPlansProf
+#sf apex run -f ./data/sample-data.apex --target-org ActionPlansProf
 
 echo "opening org"
 sf org open --target-org ActionPlansProf
