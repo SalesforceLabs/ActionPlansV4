@@ -46,6 +46,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					checkReminderPicklists();
 				});
 
+				//https://stackoverflow.com/a/36907631
 				function setSelectWidth() {
 					var yardstick = j$('<select><option>' + j$(this).val() + '</option></select>');
 					if (j$(this).val() == null) {
@@ -170,18 +171,15 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 										j$('[id$=searchtemplateinput_lkwgt]').hide();
 									}
 									LightningLookupScripts = {
-										//Function To Get Template Record's Details on Record Click
+										//Function to get Template record's details on record click
 										recInfo: function (recId) {
 											//j$('[id$=TemplateHiddenInput]').val(recId);
 											var recInfoIdInput = document.getElementById('{!$Component.TemplateHiddenInput}');
 											var oldTemplateId = j$(recInfoIdInput).val();
 											j$(recInfoIdInput).val(recId);
 											j$('[id$=SrchTmpltDrpDwn]').fadeOut();
-											//ID Based Retrieval Instead of Query to Get Record Details of the Selected Record
-											//var queryText = "SELECT Id, Name FROM {!JSENCODE(NamespacePrefix)}ActionPlanTemplate__c WHERE Id = '" + recId + "'";
-											//console.log('queryText (recInfo): ' + queryText);
 											Visualforce.remoting.Manager.invokeAction(
-												'{!$RemoteAction.ActionPlanCreationController.getRecord}',
+												'{!$RemoteAction.ActionPlanCreationController.queryRecord}',
 												recId,
 												function (result, event) {
 													if (event.status) {
@@ -201,9 +199,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 											if (searchKey == '') {
 												j$('#' + key.attr('aria-activedescendant')).hide();
 											}
-											//Querying For Records In Objects Name Matching The Input in The Text Field
-											//var queryText = "SELECT Id, Name FROM ActionPlanTemplate__c WHERE Name LIKE \'%" +					searchKey +												"%\' AND Archived__c = false ORDER BY Name ASC LIMIT 10";
-											//console.log('queryText (searchRecords): ' + queryText);
 											var searchList = '';
 											Visualforce.remoting.Manager.invokeAction(
 												'{!$RemoteAction.ActionPlanCreationController.searchTemplates}',
@@ -230,7 +225,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 														} else {
 															searchList += '<li class="slds-lookup__item">No Records Found</li>';
 														}
-
 														j$('[id$=searchResultsUL]').html(searchList);
 													} else {
 														alert(event.message);
@@ -295,7 +289,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 									size="1"
 									style="font-size: 14px"
 									required="true"
-									onchange="refreshRelatedObjectsLookUp(this.value);j$('[id$=APName]').val('{!JSENCODE(templateName)}');">
+									onchange="refreshRelatedObjectsLookUp(this.value);j$('[id$=APName]').val('templateName');">
 									<apex:selectOptions value="{!relatedObjectOptions}" />
 								</apex:selectList>
 							</apex:outputPanel>
@@ -461,7 +455,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								</apex:column>
 
 								<!--  Tasks Assigned To  -->
-								<apex:column style="vertical-align: middle">
+								<apex:column style="vertical-align: middle" rendered="{!$ObjectType.APTask__c.fields.User__c.accessible}">
 									<apex:facet name="header">
 										<span>
 											{!$ObjectType.APTask__c.fields.User__c.label}
@@ -486,7 +480,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 										<apex:outputPanel rendered="{!wrapTask.UserRender == 'UserReadOnly'}" id="userDisplayPanel" layout="none"
 											>[&nbsp; <apex:outputField value="{!wrapTask.apt.User__c}" id="userNameDisplay" />&nbsp;]
 										</apex:outputPanel>
-
 										<apex:outputText rendered="{!wrapTask.UserRender == 'OwnerPlaceholder'}" id="recordOwnerPlaceholder">[&nbsp;{!$Label.ap_RecordOwner}&nbsp;]</apex:outputText>
 									</apex:outputPanel>
 									<apex:outputField value="{!wrapTask.apt.User__c}" rendered="{!wrapTask.apt.IsClosed__c}" />

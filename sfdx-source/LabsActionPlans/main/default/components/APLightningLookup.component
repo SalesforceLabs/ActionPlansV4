@@ -84,15 +84,15 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 			j$(recInfoIdInput).val(recId);
 			j$('[id$=SrchDrpDwn{!for}]').fadeOut();
 
-			var queryText = 'SELECT Id, {!displayField} FROM ' + sObjType + ' WHERE Id = \'' + recId + '\'';
+			var queryText = 'SELECT Id, {!JSENCODE(displayField)} FROM ' + sObjType + ' WHERE Id = \'' + recId + '\'';
 			//console.log('querytext ' + queryText);
 			Visualforce.remoting.Manager.invokeAction(
-				'{!$RemoteAction.ActionPlansSectionHeaderController.getRecords}',
+				'{!$RemoteAction.ActionPlansSectionHeaderController.queryRecords}',
 				queryText,
 				function (result, event) {
 					if (event.status) {
 						var record = result[0];
-						j$('#{!for}sldsscopediv [id$=searchInput]').val(record.{!JSENCODE(displayField)}).trigger("parentchange", [record.{!JSENCODE(displayField)}]);
+						j$('#{!for}sldsscopediv [id$=searchInput]').val(record.{!displayField}).trigger("parentchange", [record.{!displayField}]);
 						var recInfoIdInput = document.getElementById('{!$Component.HiddenInput}');
 						j$(recInfoIdInput).val(recId);
 					} else {
@@ -128,7 +128,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 				var records = [];
 
 				Visualforce.remoting.Manager.invokeAction(
-					'{!$RemoteAction.ActionPlansSectionHeaderController.getRecords}',
+					'{!$RemoteAction.ActionPlansSectionHeaderController.queryRecords}',
 					queryText,
 					function (result, event) {
 						if (event.status) {

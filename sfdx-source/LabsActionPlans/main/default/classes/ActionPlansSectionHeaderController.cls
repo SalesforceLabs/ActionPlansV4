@@ -173,7 +173,7 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	 * @see ActionPlanCreationController
 	 */
 	@RemoteAction
-	public static List<SObject> getRecords(String queryText) {
+	public static List<SObject> queryRecords(String queryText) {
 		//System.debug('querytext ' + queryText);
 		return Database.query(queryText);
 	}
