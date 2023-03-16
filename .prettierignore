@@ -4,6 +4,7 @@
 
 .localdevserver
 .sfdx
+.sf
 .vscode/settings.json
 
 data/
