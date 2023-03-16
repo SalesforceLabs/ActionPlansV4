@@ -127,7 +127,7 @@ This repository contains several files that are relevant if you want to add samp
     - a sample Task layout
     - a sample report on open Action Plan-related Tasks
 	```bash
-	 sf deploy metadata --source-dir sfdx-source/unmanaged
+	sf deploy metadata --source-dir sfdx-source/unmanaged
 	```
 
 - You can also create other sample Account and Contact records by running the following command:
