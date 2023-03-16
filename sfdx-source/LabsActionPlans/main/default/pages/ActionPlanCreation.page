@@ -427,7 +427,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 										multiselect="false"
 										size="1"
 										style="min-width: 85px"
-										onchange="javascript:checkDependent('{!$Component.taskTable.dependent}','{!JSINHTMLENCODE($Label.ap_ItselfDependencyError)})','{!JSINHTMLENCODE($Label.ap_Errors_Cyclic_Dependency_Found)}');"
+										onchange="javascript:checkDependent('{!$Component.taskTable.dependent}','{!JSINHTMLENCODE($Label.ap_ItselfDependencyError)}','{!JSINHTMLENCODE($Label.ap_Errors_Cyclic_Dependency_Found)}');"
 										styleClass="selectDepending"
 										disabled="{!wrapTask.apt.IsClosed__c}">
 										<apex:selectOptions value="{!SubjectItems}" />
