@@ -639,9 +639,7 @@ public without sharing class ActionPlansUtilities {
 		}
 		if (subject.trim().length() > maxChars) {
 			return subject.left(maxChars - 3).trim() + '...';
-		} /* else if (subject.trim().length() < maxChars - 3) {
-			return subject.left(maxChars - 3).trim() + ' - ';
-		} */
+		}
 		return subject;
 	}
 
@@ -652,16 +650,14 @@ public without sharing class ActionPlansUtilities {
 	 */
 	public static Boolean canSendEmails() {
 		Boolean orgCanSendEmails;
-		if (orgCanSendEmails == null) {
-			// An attempt to reserve some email capacity is the only means available for determining permissions
-			// or limits issues. In the case of a lack of permissions, System.NoAccessException is thrown. If
-			// limits are exhausted then System.HandledException is thrown
-			try {
-				Messaging.reserveSingleEmailCapacity(1);
-				orgCanSendEmails = true;
-			} catch (Exception e) {
-				orgCanSendEmails = false;
-			}
+		// An attempt to reserve some email capacity is the only means available for determining permissions
+		// or limits issues. In the case of a lack of permissions, System.NoAccessException is thrown. If
+		// limits are exhausted then System.HandledException is thrown
+		try {
+			Messaging.reserveSingleEmailCapacity(1);
+			orgCanSendEmails = true;
+		} catch (Exception e) {
+			orgCanSendEmails = false;
 		}
 		return orgCanSendEmails;
 	}
