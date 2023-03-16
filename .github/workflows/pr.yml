@@ -63,7 +63,7 @@ jobs:
 
       # Authenticate dev hub
       - name: 'Authenticate Dev Hub'
-        run: sf org delete scratch ./DEVHUB_SFDX_URL.txt --alias devhub --set-default-dev-hub
+        run: sf org login sfdx-url --sfdx-url-file ./DEVHUB_SFDX_URL.txt --alias devhub --set-default-dev-hub
 
         # Add namespace to project config
       - name: Add namespace to project config
