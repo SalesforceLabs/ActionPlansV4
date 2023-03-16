@@ -15,7 +15,7 @@ sf org assign permset --name Action_Plans_Admin
 
 # To install sample action plan template
 echo "Adding sample data"
-sf apex run -f ./data/sample-data.apex
+sf apex run --file ./data/sample-data.apex
 
 # To install sample Flow and other metadata
 echo "deploying sample metadata"

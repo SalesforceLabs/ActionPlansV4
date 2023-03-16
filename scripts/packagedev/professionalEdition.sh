@@ -21,8 +21,8 @@ sf org assign permset --name Action_Plans_Admin --target-org ActionPlansProf
 
 # To install sample action plan template
 echo "Loading sample data"
-sf apex run -f ./data/sample-data.apex --target-org ActionPlansProf
-#sf apex run -f ./data/sample-data.apex --target-org ActionPlansProf
+sf apex run --file ./data/sample-data.apex --target-org ActionPlansProf
+#sf apex run --file ./data/sample-data.apex --target-org ActionPlansProf
 
 echo "opening org"
 sf org open --target-org ActionPlansProf

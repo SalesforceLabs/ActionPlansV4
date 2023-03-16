@@ -46,7 +46,7 @@ if [ "$continue" = "y" ]; then
 	sf org assign permset --name LabsActionPlans__Action_Plans_Admin --target-org PackageInstallTest
 
 	echo "Install sample data"
-	sf apex run -f ./data/sample-data-managed.apex --target-org PackageInstallTest
+	sf apex run --file ./data/sample-data-managed.apex --target-org PackageInstallTest
 
 	echo "opening org"
 	sf org open --target-org PackageInstallTest

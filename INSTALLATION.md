@@ -119,7 +119,7 @@ This repository contains several files that are relevant if you want to add samp
 
 - To create a sample Action Plan Template for Account onboarding, run the following:
 	```bash
-	sf apex run -f ./data/sample-data.apex
+	sf apex run --file ./data/sample-data.apex
 	```
 - To create 
     - a sample Flow that uses the sample template
@@ -140,7 +140,7 @@ This repository contains several files that are relevant if you want to add samp
 
 - When FIRST installing the package, it will automatically create a sample Action Plan Template for Account onboarding. If you want to recreate it manually, run the following:
 	```bash
-	sf apex run -f ./data/sample-data-managed.apex
+	sf apex run --file ./data/sample-data-managed.apex
 	```
 - To create 
     - a sample Flow that uses the sample template

@@ -22,7 +22,7 @@ sf org assign permset --name Action_Plans_Admin
 #
 # To install sample action plan template
 echo "Loading sample data"
-sf apex run -f ./data/sample-data.apex
+sf apex run --file ./data/sample-data.apex
 #sf apex run --apex-code-file "data/sample-data.apex" —-target-org ActionPlans
 
 echo "Clearing namespace"
