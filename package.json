@@ -39,7 +39,7 @@
 		"prepare": "husky install",
 		"precommit": "lint-staged",
 		"labsdevhub": "sf config set target-dev-hub=LabsLDO",
-		"version": "auto-changelog && git add CHANGELOG.md",
+		"version": ". scripts/auto-changelog.sh",
 		"apexdoxSetup": ". doc-assets/ApexDoxSetup.sh"
 	},
 	"devDependencies": {
