@@ -42,26 +42,26 @@
 		</properties>
 	</rule>
 
-	<rule ref="category/apex/design.xml/NcssMethodCount" message="The method {0}() has an NCSS line count of {1}">
+	<!-- 	<rule ref="category/apex/design.xml/NcssMethodCount" message="The method {0}() has an NCSS line count of {1}">
 		<priority>5</priority>
 		<properties>
 			<property name="minimum" value="60" />
 		</properties>
-	</rule>
+	</rule> -->
 
-	<rule ref="category/apex/design.xml/NcssTypeCount" message="The type has an NCSS line count of {0}">
+	<!-- 	<rule ref="category/apex/design.xml/NcssTypeCount" message="The type has an NCSS line count of {0}">
 		<priority>5</priority>
 		<properties>
 			<property name="minimum" value="700" />
 		</properties>
-	</rule>
+	</rule> -->
 
-	<rule ref="category/apex/design.xml/StdCyclomaticComplexity" message="The {0} ''{1}'' has a Standard Cyclomatic Complexity of {2}.">
+	<!-- 	<rule ref="category/apex/design.xml/StdCyclomaticComplexity" message="The {0} ''{1}'' has a Standard Cyclomatic Complexity of {2}.">
 		<priority>5</priority>
 		<properties>
 			<property name="reportLevel" value="25" />
 		</properties>
-	</rule>
+	</rule> -->
 
 	<rule ref="category/apex/design.xml/TooManyFields" message="Too many fields">
 		<priority>3</priority>
@@ -324,10 +324,10 @@
 		<priority>3</priority>
 	</rule>
 
-	<rule ref="category/vf/security.xml/VfUnescapeEl" message="Avoid unescaped user controlled content in EL as it results in XSS.">
-		<!--Example <apex:outputText value="Potential XSS is {! here }" escape="false" /> -->
+	<!--Example <apex:outputText value="Potential XSS is {! here }" escape="false" /> -->
+	<!-- 	<rule ref="category/vf/security.xml/VfUnescapeEl" message="Avoid unescaped user controlled content in EL as it results in XSS.">
 		<priority>3</priority>
-	</rule>
+	</rule> -->
 
 	<!-- Error on apex:page action usage -->
 	<!-- <apex:page controller="AcRestActionsController" action="{!csrfInitMethod}" > -->

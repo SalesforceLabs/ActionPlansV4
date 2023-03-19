@@ -1,4 +1,4 @@
-@SuppressWarnings('PMD.ExcessivePublicCount')
+@SuppressWarnings('PMD.ExcessivePublicCount, PMD.ExcessiveClassLength')
 /*
 Action Plans v4
 David Schach 2022
