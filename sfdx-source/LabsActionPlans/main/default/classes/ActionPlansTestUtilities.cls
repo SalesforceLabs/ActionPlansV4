@@ -17,6 +17,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * Utilities for Tests
  * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
+ * @since 2023 Begin exposing methods to cover custom objects
  * @group Utilities
  */
 public inherited sharing class ActionPlansTestUtilities {
@@ -170,7 +171,7 @@ public inherited sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Campaign SObject
-	 * Inserts before returning
+	 * <br>Inserts before returning
 	 * @return inserted `Campaign`
 	 * @see ActionPlansTestUtilities.createNewCampaign[0]
 	 */
@@ -196,7 +197,7 @@ public inherited sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Case Object
-	 * Inserts before returning
+	 * <br>Inserts before returning
 	 * @return inserted `Case`
 	 */
 	public Case createNewCase() {
@@ -220,7 +221,7 @@ public inherited sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Contact Object
-	 * Inserts before returning
+	 * <br>Inserts before returning
 	 * @return inserted `Contact`
 	 */
 	public Contact createNewContact() {
@@ -246,7 +247,7 @@ public inherited sharing class ActionPlansTestUtilities {
 	}
 	/**
 	 * Creates a new Contract Object
-	 * Inserts before returning
+	 * <br>Inserts before returning
 	 * @return inserted `Contract`
 	 */
 	public Contract createNewContract() {
@@ -273,7 +274,7 @@ public inherited sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Lead Object
-	 * Inserts before returning
+	 * <br>Inserts before returning
 	 * @return inserted `Lead`
 	 */
 	public Lead createNewLead() {
@@ -300,7 +301,7 @@ public inherited sharing class ActionPlansTestUtilities {
 
 	/**
 	 * Creates a new Opportunity Object
-	 * Inserts before returning
+	 * <br>Inserts before returning
 	 * @return inserted `Opportunity`
 	 * @see ActionPlansTestUtilities.createNewOpportunity[0]
 	 */
@@ -312,10 +313,16 @@ public inherited sharing class ActionPlansTestUtilities {
 	 * Create Action Plan and APTaskss
 	 * @param relatedObject The Related Object (included field) for the Action Plan
 	 * @param numTasks How many tasks to create for the ActionPlan
+	 * @param customObjectId For a Custom Object, pass in the Id of the created record so we don't have to do that here
 	 * @return new `ActionPlan__c`
 	 * @see ActionPlansTestUtilities.createNewActionPlanTask
+	 * @example
+	 * ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+	 * ActionPlan__c actionPlan = testUtil.createNewActionPlan('account', 3, null);
+	 * or
+	 * ActionPlan__c actionPlan = testUtil.createNewActionPlan('customObject__c', 3, '02a000000000000000');
 	 */
-	public ActionPlan__c createNewActionPlan(String relatedObject, Integer numTasks) {
+	public ActionPlan__c createNewActionPlan(String relatedObject, Integer numTasks, Id customObjectId) {
 		ActionPlan__c newActionPlan = new ActionPlan__c();
 		newActionPlan.Name = this.createRandomWord('APName');
 		newActionPlan.StartDate__c = Date.today();
@@ -346,6 +353,9 @@ public inherited sharing class ActionPlansTestUtilities {
 			}
 			when 'opportunity' {
 				newActionPlan.Opportunity__c = this.createNewOpportunity().Id;
+			}
+			when else {
+				newActionPlan.put(relatedObject, customObjectId);
 			}
 		}
 

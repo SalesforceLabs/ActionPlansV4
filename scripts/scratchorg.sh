@@ -2,28 +2,27 @@
 
 # Install script
 echo "Cleaning previous scratch org..."
-sfdx force:org:delete -p -u ActionPlans
+sf org delete scratch --no-prompt --target-org ActionPlans
 
 echo "Clearing namespace"
 sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-project.json
 
 echo "Creating new scratch org"
-sfdx force:org:create --definitionfile config/project-scratch-def.json --setalias ActionPlans --nonamespace --setdefaultusername --noancestors
+sf org create scratch --definition-file config/project-scratch-def.json --alias ActionPlans --no-namespace --set-default --no-ancestors --duration-days 7
 
-# For use with namespaced scratch org n package development process
 echo "Deploying unmanaged main metadata"
-sfdx force:source:deploy -p sfdx-source/LabsActionPlans --tracksource
+sf deploy metadata  --source-dir sfdx-source/LabsActionPlans
 
 echo "Assigning permission set"
-sfdx force:user:permset:assign -n Action_Plans_Admin
+sf org assign permset --name Action_Plans_Admin
 
 # To install sample action plan template
 echo "Loading sample data"
-sfdx force:apex:execute -f ./data/sample-data.apex
+sf apex run --file ./data/sample-data.apex
 
 # To install sample Flow and other metadata
 echo "Deploy unmanaged extra metadata"
-sfdx force:source:deploy -p sfdx-source/unmanaged --tracksource
+sf deploy metadata  --source-dir sfdx-source/unmanaged
 
 echo "opening org"
-sfdx force:org:open
+sf org open

@@ -177,7 +177,7 @@
                 onclick="goToLocation('ActionPlansQueueableBuilderTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilderTest</a>
               </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class private" onclick="goToLocation('ActionPlansRedirectTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
               </li>
               <li
@@ -334,7 +334,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L23">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L23">
                 ActionPlansTaskTriggerUtilitiesTest
               </a>
             </h2>
@@ -347,7 +347,14 @@
               <div class="class-subtitle-description">
                 <a href="javascript:void(0)" onclick="goToLocation('ActionPlansTaskTriggerUtilities.html')">ActionPlansTaskTriggerUtilities</a>
               </div>
-              <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />2022
+              <div class="class-subtitle">Author</div>
+              <div class="class-subtitle-description">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
+              </div>
+              <div class="class-subtitle">Since</div>
+              <div class="class-subtitle-description">
+                <li>2022</li>
+              </div>
             </div>
             <div class="subsection properties ActionPlansTaskTriggerUtilitiesTest">
               <h3 class="subsection-title properties">ActionPlansTaskTriggerUtilitiesTest Properties</h3>
@@ -363,7 +370,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L24">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L24">
                       testClosedStatus
                     </a>
                   </td>
@@ -396,6 +403,11 @@
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.aPTTemplateUndeleteException"> aPTTemplateUndeleteException () </a>
 
                     <div class="methods-toc__description">test ActionPlansTaskTriggerUtilities when the user undeletes an ActionPlan Task Template</div>
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.coverFutureMethods"> coverFutureMethods () </a>
+
+                    <div class="methods-toc__description">Coverage for future deletion methods because we may not use them</div>
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#ActionPlansTaskTriggerUtilitiesTest.makeData"> makeData () </a>
@@ -431,7 +443,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L97">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L114">
                       actionPlanDelete()
                     </a>
                   </h4>
@@ -447,7 +459,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L212">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L229">
                       aPTaskUndelete()
                     </a>
                   </h4>
@@ -463,7 +475,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L151">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L168">
                       aPTaskUpdate()
                     </a>
                   </h4>
@@ -479,7 +491,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L262">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L298">
                       aPTTemplateUndeleteException()
                     </a>
                   </h4>
@@ -488,6 +500,22 @@
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">private static void aPTTemplateUndeleteException()</div>
                 </div>
+                <div class="method testmethod">
+                  <h4 class="method-title" id="ActionPlansTaskTriggerUtilitiesTest.coverFutureMethods">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L38">
+                      coverFutureMethods()
+                    </a>
+                  </h4>
+                  <div class="method-description">Coverage for future deletion methods because we may not use them</div>
+                  <div class="method-subtitle">Signature</div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">private static void coverFutureMethods()</div>
+                </div>
                 <div class="method private">
                   <h4 class="method-title" id="ActionPlansTaskTriggerUtilitiesTest.makeData">
                     <a
@@ -495,7 +523,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L27">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L27">
                       makeData()
                     </a>
                   </h4>
@@ -510,7 +538,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L38">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L55">
                       taskAfterUpdateToCompleted()
                     </a>
                   </h4>
@@ -526,7 +554,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L305">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L348">
                       taskAfterUpdateToOpen()
                     </a>
                   </h4>
@@ -542,7 +570,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L434">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L477">
                       taskAssignToQueue()
                     </a>
                   </h4>
@@ -561,7 +589,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L362">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansTaskTriggerUtilitiesTest.cls#L405">
                       taskBeforeDelete()
                     </a>
                   </h4>

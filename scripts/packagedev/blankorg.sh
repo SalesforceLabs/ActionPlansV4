@@ -4,10 +4,10 @@ echo "Clearing namespace"
 sed -i "" "s|\"namespace\": \"LabsActionPlans\"|\"namespace\": \"\"|" sfdx-project.json
 
 echo "Delete old blank org"
-sfdx force:org:delete -p -u BlankOrg
+sf org delete scratch --no-prompt --target-org BlankOrg
 
 echo "Creating new scratch org"
-sfdx force:org:create --definitionfile config/enterprise-scratch-def.json --setalias BlankOrg --nonamespace --durationdays 7 --noancestors -w 20
+sf org create scratch --definition-file config/enterprise-scratch-def.json --alias BlankOrg --no-namespace --duration-days 7 --no-ancestors --wait 20 --set-default
 
 echo "opening org"
-sfdx force:org:open -u BlankOrg
+sf org open --target-org BlankOrg

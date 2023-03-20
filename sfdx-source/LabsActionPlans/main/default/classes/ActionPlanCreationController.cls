@@ -1,4 +1,4 @@
-@SuppressWarnings('PMD.ExcessivePublicCount')
+@SuppressWarnings('PMD.ExcessivePublicCount, PMD.ExcessiveClassLength')
 /*
 Action Plans v4
 David Schach 2022
@@ -34,8 +34,9 @@ public with sharing class ActionPlanCreationController {
 	private ActionPlan__c actionPlan;
 	/**
 	 * TemplateId is pulled from the page parameters and tells us if we're making an Action Plan based on a template
+	 * <br>It can also be set by choosing a template when applying a template to one or more records
 	 */
-	private Id templateId;
+	public Id templateId { get; set; }
 	/**
 	 * Related Record IDs
 	 */
@@ -155,7 +156,7 @@ public with sharing class ActionPlanCreationController {
 		this.hasRelatedObject = this.hasRelatedObject();
 		this.taskIndex = this.calculateMaxTaskIndex();
 		this.subtitle = this.actionPlan.Name;
-		this.taskOwnerMap = queryAPTaskOwners(this.actionPlan);
+		this.taskOwnerMap = this.queryAPTaskOwners(this.actionPlan);
 	}
 
 	/**
@@ -208,31 +209,43 @@ public with sharing class ActionPlanCreationController {
 	 * @param  apt                `ActionPlanTemplate__c` record
 	 */
 	private void initNewActionPlanFromTemplate(Boolean visualforceContext, ActionPlanTemplate__c apt) {
+		//System.debug('in initNewActionPlanFromTemplate');
 		this.initNewActionPlan();
-		ActionPlanTemplate__c actionPlanTemplate;
+		ActionPlanTemplate__c apTemplate;
 		if (apt == null) {
 			List<ActionPlanTemplate__c> listAPT = [
-				SELECT Id, Name, Description__c, LastModifiedDate, SkipWeekends__c, SkipDay__c, TaskRecordTypeID__c
+				SELECT Id, Name, Description__c, LastModifiedDate, SkipWeekends__c, SkipDay__c, TaskRecordTypeID__c, Archived__c
 				FROM ActionPlanTemplate__c
 				WHERE Id = :this.templateId
 			];
 			if (!listAPT.isEmpty()) {
-				actionPlanTemplate = listAPT.get(0);
+				apTemplate = listAPT.get(0);
 			}
 		} else {
-			actionPlanTemplate = apt;
+			apTemplate = apt;
 		}
 
-		this.actionPlan.Name = ActionPlansUtilities.actionPlanSubjectToName(actionPlanTemplate.Name);
-		this.actionPlan.Description__c = actionPlanTemplate.Description__c;
-		this.actionPlan.SkipWeekends__c = actionPlanTemplate.SkipWeekends__c;
-		this.actionPlan.SkipDay__c = actionPlanTemplate.SkipDay__c == null ? '' : actionPlanTemplate.SkipDay__c;
-		this.actionPlan.Action_Plan_Template__c = actionPlanTemplate.Id;
-		this.actionPlan.TaskRecordTypeID__c = actionPlanTemplate.TaskRecordTypeID__c;
+		this.actionPlan.Name = ActionPlansUtilities.actionPlanSubjectToName(apTemplate.Name);
+		this.actionPlan.Description__c = apTemplate.Description__c;
+		this.actionPlan.SkipWeekends__c = apTemplate.SkipWeekends__c;
+		this.actionPlan.SkipDay__c = apTemplate.SkipDay__c == null ? '' : apTemplate.SkipDay__c;
+		this.actionPlan.Action_Plan_Template__c = apTemplate.Id;
+		this.actionPlan.TaskRecordTypeID__c = apTemplate.TaskRecordTypeID__c;
+
+		if (refId != null) {
+			this.hasRelated = true;
+			this.referedObjectInit();
+			if (!refId.containsIgnoreCase(',') && refType != null) {
+				String displayFieldName = chooseDisplayField(refType);
+				String queryText = 'SELECT Id, ' + displayFieldName + ' FROM ' + refType + ' WHERE Id = :refId';
+				//System.debug(queryText);
+				List<SObject> qResult = Database.query(String.escapeSingleQuotes(queryText));
+				this.actionPlan.Name += ' - ' + (String) qResult[0]?.get(displayFieldName);
+			}
+		}
 
 		if (visualforceContext) {
 			this.taskIndex = this.calculateMaxTemplateTaskIndex();
-			this.subtitle = System.Label.ap_New + ' ' + Schema.getGlobalDescribe().get(getNamespacePrefix() + 'ActionPlan__c').getDescribe().getLabel();
 		}
 		this.apTasks = this.getAPTasks();
 	}
@@ -268,7 +281,7 @@ public with sharing class ActionPlanCreationController {
 	private Map<Id, OwnerWrapper> queryAPTaskOwners(ActionPlan__c ap) {
 		Map<Id, OwnerWrapper> toReturn = new Map<Id, OwnerWrapper>();
 		if (ap.Id == null) {
-			System.debug('toReturn: ' + toReturn);
+			//System.debug('toReturn: ' + toReturn);
 			return toReturn;
 		}
 
@@ -286,7 +299,7 @@ public with sharing class ActionPlanCreationController {
 				toReturn.put(apt.Id, new OwnerWrapper(apt.User__c, apt.User__r.Name));
 			}
 		}
-		System.debug('toReturn: ' + toReturn);
+		//System.debug('toReturn: ' + toReturn);
 		return toReturn;
 	}
 
@@ -366,11 +379,11 @@ public with sharing class ActionPlanCreationController {
 			}
 			Schema.DescribeFieldResult dfr = Schema.sObjectType.ActionPlan__c.fields.getMap().get(relatedFieldName).getDescribe();
 			Schema.SObjectType sot = dfr.getReferenceTo()[0];
-			Schema.DescribeSObjectResult dsr = sot.getDescribe();
+			Schema.DescribeSObjectResult dsr = sot.getDescribe(SObjectDescribeOptions.DEFERRED);
 			this.relatedObjectName = dsr.getName();
-			System.debug('relatedObjectName: ' + this.relatedObjectName);
+			//System.debug('relatedObjectName: ' + this.relatedObjectName);
 			this.relatedObjDisplayField = chooseDisplayField(this.relatedObjectName);
-			System.debug('objectDisplayField: ' + this.relatedObjDisplayField);
+			//System.debug('objectDisplayField: ' + this.relatedObjDisplayField);
 		}
 	}
 	/**
@@ -502,6 +515,26 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
+	 * Check all relationship fields and return true if at least one is filled
+	 *
+	 * @return  `Boolean` Is at least one lookup to a parent record populated?
+	 */
+	private Boolean checkHasRelated() {
+		if (String.isNotBlank(refId)) {
+			return true;
+		}
+		for (String s : getAllRelationshipFields()) {
+			if (actionPlan.get(s) != null) {
+				return true;
+			}
+		}
+
+		ApexPages.Message myMsg = new APexPages.Message(ApexPages.severity.FATAL, System.Label.ap_Errors_selectOneRecord);
+		ApexPages.addMessage(myMsg);
+		return false;
+	}
+
+	/**
 	 * Action that saves a new Action Plan
 	 * @return `PageReference` null
 	 * @see ActionPlanCreationController.checkCycleDependent
@@ -509,10 +542,14 @@ public with sharing class ActionPlanCreationController {
 	 */
 	public PageReference save() {
 		PageReference pageRef = null;
-		//pageRef = this.saveHandler();
+
+		if (!checkHasRelated()) {
+			return pageRef;
+		}
+
 		try {
 			if (!this.checkCycleDependent()) {
-				System.debug('Cycle check ok');
+				//System.debug('Cycle check ok');
 				pageRef = this.saveHandler();
 			}
 		} catch (Exception e) {
@@ -522,6 +559,19 @@ public with sharing class ActionPlanCreationController {
 
 		return pageRef;
 	}
+
+	// This method is still here in case we want to use the non-Javascript way to do our redirect
+	// But a server round trip doesn't feel performant
+	/* 
+		public Pagereference onTemplateSelection() {
+		System.debug('onTemplateSelection');
+		PageReference pr = Page.ActionPlanCreation;
+		pr.getParameters().put('refType', this.refType);
+		pr.getParameters().put('refId', this.refId);
+		pr.getParameters().put('templateId', this.actionPlan.Action_Plan_Template__c);
+		pr.setRedirect(true);
+		return pr;
+	} */
 
 	/**
 	 * Saves Action Plan Instance and task. Also creates all due dates for tasks, then redirects to the AP list
@@ -536,19 +586,15 @@ public with sharing class ActionPlanCreationController {
 			for (String s : getAllRelationshipFields()) {
 				if (actionPlan.get(s) != null) {
 					objId = (Id) actionPlan.get(s);
-					System.debug('objId: ' + objId);
-					Schema.DescribeSObjectResult dsr = objId.getSObjectType().getDescribe();
+					Schema.DescribeSObjectResult dsr = objId.getSObjectType().getDescribe(SObjectDescribeOptions.DEFERRED);
 					objName = dsr.getName();
-					System.debug('saveSingleAP objName = ' + objName);
 					break;
 				}
 			}
-
 			oIdsList.add(objId);
 		} else {
 			objName = refType;
 			oIdsList = parseRelatedIDs(refId);
-			System.debug('objName : ' + objName + ' with IDs ' + refId);
 		}
 
 		//check for pendingDeletes
@@ -572,6 +618,10 @@ public with sharing class ActionPlanCreationController {
 	 * @return newPage
 	 */
 	public PageReference saveAndNew() {
+		if (!checkHasRelated()) {
+			return null;
+		}
+
 		save();
 
 		PageReference newPage = Page.ActionPlanCreation;
@@ -629,7 +679,7 @@ public with sharing class ActionPlanCreationController {
 	 * @see ActionPlanCreationController.saveMultipleAP
 	 */
 	private PageReference saveHandler() {
-		System.debug('in saveHandler');
+		//System.debug('in saveHandler');
 		if (!this.actionPlan.SkipWeekends__c) {
 			this.actionPlan.SkipDay__c = null;
 		}
@@ -638,7 +688,7 @@ public with sharing class ActionPlanCreationController {
 
 		if (oIds != null) {
 			oIdsList = parseRelatedIDs(oIds);
-			System.debug('oidslist: ' + oIdsList);
+			//System.debug('oidslist: ' + oIdsList);
 			return (oIdsList.size() > 1) ? this.saveMultipleAP() : this.savePageRef();
 		} else {
 			return this.savePageRef();
@@ -657,7 +707,7 @@ public with sharing class ActionPlanCreationController {
 		try {
 			newApId = saveSingleAP();
 		} catch (DmlException e) {
-			System.debug('savePageRef_dmlexception ' + e.getMessage());
+			//System.debug('savePageRef_dmlexception ' + e.getMessage());
 			Apexpages.addMessages(e);
 			return null;
 		}
@@ -814,18 +864,8 @@ public with sharing class ActionPlanCreationController {
 		List<ApTaskWrapper> tasksList = new List<ApTaskWrapper>();
 		Integer i = 0;
 		for (APTask__c apTask : this.getAPTasks()) {
-			//ApTaskWrapper newTaskWrapper;
-
-			//check if the lookup has to be shown
-			/* if (apTask.Id != null) {
-				newTaskWrapper = this.mapTasksListBkp.get(apTask.Id);
-			} */
-
 			ApTaskWrapper apTWrapper = new ApTaskWrapper(actionPlan, apTask, i, actionPlan.TaskRecordTypeID__c);
 			tasksList.add(apTWrapper);
-			/* if (String.isNotBlank(apTask.Id)) {
-				this.mapTasksListBkp.put(apTask.Id, apTWrapper);
-			} */
 			i++;
 		}
 		if (i > 0) {
@@ -1032,6 +1072,8 @@ public with sharing class ActionPlanCreationController {
 				toReturn.add(validId);
 			} catch (Exception ex) {
 				System.debug('RelatedId did not have the form of a valid ID');
+				System.debug('exception message: ' + ex.getMessage());
+				ApexPages.addMessages(ex);
 				return new List<Id>();
 			}
 		}
@@ -1260,7 +1302,7 @@ public with sharing class ActionPlanCreationController {
 
 			// Describe the fieldSet so we can make sure that we only add SelectOptions for desired records
 			Schema.FieldSet fs = Schema.SObjectType.ActionPlan__c.fieldSets.Related_Objects;
-			System.assert(fs.getFields().size() > 0, 'Field Set of related objects must have at least one value');
+			System.assert(!fs.getFields().isEmpty(), 'Field Set of related objects must have at least one value');
 
 			Set<String> activityEnabledObjects = findActivityEnabledObjects();
 
@@ -1273,7 +1315,7 @@ public with sharing class ActionPlanCreationController {
 				}
 
 				Schema.DescribeFieldResult dfr = fsm.getSObjectField().getDescribe();
-				Schema.DescribeSObjectResult dsr = dfr.getReferenceTo()[0].getDescribe();
+				Schema.DescribeSObjectResult dsr = dfr.getReferenceTo()[0].getDescribe(SObjectDescribeOptions.DEFERRED);
 				Boolean hasActivities = activityEnabledObjects.contains(dsr.getName());
 				Boolean canSeeRelatedObject = dsr.isAccessible();
 				Boolean canUpdateLookupField = dfr.isUpdateable();
@@ -1412,11 +1454,50 @@ public with sharing class ActionPlanCreationController {
 	}
 
 	/**
+	 * Main code for lightning lookup record selection. Included in this class because we use this as the controller for our main page
+	 *
+	 * @param recordId  Single record ID for chosen Action Plan Template
+	 * @return          `List<SObject>` Returned records
+	 * @since 2023-02
+	 * @see ActionPlanSectionHeaderController
+	 */
+	@SuppressWarnings('PMD.ApexSOQLInjection') // We did escape the search text - too bad PMD can't tell
+	@RemoteAction
+	public static List<SObject> queryRecord(String recordId) {
+		String theRecordId = recordId;
+		String queryText = 'SELECT Id, Name FROM ActionPlanTemplate__c WHERE Id = :theRecordId LIMIT 1';
+		System.debug('querytext ' + String.escapeSingleQuotes(queryText));
+		//return Database.query(queryText);
+		return Database.query(String.escapeSingleQuotes(queryText));
+	}
+
+	/**
+	 * Main code for lightning lookup search. Included in this class because we use this as the controller for our main page
+	 *
+	 * @param searchText Search string (escaped!) to get matching AP Templates
+	 * @return          `List<SObject>` Returned records
+	 * @since 2023-02
+	 * @see ActionPlanSectionHeaderController
+	 */
+	@SuppressWarnings('PMD.ApexSOQLInjection') // We did escape the search text - too bad PMD can't tell
+	@RemoteAction
+	public static List<SObject> searchTemplates(String searchText) {
+		String queryText =
+			'SELECT Id, Name FROM ActionPlanTemplate__c WHERE Name LIKE \'%' +
+			String.escapeSingleQuotes(searchText) +
+			'%\' AND Archived__c = false ORDER BY Name ASC LIMIT 10 ';
+		//System.debug('querytext ' + queryText);
+		return Database.query(queryText);
+	}
+
+	/**
 	 * Wrapper Class for AP Task SObject
+	 * <br>Note: I don't like the way we decide to show the User field - especially if we want to assign to a Queue.
+	 * This part should be refactored next, probably with a User/Queue picklist depending on org settings
 	 * @author {@link [Rodrigo Birriel](https://www.linkedin.com/in/rbirriel)}
 	 * @since 08/01/2010
 	 * @author {@link [David Schach](https://github.com/dschach)}
-	 * @since 4/2022
+	 * @since 2022-04
 	 */
 	public class ApTaskWrapper {
 		/**
@@ -1444,6 +1525,18 @@ public with sharing class ActionPlanCreationController {
 		 * @return `Boolean` Blank user lookup assigns to parent owner
 		 */
 		private Boolean assignToOwner;
+		/**
+		 * @description Store page template ID once, in constructor
+		 */
+		private String pageTemplateId;
+		/**
+		 * @description Store if page has relatedIDs once; set in constructor
+		 */
+		private Boolean pageHasRelatedIds;
+		/**
+		 * @description Because it uses a describe call, check user permission once, in constructor
+		 */
+		private Boolean canEditUserField;
 
 		/**
 		 * Constructor for wrapper to display related `APTask__c` records on `ActionPlan__c` create/edit page
@@ -1475,12 +1568,16 @@ public with sharing class ActionPlanCreationController {
 				apt.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
 				apt.Reminder__c = ActionPlansUtilities.getCheckReminderByDefault();
 			}
+
+			this.pageTemplateId = ActionPlansUtilities.getEscapedPageParameter('templateId');
+			this.pageHasRelatedIds = ApexPages.currentPage().getParameters().containsKey('refId');
+			this.canEditUserField = Schema.sObjectType.APTask__c.fields.User__c.isUpdateable();
 		}
 
 		/**
 		 * Defines if we set the `APTask__c` Assigned To field to required
 		 * @author {@link [David Schach](https://github.com/dschach)}
-		 * @return   `Boolean` Should the field be required?
+		 * @return   `Boolean` Should the field be required (if editable)?
 		 */
 		public Boolean userRequired {
 			get {
@@ -1499,22 +1596,19 @@ public with sharing class ActionPlanCreationController {
 		 * @return   `String` UserReadOnly, UserLookup, OwnerPlaceholder
 		 */
 		public String getUserRender() {
-			Id templateId = ActionPlansUtilities.getEscapedPageParameter('templateId');
-
-			if (templateId != null && apt.User__c != null) {
+			if (pageTemplateId != null && apt.User__c != null) {
 				return 'UserReadOnly';
-			} else if (templateId == null && ap.Id == null) {
+			} else if ((pageTemplateId == null || pageHasRelatedIds == true) && ap.Id == null) {
 				return 'UserLookup';
 			}
 
-			Boolean canEdit = Schema.sObjectType.APTask__c.fields.User__c.isUpdateable();
 			userRequired = false;
 
 			if (!assignToOwner) {
-				if (!canEdit) {
+				if (!canEditUserField) {
 					apt.User__c = UserInfo.getUserId();
 					return 'UserReadOnly';
-				} else if (apt.Id != null && canEdit) {
+				} else if (apt.Id != null && canEditUserField) {
 					userRequired = true;
 					return 'UserLookup';
 				} else if (apt.Id != null) {
@@ -1523,7 +1617,7 @@ public with sharing class ActionPlanCreationController {
 				userRequired = true;
 				return 'UserLookup';
 			} else {
-				if (apt.User__c == null || !canEdit) {
+				if (apt.User__c == null || !canEditUserField) {
 					return 'OwnerPlaceholder';
 				} else if (apt.User__c != null) {
 					return 'UserLookup';

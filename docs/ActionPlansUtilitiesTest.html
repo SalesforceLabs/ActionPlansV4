@@ -177,7 +177,7 @@
                 onclick="goToLocation('ActionPlansQueueableBuilderTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilderTest</a>
               </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class private" onclick="goToLocation('ActionPlansRedirectTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
               </li>
               <li
@@ -334,7 +334,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L18">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L19">
                 ActionPlansUtilitiesTest
               </a>
             </h2>
@@ -346,7 +346,15 @@
               <div class="class-subtitle-description">
                 <a href="javascript:void(0)" onclick="goToLocation('ActionPlansUtilities.html')">ActionPlansUtilities</a>
               </div>
-              <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />2022
+              <div class="class-subtitle">Author</div>
+              <div class="class-subtitle-description">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
+              </div>
+              <div class="class-subtitle">Since</div>
+              <div class="class-subtitle-description">
+                <li>2022</li>
+                <li>2023 System.assert to Assert class + error messages</li>
+              </div>
             </div>
             <div class="subsection methods">
               <h3 class="subsection-title methods">ActionPlansUtilitiesTest Methods</h3>
@@ -375,6 +383,8 @@
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#ActionPlansUtilitiesTest.doChatterPost"> doChatterPost (objectNames) </a>
+
+                    <div class="methods-toc__description">A method to enable testing creating a Chatter post for any of our usual standard objects</div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansUtilitiesTest.doChatterPostPart1"> doChatterPostPart1 () </a>
@@ -394,6 +404,8 @@
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#ActionPlansUtilitiesTest.makeData"> makeData () </a>
+
+                    <div class="methods-toc__description">Set up custom settings</div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansUtilitiesTest.randomWord"> randomWord () </a>
@@ -407,10 +419,13 @@
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansUtilitiesTest.saveSingle"> saveSingle () </a>
                   </li>
-                  <li class="method private">
-                    <a class="methods-toc__entry" href="#ActionPlansUtilitiesTest.testObject"> testObject (objectName) </a>
+                  <li class="method public">
+                    <a class="methods-toc__entry" href="#ActionPlansUtilitiesTest.testObject"> testObject (objectName, recordId) </a>
 
-                    <div class="methods-toc__description">Pass in any object and create an Action Plan for that object</div>
+                    <div class="methods-toc__description">
+                      Pass in any object name (and its ID if a custom object) and create an Action Plan for that object <br />Will be global in the next version so test code for
+                      custom objects can access it
+                    </div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlansUtilitiesTest.utilitiesRecordTypes"> utilitiesRecordTypes () </a>
@@ -423,7 +438,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L94">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L98">
                       account()
                     </a>
                   </h4>
@@ -438,7 +453,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L127">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L131">
                       campaign()
                     </a>
                   </h4>
@@ -453,7 +468,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L169">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L175">
                       cancel()
                     </a>
                   </h4>
@@ -468,7 +483,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L122">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L126">
                       case()
                     </a>
                   </h4>
@@ -483,7 +498,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L104">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L108">
                       contact()
                     </a>
                   </h4>
@@ -498,7 +513,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L132">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L136">
                       contract()
                     </a>
                   </h4>
@@ -513,7 +528,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L251">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L257">
                       deleteActionPlans()
                     </a>
                   </h4>
@@ -528,13 +543,18 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L279">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L290">
                       doChatterPost(objectNames)
                     </a>
                   </h4>
+                  <div class="method-description">A method to enable testing creating a Chatter post for any of our usual standard objects</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">private static void doChatterPost(List&lt;String&gt; objectNames)</div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">objectNames</div>
+                  <div class="param-type">Type: <code class="code-inline">List&lt;String&gt;</code></div>
+                  <div class="param-description">The object we want to make a post for</div>
                 </div>
                 <div class="method testmethod">
                   <h4 class="method-title" id="ActionPlansUtilitiesTest.doChatterPostPart1">
@@ -543,7 +563,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L354">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L365">
                       doChatterPostPart1()
                     </a>
                   </h4>
@@ -558,7 +578,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L362">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L373">
                       doChatterPostPart2()
                     </a>
                   </h4>
@@ -573,7 +593,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L117">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L121">
                       lead()
                     </a>
                   </h4>
@@ -588,7 +608,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L397">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L408">
                       makeAppTask(ap)
                     </a>
                   </h4>
@@ -616,10 +636,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L20">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L24">
                       makeData()
                     </a>
                   </h4>
+                  <div class="method-description">Set up custom settings</div>
                   <div class="method-subtitle">Signature</div>
                   <div class="method-annotations">@TestSetup</div>
                   <div class="method-signature">private static void makeData()</div>
@@ -631,7 +652,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L369">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L380">
                       randomWord()
                     </a>
                   </h4>
@@ -646,7 +667,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L224">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L230">
                       relatedObjectId()
                     </a>
                   </h4>
@@ -661,7 +682,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L64">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L68">
                       saveMultiple()
                     </a>
                   </h4>
@@ -676,7 +697,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L32">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L36">
                       saveSingle()
                     </a>
                   </h4>
@@ -684,25 +705,31 @@
                   <div class="method-annotations">@IsTest</div>
                   <div class="method-signature">private static void saveSingle()</div>
                 </div>
-                <div class="method private">
+                <div class="method public">
                   <h4 class="method-title" id="ActionPlansUtilitiesTest.testObject">
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L142">
-                      testObject(objectName)
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L148">
+                      testObject(objectName, recordId)
                     </a>
                   </h4>
-                  <div class="method-description">Pass in any object and create an Action Plan for that object</div>
+                  <div class="method-description">
+                    Pass in any object name (and its ID if a custom object) and create an Action Plan for that object <br />Will be global in the next version so test code for
+                    custom objects can access it
+                  </div>
                   <div class="method-subtitle">Signature</div>
 
-                  <div class="method-signature">private static Boolean testObject(String objectName)</div>
+                  <div class="method-signature">public static Boolean testObject(String objectName, Id recordId)</div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">objectName</div>
                   <div class="param-type">Type: <code class="code-inline">String</code></div>
                   <div class="param-description">The object name</div>
+                  <div class="param-name">recordId</div>
+                  <div class="param-type">Type: <code class="code-inline">Id</code></div>
+                  <div class="param-description">Pass in the Id of a custom object record so we can make an Action Plan for it</div>
                   <div class="method-subtitle">Returns</div>
                   <div class="method-subtitle-description">Success at creating tasks for the Action Plan</div>
                   <div class="method-subtitle">Author</div>
@@ -717,7 +744,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlansUtilitiesTest.cls#L375">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlansUtilitiesTest.cls#L386">
                       utilitiesRecordTypes()
                     </a>
                   </h4>

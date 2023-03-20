@@ -177,7 +177,7 @@
                 onclick="goToLocation('ActionPlansQueueableBuilderTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilderTest</a>
               </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class private" onclick="goToLocation('ActionPlansRedirectTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
               </li>
               <li
@@ -334,7 +334,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L23">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L23">
                 ActionPlansQueueableBuilder
               </a>
             </h2>
@@ -347,7 +347,14 @@
               <div class="class-subtitle-description">
                 <a href="javascript:void(0)" onclick="goToLocation('ActionPlansBuilderUtilities.html')">ActionPlansBuilderUtilities</a>
               </div>
-              <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />2022
+              <div class="class-subtitle">Author</div>
+              <div class="class-subtitle-description">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
+              </div>
+              <div class="class-subtitle">Since</div>
+              <div class="class-subtitle-description">
+                <li>2022</li>
+              </div>
             </div>
             <div class="subsection properties ActionPlansQueueableBuilder">
               <h3 class="subsection-title properties">ActionPlansQueueableBuilder Properties</h3>
@@ -363,12 +370,12 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L24">
-                      builtUtil
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L24">
+                      buildUtil
                     </a>
                   </td>
                   <td>
-                    <div class="attribute-signature">private ActionPlansBuilderUtilities builtUtil</div>
+                    <div class="attribute-signature">private ActionPlansBuilderUtilities buildUtil</div>
                   </td>
                 </tr>
               </table>
@@ -392,7 +399,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L33">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L34">
                       ActionPlansQueueableBuilder(baseObj, aPTList, refType, oIdsSet)
                     </a>
                   </h4>
@@ -415,6 +422,12 @@
                   <div class="param-name">oIdsSet</div>
                   <div class="param-type">Type: <code class="code-inline">Set&lt;Id&gt;</code></div>
                   <div class="param-description">IDs of related parents</div>
+                  <div class="method-subtitle">See</div>
+                  <div class="method-subtitle-description">
+                    <a href="javascript:void(0)" onclick="goToLocation('ActionPlansBuilderUtilities.html#ActionPlansBuilderUtilities.ActionPlansBuilderUtilities')"
+                      >ActionPlansBuilderUtilities.ActionPlansBuilderUtilities</a
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -425,7 +438,9 @@
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansQueueableBuilder.execute"> execute (qc) </a>
 
-                    <div class="methods-toc__description">Instead of a batch, we use queuable because it&#39;s more simple than Batch Apex</div>
+                    <div class="methods-toc__description">
+                      Instead of a batch, we use queuable because it&#39;s more simple than Batch Apex <br />TODO: Change email error notification to Lightning notification
+                    </div>
                   </li>
                 </ul>
                 <div class="method public">
@@ -435,11 +450,13 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L42">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansQueueableBuilder.cls#L44">
                       execute(qc)
                     </a>
                   </h4>
-                  <div class="method-description">Instead of a batch, we use queuable because it&#39;s more simple than Batch Apex</div>
+                  <div class="method-description">
+                    Instead of a batch, we use queuable because it&#39;s more simple than Batch Apex <br />TODO: Change email error notification to Lightning notification
+                  </div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">public void execute(QueueableContext qc)</div>

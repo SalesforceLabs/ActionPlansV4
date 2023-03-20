@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ruleset
-	name="quickstart"
+	name="ActionPlans Working PMD Rules"
 	xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
 	<description>Quickstart configuration of PMD for Salesforce Apex and Visualforce, customized.</description>
 	<exclude-pattern>.*/.sfdx/.*</exclude-pattern>
+	<exclude-pattern>.*/.sf/.*</exclude-pattern>
 
 	<!-- BEST PRACTICES -->
 	<rule ref="category/apex/bestpractices.xml/UnusedLocalVariable" message="Variable ''{0}'' defined but not used">
@@ -102,31 +103,69 @@
 	<!-- NAMING -->
 	<rule ref="category/apex/codestyle.xml/ClassNamingConventions" message="Class names should begin with an uppercase character">
 		<priority>2</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<property name="testClassPattern" value="[A-Z][a-zA-Z0-9_]*" />
+			<property name="abstractClassPattern" value="[A-Z][a-zA-Z0-9_]*" />
+			<property name="classPattern" value="[A-Z][a-zA-Z0-9_]*" />
+			<property name="interfacePattern" value="[A-Z][a-zA-Z0-9_]*" />
+			<property name="enumPattern" value="[A-Z][a-zA-Z0-9_]*" />
+		</properties>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/MethodNamingConventions" message="Method name does not begin with a lower case character.">
 		<priority>2</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<property name="testPattern" value="[a-z][a-zA-Z0-9]*" />
+			<property name="staticPattern" value="[a-z][a-zA-Z0-9]*" />
+			<property name="instancePattern" value="[a-z][a-zA-Z0-9]*" />
+		</properties>
 	</rule>
 
-	<rule ref="category/apex/errorprone.xml/MethodWithSameNameAsEnclosingClass" message="Classes should not have non-constructor methods with the same name as the class">
-		<priority>1</priority>
-	</rule>
-
-	<!-- NAMING -->
 	<rule ref="category/apex/codestyle.xml/FieldNamingConventions">
 		<priority>3</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<property name="enumConstantPattern" value="[A-Z][A-Z0-9_]*" />
+			<property name="constantPattern" value="[a-zA-Z][a-zA-Z0-9_]*" />
+			<!-- finalPattern changed -->
+			<property name="finalPattern" value="[a-zA-Z][a-zA-Z0-9]*" />
+			<property name="staticPattern" value="[a-z][a-zA-Z0-9]*" />
+			<property name="instancePattern" value="[a-z][a-zA-Z0-9]*" />
+		</properties>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/FormalParameterNamingConventions">
 		<priority>3</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<property name="finalMethodParameterPattern" value="[a-z][a-zA-Z0-9]*" />
+			<property name="methodParameterPattern" value="[a-z][a-zA-Z0-9]*" />
+		</properties>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/LocalVariableNamingConventions">
 		<priority>3</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<!-- finalLocalPattern changed -->
+			<property name="finalLocalPattern" value="[a-zA-Z][a-zA-Z0-9]*" />
+			<property name="localPattern" value="[a-z][a-zA-Z0-9]*" />
+		</properties>
 	</rule>
 
 	<rule ref="category/apex/codestyle.xml/PropertyNamingConventions">
 		<priority>3</priority>
+		<properties>
+			<!-- Default values - here for education purposes -->
+			<property name="staticPattern" value="[a-z][a-zA-Z0-9]*" />
+			<property name="instancePattern" value="[a-z][a-zA-Z0-9]*" />
+		</properties>
+	</rule>
+
+	<rule ref="category/apex/errorprone.xml/MethodWithSameNameAsEnclosingClass" message="Classes should not have non-constructor methods with the same name as the class">
+		<priority>1</priority>
 	</rule>
 
 	<!-- TESTS -->
@@ -146,7 +185,9 @@
 		<priority>2</priority>
 	</rule>
 
-	<!--    <rule ref="category/apex/bestpractices.xml/ApexAssertionsShouldIncludeMessage"/> -->
+	<rule ref="category/apex/bestpractices.xml/ApexAssertionsShouldIncludeMessage">
+		<priority>4</priority>
+	</rule>
 
 	<rule ref="category/apex/errorprone.xml/TestMethodsMustBeInTestClasses">
 		<priority>1</priority>
@@ -247,9 +288,9 @@
 		<priority>3</priority>
 		<properties>
 			<property name="reportMissingDescription" value="false" />
-			<property name="reportPrivate" value="false" />
+			<property name="reportPrivate" value="true" />
 			<property name="reportProtected" value="true" />
-			<property name="reportProperty" value="false" />		
+			<property name="reportProperty" value="true" />
 		</properties>
 	</rule>
 
@@ -260,9 +301,9 @@
 
 	<!-- <rule ref="category/apex/errorprone.xml/OverrideBothEqualsAndHashcode" /> -->
 
-		<!-- VISUALFORCE RULES -->
+	<!-- VISUALFORCE RULES -->
 
-					<!--
+	<!--
 				<apex:page>
 			<style>
 					div {
@@ -274,15 +315,15 @@
 			</style>
 		</apex:page>
 	-->
-		<!-- <rule ref="category/vf/security.xml/VfHtmlStyleTagXss" message="Dynamic EL content within URL in style tag should be URLENCODED or JSINHTMLENCODED as appropriate">
+	<!-- <rule ref="category/vf/security.xml/VfHtmlStyleTagXss" message="Dynamic EL content within URL in style tag should be URLENCODED or JSINHTMLENCODED as appropriate">
 		<priority>3</priority>
 	</rule> -->
-	
+
 	<!-- <rule ref="category/vf/security.xml/VfUnescapeEl" message="Avoid unescaped user controlled content in EL as it results in XSS.">
 		<priority>3</priority>
 	</rule> -->
-		<!--Example <apex:outputText value="Potential XSS is {! here }" escape="false" /> -->
-	
+	<!--Example <apex:outputText value="Potential XSS is {! here }" escape="false" /> -->
+
 	<!-- Error on apex:page action usage -->
 	<!-- <apex:page controller="AcRestActionsController" action="{!csrfInitMethod}" > -->
 	<!-- <rule ref="category/vf/security.xml/VfCsrf" /> -->

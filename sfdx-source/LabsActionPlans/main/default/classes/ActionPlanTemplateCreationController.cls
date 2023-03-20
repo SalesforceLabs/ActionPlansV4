@@ -307,6 +307,9 @@ public with sharing class ActionPlanTemplateCreationController {
 		return tasksList;
 	}
 
+	/**
+	 * The list of Template Tasks (no wrapper) - private for internal use only
+	 */
 	@TestVisible
 	private List<APTemplateTask__c> aptTasks {
 		get {

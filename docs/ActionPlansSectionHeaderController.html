@@ -177,7 +177,7 @@
                 onclick="goToLocation('ActionPlansQueueableBuilderTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilderTest</a>
               </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class private" onclick="goToLocation('ActionPlansRedirectTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
               </li>
               <li
@@ -334,7 +334,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L28">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L28">
                 ActionPlansSectionHeaderController
               </a>
             </h2>
@@ -352,11 +352,18 @@
                   >https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon</a
                 >
               </div>
-              <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
-              <a target="_blank" rel="noopener noreferrer" href="https://salesforce.stackexchange.com/users/12582/cricketlang">Cricketlang</a><br />2022
+              <div class="class-subtitle">Since</div>
+              <div class="class-subtitle-description">
+                <li>2022</li>
+              </div>
+              <div class="class-subtitle">Authors</div>
+              <div class="class-subtitle-description">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>,
+                <a target="_blank" rel="noopener noreferrer" href="https://salesforce.stackexchange.com/users/12582/cricketlang">Cricketlang</a>
+              </div>
               <div class="class-subtitle">Example</div>
               <pre class="code-example"><code> &lt;div class=&quot;slds-media__figure&quot;&gt; 
-   &lt;span class=&quot;slds-icon_container {!ObjectIconInfo[&#39;iconStyle&#39;]}&quot; title=&quot;{!$ObjectType[sObjType].label}&quot;&gt; 
+   &lt;span class=&quot;slds-icon_container {!ObjectIconInfo[&#39;iconStyle&#39;]}&quot; title=&quot;{!$ObjectType[&#39;sObjType&#39;].label}&quot;&gt; 
      &lt;apex:image url=&quot;{!ObjectIconInfo[&#39;iconURL&#39;]}&quot; styleClass=&quot;slds-icon slds-page-header__icon&quot; html-aria-hidden=&quot;true&quot; /&gt; 
      &lt;span class=&quot;slds-assistive-text&quot;&gt;{!$ObjectType[sObjType].label}&lt;/span&gt; 
    &lt;/span&gt; 
@@ -378,7 +385,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L32">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L32">
                       objectName
                     </a>
                   </td>
@@ -395,7 +402,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L51">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L51">
                       orgObject
                     </a>
                   </td>
@@ -426,13 +433,23 @@
 
                     <div class="methods-toc__description">Given an object name, return if it is a custom object</div>
                   </li>
+                  <li class="method public">
+                    <a class="methods-toc__entry" href="#ActionPlansSectionHeaderController.queryRecords"> queryRecords (queryText) </a>
+
+                    <div class="methods-toc__description">
+                      Main code for lightning lookup. Included in this class because we use this as the controller for our lookups <br />
+                      the code is duplicated in AciontPlanCreationController because there is a lookup directly in that page (for now) <br />This is a different approach than in
+                      ActionPlanCreationController, as we pass in the full query here, but there it is done by passing only the search key.
+                    </div>
+                  </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#ActionPlansSectionHeaderController.retrieveIconForObject"> retrieveIconForObject (sObjectName) </a>
 
                     <div class="methods-toc__description">
-                      Explores the schema of the soject passed in and finds lightning icon style and image url for sObject If nothing is found, defaults to the custom icon Code
-                      adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon Thanks to
-                      https://salesforce.stackexchange.com/users/12582/cricketlang
+                      Explores the schema of the soject passed in and finds lightning icon style and image url for sObject <br />If nothing is found, defaults to the custom icon
+                      <br />Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon <br />Thanks to
+                      https://salesforce.stackexchange.com/users/12582/cricketlang <br />Todo: Avoid describing all applications and tabs, and even use &quot;break&quot; to shorten
+                      the runtime
                     </div>
                   </li>
                 </ul>
@@ -443,7 +460,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L67">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L67">
                       getIsCustom()
                     </a>
                   </h4>
@@ -467,7 +484,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L58">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L58">
                       getObjectIconInfo()
                     </a>
                   </h4>
@@ -491,7 +508,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L76">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L76">
                       isCustom(sObjectName)
                     </a>
                   </h4>
@@ -506,6 +523,36 @@
                   <div class="method-subtitle">Returns</div>
                   <div class="method-subtitle-description"><code class="code-inline">Boolean</code> Is this object a custom object?</div>
                 </div>
+                <div class="method public">
+                  <h4 class="method-title" id="ActionPlansSectionHeaderController.queryRecords">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L176">
+                      queryRecords(queryText)
+                    </a>
+                  </h4>
+                  <div class="method-description">
+                    Main code for lightning lookup. Included in this class because we use this as the controller for our lookups <br />
+                    the code is duplicated in AciontPlanCreationController because there is a lookup directly in that page (for now) <br />This is a different approach than in
+                    ActionPlanCreationController, as we pass in the full query here, but there it is done by passing only the search key.
+                  </div>
+                  <div class="method-subtitle">Signature</div>
+                  <div class="method-annotations">@RemoteAction</div>
+                  <div class="method-signature">public static List&lt;SObject&gt; queryRecords(String queryText)</div>
+                  <div class="method-subtitle">Parameters</div>
+                  <div class="param-name">queryText</div>
+                  <div class="param-type">Type: <code class="code-inline">String</code></div>
+                  <div class="param-description">SOQL query to return records for the lookup</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">List&lt;SObject&gt;</code> Returned records</div>
+                  <div class="method-subtitle">See</div>
+                  <div class="method-subtitle-description">
+                    <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreationController.html')">ActionPlanCreationController</a>
+                  </div>
+                </div>
                 <div class="method private">
                   <h4 class="method-title" id="ActionPlansSectionHeaderController.retrieveIconForObject">
                     <a
@@ -513,14 +560,15 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L91">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansSectionHeaderController.cls#L92">
                       retrieveIconForObject(sObjectName)
                     </a>
                   </h4>
                   <div class="method-description">
-                    Explores the schema of the soject passed in and finds lightning icon style and image url for sObject If nothing is found, defaults to the custom icon Code
-                    adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon Thanks to
-                    https://salesforce.stackexchange.com/users/12582/cricketlang
+                    Explores the schema of the soject passed in and finds lightning icon style and image url for sObject <br />If nothing is found, defaults to the custom icon
+                    <br />Code adapted from https://salesforce.stackexchange.com/questions/116688/lightning-get-sobject-tab-icon <br />Thanks to
+                    https://salesforce.stackexchange.com/users/12582/cricketlang <br />Todo: Avoid describing all applications and tabs, and even use &quot;break&quot; to shorten
+                    the runtime
                   </div>
                   <div class="method-subtitle">Signature</div>
 

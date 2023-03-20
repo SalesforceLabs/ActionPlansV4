@@ -177,7 +177,7 @@
                 onclick="goToLocation('ActionPlansQueueableBuilderTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilderTest</a>
               </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class private" onclick="goToLocation('ActionPlansRedirectTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
               </li>
               <li
@@ -334,7 +334,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L22">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L24">
                 ActionPlanCreationControllerTest
               </a>
             </h2>
@@ -347,7 +347,15 @@
               <div class="class-subtitle-description">
                 <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreationController.html')">ActionPlanCreationController</a>
               </div>
-              <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
+              <div class="class-subtitle">Author</div>
+              <div class="class-subtitle-description">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
+              </div>
+              <div class="class-subtitle">Since</div>
+              <div class="class-subtitle-description">
+                <li>2022</li>
+                <li>2023 System.assert to Assert class + error messages</li>
+              </div>
             </div>
             <div class="subsection methods">
               <h3 class="subsection-title methods">ActionPlanCreationControllerTest Methods</h3>
@@ -355,6 +363,9 @@
                 <ul class="methods-toc">
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlanCreationControllerTest.actionPlanSave"> actionPlanSave () </a>
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry" href="#ActionPlanCreationControllerTest.actionPlanSaveAndMakeDependent"> actionPlanSaveAndMakeDependent () </a>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlanCreationControllerTest.actionPlanSaveAndNew"> actionPlanSaveAndNew () </a>
@@ -403,6 +414,8 @@
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#ActionPlanCreationControllerTest.makeData"> makeData () </a>
+
+                    <div class="methods-toc__description">Set up test data</div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlanCreationControllerTest.newAPWithoutTasks"> newAPWithoutTasks () </a>
@@ -412,6 +425,9 @@
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlanCreationControllerTest.removeActionPlanTask"> removeActionPlanTask () </a>
+                  </li>
+                  <li class="method testmethod">
+                    <a class="methods-toc__entry" href="#ActionPlanCreationControllerTest.saveAndDelete"> saveAndDelete () </a>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlanCreationControllerTest.saveAndView"> saveAndView () </a>
@@ -430,7 +446,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L149">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L174">
                       actionPlanSave()
                     </a>
                   </h4>
@@ -439,13 +455,28 @@
                   <div class="method-signature">private static void actionPlanSave()</div>
                 </div>
                 <div class="method testmethod">
+                  <h4 class="method-title" id="ActionPlanCreationControllerTest.actionPlanSaveAndMakeDependent">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L251">
+                      actionPlanSaveAndMakeDependent()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">Signature</div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">private static void actionPlanSaveAndMakeDependent()</div>
+                </div>
+                <div class="method testmethod">
                   <h4 class="method-title" id="ActionPlanCreationControllerTest.actionPlanSaveAndNew">
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L192">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L217">
                       actionPlanSaveAndNew()
                     </a>
                   </h4>
@@ -460,7 +491,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L344">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L385">
                       addNewTask()
                     </a>
                   </h4>
@@ -475,7 +506,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L383">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L424">
                       changeAPTaskOwner()
                     </a>
                   </h4>
@@ -490,7 +521,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L438">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L479">
                       checkActionPlanTaskList()
                     </a>
                   </h4>
@@ -505,7 +536,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L288">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L329">
                       checkCompletedTasks()
                     </a>
                   </h4>
@@ -520,7 +551,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L742">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L782">
                       checkMaxTasks()
                     </a>
                   </h4>
@@ -535,7 +566,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L759">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L799">
                       checkMaxTasksError()
                     </a>
                   </h4>
@@ -550,7 +581,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L590">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L630">
                       checkReferredObject()
                     </a>
                   </h4>
@@ -565,7 +596,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L456">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L497">
                       checkSubjectItems()
                     </a>
                   </h4>
@@ -580,7 +611,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L95">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L119">
                       constructorTests()
                     </a>
                   </h4>
@@ -595,7 +626,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L543">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L584">
                       cyclicDependencyTasksFail()
                     </a>
                   </h4>
@@ -610,7 +641,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L502">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L543">
                       cyclicDependencyTaskSuccess()
                     </a>
                   </h4>
@@ -625,7 +656,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L718">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L758">
                       forceNoRecordTypes()
                     </a>
                   </h4>
@@ -640,7 +671,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L701">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L741">
                       forceRecordTypes()
                     </a>
                   </h4>
@@ -655,7 +686,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L318">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L359">
                       longNameTasks()
                     </a>
                   </h4>
@@ -670,10 +701,11 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L24">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L29">
                       makeData()
                     </a>
                   </h4>
+                  <div class="method-description">Set up test data</div>
                   <div class="method-subtitle">Signature</div>
                   <div class="method-annotations">@TestSetup</div>
                   <div class="method-signature">private static void makeData()</div>
@@ -685,7 +717,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L82">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L106">
                       newAPWithoutTasks()
                     </a>
                   </h4>
@@ -700,7 +732,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L234">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L276">
                       relateToMultipleContacts()
                     </a>
                   </h4>
@@ -715,7 +747,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L415">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L456">
                       removeActionPlanTask()
                     </a>
                   </h4>
@@ -724,13 +756,28 @@
                   <div class="method-signature">private static void removeActionPlanTask()</div>
                 </div>
                 <div class="method testmethod">
+                  <h4 class="method-title" id="ActionPlanCreationControllerTest.saveAndDelete">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L87">
+                      saveAndDelete()
+                    </a>
+                  </h4>
+                  <div class="method-subtitle">Signature</div>
+                  <div class="method-annotations">@IsTest</div>
+                  <div class="method-signature">private static void saveAndDelete()</div>
+                </div>
+                <div class="method testmethod">
                   <h4 class="method-title" id="ActionPlanCreationControllerTest.saveAndView">
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L57">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L62">
                       saveAndView()
                     </a>
                   </h4>
@@ -745,7 +792,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L665">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L705">
                       setTaskRecordType()
                     </a>
                   </h4>
@@ -760,7 +807,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationControllerTest.cls#L36">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationControllerTest.cls#L41">
                       singleRecordConstructor()
                     </a>
                   </h4>

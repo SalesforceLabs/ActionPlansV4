@@ -32,7 +32,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 			<meta http-equiv="x-ua-compatible" content="ie=edge" />
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
+			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery.min.js')}" />
 			<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/ActionPlans_Scripts.js')}" />
 			<script>
 				var j$ = jQuery.noConflict();
@@ -48,10 +48,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					//checkReminderPicklists();
 				}
 			</script>
-			<script type="text/javascript">
-				var __sfdcSessionId = '{!GETSESSIONID()}';
-			</script>
-			<script src="../../soap/ajax/55.0/connection.js" type="text/javascript"></script>
 			<style>
 				input.errorBorder {
 					border: 2px solid #cc0000;
@@ -142,7 +138,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								</apex:column>
 
 								<!--  Tasks depending status  -->
-								<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.TController__c.label}" rendered="{!TemplateWrappers.size > 1}" styleClass="third">
+								<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.TController__c.label}" rendered="{!TemplateWrappers.size > 1}" styleClass="controlingT">
 									<apex:selectList
 										id="dependent"
 										value="{!wrapTask.task.Dependent__c}"
@@ -251,8 +247,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								action="{!addTemplateTask}"
 								id="addLink"
 								immediate="false"
-								onclick="console.log('addclick');"
-								oncomplete="checkReminderPicklists();console.log('add completed');"
+								onclick=""
+								oncomplete="checkReminderPicklists();"
 								rendered="{!$ObjectType.APTemplateTask__c.createable}"
 								rerender="taskList, pageMessages"
 								status="taskStatus"

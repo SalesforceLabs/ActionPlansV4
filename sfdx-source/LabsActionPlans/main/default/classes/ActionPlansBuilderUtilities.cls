@@ -23,12 +23,22 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * @see ActionPlansQueueableBuilder
  */
 public inherited sharing class ActionPlansBuilderUtilities {
+	/**
+	 * Local store of `aPTListparam` passed to constructor
+	 */
 	private List<APTask__c> baseAPTaskList { get; set; }
-
+	/**
+	 * The constructed `ActionPlan__c` records
+	 */
 	private List<ActionPlan__c> relActionPlans { get; set; }
-	private List<APTask__c> relAPTaskList { get; set; }
 
+	/**
+	 * Local store of `refType` passed to constructor
+	 */
 	private String relatedObjectName { get; set; }
+	/**
+	 * Local store of `oIdsSet` passed to constructor
+	 */
 	private Set<Id> relatedRecordIDs { get; set; }
 
 	/**
@@ -38,6 +48,9 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		MODE_EDIT_SINGLE,
 		MODE_NEW
 	}
+	/**
+	 * Store the enum value
+	 */
 	private ApEditMode mode;
 
 	/**
@@ -50,13 +63,13 @@ public inherited sharing class ActionPlansBuilderUtilities {
 	 * @param baseObj      ActionPlan object
 	 * @param aPTListparam Action Plan Task Template records
 	 * @param refType      Related object Name
-	 * @param oIdsLIst     Parent IDs
+	 * @param oIdsSet     Parent IDs
 	 */
-	public ActionPlansBuilderUtilities(ActionPlan__c baseObj, List<APTask__c> aPTListparam, String refType, Set<Id> oIdsLIst) {
+	public ActionPlansBuilderUtilities(ActionPlan__c baseObj, List<APTask__c> aPTListparam, String refType, Set<Id> oIdsSet) {
 		this.baseAPTaskList = aPTListparam;
 		this.relActionPlans = new List<ActionPlan__c>();
 		this.relatedObjectName = refType;
-		this.relatedRecordIDs = oIdsLIst;
+		this.relatedRecordIDs = oIdsSet;
 
 		// if the actionPlan has already an Id, then we are editing an AP and not creating a new one
 		if (baseObj.Id != null) {
@@ -68,7 +81,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			List<String> apRefFields = ActionPlansUtilities.getCustomRelationshipFields();
 			Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.ActionPlan__c.fields.getMap();
 
-			for (Id relObjId : oIdsLIst) {
+			for (Id relObjId : oIdsSet) {
 				// iterate over all related IDs
 				ActionPlan__c ap = new ActionPlan__c();
 				ap = baseObj.clone();
@@ -99,7 +112,6 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		Integer taskTemplateNameLength = APTask__c.Name.getDescribe().getLength();
 
 		this.allTasksToUpsert = new List<Task>();
-		this.relAPTaskList = new List<APTask__c>();
 
 		Database.DMLOptions dmlEmail = new Database.DMLOptions();
 		dmlEmail.EmailHeader.TriggerUserEmail = true;
@@ -113,7 +125,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 		//create ActionPlanTemplatetasks && tasks from base ActionPlan Task List
 		if (this.mode == ApEditMode.MODE_NEW) {
-			// Working on multiple APs from oidsList
+			// Working on multiple APs from oIdsSet
 			for (ActionPlan__c ap : relActionPlans) {
 				mapIDAP.put(ap.Id, ap);
 
@@ -132,7 +144,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 			upsert aptList;
 		} else {
-			System.assertEquals(1, relActionPlans.size());
+			Assert.areEqual(1, relActionPlans.size());
 
 			for (ActionPlan__c ap : relActionPlans) {
 				mapIDAP.put(ap.Id, ap);
@@ -264,7 +276,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 				}
 			}
 
-			System.debug('NEW TASK: ' + t);
+			//System.debug('NEW TASK: ' + t);
 
 			if (refAPTask.Dependent__c == 'None') {
 				if (refAPTask.SendEmail__c == true) {

@@ -114,6 +114,7 @@ public without sharing class ActionPlansUtilities {
 
 	/**
 	 * Memoize objects as we describe them, to save on calls
+	 * <br>This map is keyprefix => DescribeSObjectResult
 	 */
 	private static Map<String, Schema.DescribeSObjectResult> prefixToDescribe;
 	/**
@@ -129,17 +130,19 @@ public without sharing class ActionPlansUtilities {
 		String recordIdString = (String) recordId;
 		String keyPrefix = recordIdString.left(3);
 		if (!prefixToDescribe.containsKey(keyPrefix)) {
-			prefixToDescribe.put(keyPrefix, recordId.getSobjectType().getDescribe());
+			prefixToDescribe.put(keyPrefix, recordId.getSobjectType().getDescribe(SObjectDescribeOptions.DEFERRED));
 		}
 		return prefixToDescribe.get(keyPrefix);
 	}
 
 	/**
-	 * Memoize record IDs so we don't have to keep iterating over them if we already have them
+	 * Memoize record IDs to Names so we don't have to keep iterating over them if we already have them
 	 */
 	private static Map<Id, String> recordIdToRecordName;
 	/**
 	 * Give a set of recordIDs and retrieve the related record names
+	 * <br>This method has queries in a loop - need to investigate if it is even possible to call this
+	 * method with IDs from multiple objects
 	 * @author {@link [David Schach](https://github.com/dschach)}
 	 * @param  recordIDs Set<Id> of parent records to Action Plans
 	 * @return           `Map<Id, String>` Map of RecordID to Record Name (special for Case & Contract)
@@ -163,6 +166,7 @@ public without sharing class ActionPlansUtilities {
 			mapIDsByObject.get(objectName).add(recId);
 		}
 
+		// TODO: Is this really a SOQL query in a loop? Remove it!
 		for (String objName : mapIDsByObject.keySet()) {
 			switch on objName {
 				when 'case' {
@@ -211,7 +215,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Describe `Task.Status` only once
 	 */
-	private static String taskStatusDefaultValue = (String) Task.Status.getDescribe().getDefaultValue();
+	private static final String taskStatusDefaultValue = (String) Task.Status.getDescribe().getDefaultValue();
 	/**
 	 * Memoized map of `RecordTypeId` to default `Task Status`
 	 */
@@ -242,7 +246,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Describe `Task.Type` only once
 	 */
-	private static String taskTypeDefaultValue = (String) Task.Type.getDescribe().getDefaultValue();
+	private static final String taskTypeDefaultValue = (String) Task.Type.getDescribe().getDefaultValue();
 	/**
 	 * Memoized map of `RecordTypeId` to default `Task Type`
 	 */
@@ -272,7 +276,7 @@ public without sharing class ActionPlansUtilities {
 	/**
 	 * Describe `Task.Priority` only once
 	 */
-	private static String taskPriorityDefaultValue = (String) Task.Priority.getDescribe().getDefaultValue();
+	private static final String taskPriorityDefaultValue = (String) Task.Priority.getDescribe().getDefaultValue();
 	/**
 	 * Memoized map of `RecordTypeId` to default `Task Priority`
 	 */
@@ -340,6 +344,11 @@ public without sharing class ActionPlansUtilities {
 	private static List<SelectOption> taskRTs;
 
 	/**
+	 * Memoized open Task statuses
+	 */
+	private static Set<String> openTaskStatuses;
+
+	/**
 	 * Lazy load open task statuses
 	 * @return `Set<String>` All Open `Task Status` values
 	 */
@@ -352,10 +361,6 @@ public without sharing class ActionPlansUtilities {
 		}
 		return openTaskStatuses;
 	}
-	/**
-	 * Memoized open Task statuses
-	 */
-	private static Set<String> openTaskStatuses;
 
 	/**
 	 * Memoized closed Task statuses
@@ -526,6 +531,9 @@ public without sharing class ActionPlansUtilities {
 		}
 		return canDisplayReminder;
 	}
+	/**
+	 * Private variable to store if the org can have reminders available
+	 */
 	private static Boolean canDisplayReminder;
 
 	/**
@@ -542,6 +550,9 @@ public without sharing class ActionPlansUtilities {
 		}
 		return checkReminderByDefault;
 	}
+	/**
+	 * Does the running user get task reminders by default?
+	 */
 	private static Boolean checkReminderByDefault;
 
 	/**
@@ -559,6 +570,9 @@ public without sharing class ActionPlansUtilities {
 		}
 		return defaultMinutesForReminderTime;
 	}
+	/**
+	 * What is the default time for the user's reminders
+	 */
 	private static String defaultMinutesForReminderTime;
 
 	/**
@@ -625,9 +639,7 @@ public without sharing class ActionPlansUtilities {
 		}
 		if (subject.trim().length() > maxChars) {
 			return subject.left(maxChars - 3).trim() + '...';
-		} /* else if (subject.trim().length() < maxChars - 3) {
-			return subject.left(maxChars - 3).trim() + ' - ';
-		} */
+		}
 		return subject;
 	}
 
@@ -638,16 +650,14 @@ public without sharing class ActionPlansUtilities {
 	 */
 	public static Boolean canSendEmails() {
 		Boolean orgCanSendEmails;
-		if (orgCanSendEmails == null) {
-			// An attempt to reserve some email capacity is the only means available for determining permissions
-			// or limits issues. In the case of a lack of permissions, System.NoAccessException is thrown. If
-			// limits are exhausted then System.HandledException is thrown
-			try {
-				Messaging.reserveSingleEmailCapacity(1);
-				orgCanSendEmails = true;
-			} catch (Exception e) {
-				orgCanSendEmails = false;
-			}
+		// An attempt to reserve some email capacity is the only means available for determining permissions
+		// or limits issues. In the case of a lack of permissions, System.NoAccessException is thrown. If
+		// limits are exhausted then System.HandledException is thrown
+		try {
+			Messaging.reserveSingleEmailCapacity(1);
+			orgCanSendEmails = true;
+		} catch (Exception e) {
+			orgCanSendEmails = false;
 		}
 		return orgCanSendEmails;
 	}

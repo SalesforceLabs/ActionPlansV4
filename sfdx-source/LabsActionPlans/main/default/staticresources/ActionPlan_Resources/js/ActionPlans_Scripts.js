@@ -147,7 +147,6 @@ function checkReminder(type) {
 		j$('[id$=\\:reminder]').prop('checked', false);
 		j$('[id$=reminderPickList]').prop('disabled', true);
 	}
-	//this.checkReminderPicklists();
 }
 
 function checkEmail(type) {
@@ -168,7 +167,6 @@ function enableDisableReminderPicklist(reminder, reminderPicklistId, checked) {
 		j$(reminderPicklist).removeAttr('disabled');
 		//console.log('checked');
 	} else {
-		//console.log('reminderpicklist UNCHECKED: ' + j$(reminderPicklist).attr('id'));
 		j$(reminderPicklist).prop('disabled', true);
 		j$(reminder).removeAttr('checked');
 		//console.log('unchecked');
@@ -176,108 +174,64 @@ function enableDisableReminderPicklist(reminder, reminderPicklistId, checked) {
 }
 
 function checkReminderPicklists() {
-	//console.log('in checkReminderPicklists');
 	var allReminderColumns = j$('.reminderColumn');
 	allReminderColumns.each(function (index, element) {
-		//console.log('index' + index);
 		var reminderBox = j$('[id$=' + index.toString() + '\\:reminder]'); // j$("[id$=reminder]");
-		//console.log('found a reminder ' + reminderBox.attr('id')); // j$(reminderBox).attr('id'));
-		//console.log('is it checked? ' + reminderBox.attr('checked'));
 		var checked = reminderBox.attr('checked');
 		var reminderPL = j$('[id$=' + index.toString() + '\\:reminderPickList]').attr('id');
-		//console.log('reminderPLID: ' + reminderPL);
 		enableDisableReminderPicklist(reminderBox, reminderPL, checked);
 	});
 }
 
 function reloadActionPlan(templateId, selectedTemplateId) {
+	//console.log('IN LEX RELOAD');
+	//var new_location = '/apex/ActionPlanCreation';
 	var new_location = window.location.href;
-	var reload = 0;
+	//new_location = '/apex/ActionPlanCreation?';
+	if (new_location.match(/\?/)) {
+		var location_array = new_location.split('?');
+		new_location = location_array[0];
+	}
 	var refObjType = j$('.hidden_refOBjtype').val();
+	//console.log('refObjType: ' + refObjType);
 	var objIds = j$('.hidden_refID').val();
+	//console.log('templateId : ' + templateId);
+	//console.log('selectedTemplateId: ' + selectedTemplateId);
 
-	// There is a template selected and different from previous one
-	if (selectedTemplateId != '000000000000000' && templateId.match(selectedTemplateId) == null) {
-		if (templateId != '') {
-			// Replaces current selected template id into the URL
-			if (new_location.match('templateId')) {
-				new_location = new_location.replace(templateId, selectedTemplateId);
+	if (templateId == selectedTemplateId) {
+		return;
+	}
 
-				//new_location = '/apex/ActionPlanCreation?templateId=' + selectedTemplateId;
+	if (refObjType.length > 0 && refObjType != '') {
+		new_location = new_location + '?refType=' + refObjType;
 
-				reload = 1;
-				// Adds current selected template id into the URL
-			} else {
-				var patt1 = /\?/gi;
-				var txt = new String(location);
-				var concat_with = '&';
-
-				if (txt.match(patt1) == null) {
-					concat_with = '?';
-				}
-
-				new_location += concat_with + 'templateId=' + selectedTemplateId;
-
-				reload = 1;
-			}
-		} else {
-			var patt1 = /\?/gi;
-			var txt = new String(location);
-			var concat_with = '&';
-			//var obj_ids_str = "";
-
-			if (txt.match(patt1) == null) {
-				concat_with = '?';
-			}
-
-			new_location += concat_with + 'templateId=' + selectedTemplateId;
-
-			if (refObjType.length > 0) {
-				new_location = new_location + '&refType=' + refObjType;
-
-				// add objects list
-				if (objIds.length > 0) {
-					new_location = new_location + '&refId=' + objIds;
-				}
-			}
-			reload = 1;
+		// add objects list
+		if (objIds.length > 0 && objIds != '') {
+			new_location = new_location + '&refId=' + objIds;
 		}
 
-		if (reload) {
-			if (refObjType.length > 0 && refObjType != '') {
-				new_location = new_location + '&refType=' + refObjType;
-
-				// add objects list
-				if (objIds.length > 0 && objIds != '') {
-					new_location = new_location + '&refId=' + objIds;
-				}
-			}
-
-			if (UITheme.getUITheme() === 'Theme4d' || UITheme.getUITheme() === 'Theme4u') {
-				sforce.one.navigateToURL(new_location);
-			} else {
-				window.location.href = new_location;
-			}
+		// add template id
+		if (selectedTemplateId.length > 0 && selectedTemplateId != '') {
+			new_location = new_location + '&templateId=' + selectedTemplateId;
 		}
 	} else {
-		//manage invalid template ID
-	}
-}
-
-function getURLParameter(sParam) {
-	var sPageURL = window.location.search.substring(1);
-	var sURLVariables = sPageURL.split('&');
-	for (var i = 0; i < sURLVariables.length; i++) {
-		var sParameterName = sURLVariables[i].split('=');
-		if (sParameterName[0] == sParam) {
-			return sParameterName[1];
+		// add template id
+		if (selectedTemplateId.length > 0 && selectedTemplateId != '') {
+			new_location = new_location + '?templateId=' + selectedTemplateId;
 		}
+	}
+
+	console.log('reload new_location: ' + new_location);
+	if (UITheme.getUITheme() === 'Theme4d' || UITheme.getUITheme() === 'Theme4u') {
+		sforce.one.navigateToURL(new_location);
+	} else {
+		window.location.href = new_location;
 	}
 }
 
 function checkAllDependent(dependentErrorText, cyclicErrorText) {
-	var allTasks = getElementsByClassAP('third', document, 'td');
-	//allTasks = allTasks.concat(getElementsByClassAP('third',document,'td'));
+	var allTasks = getElementsByClassAP('controlingT', document, 'td');
+	//allTasks = allTasks.concat(getElementsByClassAP('controlingT',document,'td'));
 
 	allTasks.each(function (i) {
 		var n = j$(this).j$('select');
@@ -291,8 +245,8 @@ function confirmTaskDeletion(dependent, confirmMessage) {
 	var display_confirmation = false;
 
 	//check if this tasks has any other depending on it
-	var allTasks = getElementsByClassAP('third', document, 'td');
-	//allTasks = allTasks.concat(getElementsByClassAP('third',document,'td'));
+	var allTasks = getElementsByClassAP('controlingT', document, 'td');
+	//allTasks = allTasks.concat(getElementsByClassAP('controlingT',document,'td'));
 	var i = 0;
 	var selObj = null;
 	while (i < allTasks.length && !display_confirmation) {

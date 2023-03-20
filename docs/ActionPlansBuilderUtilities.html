@@ -177,7 +177,7 @@
                 onclick="goToLocation('ActionPlansQueueableBuilderTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilderTest</a>
               </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class private" onclick="goToLocation('ActionPlansRedirectTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
               </li>
               <li
@@ -334,7 +334,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L25">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L25">
                 ActionPlansBuilderUtilities
               </a>
             </h2>
@@ -349,8 +349,15 @@
                 <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreationController.html')">ActionPlanCreationController</a>,
                 <a href="javascript:void(0)" onclick="goToLocation('ActionPlansQueueableBuilder.html')">ActionPlansQueueableBuilder</a>
               </div>
-              <br /><a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/rbirriel">Rodrigo Birriel</a>
-              <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />v3
+              <div class="class-subtitle">Authors</div>
+              <div class="class-subtitle-description">
+                <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/rbirriel">Rodrigo Birriel</a>,
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
+              </div>
+              <div class="class-subtitle">Since</div>
+              <div class="class-subtitle-description">
+                <li>v3</li>
+              </div>
             </div>
             <div class="subsection properties ActionPlansBuilderUtilities">
               <h3 class="subsection-title properties">ActionPlansBuilderUtilities Properties</h3>
@@ -368,7 +375,24 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L26">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L59">
+                      allTasksToUpsert
+                    </a>
+                  </td>
+                  <td>
+                    <div class="attribute-signature">private List&lt;Task&gt; allTasksToUpsert</div>
+                  </td>
+
+                  <td class="attribute-description">A single list of all Tasks - we set the DMLOption to send an email notification when we add the Task to this list</td>
+                </tr>
+                <tr class="property private">
+                  <td class="attribute-name">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Go to source"
+                      class="source-link"
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L29">
                       baseAPTaskList
                     </a>
                   </td>
@@ -376,7 +400,7 @@
                     <div class="attribute-signature">private List&lt;APTask__c&gt; baseAPTaskList</div>
                   </td>
 
-                  <td class="attribute-description"></td>
+                  <td class="attribute-description">Local store of <code class="code-inline">aPTListparam</code> passed to constructor</td>
                 </tr>
                 <tr class="property private">
                   <td class="attribute-name">
@@ -385,7 +409,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L41">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L54">
                       mode
                     </a>
                   </td>
@@ -393,7 +417,7 @@
                     <div class="attribute-signature">private ApEditMode mode</div>
                   </td>
 
-                  <td class="attribute-description"></td>
+                  <td class="attribute-description">Store the enum value</td>
                 </tr>
                 <tr class="property private">
                   <td class="attribute-name">
@@ -402,58 +426,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L55">
-                      myNewTasksWithEmail
-                    </a>
-                  </td>
-                  <td>
-                    <div class="attribute-signature">private List&lt;Task&gt; myNewTasksWithEmail</div>
-                  </td>
-
-                  <td class="attribute-description">Tasks to insert that have <code class="code-inline">Send Email</code> checked</td>
-                </tr>
-                <tr class="property private">
-                  <td class="attribute-name">
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Go to source"
-                      class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L51">
-                      myOldTasksWithEmail
-                    </a>
-                  </td>
-                  <td>
-                    <div class="attribute-signature">private List&lt;Task&gt; myOldTasksWithEmail</div>
-                  </td>
-
-                  <td class="attribute-description">Tasks to update that have <code class="code-inline">Send Email</code> checked</td>
-                </tr>
-                <tr class="property private">
-                  <td class="attribute-name">
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Go to source"
-                      class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L46">
-                      myTasksWithOutEmail
-                    </a>
-                  </td>
-                  <td>
-                    <div class="attribute-signature">private List&lt;Task&gt; myTasksWithOutEmail</div>
-                  </td>
-
-                  <td class="attribute-description">All tasks for upserting that will not require an email to be sent</td>
-                </tr>
-                <tr class="property private">
-                  <td class="attribute-name">
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Go to source"
-                      class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L28">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L33">
                       relActionPlans
                     </a>
                   </td>
@@ -461,7 +434,7 @@
                     <div class="attribute-signature">private List&lt;ActionPlan__c&gt; relActionPlans</div>
                   </td>
 
-                  <td class="attribute-description"></td>
+                  <td class="attribute-description">The constructed <code class="code-inline">ActionPlan__c</code> records</td>
                 </tr>
                 <tr class="property private">
                   <td class="attribute-name">
@@ -470,24 +443,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L29">
-                      relAPTaskList
-                    </a>
-                  </td>
-                  <td>
-                    <div class="attribute-signature">private List&lt;APTask__c&gt; relAPTaskList</div>
-                  </td>
-
-                  <td class="attribute-description"></td>
-                </tr>
-                <tr class="property private">
-                  <td class="attribute-name">
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Go to source"
-                      class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L31">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L38">
                       relatedObjectName
                     </a>
                   </td>
@@ -495,7 +451,7 @@
                     <div class="attribute-signature">private String relatedObjectName</div>
                   </td>
 
-                  <td class="attribute-description"></td>
+                  <td class="attribute-description">Local store of <code class="code-inline">refType</code> passed to constructor</td>
                 </tr>
                 <tr class="property private">
                   <td class="attribute-name">
@@ -504,7 +460,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L32">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L42">
                       relatedRecordIDs
                     </a>
                   </td>
@@ -512,7 +468,7 @@
                     <div class="attribute-signature">private Set&lt;Id&gt; relatedRecordIDs</div>
                   </td>
 
-                  <td class="attribute-description"></td>
+                  <td class="attribute-description">Local store of <code class="code-inline">oIdsSet</code> passed to constructor</td>
                 </tr>
               </table>
             </div>
@@ -532,7 +488,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L37">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L47">
                       ApEditMode
                     </a>
                   </td>
@@ -551,7 +507,7 @@
                 <ul class="methods-toc">
                   <li class="method public">
                     <a class="methods-toc__entry" href="#ActionPlansBuilderUtilities.ActionPlansBuilderUtilities">
-                      ActionPlansBuilderUtilities (baseObj, aPTListparam, refType, oIdsLIst)
+                      ActionPlansBuilderUtilities (baseObj, aPTListparam, refType, oIdsSet)
                     </a>
 
                     <div class="methods-toc__description">Constructor</div>
@@ -564,15 +520,15 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L64">
-                      ActionPlansBuilderUtilities(baseObj, aPTListparam, refType, oIdsLIst)
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L68">
+                      ActionPlansBuilderUtilities(baseObj, aPTListparam, refType, oIdsSet)
                     </a>
                   </h4>
                   <div class="method-description">Constructor</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">
-                    public ActionPlansBuilderUtilities(ActionPlan__c baseObj, List&lt;APTask__c&gt; aPTListparam, String refType, Set&lt;Id&gt; oIdsLIst)
+                    public ActionPlansBuilderUtilities(ActionPlan__c baseObj, List&lt;APTask__c&gt; aPTListparam, String refType, Set&lt;Id&gt; oIdsSet)
                   </div>
                   <div class="method-subtitle">Parameters</div>
                   <div class="param-name">baseObj</div>
@@ -584,7 +540,7 @@
                   <div class="param-name">refType</div>
                   <div class="param-type">Type: <code class="code-inline">String</code></div>
                   <div class="param-description">Related object Name</div>
-                  <div class="param-name">oIdsLIst</div>
+                  <div class="param-name">oIdsSet</div>
                   <div class="param-type">Type: <code class="code-inline">Set&lt;Id&gt;</code></div>
                   <div class="param-description">Parent IDs</div>
                 </div>
@@ -634,7 +590,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L102">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L106">
                       generateActionPlans()
                     </a>
                   </h4>
@@ -656,7 +612,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L416">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L418">
                       generateObjectFeeds(recIDs)
                     </a>
                   </h4>
@@ -682,7 +638,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L346">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L333">
                       getAPTaskTemplateUser(ap, relObjOwners, apTaskUser)
                     </a>
                   </h4>
@@ -716,7 +672,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L462">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L464">
                       getPostObjectBody(recID, apName)
                     </a>
                   </h4>
@@ -745,7 +701,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L364">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L351">
                       getRelatedRecordOwnerId(ap, relObjOwners)
                     </a>
                   </h4>
@@ -772,7 +728,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L388">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/ActionPlansBuilderUtilities.cls#L375">
                       retrieveOwnersDataRelatedObject(relatedRecordIDs)
                     </a>
                   </h4>

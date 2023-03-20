@@ -28,23 +28,23 @@ Follow these instructions to deploy Action Plans to your org.
 
 1. If you haven't already done so, authorize your hub org and provide it with an alias (**myhuborg** in the command below):
 
-    ```
-    sfdx auth:web:login -d -a myhuborg
+    ```bash
+    sf org login web --set-default --alias myhuborg
     ```
 
 1. Clone this repository:
 
-    ```
+    ```bash
     git clone https://github.com/SalesforceLabs/ActionPlansV4
     cd ActionPlansV4
     ```
 
 1. From the terminal window, run the installation script
-	```
-	npm run-script scratchorg
+	```bash
+	npm run scratchorg
 	```
     or
-    ```
+    ```bash
     . scripts/scratchorg.sh
     ```
 
@@ -59,13 +59,13 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 
 1. Authorize your org and provide it with an alias (**myorg** in the command below):
 
-    ```
-    sfdx auth:web:login -s -a myorg
+    ```bash
+    sf org login web --set-default --alias myorg
     ```
 
 1. Clone this repository:
 
-    ```
+    ```bash
     git clone https://github.com/SalesforceLabs/ActionPlansV4
     cd ActionPlansV4
     ```
@@ -73,7 +73,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 1. If you are setting up a Developer Edition: go to **Setup**, and under **My Domain**, [register a My Domain](https://help.salesforce.com/articleView?id=domain_name_setup.htm&type=5). Then ensure that enhanced domains are activated. You may need to enable Salesforce Edge network first.
 
 1. To run all the next steps at once, run this [command](https://github.com/SalesforceLabs/ActionPlansV4/blob/main/scripts/unmanaged.sh) in the terminal:
-    ```
+    ```bash
     . scripts/unmanaged.sh
     ```
     The org will open. That's it!
@@ -82,23 +82,27 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 
    1. Run this command to deploy the app.
 
-       ```
-       sfdx force:source:deploy -p sfdx-source/LabsActionPlans --tracksource
-       ```
+        ```bash
+        sf deploy metadata --source-dir sfdx-source/LabsActionPlans
+        ```
 
    2. Assign the `Action_Plans_Admin` permission set to the admin user.
 
-       ```
-       sfdx force:user:permset:assign -n Action_Plans_Admin
-       ```
+        ```bash
+        sf org assign permset --name Action_Plans_Admin
+        ```
 
    3. (Optional) [Load sample metadata](#optional-installation-instructions) (see below)
 
+        ```bash
+        sf deploy metadata --source-dir sfdx-source/unmanaged
+        ```
+
    4. If your org isn't already open, open it now:
 
-       ```
-       sfdx force:org:open -u myorg
-       ```
+        ```bash
+        sf org open --target-org myorg
+        ```
 
 2. In App Launcher, select the **Action Plans** app.
 
@@ -106,7 +110,7 @@ Start from a brand-new environment to avoid conflicts with previous work you may
 
 This repository contains several files that are relevant if you want to add sample data, or integrate modern web development tooling to your Salesforce development processes or to your continuous integration/continuous deployment processes.
 
-### Data Import (Optional - NOT available if using the AppExchange managed package)
+### Data/Metadata Import (Optional - NOT available if using the AppExchange managed package)
 
 - This repository creates sample data (Accounts, Contacts, Leads) if you choose to create a scratch org. To prevent this, go to the [scratch org definition](./config/project-scratch-def.json) and change `hasSampleData` to `false`.
     ```
@@ -114,64 +118,65 @@ This repository contains several files that are relevant if you want to add samp
 	```
 
 - To create a sample Action Plan Template for Account onboarding, run the following:
-	```
-	sfdx force:apex:execute -f ./data/sample-data.apex
+	```bash
+	sf apex run --file ./data/sample-data.apex
 	```
 - To create 
     - a sample Flow that uses the sample template
     - a sample Account layout
     - a sample Task layout
     - a sample report on open Action Plan-related Tasks
-	```
-	sfdx force:source:deploy -p sfdx-source/unmanaged --tracksource
+	```bash
+	sf deploy metadata --source-dir sfdx-source/unmanaged
 	```
 
 - You can also create other sample Account and Contact records by running the following command:
 
-    ```
-    sfdx force:data:tree:import -p ./data/action-plan-data-plan.json
+    ```bash
+    sf data import tree --plan ./data/action-plan-data-plan.json
     ```
 
-### Data Import (Optional - ONLY if using the AppExchange managed package)
+### Data/Metadata Import (Optional - ONLY if using the AppExchange managed package)
 
 - When FIRST installing the package, it will automatically create a sample Action Plan Template for Account onboarding. If you want to recreate it manually, run the following:
-	```
-	sfdx force:apex:execute -f ./data/sample-data-managed.apex
+	```bash
+	sf apex run --file ./data/sample-data-managed.apex
 	```
 - To create 
     - a sample Flow that uses the sample template
     - a sample Account layout
     - a sample Task layout
     - a sample report on open Action Plan-related Tasks
-	```
-	sfdx force:source:deploy -p sfdx-source/unmanagedExtension --tracksource
+	```bash
+	sf deploy metadata --source-dir sfdx-source/unmanagedExtension
 	```
 
 - You can also create other sample Account and Contact records by running the following command:
-    ```
-    sfdx force:data:tree:import -p ./data/action-plan-data-plan.json 
+    ```bash
+    sf data import tree --plan ./data/action-plan-data-plan.json 
     ```
 
 ### Code formatting
 
 [Prettier](https://prettier.io/) is a code formatter used to ensure consistent formatting across your code base. To use Prettier with Visual Studio Code, install [this extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) from the Visual Studio Code Marketplace. The [.prettierignore](/.prettierignore) and [.prettierrc](/.prettierrc) files are provided as part of this repository to control the behavior of the Prettier formatter.
 
-### Code linting
+[Prettier Apex](https://github.com/dangmai/prettier-plugin-apex) is an extension that handles Apex-specific formatting and allows the removal of the extra line via the Prettier config file. To use it with Visual Studio Code, follow [these instructions](https://developer.salesforce.com/tools/vscode/en/user-guide/prettier) from the Salesforce Extensions site.
 
-[ESLint](https://eslint.org/) is a popular JavaScript linting tool used to identify stylistic errors and erroneous constructs. To use ESLint with Visual Studio Code, install [this extension](https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode) from the Visual Studio Code Marketplace. The [.eslintignore](/.eslintignore) file is provided as part of this repository to exclude specific files from the linting process in the context of Lightning Web Components development.
+<!-- ### Code linting
+
+[ESLint](https://eslint.org/) is a popular JavaScript linting tool used to identify stylistic errors and erroneous constructs. To use ESLint with Visual Studio Code, install [this extension](https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode) from the Visual Studio Code Marketplace. The [.eslintignore](/.eslintignore) file is provided as part of this repository to exclude specific files from the linting process in the context of Lightning Web Components development. -->
 
 ### Pre-commit hook
 
-This repository also comes with a [package.json](./package.json) file that makes it easy to set up a pre-commit hook that enforces code formatting and linting by running Prettier and ESLint every time you `git commit` changes.
+This repository also comes with a [package.json](./package.json) file that makes it easy to set up a pre-commit hook that enforces code formatting by running Prettier every time you `git commit` changes.
 
-To set up the formatting and linting pre-commit hook:
+To set up the formatting pre-commit hook:
 
 1. Install [Node.js](https://nodejs.org) if you haven't already done so
-1. Run `npm install` in your project's root folder to install the Husky, ESLint, and Prettier modules (Note: Mac users should verify that Xcode command line tools are installed before running this command.)
+2. Run `npm install` in your project's root folder to install the Husky and Prettier modules (Note: Mac users should verify that Xcode command line tools are installed before running this command.)
 
-Husky will now run Prettier and ESLint automatically every time you commit changes, with some other updates if you installed the recommended extension ApexDox. The commit will fail if linting errors are detected. You can also run the formatting and linting from the command line using the following commands (check out [package.json](./package.json) for the full list):
+Husky will now run Prettier automatically every time you commit changes, with some other updates if you installed the recommended extension ApexDox. You can also run the formatting from the command line using the following command (check out [package.json](./package.json) for the full list):
 
-```
-npm run lint:lwc
+```bash
 npm run prettier
 ```

@@ -21,27 +21,29 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * @see ActionPlansBuilderUtilities
  */
 public inherited sharing class ActionPlansQueueableBuilder implements Queueable {
-	private ActionPlansBuilderUtilities builtUtil;
+	private ActionPlansBuilderUtilities buildUtil;
 
 	/**
 	 * Constructor
+	 * @see ActionPlansBuilderUtilities.ActionPlansBuilderUtilities
 	 * @param baseObj ActionPlan base
 	 * @param aPTList List of the task templates
 	 * @param refType The related object name
 	 * @param oIdsSet IDs of related parents
 	 */
 	public ActionPlansQueueableBuilder(ActionPlan__c baseObj, List<APTask__c> aPTList, String refType, Set<Id> oIdsSet) {
-		this.builtUtil = new ActionPlansBuilderUtilities(baseObj, aPTList, refType, oIdsSet);
+		this.buildUtil = new ActionPlansBuilderUtilities(baseObj, aPTList, refType, oIdsSet);
 	}
 
 	/**
 	 * Instead of a batch, we use queuable because it's more simple than Batch Apex
+	 * <br>TODO: Change email error notification to Lightning notification
 	 * @param qc `QueueableContext` (note: not `BatchableContext` which is in Batch Apex)
 	 * @see ActionPlansBuilderUtilities.generateActionPlans
 	 */
 	public void execute(QueueableContext qc) {
 		try {
-			this.builtUtil.generateActionPlans();
+			this.buildUtil.generateActionPlans();
 			if (ActionPlansTestUtilities.forceError) {
 				// A way to force an error without trying to create an SObject record
 				String str = null;

@@ -1,36 +1,33 @@
 {
-    "packageDirectories": [
-        {
-            "path": "sfdx-source/LabsActionPlans",
-            "default": true,
-            "package": "Action Plans",
-            "versionName": "Summer 2022 v4.3",
-            "versionNumber": "4.3.0.NEXT",
-            "ancestorVersion": "4.2.0",
-            "releaseNotesUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/README.md",
-            "definitionFile": "config/install-scratch-def.json",
-            "versionDescription": "Action Plans now suppports Tasks owned by Queues",
-            "postInstallScript": "ActionPlansPostInstallScript",
-            "postInstallUrl": "https://salesforcelabs.github.io/ActionPlansV4/"
-        },
-        {
-            "path": "sfdx-source/unmanaged"
-        }
-    ],
-    "pushPackageDirectoriesSequentially": true,
-    "name": "Action Plans",
-    "namespace": "",
-    "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "55.0",
-    "packageAliases": {
-        "Action Plans": "0Ho5f000000oLlrCAE",
-        "ActionPlans": "0Ho5f000000oLlrCAE",
-        "Action Plans@4.1.0-1": "04t5f000000rJgsAAE",
-        "Action Plans@4.2.0-7": "04t5f000000rK9EAAU",
-        "Action Plans@4.2.1-5": "04t5f000000rKJ9AAM",
-        "Action Plans@4.3.0-3": "04t5f000000rL4EAAU",
-        "Action Plans@4.3.0-4": "04t5f000000rL4JAAU",
-        "Action Plans@4.3.0-5": "04t5f000000rL4OAAU",
-        "Action Plans@4.3.0-7": "04t5f000000rL7hAAE"
+  "packageDirectories": [
+    {
+      "path": "sfdx-source/LabsActionPlans",
+      "default": true,
+      "package": "Action Plans",
+      "versionName": "Spring 2023 v4.3",
+      "versionNumber": "4.3.0.NEXT",
+      "ancestorVersion": "HIGHEST",
+      "releaseNotesUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/README.md",
+      "definitionFile": "config/install-scratch-def.json",
+      "versionDescription": "Action Plans now suppports Tasks owned by Queues and Professional Edition",
+      "postInstallScript": "ActionPlansPostInstallScript",
+      "postInstallUrl": "https://salesforcelabs.github.io/ActionPlansV4/"
+    },
+    {
+      "path": "sfdx-source/unmanaged"
     }
+  ],
+  "name": "Action Plans",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "56.0",
+  "packageAliases": {
+    "Action Plans": "0Ho5f000000oLlrCAE",
+    "ActionPlans": "0Ho5f000000oLlrCAE",
+    "Action Plans@4.1.0-1": "04t5f000000rJgsAAE",
+    "Action Plans@4.2.0-7": "04t5f000000rK9EAAU",
+    "Action Plans@4.2.1-5": "04t5f000000rKJ9AAM",
+    "Action Plans@4.3.0-11": "04t5f000000rM66AAE",
+    "Action Plans@4.3.0-13": "04t5f000000rM7nAAE"
+  }
 }

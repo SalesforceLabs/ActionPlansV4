@@ -1,6 +1,6 @@
 <!--
 Action Plans v4
-David Schach 2022
+David Schach 2022, 2023
 https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000Gg6NVUAZ
 
 Action Plans v3
@@ -21,16 +21,23 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 	docType="html-5.0"
 	action="{!onLoad}"
 	contentType="text/html">
-	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery-3.6.0.min.js')}" />
+	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery.min.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/ActionPlans_Scripts.js')}" />
 	<apex:includeScript value="{!URLFOR($Resource.ActionPlan_Resources, 'js/jquery.tablesorter.min.js')}" />
 	<script type="text/javascript">
 		var j$ = jQuery.noConflict();
 		j$(document).ready(function () {
-			j$('[Id$=theTable]').tablesorter();
-			j$('.helpOrb').css({ width: '12px', height: '12px' });
+			j$('[Id$=theTable]').tablesorter({ headerTemplate: '{content}' });
+			j$('.helpOrb').css('width', '12px').css('height', '12px');
+			console.log('document ready');
 		});
 	</script>
+	<!-- 	<style>
+	.helpOrb{
+			width: 12px;
+			height: 12px;
+		}
+		</style> -->
 
 	<c:APSectionHeader sObjType="ActionPlanTemplate__c" subtitle="{!$ObjectType.ActionPlanTemplate__c.label}" title="{!ActionPlanTemplate__c.Name}" />
 
@@ -79,7 +86,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						<apex:outputPanel rendered="{!$ObjectType.ActionPlanTemplate__c.updateable && canTransfer}">
 							&nbsp;[
 							<apex:commandLink action="{!$Page.ActionPlanAPTOwnerChange}?id={!ActionPlanTemplate__c.Id}">{!$Label.ap_Change}</apex:commandLink>
-							<!-- <apex:outputLink value="/{!ActionPlanTemplate__c.Id}/a?retURL={!$CurrentPage.URL}">{!$Label.ap_Change}</apex:outputLink> -->]
 						</apex:outputPanel>
 					</apex:outputPanel>
 				</apex:pageBlockSectionItem>

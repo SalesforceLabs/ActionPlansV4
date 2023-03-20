@@ -177,7 +177,7 @@
                 onclick="goToLocation('ActionPlansQueueableBuilderTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilderTest</a>
               </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class private" onclick="goToLocation('ActionPlansRedirectTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
               </li>
               <li
@@ -334,7 +334,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L16">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L16">
                 CanTheUserTest
               </a>
             </h2>
@@ -349,7 +349,14 @@
                 <a target="_blank" rel="noopener noreferrer" href="https://github.com/trailheadapps/apex-recipes">https://github.com/trailheadapps/apex-recipes</a>,
                 <a href="javascript:void(0)" onclick="goToLocation('CanTheUser.html')">CanTheUser</a>
               </div>
-              <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/codefriar">Codefriar</a><br />2021
+              <div class="class-subtitle">Author</div>
+              <div class="class-subtitle-description">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/codefriar">Codefriar</a>
+              </div>
+              <div class="class-subtitle">Since</div>
+              <div class="class-subtitle-description">
+                <li>2021</li>
+              </div>
             </div>
             <div class="subsection methods">
               <h3 class="subsection-title methods">CanTheUserTest Methods</h3>
@@ -384,6 +391,10 @@
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#CanTheUserTest.generateAccounts"> generateAccounts () </a>
+
+                    <div class="methods-toc__description">
+                      These tests rely on the assumption that standard FLS/CRUD have not been modified by the user, and use the Account Object for verification of the Can Logic.
+                    </div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#CanTheUserTest.getBulkFLSAccessibleWithAccountPositive"> getBulkFLSAccessibleWithAccountPositive () </a>
@@ -415,7 +426,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L29">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L34">
                       canCrudAccountCreatePositive()
                     </a>
                   </h4>
@@ -430,7 +441,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L84">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L89">
                       canCrudAccountDeletePositive()
                     </a>
                   </h4>
@@ -445,7 +456,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L51">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L56">
                       canCrudAccountReadPositive()
                     </a>
                   </h4>
@@ -460,7 +471,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L64">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L69">
                       canCrudAccountUpdatePositive()
                     </a>
                   </h4>
@@ -475,7 +486,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L41">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L46">
                       canCrudCreateAccountPositive()
                     </a>
                   </h4>
@@ -490,7 +501,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L91">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L96">
                       canCrudDestroyAccountPositive()
                     </a>
                   </h4>
@@ -505,7 +516,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L70">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L75">
                       canCrudEditAccountPositive()
                     </a>
                   </h4>
@@ -520,7 +531,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L57">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L62">
                       canCrudReadAccountPositive()
                     </a>
                   </h4>
@@ -535,7 +546,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L77">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L82">
                       canCrudUpsertAccountPositive()
                     </a>
                   </h4>
@@ -550,13 +561,18 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L20">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L25">
                       generateAccounts()
                     </a>
                   </h4>
+                  <div class="method-description">
+                    These tests rely on the assumption that standard FLS/CRUD have not been modified by the user, and use the Account Object for verification of the Can Logic.
+                  </div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">private static List&lt;Account&gt; generateAccounts()</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">List&lt;Account&gt;</code> Sample created Accounts (currently hard-coded to 2)</div>
                 </div>
                 <div class="method testmethod">
                   <h4 class="method-title" id="CanTheUserTest.getBulkFLSAccessibleWithAccountPositive">
@@ -565,7 +581,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L108">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L113">
                       getBulkFLSAccessibleWithAccountPositive()
                     </a>
                   </h4>
@@ -580,7 +596,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L117">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L122">
                       getBulkFLSAccessibleWithAccountPositiveWithNegativeResults()
                     </a>
                   </h4>
@@ -595,7 +611,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L127">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L131">
                       getBulkFLSUpdatableWithAccountPositive()
                     </a>
                   </h4>
@@ -610,7 +626,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L136">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L140">
                       getBulkFLSUpdatableWithAccountPositiveWithNegativeResults()
                     </a>
                   </h4>
@@ -625,7 +641,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L103">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L108">
                       getFLSofAccountIDNegative()
                     </a>
                   </h4>
@@ -640,7 +656,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/CanTheUserTest.cls#L98">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/CanTheUserTest.cls#L103">
                       getFLSofAccountNamePositive()
                     </a>
                   </h4>

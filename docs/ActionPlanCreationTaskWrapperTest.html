@@ -177,7 +177,7 @@
                 onclick="goToLocation('ActionPlansQueueableBuilderTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansQueueableBuilderTest</a>
               </li>
-              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class public" onclick="goToLocation('ActionPlansRedirectTest.html');">
+              <li title="ActionPlansRedirectTest" id="item-ActionPlansRedirectTest" class="nav-item class private" onclick="goToLocation('ActionPlansRedirectTest.html');">
                 <a tabindex="1" href="javascript:void(0)">ActionPlansRedirectTest</a>
               </li>
               <li
@@ -334,7 +334,7 @@
                 rel="noopener noreferrer"
                 title="Go to source"
                 class="source-link"
-                href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationTaskWrapperTest.cls#L24">
+                href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationTaskWrapperTest.cls#L24">
                 ActionPlanCreationTaskWrapperTest
               </a>
             </h2>
@@ -349,7 +349,14 @@
                   >ActionPlanCreationController.ApTaskWrapper</a
                 >, <a href="javascript:void(0)" onclick="goToLocation('ActionPlanCreationController.html')">ActionPlanCreationController</a>
               </div>
-              <br /><a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a><br />2022
+              <div class="class-subtitle">Author</div>
+              <div class="class-subtitle-description">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dschach">David Schach</a>
+              </div>
+              <div class="class-subtitle">Since</div>
+              <div class="class-subtitle-description">
+                <li>2022</li>
+              </div>
             </div>
             <div class="subsection methods">
               <h3 class="subsection-title methods">ActionPlanCreationTaskWrapperTest Methods</h3>
@@ -360,9 +367,13 @@
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#ActionPlanCreationTaskWrapperTest.doEditActionPlan"> doEditActionPlan () </a>
+
+                    <div class="methods-toc__description">We make a new Actoin Plan via Visualforce</div>
                   </li>
                   <li class="method private">
                     <a class="methods-toc__entry" href="#ActionPlanCreationTaskWrapperTest.doTemplateCreateEdit"> doTemplateCreateEdit () </a>
+
+                    <div class="methods-toc__description">Reused method to create an Action Plan Template - run in multiple user contexts</div>
                   </li>
                   <li class="method testmethod">
                     <a class="methods-toc__entry" href="#ActionPlanCreationTaskWrapperTest.editActionPlanAssignByDefault"> editActionPlanAssignByDefault () </a>
@@ -389,7 +400,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationTaskWrapperTest.cls#L41">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationTaskWrapperTest.cls#L41">
                       checkActionPlanTaskList()
                     </a>
                   </h4>
@@ -404,13 +415,21 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationTaskWrapperTest.cls#L137">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationTaskWrapperTest.cls#L148">
                       doEditActionPlan()
                     </a>
                   </h4>
+                  <div class="method-description">We make a new Actoin Plan via Visualforce</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">private static ActionPlanCreationController doEditActionPlan()</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">ActionPlanCreationController</code> The created controller</div>
+                  <div class="method-subtitle">See</div>
+                  <div class="method-subtitle-description">
+                    <span title="A valid link could not be created with this identifier.">editActionPlanAssignByDefault</span>,
+                    <span title="A valid link could not be created with this identifier.">editActionPlanNOTAssignByDefault</span>
+                  </div>
                 </div>
                 <div class="method private">
                   <h4 class="method-title" id="ActionPlanCreationTaskWrapperTest.doTemplateCreateEdit">
@@ -419,13 +438,16 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationTaskWrapperTest.cls#L62">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationTaskWrapperTest.cls#L66">
                       doTemplateCreateEdit()
                     </a>
                   </h4>
+                  <div class="method-description">Reused method to create an Action Plan Template - run in multiple user contexts</div>
                   <div class="method-subtitle">Signature</div>
 
                   <div class="method-signature">private static ActionPlanCreationController doTemplateCreateEdit()</div>
+                  <div class="method-subtitle">Returns</div>
+                  <div class="method-subtitle-description"><code class="code-inline">ActionPlanCreationController</code> The instance of the controller for the VF page</div>
                 </div>
                 <div class="method testmethod">
                   <h4 class="method-title" id="ActionPlanCreationTaskWrapperTest.editActionPlanAssignByDefault">
@@ -434,7 +456,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationTaskWrapperTest.cls#L157">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationTaskWrapperTest.cls#L168">
                       editActionPlanAssignByDefault()
                     </a>
                   </h4>
@@ -449,7 +471,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationTaskWrapperTest.cls#L171">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationTaskWrapperTest.cls#L182">
                       editActionPlanNOTAssignByDefault()
                     </a>
                   </h4>
@@ -464,7 +486,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationTaskWrapperTest.cls#L29">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationTaskWrapperTest.cls#L29">
                       makeData()
                     </a>
                   </h4>
@@ -480,7 +502,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationTaskWrapperTest.cls#L107">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationTaskWrapperTest.cls#L111">
                       makeFromTemplateAssignByDefault()
                     </a>
                   </h4>
@@ -495,7 +517,7 @@
                       rel="noopener noreferrer"
                       title="Go to source"
                       class="source-link"
-                      href="https://github.com/SalesforceLabs/ActionPlansV4/tree/main/sfdx-source/LabsActionPlans/main/default/tests/ActionPlanCreationTaskWrapperTest.cls#L119">
+                      href="https://github.com/SalesforceLabs/ActionPlansV4/blob/main/sfdx-source/LabsActionPlans/main/default/classes/tests/ActionPlanCreationTaskWrapperTest.cls#L123">
                       makeFromTemplateNOTAssignByDefault()
                     </a>
                   </h4>
