@@ -2,7 +2,7 @@
 	"output": "CHANGELOG.md",
 	"template": "keepachangelog",
 	"unreleased": true,
-	"commitLimit": 40,
+	"commitLimit": 400,
 	"hideCredit": true,
 	"tagPrefix": "v"
 }
