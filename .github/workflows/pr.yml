@@ -23,7 +23,7 @@ jobs:
     steps:
       # Checkout the source code
       - name: 'Checkout source code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Install PMD
       - name: 'Install PMD'
@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - name: 'Checkout source code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Install Salesforce CLI
       - name: 'Install Salesforce sfdx CLI'
