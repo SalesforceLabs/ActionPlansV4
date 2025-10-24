@@ -32,11 +32,11 @@ jobs:
           wget https://github.com/pmd/pmd/releases/download/pmd_releases%2F$PMD_VERSION/pmd-dist-$PMD_VERSION-bin.zip
           unzip pmd-dist-$PMD_VERSION-bin.zip -d ~
           mv ~/pmd-bin-$PMD_VERSION ~/pmd
-          ~/pmd/bin/run.sh pmd --version
+          ~pmd/bin/pmd --version
 
       # Run PMD scan
       - name: 'Run PMD scan'
-        run: ~/pmd/bin/run.sh pmd -d sfdx-source -R pmd/deployRules.xml -f text --cache .pmdCache --minimum-priority 2
+        run: ~pmd/bin/pmd -d sfdx-source -R pmd/deployRules.xml -f text --cache .pmdCache --minimum-priority 2
   test-run:
     runs-on: ubuntu-latest
     needs: check-pmd
