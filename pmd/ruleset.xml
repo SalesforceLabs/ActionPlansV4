@@ -315,16 +315,16 @@
 			</style>
 		</apex:page>
 	-->
-	<!-- <rule ref="category/vf/security.xml/VfHtmlStyleTagXss" message="Dynamic EL content within URL in style tag should be URLENCODED or JSINHTMLENCODED as appropriate">
+	<rule ref="category/visualforce/security.xml/VfHtmlStyleTagXss" message="Dynamic EL content within URL in style tag should be URLENCODED or JSINHTMLENCODED as appropriate">
 		<priority>3</priority>
-	</rule> -->
+	</rule>
 
-	<!-- <rule ref="category/vf/security.xml/VfUnescapeEl" message="Avoid unescaped user controlled content in EL as it results in XSS.">
+	<rule ref="category/visualforce/security.xml/VfUnescapeEl" message="Avoid unescaped user controlled content in EL as it results in XSS.">
 		<priority>3</priority>
-	</rule> -->
+	</rule>
 	<!--Example <apex:outputText value="Potential XSS is {! here }" escape="false" /> -->
 
 	<!-- Error on apex:page action usage -->
 	<!-- <apex:page controller="AcRestActionsController" action="{!csrfInitMethod}" > -->
-	<!-- <rule ref="category/vf/security.xml/VfCsrf" /> -->
+	<!-- <rule ref="category/visualforce/security.xml/VfCsrf" /> -->
 </ruleset>
