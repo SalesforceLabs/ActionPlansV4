@@ -65,4 +65,4 @@ jobs:
 
       # Run PMD scan
       - name: 'Run PMD scan'
-        run: ~/pmd/bin/pmd -d sfdx-source/LabsActionPlans -R pmd/deployRules.xml -f text --cache .pmdCache -min 2
+        run: ~/pmd/bin/pmd check -d sfdx-source/LabsActionPlans -R pmd/deployRules.xml -f text --cache .pmdCache -min 2
