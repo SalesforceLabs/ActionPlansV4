@@ -70,7 +70,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 	<script>
 
 
-		var boolRequired = '{!JSENCODE(required)}';
+		var boolRequired = '{!required}';
 		function checkinput() {
 			if (boolRequired == 'true') {
 				j$('#{!JSENCODE(for)}sldsscopediv [id$=searchInput]').prop('required', true);

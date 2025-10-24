@@ -5,7 +5,7 @@
       "default": true,
       "package": "Action Plans",
       "versionName": "Spring 2023 v4.3",
-      "versionNumber": "4.3.0.NEXT",
+      "versionNumber": "4.3.1.NEXT",
       "ancestorVersion": "HIGHEST",
       "releaseNotesUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/README.md",
       "definitionFile": "config/install-scratch-def.json",
@@ -28,6 +28,7 @@
     "Action Plans@4.2.0-7": "04t5f000000rK9EAAU",
     "Action Plans@4.2.1-5": "04t5f000000rKJ9AAM",
     "Action Plans@4.3.0-11": "04t5f000000rM66AAE",
-    "Action Plans@4.3.0-13": "04t5f000000rM7nAAE"
+    "Action Plans@4.3.0-13": "04t5f000000rM7nAAE",
+    "Action Plans@4.3.1-2": "04tKa000002zLsUIAU"
   }
 }
