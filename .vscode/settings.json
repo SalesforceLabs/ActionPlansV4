@@ -30,5 +30,6 @@
 	"[visualforce]": {
 		"editor.defaultFormatter": "salesforce.salesforcedx-vscode-visualforce",
 		"editor.formatOnSave": false
-	}
+	},
+	"xml.preferences.showSchemaDocumentationType": "none"
 }
