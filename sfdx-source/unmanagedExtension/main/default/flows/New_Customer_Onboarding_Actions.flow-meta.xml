@@ -34,7 +34,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>62.0</apiVersion>
+    <apiVersion>65.0</apiVersion>
     <description>Sample Flow - change Account Type so it contains &apos;Customer&apos; and if New Customer Onboarding Action Plan Template exists, it will be created as an Action Plan</description>
     <formulas>
         <description>Formula to create a custom Action Plan Name</description>
