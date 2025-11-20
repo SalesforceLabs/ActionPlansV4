@@ -84,11 +84,12 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 			j$(recInfoIdInput).val(recId);
 			j$('[id$=SrchDrpDwn{!JSENCODE(for)}]').fadeOut();
 
-			var queryText = 'SELECT Id, {!JSENCODE(displayField)} FROM ' + sObjType + ' WHERE Id = \'' + recId + '\' ';
-			//console.log('querytext ' + queryText);
+			// Call Apex method with separate parameters for SOQL injection prevention
 			Visualforce.remoting.Manager.invokeAction(
 				'{!$RemoteAction.ActionPlansSectionHeaderController.queryRecords}',
-				queryText,
+				sObjType,
+				recId,
+				'{!JSENCODE(displayField)}',
 				function (result, event) {
 					if (event.status) {
 						var record = result[0];
@@ -124,13 +125,15 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					'<span class="slds-assistive-text">{!$Label.ap_Search}:</span></span></span>' +
 					'<span class="slds-media__body"><span class="slds-listbox__option-text slds-listbox__option-text_entity">' + searchKey + '</span></span></div > ' +
 					'</li>';
-				//Querying For Records In Objects Name Matching The Input in The Text Field
-				var queryText = "SELECT Id, {!JSENCODE(displayField)} FROM " + sObjType + " WHERE {!JSENCODE(displayField)} LIKE '%" + searchKey + "%' {!JSENCODE(where)} ORDER BY {!JSENCODE(displayField)} ASC LIMIT 8 ";
+				//Call secure search method with separate parameters
 				var records = [];
 
 				Visualforce.remoting.Manager.invokeAction(
-					'{!$RemoteAction.ActionPlansSectionHeaderController.queryRecords}',
-					queryText,
+					'{!$RemoteAction.ActionPlansSectionHeaderController.searchRecords}',
+					sObjType,
+					'{!JSENCODE(displayField)}',
+					searchKey,
+					'{!JSENCODE(where)}',
 					function (result, event) {
 						if (event.status) {
 							records = result;

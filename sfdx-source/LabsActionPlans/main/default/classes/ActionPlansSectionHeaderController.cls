@@ -163,18 +163,89 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	}
 
 	/**
-	 * Main code for lightning lookup. Included in this class because we use this as the controller for our lookups
-	 * <br> the code is duplicated in AciontPlanCreationController because there is a lookup directly in that page (for now)
-	 * <br>This is a different approach than in ActionPlanCreationController, as we pass in the full query here, but there it is
-	 * done by passing only the search key.
+	 * Query a specific record by Id for lightning lookup component.
+	 * <br>This method uses binding variables and Id casting to prevent SOQL injection.
 	 *
-	 * @param queryText SOQL query to return records for the lookup
+	 * @param sObjectType The API name of the sObject to query
+	 * @param recId       The Id of the record to query
+	 * @param displayField The field to retrieve from the record
 	 * @return          `List<SObject>` Returned records
 	 * @see ActionPlanCreationController
 	 */
 	@RemoteAction
-	public static List<SObject> queryRecords(String queryText) {
-		//System.debug('querytext ' + queryText);
+	public static List<SObject> queryRecords(String sObjectType, String recId, String displayField) {
+		// Validate and cast recId to Id type to prevent injection
+		Id recordId;
+		try {
+			recordId = (Id) recId;
+		} catch (Exception e) {
+			throw new IllegalArgumentException('Invalid record Id: ' + recId);
+		}
+
+		// Validate sObjectType and displayField
+		validateObjectAndField(sObjectType, displayField);
+
+		// Build query using binding variables - field name is validated above
+		String queryText = 'SELECT Id, ' + String.escapeSingleQuotes(displayField) + ' FROM ' + String.escapeSingleQuotes(sObjectType) + ' WHERE Id = :recordId';
+
 		return Database.query(queryText);
+	}
+
+	/**
+	 * Search records by name/field for lightning lookup component.
+	 * <br>This method validates all inputs to prevent SOQL injection.
+	 *
+	 * @param sObjectType The API name of the sObject to query
+	 * @param displayField The field to search and retrieve
+	 * @param searchKey The search term to look for (will be used with LIKE)
+	 * @param additionalWhere Optional WHERE clause (must start with AND or OR)
+	 * @return          `List<SObject>` Returned records (max 8)
+	 */
+	@RemoteAction
+	public static List<SObject> searchRecords(String sObjectType, String displayField, String searchKey, String additionalWhere) {
+		// Validate sObjectType and displayField
+		validateObjectAndField(sObjectType, displayField);
+
+		// Validate additionalWhere clause if provided
+		if (String.isNotBlank(additionalWhere)) {
+			additionalWhere = additionalWhere.trim();
+			if (!additionalWhere.startsWithIgnoreCase('AND') && !additionalWhere.startsWithIgnoreCase('OR')) {
+				throw new IllegalArgumentException('Additional WHERE clause must start with AND or OR');
+			}
+		} else {
+			additionalWhere = '';
+		}
+
+		// Escape the search key to prevent SOQL injection
+		String safeSearchKey = String.escapeSingleQuotes(searchKey);
+
+		// Build query with validated and escaped inputs
+		String queryText = 'SELECT Id, ' + String.escapeSingleQuotes(displayField) +
+						   ' FROM ' + String.escapeSingleQuotes(sObjectType) +
+						   ' WHERE ' + String.escapeSingleQuotes(displayField) + ' LIKE \'%' + safeSearchKey + '%\' ' +
+						   additionalWhere +
+						   ' ORDER BY ' + String.escapeSingleQuotes(displayField) + ' ASC LIMIT 8';
+
+		return Database.query(queryText);
+	}
+
+	/**
+	 * Helper method to validate sObject type and field name.
+	 *
+	 * @param sObjectType The API name of the sObject
+	 * @param fieldName The field name to validate
+	 */
+	private static void validateObjectAndField(String sObjectType, String fieldName) {
+		// Validate sObjectType exists
+		Schema.SObjectType sObjType = Schema.getGlobalDescribe().get(sObjectType);
+		if (sObjType == null) {
+			throw new IllegalArgumentException('Invalid sObject type: ' + sObjectType);
+		}
+
+		// Validate field exists on the object
+		Map<String, Schema.SObjectField> fieldMap = sObjType.getDescribe().fields.getMap();
+		if (!fieldMap.containsKey(fieldName.toLowerCase())) {
+			throw new IllegalArgumentException('Invalid field: ' + fieldName + ' on object: ' + sObjectType);
+		}
 	}
 }
