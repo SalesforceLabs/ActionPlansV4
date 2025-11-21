@@ -87,7 +87,6 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 			// Call Apex method with separate parameters for SOQL injection prevention
 			Visualforce.remoting.Manager.invokeAction(
 				'{!$RemoteAction.ActionPlansSectionHeaderController.queryRecords}',
-				sObjType,
 				recId,
 				'{!JSENCODE(displayField)}',
 				function (result, event) {

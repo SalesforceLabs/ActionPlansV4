@@ -165,15 +165,15 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	/**
 	 * Query a specific record by Id for lightning lookup component.
 	 * <br>This method uses binding variables and Id casting to prevent SOQL injection.
+	 * <br>The sObject type is derived directly from the Id for enhanced security.
 	 *
-	 * @param sObjectType The API name of the sObject to query
 	 * @param recId       The Id of the record to query
 	 * @param displayField The field to retrieve from the record
 	 * @return          `List<SObject>` Returned records
 	 * @see ActionPlanCreationController
 	 */
 	@RemoteAction
-	public static List<SObject> queryRecords(String sObjectType, String recId, String displayField) {
+	public static List<SObject> queryRecords(String recId, String displayField) {
 		// Validate and cast recId to Id type to prevent injection
 		Id recordId;
 		try {
@@ -182,8 +182,9 @@ public inherited sharing class ActionPlansSectionHeaderController {
 			throw new IllegalArgumentException('Invalid record Id: ' + recId);
 		}
 
-		// Validate sObjectType and displayField
-		validateObjectAndField(sObjectType, displayField);
+		// Get sObjectType directly from the Id - more secure than accepting as parameter
+		Schema.SObjectType sObjType = recordId.getSObjectType();
+		String sObjectType = sObjType.getDescribe().getName();
 
 		// Build query using binding variables - field name is validated above
 		String queryText = 'SELECT Id, ' + String.escapeSingleQuotes(displayField) + ' FROM ' + String.escapeSingleQuotes(sObjectType) + ' WHERE Id = :recordId';
@@ -203,8 +204,6 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	 */
 	@RemoteAction
 	public static List<SObject> searchRecords(String sObjectType, String displayField, String searchKey, String additionalWhere) {
-		// Validate sObjectType and displayField
-		validateObjectAndField(sObjectType, displayField);
 
 		// Validate additionalWhere clause if provided
 		if (String.isNotBlank(additionalWhere)) {
@@ -227,25 +226,5 @@ public inherited sharing class ActionPlansSectionHeaderController {
 						   ' ORDER BY ' + String.escapeSingleQuotes(displayField) + ' ASC LIMIT 8';
 
 		return Database.query(queryText);
-	}
-
-	/**
-	 * Helper method to validate sObject type and field name.
-	 *
-	 * @param sObjectType The API name of the sObject
-	 * @param fieldName The field name to validate
-	 */
-	private static void validateObjectAndField(String sObjectType, String fieldName) {
-		// Validate sObjectType exists
-		Schema.SObjectType sObjType = Schema.getGlobalDescribe().get(sObjectType);
-		if (sObjType == null) {
-			throw new IllegalArgumentException('Invalid sObject type: ' + sObjectType);
-		}
-
-		// Validate field exists on the object
-		Map<String, Schema.SObjectField> fieldMap = sObjType.getDescribe().fields.getMap();
-		if (!fieldMap.containsKey(fieldName.toLowerCase())) {
-			throw new IllegalArgumentException('Invalid field: ' + fieldName + ' on object: ' + sObjectType);
-		}
 	}
 }
