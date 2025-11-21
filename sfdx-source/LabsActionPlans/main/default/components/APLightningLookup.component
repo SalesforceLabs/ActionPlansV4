@@ -30,13 +30,13 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 			}
 		}
 		function clearLookup(key) {
-			j$('[id$=SrchDrpDwn{!JSENCODE(for)}]').hide();
+			j$('[id$=SrchDrpDwn{!for}]').hide();
 			j$('#' + key.attr('aria-activedescendant')).hide();
 			j$(key).val('').text('');
 		}
 	</script>
 
-	<div class="slds-scope" id="{!JSENCODE(for)}sldsscopediv">
+	<div class="slds-scope" id="{!for}sldsscopediv">
 		<div class="slds-combobox_container" id="searchInputContainer">
 			<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox">
 				<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
@@ -48,21 +48,21 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								style="{!fieldStyle}"
 								type="text"
 								autocomplete="off"
-								onkeyup="LightningLookupScripts{!JSENCODE(for)}.searchRecords(j$(this), '{!JSENCODE(sObjType)}', '{!JSENCODE(customObject)}');checkEscape(j$(this), event);"
+								onkeyup="LightningLookupScripts{!for}.searchRecords(j$(this), '{!sObjType}', '{!customObject}');checkEscape(j$(this), event);"
 								aria-autocomplete="list"
 								role="combobox"
 								aria-expanded="true"
-								aria-controls="SrchDrpDwn{!JSENCODE(for)}"
+								aria-controls="SrchDrpDwn{!for}"
 								placeholder="{!$Label.ap_Search}"
-								aria-activedescendant="SrchDrpDwn{!JSENCODE(for)}"
+								aria-activedescendant="SrchDrpDwn{!for}"
 								required="{!IF(required == true, 'true', '')}"
 								value="{!recordname}" />
 						</div>
 						<!-- <div class="slds-form-element__help" id="error-message" >Required</div> -->
 					</div>
 				</div>
-				<div id="SrchDrpDwn{!JSENCODE(for)}" class="slds-dropdown slds-dropdown_length-with-icon-5 slds-dropdown_fluid" role="listbox" style="display: none">
-					<ul class="slds-listbox slds-listbox_vertical" role="presentation" id="searchResultsUL{!JSENCODE(for)}"></ul>
+				<div id="SrchDrpDwn{!for}" class="slds-dropdown slds-dropdown_length-with-icon-5 slds-dropdown_fluid" role="listbox" style="display: none">
+					<ul class="slds-listbox slds-listbox_vertical" role="presentation" id="searchResultsUL{!for}"></ul>
 				</div>
 			</div>
 		</div>
@@ -73,16 +73,16 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 		var boolRequired = '{!required}';
 		function checkinput() {
 			if (boolRequired == 'true') {
-				j$('#{!JSENCODE(for)}sldsscopediv [id$=searchInput]').prop('required', true);
+				j$('#{!for}sldsscopediv [id$=searchInput]').prop('required', true);
 			}
 			j$('[id$=searchInput_lkwgt]').hide();
 		}
-		var LightningLookupScripts{!JSENCODE(for)} =  {
+		var LightningLookupScripts{!for} =  {
 			//Function To Get Record's Details on Record Click
 		recInfo: function (recId, sObjType) {
 			var recInfoIdInput = document.getElementById('{!$Component.HiddenInput}');
 			j$(recInfoIdInput).val(recId);
-			j$('[id$=SrchDrpDwn{!JSENCODE(for)}]').fadeOut();
+			j$('[id$=SrchDrpDwn{!for}]').fadeOut();
 
 			// Call Apex method with separate parameters for SOQL injection prevention
 			Visualforce.remoting.Manager.invokeAction(
@@ -93,7 +93,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					if (event.status) {
 						var record = result[0];
 						console.log(record);
-						j$('#{!JSENCODE(for)}sldsscopediv [id$=searchInput]').val(record.{!JSENCODE(displayField)}).trigger("parentchange", [record.{!JSENCODE(displayField)}]);
+						j$('#{!for}sldsscopediv [id$=searchInput]').val(record.{!displayField}).trigger("parentchange", [record.{!displayField}]);
 						var recInfoIdInput = document.getElementById('{!$Component.HiddenInput}');
 						j$(recInfoIdInput).val(recId);
 					} else {
@@ -138,9 +138,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 							records = result;
 							if (records.length > 0) {
 								console.log(records);
-								var iconTag = "{!JSENCODE(ObjectIconInfo['iconTag'])}";
-								var objectIcon = "{!JSENCODE(ObjectIconInfo['iconURL'])}";
-								var iconStyle = "{!JSENCODE(ObjectIconInfo['iconStyle'])}";
+								var iconTag = "{!ObjectIconInfo['iconTag']}";
+								var objectIcon = "{!ObjectIconInfo['iconURL']}";
+								var iconStyle = "{!ObjectIconInfo['iconStyle']}";
 
 								for (var i = 0; i < records.length; i++) {
 									// li elements of each list option
@@ -150,7 +150,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 										objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/standard-sprite/svg/symbols.svg#' + iconTag + '")}';
 									}
 
-									searchList += '<li onclick="LightningLookupScripts{!JSENCODE(for)}.recInfo(\'' + records[i].Id + '\'' + ', \'' + sObjType.toLowerCase() + '\');" class="slds-lookup__item">';
+									searchList += '<li onclick="LightningLookupScripts{!for}.recInfo(\'' + records[i].Id + '\'' + ', \'' + sObjType.toLowerCase() + '\');" class="slds-lookup__item">';
 									searchList += '<a id="' + records[i].Id + '" href="#" role="option"><svg aria-hidden="true" class="slds-icon ' + iconStyle + ' slds-icon_small">'
 										+ '<use xlink:href="' + objectIcon + '"></use></svg>' + records[i]["{!JSENCODE(displayField)}"] + '</a>';
 									searchList += '</li>';
@@ -161,7 +161,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 									'<span class="slds-media__body"><span class="slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.ap_NoRecords}</span></span></div></li>';
 							}
 							//Appending all the created result List Elements to the UL tag
-							j$('[id$=searchResultsUL{!JSENCODE(for)}]').html(searchList);
+							j$('[id$=searchResultsUL{!for}]').html(searchList);
 
 						} else {
 							alert(event.message);
