@@ -14,11 +14,19 @@ SPDX-License-Identifier: BSD-3-Clause
 For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 */
 /**
+ * Invocable class for creating Action Plans from templates.
+ *
+ * This class uses `inherited sharing` to respect the calling context's sharing rules:
+ * - When invoked from Flows/Process Builder (system context), it executes without sharing restrictions
+ * - When invoked from Apex code with sharing rules, it respects those rules
+ *
+ * This approach provides flexibility for automation while maintaining security when called from user context.
+ *
  * @group Invocable
  * @author {@link [David Schach](https://github.com/dschach)}
  * @since 2022
  */
-global without sharing class ActionPlanCreateInvocable {
+global inherited sharing class ActionPlanCreateInvocable {
 	/**
 	 * Invocable Apex for creating Action Plans from a template, a parent ID, and days from now to start the task due dates
 	 * @param requests Wrapper of `CreateActionPlanRequest`

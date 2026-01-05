@@ -19,7 +19,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
  * @since 2022
  * @group Trigger Handlers
  */
-global without sharing class ActionPlansTriggerHandlers {
+global inherited sharing class ActionPlansTriggerHandlers {
 	/**
 	 * Use only when we want to delete a Task while preserving the APTask (such as when making an APTask newly-dependent on another)<br>
 	 * Unused currently, but may be used in future version
@@ -51,7 +51,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	 */
 	// prettier-ignore
 	public static void actionPlansSObjectTriggerHandler(List<SObject> newRecords, List<SObject> oldRecords, Map<Id, SObject> newRecordsMap, Map<Id, SObject> oldRecordsMap, System.TriggerOperation triggerEvent, String sObjectName) {
-		
+
 
 		String relationshipName = null;
 
@@ -179,7 +179,7 @@ global without sharing class ActionPlansTriggerHandlers {
 			}
 			//Execution when an Action Plan is deleted: delete all asociated Tasks
 			when BEFORE_DELETE {
-				
+
 				Set<Id> apTaskIDs = new Set<Id>();
 				if (!forceSynchronous()) {
 					Set<Id> taskIds = new Set<Id>();
@@ -196,7 +196,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					//if (!taskIds.isEmpty()) {
 					//ActionPlansTaskTriggerUtilities.futureDeleteTasks(taskIds);
 					//}
-					
+
 				} else {
 					for (APTask__c apt : [SELECT Id FROM APTask__c WHERE Action_Plan__c IN :oldRecordsMap.keyset()]){
 						apTaskIDs.add(apt.Id);
@@ -261,7 +261,7 @@ global without sharing class ActionPlansTriggerHandlers {
 	public static void triggerhandlerActionPlanTask(List<APTask__c> newRecords, List<APTask__c> oldRecords,	Map<Id, APTask__c> newRecordsMap,Map<Id, APTask__c> oldRecordsMap, System.TriggerOperation triggerEvent) {
 		switch on triggerEvent {
 			when BEFORE_INSERT, BEFORE_UPDATE {
-				
+
 				Set<Id> parentIDs = new Set<Id>();
 				for(APTask__c apt : newRecords){
 					parentIDs.add(apt.Action_Plan__c);
@@ -313,7 +313,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 			}
-			
+
 			when AFTER_UPDATE {
 				Map<Id, Id> openControlledAPTasks = new Map<Id, Id>();
 				Set<Id> parentControllingTaskIDs = new Set<Id>();
@@ -331,7 +331,7 @@ global without sharing class ActionPlansTriggerHandlers {
 						apTasksNeedingTaskDeletion.add(i);
 					}
 				}
-				
+
 				try {
 					bypassTaskTrigger = true;
 					Database.delete([SELECT Id FROM Task WHERE TaskAPTask__c IN :apTasksNeedingTaskDeletion]);
@@ -342,7 +342,7 @@ global without sharing class ActionPlansTriggerHandlers {
 					}
 				}
 			}
-			
+
 			when BEFORE_DELETE {
 				try {
 					bypassTaskTrigger = true;
