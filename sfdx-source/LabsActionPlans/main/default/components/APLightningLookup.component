@@ -100,7 +100,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						alert(event.message);
 					}
 				},
-				{ escape: false }
+				{ escape: true }
 				);
 			},
 			searchRecords: function  (key, sObjType, cObject) {
@@ -116,13 +116,15 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 				var searchList = "";
 				//Creating List Elements Based on Query Results
 				var searchIcon = '{!URLFOR($Asset.SLDS, "assets/icons/utility-sprite/svg/symbols.svg#search")}';
+				// Escape HTML to prevent XSS attacks
+				var escapedSearchKey = j$('<div>').text(searchKey).html();
 				searchList += '<li role="presentation" class="slds-listbox__item">' +
 					'<div aria-selected="true" id="option0" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">' +
 					'<span class="slds-media__figure slds-listbox__option-icon">' +
 					'<span class="slds-icon_container slds-icon-utility-search" title="{!$Label.ap_Search}:">' +
 					'<svg class="slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true"><use xlink:href="' + searchIcon + '"></use></svg>' +
 					'<span class="slds-assistive-text">{!$Label.ap_Search}:</span></span></span>' +
-					'<span class="slds-media__body"><span class="slds-listbox__option-text slds-listbox__option-text_entity">' + searchKey + '</span></span></div > ' +
+					'<span class="slds-media__body"><span class="slds-listbox__option-text slds-listbox__option-text_entity">' + escapedSearchKey + '</span></span></div > ' +
 					'</li>';
 				//Call secure search method with separate parameters
 				var records = [];
@@ -150,9 +152,15 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 										objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/standard-sprite/svg/symbols.svg#' + iconTag + '")}';
 									}
 
-									searchList += '<li onclick="LightningLookupScripts{!for}.recInfo(\'' + records[i].Id + '\'' + ', \'' + sObjType.toLowerCase() + '\');" class="slds-lookup__item">';
-									searchList += '<a id="' + records[i].Id + '" href="#" role="option"><svg aria-hidden="true" class="slds-icon ' + iconStyle + ' slds-icon_small">'
-										+ '<use xlink:href="' + objectIcon + '"></use></svg>' + records[i]["{!JSENCODE(displayField)}"] + '</a>';
+									// Escape HTML and JavaScript to prevent XSS attacks
+									var escapedId = j$('<div>').text(records[i].Id).html();
+									var escapedDisplayField = j$('<div>').text(records[i]["{!JSENCODE(displayField)}"]).html();
+									var escapedIdForJS = escapedId.replace(/'/g, "\\'");
+									var escapedSObjType = sObjType.toLowerCase().replace(/'/g, "\\'");
+
+									searchList += '<li onclick="LightningLookupScripts{!for}.recInfo(\'' + escapedIdForJS + '\'' + ', \'' + escapedSObjType + '\');" class="slds-lookup__item">';
+									searchList += '<a id="' + escapedId + '" href="#" role="option"><svg aria-hidden="true" class="slds-icon ' + iconStyle + ' slds-icon_small">'
+										+ '<use xlink:href="' + objectIcon + '"></use></svg>' + escapedDisplayField + '</a>';
 									searchList += '</li>';
 								}
 							} else {
@@ -167,7 +175,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 							alert(event.message);
 						}
 					},
-					{ escape: false }
+					{ escape: true }
 				);
 			}
 		}

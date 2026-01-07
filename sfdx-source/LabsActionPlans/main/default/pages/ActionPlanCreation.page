@@ -189,50 +189,53 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 														alert(event.message);
 													}
 												},
-												{ escape: false }
+												{ escape: true }
 											);
 										},
-										searchRecords: function (key) {
-											j$('#' + key.attr('aria-activedescendant')).show();
-											//Grabbing The Input Field Value
-											var searchKey = key.val();
-											if (searchKey == '') {
-												j$('#' + key.attr('aria-activedescendant')).hide();
-											}
-											var searchList = '';
-											Visualforce.remoting.Manager.invokeAction(
-												'{!$RemoteAction.ActionPlanCreationController.searchTemplates}',
-												searchKey,
-												function (result, event) {
-													if (event.status) {
-														records = result;
-														if (records.length > 0) {
-															for (var i = 0; i < records.length; i++) {
-																//List Elements With Onclick and ID Attributes
-																var objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/custom-sprite/svg/symbols.svg#custom39")}';
-																searchList +=
-																	'<li onclick="LightningLookupScripts.recInfo(\'' +
-																	records[i].Id +
-																	'\');" class="slds-lookup__item"><a id="' +
-																	records[i].Id +
-																	'" href="#" role="option"><svg aria-hidden="true" class="slds-icon slds-icon-custom-custom39 slds-icon_small">' +
-																	'<use xlink:href="' +
-																	objectIcon +
-																	'"></use></svg>' +
-																	records[i].Name +
-																	'</a></li>';
-															}
-														} else {
-															searchList += '<li class="slds-lookup__item">No Records Found</li>';
-														}
-														j$('[id$=searchResultsUL]').html(searchList);
-													} else {
-														alert(event.message);
-													}
-												},
-												{ escape: false }
-											);
+									searchRecords: function (key) {
+										j$('#' + key.attr('aria-activedescendant')).show();
+										//Grabbing The Input Field Value
+										var searchKey = key.val();
+										if (searchKey == '') {
+											j$('#' + key.attr('aria-activedescendant')).hide();
 										}
+										var searchList = '';
+										Visualforce.remoting.Manager.invokeAction(
+											'{!$RemoteAction.ActionPlanCreationController.searchTemplates}',
+											searchKey,
+											function (result, event) {
+												if (event.status) {
+													records = result;
+													if (records.length > 0) {
+														for (var i = 0; i < records.length; i++) {
+															//List Elements With Onclick and ID Attributes
+															var objectIcon = '{!URLFOR($Asset.SLDS, "assets/icons/custom-sprite/svg/symbols.svg#custom39")}';
+															// Escape HTML to prevent XSS attacks
+															var escapedName = j$('<div>').text(records[i].Name).html();
+															var escapedId = j$('<div>').text(records[i].Id).html();
+															searchList +=
+																'<li onclick="LightningLookupScripts.recInfo(\'' +
+																escapedId.replace(/'/g, "\\'") +
+																'\');" class="slds-lookup__item"><a id="' +
+																escapedId +
+																'" href="#" role="option"><svg aria-hidden="true" class="slds-icon slds-icon-custom-custom39 slds-icon_small">' +
+																'<use xlink:href="' +
+																objectIcon +
+																'"></use></svg>' +
+																escapedName +
+																'</a></li>';
+														}
+													} else {
+														searchList += '<li class="slds-lookup__item">No Records Found</li>';
+													}
+													j$('[id$=searchResultsUL]').html(searchList);
+												} else {
+													alert(event.message);
+												}
+											},
+											{ escape: true }
+										);
+									}
 									};
 									checkinput();
 								</script>
