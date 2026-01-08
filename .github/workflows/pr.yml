@@ -67,9 +67,9 @@ jobs:
         run: sf org login sfdx-url --sfdx-url-file ./DEVHUB_SFDX_URL.txt --alias devhub --set-default-dev-hub
 
         # Add namespace to project config
-      - name: Add namespace to project config
-        run: |
-          sed -i 's,"namespace": "","namespace": "LabsActionPlans",' sfdx-project.json
+      # - name: Add namespace to project config
+      #   run: |
+      #     sed -i 's,"namespace": "","namespace": "LabsActionPlans",' sfdx-project.json
 
       # Create scratch org
       - name: 'Create scratch org'
@@ -104,6 +104,6 @@ jobs:
         run: sf org delete scratch --no-prompt --target-org ActionPlans
 
       # Remove namespace from project config
-      - name: Remove namespace from project config
-        run: |
-          sed -i 's,"namespace": "LabsActionPlans","namespace": "",' sfdx-project.json
+      # - name: Remove namespace from project config
+      #   run: |
+      #     sed -i 's,"namespace": "LabsActionPlans","namespace": "",' sfdx-project.json
