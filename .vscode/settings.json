@@ -30,11 +30,5 @@
 	"[visualforce]": {
 		"editor.defaultFormatter": "salesforce.salesforcedx-vscode-visualforce",
 		"editor.formatOnSave": false
-	},
-	"workbench.colorCustomizations": {
-		"editorRuler.foreground": "#ff4081",
-		"statusBar.background": null,
-		"activityBar.background": null
-	},
-	"xml.preferences.showSchemaDocumentationType": "none"
+	}
 }
