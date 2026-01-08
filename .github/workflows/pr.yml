@@ -25,8 +25,8 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v3
 
-      # Install PMD
-      - name: 'Install PMD'
+      # Install Latest PMD
+      - name: 'Install LatestPMD'
         run: |
           PMD_VERSION=$(curl -s https://api.github.com/repos/pmd/pmd/releases/latest | grep '.tag_name' | sed 's:.*/::' | sed 's:",::')
           wget https://github.com/pmd/pmd/releases/download/pmd_releases%2F$PMD_VERSION/pmd-dist-$PMD_VERSION-bin.zip
