@@ -204,7 +204,6 @@ public inherited sharing class ActionPlansSectionHeaderController {
 	 */
 	@RemoteAction
 	public static List<SObject> searchRecords(String sObjectType, String displayField, String searchKey, String additionalWhere) {
-
 		// Validate additionalWhere clause if provided
 		if (String.isNotBlank(additionalWhere)) {
 			additionalWhere = additionalWhere.trim();
@@ -219,11 +218,20 @@ public inherited sharing class ActionPlansSectionHeaderController {
 		String safeSearchKey = String.escapeSingleQuotes(searchKey);
 
 		// Build query with validated and escaped inputs
-		String queryText = 'SELECT Id, ' + String.escapeSingleQuotes(displayField) +
-						   ' FROM ' + String.escapeSingleQuotes(sObjectType) +
-						   ' WHERE ' + String.escapeSingleQuotes(displayField) + ' LIKE \'%' + safeSearchKey + '%\' ' +
-						   additionalWhere +
-						   ' ORDER BY ' + String.escapeSingleQuotes(displayField) + ' ASC LIMIT 8';
+		String queryText =
+			'SELECT Id, ' +
+			String.escapeSingleQuotes(displayField) +
+			' FROM ' +
+			String.escapeSingleQuotes(sObjectType) +
+			' WHERE ' +
+			String.escapeSingleQuotes(displayField) +
+			' LIKE \'%' +
+			safeSearchKey +
+			'%\' ' +
+			additionalWhere +
+			' ORDER BY ' +
+			String.escapeSingleQuotes(displayField) +
+			' ASC LIMIT 8';
 
 		return Database.query(queryText);
 	}
