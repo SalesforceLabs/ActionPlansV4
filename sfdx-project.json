@@ -9,7 +9,7 @@
       "ancestorVersion": "HIGHEST",
       "releaseNotesUrl": "https://github.com/SalesforceLabs/ActionPlansV4/blob/main/README.md",
       "definitionFile": "config/install-scratch-def.json",
-      "versionDescription": "Action Plans now suppports Tasks owned by Queues and Professional Edition",
+      "versionDescription": "Action Plans now supports Tasks owned by Queues and Professional Edition",
       "postInstallScript": "ActionPlansPostInstallScript",
       "postInstallUrl": "https://salesforcelabs.github.io/ActionPlansV4/"
     },
@@ -20,7 +20,7 @@
   "name": "Action Plans",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "56.0",
+  "sourceApiVersion": "65.0",
   "packageAliases": {
     "Action Plans": "0Ho5f000000oLlrCAE",
     "ActionPlans": "0Ho5f000000oLlrCAE",
