@@ -203,7 +203,14 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 				d = controllingTasks.get(dependentApt.Controller__c).ActivityDate__c;
 			}
 
-			dependentApt.ActivityDate__c = d.addDays(dependentApt.DaysFromStart__c.intValue());
+			// Honor the plan's skip-weekend setting when scheduling the released
+			// task, matching how the due date was first computed in
+			// upsertDependentAPTasks (a raw addDays would land on a weekend).
+			if (dependentApt.Action_Plan__r.SkipWeekends__c == true && dependentApt.Action_Plan__r.SkipDay__c != null) {
+				dependentApt.ActivityDate__c = ActionPlansUtilities.adjustTaskDueDate(d, dependentApt.DaysFromStart__c.intValue(), dependentApt.Action_Plan__r.SkipDay__c);
+			} else {
+				dependentApt.ActivityDate__c = d.addDays(dependentApt.DaysFromStart__c.intValue());
+			}
 
 			if (dependentApt.Comments__c != null) {
 				t2.Description = dependentApt.Comments__c;
@@ -242,7 +249,17 @@ public without sharing class ActionPlansTaskTriggerUtilities {
 
 			t2.Type = dependentApt.Type__c;
 
-			String defaultStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
+			// Use the dependent task's Task record type (set on t2 above) for the
+			// default status, not the running user's default record type, so a
+			// template on a non-default record type doesn't start with (or fail
+			// validation on) a status that isn't valid for that record type.
+			String defaultStatus;
+			if (ActionPlansUtilities.taskUsesRecordTypes && dependentApt.Task_RecordTypeId__c != null) {
+				defaultStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(dependentApt.Task_RecordTypeId__c);
+			}
+			if (defaultStatus == null) {
+				defaultStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
+			}
 			t2.Status = defaultStatus;
 
 			t2.ActivityDate = dependentApt.ActivityDate__c;

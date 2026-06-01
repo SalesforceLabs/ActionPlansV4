@@ -190,7 +190,16 @@ global inherited sharing class ActionPlanCreateInvocable {
 
 					apTask.Action_Plan__c = ap.Id;
 
-					apTask.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
+					// Use the template's Task record type (carried on the Action Plan) to
+					// pick the default status, not the running user's default record type.
+					// The builder path (ActionPlansBuilderUtilities) already does this, so
+					// a template whose record type's default status differs from the user's
+					// default no longer inserts with the wrong (or an invalid) status.
+					if (!String.isBlank(ap.TaskRecordTypeID__c) && ap.TaskRecordTypeID__c instanceof Id && ap.TaskRecordTypeID__c.startsWithIgnoreCase('012')) {
+						apTask.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ap.TaskRecordTypeID__c);
+					} else {
+						apTask.Status__c = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
+					}
 
 					if (apTask.Dependent__c != null && apTask.Dependent__c != 'None') {
 						apTask.ActivityDate__c = null;
@@ -243,6 +252,13 @@ global inherited sharing class ActionPlanCreateInvocable {
 		}
 
 		for (APTask__c apTask : planTaskIndexToTask.values()) {
+			// Dependent tasks must NOT get a Salesforce Task yet. One is created by
+			// ActionPlansTaskTriggerUtilities when the controlling task is closed.
+			// Creating it now releases the successor immediately instead of waiting
+			// for its predecessor. The builder path already defers these.
+			if (apTask.Dependent__c != null && apTask.Dependent__c != 'None') {
+				continue;
+			}
 			ActionPlan__c insertedAP;
 			// check if task exists already
 			Task t = new Task();
@@ -300,7 +316,7 @@ global inherited sharing class ActionPlanCreateInvocable {
 			dmlEmail.EmailHeader.TriggerUserEmail = true;
 
 			Database.DMLOptions dmlNoEmail = new Database.DMLOptions();
-			dmlEmail.EmailHeader.TriggerUserEmail = false;
+			dmlNoEmail.EmailHeader.TriggerUserEmail = false;
 
 			if (apTask.SendEmail__c == true) {
 				t.setOptions(dmlEmail);

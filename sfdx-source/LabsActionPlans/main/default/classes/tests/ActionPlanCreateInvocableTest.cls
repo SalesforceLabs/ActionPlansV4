@@ -368,6 +368,48 @@ private class ActionPlanCreateInvocableTest {
 	}
 
 	/**
+	 * A dependent task must NOT get a `Task` when the plan is created via the
+	 * invocable — its `Task` is created later (by the APTask trigger) once the
+	 * controlling task is closed. It must also be linked to the controller in
+	 * its OWN plan. Regression test for the invocable creating every task up
+	 * front (releasing successors immediately).
+	 */
+	@IsTest
+	private static void dependentTaskIsNotReleasedImmediately() {
+		ActionPlansTestUtilities testUtil = new ActionPlansTestUtilities();
+
+		Account a = new Account(Name = 'TestAcct');
+		insert a;
+
+		ActionPlanTemplate__c apTemplate = testUtil.createNewActionPlanTemplate(TASK_COUNT);
+
+		// Make the task at TaskIndex 1 depend on the task at TaskIndex 0.
+		List<APTemplateTask__c> templateTasks = [SELECT Id, TaskIndex__c, Dependent__c FROM APTemplateTask__c WHERE Action_Plan_Template__c = :apTemplate.Id ORDER BY TaskIndex__c];
+		for (APTemplateTask__c tt : templateTasks) {
+			tt.Dependent__c = 'None';
+		}
+		templateTasks[1].Dependent__c = String.valueOf(templateTasks[0].TaskIndex__c);
+		update templateTasks;
+
+		Test.startTest();
+		ActionPlanCreateInvocable.CreateActionPlanRequest req = setupRequest(apTemplate.Id, a.Id, 0);
+		List<ActionPlanCreateInvocable.CreateActionPlanRequest> requests = new List<ActionPlanCreateInvocable.CreateActionPlanRequest>();
+		requests.add(req);
+		List<Id> resultIDs = ActionPlanCreateInvocable.makeActionPlanFromTemplate(requests);
+		Test.stopTest();
+
+		Assert.areEqual(1, resultIDs.size(), 'Should have created one Action Plan');
+		// Every template task still yields an APTask...
+		Assert.areEqual(TASK_COUNT, [SELECT COUNT() FROM APTask__c], 'Every template task should yield an APTask');
+		// ...but the one dependent task must not have a Salesforce Task yet.
+		Assert.areEqual(TASK_COUNT - 1, [SELECT COUNT() FROM Task], 'The dependent task must not be created until its controller closes');
+
+		APTask__c dependent = [SELECT Id, Action_Plan__c, Controller__c, Controller__r.Action_Plan__c FROM APTask__c WHERE Dependent__c != 'None' LIMIT 1];
+		Assert.areNotEqual(null, dependent.Controller__c, 'The dependent task should be linked to its controller');
+		Assert.areEqual(dependent.Action_Plan__c, dependent.Controller__r.Action_Plan__c, 'The controller must belong to the same Action Plan');
+	}
+
+	/**
 	 * Helper method for setting up a request for Invocable Apex
 	 *
 	 * @param templateId            Name or Id of Action Plan Template

@@ -326,6 +326,99 @@ private class ActionPlansObjectTriggersTest {
 		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL], 'Incorrect number of Action Plans created');
 	}
 
+	/**
+	 * A Lead can have more than one Action Plan. On conversion EVERY related
+	 * plan must be reparented to the destination object, not just the last one
+	 * found. Regression test for keying the plan map by Lead Id (which kept
+	 * only one plan per Lead).
+	 */
+	@IsTest
+	private static void leadConversionReparentsAllPlans() {
+		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
+		User u = testutil.createTestUser();
+		testutil.assignAPPermissionSets(u.Id, true);
+
+		Lead l;
+		System.runAs(new User(Id = UserInfo.getUserId())) {
+			l = testutil.createNewLead();
+			insert new List<ActionPlan__c>{
+				new ActionPlan__c(Name = 'AP One', StartDate__c = Date.today(), Lead__c = l.Id),
+				new ActionPlan__c(Name = 'AP Two', StartDate__c = Date.today(), Lead__c = l.Id)
+			};
+		}
+
+		Test.startTest();
+		System.runAs(u) {
+			Action_Plans_Settings__c settings = Action_Plans_Settings__c.getInstance();
+			settings.Default_Object_on_Lead_Conversion__c = 'Contact';
+			try {
+				upsert settings;
+			} catch (Exception e) {
+				update settings;
+			}
+			Assert.areEqual(2, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c = :l.Id], 'Both plans should start on the Lead');
+
+			Database.LeadConvert lc = new Database.LeadConvert();
+			lc.setDoNotCreateOpportunity(true);
+			lc.setLeadId(l.Id);
+
+			LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted = TRUE LIMIT 1];
+			lc.setConvertedStatus(convertStatus.MasterLabel);
+
+			Database.LeadConvertResult lcr = Database.convertLead(lc);
+			Assert.isTrue(lcr.isSuccess(), 'Lead conversion failed');
+		}
+		Test.stopTest();
+
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL], 'No plan should remain on the converted Lead');
+		Assert.areEqual(2, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL], 'Both plans should be reparented to the Contact');
+	}
+
+	/**
+	 * When lead conversion is routed to Opportunity but the Lead is converted
+	 * without creating one (DoNotCreateOpportunity), the plan must fall back to
+	 * the Contact rather than be left with no related record (which would fail
+	 * the ActionPlan before-update validation and break the conversion).
+	 */
+	@IsTest
+	private static void leadConversionFallsBackWhenNoOpportunity() {
+		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();
+		User u = testutil.createTestUser();
+		testutil.assignAPPermissionSets(u.Id, true);
+
+		Lead l;
+		System.runAs(new User(Id = UserInfo.getUserId())) {
+			l = testutil.createNewLead();
+			insert new ActionPlan__c(Name = 'AP Opp Route', StartDate__c = Date.today(), Lead__c = l.Id);
+		}
+
+		Test.startTest();
+		System.runAs(u) {
+			Action_Plans_Settings__c settings = Action_Plans_Settings__c.getInstance();
+			settings.Default_Object_on_Lead_Conversion__c = 'Opportunity';
+			try {
+				upsert settings;
+			} catch (Exception e) {
+				update settings;
+			}
+
+			Database.LeadConvert lc = new Database.LeadConvert();
+			lc.setDoNotCreateOpportunity(true); // no Opportunity is created
+			lc.setLeadId(l.Id);
+
+			LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted = TRUE LIMIT 1];
+			lc.setConvertedStatus(convertStatus.MasterLabel);
+
+			Database.LeadConvertResult lcr = Database.convertLead(lc);
+			Assert.isTrue(lcr.isSuccess(), 'Conversion should succeed even when routed to a non-existent Opportunity');
+		}
+		Test.stopTest();
+
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE Lead__c != NULL], 'Plan should be detached from the converted Lead');
+		Assert.areEqual(0, [SELECT COUNT() FROM ActionPlan__c WHERE Opportunity__c != NULL], 'No Opportunity was created, so the plan should not be on one');
+		Assert.areEqual(1, [SELECT COUNT() FROM ActionPlan__c WHERE Contact__c != NULL], 'Plan should fall back to the Contact');
+	}
+
 	@IsTest
 	private static void leadConversionAccount() {
 		ActionPlansTestUtilities testutil = new ActionPlansTestUtilities();

@@ -117,7 +117,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		dmlEmail.EmailHeader.TriggerUserEmail = true;
 
 		Database.DMLOptions dmlNoEmail = new Database.DMLOptions();
-		dmlEmail.EmailHeader.TriggerUserEmail = false;
+		dmlNoEmail.EmailHeader.TriggerUserEmail = false;
 
 		Map<Id, Id> objectOwnersMap = retrieveOwnersDataRelatedObject(this.relatedRecordIDs);
 		//insert Action Plans to DB
@@ -163,6 +163,17 @@ public inherited sharing class ActionPlansBuilderUtilities {
 		String defaultTaskStatus = ActionPlansUtilities.getTaskRecordTypeStatusDefaultValues().get(ActionPlansUtilities.getDefaultTaskRecordTypeId());
 
 		for (ActionPlan__c ap : relActionPlans) {
+			// Collect this plan's tasks in template order so a dependent task's
+			// Dependent__c index resolves to the controlling task WITHIN THE SAME
+			// plan. aptList is flat across every plan, so indexing it directly
+			// makes the second and later plans point at the first plan's tasks.
+			List<APTask__c> thisPlanTasks = new List<APTask__c>();
+			for (APTask__c at : aptList) {
+				if (at.Action_Plan__c == null || at.Action_Plan__c == ap.Id) {
+					thisPlanTasks.add(at);
+				}
+			}
+
 			for (APTask__c at : aptList) {
 				if (at.Action_Plan__c != null && at.Action_Plan__c != ap.Id) {
 					continue;
@@ -182,7 +193,7 @@ public inherited sharing class ActionPlansBuilderUtilities {
 
 				if (at.Dependent__c != null && at.Dependent__c != 'None') {
 					Integer tempIndex = Integer.valueOf(at.Dependent__c);
-					at.Controller__c = aptList[tempIndex].Id;
+					at.Controller__c = thisPlanTasks[tempIndex].Id;
 					at.ActivityDate__c = null;
 				} else {
 					at.Controller__c = null;
